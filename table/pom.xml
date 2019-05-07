@@ -11,9 +11,9 @@
     <version>1.0.0</version>
   </parent>
 
-  <artifactId>ydb-sdk-proto</artifactId>
-  <name>Generated from Protocol Buffers IDL Java sources</name>
-  <description>Generated from Protocol Buffers IDL Java sources</description>
+  <artifactId>ydb-sdk-table</artifactId>
+  <name>Table client implementation</name>
+  <description>Table client implementation</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -34,25 +34,28 @@
   </build>
 
   <dependencies>
+    <dependency>
+      <groupId>ru.yandex.cloud</groupId>
+      <artifactId>ydb-sdk-core</artifactId>
+      <version>1.0.0</version>
+    </dependency>
 	<dependency>
-	  <groupId>com.google.protobuf</groupId>
-	  <artifactId>protobuf-java</artifactId>
-	  <version>3.6.1</version>
+	  <groupId>junit</groupId>
+	  <artifactId>junit</artifactId>
+	  <version>4.12</version>
+      <scope>test</scope>
 	</dependency>
 	<dependency>
-	  <groupId>io.grpc</groupId>
-	  <artifactId>grpc-stub</artifactId>
-	  <version>1.20.0</version>
+	  <groupId>com.google.truth</groupId>
+	  <artifactId>truth</artifactId>
+	  <version>0.34</version>
+      <scope>test</scope>
 	</dependency>
 	<dependency>
-	  <groupId>io.grpc</groupId>
-	  <artifactId>grpc-protobuf</artifactId>
-	  <version>1.20.0</version>
-	</dependency>
-	<dependency>
-	  <groupId>javax.annotation</groupId>
-	  <artifactId>javax.annotation-api</artifactId>
-	  <version>1.3.2</version>
+	  <groupId>com.google.truth.extensions</groupId>
+	  <artifactId>truth-proto-extension</artifactId>
+	  <version>0.34</version>
+      <scope>test</scope>
 	</dependency>
   </dependencies>
 </project>
