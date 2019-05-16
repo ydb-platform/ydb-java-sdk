@@ -37,4 +37,12 @@
     <url>https://github.com/ydb-platform/ydb-java-sdk.git</url>
   </scm>
 
+
+  <distributionManagement>
+    <repository>
+      <id>internal.infra</id>
+      <name>Internal repository of Infratructure artifacts</name>
+      <url>http://artifactory.yandex.net/artifactory/yandex_infra</url>
+    </repository>
+  </distributionManagement>
 </project>
