@@ -26,7 +26,7 @@ public final class YdbExperimentalV1 {
       "\n6kikimr/public/api/grpc/draft/ydb_exper" +
       "imental_v1.proto\022\023Ydb.Experimental.V1\032/k" +
       "ikimr/public/api/protos/ydb_experimental" +
-      ".proto2\270\002\n\023ExperimentalService\022W\n\nUpload" +
+      ".proto2\253\003\n\023ExperimentalService\022W\n\nUpload" +
       "Rows\022#.Ydb.Experimental.UploadRowsReques" +
       "t\032$.Ydb.Experimental.UploadRowsResponse\022" +
       "Z\n\013ReadColumns\022$.Ydb.Experimental.ReadCo" +
@@ -34,8 +34,10 @@ public final class YdbExperimentalV1 {
       "mnsResponse\022l\n\021GetShardLocations\022*.Ydb.E" +
       "xperimental.GetShardLocationsRequest\032+.Y",
       "db.Experimental.GetShardLocationsRespons" +
-      "eB\037\n\035ru.yandex.ydb.experimental.v1b\006prot" +
-      "o3"
+      "e\022q\n\022ExecuteStreamQuery\022+.Ydb.Experiment" +
+      "al.ExecuteStreamQueryRequest\032,.Ydb.Exper" +
+      "imental.ExecuteStreamQueryResponse0\001B\037\n\035" +
+      "ru.yandex.ydb.experimental.v1b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

@@ -7265,6 +7265,2461 @@ public final class ExperimentalProtos {
 
   }
 
+  public interface ExecuteStreamQueryRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Experimental.ExecuteStreamQueryRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string yql_text = 1;</code>
+     */
+    java.lang.String getYqlText();
+    /**
+     * <code>string yql_text = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getYqlTextBytes();
+
+    /**
+     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+     */
+    int getParametersCount();
+    /**
+     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+     */
+    boolean containsParameters(
+        java.lang.String key);
+    /**
+     * Use {@link #getParametersMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue>
+    getParameters();
+    /**
+     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+     */
+    java.util.Map<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue>
+    getParametersMap();
+    /**
+     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+     */
+
+    ru.yandex.ydb.ValueProtos.TypedValue getParametersOrDefault(
+        java.lang.String key,
+        ru.yandex.ydb.ValueProtos.TypedValue defaultValue);
+    /**
+     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+     */
+
+    ru.yandex.ydb.ValueProtos.TypedValue getParametersOrThrow(
+        java.lang.String key);
+  }
+  /**
+   * Protobuf type {@code Ydb.Experimental.ExecuteStreamQueryRequest}
+   */
+  public  static final class ExecuteStreamQueryRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Experimental.ExecuteStreamQueryRequest)
+      ExecuteStreamQueryRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ExecuteStreamQueryRequest.newBuilder() to construct.
+    private ExecuteStreamQueryRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ExecuteStreamQueryRequest() {
+      yqlText_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ExecuteStreamQueryRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              yqlText_ = s;
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                parameters_ = com.google.protobuf.MapField.newMapField(
+                    ParametersDefaultEntryHolder.defaultEntry);
+                mutable_bitField0_ |= 0x00000002;
+              }
+              com.google.protobuf.MapEntry<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue>
+              parameters__ = input.readMessage(
+                  ParametersDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              parameters_.getMutableMap().put(
+                  parameters__.getKey(), parameters__.getValue());
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_descriptor;
+    }
+
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 2:
+          return internalGetParameters();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.class, ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int YQL_TEXT_FIELD_NUMBER = 1;
+    private volatile java.lang.Object yqlText_;
+    /**
+     * <code>string yql_text = 1;</code>
+     */
+    public java.lang.String getYqlText() {
+      java.lang.Object ref = yqlText_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        yqlText_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string yql_text = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getYqlTextBytes() {
+      java.lang.Object ref = yqlText_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        yqlText_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PARAMETERS_FIELD_NUMBER = 2;
+    private static final class ParametersDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue>newDefaultInstance(
+                  ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_ParametersEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "",
+                  com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                  ru.yandex.ydb.ValueProtos.TypedValue.getDefaultInstance());
+    }
+    private com.google.protobuf.MapField<
+        java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue> parameters_;
+    private com.google.protobuf.MapField<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue>
+    internalGetParameters() {
+      if (parameters_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            ParametersDefaultEntryHolder.defaultEntry);
+      }
+      return parameters_;
+    }
+
+    public int getParametersCount() {
+      return internalGetParameters().getMap().size();
+    }
+    /**
+     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+     */
+
+    public boolean containsParameters(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetParameters().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getParametersMap()} instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue> getParameters() {
+      return getParametersMap();
+    }
+    /**
+     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+     */
+
+    public java.util.Map<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue> getParametersMap() {
+      return internalGetParameters().getMap();
+    }
+    /**
+     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+     */
+
+    public ru.yandex.ydb.ValueProtos.TypedValue getParametersOrDefault(
+        java.lang.String key,
+        ru.yandex.ydb.ValueProtos.TypedValue defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue> map =
+          internalGetParameters().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+     */
+
+    public ru.yandex.ydb.ValueProtos.TypedValue getParametersOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue> map =
+          internalGetParameters().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getYqlTextBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, yqlText_);
+      }
+      com.google.protobuf.GeneratedMessageV3
+        .serializeStringMapTo(
+          output,
+          internalGetParameters(),
+          ParametersDefaultEntryHolder.defaultEntry,
+          2);
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getYqlTextBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, yqlText_);
+      }
+      for (java.util.Map.Entry<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue> entry
+           : internalGetParameters().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue>
+        parameters__ = ParametersDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(2, parameters__);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest)) {
+        return super.equals(obj);
+      }
+      ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest other = (ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest) obj;
+
+      boolean result = true;
+      result = result && getYqlText()
+          .equals(other.getYqlText());
+      result = result && internalGetParameters().equals(
+          other.internalGetParameters());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + YQL_TEXT_FIELD_NUMBER;
+      hash = (53 * hash) + getYqlText().hashCode();
+      if (!internalGetParameters().getMap().isEmpty()) {
+        hash = (37 * hash) + PARAMETERS_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetParameters().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Experimental.ExecuteStreamQueryRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Experimental.ExecuteStreamQueryRequest)
+        ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_descriptor;
+      }
+
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMapField(
+          int number) {
+        switch (number) {
+          case 2:
+            return internalGetParameters();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMutableMapField(
+          int number) {
+        switch (number) {
+          case 2:
+            return internalGetMutableParameters();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.class, ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.Builder.class);
+      }
+
+      // Construct using ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        yqlText_ = "";
+
+        internalGetMutableParameters().clear();
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_descriptor;
+      }
+
+      public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest getDefaultInstanceForType() {
+        return ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.getDefaultInstance();
+      }
+
+      public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest build() {
+        ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest buildPartial() {
+        ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest result = new ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        result.yqlText_ = yqlText_;
+        result.parameters_ = internalGetParameters();
+        result.parameters_.makeImmutable();
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest) {
+          return mergeFrom((ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest other) {
+        if (other == ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.getDefaultInstance()) return this;
+        if (!other.getYqlText().isEmpty()) {
+          yqlText_ = other.yqlText_;
+          onChanged();
+        }
+        internalGetMutableParameters().mergeFrom(
+            other.internalGetParameters());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object yqlText_ = "";
+      /**
+       * <code>string yql_text = 1;</code>
+       */
+      public java.lang.String getYqlText() {
+        java.lang.Object ref = yqlText_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          yqlText_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string yql_text = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getYqlTextBytes() {
+        java.lang.Object ref = yqlText_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          yqlText_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string yql_text = 1;</code>
+       */
+      public Builder setYqlText(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        yqlText_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string yql_text = 1;</code>
+       */
+      public Builder clearYqlText() {
+        
+        yqlText_ = getDefaultInstance().getYqlText();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string yql_text = 1;</code>
+       */
+      public Builder setYqlTextBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        yqlText_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.MapField<
+          java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue> parameters_;
+      private com.google.protobuf.MapField<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue>
+      internalGetParameters() {
+        if (parameters_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              ParametersDefaultEntryHolder.defaultEntry);
+        }
+        return parameters_;
+      }
+      private com.google.protobuf.MapField<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue>
+      internalGetMutableParameters() {
+        onChanged();;
+        if (parameters_ == null) {
+          parameters_ = com.google.protobuf.MapField.newMapField(
+              ParametersDefaultEntryHolder.defaultEntry);
+        }
+        if (!parameters_.isMutable()) {
+          parameters_ = parameters_.copy();
+        }
+        return parameters_;
+      }
+
+      public int getParametersCount() {
+        return internalGetParameters().getMap().size();
+      }
+      /**
+       * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+       */
+
+      public boolean containsParameters(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        return internalGetParameters().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getParametersMap()} instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue> getParameters() {
+        return getParametersMap();
+      }
+      /**
+       * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+       */
+
+      public java.util.Map<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue> getParametersMap() {
+        return internalGetParameters().getMap();
+      }
+      /**
+       * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+       */
+
+      public ru.yandex.ydb.ValueProtos.TypedValue getParametersOrDefault(
+          java.lang.String key,
+          ru.yandex.ydb.ValueProtos.TypedValue defaultValue) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue> map =
+            internalGetParameters().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+       */
+
+      public ru.yandex.ydb.ValueProtos.TypedValue getParametersOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue> map =
+            internalGetParameters().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+
+      public Builder clearParameters() {
+        internalGetMutableParameters().getMutableMap()
+            .clear();
+        return this;
+      }
+      /**
+       * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+       */
+
+      public Builder removeParameters(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableParameters().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue>
+      getMutableParameters() {
+        return internalGetMutableParameters().getMutableMap();
+      }
+      /**
+       * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+       */
+      public Builder putParameters(
+          java.lang.String key,
+          ru.yandex.ydb.ValueProtos.TypedValue value) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        if (value == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableParameters().getMutableMap()
+            .put(key, value);
+        return this;
+      }
+      /**
+       * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
+       */
+
+      public Builder putAllParameters(
+          java.util.Map<java.lang.String, ru.yandex.ydb.ValueProtos.TypedValue> values) {
+        internalGetMutableParameters().getMutableMap()
+            .putAll(values);
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Experimental.ExecuteStreamQueryRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Experimental.ExecuteStreamQueryRequest)
+    private static final ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest();
+    }
+
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ExecuteStreamQueryRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ExecuteStreamQueryRequest>() {
+      public ExecuteStreamQueryRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ExecuteStreamQueryRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ExecuteStreamQueryRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ExecuteStreamQueryRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ExecuteStreamQueryResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Experimental.ExecuteStreamQueryResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     */
+    int getStatusValue();
+    /**
+     * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     */
+    ru.yandex.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus();
+
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    java.util.List<ru.yandex.ydb.YdbIssueMessage.IssueMessage> 
+        getIssuesList();
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    ru.yandex.ydb.YdbIssueMessage.IssueMessage getIssues(int index);
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    int getIssuesCount();
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    java.util.List<? extends ru.yandex.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+        getIssuesOrBuilderList();
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    ru.yandex.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
+        int index);
+
+    /**
+     * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+     */
+    boolean hasResult();
+    /**
+     * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+     */
+    ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult getResult();
+    /**
+     * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+     */
+    ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResultOrBuilder getResultOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.Experimental.ExecuteStreamQueryResponse}
+   */
+  public  static final class ExecuteStreamQueryResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Experimental.ExecuteStreamQueryResponse)
+      ExecuteStreamQueryResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ExecuteStreamQueryResponse.newBuilder() to construct.
+    private ExecuteStreamQueryResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ExecuteStreamQueryResponse() {
+      status_ = 0;
+      issues_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ExecuteStreamQueryResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+
+              status_ = rawValue;
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                issues_ = new java.util.ArrayList<ru.yandex.ydb.YdbIssueMessage.IssueMessage>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              issues_.add(
+                  input.readMessage(ru.yandex.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+              break;
+            }
+            case 26: {
+              ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.Builder subBuilder = null;
+              if (result_ != null) {
+                subBuilder = result_.toBuilder();
+              }
+              result_ = input.readMessage(ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(result_);
+                result_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          issues_ = java.util.Collections.unmodifiableList(issues_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse.class, ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int STATUS_FIELD_NUMBER = 1;
+    private int status_;
+    /**
+     * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     */
+    public int getStatusValue() {
+      return status_;
+    }
+    /**
+     * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     */
+    public ru.yandex.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+      ru.yandex.ydb.StatusCodesProtos.StatusIds.StatusCode result = ru.yandex.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
+      return result == null ? ru.yandex.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
+    }
+
+    public static final int ISSUES_FIELD_NUMBER = 2;
+    private java.util.List<ru.yandex.ydb.YdbIssueMessage.IssueMessage> issues_;
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public java.util.List<ru.yandex.ydb.YdbIssueMessage.IssueMessage> getIssuesList() {
+      return issues_;
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public java.util.List<? extends ru.yandex.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+        getIssuesOrBuilderList() {
+      return issues_;
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public int getIssuesCount() {
+      return issues_.size();
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public ru.yandex.ydb.YdbIssueMessage.IssueMessage getIssues(int index) {
+      return issues_.get(index);
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public ru.yandex.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
+        int index) {
+      return issues_.get(index);
+    }
+
+    public static final int RESULT_FIELD_NUMBER = 3;
+    private ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult result_;
+    /**
+     * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+     */
+    public boolean hasResult() {
+      return result_ != null;
+    }
+    /**
+     * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+     */
+    public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult getResult() {
+      return result_ == null ? ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.getDefaultInstance() : result_;
+    }
+    /**
+     * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+     */
+    public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResultOrBuilder getResultOrBuilder() {
+      return getResult();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (status_ != ru.yandex.ydb.StatusCodesProtos.StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(1, status_);
+      }
+      for (int i = 0; i < issues_.size(); i++) {
+        output.writeMessage(2, issues_.get(i));
+      }
+      if (result_ != null) {
+        output.writeMessage(3, getResult());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (status_ != ru.yandex.ydb.StatusCodesProtos.StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, status_);
+      }
+      for (int i = 0; i < issues_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, issues_.get(i));
+      }
+      if (result_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getResult());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse)) {
+        return super.equals(obj);
+      }
+      ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse other = (ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse) obj;
+
+      boolean result = true;
+      result = result && status_ == other.status_;
+      result = result && getIssuesList()
+          .equals(other.getIssuesList());
+      result = result && (hasResult() == other.hasResult());
+      if (hasResult()) {
+        result = result && getResult()
+            .equals(other.getResult());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + STATUS_FIELD_NUMBER;
+      hash = (53 * hash) + status_;
+      if (getIssuesCount() > 0) {
+        hash = (37 * hash) + ISSUES_FIELD_NUMBER;
+        hash = (53 * hash) + getIssuesList().hashCode();
+      }
+      if (hasResult()) {
+        hash = (37 * hash) + RESULT_FIELD_NUMBER;
+        hash = (53 * hash) + getResult().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Experimental.ExecuteStreamQueryResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Experimental.ExecuteStreamQueryResponse)
+        ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse.class, ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse.Builder.class);
+      }
+
+      // Construct using ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getIssuesFieldBuilder();
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        status_ = 0;
+
+        if (issuesBuilder_ == null) {
+          issues_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          issuesBuilder_.clear();
+        }
+        if (resultBuilder_ == null) {
+          result_ = null;
+        } else {
+          result_ = null;
+          resultBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryResponse_descriptor;
+      }
+
+      public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse getDefaultInstanceForType() {
+        return ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse.getDefaultInstance();
+      }
+
+      public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse build() {
+        ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse buildPartial() {
+        ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse result = new ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        result.status_ = status_;
+        if (issuesBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            issues_ = java.util.Collections.unmodifiableList(issues_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.issues_ = issues_;
+        } else {
+          result.issues_ = issuesBuilder_.build();
+        }
+        if (resultBuilder_ == null) {
+          result.result_ = result_;
+        } else {
+          result.result_ = resultBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse) {
+          return mergeFrom((ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse other) {
+        if (other == ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse.getDefaultInstance()) return this;
+        if (other.status_ != 0) {
+          setStatusValue(other.getStatusValue());
+        }
+        if (issuesBuilder_ == null) {
+          if (!other.issues_.isEmpty()) {
+            if (issues_.isEmpty()) {
+              issues_ = other.issues_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureIssuesIsMutable();
+              issues_.addAll(other.issues_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.issues_.isEmpty()) {
+            if (issuesBuilder_.isEmpty()) {
+              issuesBuilder_.dispose();
+              issuesBuilder_ = null;
+              issues_ = other.issues_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              issuesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getIssuesFieldBuilder() : null;
+            } else {
+              issuesBuilder_.addAllMessages(other.issues_);
+            }
+          }
+        }
+        if (other.hasResult()) {
+          mergeResult(other.getResult());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int status_ = 0;
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public int getStatusValue() {
+        return status_;
+      }
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public Builder setStatusValue(int value) {
+        status_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public ru.yandex.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+        ru.yandex.ydb.StatusCodesProtos.StatusIds.StatusCode result = ru.yandex.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
+        return result == null ? ru.yandex.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public Builder setStatus(ru.yandex.ydb.StatusCodesProtos.StatusIds.StatusCode value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        status_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public Builder clearStatus() {
+        
+        status_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<ru.yandex.ydb.YdbIssueMessage.IssueMessage> issues_ =
+        java.util.Collections.emptyList();
+      private void ensureIssuesIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          issues_ = new java.util.ArrayList<ru.yandex.ydb.YdbIssueMessage.IssueMessage>(issues_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ru.yandex.ydb.YdbIssueMessage.IssueMessage, ru.yandex.ydb.YdbIssueMessage.IssueMessage.Builder, ru.yandex.ydb.YdbIssueMessage.IssueMessageOrBuilder> issuesBuilder_;
+
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public java.util.List<ru.yandex.ydb.YdbIssueMessage.IssueMessage> getIssuesList() {
+        if (issuesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(issues_);
+        } else {
+          return issuesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public int getIssuesCount() {
+        if (issuesBuilder_ == null) {
+          return issues_.size();
+        } else {
+          return issuesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public ru.yandex.ydb.YdbIssueMessage.IssueMessage getIssues(int index) {
+        if (issuesBuilder_ == null) {
+          return issues_.get(index);
+        } else {
+          return issuesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder setIssues(
+          int index, ru.yandex.ydb.YdbIssueMessage.IssueMessage value) {
+        if (issuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIssuesIsMutable();
+          issues_.set(index, value);
+          onChanged();
+        } else {
+          issuesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder setIssues(
+          int index, ru.yandex.ydb.YdbIssueMessage.IssueMessage.Builder builderForValue) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          issues_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          issuesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addIssues(ru.yandex.ydb.YdbIssueMessage.IssueMessage value) {
+        if (issuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIssuesIsMutable();
+          issues_.add(value);
+          onChanged();
+        } else {
+          issuesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addIssues(
+          int index, ru.yandex.ydb.YdbIssueMessage.IssueMessage value) {
+        if (issuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIssuesIsMutable();
+          issues_.add(index, value);
+          onChanged();
+        } else {
+          issuesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addIssues(
+          ru.yandex.ydb.YdbIssueMessage.IssueMessage.Builder builderForValue) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          issues_.add(builderForValue.build());
+          onChanged();
+        } else {
+          issuesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addIssues(
+          int index, ru.yandex.ydb.YdbIssueMessage.IssueMessage.Builder builderForValue) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          issues_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          issuesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addAllIssues(
+          java.lang.Iterable<? extends ru.yandex.ydb.YdbIssueMessage.IssueMessage> values) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, issues_);
+          onChanged();
+        } else {
+          issuesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder clearIssues() {
+        if (issuesBuilder_ == null) {
+          issues_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          issuesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder removeIssues(int index) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          issues_.remove(index);
+          onChanged();
+        } else {
+          issuesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public ru.yandex.ydb.YdbIssueMessage.IssueMessage.Builder getIssuesBuilder(
+          int index) {
+        return getIssuesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public ru.yandex.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
+          int index) {
+        if (issuesBuilder_ == null) {
+          return issues_.get(index);  } else {
+          return issuesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public java.util.List<? extends ru.yandex.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+           getIssuesOrBuilderList() {
+        if (issuesBuilder_ != null) {
+          return issuesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(issues_);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public ru.yandex.ydb.YdbIssueMessage.IssueMessage.Builder addIssuesBuilder() {
+        return getIssuesFieldBuilder().addBuilder(
+            ru.yandex.ydb.YdbIssueMessage.IssueMessage.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public ru.yandex.ydb.YdbIssueMessage.IssueMessage.Builder addIssuesBuilder(
+          int index) {
+        return getIssuesFieldBuilder().addBuilder(
+            index, ru.yandex.ydb.YdbIssueMessage.IssueMessage.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public java.util.List<ru.yandex.ydb.YdbIssueMessage.IssueMessage.Builder> 
+           getIssuesBuilderList() {
+        return getIssuesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ru.yandex.ydb.YdbIssueMessage.IssueMessage, ru.yandex.ydb.YdbIssueMessage.IssueMessage.Builder, ru.yandex.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+          getIssuesFieldBuilder() {
+        if (issuesBuilder_ == null) {
+          issuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              ru.yandex.ydb.YdbIssueMessage.IssueMessage, ru.yandex.ydb.YdbIssueMessage.IssueMessage.Builder, ru.yandex.ydb.YdbIssueMessage.IssueMessageOrBuilder>(
+                  issues_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          issues_ = null;
+        }
+        return issuesBuilder_;
+      }
+
+      private ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult result_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult, ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.Builder, ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResultOrBuilder> resultBuilder_;
+      /**
+       * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+       */
+      public boolean hasResult() {
+        return resultBuilder_ != null || result_ != null;
+      }
+      /**
+       * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+       */
+      public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult getResult() {
+        if (resultBuilder_ == null) {
+          return result_ == null ? ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.getDefaultInstance() : result_;
+        } else {
+          return resultBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+       */
+      public Builder setResult(ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult value) {
+        if (resultBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          result_ = value;
+          onChanged();
+        } else {
+          resultBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+       */
+      public Builder setResult(
+          ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.Builder builderForValue) {
+        if (resultBuilder_ == null) {
+          result_ = builderForValue.build();
+          onChanged();
+        } else {
+          resultBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+       */
+      public Builder mergeResult(ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult value) {
+        if (resultBuilder_ == null) {
+          if (result_ != null) {
+            result_ =
+              ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.newBuilder(result_).mergeFrom(value).buildPartial();
+          } else {
+            result_ = value;
+          }
+          onChanged();
+        } else {
+          resultBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+       */
+      public Builder clearResult() {
+        if (resultBuilder_ == null) {
+          result_ = null;
+          onChanged();
+        } else {
+          result_ = null;
+          resultBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+       */
+      public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.Builder getResultBuilder() {
+        
+        onChanged();
+        return getResultFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+       */
+      public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResultOrBuilder getResultOrBuilder() {
+        if (resultBuilder_ != null) {
+          return resultBuilder_.getMessageOrBuilder();
+        } else {
+          return result_ == null ?
+              ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.getDefaultInstance() : result_;
+        }
+      }
+      /**
+       * <code>.Ydb.Experimental.ExecuteStreamQueryResult result = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult, ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.Builder, ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResultOrBuilder> 
+          getResultFieldBuilder() {
+        if (resultBuilder_ == null) {
+          resultBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult, ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.Builder, ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResultOrBuilder>(
+                  getResult(),
+                  getParentForChildren(),
+                  isClean());
+          result_ = null;
+        }
+        return resultBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Experimental.ExecuteStreamQueryResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Experimental.ExecuteStreamQueryResponse)
+    private static final ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse();
+    }
+
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ExecuteStreamQueryResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ExecuteStreamQueryResponse>() {
+      public ExecuteStreamQueryResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ExecuteStreamQueryResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ExecuteStreamQueryResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ExecuteStreamQueryResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ExecuteStreamQueryResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Experimental.ExecuteStreamQueryResult)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.ResultSet result_set = 1;</code>
+     */
+    boolean hasResultSet();
+    /**
+     * <code>.Ydb.ResultSet result_set = 1;</code>
+     */
+    ru.yandex.ydb.ValueProtos.ResultSet getResultSet();
+    /**
+     * <code>.Ydb.ResultSet result_set = 1;</code>
+     */
+    ru.yandex.ydb.ValueProtos.ResultSetOrBuilder getResultSetOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.Experimental.ExecuteStreamQueryResult}
+   */
+  public  static final class ExecuteStreamQueryResult extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Experimental.ExecuteStreamQueryResult)
+      ExecuteStreamQueryResultOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ExecuteStreamQueryResult.newBuilder() to construct.
+    private ExecuteStreamQueryResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ExecuteStreamQueryResult() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ExecuteStreamQueryResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              ru.yandex.ydb.ValueProtos.ResultSet.Builder subBuilder = null;
+              if (resultSet_ != null) {
+                subBuilder = resultSet_.toBuilder();
+              }
+              resultSet_ = input.readMessage(ru.yandex.ydb.ValueProtos.ResultSet.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(resultSet_);
+                resultSet_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryResult_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.class, ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.Builder.class);
+    }
+
+    public static final int RESULT_SET_FIELD_NUMBER = 1;
+    private ru.yandex.ydb.ValueProtos.ResultSet resultSet_;
+    /**
+     * <code>.Ydb.ResultSet result_set = 1;</code>
+     */
+    public boolean hasResultSet() {
+      return resultSet_ != null;
+    }
+    /**
+     * <code>.Ydb.ResultSet result_set = 1;</code>
+     */
+    public ru.yandex.ydb.ValueProtos.ResultSet getResultSet() {
+      return resultSet_ == null ? ru.yandex.ydb.ValueProtos.ResultSet.getDefaultInstance() : resultSet_;
+    }
+    /**
+     * <code>.Ydb.ResultSet result_set = 1;</code>
+     */
+    public ru.yandex.ydb.ValueProtos.ResultSetOrBuilder getResultSetOrBuilder() {
+      return getResultSet();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (resultSet_ != null) {
+        output.writeMessage(1, getResultSet());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (resultSet_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getResultSet());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult)) {
+        return super.equals(obj);
+      }
+      ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult other = (ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult) obj;
+
+      boolean result = true;
+      result = result && (hasResultSet() == other.hasResultSet());
+      if (hasResultSet()) {
+        result = result && getResultSet()
+            .equals(other.getResultSet());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasResultSet()) {
+        hash = (37 * hash) + RESULT_SET_FIELD_NUMBER;
+        hash = (53 * hash) + getResultSet().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Experimental.ExecuteStreamQueryResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Experimental.ExecuteStreamQueryResult)
+        ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryResult_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.class, ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.Builder.class);
+      }
+
+      // Construct using ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (resultSetBuilder_ == null) {
+          resultSet_ = null;
+        } else {
+          resultSet_ = null;
+          resultSetBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ru.yandex.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryResult_descriptor;
+      }
+
+      public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult getDefaultInstanceForType() {
+        return ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.getDefaultInstance();
+      }
+
+      public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult build() {
+        ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult buildPartial() {
+        ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult result = new ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult(this);
+        if (resultSetBuilder_ == null) {
+          result.resultSet_ = resultSet_;
+        } else {
+          result.resultSet_ = resultSetBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult) {
+          return mergeFrom((ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult other) {
+        if (other == ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.getDefaultInstance()) return this;
+        if (other.hasResultSet()) {
+          mergeResultSet(other.getResultSet());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private ru.yandex.ydb.ValueProtos.ResultSet resultSet_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ru.yandex.ydb.ValueProtos.ResultSet, ru.yandex.ydb.ValueProtos.ResultSet.Builder, ru.yandex.ydb.ValueProtos.ResultSetOrBuilder> resultSetBuilder_;
+      /**
+       * <code>.Ydb.ResultSet result_set = 1;</code>
+       */
+      public boolean hasResultSet() {
+        return resultSetBuilder_ != null || resultSet_ != null;
+      }
+      /**
+       * <code>.Ydb.ResultSet result_set = 1;</code>
+       */
+      public ru.yandex.ydb.ValueProtos.ResultSet getResultSet() {
+        if (resultSetBuilder_ == null) {
+          return resultSet_ == null ? ru.yandex.ydb.ValueProtos.ResultSet.getDefaultInstance() : resultSet_;
+        } else {
+          return resultSetBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.ResultSet result_set = 1;</code>
+       */
+      public Builder setResultSet(ru.yandex.ydb.ValueProtos.ResultSet value) {
+        if (resultSetBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          resultSet_ = value;
+          onChanged();
+        } else {
+          resultSetBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.ResultSet result_set = 1;</code>
+       */
+      public Builder setResultSet(
+          ru.yandex.ydb.ValueProtos.ResultSet.Builder builderForValue) {
+        if (resultSetBuilder_ == null) {
+          resultSet_ = builderForValue.build();
+          onChanged();
+        } else {
+          resultSetBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.ResultSet result_set = 1;</code>
+       */
+      public Builder mergeResultSet(ru.yandex.ydb.ValueProtos.ResultSet value) {
+        if (resultSetBuilder_ == null) {
+          if (resultSet_ != null) {
+            resultSet_ =
+              ru.yandex.ydb.ValueProtos.ResultSet.newBuilder(resultSet_).mergeFrom(value).buildPartial();
+          } else {
+            resultSet_ = value;
+          }
+          onChanged();
+        } else {
+          resultSetBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.ResultSet result_set = 1;</code>
+       */
+      public Builder clearResultSet() {
+        if (resultSetBuilder_ == null) {
+          resultSet_ = null;
+          onChanged();
+        } else {
+          resultSet_ = null;
+          resultSetBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.ResultSet result_set = 1;</code>
+       */
+      public ru.yandex.ydb.ValueProtos.ResultSet.Builder getResultSetBuilder() {
+        
+        onChanged();
+        return getResultSetFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.ResultSet result_set = 1;</code>
+       */
+      public ru.yandex.ydb.ValueProtos.ResultSetOrBuilder getResultSetOrBuilder() {
+        if (resultSetBuilder_ != null) {
+          return resultSetBuilder_.getMessageOrBuilder();
+        } else {
+          return resultSet_ == null ?
+              ru.yandex.ydb.ValueProtos.ResultSet.getDefaultInstance() : resultSet_;
+        }
+      }
+      /**
+       * <code>.Ydb.ResultSet result_set = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ru.yandex.ydb.ValueProtos.ResultSet, ru.yandex.ydb.ValueProtos.ResultSet.Builder, ru.yandex.ydb.ValueProtos.ResultSetOrBuilder> 
+          getResultSetFieldBuilder() {
+        if (resultSetBuilder_ == null) {
+          resultSetBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ru.yandex.ydb.ValueProtos.ResultSet, ru.yandex.ydb.ValueProtos.ResultSet.Builder, ru.yandex.ydb.ValueProtos.ResultSetOrBuilder>(
+                  getResultSet(),
+                  getParentForChildren(),
+                  isClean());
+          resultSet_ = null;
+        }
+        return resultSetBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Experimental.ExecuteStreamQueryResult)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Experimental.ExecuteStreamQueryResult)
+    private static final ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult();
+    }
+
+    public static ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ExecuteStreamQueryResult>
+        PARSER = new com.google.protobuf.AbstractParser<ExecuteStreamQueryResult>() {
+      public ExecuteStreamQueryResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ExecuteStreamQueryResult(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ExecuteStreamQueryResult> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ExecuteStreamQueryResult> getParserForType() {
+      return PARSER;
+    }
+
+    public ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Experimental_UploadRowsRequest_descriptor;
   private static final 
@@ -7315,6 +9770,26 @@ public final class ExperimentalProtos {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Experimental_GetShardLocationsResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_ParametersEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_ParametersEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Experimental_ExecuteStreamQueryResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Experimental_ExecuteStreamQueryResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Experimental_ExecuteStreamQueryResult_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Experimental_ExecuteStreamQueryResult_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -7325,34 +9800,47 @@ public final class ExperimentalProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n/kikimr/public/api/protos/ydb_experimen" +
-      "tal.proto\022\020Ydb.Experimental\032,kikimr/publ" +
-      "ic/api/protos/ydb_operation.proto\032(kikim" +
-      "r/public/api/protos/ydb_value.proto\"|\n\021U" +
-      "ploadRowsRequest\022\r\n\005table\030\001 \001(\t\022\035\n\004rows\030" +
-      "\002 \001(\0132\017.Ydb.TypedValue\0229\n\020operation_para" +
-      "ms\030\003 \001(\0132\037.Ydb.Operations.OperationParam" +
-      "s\"B\n\022UploadRowsResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.Operation\"\022\n\020UploadR" +
-      "owsResult\"\354\001\n\022ReadColumnsRequest\022\r\n\005tabl",
-      "e\030\001 \001(\t\022\017\n\007columns\030\002 \003(\t\022\020\n\010from_key\030\003 \001" +
-      "(\014\022\032\n\022from_key_inclusive\030\004 \001(\010\022\016\n\006to_key" +
-      "\030\005 \001(\014\022\030\n\020to_key_inclusive\030\006 \001(\010\022\020\n\010max_" +
-      "rows\030\007 \001(\004\022\021\n\tmax_bytes\030\010 \001(\004\0229\n\020operati" +
-      "on_params\030\t \001(\0132\037.Ydb.Operations.Operati" +
-      "onParams\"C\n\023ReadColumnsResponse\022,\n\topera" +
-      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"^\n" +
-      "\021ReadColumnsResult\022\016\n\006blocks\030\001 \003(\014\022\013\n\003eo" +
-      "f\030\002 \001(\010\022\020\n\010last_key\030\003 \001(\014\022\032\n\022last_key_in" +
-      "clusive\030\004 \001(\010\"i\n\030GetShardLocationsReques",
-      "t\022\022\n\ntablet_ids\030\001 \003(\004\0229\n\020operation_param" +
-      "s\030\t \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\"I\n\031GetShardLocationsResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"-\n\nT" +
-      "abletInfo\022\021\n\ttablet_id\030\001 \001(\004\022\014\n\004host\030\002 \001" +
-      "(\t\"H\n\027GetShardLocationsResult\022-\n\007tablets" +
-      "\030\001 \003(\0132\034.Ydb.Experimental.TabletInfoB3\n\032" +
-      "ru.yandex.ydb.experimentalB\022Experimental" +
-      "Protos\370\001\001b\006proto3"
+      "tal.proto\022\020Ydb.Experimental\0320kikimr/publ" +
+      "ic/api/protos/ydb_issue_message.proto\032,k" +
+      "ikimr/public/api/protos/ydb_operation.pr" +
+      "oto\032/kikimr/public/api/protos/ydb_status" +
+      "_codes.proto\032(kikimr/public/api/protos/y" +
+      "db_value.proto\"|\n\021UploadRowsRequest\022\r\n\005t" +
+      "able\030\001 \001(\t\022\035\n\004rows\030\002 \001(\0132\017.Ydb.TypedValu" +
+      "e\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\"B\n\022UploadRowsRespon",
+      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
+      "peration\"\022\n\020UploadRowsResult\"\354\001\n\022ReadCol" +
+      "umnsRequest\022\r\n\005table\030\001 \001(\t\022\017\n\007columns\030\002 " +
+      "\003(\t\022\020\n\010from_key\030\003 \001(\014\022\032\n\022from_key_inclus" +
+      "ive\030\004 \001(\010\022\016\n\006to_key\030\005 \001(\014\022\030\n\020to_key_incl" +
+      "usive\030\006 \001(\010\022\020\n\010max_rows\030\007 \001(\004\022\021\n\tmax_byt" +
+      "es\030\010 \001(\004\0229\n\020operation_params\030\t \001(\0132\037.Ydb" +
+      ".Operations.OperationParams\"C\n\023ReadColum" +
+      "nsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.Operation\"^\n\021ReadColumnsResult\022\016\n",
+      "\006blocks\030\001 \003(\014\022\013\n\003eof\030\002 \001(\010\022\020\n\010last_key\030\003" +
+      " \001(\014\022\032\n\022last_key_inclusive\030\004 \001(\010\"i\n\030GetS" +
+      "hardLocationsRequest\022\022\n\ntablet_ids\030\001 \003(\004" +
+      "\0229\n\020operation_params\030\t \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\"I\n\031GetShardLocations" +
+      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
+      "ions.Operation\"-\n\nTabletInfo\022\021\n\ttablet_i" +
+      "d\030\001 \001(\004\022\014\n\004host\030\002 \001(\t\"H\n\027GetShardLocatio" +
+      "nsResult\022-\n\007tablets\030\001 \003(\0132\034.Ydb.Experime" +
+      "ntal.TabletInfo\"\302\001\n\031ExecuteStreamQueryRe",
+      "quest\022\020\n\010yql_text\030\001 \001(\t\022O\n\nparameters\030\002 " +
+      "\003(\0132;.Ydb.Experimental.ExecuteStreamQuer" +
+      "yRequest.ParametersEntry\032B\n\017ParametersEn" +
+      "try\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.Ty" +
+      "pedValue:\0028\001\"\254\001\n\032ExecuteStreamQueryRespo" +
+      "nse\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.Stat" +
+      "usCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.Issue" +
+      "Message\022:\n\006result\030\003 \001(\0132*.Ydb.Experiment" +
+      "al.ExecuteStreamQueryResult\">\n\030ExecuteSt" +
+      "reamQueryResult\022\"\n\nresult_set\030\001 \001(\0132\016.Yd",
+      "b.ResultSetB3\n\032ru.yandex.ydb.experimenta" +
+      "lB\022ExperimentalProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -7365,7 +9853,9 @@ public final class ExperimentalProtos {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          ru.yandex.ydb.YdbIssueMessage.getDescriptor(),
           ru.yandex.ydb.OperationProtos.getDescriptor(),
+          ru.yandex.ydb.StatusCodesProtos.getDescriptor(),
           ru.yandex.ydb.ValueProtos.getDescriptor(),
         }, assigner);
     internal_static_Ydb_Experimental_UploadRowsRequest_descriptor =
@@ -7428,7 +9918,33 @@ public final class ExperimentalProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Experimental_GetShardLocationsResult_descriptor,
         new java.lang.String[] { "Tablets", });
+    internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_descriptor,
+        new java.lang.String[] { "YqlText", "Parameters", });
+    internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_ParametersEntry_descriptor =
+      internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_descriptor.getNestedTypes().get(0);
+    internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_ParametersEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_ParametersEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_Ydb_Experimental_ExecuteStreamQueryResponse_descriptor =
+      getDescriptor().getMessageTypes().get(11);
+    internal_static_Ydb_Experimental_ExecuteStreamQueryResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Experimental_ExecuteStreamQueryResponse_descriptor,
+        new java.lang.String[] { "Status", "Issues", "Result", });
+    internal_static_Ydb_Experimental_ExecuteStreamQueryResult_descriptor =
+      getDescriptor().getMessageTypes().get(12);
+    internal_static_Ydb_Experimental_ExecuteStreamQueryResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Experimental_ExecuteStreamQueryResult_descriptor,
+        new java.lang.String[] { "ResultSet", });
+    ru.yandex.ydb.YdbIssueMessage.getDescriptor();
     ru.yandex.ydb.OperationProtos.getDescriptor();
+    ru.yandex.ydb.StatusCodesProtos.getDescriptor();
     ru.yandex.ydb.ValueProtos.getDescriptor();
   }
 

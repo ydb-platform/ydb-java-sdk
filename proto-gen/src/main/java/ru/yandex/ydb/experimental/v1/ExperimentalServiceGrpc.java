@@ -54,6 +54,15 @@ public final class ExperimentalServiceGrpc {
               "Ydb.Experimental.V1.ExperimentalService", "GetShardLocations"),
           io.grpc.protobuf.ProtoUtils.marshaller(ru.yandex.ydb.experimental.ExperimentalProtos.GetShardLocationsRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(ru.yandex.ydb.experimental.ExperimentalProtos.GetShardLocationsResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest,
+      ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse> METHOD_EXECUTE_STREAM_QUERY =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING,
+          generateFullMethodName(
+              "Ydb.Experimental.V1.ExperimentalService", "ExecuteStreamQuery"),
+          io.grpc.protobuf.ProtoUtils.marshaller(ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse.getDefaultInstance()));
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -106,6 +115,13 @@ public final class ExperimentalServiceGrpc {
       asyncUnimplementedUnaryCall(METHOD_GET_SHARD_LOCATIONS, responseObserver);
     }
 
+    /**
+     */
+    public void executeStreamQuery(ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest request,
+        io.grpc.stub.StreamObserver<ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_EXECUTE_STREAM_QUERY, responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -129,6 +145,13 @@ public final class ExperimentalServiceGrpc {
                 ru.yandex.ydb.experimental.ExperimentalProtos.GetShardLocationsRequest,
                 ru.yandex.ydb.experimental.ExperimentalProtos.GetShardLocationsResponse>(
                   this, METHODID_GET_SHARD_LOCATIONS)))
+          .addMethod(
+            METHOD_EXECUTE_STREAM_QUERY,
+            asyncServerStreamingCall(
+              new MethodHandlers<
+                ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest,
+                ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse>(
+                  this, METHODID_EXECUTE_STREAM_QUERY)))
           .build();
     }
   }
@@ -177,6 +200,14 @@ public final class ExperimentalServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(METHOD_GET_SHARD_LOCATIONS, getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void executeStreamQuery(ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest request,
+        io.grpc.stub.StreamObserver<ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse> responseObserver) {
+      asyncServerStreamingCall(
+          getChannel().newCall(METHOD_EXECUTE_STREAM_QUERY, getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -219,6 +250,14 @@ public final class ExperimentalServiceGrpc {
     public ru.yandex.ydb.experimental.ExperimentalProtos.GetShardLocationsResponse getShardLocations(ru.yandex.ydb.experimental.ExperimentalProtos.GetShardLocationsRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_GET_SHARD_LOCATIONS, getCallOptions(), request);
+    }
+
+    /**
+     */
+    public java.util.Iterator<ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse> executeStreamQuery(
+        ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest request) {
+      return blockingServerStreamingCall(
+          getChannel(), METHOD_EXECUTE_STREAM_QUERY, getCallOptions(), request);
     }
   }
 
@@ -271,6 +310,7 @@ public final class ExperimentalServiceGrpc {
   private static final int METHODID_UPLOAD_ROWS = 0;
   private static final int METHODID_READ_COLUMNS = 1;
   private static final int METHODID_GET_SHARD_LOCATIONS = 2;
+  private static final int METHODID_EXECUTE_STREAM_QUERY = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -300,6 +340,10 @@ public final class ExperimentalServiceGrpc {
         case METHODID_GET_SHARD_LOCATIONS:
           serviceImpl.getShardLocations((ru.yandex.ydb.experimental.ExperimentalProtos.GetShardLocationsRequest) request,
               (io.grpc.stub.StreamObserver<ru.yandex.ydb.experimental.ExperimentalProtos.GetShardLocationsResponse>) responseObserver);
+          break;
+        case METHODID_EXECUTE_STREAM_QUERY:
+          serviceImpl.executeStreamQuery((ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest) request,
+              (io.grpc.stub.StreamObserver<ru.yandex.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -337,6 +381,7 @@ public final class ExperimentalServiceGrpc {
               .addMethod(METHOD_UPLOAD_ROWS)
               .addMethod(METHOD_READ_COLUMNS)
               .addMethod(METHOD_GET_SHARD_LOCATIONS)
+              .addMethod(METHOD_EXECUTE_STREAM_QUERY)
               .build();
         }
       }
