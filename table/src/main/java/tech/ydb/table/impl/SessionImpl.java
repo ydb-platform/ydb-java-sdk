@@ -1,14 +1,16 @@
-package tech.ydb.table;
+package tech.ydb.table.impl;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.rpc.OperationTray;
+import tech.ydb.table.Session;
+import tech.ydb.table.YdbTable;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.query.DataQuery;
-import tech.ydb.table.query.DataQueryImpl;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
 import tech.ydb.table.query.Params;
@@ -28,7 +30,6 @@ import tech.ydb.table.settings.PartitioningPolicy;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
 import tech.ydb.table.settings.StoragePolicy;
 import tech.ydb.table.transaction.Transaction;
-import tech.ydb.table.transaction.TransactionImpl;
 import tech.ydb.table.transaction.TransactionMode;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.types.proto.ProtoType;
@@ -51,14 +52,14 @@ class SessionImpl implements Session {
 
     private final String id;
     private final TableRpc tableRpc;
-    private final OperationsTray operationsTray;
+    private final OperationTray operationTray;
 
     private volatile State state = State.STANDALONE;
 
-    SessionImpl(String id, TableRpc tableRpc, OperationsTray operationsTray) {
+    SessionImpl(String id, TableRpc tableRpc) {
         this.id = id;
         this.tableRpc = tableRpc;
-        this.operationsTray = operationsTray;
+        this.operationTray = tableRpc.getOperationTray();
     }
 
     @Override
@@ -154,7 +155,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationsTray.waitStatus(response.expect("createTable()").getOperation());
+                return operationTray.waitStatus(response.expect("createTable()").getOperation());
             });
     }
 
@@ -179,7 +180,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationsTray.waitStatus(response.expect("dropTable()").getOperation());
+                return operationTray.waitStatus(response.expect("dropTable()").getOperation());
             });
     }
 
@@ -203,7 +204,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationsTray.waitStatus(response.expect("alterTable()").getOperation());
+                return operationTray.waitStatus(response.expect("alterTable()").getOperation());
             });
     }
 
@@ -220,7 +221,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationsTray.waitStatus(response.expect("copyTable()").getOperation());
+                return operationTray.waitStatus(response.expect("copyTable()").getOperation());
             });
     }
 
@@ -236,7 +237,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
-                return operationsTray.waitResult(
+                return operationTray.waitResult(
                     response.expect("describeTable()").getOperation(),
                     YdbTable.DescribeTableResult.class,
                     SessionImpl::mapDescribeTable);
@@ -281,7 +282,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
-                return operationsTray.waitResult(
+                return operationTray.waitResult(
                     response.expect("executeDataQuery()").getOperation(),
                     YdbTable.ExecuteQueryResult.class,
                     SessionImpl::mapExecuteDataQuery);
@@ -305,12 +306,10 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
-                return operationsTray.waitResult(
+                return operationTray.waitResult(
                     response.expect("prepareDataQuery()").getOperation(),
                     YdbTable.PrepareQueryResult.class,
-                    result -> new DataQueryImpl(
-                        id, tableRpc, operationsTray,
-                        result.getQueryId(), result.getParametersTypesMap()));
+                    result -> new DataQueryImpl(id, tableRpc, result.getQueryId(), result.getParametersTypesMap()));
             });
     }
 
@@ -326,7 +325,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationsTray.waitStatus(response.expect("executeSchemaQuery()").getOperation());
+                return operationTray.waitStatus(response.expect("executeSchemaQuery()").getOperation());
             });
     }
 
@@ -342,7 +341,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
-                return operationsTray.waitResult(
+                return operationTray.waitResult(
                     response.expect("explainDataQuery()").getOperation(),
                     YdbTable.ExplainQueryResult.class,
                     result -> new ExplainDataQueryResult(result.getQueryAst(), result.getQueryPlan()));
@@ -361,10 +360,10 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
-                return operationsTray.waitResult(
+                return operationTray.waitResult(
                     response.expect("beginTransaction()").getOperation(),
                     YdbTable.BeginTransactionResult.class,
-                    result -> new TransactionImpl(id, result.getTxMeta().getId(), tableRpc, operationsTray));
+                    result -> new TransactionImpl(id, result.getTxMeta().getId(), tableRpc));
             });
     }
 
@@ -379,7 +378,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationsTray.waitStatus(response.expect("deleteSession()").getOperation());
+                return operationTray.waitStatus(response.expect("deleteSession()").getOperation());
             });
     }
 }

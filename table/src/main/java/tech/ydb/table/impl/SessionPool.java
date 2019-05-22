@@ -1,4 +1,4 @@
-package tech.ydb.table;
+package tech.ydb.table.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 import tech.ydb.core.Result;
-import tech.ydb.table.SessionImpl.State;
+import tech.ydb.table.Session;
+import tech.ydb.table.impl.SessionImpl.State;
 import tech.ydb.table.rpc.TableRpc;
 
 
@@ -16,14 +17,10 @@ import tech.ydb.table.rpc.TableRpc;
 final class SessionPool {
 
     private final ArrayList<PooledSession> idleSessions = new ArrayList<>();
-    private final int limit;
+    private final SessionPoolOptions options;
 
-    SessionPool(int limit) {
-        this.limit = limit;
-    }
-
-    public int getLimit() {
-        return limit;
+    SessionPool(SessionPoolOptions options) {
+        this.options = options;
     }
 
     CompletableFuture<Result<Session>> getOrSession(Supplier<CompletableFuture<Result<Session>>> sessionFactory) {
@@ -42,14 +39,14 @@ final class SessionPool {
         return sessionFactory.get();
     }
 
-    SessionImpl newSession(String id, TableRpc tableRpc, OperationsTray operationsTray) {
-        return new PooledSession(id, tableRpc, operationsTray);
+    SessionImpl newSession(String id, TableRpc tableRpc) {
+        return new PooledSession(id, tableRpc);
     }
 
     boolean releaseSession(Session session) {
         if (session instanceof PooledSession && ((PooledSession) session).switchState(State.IN_USE, State.IDLE)) {
             synchronized (idleSessions) {
-                if (idleSessions.size() < limit) {
+                if (idleSessions.size() < options.getMaxSize()) {
                     idleSessions.add((PooledSession) session);
                     return true;
                 }
@@ -70,8 +67,8 @@ final class SessionPool {
      * POOLED SESSION
      */
     private static class PooledSession extends SessionImpl {
-        PooledSession(String id, TableRpc tableRpc, OperationsTray operationsTray) {
-            super(id, tableRpc, operationsTray);
+        PooledSession(String id, TableRpc tableRpc) {
+            super(id, tableRpc);
         }
     }
 

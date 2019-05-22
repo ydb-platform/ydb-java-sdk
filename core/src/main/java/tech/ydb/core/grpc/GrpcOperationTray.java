@@ -1,4 +1,4 @@
-package tech.ydb.table;
+package tech.ydb.core.grpc;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
@@ -6,34 +6,41 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import com.google.protobuf.Message;
+import tech.ydb.OperationProtos;
 import tech.ydb.OperationProtos.GetOperationRequest;
-import tech.ydb.OperationProtos.Operation;
+import tech.ydb.OperationProtos.GetOperationResponse;
 import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
-import tech.ydb.table.rpc.OperationRpc;
+import tech.ydb.core.rpc.OperationTray;
+import tech.ydb.operation.v1.OperationServiceGrpc;
+import io.netty.util.HashedWheelTimer;
 import io.netty.util.Timeout;
 import io.netty.util.Timer;
 import io.netty.util.TimerTask;
+import io.netty.util.concurrent.DefaultThreadFactory;
 
 
 /**
  * @author Sergey Polovko
  */
-public class OperationsTray implements AutoCloseable {
+final class GrpcOperationTray implements OperationTray {
 
-    public static final long INITIAL_DELAY_MILLIS = 10; // The delay before first operations service call, ms
-    public static final long MAX_DELAY_MILLIS = 10_000; // The max delay between getOperation calls for one operation, ms
+    private static final long INITIAL_DELAY_MILLIS = 10; // The delay before first operations service call, ms
+    private static final long MAX_DELAY_MILLIS = 10_000; // The max delay between getOperation calls for one operation, ms
 
-    private final OperationRpc rpc;
+    private final GrpcTransport transport;
     private final Timer timer;
 
-    public OperationsTray(OperationRpc rpc, Timer timer) {
-        this.rpc = rpc;
-        this.timer = timer;
+    GrpcOperationTray(GrpcTransport transport) {
+        this.transport = transport;
+        this.timer = new HashedWheelTimer(
+            new DefaultThreadFactory("OperationTrayTimer"),
+            INITIAL_DELAY_MILLIS,
+            TimeUnit.MILLISECONDS);
     }
 
-    public CompletableFuture<Status> waitStatus(Operation operation) {
+    public CompletableFuture<Status> waitStatus(OperationProtos.Operation operation) {
         CompletableFuture<Status> promise = new CompletableFuture<>();
 
         if (operation.getReady()) {
@@ -43,7 +50,7 @@ public class OperationsTray implements AutoCloseable {
                 promise.completeExceptionally(t);
             }
         } else {
-            new WaitStatusTask(rpc, operation.getId(), promise)
+            new WaitStatusTask(operation.getId(), promise)
                 .scheduleNext(timer);
         }
 
@@ -51,7 +58,7 @@ public class OperationsTray implements AutoCloseable {
     }
 
     public <M extends Message, R> CompletableFuture<Result<R>> waitResult(
-        Operation operation,
+        OperationProtos.Operation operation,
         Class<M> resultClass,
         Function<M, R> mapper)
     {
@@ -69,11 +76,15 @@ public class OperationsTray implements AutoCloseable {
                 promise.completeExceptionally(t);
             }
         } else {
-            new WaitResultTask<>(rpc, operation.getId(), promise, resultClass, mapper)
+            new WaitResultTask<>(operation.getId(), promise, resultClass, mapper)
                 .scheduleNext(timer);
         }
 
         return promise;
+    }
+
+    private CompletableFuture<Result<GetOperationResponse>> callGetOperation(GetOperationRequest request) {
+        return transport.unaryCall(OperationServiceGrpc.METHOD_GET_OPERATION, request);
     }
 
     @Override
@@ -90,22 +101,20 @@ public class OperationsTray implements AutoCloseable {
     /**
      * Base waiting task.
      */
-    public abstract static class BaseTask<T> implements TimerTask {
+    public abstract class BaseTask<T> implements TimerTask {
 
-        private final OperationRpc rpc;
         private final GetOperationRequest request;
         private final CompletableFuture<T> promise;
 
         private long delayMillis = INITIAL_DELAY_MILLIS / 2;
 
-        BaseTask(OperationRpc rpc, String id, CompletableFuture<T> promise) {
-            this.rpc = rpc;
+        BaseTask(String id, CompletableFuture<T> promise) {
             this.request = GetOperationRequest.newBuilder().setId(id).build();
             this.promise = promise;
         }
 
         protected abstract T mapFailedRpc(Result<?> result);
-        protected abstract T mapReadyOperation(Operation operation);
+        protected abstract T mapReadyOperation(OperationProtos.Operation operation);
 
         @Override
         public void run(Timeout timeout) {
@@ -113,7 +122,7 @@ public class OperationsTray implements AutoCloseable {
                 return;
             }
 
-            rpc.getOperation(request)
+            callGetOperation(request)
                 .whenComplete((response, throwable) -> {
                     if (throwable != null) {
                         promise.completeExceptionally(throwable);
@@ -125,7 +134,7 @@ public class OperationsTray implements AutoCloseable {
                         return;
                     }
 
-                    Operation operation = response.expect("getOperation()").getOperation();
+                    OperationProtos.Operation operation = response.expect("getOperation()").getOperation();
                     if (operation.getReady()) {
                         try {
                             promise.complete(mapReadyOperation(operation));
@@ -138,7 +147,7 @@ public class OperationsTray implements AutoCloseable {
                 });
         }
 
-        public void scheduleNext(Timer timer) {
+        void scheduleNext(Timer timer) {
             // exponentially growing delay
             delayMillis = Math.min(delayMillis * 2, MAX_DELAY_MILLIS);
             timer.newTimeout(this, delayMillis, TimeUnit.MILLISECONDS);
@@ -148,10 +157,10 @@ public class OperationsTray implements AutoCloseable {
     /**
      * Task for waiting status.
      */
-    public static final class WaitStatusTask extends BaseTask<Status> {
+    public final class WaitStatusTask extends BaseTask<Status> {
 
-        WaitStatusTask(OperationRpc rpc, String id, CompletableFuture<Status> promise) {
-            super(rpc, id, promise);
+        WaitStatusTask(String id, CompletableFuture<Status> promise) {
+            super(id, promise);
         }
 
         @Override
@@ -160,7 +169,7 @@ public class OperationsTray implements AutoCloseable {
         }
 
         @Override
-        protected Status mapReadyOperation(Operation operation) {
+        protected Status mapReadyOperation(OperationProtos.Operation operation) {
             return Operations.status(operation);
         }
     }
@@ -168,19 +177,18 @@ public class OperationsTray implements AutoCloseable {
     /**
      * Task for waiting result.
      */
-    public static final class WaitResultTask<M extends Message, R> extends BaseTask<Result<R>> {
+    public final class WaitResultTask<M extends Message, R> extends BaseTask<Result<R>> {
 
         private final Class<M> resultClass;
         private final Function<M, R> mapper;
 
         WaitResultTask(
-            OperationRpc rpc,
             String id,
             CompletableFuture<Result<R>> promise,
             Class<M> resultClass,
             Function<M, R> mapper)
         {
-            super(rpc, id, promise);
+            super(id, promise);
             this.resultClass = resultClass;
             this.mapper = mapper;
         }
@@ -191,7 +199,7 @@ public class OperationsTray implements AutoCloseable {
         }
 
         @Override
-        protected Result<R> mapReadyOperation(Operation operation) {
+        protected Result<R> mapReadyOperation(OperationProtos.Operation operation) {
             Status status = Operations.status(operation);
             if (!status.isSuccess()) {
                 return Result.fail(status);

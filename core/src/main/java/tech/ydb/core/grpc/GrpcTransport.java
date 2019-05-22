@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import tech.ydb.core.Result;
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.auth.NopAuthProvider;
+import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.RpcTransport;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
@@ -34,6 +35,7 @@ public class GrpcTransport implements RpcTransport {
     private final ManagedChannel realChannel;
     private final Channel channel;
     private final CallOptions callOptions;
+    private final GrpcOperationTray operationTray;
 
     GrpcTransport(GrpcTransportBuilder builder) {
         if (builder.endpoint != null) {
@@ -56,6 +58,8 @@ public class GrpcTransport implements RpcTransport {
         } else {
             this.callOptions = builder.callOptions;
         }
+
+        this.operationTray = new GrpcOperationTray(this);
     }
 
     private static ManagedChannel createChannel(String host, int port) {
@@ -149,7 +153,13 @@ public class GrpcTransport implements RpcTransport {
 
 
     @Override
+    public OperationTray getOperationTray() {
+        return operationTray;
+    }
+
+    @Override
     public void close() {
+        operationTray.close();
         realChannel.shutdown();
     }
 }

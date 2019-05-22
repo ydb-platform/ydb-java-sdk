@@ -4,9 +4,12 @@ import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.WillClose;
+import javax.annotation.WillNotClose;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.RpcTransport;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.v1.TableServiceGrpc;
@@ -50,15 +53,25 @@ import static tech.ydb.table.YdbTable.RollbackTransactionResponse;
 public final class GrpcTableRpc implements TableRpc {
 
     private final GrpcTransport transport;
+    private final boolean transportOwned;
 
-    private GrpcTableRpc(GrpcTransport transport) {
+    private GrpcTableRpc(GrpcTransport transport, boolean transportOwned) {
         this.transport = transport;
+        this.transportOwned = transportOwned;
     }
 
     @Nullable
-    public static GrpcTableRpc create(RpcTransport transport) {
+    public static GrpcTableRpc useTransport(@WillNotClose RpcTransport transport) {
         if (transport instanceof GrpcTransport) {
-            return new GrpcTableRpc((GrpcTransport) transport);
+            return new GrpcTableRpc((GrpcTransport) transport, false);
+        }
+        return null;
+    }
+
+    @Nullable
+    public static GrpcTableRpc ownTransport(@WillClose RpcTransport transport) {
+        if (transport instanceof GrpcTransport) {
+            return new GrpcTableRpc((GrpcTransport) transport, true);
         }
         return null;
     }
@@ -139,7 +152,14 @@ public final class GrpcTableRpc implements TableRpc {
     }
 
     @Override
+    public OperationTray getOperationTray() {
+        return transport.getOperationTray();
+    }
+
+    @Override
     public void close() {
-        // nop
+        if (transportOwned) {
+            transport.close();
+        }
     }
 }
