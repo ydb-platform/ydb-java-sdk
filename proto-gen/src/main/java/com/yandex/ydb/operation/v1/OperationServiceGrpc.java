@@ -36,6 +36,33 @@ public final class OperationServiceGrpc {
               "Ydb.Operation.V1.OperationService", "GetOperation"),
           io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.GetOperationRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.GetOperationResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<tech.ydb.OperationProtos.CancelOperationRequest,
+      com.google.protobuf.Empty> METHOD_CANCEL_OPERATION =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "Ydb.Operation.V1.OperationService", "CancelOperation"),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.CancelOperationRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(com.google.protobuf.Empty.getDefaultInstance()));
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<tech.ydb.OperationProtos.DeleteOperationRequest,
+      tech.ydb.OperationProtos.DeleteOperationResponse> METHOD_DELETE_OPERATION =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "Ydb.Operation.V1.OperationService", "DeleteOperation"),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.DeleteOperationRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.DeleteOperationResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<tech.ydb.OperationProtos.ListOperationsRequest,
+      tech.ydb.OperationProtos.ListOperationsResponse> METHOD_LIST_OPERATIONS =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "Ydb.Operation.V1.OperationService", "ListOperations"),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.ListOperationsRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.ListOperationsResponse.getDefaultInstance()));
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -74,6 +101,39 @@ public final class OperationServiceGrpc {
       asyncUnimplementedUnaryCall(METHOD_GET_OPERATION, responseObserver);
     }
 
+    /**
+     * <pre>
+     * Starts cancellation of a long-running operation,
+     * Clients can use GetOperation to check whether the cancellation succeeded
+     * or whether the operation completed despite cancellation.
+     * </pre>
+     */
+    public void cancelOperation(tech.ydb.OperationProtos.CancelOperationRequest request,
+        io.grpc.stub.StreamObserver<com.google.protobuf.Empty> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_CANCEL_OPERATION, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Deletes long-running operation. It does not cancel the operation and returns
+     * an error if operation was not completed.
+     * </pre>
+     */
+    public void deleteOperation(tech.ydb.OperationProtos.DeleteOperationRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.DeleteOperationResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_DELETE_OPERATION, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Lists operations that match the specified filter in the request.
+     * </pre>
+     */
+    public void listOperations(tech.ydb.OperationProtos.ListOperationsRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.ListOperationsResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_LIST_OPERATIONS, responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -83,6 +143,27 @@ public final class OperationServiceGrpc {
                 tech.ydb.OperationProtos.GetOperationRequest,
                 tech.ydb.OperationProtos.GetOperationResponse>(
                   this, METHODID_GET_OPERATION)))
+          .addMethod(
+            METHOD_CANCEL_OPERATION,
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.OperationProtos.CancelOperationRequest,
+                com.google.protobuf.Empty>(
+                  this, METHODID_CANCEL_OPERATION)))
+          .addMethod(
+            METHOD_DELETE_OPERATION,
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.OperationProtos.DeleteOperationRequest,
+                tech.ydb.OperationProtos.DeleteOperationResponse>(
+                  this, METHODID_DELETE_OPERATION)))
+          .addMethod(
+            METHOD_LIST_OPERATIONS,
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.OperationProtos.ListOperationsRequest,
+                tech.ydb.OperationProtos.ListOperationsResponse>(
+                  this, METHODID_LIST_OPERATIONS)))
           .build();
     }
   }
@@ -115,6 +196,42 @@ public final class OperationServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(METHOD_GET_OPERATION, getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     * Starts cancellation of a long-running operation,
+     * Clients can use GetOperation to check whether the cancellation succeeded
+     * or whether the operation completed despite cancellation.
+     * </pre>
+     */
+    public void cancelOperation(tech.ydb.OperationProtos.CancelOperationRequest request,
+        io.grpc.stub.StreamObserver<com.google.protobuf.Empty> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_CANCEL_OPERATION, getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Deletes long-running operation. It does not cancel the operation and returns
+     * an error if operation was not completed.
+     * </pre>
+     */
+    public void deleteOperation(tech.ydb.OperationProtos.DeleteOperationRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.DeleteOperationResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_DELETE_OPERATION, getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Lists operations that match the specified filter in the request.
+     * </pre>
+     */
+    public void listOperations(tech.ydb.OperationProtos.ListOperationsRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.ListOperationsResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_LIST_OPERATIONS, getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -143,6 +260,39 @@ public final class OperationServiceGrpc {
     public tech.ydb.OperationProtos.GetOperationResponse getOperation(tech.ydb.OperationProtos.GetOperationRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_GET_OPERATION, getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Starts cancellation of a long-running operation,
+     * Clients can use GetOperation to check whether the cancellation succeeded
+     * or whether the operation completed despite cancellation.
+     * </pre>
+     */
+    public com.google.protobuf.Empty cancelOperation(tech.ydb.OperationProtos.CancelOperationRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_CANCEL_OPERATION, getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Deletes long-running operation. It does not cancel the operation and returns
+     * an error if operation was not completed.
+     * </pre>
+     */
+    public tech.ydb.OperationProtos.DeleteOperationResponse deleteOperation(tech.ydb.OperationProtos.DeleteOperationRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_DELETE_OPERATION, getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Lists operations that match the specified filter in the request.
+     * </pre>
+     */
+    public tech.ydb.OperationProtos.ListOperationsResponse listOperations(tech.ydb.OperationProtos.ListOperationsRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_LIST_OPERATIONS, getCallOptions(), request);
     }
   }
 
@@ -174,9 +324,48 @@ public final class OperationServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(METHOD_GET_OPERATION, getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     * Starts cancellation of a long-running operation,
+     * Clients can use GetOperation to check whether the cancellation succeeded
+     * or whether the operation completed despite cancellation.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.google.protobuf.Empty> cancelOperation(
+        tech.ydb.OperationProtos.CancelOperationRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_CANCEL_OPERATION, getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
+     * Deletes long-running operation. It does not cancel the operation and returns
+     * an error if operation was not completed.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.OperationProtos.DeleteOperationResponse> deleteOperation(
+        tech.ydb.OperationProtos.DeleteOperationRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_DELETE_OPERATION, getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
+     * Lists operations that match the specified filter in the request.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.OperationProtos.ListOperationsResponse> listOperations(
+        tech.ydb.OperationProtos.ListOperationsRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_LIST_OPERATIONS, getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_OPERATION = 0;
+  private static final int METHODID_CANCEL_OPERATION = 1;
+  private static final int METHODID_DELETE_OPERATION = 2;
+  private static final int METHODID_LIST_OPERATIONS = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -198,6 +387,18 @@ public final class OperationServiceGrpc {
         case METHODID_GET_OPERATION:
           serviceImpl.getOperation((tech.ydb.OperationProtos.GetOperationRequest) request,
               (io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.GetOperationResponse>) responseObserver);
+          break;
+        case METHODID_CANCEL_OPERATION:
+          serviceImpl.cancelOperation((tech.ydb.OperationProtos.CancelOperationRequest) request,
+              (io.grpc.stub.StreamObserver<com.google.protobuf.Empty>) responseObserver);
+          break;
+        case METHODID_DELETE_OPERATION:
+          serviceImpl.deleteOperation((tech.ydb.OperationProtos.DeleteOperationRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.DeleteOperationResponse>) responseObserver);
+          break;
+        case METHODID_LIST_OPERATIONS:
+          serviceImpl.listOperations((tech.ydb.OperationProtos.ListOperationsRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.ListOperationsResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -233,6 +434,9 @@ public final class OperationServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new OperationServiceDescriptorSupplier())
               .addMethod(METHOD_GET_OPERATION)
+              .addMethod(METHOD_CANCEL_OPERATION)
+              .addMethod(METHOD_DELETE_OPERATION)
+              .addMethod(METHOD_LIST_OPERATIONS)
               .build();
         }
       }
