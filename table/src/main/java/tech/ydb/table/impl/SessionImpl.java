@@ -3,10 +3,14 @@ package tech.ydb.table.impl;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
+import javax.annotation.Nullable;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.table.Session;
+import tech.ydb.table.SessionStatus;
 import tech.ydb.table.YdbTable;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
@@ -19,6 +23,7 @@ import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.AutoPartitioningPolicy;
 import tech.ydb.table.settings.BeginTxSettings;
 import tech.ydb.table.settings.CloseSessionSettings;
+import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
 import tech.ydb.table.settings.CreateTableSettings;
 import tech.ydb.table.settings.DescribeTableSettings;
@@ -26,8 +31,10 @@ import tech.ydb.table.settings.DropTableSettings;
 import tech.ydb.table.settings.ExecuteDataQuerySettings;
 import tech.ydb.table.settings.ExecuteSchemeQuerySettings;
 import tech.ydb.table.settings.ExplainDataQuerySettings;
+import tech.ydb.table.settings.KeepAliveSessionSettings;
 import tech.ydb.table.settings.PartitioningPolicy;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
+import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.settings.StoragePolicy;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TransactionMode;
@@ -41,10 +48,10 @@ import tech.ydb.table.types.proto.ProtoType;
 class SessionImpl implements Session {
 
     enum State {
-        STANDALONE,
         IDLE,
         BROKEN,
-        IN_USE,
+        ACTIVE,
+        DISCONNECTED,
     }
 
     private static final AtomicReferenceFieldUpdater<SessionImpl, State> stateUpdater =
@@ -53,13 +60,16 @@ class SessionImpl implements Session {
     private final String id;
     private final TableRpc tableRpc;
     private final OperationTray operationTray;
+    @Nullable
+    private final SessionPool sessionPool;
 
-    private volatile State state = State.STANDALONE;
+    private volatile State state = State.ACTIVE;
 
-    SessionImpl(String id, TableRpc tableRpc) {
+    SessionImpl(String id, TableRpc tableRpc, SessionPool sessionPool) {
         this.id = id;
         this.tableRpc = tableRpc;
         this.operationTray = tableRpc.getOperationTray();
+        this.sessionPool = sessionPool;
     }
 
     @Override
@@ -67,7 +77,7 @@ class SessionImpl implements Session {
         return id;
     }
 
-    public State getState() {
+    State getState() {
         return stateUpdater.get(this);
     }
 
@@ -277,7 +287,7 @@ class SessionImpl implements Session {
             .putAllParameters(params.toPb())
             .build();
 
-        return tableRpc.executeDataQuery(request)
+        return interceptResult(tableRpc.executeDataQuery(request)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -286,12 +296,34 @@ class SessionImpl implements Session {
                     response.expect("executeDataQuery()").getOperation(),
                     YdbTable.ExecuteQueryResult.class,
                     SessionImpl::mapExecuteDataQuery);
-            });
+            }));
     }
 
     private static DataQueryResult mapExecuteDataQuery(YdbTable.ExecuteQueryResult result) {
         YdbTable.TransactionMeta txMeta = result.getTxMeta();
         return new DataQueryResult(txMeta.getId(), result.getResultSetsList());
+    }
+
+    CompletableFuture<Result<DataQueryResult>> executePreparedDataQuery(
+        String queryId, TxControl txControl, Params params, ExecuteDataQuerySettings settings)
+    {
+        YdbTable.ExecuteDataQueryRequest.Builder request = YdbTable.ExecuteDataQueryRequest.newBuilder()
+            .setSessionId(id)
+            .setTxControl(txControl.toPb());
+
+        request.getQueryBuilder().setId(queryId);
+        request.putAllParameters(params.toPb());
+
+        return interceptResult(tableRpc.executeDataQuery(request.build())
+            .thenCompose(response -> {
+                if (!response.isSuccess()) {
+                    return CompletableFuture.completedFuture(response.cast());
+                }
+                return tableRpc.getOperationTray().waitResult(
+                    response.expect("executeDataQuery()").getOperation(),
+                    YdbTable.ExecuteQueryResult.class,
+                    SessionImpl::mapExecuteDataQuery);
+            }));
     }
 
     @Override
@@ -301,7 +333,7 @@ class SessionImpl implements Session {
             .setYqlText(query)
             .build();
 
-        return tableRpc.prepareDataQuery(request)
+        return interceptResult(tableRpc.prepareDataQuery(request)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -309,8 +341,8 @@ class SessionImpl implements Session {
                 return operationTray.waitResult(
                     response.expect("prepareDataQuery()").getOperation(),
                     YdbTable.PrepareQueryResult.class,
-                    result -> new DataQueryImpl(id, tableRpc, result.getQueryId(), result.getParametersTypesMap()));
-            });
+                    result -> new DataQueryImpl(this, result.getQueryId(), result.getParametersTypesMap()));
+            }));
     }
 
     @Override
@@ -320,13 +352,13 @@ class SessionImpl implements Session {
             .setYqlText(query)
             .build();
 
-        return tableRpc.executeSchemeQuery(request)
+        return interceptStatus(tableRpc.executeSchemeQuery(request)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
                 return operationTray.waitStatus(response.expect("executeSchemaQuery()").getOperation());
-            });
+            }));
     }
 
     @Override
@@ -336,7 +368,7 @@ class SessionImpl implements Session {
             .setYqlText(query)
             .build();
 
-        return tableRpc.explainDataQuery(request)
+        return interceptResult(tableRpc.explainDataQuery(request)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -345,7 +377,7 @@ class SessionImpl implements Session {
                     response.expect("explainDataQuery()").getOperation(),
                     YdbTable.ExplainQueryResult.class,
                     result -> new ExplainDataQueryResult(result.getQueryAst(), result.getQueryPlan()));
-            });
+            }));
     }
 
     @Override
@@ -355,7 +387,7 @@ class SessionImpl implements Session {
             .setTxSettings(txSettings(transactionMode))
             .build();
 
-        return tableRpc.beginTransaction(request)
+        return interceptResult(tableRpc.beginTransaction(request)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -363,8 +395,77 @@ class SessionImpl implements Session {
                 return operationTray.waitResult(
                     response.expect("beginTransaction()").getOperation(),
                     YdbTable.BeginTransactionResult.class,
-                    result -> new TransactionImpl(id, result.getTxMeta().getId(), tableRpc));
-            });
+                    result -> new TransactionImpl(this, result.getTxMeta().getId()));
+            }));
+    }
+
+    CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings) {
+        YdbTable.CommitTransactionRequest request = YdbTable.CommitTransactionRequest.newBuilder()
+            .setSessionId(id)
+            .setTxId(txId)
+            .build();
+
+        return interceptStatus(tableRpc.commitTransaction(request)
+            .thenCompose(response -> {
+                if (!response.isSuccess()) {
+                    return CompletableFuture.completedFuture(response.toStatus());
+                }
+                return tableRpc.getOperationTray()
+                    .waitStatus(response.expect("commitTransaction()").getOperation());
+            }));
+    }
+
+    CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings) {
+        YdbTable.RollbackTransactionRequest request = YdbTable.RollbackTransactionRequest.newBuilder()
+            .setSessionId(id)
+            .setTxId(txId)
+            .build();
+
+        return interceptStatus(tableRpc.rollbackTransaction(request)
+            .thenCompose(response -> {
+                if (!response.isSuccess()) {
+                    return CompletableFuture.completedFuture(response.toStatus());
+                }
+                return tableRpc.getOperationTray()
+                    .waitStatus(response.expect("rollbackTransaction()").getOperation());
+            }));
+    }
+
+    @Override
+    public CompletableFuture<Result<SessionStatus>> keepAlive(KeepAliveSessionSettings settings) {
+        YdbTable.KeepAliveRequest request = YdbTable.KeepAliveRequest.newBuilder()
+            .setSessionId(id)
+            .build();
+
+        return interceptResult(tableRpc.keepAlive(request)
+            .thenCompose(response -> {
+                if (!response.isSuccess()) {
+                    return CompletableFuture.completedFuture(response.cast());
+                }
+                return operationTray.waitResult(
+                    response.expect("keepAlive()").getOperation(),
+                    YdbTable.KeepAliveResult.class,
+                    SessionImpl::mapSessionStatus
+                );
+            }));
+    }
+
+    private static SessionStatus mapSessionStatus(YdbTable.KeepAliveResult result) {
+        switch (result.getSessionStatus()) {
+            case UNRECOGNIZED:
+            case SESSION_STATUS_UNSPECIFIED: return SessionStatus.UNSPECIFIED;
+            case SESSION_STATUS_BUSY: return SessionStatus.BUSY;
+            case SESSION_STATUS_READY: return SessionStatus.READY;
+        }
+        throw new IllegalStateException("unknown session status: " + result.getSessionStatus());
+    }
+
+    @Override
+    public boolean release() {
+        if (sessionPool != null) {
+            sessionPool.release(this);
+        }
+        return false;
     }
 
     @Override
@@ -373,12 +474,38 @@ class SessionImpl implements Session {
             .setSessionId(id)
             .build();
 
-        return tableRpc.deleteSession(request)
+        return interceptStatus(tableRpc.deleteSession(request)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
                 return operationTray.waitStatus(response.expect("deleteSession()").getOperation());
-            });
+            }));
+    }
+
+    private <T> CompletableFuture<Result<T>> interceptResult(CompletableFuture<Result<T>> future) {
+        return future.whenComplete((r, t) -> {
+            changeSessionState(t, r.getCode());
+        });
+    }
+
+    private CompletableFuture<Status> interceptStatus(CompletableFuture<Status> future) {
+        return future.whenComplete((r, t) -> {
+            changeSessionState(t, r.getCode());
+        });
+    }
+
+    private void changeSessionState(Throwable t, StatusCode code) {
+        State oldState = getState();
+        if (t != null) {
+            switchState(oldState, State.BROKEN);
+            return;
+        }
+
+        if (code.isTransportError() && code != StatusCode.CLIENT_RESOURCE_EXHAUSTED) {
+            switchState(oldState, State.DISCONNECTED);
+        } else if (code == StatusCode.BAD_SESSION) {
+            switchState(oldState, State.BROKEN);
+        }
     }
 }

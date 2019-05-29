@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.WillClose;
 
 import tech.ydb.core.Result;
-import tech.ydb.core.Status;
 import tech.ydb.table.impl.TableClientBuilderImpl;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.settings.CreateSessionSettings;
@@ -33,16 +32,7 @@ public interface TableClient extends AutoCloseable {
     /**
      * Returns session from session pool, if all sessions are occupied new session will be created.
      */
-    CompletableFuture<Result<Session>> getOrCreateSession(CreateSessionSettings settings);
-
-    default CompletableFuture<Result<Session>> getOrCreateSession() {
-        return getOrCreateSession(new CreateSessionSettings());
-    }
-
-    /**
-     * Release session back to this client.
-     */
-    CompletableFuture<Status> releaseSession(Session session);
+    CompletableFuture<Result<Session>> getOrCreateSession();
 
     @Override
     void close();

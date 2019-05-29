@@ -5,12 +5,10 @@ import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
 
 import tech.ydb.core.Result;
-import tech.ydb.core.Status;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.table.Session;
 import tech.ydb.table.TableClient;
 import tech.ydb.table.YdbTable;
-import tech.ydb.table.impl.SessionImpl.State;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.settings.CreateSessionSettings;
 
@@ -28,17 +26,17 @@ final class TableClientImpl implements TableClient {
     TableClientImpl(TableClientBuilderImpl builder) {
         this.tableRpc = builder.tableRpc;
         this.sessionPool = builder.sessionPoolOptions.getMaxSize() != 0
-            ? new SessionPool(builder.sessionPoolOptions)
+            ? new SessionPool(this, builder.sessionPoolOptions)
             : null;
         this.operationTray = tableRpc.getOperationTray();
     }
 
     @Override
     public CompletableFuture<Result<Session>> createSession(CreateSessionSettings settings) {
-        return createSessionImpl(settings, State.STANDALONE);
+        return createSessionImpl(settings);
     }
 
-    private CompletableFuture<Result<Session>> createSessionImpl(CreateSessionSettings settings, State initialState) {
+    CompletableFuture<Result<Session>> createSessionImpl(CreateSessionSettings settings) {
         YdbTable.CreateSessionRequest request = YdbTable.CreateSessionRequest.newBuilder()
             .build();
 
@@ -50,43 +48,26 @@ final class TableClientImpl implements TableClient {
                 return operationTray.waitResult(
                     response.expect("createSession()").getOperation(),
                     YdbTable.CreateSessionResult.class,
-                    result -> mapSessionResult(result, initialState));
+                    result -> new SessionImpl(result.getSessionId(), tableRpc, sessionPool));
             });
     }
 
-    private Session mapSessionResult(YdbTable.CreateSessionResult result, State initialState) {
-        if (sessionPool == null || initialState == State.STANDALONE) {
-            return new SessionImpl(result.getSessionId(), tableRpc);
-        }
-
-        SessionImpl session = sessionPool.newSession(result.getSessionId(), tableRpc);
-        session.switchState(State.STANDALONE, initialState);
-        return session;
-    }
-
     @Override
-    public CompletableFuture<Result<Session>> getOrCreateSession(CreateSessionSettings settings) {
+    public CompletableFuture<Result<Session>> getOrCreateSession() {
         if (sessionPool == null) {
-            return createSession(settings);
+            return createSessionImpl(new CreateSessionSettings());
         }
-        return sessionPool.getOrSession(() -> createSessionImpl(settings, State.IN_USE));
-    }
-
-    @Override
-    public CompletableFuture<Status> releaseSession(Session session) {
-        if (sessionPool != null && sessionPool.releaseSession(session)) {
-            return CompletableFuture.completedFuture(Status.SUCCESS);
-        }
-
-        return session.close();
+        return sessionPool.acquire()
+            .handle((s, t) -> {
+                if (t == null) return Result.success(s);
+                return Result.error("cannot acquire session from pool", t);
+            });
     }
 
     @Override
     public void close() {
         if (sessionPool != null) {
-            for (Session session : sessionPool.close()) {
-                session.close();
-            }
+            sessionPool.close();
         }
         tableRpc.close();
     }

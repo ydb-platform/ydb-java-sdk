@@ -19,6 +19,7 @@ import tech.ydb.table.settings.DropTableSettings;
 import tech.ydb.table.settings.ExecuteDataQuerySettings;
 import tech.ydb.table.settings.ExecuteSchemeQuerySettings;
 import tech.ydb.table.settings.ExplainDataQuerySettings;
+import tech.ydb.table.settings.KeepAliveSessionSettings;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TransactionMode;
@@ -99,6 +100,14 @@ public interface Session {
     default CompletableFuture<Result<Transaction>> beginTransaction(TransactionMode transactionMode) {
         return beginTransaction(transactionMode, new BeginTxSettings());
     }
+
+    CompletableFuture<Result<SessionStatus>> keepAlive(KeepAliveSessionSettings settings);
+
+    default CompletableFuture<Result<SessionStatus>> keepAlive() {
+        return keepAlive(new KeepAliveSessionSettings());
+    }
+
+    boolean release();
 
     CompletableFuture<Status> close(CloseSessionSettings settings);
 

@@ -1,75 +1,79 @@
 package tech.ydb.table.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
 
-import tech.ydb.core.Result;
-import tech.ydb.table.Session;
 import tech.ydb.table.impl.SessionImpl.State;
-import tech.ydb.table.rpc.TableRpc;
+import tech.ydb.table.impl.pool.AsyncPool;
+import tech.ydb.table.impl.pool.FixedAsyncPool;
+import tech.ydb.table.impl.pool.PooledObjectHandler;
+import tech.ydb.table.settings.CreateSessionSettings;
+import io.netty.util.HashedWheelTimer;
+import io.netty.util.Timer;
+import io.netty.util.concurrent.DefaultThreadFactory;
 
 
 /**
  * @author Sergey Polovko
  */
-final class SessionPool {
+final class SessionPool implements PooledObjectHandler<SessionImpl> {
 
-    private final ArrayList<PooledSession> idleSessions = new ArrayList<>();
-    private final SessionPoolOptions options;
+    // TODO: move to options
+    private static final Duration ACQUIRE_TIMEOUT = Duration.ofSeconds(5);
 
-    SessionPool(SessionPoolOptions options) {
-        this.options = options;
+    private final TableClientImpl tableClient;
+    private final AsyncPool<SessionImpl> pool;
+    private final Timer timer;
+
+    SessionPool(TableClientImpl tableClient, SessionPoolOptions options) {
+        this.tableClient = tableClient;
+        this.timer = new HashedWheelTimer(new DefaultThreadFactory("SessionPoolTimer"));
+        this.pool = new FixedAsyncPool<>(
+            this,
+            timer,
+            options.getMinSize(),
+            options.getMaxSize(),
+            options.getMaxSize() * 2,
+            options.getKeepAliveTimeMillis(),
+            options.getMaxIdleTimeMillis());
     }
 
-    CompletableFuture<Result<Session>> getOrSession(Supplier<CompletableFuture<Result<Session>>> sessionFactory) {
-        PooledSession session = null;
-        synchronized (idleSessions) {
-            if (!idleSessions.isEmpty()) {
-                session = idleSessions.remove(idleSessions.size() - 1);
-                session.switchState(State.IDLE, State.IN_USE);
-            }
+    @Override
+    public CompletableFuture<SessionImpl> create() {
+        return tableClient.createSessionImpl(new CreateSessionSettings())
+            .thenApply(r -> (SessionImpl) r.expect("cannot create session"));
+    }
+
+    @Override
+    public CompletableFuture<Void> destroy(SessionImpl s) {
+        return s.close()
+            .thenAccept(r -> r.expect("cannot close session: " + s.getId()));
+    }
+
+    @Override
+    public boolean isValid(SessionImpl s) {
+        return s.getState() != State.BROKEN;
+    }
+
+    @Override
+    public CompletableFuture<Void> keepAlive(SessionImpl s) {
+        return s.keepAlive()
+            .thenAccept(r -> r.expect("cannot keep alive session: " + s.getId()));
+    }
+
+    CompletableFuture<SessionImpl> acquire() {
+        return pool.acquire(ACQUIRE_TIMEOUT);
+    }
+
+    void release(SessionImpl session) {
+        pool.release(session);
+    }
+
+    void close() {
+        try {
+            pool.close();
+        } finally {
+            timer.stop();
         }
-
-        if (session != null) {
-            return CompletableFuture.completedFuture(Result.success(session));
-        }
-
-        return sessionFactory.get();
     }
-
-    SessionImpl newSession(String id, TableRpc tableRpc) {
-        return new PooledSession(id, tableRpc);
-    }
-
-    boolean releaseSession(Session session) {
-        if (session instanceof PooledSession && ((PooledSession) session).switchState(State.IN_USE, State.IDLE)) {
-            synchronized (idleSessions) {
-                if (idleSessions.size() < options.getMaxSize()) {
-                    idleSessions.add((PooledSession) session);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    List<Session> close() {
-        synchronized (idleSessions) {
-            List<Session> sessions = new ArrayList<>(idleSessions);
-            idleSessions.clear();
-            return sessions;
-        }
-    }
-
-    /**
-     * POOLED SESSION
-     */
-    private static class PooledSession extends SessionImpl {
-        PooledSession(String id, TableRpc tableRpc) {
-            super(id, tableRpc);
-        }
-    }
-
 }
