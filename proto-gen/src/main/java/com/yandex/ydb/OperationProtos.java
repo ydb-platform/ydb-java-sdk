@@ -3249,8 +3249,8 @@ public final class OperationProtos {
 
   }
 
-  public interface DeleteOperationRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Operations.DeleteOperationRequest)
+  public interface ForgetOperationRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Operations.ForgetOperationRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -3264,18 +3264,18 @@ public final class OperationProtos {
         getIdBytes();
   }
   /**
-   * Protobuf type {@code Ydb.Operations.DeleteOperationRequest}
+   * Protobuf type {@code Ydb.Operations.ForgetOperationRequest}
    */
-  public  static final class DeleteOperationRequest extends
+  public  static final class ForgetOperationRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Operations.DeleteOperationRequest)
-      DeleteOperationRequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:Ydb.Operations.ForgetOperationRequest)
+      ForgetOperationRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use DeleteOperationRequest.newBuilder() to construct.
-    private DeleteOperationRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ForgetOperationRequest.newBuilder() to construct.
+    private ForgetOperationRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private DeleteOperationRequest() {
+    private ForgetOperationRequest() {
       id_ = "";
     }
 
@@ -3284,7 +3284,7 @@ public final class OperationProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private DeleteOperationRequest(
+    private ForgetOperationRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3327,14 +3327,14 @@ public final class OperationProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return tech.ydb.OperationProtos.internal_static_Ydb_Operations_DeleteOperationRequest_descriptor;
+      return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return tech.ydb.OperationProtos.internal_static_Ydb_Operations_DeleteOperationRequest_fieldAccessorTable
+      return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              tech.ydb.OperationProtos.DeleteOperationRequest.class, tech.ydb.OperationProtos.DeleteOperationRequest.Builder.class);
+              tech.ydb.OperationProtos.ForgetOperationRequest.class, tech.ydb.OperationProtos.ForgetOperationRequest.Builder.class);
     }
 
     public static final int ID_FIELD_NUMBER = 1;
@@ -3407,10 +3407,10 @@ public final class OperationProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof tech.ydb.OperationProtos.DeleteOperationRequest)) {
+      if (!(obj instanceof tech.ydb.OperationProtos.ForgetOperationRequest)) {
         return super.equals(obj);
       }
-      tech.ydb.OperationProtos.DeleteOperationRequest other = (tech.ydb.OperationProtos.DeleteOperationRequest) obj;
+      tech.ydb.OperationProtos.ForgetOperationRequest other = (tech.ydb.OperationProtos.ForgetOperationRequest) obj;
 
       boolean result = true;
       result = result && getId()
@@ -3433,69 +3433,69 @@ public final class OperationProtos {
       return hash;
     }
 
-    public static tech.ydb.OperationProtos.DeleteOperationRequest parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationRequest parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationRequest parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationRequest parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationRequest parseFrom(byte[] data)
+    public static tech.ydb.OperationProtos.ForgetOperationRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationRequest parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationRequest parseFrom(java.io.InputStream input)
+    public static tech.ydb.OperationProtos.ForgetOperationRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationRequest parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationRequest parseDelimitedFrom(java.io.InputStream input)
+    public static tech.ydb.OperationProtos.ForgetOperationRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationRequest parseDelimitedFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationRequest parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationRequest parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -3507,7 +3507,7 @@ public final class OperationProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(tech.ydb.OperationProtos.DeleteOperationRequest prototype) {
+    public static Builder newBuilder(tech.ydb.OperationProtos.ForgetOperationRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -3522,25 +3522,25 @@ public final class OperationProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code Ydb.Operations.DeleteOperationRequest}
+     * Protobuf type {@code Ydb.Operations.ForgetOperationRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Operations.DeleteOperationRequest)
-        tech.ydb.OperationProtos.DeleteOperationRequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Ydb.Operations.ForgetOperationRequest)
+        tech.ydb.OperationProtos.ForgetOperationRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_DeleteOperationRequest_descriptor;
+        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_DeleteOperationRequest_fieldAccessorTable
+        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.OperationProtos.DeleteOperationRequest.class, tech.ydb.OperationProtos.DeleteOperationRequest.Builder.class);
+                tech.ydb.OperationProtos.ForgetOperationRequest.class, tech.ydb.OperationProtos.ForgetOperationRequest.Builder.class);
       }
 
-      // Construct using tech.ydb.OperationProtos.DeleteOperationRequest.newBuilder()
+      // Construct using tech.ydb.OperationProtos.ForgetOperationRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3564,23 +3564,23 @@ public final class OperationProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_DeleteOperationRequest_descriptor;
+        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationRequest_descriptor;
       }
 
-      public tech.ydb.OperationProtos.DeleteOperationRequest getDefaultInstanceForType() {
-        return tech.ydb.OperationProtos.DeleteOperationRequest.getDefaultInstance();
+      public tech.ydb.OperationProtos.ForgetOperationRequest getDefaultInstanceForType() {
+        return tech.ydb.OperationProtos.ForgetOperationRequest.getDefaultInstance();
       }
 
-      public tech.ydb.OperationProtos.DeleteOperationRequest build() {
-        tech.ydb.OperationProtos.DeleteOperationRequest result = buildPartial();
+      public tech.ydb.OperationProtos.ForgetOperationRequest build() {
+        tech.ydb.OperationProtos.ForgetOperationRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public tech.ydb.OperationProtos.DeleteOperationRequest buildPartial() {
-        tech.ydb.OperationProtos.DeleteOperationRequest result = new tech.ydb.OperationProtos.DeleteOperationRequest(this);
+      public tech.ydb.OperationProtos.ForgetOperationRequest buildPartial() {
+        tech.ydb.OperationProtos.ForgetOperationRequest result = new tech.ydb.OperationProtos.ForgetOperationRequest(this);
         result.id_ = id_;
         onBuilt();
         return result;
@@ -3613,16 +3613,16 @@ public final class OperationProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.OperationProtos.DeleteOperationRequest) {
-          return mergeFrom((tech.ydb.OperationProtos.DeleteOperationRequest)other);
+        if (other instanceof tech.ydb.OperationProtos.ForgetOperationRequest) {
+          return mergeFrom((tech.ydb.OperationProtos.ForgetOperationRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(tech.ydb.OperationProtos.DeleteOperationRequest other) {
-        if (other == tech.ydb.OperationProtos.DeleteOperationRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(tech.ydb.OperationProtos.ForgetOperationRequest other) {
+        if (other == tech.ydb.OperationProtos.ForgetOperationRequest.getDefaultInstance()) return this;
         if (!other.getId().isEmpty()) {
           id_ = other.id_;
           onChanged();
@@ -3640,11 +3640,11 @@ public final class OperationProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        tech.ydb.OperationProtos.DeleteOperationRequest parsedMessage = null;
+        tech.ydb.OperationProtos.ForgetOperationRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.OperationProtos.DeleteOperationRequest) e.getUnfinishedMessage();
+          parsedMessage = (tech.ydb.OperationProtos.ForgetOperationRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -3733,46 +3733,46 @@ public final class OperationProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Ydb.Operations.DeleteOperationRequest)
+      // @@protoc_insertion_point(builder_scope:Ydb.Operations.ForgetOperationRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:Ydb.Operations.DeleteOperationRequest)
-    private static final tech.ydb.OperationProtos.DeleteOperationRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Ydb.Operations.ForgetOperationRequest)
+    private static final tech.ydb.OperationProtos.ForgetOperationRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new tech.ydb.OperationProtos.DeleteOperationRequest();
+      DEFAULT_INSTANCE = new tech.ydb.OperationProtos.ForgetOperationRequest();
     }
 
-    public static tech.ydb.OperationProtos.DeleteOperationRequest getDefaultInstance() {
+    public static tech.ydb.OperationProtos.ForgetOperationRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<DeleteOperationRequest>
-        PARSER = new com.google.protobuf.AbstractParser<DeleteOperationRequest>() {
-      public DeleteOperationRequest parsePartialFrom(
+    private static final com.google.protobuf.Parser<ForgetOperationRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ForgetOperationRequest>() {
+      public ForgetOperationRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DeleteOperationRequest(input, extensionRegistry);
+          return new ForgetOperationRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<DeleteOperationRequest> parser() {
+    public static com.google.protobuf.Parser<ForgetOperationRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<DeleteOperationRequest> getParserForType() {
+    public com.google.protobuf.Parser<ForgetOperationRequest> getParserForType() {
       return PARSER;
     }
 
-    public tech.ydb.OperationProtos.DeleteOperationRequest getDefaultInstanceForType() {
+    public tech.ydb.OperationProtos.ForgetOperationRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface DeleteOperationResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Operations.DeleteOperationResponse)
+  public interface ForgetOperationResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Operations.ForgetOperationResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -3809,18 +3809,18 @@ public final class OperationProtos {
         int index);
   }
   /**
-   * Protobuf type {@code Ydb.Operations.DeleteOperationResponse}
+   * Protobuf type {@code Ydb.Operations.ForgetOperationResponse}
    */
-  public  static final class DeleteOperationResponse extends
+  public  static final class ForgetOperationResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Operations.DeleteOperationResponse)
-      DeleteOperationResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:Ydb.Operations.ForgetOperationResponse)
+      ForgetOperationResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use DeleteOperationResponse.newBuilder() to construct.
-    private DeleteOperationResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ForgetOperationResponse.newBuilder() to construct.
+    private ForgetOperationResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private DeleteOperationResponse() {
+    private ForgetOperationResponse() {
       status_ = 0;
       issues_ = java.util.Collections.emptyList();
     }
@@ -3830,7 +3830,7 @@ public final class OperationProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private DeleteOperationResponse(
+    private ForgetOperationResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3885,14 +3885,14 @@ public final class OperationProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return tech.ydb.OperationProtos.internal_static_Ydb_Operations_DeleteOperationResponse_descriptor;
+      return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return tech.ydb.OperationProtos.internal_static_Ydb_Operations_DeleteOperationResponse_fieldAccessorTable
+      return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              tech.ydb.OperationProtos.DeleteOperationResponse.class, tech.ydb.OperationProtos.DeleteOperationResponse.Builder.class);
+              tech.ydb.OperationProtos.ForgetOperationResponse.class, tech.ydb.OperationProtos.ForgetOperationResponse.Builder.class);
     }
 
     private int bitField0_;
@@ -3991,10 +3991,10 @@ public final class OperationProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof tech.ydb.OperationProtos.DeleteOperationResponse)) {
+      if (!(obj instanceof tech.ydb.OperationProtos.ForgetOperationResponse)) {
         return super.equals(obj);
       }
-      tech.ydb.OperationProtos.DeleteOperationResponse other = (tech.ydb.OperationProtos.DeleteOperationResponse) obj;
+      tech.ydb.OperationProtos.ForgetOperationResponse other = (tech.ydb.OperationProtos.ForgetOperationResponse) obj;
 
       boolean result = true;
       result = result && status_ == other.status_;
@@ -4022,69 +4022,69 @@ public final class OperationProtos {
       return hash;
     }
 
-    public static tech.ydb.OperationProtos.DeleteOperationResponse parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationResponse parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationResponse parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationResponse parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationResponse parseFrom(byte[] data)
+    public static tech.ydb.OperationProtos.ForgetOperationResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationResponse parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationResponse parseFrom(java.io.InputStream input)
+    public static tech.ydb.OperationProtos.ForgetOperationResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationResponse parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationResponse parseDelimitedFrom(java.io.InputStream input)
+    public static tech.ydb.OperationProtos.ForgetOperationResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationResponse parseDelimitedFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationResponse parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.OperationProtos.DeleteOperationResponse parseFrom(
+    public static tech.ydb.OperationProtos.ForgetOperationResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -4096,7 +4096,7 @@ public final class OperationProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(tech.ydb.OperationProtos.DeleteOperationResponse prototype) {
+    public static Builder newBuilder(tech.ydb.OperationProtos.ForgetOperationResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -4111,25 +4111,25 @@ public final class OperationProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code Ydb.Operations.DeleteOperationResponse}
+     * Protobuf type {@code Ydb.Operations.ForgetOperationResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Operations.DeleteOperationResponse)
-        tech.ydb.OperationProtos.DeleteOperationResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Ydb.Operations.ForgetOperationResponse)
+        tech.ydb.OperationProtos.ForgetOperationResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_DeleteOperationResponse_descriptor;
+        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_DeleteOperationResponse_fieldAccessorTable
+        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.OperationProtos.DeleteOperationResponse.class, tech.ydb.OperationProtos.DeleteOperationResponse.Builder.class);
+                tech.ydb.OperationProtos.ForgetOperationResponse.class, tech.ydb.OperationProtos.ForgetOperationResponse.Builder.class);
       }
 
-      // Construct using tech.ydb.OperationProtos.DeleteOperationResponse.newBuilder()
+      // Construct using tech.ydb.OperationProtos.ForgetOperationResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -4160,23 +4160,23 @@ public final class OperationProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_DeleteOperationResponse_descriptor;
+        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationResponse_descriptor;
       }
 
-      public tech.ydb.OperationProtos.DeleteOperationResponse getDefaultInstanceForType() {
-        return tech.ydb.OperationProtos.DeleteOperationResponse.getDefaultInstance();
+      public tech.ydb.OperationProtos.ForgetOperationResponse getDefaultInstanceForType() {
+        return tech.ydb.OperationProtos.ForgetOperationResponse.getDefaultInstance();
       }
 
-      public tech.ydb.OperationProtos.DeleteOperationResponse build() {
-        tech.ydb.OperationProtos.DeleteOperationResponse result = buildPartial();
+      public tech.ydb.OperationProtos.ForgetOperationResponse build() {
+        tech.ydb.OperationProtos.ForgetOperationResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public tech.ydb.OperationProtos.DeleteOperationResponse buildPartial() {
-        tech.ydb.OperationProtos.DeleteOperationResponse result = new tech.ydb.OperationProtos.DeleteOperationResponse(this);
+      public tech.ydb.OperationProtos.ForgetOperationResponse buildPartial() {
+        tech.ydb.OperationProtos.ForgetOperationResponse result = new tech.ydb.OperationProtos.ForgetOperationResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.status_ = status_;
@@ -4221,16 +4221,16 @@ public final class OperationProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.OperationProtos.DeleteOperationResponse) {
-          return mergeFrom((tech.ydb.OperationProtos.DeleteOperationResponse)other);
+        if (other instanceof tech.ydb.OperationProtos.ForgetOperationResponse) {
+          return mergeFrom((tech.ydb.OperationProtos.ForgetOperationResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(tech.ydb.OperationProtos.DeleteOperationResponse other) {
-        if (other == tech.ydb.OperationProtos.DeleteOperationResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(tech.ydb.OperationProtos.ForgetOperationResponse other) {
+        if (other == tech.ydb.OperationProtos.ForgetOperationResponse.getDefaultInstance()) return this;
         if (other.status_ != 0) {
           setStatusValue(other.getStatusValue());
         }
@@ -4273,11 +4273,11 @@ public final class OperationProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        tech.ydb.OperationProtos.DeleteOperationResponse parsedMessage = null;
+        tech.ydb.OperationProtos.ForgetOperationResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.OperationProtos.DeleteOperationResponse) e.getUnfinishedMessage();
+          parsedMessage = (tech.ydb.OperationProtos.ForgetOperationResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -4582,39 +4582,39 @@ public final class OperationProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Ydb.Operations.DeleteOperationResponse)
+      // @@protoc_insertion_point(builder_scope:Ydb.Operations.ForgetOperationResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:Ydb.Operations.DeleteOperationResponse)
-    private static final tech.ydb.OperationProtos.DeleteOperationResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Ydb.Operations.ForgetOperationResponse)
+    private static final tech.ydb.OperationProtos.ForgetOperationResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new tech.ydb.OperationProtos.DeleteOperationResponse();
+      DEFAULT_INSTANCE = new tech.ydb.OperationProtos.ForgetOperationResponse();
     }
 
-    public static tech.ydb.OperationProtos.DeleteOperationResponse getDefaultInstance() {
+    public static tech.ydb.OperationProtos.ForgetOperationResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<DeleteOperationResponse>
-        PARSER = new com.google.protobuf.AbstractParser<DeleteOperationResponse>() {
-      public DeleteOperationResponse parsePartialFrom(
+    private static final com.google.protobuf.Parser<ForgetOperationResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ForgetOperationResponse>() {
+      public ForgetOperationResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DeleteOperationResponse(input, extensionRegistry);
+          return new ForgetOperationResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<DeleteOperationResponse> parser() {
+    public static com.google.protobuf.Parser<ForgetOperationResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<DeleteOperationResponse> getParserForType() {
+    public com.google.protobuf.Parser<ForgetOperationResponse> getParserForType() {
       return PARSER;
     }
 
-    public tech.ydb.OperationProtos.DeleteOperationResponse getDefaultInstanceForType() {
+    public tech.ydb.OperationProtos.ForgetOperationResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -8730,15 +8730,15 @@ public final class OperationProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Operations_CancelOperationRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Operations_DeleteOperationRequest_descriptor;
+    internal_static_Ydb_Operations_ForgetOperationRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Operations_DeleteOperationRequest_fieldAccessorTable;
+      internal_static_Ydb_Operations_ForgetOperationRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Operations_DeleteOperationResponse_descriptor;
+    internal_static_Ydb_Operations_ForgetOperationResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Operations_DeleteOperationResponse_fieldAccessorTable;
+      internal_static_Ydb_Operations_ForgetOperationResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Operations_OperationsFilter_descriptor;
   private static final 
@@ -8786,8 +8786,8 @@ public final class OperationProtos {
       "perationRequest\022\n\n\002id\030\001 \001(\t\"D\n\024GetOperat" +
       "ionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
       "rations.Operation\"$\n\026CancelOperationRequ" +
-      "est\022\n\n\002id\030\001 \001(\t\"$\n\026DeleteOperationReques" +
-      "t\022\n\n\002id\030\001 \001(\t\"m\n\027DeleteOperationResponse",
+      "est\022\n\n\002id\030\001 \001(\t\"$\n\026ForgetOperationReques" +
+      "t\022\n\n\002id\030\001 \001(\t\"m\n\027ForgetOperationResponse",
       "\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.StatusC" +
       "ode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMes" +
       "sage\"/\n\020OperationsFilter\022\014\n\004name\030\001 \001(\t\022\r" +
@@ -8850,17 +8850,17 @@ public final class OperationProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_CancelOperationRequest_descriptor,
         new java.lang.String[] { "Id", });
-    internal_static_Ydb_Operations_DeleteOperationRequest_descriptor =
+    internal_static_Ydb_Operations_ForgetOperationRequest_descriptor =
       getDescriptor().getMessageTypes().get(4);
-    internal_static_Ydb_Operations_DeleteOperationRequest_fieldAccessorTable = new
+    internal_static_Ydb_Operations_ForgetOperationRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Operations_DeleteOperationRequest_descriptor,
+        internal_static_Ydb_Operations_ForgetOperationRequest_descriptor,
         new java.lang.String[] { "Id", });
-    internal_static_Ydb_Operations_DeleteOperationResponse_descriptor =
+    internal_static_Ydb_Operations_ForgetOperationResponse_descriptor =
       getDescriptor().getMessageTypes().get(5);
-    internal_static_Ydb_Operations_DeleteOperationResponse_fieldAccessorTable = new
+    internal_static_Ydb_Operations_ForgetOperationResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Operations_DeleteOperationResponse_descriptor,
+        internal_static_Ydb_Operations_ForgetOperationResponse_descriptor,
         new java.lang.String[] { "Status", "Issues", });
     internal_static_Ydb_Operations_OperationsFilter_descriptor =
       getDescriptor().getMessageTypes().get(6);
