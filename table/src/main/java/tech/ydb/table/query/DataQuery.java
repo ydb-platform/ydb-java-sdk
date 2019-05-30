@@ -1,5 +1,6 @@
 package tech.ydb.table.query;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.core.Result;
@@ -15,6 +16,8 @@ public interface DataQuery {
     String getId();
 
     Params.KnownTypes newParams();
+
+    Optional<String> getText();
 
     CompletableFuture<Result<DataQueryResult>> execute(
         TxControl txControl, Params params, ExecuteDataQuerySettings settings);

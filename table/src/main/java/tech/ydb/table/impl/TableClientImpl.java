@@ -23,12 +23,18 @@ final class TableClientImpl implements TableClient {
     private final SessionPool sessionPool;
     private final OperationTray operationTray;
 
+    private final int queryCacheSize;
+    private final boolean keepQueryText;
+
     TableClientImpl(TableClientBuilderImpl builder) {
         this.tableRpc = builder.tableRpc;
         this.sessionPool = builder.sessionPoolOptions.getMaxSize() != 0
             ? new SessionPool(this, builder.sessionPoolOptions)
             : null;
         this.operationTray = tableRpc.getOperationTray();
+
+        this.queryCacheSize = builder.queryCacheSize;
+        this.keepQueryText = builder.keepQueryText;
     }
 
     @Override
@@ -48,7 +54,7 @@ final class TableClientImpl implements TableClient {
                 return operationTray.waitResult(
                     response.expect("createSession()").getOperation(),
                     YdbTable.CreateSessionResult.class,
-                    result -> new SessionImpl(result.getSessionId(), tableRpc, sessionPool));
+                    result -> new SessionImpl(result.getSessionId(), tableRpc, sessionPool, queryCacheSize, keepQueryText));
             });
     }
 

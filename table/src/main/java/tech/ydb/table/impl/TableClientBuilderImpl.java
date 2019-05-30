@@ -15,6 +15,7 @@ public class TableClientBuilderImpl implements TableClient.Builder {
 
     protected final TableRpc tableRpc;
     protected int queryCacheSize = 1000;
+    protected boolean keepQueryText = true;
     protected SessionPoolOptions sessionPoolOptions = SessionPoolOptions.DEFAULT;
 
     public TableClientBuilderImpl(TableRpc tableRpc) {
@@ -25,6 +26,12 @@ public class TableClientBuilderImpl implements TableClient.Builder {
     public TableClient.Builder queryCacheSize(int size) {
         checkArgument(size >= 0, "queryCacheSize(%d) is negative", size);
         this.queryCacheSize = size;
+        return this;
+    }
+
+    @Override
+    public TableClient.Builder keepQueryText(boolean keep) {
+        this.keepQueryText = keep;
         return this;
     }
 

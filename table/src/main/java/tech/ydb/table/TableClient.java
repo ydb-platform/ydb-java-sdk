@@ -44,6 +44,8 @@ public interface TableClient extends AutoCloseable {
 
         Builder queryCacheSize(int size);
 
+        Builder keepQueryText(boolean keep);
+
         Builder sessionPoolSize(int minSize, int maxSize);
 
         Builder sessionKeepAliveTime(long time, TimeUnit timeUnit);

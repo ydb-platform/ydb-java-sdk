@@ -1,10 +1,12 @@
 package tech.ydb.table.impl;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 import javax.annotation.Nullable;
 
+import tech.ydb.ValueProtos;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -62,14 +64,19 @@ class SessionImpl implements Session {
     private final OperationTray operationTray;
     @Nullable
     private final SessionPool sessionPool;
+    @Nullable
+    private final QueryCache queryCache;
+    private final boolean keepQueryText;
 
     private volatile State state = State.ACTIVE;
 
-    SessionImpl(String id, TableRpc tableRpc, SessionPool sessionPool) {
+    SessionImpl(String id, TableRpc tableRpc, SessionPool sessionPool, int queryCacheSize, boolean keepQueryText) {
         this.id = id;
         this.tableRpc = tableRpc;
         this.operationTray = tableRpc.getOperationTray();
         this.sessionPool = sessionPool;
+        this.queryCache = (queryCacheSize > 0) ? new QueryCache(queryCacheSize) : null;
+        this.keepQueryText = keepQueryText;
     }
 
     @Override
@@ -280,14 +287,31 @@ class SessionImpl implements Session {
     public CompletableFuture<Result<DataQueryResult>> executeDataQuery(
         String query, TxControl txControl, Params params, ExecuteDataQuerySettings settings)
     {
-        YdbTable.ExecuteDataQueryRequest request = YdbTable.ExecuteDataQueryRequest.newBuilder()
+        if (queryCache != null) {
+            DataQueryImpl dataQuery = queryCache.find(query);
+            if (dataQuery != null) {
+                return dataQuery.execute(txControl, params, settings)
+                    .whenComplete((r, t) -> {
+                        if (r.getCode() == StatusCode.NOT_FOUND) {
+                            queryCache.remove(dataQuery);
+                        }
+                    });
+            }
+        }
+
+        YdbTable.ExecuteDataQueryRequest.Builder request = YdbTable.ExecuteDataQueryRequest.newBuilder()
             .setSessionId(id)
             .setTxControl(txControl.toPb())
             .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
-            .putAllParameters(params.toPb())
-            .build();
+            .putAllParameters(params.toPb());
 
-        return interceptResult(tableRpc.executeDataQuery(request)
+        boolean keepInQueryCache = settings.isKeepInQueryCache();
+        if (queryCache != null && keepInQueryCache) {
+            request.getQueryCachePolicyBuilder()
+                .setKeepInCache(true);
+        }
+
+        return interceptResult(tableRpc.executeDataQuery(request.build())
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -295,17 +319,28 @@ class SessionImpl implements Session {
                 return operationTray.waitResult(
                     response.expect("executeDataQuery()").getOperation(),
                     YdbTable.ExecuteQueryResult.class,
-                    SessionImpl::mapExecuteDataQuery);
+                    result -> mapExecuteDataQuery(result, query, keepInQueryCache));
             }));
     }
 
-    private static DataQueryResult mapExecuteDataQuery(YdbTable.ExecuteQueryResult result) {
+    private DataQueryResult mapExecuteDataQuery(
+        YdbTable.ExecuteQueryResult result,
+        @Nullable String queryText,
+        boolean keepInQueryCache)
+    {
+        if (keepInQueryCache && result.hasQueryMeta() && queryText != null) {
+            assert queryCache != null;
+            String queryId = result.getQueryMeta().getId();
+            Map<String, ValueProtos.Type> types = result.getQueryMeta().getParametersTypesMap();
+            queryCache.put(new DataQueryImpl(this, queryId, queryText, keepQueryText, types));
+        }
+
         YdbTable.TransactionMeta txMeta = result.getTxMeta();
         return new DataQueryResult(txMeta.getId(), result.getResultSetsList());
     }
 
     CompletableFuture<Result<DataQueryResult>> executePreparedDataQuery(
-        String queryId, TxControl txControl, Params params, ExecuteDataQuerySettings settings)
+        String queryId, @Nullable String queryText, TxControl txControl, Params params, ExecuteDataQuerySettings settings)
     {
         YdbTable.ExecuteDataQueryRequest.Builder request = YdbTable.ExecuteDataQueryRequest.newBuilder()
             .setSessionId(id)
@@ -313,6 +348,12 @@ class SessionImpl implements Session {
 
         request.getQueryBuilder().setId(queryId);
         request.putAllParameters(params.toPb());
+
+        boolean keepInQueryCache = (queryCache != null) && settings.isKeepInQueryCache();
+        if (keepInQueryCache) {
+            request.getQueryCachePolicyBuilder()
+                .setKeepInCache(true);
+        }
 
         return interceptResult(tableRpc.executeDataQuery(request.build())
             .thenCompose(response -> {
@@ -322,18 +363,19 @@ class SessionImpl implements Session {
                 return tableRpc.getOperationTray().waitResult(
                     response.expect("executeDataQuery()").getOperation(),
                     YdbTable.ExecuteQueryResult.class,
-                    SessionImpl::mapExecuteDataQuery);
+                    result -> mapExecuteDataQuery(result, queryText, keepInQueryCache));
             }));
     }
 
     @Override
     public CompletableFuture<Result<DataQuery>> prepareDataQuery(String query, PrepareDataQuerySettings settings) {
-        YdbTable.PrepareDataQueryRequest request = YdbTable.PrepareDataQueryRequest.newBuilder()
+        YdbTable.PrepareDataQueryRequest.Builder request = YdbTable.PrepareDataQueryRequest.newBuilder()
             .setSessionId(id)
-            .setYqlText(query)
-            .build();
+            .setYqlText(query);
 
-        return interceptResult(tableRpc.prepareDataQuery(request)
+        boolean keepInQueryCache = (queryCache != null) && settings.isKeepInQueryCache();
+
+        return interceptResult(tableRpc.prepareDataQuery(request.build())
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -341,7 +383,15 @@ class SessionImpl implements Session {
                 return operationTray.waitResult(
                     response.expect("prepareDataQuery()").getOperation(),
                     YdbTable.PrepareQueryResult.class,
-                    result -> new DataQueryImpl(this, result.getQueryId(), result.getParametersTypesMap()));
+                    result -> {
+                        String queryId = result.getQueryId();
+                        Map<String, ValueProtos.Type> types = result.getParametersTypesMap();
+                        DataQueryImpl dataQuery = new DataQueryImpl(this, queryId, query, keepQueryText, types);
+                        if (keepInQueryCache) {
+                            queryCache.put(dataQuery);
+                        }
+                        return dataQuery;
+                    });
             }));
     }
 
@@ -458,6 +508,13 @@ class SessionImpl implements Session {
             case SESSION_STATUS_READY: return SessionStatus.READY;
         }
         throw new IllegalStateException("unknown session status: " + result.getSessionStatus());
+    }
+
+    @Override
+    public void invalidateQueryCache() {
+        if (queryCache != null) {
+            queryCache.clear();
+        }
     }
 
     @Override
