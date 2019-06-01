@@ -161,6 +161,10 @@ public final class StatusCodesProtos {
        * <code>CANCELLED = 400160;</code>
        */
       CANCELLED(400160),
+      /**
+       * <code>UNDETERMINED = 400170;</code>
+       */
+      UNDETERMINED(400170),
       UNRECOGNIZED(-1),
       ;
 
@@ -232,6 +236,10 @@ public final class StatusCodesProtos {
        * <code>CANCELLED = 400160;</code>
        */
       public static final int CANCELLED_VALUE = 400160;
+      /**
+       * <code>UNDETERMINED = 400170;</code>
+       */
+      public static final int UNDETERMINED_VALUE = 400170;
 
 
       public final int getNumber() {
@@ -269,6 +277,7 @@ public final class StatusCodesProtos {
           case 400140: return NOT_FOUND;
           case 400150: return SESSION_EXPIRED;
           case 400160: return CANCELLED;
+          case 400170: return UNDETERMINED;
           default: return null;
         }
       }
@@ -650,7 +659,7 @@ public final class StatusCodesProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n/kikimr/public/api/protos/ydb_status_co" +
-      "des.proto\022\003Ydb\"\354\002\n\tStatusIds\"\336\002\n\nStatusC" +
+      "des.proto\022\003Ydb\"\200\003\n\tStatusIds\"\362\002\n\nStatusC" +
       "ode\022\033\n\027STATUS_CODE_UNSPECIFIED\020\000\022\r\n\007SUCC" +
       "ESS\020\200\265\030\022\021\n\013BAD_REQUEST\020\212\265\030\022\022\n\014UNAUTHORIZ" +
       "ED\020\224\265\030\022\024\n\016INTERNAL_ERROR\020\236\265\030\022\r\n\007ABORTED\020" +
@@ -659,8 +668,9 @@ public final class StatusCodesProtos {
       "\030\022\r\n\007TIMEOUT\020\332\265\030\022\021\n\013BAD_SESSION\020\344\265\030\022\031\n\023P" +
       "RECONDITION_FAILED\020\370\265\030\022\024\n\016ALREADY_EXISTS" +
       "\020\202\266\030\022\017\n\tNOT_FOUND\020\214\266\030\022\025\n\017SESSION_EXPIRED",
-      "\020\226\266\030\022\017\n\tCANCELLED\020\240\266\030B#\n\016tech.ydbB" +
-      "\021StatusCodesProtosb\006proto3"
+      "\020\226\266\030\022\017\n\tCANCELLED\020\240\266\030\022\022\n\014UNDETERMINED\020\252\266" +
+      "\030B#\n\016tech.ydbB\021StatusCodesProtosb\006" +
+      "proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
