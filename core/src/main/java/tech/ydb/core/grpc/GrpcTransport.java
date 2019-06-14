@@ -32,7 +32,6 @@ import io.grpc.Status;
 import io.grpc.netty.NegotiationType;
 import io.grpc.netty.NettyChannelBuilder;
 import io.grpc.stub.MetadataUtils;
-import io.grpc.util.RoundRobinLoadBalancerFactory;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelOption;
 
@@ -101,7 +100,7 @@ public class GrpcTransport implements RpcTransport {
             .maxInboundMessageSize(64 << 20) // 64 MiB
             .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
             .nameResolverFactory(HostsNameResolver.newFactory(hosts))
-            .loadBalancerFactory(RoundRobinLoadBalancerFactory.getInstance());
+            .defaultLoadBalancingPolicy("round_robin");
     }
 
     private static NettyChannelBuilder createChannel(String endpoint, String database, AuthProvider authProvider) {
@@ -110,7 +109,7 @@ public class GrpcTransport implements RpcTransport {
             .maxInboundMessageSize(64 << 20) // 64 MiB
             .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
             .nameResolverFactory(YdbNameResolver.newFactory(authProvider))
-            .loadBalancerFactory(RoundRobinLoadBalancerFactory.getInstance());
+            .defaultLoadBalancingPolicy("round_robin");
     }
 
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
