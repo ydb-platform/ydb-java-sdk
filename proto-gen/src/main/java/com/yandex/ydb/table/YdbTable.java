@@ -1254,7 +1254,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -1262,7 +1262,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -1348,7 +1348,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -1367,7 +1367,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -1672,7 +1672,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -1691,7 +1691,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -1711,7 +1711,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -1728,7 +1728,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -1741,7 +1741,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -1812,7 +1812,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -1820,7 +1820,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -1936,7 +1936,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -1955,7 +1955,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -2315,7 +2315,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -2334,7 +2334,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -2354,7 +2354,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -2371,7 +2371,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -2384,7 +2384,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -13688,7 +13688,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -13696,7 +13696,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -14034,7 +14034,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -14053,7 +14053,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -14834,7 +14834,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -14853,7 +14853,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -14873,7 +14873,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -14890,7 +14890,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -14903,7 +14903,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -16666,7 +16666,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -16674,7 +16674,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -16815,7 +16815,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -16834,7 +16834,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -17253,7 +17253,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -17272,7 +17272,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -17292,7 +17292,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -17309,7 +17309,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -17322,7 +17322,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -18178,7 +18178,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -18186,7 +18186,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -18433,7 +18433,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -18452,7 +18452,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -19064,7 +19064,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -19083,7 +19083,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -19103,7 +19103,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -19120,7 +19120,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -19133,7 +19133,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -20431,7 +20431,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -20439,7 +20439,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -20605,7 +20605,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -20624,7 +20624,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -21102,7 +21102,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -21121,7 +21121,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -21141,7 +21141,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -21158,7 +21158,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -21171,7 +21171,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -22944,7 +22944,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 2;</code>
@@ -22952,7 +22952,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 2;</code>
@@ -23134,7 +23134,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 2;</code>
@@ -23153,7 +23153,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 2;</code>
@@ -23723,7 +23723,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 2;</code>
@@ -23742,7 +23742,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 2;</code>
@@ -23762,7 +23762,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 2;</code>
@@ -23779,7 +23779,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 2;</code>
@@ -23792,7 +23792,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 2;</code>
@@ -24754,7 +24754,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -24762,7 +24762,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -24918,7 +24918,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -24937,7 +24937,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -25387,7 +25387,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -25406,7 +25406,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -25426,7 +25426,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -25443,7 +25443,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -25456,7 +25456,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -33275,7 +33275,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -33283,7 +33283,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -33695,7 +33695,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -33714,7 +33714,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -34400,7 +34400,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -34419,7 +34419,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -34439,7 +34439,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -34456,7 +34456,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -34469,7 +34469,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -35782,7 +35782,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -35790,7 +35790,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -35927,7 +35927,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -35946,7 +35946,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -36361,7 +36361,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -36380,7 +36380,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -36400,7 +36400,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -36417,7 +36417,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -36430,7 +36430,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -37286,7 +37286,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Transaction identificator
+     * Transaction identifier
      * </pre>
      *
      * <code>string id = 1;</code>
@@ -37294,7 +37294,7 @@ public final class YdbTable {
     java.lang.String getId();
     /**
      * <pre>
-     * Transaction identificator
+     * Transaction identifier
      * </pre>
      *
      * <code>string id = 1;</code>
@@ -37384,7 +37384,7 @@ public final class YdbTable {
     private volatile java.lang.Object id_;
     /**
      * <pre>
-     * Transaction identificator
+     * Transaction identifier
      * </pre>
      *
      * <code>string id = 1;</code>
@@ -37403,7 +37403,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Transaction identificator
+     * Transaction identifier
      * </pre>
      *
      * <code>string id = 1;</code>
@@ -37712,7 +37712,7 @@ public final class YdbTable {
       private java.lang.Object id_ = "";
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string id = 1;</code>
@@ -37731,7 +37731,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string id = 1;</code>
@@ -37751,7 +37751,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string id = 1;</code>
@@ -37768,7 +37768,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string id = 1;</code>
@@ -37781,7 +37781,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string id = 1;</code>
@@ -37852,7 +37852,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Query identificator
+     * Query identifier
      * </pre>
      *
      * <code>string id = 1;</code>
@@ -37860,7 +37860,7 @@ public final class YdbTable {
     java.lang.String getId();
     /**
      * <pre>
-     * Query identificator
+     * Query identifier
      * </pre>
      *
      * <code>string id = 1;</code>
@@ -38029,7 +38029,7 @@ public final class YdbTable {
     private volatile java.lang.Object id_;
     /**
      * <pre>
-     * Query identificator
+     * Query identifier
      * </pre>
      *
      * <code>string id = 1;</code>
@@ -38048,7 +38048,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Query identificator
+     * Query identifier
      * </pre>
      *
      * <code>string id = 1;</code>
@@ -38502,7 +38502,7 @@ public final class YdbTable {
       private java.lang.Object id_ = "";
       /**
        * <pre>
-       * Query identificator
+       * Query identifier
        * </pre>
        *
        * <code>string id = 1;</code>
@@ -38521,7 +38521,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Query identificator
+       * Query identifier
        * </pre>
        *
        * <code>string id = 1;</code>
@@ -38541,7 +38541,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Query identificator
+       * Query identifier
        * </pre>
        *
        * <code>string id = 1;</code>
@@ -38558,7 +38558,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Query identificator
+       * Query identifier
        * </pre>
        *
        * <code>string id = 1;</code>
@@ -38571,7 +38571,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Query identificator
+       * Query identifier
        * </pre>
        *
        * <code>string id = 1;</code>
@@ -38837,7 +38837,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Transaction metainformation
+     * Transaction metadata
      * </pre>
      *
      * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -38845,7 +38845,7 @@ public final class YdbTable {
     boolean hasTxMeta();
     /**
      * <pre>
-     * Transaction metainformation
+     * Transaction metadata
      * </pre>
      *
      * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -38853,7 +38853,7 @@ public final class YdbTable {
     tech.ydb.table.YdbTable.TransactionMeta getTxMeta();
     /**
      * <pre>
-     * Transaction metainformation
+     * Transaction metadata
      * </pre>
      *
      * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -38862,7 +38862,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Query metainformation
+     * Query metadata
      * </pre>
      *
      * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -38870,7 +38870,7 @@ public final class YdbTable {
     boolean hasQueryMeta();
     /**
      * <pre>
-     * Query metainformation
+     * Query metadata
      * </pre>
      *
      * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -38878,7 +38878,7 @@ public final class YdbTable {
     tech.ydb.table.YdbTable.QueryMeta getQueryMeta();
     /**
      * <pre>
-     * Query metainformation
+     * Query metadata
      * </pre>
      *
      * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -39093,7 +39093,7 @@ public final class YdbTable {
     private tech.ydb.table.YdbTable.TransactionMeta txMeta_;
     /**
      * <pre>
-     * Transaction metainformation
+     * Transaction metadata
      * </pre>
      *
      * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -39103,7 +39103,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Transaction metainformation
+     * Transaction metadata
      * </pre>
      *
      * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -39113,7 +39113,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Transaction metainformation
+     * Transaction metadata
      * </pre>
      *
      * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -39126,7 +39126,7 @@ public final class YdbTable {
     private tech.ydb.table.YdbTable.QueryMeta queryMeta_;
     /**
      * <pre>
-     * Query metainformation
+     * Query metadata
      * </pre>
      *
      * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -39136,7 +39136,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Query metainformation
+     * Query metadata
      * </pre>
      *
      * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -39146,7 +39146,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Query metainformation
+     * Query metadata
      * </pre>
      *
      * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -39924,7 +39924,7 @@ public final class YdbTable {
           tech.ydb.table.YdbTable.TransactionMeta, tech.ydb.table.YdbTable.TransactionMeta.Builder, tech.ydb.table.YdbTable.TransactionMetaOrBuilder> txMetaBuilder_;
       /**
        * <pre>
-       * Transaction metainformation
+       * Transaction metadata
        * </pre>
        *
        * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -39934,7 +39934,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction metainformation
+       * Transaction metadata
        * </pre>
        *
        * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -39948,7 +39948,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction metainformation
+       * Transaction metadata
        * </pre>
        *
        * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -39968,7 +39968,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction metainformation
+       * Transaction metadata
        * </pre>
        *
        * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -39986,7 +39986,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction metainformation
+       * Transaction metadata
        * </pre>
        *
        * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -40008,7 +40008,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction metainformation
+       * Transaction metadata
        * </pre>
        *
        * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -40026,7 +40026,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction metainformation
+       * Transaction metadata
        * </pre>
        *
        * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -40038,7 +40038,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction metainformation
+       * Transaction metadata
        * </pre>
        *
        * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -40053,7 +40053,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction metainformation
+       * Transaction metadata
        * </pre>
        *
        * <code>.Ydb.Table.TransactionMeta tx_meta = 2;</code>
@@ -40077,7 +40077,7 @@ public final class YdbTable {
           tech.ydb.table.YdbTable.QueryMeta, tech.ydb.table.YdbTable.QueryMeta.Builder, tech.ydb.table.YdbTable.QueryMetaOrBuilder> queryMetaBuilder_;
       /**
        * <pre>
-       * Query metainformation
+       * Query metadata
        * </pre>
        *
        * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -40087,7 +40087,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Query metainformation
+       * Query metadata
        * </pre>
        *
        * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -40101,7 +40101,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Query metainformation
+       * Query metadata
        * </pre>
        *
        * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -40121,7 +40121,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Query metainformation
+       * Query metadata
        * </pre>
        *
        * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -40139,7 +40139,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Query metainformation
+       * Query metadata
        * </pre>
        *
        * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -40161,7 +40161,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Query metainformation
+       * Query metadata
        * </pre>
        *
        * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -40179,7 +40179,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Query metainformation
+       * Query metadata
        * </pre>
        *
        * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -40191,7 +40191,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Query metainformation
+       * Query metadata
        * </pre>
        *
        * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -40206,7 +40206,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Query metainformation
+       * Query metadata
        * </pre>
        *
        * <code>.Ydb.Table.QueryMeta query_meta = 3;</code>
@@ -40432,7 +40432,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -40440,7 +40440,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -40581,7 +40581,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -40600,7 +40600,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -41019,7 +41019,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -41038,7 +41038,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -41058,7 +41058,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -41075,7 +41075,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -41088,7 +41088,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -42663,7 +42663,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -42671,7 +42671,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -42812,7 +42812,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -42831,7 +42831,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -43250,7 +43250,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -43269,7 +43269,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -43289,7 +43289,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -43306,7 +43306,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -43319,7 +43319,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -45168,7 +45168,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -45176,7 +45176,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -45292,7 +45292,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -45311,7 +45311,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -45671,7 +45671,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -45690,7 +45690,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -45710,7 +45710,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -45727,7 +45727,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -45740,7 +45740,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -47091,7 +47091,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -47099,7 +47099,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -47241,7 +47241,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -47260,7 +47260,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -47671,7 +47671,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -47690,7 +47690,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -47710,7 +47710,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -47727,7 +47727,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -47740,7 +47740,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -49263,7 +49263,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -49271,7 +49271,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -49281,7 +49281,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Transaction identificator
+     * Transaction identifier
      * </pre>
      *
      * <code>string tx_id = 2;</code>
@@ -49289,7 +49289,7 @@ public final class YdbTable {
     java.lang.String getTxId();
     /**
      * <pre>
-     * Transaction identificator
+     * Transaction identifier
      * </pre>
      *
      * <code>string tx_id = 2;</code>
@@ -49412,7 +49412,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -49431,7 +49431,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -49454,7 +49454,7 @@ public final class YdbTable {
     private volatile java.lang.Object txId_;
     /**
      * <pre>
-     * Transaction identificator
+     * Transaction identifier
      * </pre>
      *
      * <code>string tx_id = 2;</code>
@@ -49473,7 +49473,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Transaction identificator
+     * Transaction identifier
      * </pre>
      *
      * <code>string tx_id = 2;</code>
@@ -49850,7 +49850,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -49869,7 +49869,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -49889,7 +49889,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -49906,7 +49906,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -49919,7 +49919,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -49939,7 +49939,7 @@ public final class YdbTable {
       private java.lang.Object txId_ = "";
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string tx_id = 2;</code>
@@ -49958,7 +49958,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string tx_id = 2;</code>
@@ -49978,7 +49978,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string tx_id = 2;</code>
@@ -49995,7 +49995,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string tx_id = 2;</code>
@@ -50008,7 +50008,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string tx_id = 2;</code>
@@ -50775,7 +50775,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -50783,7 +50783,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -50793,7 +50793,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Transaction identificator
+     * Transaction identifier
      * </pre>
      *
      * <code>string tx_id = 2;</code>
@@ -50801,7 +50801,7 @@ public final class YdbTable {
     java.lang.String getTxId();
     /**
      * <pre>
-     * Transaction identificator
+     * Transaction identifier
      * </pre>
      *
      * <code>string tx_id = 2;</code>
@@ -50924,7 +50924,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -50943,7 +50943,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -50966,7 +50966,7 @@ public final class YdbTable {
     private volatile java.lang.Object txId_;
     /**
      * <pre>
-     * Transaction identificator
+     * Transaction identifier
      * </pre>
      *
      * <code>string tx_id = 2;</code>
@@ -50985,7 +50985,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Transaction identificator
+     * Transaction identifier
      * </pre>
      *
      * <code>string tx_id = 2;</code>
@@ -51362,7 +51362,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -51381,7 +51381,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -51401,7 +51401,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -51418,7 +51418,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -51431,7 +51431,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -51451,7 +51451,7 @@ public final class YdbTable {
       private java.lang.Object txId_ = "";
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string tx_id = 2;</code>
@@ -51470,7 +51470,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string tx_id = 2;</code>
@@ -51490,7 +51490,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string tx_id = 2;</code>
@@ -51507,7 +51507,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string tx_id = 2;</code>
@@ -51520,7 +51520,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Transaction identificator
+       * Transaction identifier
        * </pre>
        *
        * <code>string tx_id = 2;</code>
@@ -65881,7 +65881,7 @@ public final class YdbTable {
 
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -65889,7 +65889,7 @@ public final class YdbTable {
     java.lang.String getSessionId();
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -66121,7 +66121,7 @@ public final class YdbTable {
     private volatile java.lang.Object sessionId_;
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -66140,7 +66140,7 @@ public final class YdbTable {
     }
     /**
      * <pre>
-     * Session identificator
+     * Session identifier
      * </pre>
      *
      * <code>string session_id = 1;</code>
@@ -66716,7 +66716,7 @@ public final class YdbTable {
       private java.lang.Object sessionId_ = "";
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -66735,7 +66735,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -66755,7 +66755,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -66772,7 +66772,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
@@ -66785,7 +66785,7 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * Session identificator
+       * Session identifier
        * </pre>
        *
        * <code>string session_id = 1;</code>
