@@ -1,12 +1,17 @@
 package tech.ydb.table.impl;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.hash.Hashing;
 import tech.ydb.ValueProtos;
@@ -17,7 +22,10 @@ import tech.ydb.table.query.Params;
 import tech.ydb.table.settings.ExecuteDataQuerySettings;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.Type;
+import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 
 /**
@@ -68,8 +76,8 @@ final class DataQueryImpl implements DataQuery {
     }
 
     @Override
-    public Params.KnownTypes newParams() {
-        return Params.withKnownTypes(types, typesPb);
+    public Params newParams() {
+        return new DataQueryParams(types, typesPb);
     }
 
     @Override
@@ -86,5 +94,50 @@ final class DataQueryImpl implements DataQuery {
         TxControl txControl, Params params, ExecuteDataQuerySettings settings)
     {
         return session.executePreparedDataQuery(queryId, text, txControl, params, settings);
+    }
+
+    /**
+     * Special implementation of the {@link Params} interface that will check
+     * types of all values added to this container and reuses known in data query
+     * protobuf {@link tech.ydb.ValueProtos.TypedValue} objects.
+     */
+    @ParametersAreNonnullByDefault
+    static final class DataQueryParams implements Params {
+        private final ImmutableMap<String, Type> types;
+        private final ImmutableMap<String, ValueProtos.Type> typesPb;
+        private final HashMap<String, ValueProtos.TypedValue> params;
+
+        DataQueryParams(ImmutableMap<String, Type> types, ImmutableMap<String, ValueProtos.Type> typesPb) {
+            this.types = types;
+            this.typesPb = typesPb;
+            this.params = new HashMap<>(types.size());
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return params.isEmpty();
+        }
+
+        @Override
+        public <T extends Type> Params put(String name, Value<T> value) {
+            Type type = types.get(name);
+            checkArgument(type != null, "unknown parameter: %s", name);
+            checkArgument(type.equals(value.getType()), "types mismatch: expected %s, got %s", type, value.getType());
+
+            ValueProtos.Type typePb = Objects.requireNonNull(typesPb.get(name));
+            ValueProtos.TypedValue valuePb = ValueProtos.TypedValue.newBuilder()
+                .setType(typePb)
+                .setValue(value.toPb())
+                .build();
+
+            ValueProtos.TypedValue prev = params.putIfAbsent(name, valuePb);
+            Preconditions.checkArgument(prev == null, "duplicate parameter: %s", name);
+            return this;
+        }
+
+        @Override
+        public Map<String, ValueProtos.TypedValue> toPb() {
+            return Collections.unmodifiableMap(params);
+        }
     }
 }

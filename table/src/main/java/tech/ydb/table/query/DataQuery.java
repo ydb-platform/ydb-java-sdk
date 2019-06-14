@@ -15,7 +15,7 @@ public interface DataQuery {
 
     String getId();
 
-    Params.KnownTypes newParams();
+    Params newParams();
 
     Optional<String> getText();
 

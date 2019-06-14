@@ -1,142 +1,145 @@
 package tech.ydb.table.query;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-import com.google.common.collect.ImmutableMap;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import tech.ydb.ValueProtos;
-import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
-
-import static com.google.common.base.Preconditions.checkArgument;
+import tech.ydb.table.values.proto.ProtoValue;
 
 
 /**
  * @author Sergey Polovko
  */
-public abstract class Params {
+@ParametersAreNonnullByDefault
+public interface Params {
 
-    public abstract boolean isEmpty();
-
-    public abstract Map<String, ValueProtos.TypedValue> toPb();
-
-    public static Empty empty() {
-        return Empty.INSTANCE;
+    /**
+     * Returns an immutable implementation of {@link Params} with no parameters.
+     *
+     * @return an empty {@link Params}
+     */
+    static Params empty() {
+        return ParamsImmutableMap.EMPTY;
     }
 
-    public static UnknownTypes withUnknownTypes() {
-        return new UnknownTypes();
+    /**
+     * Returns a modifiable implementation of {@link Params} with no parameters.
+     *
+     * @return an empty {@link Params}
+     */
+    static Params create() {
+        return new ParamsMutableMap();
     }
 
-    public static KnownTypes withKnownTypes(
-        ImmutableMap<String, Type> types,
-        ImmutableMap<String, ValueProtos.Type> typesPb)
+    /**
+     * Returns an immutable implementation of {@link Params} with single parameter.
+     *
+     * @return non empty {@link Params} with single parameter
+     */
+    static Params of(String name, Value<?> value) {
+        return ParamsImmutableMap.create(name, value);
+    }
+
+    /**
+     * Returns an immutable implementation of {@link Params} with two parameters.
+     *
+     * @return non empty {@link Params} with two parameters
+     */
+    static Params of(String name1, Value<?> value1, String name2, Value<?> value2) {
+        return ParamsImmutableMap.create(name1, value1, name2, value2);
+    }
+
+    /**
+     * Returns an immutable implementation of {@link Params} with three parameters.
+     *
+     * @return non empty {@link Params} with three parameters
+     */
+    static Params of(
+        String name1, Value<?> value1,
+        String name2, Value<?> value2,
+        String name3, Value<?> value3)
     {
-        return new KnownTypes(types, typesPb);
-    }
-
-    public static KnownTypes withKnownTypes(ImmutableMap<String, Type> types) {
-        ImmutableMap.Builder<String, ValueProtos.Type> typesPb = new ImmutableMap.Builder<>();
-        for (Map.Entry<String, Type> e : types.entrySet()) {
-            typesPb.put(e.getKey(), e.getValue().toPb());
-        }
-        return new KnownTypes(types, typesPb.build());
+        return ParamsImmutableMap.create(name1, value1, name2, value2, name3, value3);
     }
 
     /**
-     * EMPTY
+     * Returns an immutable implementation of {@link Params} with four parameters.
+     *
+     * @return non empty {@link Params} with four parameters
      */
-    public static final class Empty extends Params {
-        private static final Empty INSTANCE = new Empty();
-
-        @Override
-        public boolean isEmpty() {
-            return true;
-        }
-
-        @Override
-        public Map<String, ValueProtos.TypedValue> toPb() {
-            return Collections.emptyMap();
-        }
+    static Params of(
+        String name1, Value<?> value1,
+        String name2, Value<?> value2,
+        String name3, Value<?> value3,
+        String name4, Value<?> value4)
+    {
+        return ParamsImmutableMap.create(name1, value1, name2, value2, name3, value3, name4, value4);
     }
 
     /**
-     * UNKNOWN TYPES
+     * Returns an immutable implementation of {@link Params} with five parameters.
+     *
+     * @return non empty {@link Params} with five parameters
      */
-    public static final class UnknownTypes extends Params {
-
-        private final Map<String, ValueProtos.TypedValue> params = new HashMap<>();
-
-        private UnknownTypes() {
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return params.isEmpty();
-        }
-
-        @Override
-        public Map<String, ValueProtos.TypedValue> toPb() {
-            return Collections.unmodifiableMap(params);
-        }
-
-        public <T extends Type> UnknownTypes put(String name, T type, Value<T> value) {
-            this.params.put(name, ValueProtos.TypedValue.newBuilder()
-                .setType(type.toPb())
-                .setValue(value.toPb())
-                .build());
-            return this;
-        }
-
-        public UnknownTypes put(String name, PrimitiveValue value) {
-            this.params.put(name, ValueProtos.TypedValue.newBuilder()
-                .setType(value.getType().toPb())
-                .setValue(value.toPb())
-                .build());
-            return this;
-        }
+    static Params of(
+        String name1, Value<?> value1,
+        String name2, Value<?> value2,
+        String name3, Value<?> value3,
+        String name4, Value<?> value4,
+        String name5, Value<?> value5)
+    {
+        return ParamsImmutableMap.create(name1, value1, name2, value2, name3, value3, name4, value4, name5, value5);
     }
 
     /**
-     * KNOWN TYPES
+     * Returns a mutable implementation of {@link Params} containing the same entries as given map.
+     *
+     * @param values    entries to be copied
+     * @return {@link Params} containing specified values
      */
-    public static final class KnownTypes extends Params {
-
-        private final ImmutableMap<String, Type> types;
-        private final ImmutableMap<String, ValueProtos.Type> typesPb;
-        private final Map<String, ValueProtos.TypedValue> params = new HashMap<>();
-
-        private KnownTypes(
-            ImmutableMap<String, Type> types,
-            ImmutableMap<String, ValueProtos.Type> typesPb)
-        {
-            this.types = types;
-            this.typesPb = typesPb;
+    static Params copyOf(Map<String, Value<?>> values) {
+        HashMap<String, ValueProtos.TypedValue> params = new HashMap<>(values.size());
+        for (Map.Entry<String, Value<?>> e : values.entrySet()) {
+            params.put(e.getKey(), ProtoValue.toTypedValue(e.getValue()));
         }
-
-        @Override
-        public boolean isEmpty() {
-            return types.isEmpty();
-        }
-
-        @Override
-        public Map<String, ValueProtos.TypedValue> toPb() {
-            return Collections.unmodifiableMap(params);
-        }
-
-        public <T extends Type> KnownTypes put(String name, Value<T> value) {
-            Type type = types.get(name);
-            checkArgument(type != null, "unknown parameter: %s", name);
-            checkArgument(type.equals(value.getType()), "types mismatch: expected %s, got %s", type, value.getType());
-
-            params.put(name, ValueProtos.TypedValue.newBuilder()
-                .setType(Objects.requireNonNull(typesPb.get(name)))
-                .setValue(value.toPb())
-                .build());
-            return this;
-        }
+        return new ParamsMutableMap(params);
     }
+
+    /**
+     * Returns a mutable implementation of {@link Params} containing the same entries as given parameters.
+     *
+     * @param params    parameters to be copied
+     * @return {@link Params} containing specified parameters
+     */
+    static Params copyOf(Params params) {
+        return new ParamsMutableMap(params.toPb());
+    }
+
+    /**
+     * Returns {@code true} if there are no defined parameters in this container.
+     *
+     * @return {@code true} if there are no defined parameters in this container.
+     */
+    boolean isEmpty();
+
+    /**
+     * Associates the specified value with the specified name in this params container.
+     *
+     * @param name      name with which the specified value is to be associated
+     * @param value     value to be associated with the specified name
+     * @return this params container
+     */
+    <T extends Type> Params put(String name, Value<T> value);
+
+    /**
+     * Converts each parameter value into Protobuf message {@link tech.ydb.ValueProtos.TypedValue}
+     * and return them as unmodifiable map.
+     *
+     * @return map of converted parameters
+     */
+    Map<String, ValueProtos.TypedValue> toPb();
 }

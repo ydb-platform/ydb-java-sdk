@@ -5,14 +5,14 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.truth.extensions.proto.ProtoTruth;
 import tech.ydb.ValueProtos;
-import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.PrimitiveValue;
-import tech.ydb.table.values.Type;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 
 /**
@@ -27,61 +27,188 @@ public class ParamsTest {
         assertThat(params.isEmpty())
             .isTrue();
 
+        assertImmutable(params);
+
         assertThat(params.toPb())
             .isEmpty();
     }
 
     @Test
-    public void unknownTypes() {
-        Params params = Params.withUnknownTypes()
-            .put("name", PrimitiveType.utf8(), PrimitiveValue.utf8("Jamel"))
-            .put("age", PrimitiveType.uint8(), PrimitiveValue.uint8((byte) 99));
+    public void single() {
+        Params params = Params.of("one", PrimitiveValue.uint32(1));
 
         assertThat(params.isEmpty())
             .isFalse();
 
+        assertImmutable(params);
+
         Map<String, ValueProtos.TypedValue> pb = params.toPb();
-        assertThat(pb).isNotEmpty();
+        assertThat(pb).hasSize(1);
 
-        ProtoTruth.assertThat(pb.get("name"))
-            .isEqualTo(ValueProtos.TypedValue.newBuilder()
-                .setType(ProtoType.utf8())
-                .setValue(ProtoValue.utf8("Jamel"))
-                .build());
-
-        ProtoTruth.assertThat(pb.get("age"))
-            .isEqualTo(ValueProtos.TypedValue.newBuilder()
-                .setType(ProtoType.uint8())
-                .setValue(ProtoValue.uint8((byte) 99))
-                .build());
+        assertProtoUint32(pb.get("one"), 1);
     }
 
     @Test
-    public void knownTypes() {
-        ImmutableMap<String, Type> types = ImmutableMap.of(
-            "name", PrimitiveType.utf8(),
-            "age", PrimitiveType.uint8());
-
-        Params params = Params.withKnownTypes(types)
-            .put("name", PrimitiveValue.utf8("Jamel"))
-            .put("age", PrimitiveValue.uint8((byte) 99));
+    public void two() {
+        Params params = Params.of(
+            "one", PrimitiveValue.uint32(1),
+            "two", PrimitiveValue.uint32(2));
 
         assertThat(params.isEmpty())
             .isFalse();
 
-        Map<String, ValueProtos.TypedValue> pb = params.toPb();
-        assertThat(pb).isNotEmpty();
+        assertImmutable(params);
 
-        ProtoTruth.assertThat(pb.get("name"))
+        Map<String, ValueProtos.TypedValue> pb = params.toPb();
+        assertThat(pb).hasSize(2);
+
+        assertProtoUint32(pb.get("one"), 1);
+        assertProtoUint32(pb.get("two"), 2);
+    }
+
+    @Test
+    public void three() {
+        Params params = Params.of(
+            "one", PrimitiveValue.uint32(1),
+            "two", PrimitiveValue.uint32(2),
+            "three", PrimitiveValue.uint32(3));
+
+        assertThat(params.isEmpty())
+            .isFalse();
+
+        assertImmutable(params);
+
+        Map<String, ValueProtos.TypedValue> pb = params.toPb();
+        assertThat(pb).hasSize(3);
+
+        assertProtoUint32(pb.get("one"), 1);
+        assertProtoUint32(pb.get("two"), 2);
+        assertProtoUint32(pb.get("three"), 3);
+    }
+
+    @Test
+    public void four() {
+        Params params = Params.of(
+            "one", PrimitiveValue.uint32(1),
+            "two", PrimitiveValue.uint32(2),
+            "three", PrimitiveValue.uint32(3),
+            "four", PrimitiveValue.uint32(4));
+
+        assertThat(params.isEmpty())
+            .isFalse();
+
+        assertImmutable(params);
+
+        Map<String, ValueProtos.TypedValue> pb = params.toPb();
+        assertThat(pb).hasSize(4);
+
+        assertProtoUint32(pb.get("one"), 1);
+        assertProtoUint32(pb.get("two"), 2);
+        assertProtoUint32(pb.get("three"), 3);
+        assertProtoUint32(pb.get("four"), 4);
+    }
+
+    @Test
+    public void five() {
+        Params params = Params.of(
+            "one", PrimitiveValue.uint32(1),
+            "two", PrimitiveValue.uint32(2),
+            "three", PrimitiveValue.uint32(3),
+            "four", PrimitiveValue.uint32(4),
+            "five", PrimitiveValue.uint32(5));
+
+        assertThat(params.isEmpty())
+            .isFalse();
+
+        assertImmutable(params);
+
+        Map<String, ValueProtos.TypedValue> pb = params.toPb();
+        assertThat(pb).hasSize(5);
+
+        assertProtoUint32(pb.get("one"), 1);
+        assertProtoUint32(pb.get("two"), 2);
+        assertProtoUint32(pb.get("three"), 3);
+        assertProtoUint32(pb.get("four"), 4);
+        assertProtoUint32(pb.get("five"), 5);
+    }
+
+    @Test
+    public void copyOf() {
+        Params params1 = Params.copyOf(ImmutableMap.of("name", PrimitiveValue.utf8("Jamel")));
+        params1.put("age", PrimitiveValue.uint32(99));
+
+        {
+            Map<String, ValueProtos.TypedValue> pb = params1.toPb();
+            assertThat(pb).hasSize(2);
+            assertProtoUtf8(pb.get("name"), "Jamel");
+            assertProtoUint32(pb.get("age"), 99);
+        }
+
+        Params params2 = Params.copyOf(params1);
+        params2.put("phone", PrimitiveValue.utf8("+7-916-012-34-56"));
+
+        {
+            Map<String, ValueProtos.TypedValue> pb = params2.toPb();
+            assertThat(pb).hasSize(3);
+            assertProtoUtf8(pb.get("name"), "Jamel");
+            assertProtoUint32(pb.get("age"), 99);
+            assertProtoUtf8(pb.get("phone"), "+7-916-012-34-56");
+        }
+
+        // not changed
+        {
+            Map<String, ValueProtos.TypedValue> pb = params1.toPb();
+            assertThat(pb).hasSize(2);
+            assertProtoUtf8(pb.get("name"), "Jamel");
+            assertProtoUint32(pb.get("age"), 99);
+        }
+    }
+
+    @Test
+    public void create() {
+        Params params = Params.create();
+
+        for (int i = 0; i < 100; i++) {
+            params.put("a" + i, PrimitiveValue.uint32(i));
+        }
+
+        Map<String, ValueProtos.TypedValue> pb = params.toPb();
+        assertThat(pb).hasSize(100);
+
+        for (int i = 0; i < 100; i++) {
+            assertProtoUint32(pb.get("a" + i), i);
+        }
+
+        try {
+            params.put("a0", PrimitiveValue.uint32(777));
+            fail("expected exception was not thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals("duplicate parameter: a0", e.getMessage());
+        }
+    }
+
+    private static void assertProtoUtf8(ValueProtos.TypedValue one, String value) {
+        ProtoTruth.assertThat(one)
             .isEqualTo(ValueProtos.TypedValue.newBuilder()
                 .setType(ProtoType.utf8())
-                .setValue(ProtoValue.utf8("Jamel"))
+                .setValue(ProtoValue.utf8(value))
                 .build());
+    }
 
-        ProtoTruth.assertThat(pb.get("age"))
+    private static void assertProtoUint32(ValueProtos.TypedValue one, int value) {
+        ProtoTruth.assertThat(one)
             .isEqualTo(ValueProtos.TypedValue.newBuilder()
-                .setType(ProtoType.uint8())
-                .setValue(ProtoValue.uint8((byte) 99))
+                .setType(ProtoType.uint32())
+                .setValue(ProtoValue.uint32(value))
                 .build());
+    }
+
+    private static void assertImmutable(Params params) {
+        try {
+            params.put("some", PrimitiveValue.bool(false));
+            fail("expected exception was not thrown");
+        } catch (UnsupportedOperationException e) {
+            assertEquals("cannot put parameter into immutable params map", e.getMessage());
+        }
     }
 }
