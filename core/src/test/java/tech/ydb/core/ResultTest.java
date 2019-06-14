@@ -39,7 +39,7 @@ public class ResultTest {
         } catch (Exception e) {
             Assert.assertTrue(e instanceof UnexpectedResultException);
             Assert.assertEquals(
-                "cannot get result value, code: BAD_SESSION, issues: [#0 issue1 (S_ERROR), #0 issue2 (S_FATAL)]",
+                "cannot get result value, code: BAD_SESSION, issues: [issue1 (S_ERROR), issue2 (S_FATAL)]",
                 e.getMessage());
 
             UnexpectedResultException ex = (UnexpectedResultException) e;

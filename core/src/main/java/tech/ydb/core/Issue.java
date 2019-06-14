@@ -27,7 +27,7 @@ public class Issue {
     private final ESeverityId severity;
     private final Issue[] issues;
 
-    private Issue(Position position, Position endPosition, int code, String message, ESeverityId severity, Issue[] issues) {
+    private Issue(Position position, Position endPosition, int code, String message, ESeverityId severity, Issue... issues) {
         this.position = Objects.requireNonNull(position, "position");
         this.endPosition = Objects.requireNonNull(endPosition, "endPosition");
         this.code = code;
@@ -36,7 +36,7 @@ public class Issue {
         this.issues = Objects.requireNonNull(issues, "issues");
     }
 
-    public static Issue of(Position position, Position endPosition, int code, String message, ESeverityId severity, Issue[] issues) {
+    public static Issue of(Position position, Position endPosition, int code, String message, ESeverityId severity, Issue... issues) {
         return new Issue(position, endPosition, code, message, severity, issues);
     }
 
@@ -128,24 +128,28 @@ public class Issue {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        toString(sb);
+        return sb.toString();
+    }
 
-        if (position != Position.EMPTY || endPosition != Position.EMPTY) {
+    public void toString(StringBuilder sb) {
+        if (position != Position.EMPTY) {
             sb.append(position.toString());
-            sb.append(" - ");
-            sb.append(endPosition.toString());
-        }
-
-        if (sb.length() > 0) {
+            if (endPosition != Position.EMPTY) {
+                sb.append(" - ");
+                sb.append(endPosition.toString());
+            }
             sb.append(": ");
         }
-
-        sb.append('#').append(code).append(' ').append(message);
+        if (code > 0) {
+            sb.append('#').append(code).append(' ');
+        }
+        sb.append(message);
         sb.append(" (").append(severity).append(")\n");
         for (Issue issue : issues) {
             sb.append("  ").append(issue.toString()).append('\n');
         }
         sb.setLength(sb.length() - 1); // drop last \n
-        return sb.toString();
     }
 
     /**
@@ -164,6 +168,10 @@ public class Issue {
             this.column = column;
             this.row = row;
             this.file = Objects.requireNonNull(file, "file");
+        }
+
+        public static Position of(int column, int row) {
+            return of(column, row, "");
         }
 
         public static Position of(int column, int row, String file) {

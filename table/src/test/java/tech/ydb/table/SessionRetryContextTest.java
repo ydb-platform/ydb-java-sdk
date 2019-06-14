@@ -109,7 +109,7 @@ public class SessionRetryContextTest {
                 Throwable cause = Async.unwrapCompletionException(t);
                 Assert.assertTrue(cause instanceof UnexpectedResultException);
                 Assert.assertEquals(3, cnt.get());
-                Assert.assertEquals("unexpected fail, code: NOT_FOUND, issues: []", cause.getMessage());
+                Assert.assertEquals("unexpected fail, code: NOT_FOUND", cause.getMessage());
             }
         }
     }
