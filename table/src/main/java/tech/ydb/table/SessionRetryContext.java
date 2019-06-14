@@ -1,6 +1,7 @@
 package tech.ydb.table;
 
 import java.time.Duration;
+import java.util.EnumSet;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -30,6 +31,14 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 @ParametersAreNonnullByDefault
 public class SessionRetryContext {
+
+    private static final EnumSet<StatusCode> RETRYABLE_STATUSES = EnumSet.of(
+        StatusCode.ABORTED,
+        StatusCode.UNAVAILABLE,
+        StatusCode.OVERLOADED,
+        StatusCode.CLIENT_RESOURCE_EXHAUSTED,
+        StatusCode.BAD_SESSION
+    );
 
     private final SessionSupplier sessionSupplier;
     private final Executor executor;
@@ -75,7 +84,7 @@ public class SessionRetryContext {
     }
 
     private boolean canRetry(StatusCode code) {
-        if (code == StatusCode.OVERLOADED || code == StatusCode.CLIENT_RESOURCE_EXHAUSTED) {
+        if (RETRYABLE_STATUSES.contains(code)) {
             return true;
         }
         if (code == StatusCode.NOT_FOUND && retryNotFound) {

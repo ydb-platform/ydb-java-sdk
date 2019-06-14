@@ -50,11 +50,11 @@ public class SessionRetryContextTest {
             AtomicInteger cnt = new AtomicInteger();
             Result<?> result = ctx.supplyResult(session -> {
                 cnt.incrementAndGet();
-                return completedFuture(Result.fail(StatusCode.BAD_SESSION));
+                return completedFuture(Result.fail(StatusCode.CANCELLED));
             }).join();
 
             Assert.assertEquals(1, cnt.get());
-            Assert.assertEquals(Result.fail(StatusCode.BAD_SESSION), result);
+            Assert.assertEquals(Result.fail(StatusCode.CANCELLED), result);
         }
 
         // retryable status code
@@ -142,11 +142,11 @@ public class SessionRetryContextTest {
             AtomicInteger cnt = new AtomicInteger();
             Status status = ctx.supplyStatus(session -> {
                 cnt.incrementAndGet();
-                return completedFuture(Status.of(StatusCode.ABORTED));
+                return completedFuture(Status.of(StatusCode.SCHEME_ERROR));
             }).join();
 
             Assert.assertEquals(1, cnt.get());
-            Assert.assertEquals(Status.of(StatusCode.ABORTED), status);
+            Assert.assertEquals(Status.of(StatusCode.SCHEME_ERROR), status);
         }
 
         // retryable status code
