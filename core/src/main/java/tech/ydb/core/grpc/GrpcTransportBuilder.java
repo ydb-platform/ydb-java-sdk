@@ -6,7 +6,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.auth.NopAuthProvider;
-import tech.ydb.core.auth.TokenAuthProvider;
 import tech.ydb.core.rpc.RpcTransportBuilder;
 import io.grpc.CallOptions;
 
@@ -44,10 +43,6 @@ public final class GrpcTransportBuilder extends RpcTransportBuilder<GrpcTranspor
 
     public static GrpcTransportBuilder forEndpoint(String endpoint, String database) {
         return new GrpcTransportBuilder(endpoint, database);
-    }
-
-    public GrpcTransportBuilder withAuthToken(String token) {
-        return withAuthProvider(new TokenAuthProvider(token));
     }
 
     public GrpcTransportBuilder withAuthProvider(AuthProvider authProvider) {
