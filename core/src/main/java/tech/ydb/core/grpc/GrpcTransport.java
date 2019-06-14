@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.common.net.HostAndPort;
+import com.google.common.util.concurrent.MoreExecutors;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
@@ -51,58 +52,65 @@ public class GrpcTransport implements RpcTransport {
     private final Channel channel;
     private final CallOptions callOptions;
     private final GrpcOperationTray operationTray;
+    private final long defautlReadTimeoutMillis;
 
     GrpcTransport(GrpcTransportBuilder builder) {
         if (builder.endpoint != null) {
-            this.realChannel = createChannel(builder.endpoint, builder.database, builder.authProvider);
+            NettyChannelBuilder channelBuilder = createChannel(builder.endpoint, builder.database, builder.authProvider);
+            builder.channelInitializer.accept(channelBuilder);
+            this.realChannel = channelBuilder.build();
 
             Metadata extraHeaders = new Metadata();
             extraHeaders.put(YdbHeaders.DATABASE, builder.database);
             ClientInterceptor interceptor = MetadataUtils.newAttachHeadersInterceptor(extraHeaders);
             this.channel = ClientInterceptors.intercept(realChannel, interceptor);
         } else if (builder.hosts.size() == 1) {
-            this.channel = this.realChannel = createChannel(builder.hosts.get(0));
+            NettyChannelBuilder channelBuilder = createChannel(builder.hosts.get(0));
+            builder.channelInitializer.accept(channelBuilder);
+            this.channel = this.realChannel = channelBuilder.build();
         } else {
-            this.channel = this.realChannel = createChannel(builder.hosts);
+            NettyChannelBuilder channelBuilder = createChannel(builder.hosts);
+            builder.channelInitializer.accept(channelBuilder);
+            this.channel = this.realChannel = channelBuilder.build();
         }
 
+        CallOptions callOptions = CallOptions.DEFAULT;
         if (builder.authProvider != NopAuthProvider.INSTANCE) {
-            this.callOptions = builder.callOptions
-                .withCallCredentials(new YdbCallCredentials(builder.authProvider));
-        } else {
-            this.callOptions = builder.callOptions;
+            callOptions = callOptions.withCallCredentials(new YdbCallCredentials(builder.authProvider));
+        }
+        if (builder.callExecutor != MoreExecutors.directExecutor()) {
+            callOptions = callOptions.withExecutor(builder.callExecutor);
         }
 
+        this.callOptions = callOptions;
+        this.defautlReadTimeoutMillis = builder.readTimeoutMillis;
         this.operationTray = new GrpcOperationTray(this);
     }
 
-    private static ManagedChannel createChannel(HostAndPort host) {
+    private static NettyChannelBuilder createChannel(HostAndPort host) {
         int port = host.getPortOrDefault(DEFAULT_PORT);
         return NettyChannelBuilder.forAddress(new InetSocketAddress(host.getHost(), port))
             .negotiationType(NegotiationType.PLAINTEXT)
             .maxInboundMessageSize(64 << 20) // 64 MiB
-            .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
-            .build();
+            .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
     }
 
-    private static ManagedChannel createChannel(List<HostAndPort> hosts) {
+    private static NettyChannelBuilder createChannel(List<HostAndPort> hosts) {
         return NettyChannelBuilder.forTarget(HostsNameResolver.makeTarget(hosts))
             .negotiationType(NegotiationType.PLAINTEXT)
             .maxInboundMessageSize(64 << 20) // 64 MiB
             .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
             .nameResolverFactory(HostsNameResolver.newFactory(hosts))
-            .loadBalancerFactory(RoundRobinLoadBalancerFactory.getInstance())
-            .build();
+            .loadBalancerFactory(RoundRobinLoadBalancerFactory.getInstance());
     }
 
-    private static ManagedChannel createChannel(String endpoint, String database, AuthProvider authProvider) {
+    private static NettyChannelBuilder createChannel(String endpoint, String database, AuthProvider authProvider) {
         return NettyChannelBuilder.forTarget(YdbNameResolver.makeTarget(endpoint, database))
             .negotiationType(NegotiationType.PLAINTEXT)
             .maxInboundMessageSize(64 << 20) // 64 MiB
             .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
             .nameResolverFactory(YdbNameResolver.newFactory(authProvider))
-            .loadBalancerFactory(RoundRobinLoadBalancerFactory.getInstance())
-            .build();
+            .loadBalancerFactory(RoundRobinLoadBalancerFactory.getInstance());
     }
 
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
@@ -117,6 +125,8 @@ public class GrpcTransport implements RpcTransport {
                 return completedFuture(deadlineExpiredResult(method));
             }
             callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+        } else if (defautlReadTimeoutMillis > 0) {
+            callOptions = this.callOptions.withDeadlineAfter(defautlReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
@@ -139,6 +149,8 @@ public class GrpcTransport implements RpcTransport {
                 return;
             }
             callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+        } else if (defautlReadTimeoutMillis > 0) {
+            callOptions = this.callOptions.withDeadlineAfter(defautlReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
@@ -159,6 +171,8 @@ public class GrpcTransport implements RpcTransport {
                 return;
             }
             callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+        } else if (defautlReadTimeoutMillis > 0) {
+            callOptions = this.callOptions.withDeadlineAfter(defautlReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
@@ -179,6 +193,8 @@ public class GrpcTransport implements RpcTransport {
                 return;
             }
             callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+        } else if (defautlReadTimeoutMillis > 0) {
+            callOptions = this.callOptions.withDeadlineAfter(defautlReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
