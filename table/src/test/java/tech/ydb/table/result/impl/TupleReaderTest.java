@@ -1,12 +1,11 @@
 package tech.ydb.table.result.impl;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import tech.ydb.ValueProtos;
 import tech.ydb.table.result.ValueReader;
 import tech.ydb.table.types.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
+import org.junit.Assert;
+import org.junit.Test;
 
 
 /**

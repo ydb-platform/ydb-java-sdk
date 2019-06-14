@@ -6,11 +6,10 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 
 import com.google.common.truth.extensions.proto.ProtoTruth;
-import org.junit.Test;
-
 import tech.ydb.ValueProtos;
 import tech.ydb.table.types.DecimalType;
 import tech.ydb.table.values.proto.ProtoValue;
+import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 

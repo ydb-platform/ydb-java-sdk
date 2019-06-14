@@ -15,11 +15,10 @@ import java.util.function.Consumer;
 
 import com.google.common.truth.extensions.proto.ProtoTruth;
 import com.google.protobuf.ByteString;
-import org.junit.Test;
-
 import tech.ydb.ValueProtos;
 import tech.ydb.table.types.PrimitiveType;
 import tech.ydb.table.values.proto.ProtoValue;
+import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 
