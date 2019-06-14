@@ -1,6 +1,10 @@
 package tech.ydb.table.values;
 
 
+import tech.ydb.ValueProtos;
+import tech.ydb.table.values.proto.ProtoType;
+
+
 /**
  * @author Sergey Polovko
  */
@@ -16,8 +20,8 @@ public final class PrimitiveType implements Type {
         Uint32(0x0002),
         Int64(0x0003),
         Uint64(0x0004),
-        Float(0x0021),
-        Double(0x0020),
+        Float32(0x0021),
+        Float64(0x0020),
         String(0x1001),
         Utf8(0x1200),
         Yson(0x1201),
@@ -56,8 +60,8 @@ public final class PrimitiveType implements Type {
     public static PrimitiveType uint32() { return PrimitiveType.UINT_32; }
     public static PrimitiveType int64() { return PrimitiveType.INT_64; }
     public static PrimitiveType uint64() { return PrimitiveType.UINT_64; }
-    public static PrimitiveType float32() { return PrimitiveType.FLOAT; }
-    public static PrimitiveType float64() { return PrimitiveType.DOUBLE; }
+    public static PrimitiveType float32() { return PrimitiveType.FLOAT32; }
+    public static PrimitiveType float64() { return PrimitiveType.FLOAT64; }
     public static PrimitiveType string() { return PrimitiveType.STRING; }
     public static PrimitiveType utf8() { return PrimitiveType.UTF_8; }
     public static PrimitiveType yson() { return PrimitiveType.YSON; }
@@ -71,29 +75,29 @@ public final class PrimitiveType implements Type {
     public static PrimitiveType tzDatetime() { return PrimitiveType.TZ_DATETIME; }
     public static PrimitiveType tzTimestamp() { return PrimitiveType.TZ_TIMESTAMP; }
 
-    private static final PrimitiveType BOOL = new PrimitiveType(Id.Bool);
-    private static final PrimitiveType INT_8 = new PrimitiveType(Id.Int8);
-    private static final PrimitiveType UINT_8 = new PrimitiveType(Id.Uint8);
-    private static final PrimitiveType INT_16 = new PrimitiveType(Id.Int16);
-    private static final PrimitiveType UINT_16 = new PrimitiveType(Id.Uint16);
-    private static final PrimitiveType INT_32 = new PrimitiveType(Id.Int32);
-    private static final PrimitiveType UINT_32 = new PrimitiveType(Id.Uint32);
-    private static final PrimitiveType INT_64 = new PrimitiveType(Id.Int64);
-    private static final PrimitiveType UINT_64 = new PrimitiveType(Id.Uint64);
-    private static final PrimitiveType FLOAT = new PrimitiveType(Id.Float);
-    private static final PrimitiveType DOUBLE = new PrimitiveType(Id.Double);
-    private static final PrimitiveType STRING = new PrimitiveType(Id.String);
-    private static final PrimitiveType UTF_8 = new PrimitiveType(Id.Utf8);
-    private static final PrimitiveType YSON = new PrimitiveType(Id.Yson);
-    private static final PrimitiveType JSON = new PrimitiveType(Id.Json);
-    private static final PrimitiveType UUID = new PrimitiveType(Id.Uuid);
-    private static final PrimitiveType DATE = new PrimitiveType(Id.Date);
-    private static final PrimitiveType DATETIME = new PrimitiveType(Id.Datetime);
-    private static final PrimitiveType TIMESTAMP = new PrimitiveType(Id.Timestamp);
-    private static final PrimitiveType INTERVAL = new PrimitiveType(Id.Interval);
-    private static final PrimitiveType TZ_DATE = new PrimitiveType(Id.TzDate);
-    private static final PrimitiveType TZ_DATETIME = new PrimitiveType(Id.TzDatetime);
-    private static final PrimitiveType TZ_TIMESTAMP = new PrimitiveType(Id.TzTimestamp);
+    private static final PrimitiveType BOOL = new PrimitiveType(Id.Bool, ProtoType.bool());
+    private static final PrimitiveType INT_8 = new PrimitiveType(Id.Int8, ProtoType.int8());
+    private static final PrimitiveType UINT_8 = new PrimitiveType(Id.Uint8, ProtoType.uint8());
+    private static final PrimitiveType INT_16 = new PrimitiveType(Id.Int16, ProtoType.int16());
+    private static final PrimitiveType UINT_16 = new PrimitiveType(Id.Uint16, ProtoType.uint16());
+    private static final PrimitiveType INT_32 = new PrimitiveType(Id.Int32, ProtoType.int32());
+    private static final PrimitiveType UINT_32 = new PrimitiveType(Id.Uint32, ProtoType.uint32());
+    private static final PrimitiveType INT_64 = new PrimitiveType(Id.Int64, ProtoType.int64());
+    private static final PrimitiveType UINT_64 = new PrimitiveType(Id.Uint64, ProtoType.uint64());
+    private static final PrimitiveType FLOAT32 = new PrimitiveType(Id.Float32, ProtoType.float32());
+    private static final PrimitiveType FLOAT64 = new PrimitiveType(Id.Float64, ProtoType.float64());
+    private static final PrimitiveType STRING = new PrimitiveType(Id.String, ProtoType.string());
+    private static final PrimitiveType UTF_8 = new PrimitiveType(Id.Utf8, ProtoType.utf8());
+    private static final PrimitiveType YSON = new PrimitiveType(Id.Yson, ProtoType.yson());
+    private static final PrimitiveType JSON = new PrimitiveType(Id.Json, ProtoType.json());
+    private static final PrimitiveType UUID = new PrimitiveType(Id.Uuid, ProtoType.uuid());
+    private static final PrimitiveType DATE = new PrimitiveType(Id.Date, ProtoType.date());
+    private static final PrimitiveType DATETIME = new PrimitiveType(Id.Datetime, ProtoType.datetime());
+    private static final PrimitiveType TIMESTAMP = new PrimitiveType(Id.Timestamp, ProtoType.timestamp());
+    private static final PrimitiveType INTERVAL = new PrimitiveType(Id.Interval, ProtoType.interval());
+    private static final PrimitiveType TZ_DATE = new PrimitiveType(Id.TzDate, ProtoType.tzDate());
+    private static final PrimitiveType TZ_DATETIME = new PrimitiveType(Id.TzDatetime, ProtoType.tzDatetime());
+    private static final PrimitiveType TZ_TIMESTAMP = new PrimitiveType(Id.TzTimestamp, ProtoType.tzTimestamp());
 
     private static final PrimitiveType[] BY_IDS;
     static {
@@ -105,9 +109,11 @@ public final class PrimitiveType implements Type {
     }
 
     private final Id id;
+    private final ValueProtos.Type pbType;
 
-    private PrimitiveType(Id id) {
+    private PrimitiveType(Id id, ValueProtos.Type pbType) {
         this.id = id;
+        this.pbType = pbType;
     }
 
     @Override
@@ -134,6 +140,11 @@ public final class PrimitiveType implements Type {
         return id.name();
     }
 
+    @Override
+    public ValueProtos.Type toPb() {
+        return pbType;
+    }
+
     private static PrimitiveType byId(Id id) {
         switch (id) {
             case Bool: return BOOL;
@@ -145,8 +156,8 @@ public final class PrimitiveType implements Type {
             case Uint32: return UINT_32;
             case Int64: return INT_64;
             case Uint64: return UINT_64;
-            case Float: return FLOAT;
-            case Double: return DOUBLE;
+            case Float32: return FLOAT32;
+            case Float64: return FLOAT64;
             case String: return STRING;
             case Utf8: return UTF_8;
             case Yson: return YSON;

@@ -33,7 +33,7 @@ public class DecimalTypeTest {
     @Test
     public void protobuf() {
         DecimalType type = DecimalType.of(10, 5);
-        ValueProtos.Type typePb = ProtoType.toPb(type);
+        ValueProtos.Type typePb = type.toPb();
 
         ProtoTruth.assertThat(typePb).isEqualTo(ProtoType.decimal(10, 5));
 

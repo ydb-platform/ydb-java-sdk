@@ -116,7 +116,7 @@ class SessionImpl implements Session {
         for (TableColumn column : tableDescriptions.getColumns()) {
             request.addColumns(YdbTable.ColumnMeta.newBuilder()
                 .setName(column.getName())
-                .setType(ProtoType.toPb(column.getType()))
+                .setType(column.getType().toPb())
                 .build());
         }
 
@@ -228,7 +228,7 @@ class SessionImpl implements Session {
         settings.forEachAddColumn((name, type) -> {
             builder.addAddColumns(YdbTable.ColumnMeta.newBuilder()
                 .setName(name)
-                .setType(ProtoType.toPb(type))
+                .setType(type.toPb())
                 .build());
         });
 

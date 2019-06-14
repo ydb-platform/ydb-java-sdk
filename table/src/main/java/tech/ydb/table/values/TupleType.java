@@ -3,6 +3,9 @@ package tech.ydb.table.values;
 import java.util.Arrays;
 import java.util.List;
 
+import tech.ydb.ValueProtos;
+import tech.ydb.table.values.proto.ProtoType;
+
 
 /**
  * @author Sergey Polovko
@@ -87,6 +90,19 @@ public final class TupleType implements Type {
         }
         sb.append('>');
         return sb.toString();
+    }
+
+    @Override
+    public ValueProtos.Type toPb() {
+        if (elementTypes.length == 0) {
+            return ProtoType.tuple();
+        }
+
+        ValueProtos.TupleType.Builder tupleType = ValueProtos.TupleType.newBuilder();
+        for (Type elementType : elementTypes) {
+            tupleType.addElements(elementType.toPb());
+        }
+        return ValueProtos.Type.newBuilder().setTupleType(tupleType).build();
     }
 
     public TupleValue newValue(Value item) {

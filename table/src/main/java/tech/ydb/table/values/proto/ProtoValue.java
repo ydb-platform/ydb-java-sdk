@@ -809,8 +809,8 @@ public class ProtoValue {
             case Uint32: return PrimitiveValue.uint32(value.getUint32Value());
             case Int64: return PrimitiveValue.int64(toInt64(value));
             case Uint64: return PrimitiveValue.uint64(toUint64(value));
-            case Float: return PrimitiveValue.float32(toFloat32(value));
-            case Double: return PrimitiveValue.float64(toFloat64(value));
+            case Float32: return PrimitiveValue.float32(toFloat32(value));
+            case Float64: return PrimitiveValue.float64(toFloat64(value));
             case String: return PrimitiveValue.string(value.getBytesValue());
             case Utf8: return PrimitiveValue.utf8(value.getTextValue());
             case Yson: return PrimitiveValue.yson(value.getBytesValue());

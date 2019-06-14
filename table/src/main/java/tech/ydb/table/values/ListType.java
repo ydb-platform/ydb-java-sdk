@@ -3,6 +3,9 @@ package tech.ydb.table.values;
 
 import java.util.List;
 
+import tech.ydb.ValueProtos;
+import tech.ydb.table.values.proto.ProtoType;
+
 
 /**
  * @author Sergey Polovko
@@ -45,6 +48,11 @@ public final class ListType implements Type {
     @Override
     public String toString() {
         return "List<" + itemType + '>';
+    }
+
+    @Override
+    public ValueProtos.Type toPb() {
+        return ProtoType.list(itemType.toPb());
     }
 
     public ListValue emptyValue() {

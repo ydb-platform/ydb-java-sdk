@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import com.google.common.base.Preconditions;
+import tech.ydb.ValueProtos;
+import tech.ydb.table.values.proto.ProtoType;
 
 
 /**
@@ -70,6 +72,11 @@ public class DecimalType implements Type {
     @Override
     public String toString() {
         return "Decimal(" + precision + ", " + scale + ')';
+    }
+
+    @Override
+    public ValueProtos.Type toPb() {
+        return ProtoType.decimal((int) precision, (int) scale);
     }
 
     public DecimalValue newValue(long high, long low) {

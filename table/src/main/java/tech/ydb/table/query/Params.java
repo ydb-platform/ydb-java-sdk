@@ -3,7 +3,6 @@ package tech.ydb.table.query;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import com.google.common.collect.ImmutableMap;
@@ -11,7 +10,8 @@ import tech.ydb.ValueProtos;
 import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
-import tech.ydb.table.values.proto.ProtoType;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 
 /**
@@ -41,7 +41,7 @@ public abstract class Params {
     public static KnownTypes withKnownTypes(ImmutableMap<String, Type> types) {
         ImmutableMap.Builder<String, ValueProtos.Type> typesPb = new ImmutableMap.Builder<>();
         for (Map.Entry<String, Type> e : types.entrySet()) {
-            typesPb.put(e.getKey(), ProtoType.toPb(e.getValue()));
+            typesPb.put(e.getKey(), e.getValue().toPb());
         }
         return new KnownTypes(types, typesPb.build());
     }
@@ -85,7 +85,7 @@ public abstract class Params {
 
         public <T extends Type> UnknownTypes put(String name, T type, Value<T> value) {
             this.params.put(name, ValueProtos.TypedValue.newBuilder()
-                .setType(ProtoType.toPb(type))
+                .setType(type.toPb())
                 .setValue(value.toPb())
                 .build());
             return this;
@@ -93,7 +93,7 @@ public abstract class Params {
 
         public UnknownTypes put(String name, PrimitiveValue value) {
             this.params.put(name, ValueProtos.TypedValue.newBuilder()
-                .setType(ProtoType.toPb(value.getType()))
+                .setType(value.getType().toPb())
                 .setValue(value.toPb())
                 .build());
             return this;
@@ -128,9 +128,10 @@ public abstract class Params {
         }
 
         public <T extends Type> KnownTypes put(String name, Value<T> value) {
-            if (!types.containsKey(name)) {
-                throw new NoSuchElementException("unknown parameter: " + name);
-            }
+            Type type = types.get(name);
+            checkArgument(type != null, "unknown parameter: %s", name);
+            checkArgument(type.equals(value.getType()), "types mismatch: expected %s, got %s", type, value.getType());
+
             params.put(name, ValueProtos.TypedValue.newBuilder()
                 .setType(Objects.requireNonNull(typesPb.get(name)))
                 .setValue(value.toPb())

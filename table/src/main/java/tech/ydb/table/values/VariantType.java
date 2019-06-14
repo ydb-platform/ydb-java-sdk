@@ -2,6 +2,9 @@ package tech.ydb.table.values;
 
 import java.util.List;
 
+import tech.ydb.ValueProtos;
+import tech.ydb.table.values.proto.ProtoType;
+
 
 /**
  * @author Sergey Polovko
@@ -82,6 +85,15 @@ public final class VariantType implements Type {
         }
         sb.append('>');
         return sb.toString();
+    }
+
+    @Override
+    public ValueProtos.Type toPb() {
+        ValueProtos.TupleType.Builder tupleType = ValueProtos.TupleType.newBuilder();
+        for (Type itemType : itemTypes) {
+            tupleType.addElements(itemType.toPb());
+        }
+        return ProtoType.variant(tupleType.build());
     }
 
     public VariantValue newValue(Value item, int typeIndex) {

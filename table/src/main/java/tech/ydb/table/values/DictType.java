@@ -4,6 +4,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import tech.ydb.ValueProtos;
+import tech.ydb.table.values.proto.ProtoType;
+
 
 /**
  * @author Sergey Polovko
@@ -41,7 +44,7 @@ public final class DictType implements Type {
         if (o == null || o.getClass() != DictType.class) return false;
 
         DictType dictType = (DictType) o;
-        return keyType.equals(dictType.getKeyType()) && valueType.equals(dictType.getKeyType());
+        return keyType.equals(dictType.keyType) && valueType.equals(dictType.valueType);
     }
 
     @Override
@@ -55,6 +58,11 @@ public final class DictType implements Type {
     @Override
     public String toString() {
         return "Dict<" + keyType + ", " + valueType + '>';
+    }
+
+    @Override
+    public ValueProtos.Type toPb() {
+        return ProtoType.dict(keyType.toPb(), valueType.toPb());
     }
 
     public DictValue emptyValue() {

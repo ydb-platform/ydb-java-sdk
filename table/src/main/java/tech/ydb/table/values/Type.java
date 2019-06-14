@@ -1,5 +1,8 @@
 package tech.ydb.table.values;
 
+import tech.ydb.ValueProtos;
+
+
 /**
  * @author Sergey Polovko
  */
@@ -17,6 +20,8 @@ public interface Type {
 
     @Override
     String toString();
+
+    ValueProtos.Type toPb();
 
     default OptionalType makeOptional() {
         return OptionalType.of(this);

@@ -1,7 +1,6 @@
 package tech.ydb.table.values;
 
 import tech.ydb.ValueProtos;
-import tech.ydb.table.values.proto.ProtoType;
 
 
 /**
@@ -27,7 +26,7 @@ public class TypedValue<T extends Type> {
 
     public ValueProtos.TypedValue toPb() {
         return ValueProtos.TypedValue.newBuilder()
-            .setType(ProtoType.toPb(type))
+            .setType(type.toPb())
             .setValue(value.toPb())
             .build();
     }

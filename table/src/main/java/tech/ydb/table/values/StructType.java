@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tech.ydb.ValueProtos;
 import tech.ydb.table.utils.Arrays2;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -174,6 +175,17 @@ public final class StructType implements Type {
         }
         sb.append('>');
         return sb.toString();
+    }
+
+    @Override
+    public ValueProtos.Type toPb() {
+        ValueProtos.StructType.Builder structType = ValueProtos.StructType.newBuilder();
+        for (int i = 0; i < names.length; i++) {
+            structType.addMembersBuilder()
+                .setName(names[i])
+                .setType(types[i].toPb());
+        }
+        return ValueProtos.Type.newBuilder().setStructType(structType).build();
     }
 
     public StructValue newValue(String memberName, Value memberValue) {

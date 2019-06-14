@@ -2,6 +2,9 @@ package tech.ydb.table.values;
 
 import java.util.Objects;
 
+import tech.ydb.ValueProtos;
+import tech.ydb.table.values.proto.ProtoType;
+
 
 /**
  * @author Sergey Polovko
@@ -44,6 +47,11 @@ public final class OptionalType implements Type {
     @Override
     public String toString() {
         return String.valueOf(itemType) + '?';
+    }
+
+    @Override
+    public ValueProtos.Type toPb() {
+        return ProtoType.optional(itemType.toPb());
     }
 
     public OptionalValue emptyValue() {
