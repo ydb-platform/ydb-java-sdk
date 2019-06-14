@@ -321,7 +321,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
 
         @Override
         public void run(Timeout timeout) {
-            if (!stoped) {
+            if (stoped) {
                 return;
             }
 
