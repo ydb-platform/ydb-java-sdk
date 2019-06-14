@@ -12,6 +12,7 @@ import java.util.function.BiConsumer;
 import javax.annotation.Nullable;
 
 import tech.ydb.OperationProtos.Operation;
+import tech.ydb.StatusCodesProtos.StatusIds.StatusCode;
 import tech.ydb.core.Operations;
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.discovery.DiscoveryProtos.EndpointInfo;
@@ -83,6 +84,14 @@ public final class YdbNameResolver extends NameResolver {
                     // TODO: wait deferred operations
                     String msg = "unable to resolve database " + database +
                         ", got not ready operation, id: " + operation.getId() +
+                        ", status: " + operation.getStatus();
+                    listener.onError(Status.INTERNAL.withDescription(msg));
+                    return;
+                }
+
+                if (operation.getStatus() != StatusCode.SUCCESS) {
+                    String msg = "unable to resolve database " + database +
+                        ", got non SUCCESS response, id: " + operation.getId() +
                         ", status: " + operation.getStatus();
                     listener.onError(Status.INTERNAL.withDescription(msg));
                     return;
