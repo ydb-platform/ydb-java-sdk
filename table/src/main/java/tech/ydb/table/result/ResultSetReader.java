@@ -39,7 +39,7 @@ public interface ResultSetReader {
     String getColumnName(int index);
 
     /**
-     * Returns column index by name.
+     * Returns column index by name or {@code -1} if column with given name is not present.
      */
     int getColumnIndex(String name);
 

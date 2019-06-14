@@ -86,7 +86,8 @@ final class ProtoResultSetReader implements ResultSetReader {
 
     @Override
     public int getColumnIndex(String name) {
-        return columnIndex(name);
+        Integer index = columnIndexes.get(name);
+        return index == null ? -1 : index;
     }
 
     @Override
