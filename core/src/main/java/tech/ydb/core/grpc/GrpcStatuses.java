@@ -45,6 +45,7 @@ public final class GrpcStatuses {
             case UNAUTHENTICATED: return StatusCode.CLIENT_UNAUTHENTICATED;
             case CANCELLED: return StatusCode.CLIENT_CANCELLED;
             case UNIMPLEMENTED: return StatusCode.CLIENT_CALL_UNIMPLEMENTED;
+            case DEADLINE_EXCEEDED: return StatusCode.CLIENT_DEADLINE_EXCEEDED;
             default:
                 return StatusCode.CLIENT_INTERNAL_ERROR;
         }

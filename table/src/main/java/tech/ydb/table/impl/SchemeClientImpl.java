@@ -31,13 +31,14 @@ final class SchemeClientImpl implements SchemeClient {
         MakeDirectoryRequest request = MakeDirectoryRequest.newBuilder()
             .setPath(path)
             .build();
-        return schemeRpc.makeDirectory(request)
+        final long deadlineAfter = 0;
+        return schemeRpc.makeDirectory(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
                 return schemeRpc.getOperationTray()
-                    .waitStatus(response.expect("makeDirectory()").getOperation());
+                    .waitStatus(response.expect("makeDirectory()").getOperation(), deadlineAfter);
             });
     }
 
@@ -46,13 +47,14 @@ final class SchemeClientImpl implements SchemeClient {
         RemoveDirectoryRequest request = RemoveDirectoryRequest.newBuilder()
             .setPath(path)
             .build();
-        return schemeRpc.removeDirectory(request)
+        final long deadlineAfter = 0;
+        return schemeRpc.removeDirectory(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
                 return schemeRpc.getOperationTray()
-                    .waitStatus(response.expect("removeDirectory()").getOperation());
+                    .waitStatus(response.expect("removeDirectory()").getOperation(), deadlineAfter);
             });
     }
 
@@ -61,7 +63,8 @@ final class SchemeClientImpl implements SchemeClient {
         DescribePathRequest request = DescribePathRequest.newBuilder()
             .setPath(path)
             .build();
-        return schemeRpc.describePath(request)
+        final long deadlineAfter = 0;
+        return schemeRpc.describePath(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -69,7 +72,8 @@ final class SchemeClientImpl implements SchemeClient {
                 return schemeRpc.getOperationTray().waitResult(
                     response.expect("describePath()").getOperation(),
                     SchemeOperationProtos.DescribePathResult.class,
-                    result -> new DescribePathResult(result.getSelf()));
+                    result -> new DescribePathResult(result.getSelf()),
+                    deadlineAfter);
             });
     }
 
@@ -78,7 +82,8 @@ final class SchemeClientImpl implements SchemeClient {
         ListDirectoryRequest request = ListDirectoryRequest.newBuilder()
             .setPath(path)
             .build();
-        return schemeRpc.describeDirectory(request)
+        final long deadlineAfter = 0;
+        return schemeRpc.describeDirectory(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -86,7 +91,8 @@ final class SchemeClientImpl implements SchemeClient {
                 return schemeRpc.getOperationTray().waitResult(
                     response.expect("describeDirectory()").getOperation(),
                     SchemeOperationProtos.ListDirectoryResult.class,
-                    result -> new ListDirectoryResult(result.getSelf(), result.getChildrenList()));
+                    result -> new ListDirectoryResult(result.getSelf(), result.getChildrenList()),
+                    deadlineAfter);
             });
     }
 

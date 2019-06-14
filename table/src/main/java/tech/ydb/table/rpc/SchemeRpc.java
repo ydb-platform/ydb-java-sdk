@@ -22,21 +22,21 @@ public interface SchemeRpc extends Rpc {
     /**
      * Make directory.
      */
-    CompletableFuture<Result<MakeDirectoryResponse>> makeDirectory(MakeDirectoryRequest request);
+    CompletableFuture<Result<MakeDirectoryResponse>> makeDirectory(MakeDirectoryRequest request, long deadlineAfter);
 
     /**
      * Remove directory.
      */
-    CompletableFuture<Result<RemoveDirectoryResponse>> removeDirectory(RemoveDirectoryRequest request);
+    CompletableFuture<Result<RemoveDirectoryResponse>> removeDirectory(RemoveDirectoryRequest request, long deadlineAfter);
 
     /**
      * Returns information about given directory and objects inside it.
      */
-    CompletableFuture<Result<ListDirectoryResponse>> describeDirectory(ListDirectoryRequest request);
+    CompletableFuture<Result<ListDirectoryResponse>> describeDirectory(ListDirectoryRequest request, long deadlineAfter);
 
     /**
      * Returns information about object with given path.
      */
-    CompletableFuture<Result<DescribePathResponse>> describePath(DescribePathRequest request);
+    CompletableFuture<Result<DescribePathResponse>> describePath(DescribePathRequest request, long deadlineAfter);
 
 }

@@ -2,17 +2,21 @@ package tech.ydb.core.grpc;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
+import tech.ydb.core.StatusCode;
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.auth.NopAuthProvider;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.RpcTransport;
 import tech.ydb.core.rpc.StreamObserver;
+import com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.ClientCall;
@@ -28,6 +32,8 @@ import io.grpc.stub.MetadataUtils;
 import io.grpc.util.RoundRobinLoadBalancerFactory;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelOption;
+
+import static java.util.concurrent.CompletableFuture.completedFuture;
 
 
 /**
@@ -85,7 +91,20 @@ public class GrpcTransport implements RpcTransport {
             .build();
     }
 
-    public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(MethodDescriptor<ReqT, RespT> method, ReqT request) {
+    public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
+        MethodDescriptor<ReqT, RespT> method,
+        ReqT request,
+        long deadlineAfter)
+    {
+        CallOptions callOptions = this.callOptions;
+        if (deadlineAfter > 0) {
+            final long now = System.nanoTime();
+            if (now >= deadlineAfter) {
+                return completedFuture(deadlineExpiredResult(method));
+            }
+            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+        }
+
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
         sendOneRequest(call, request, new UnaryStreamToFuture<>(promise));
@@ -95,8 +114,19 @@ public class GrpcTransport implements RpcTransport {
     public <ReqT, RespT> void unaryCall(
         MethodDescriptor<ReqT, RespT> method,
         ReqT request,
-        Consumer<Result<RespT>> consumer)
+        Consumer<Result<RespT>> consumer,
+        long deadlineAfter)
     {
+        CallOptions callOptions = this.callOptions;
+        if (deadlineAfter > 0) {
+            final long now = System.nanoTime();
+            if (now >= deadlineAfter) {
+                consumer.accept(deadlineExpiredResult(method));
+                return;
+            }
+            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+        }
+
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
         sendOneRequest(call, request, new UnaryStreamToConsumer<>(consumer));
     }
@@ -104,8 +134,19 @@ public class GrpcTransport implements RpcTransport {
     public <ReqT, RespT> void unaryCall(
         MethodDescriptor<ReqT, RespT> method,
         ReqT request,
-        BiConsumer<RespT, Status> consumer)
+        BiConsumer<RespT, Status> consumer,
+        long deadlineAfter)
     {
+        CallOptions callOptions = this.callOptions;
+        if (deadlineAfter > 0) {
+            final long now = System.nanoTime();
+            if (now >= deadlineAfter) {
+                consumer.accept(null, deadlineExpiredStatus(method));
+                return;
+            }
+            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+        }
+
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
         sendOneRequest(call, request, new UnaryStreamToBiConsumer<>(consumer));
     }
@@ -113,11 +154,21 @@ public class GrpcTransport implements RpcTransport {
     public <ReqT, RespT> void serverStreamCall(
         MethodDescriptor<ReqT, RespT> method,
         ReqT request,
-        StreamObserver<RespT> observer)
+        StreamObserver<RespT> observer,
+        long deadlineAfter)
     {
+        CallOptions callOptions = this.callOptions;
+        if (deadlineAfter > 0) {
+            final long now = System.nanoTime();
+            if (now >= deadlineAfter) {
+                observer.onError(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
+                return;
+            }
+            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+        }
+
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-        ServerStreamToObserver<ReqT, RespT> listener = new ServerStreamToObserver<>(observer, call);
-        sendOneRequest(call, request, listener);
+        sendOneRequest(call, request, new ServerStreamToObserver<>(observer, call));
     }
 
     private static <ReqT, RespT> void sendOneRequest(
@@ -149,5 +200,15 @@ public class GrpcTransport implements RpcTransport {
     public void close() {
         operationTray.close();
         realChannel.shutdown();
+    }
+
+    private static <T> Result<T> deadlineExpiredResult(MethodDescriptor<?, T> method) {
+        String message = "deadline expired before calling method " + method.getFullMethodName();
+        return Result.fail(StatusCode.CLIENT_DEADLINE_EXCEEDED, Issue.of(message, ESeverityId.S_ERROR));
+    }
+
+    private static Status deadlineExpiredStatus(MethodDescriptor<?, ?> method) {
+        String message = "deadline expired before calling method " + method.getFullMethodName();
+        return Status.DEADLINE_EXCEEDED.withDescription(message);
     }
 }

@@ -40,7 +40,8 @@ final class GrpcOperationTray implements OperationTray {
             TimeUnit.MILLISECONDS);
     }
 
-    public CompletableFuture<Status> waitStatus(OperationProtos.Operation operation) {
+    @Override
+    public CompletableFuture<Status> waitStatus(OperationProtos.Operation operation, long deadlineAfter) {
         CompletableFuture<Status> promise = new CompletableFuture<>();
 
         if (operation.getReady()) {
@@ -50,17 +51,19 @@ final class GrpcOperationTray implements OperationTray {
                 promise.completeExceptionally(t);
             }
         } else {
-            new WaitStatusTask(operation.getId(), promise)
+            new WaitStatusTask(operation.getId(), promise, deadlineAfter)
                 .scheduleNext(timer);
         }
 
         return promise;
     }
 
+    @Override
     public <M extends Message, R> CompletableFuture<Result<R>> waitResult(
         OperationProtos.Operation operation,
         Class<M> resultClass,
-        Function<M, R> mapper)
+        Function<M, R> mapper,
+        long deadlineAfter)
     {
         CompletableFuture<Result<R>> promise = new CompletableFuture<>();
         if (operation.getReady()) {
@@ -76,15 +79,15 @@ final class GrpcOperationTray implements OperationTray {
                 promise.completeExceptionally(t);
             }
         } else {
-            new WaitResultTask<>(operation.getId(), promise, resultClass, mapper)
+            new WaitResultTask<>(operation.getId(), promise, resultClass, mapper, deadlineAfter)
                 .scheduleNext(timer);
         }
 
         return promise;
     }
 
-    private CompletableFuture<Result<GetOperationResponse>> callGetOperation(GetOperationRequest request) {
-        return transport.unaryCall(OperationServiceGrpc.METHOD_GET_OPERATION, request);
+    private CompletableFuture<Result<GetOperationResponse>> callGetOperation(GetOperationRequest request, long deadlineAfter) {
+        return transport.unaryCall(OperationServiceGrpc.METHOD_GET_OPERATION, request, deadlineAfter);
     }
 
     @Override
@@ -105,12 +108,14 @@ final class GrpcOperationTray implements OperationTray {
 
         private final GetOperationRequest request;
         private final CompletableFuture<T> promise;
+        private final long deadlineAfter;
 
         private long delayMillis = INITIAL_DELAY_MILLIS / 2;
 
-        BaseTask(String id, CompletableFuture<T> promise) {
+        BaseTask(String id, CompletableFuture<T> promise, long deadlineAfter) {
             this.request = GetOperationRequest.newBuilder().setId(id).build();
             this.promise = promise;
+            this.deadlineAfter = deadlineAfter;
         }
 
         protected abstract T mapFailedRpc(Result<?> result);
@@ -122,7 +127,7 @@ final class GrpcOperationTray implements OperationTray {
                 return;
             }
 
-            callGetOperation(request)
+            callGetOperation(request, deadlineAfter)
                 .whenComplete((response, throwable) -> {
                     if (throwable != null) {
                         promise.completeExceptionally(throwable);
@@ -159,8 +164,8 @@ final class GrpcOperationTray implements OperationTray {
      */
     public final class WaitStatusTask extends BaseTask<Status> {
 
-        WaitStatusTask(String id, CompletableFuture<Status> promise) {
-            super(id, promise);
+        WaitStatusTask(String id, CompletableFuture<Status> promise, long deadlineAfter) {
+            super(id, promise, deadlineAfter);
         }
 
         @Override
@@ -186,9 +191,10 @@ final class GrpcOperationTray implements OperationTray {
             String id,
             CompletableFuture<Result<R>> promise,
             Class<M> resultClass,
-            Function<M, R> mapper)
+            Function<M, R> mapper,
+            long deadlineAfter)
         {
-            super(id, promise);
+            super(id, promise, deadlineAfter);
             this.resultClass = resultClass;
             this.mapper = mapper;
         }

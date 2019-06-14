@@ -55,23 +55,23 @@ public final class GrpcSchemeRpc implements SchemeRpc {
     }
 
     @Override
-    public CompletableFuture<Result<MakeDirectoryResponse>> makeDirectory(MakeDirectoryRequest request) {
-        return transport.unaryCall(SchemeServiceGrpc.METHOD_MAKE_DIRECTORY, request);
+    public CompletableFuture<Result<MakeDirectoryResponse>> makeDirectory(MakeDirectoryRequest request, long deadlineAfter) {
+        return transport.unaryCall(SchemeServiceGrpc.METHOD_MAKE_DIRECTORY, request, deadlineAfter);
     }
 
     @Override
-    public CompletableFuture<Result<RemoveDirectoryResponse>> removeDirectory(RemoveDirectoryRequest request) {
-        return transport.unaryCall(SchemeServiceGrpc.METHOD_REMOVE_DIRECTORY, request);
+    public CompletableFuture<Result<RemoveDirectoryResponse>> removeDirectory(RemoveDirectoryRequest request, long deadlineAfter) {
+        return transport.unaryCall(SchemeServiceGrpc.METHOD_REMOVE_DIRECTORY, request, deadlineAfter);
     }
 
     @Override
-    public CompletableFuture<Result<ListDirectoryResponse>> describeDirectory(ListDirectoryRequest request) {
-        return transport.unaryCall(SchemeServiceGrpc.METHOD_LIST_DIRECTORY, request);
+    public CompletableFuture<Result<ListDirectoryResponse>> describeDirectory(ListDirectoryRequest request, long deadlineAfter) {
+        return transport.unaryCall(SchemeServiceGrpc.METHOD_LIST_DIRECTORY, request, deadlineAfter);
     }
 
     @Override
-    public CompletableFuture<Result<DescribePathResponse>> describePath(DescribePathRequest request) {
-        return transport.unaryCall(SchemeServiceGrpc.METHOD_DESCRIBE_PATH, request);
+    public CompletableFuture<Result<DescribePathResponse>> describePath(DescribePathRequest request, long deadlineAfter) {
+        return transport.unaryCall(SchemeServiceGrpc.METHOD_DESCRIBE_PATH, request, deadlineAfter);
     }
 
     @Override

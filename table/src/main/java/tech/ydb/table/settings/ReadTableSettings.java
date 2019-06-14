@@ -1,8 +1,10 @@
 package tech.ydb.table.settings;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -31,6 +33,7 @@ public class ReadTableSettings {
     private final boolean toInclusive;
     private final int rowLimit;
     private final ImmutableList<String> columns;
+    private final long timeoutNanos;
 
     private ReadTableSettings(Builder b) {
         this.ordered = b.ordered;
@@ -40,6 +43,7 @@ public class ReadTableSettings {
         this.toInclusive = b.toInclusive;
         this.rowLimit = b.rowLimit;
         this.columns = ImmutableList.copyOf(b.columns);
+        this.timeoutNanos = b.timeoutNanos;
     }
 
     public static Builder newBuilder() {
@@ -76,6 +80,14 @@ public class ReadTableSettings {
         return columns;
     }
 
+    public long getTimeoutNanos() {
+        return timeoutNanos;
+    }
+
+    public long getDeadlineAfter() {
+        return System.nanoTime() + timeoutNanos;
+    }
+
     /**
      * BUILDER
      */
@@ -88,6 +100,7 @@ public class ReadTableSettings {
         private boolean toInclusive = false;
         private int rowLimit = 0;
         private List<String> columns = Collections.emptyList();
+        private long timeoutNanos = 0;
 
         Builder() {
         }
@@ -174,6 +187,16 @@ public class ReadTableSettings {
                 this.columns = new ArrayList<>(this.columns);
             }
             this.columns.add(column);
+            return this;
+        }
+
+        public Builder timeout(long duration, TimeUnit unit) {
+            this.timeoutNanos = unit.toNanos(duration);
+            return this;
+        }
+
+        public Builder timeout(Duration duration) {
+            this.timeoutNanos = duration.toNanos();
             return this;
         }
 

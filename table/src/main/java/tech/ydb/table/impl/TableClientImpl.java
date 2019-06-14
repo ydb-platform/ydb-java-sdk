@@ -47,7 +47,8 @@ final class TableClientImpl implements TableClient {
         YdbTable.CreateSessionRequest request = YdbTable.CreateSessionRequest.newBuilder()
             .build();
 
-        return tableRpc.createSession(request)
+        final long deadlineAfter = settings.getDeadlineAfter();
+        return tableRpc.createSession(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -55,7 +56,8 @@ final class TableClientImpl implements TableClient {
                 return operationTray.waitResult(
                     response.expect("createSession()").getOperation(),
                     YdbTable.CreateSessionResult.class,
-                    result -> new SessionImpl(result.getSessionId(), tableRpc, sessionPool, queryCacheSize, keepQueryText));
+                    result -> new SessionImpl(result.getSessionId(), tableRpc, sessionPool, queryCacheSize, keepQueryText),
+                    deadlineAfter);
             });
     }
 
