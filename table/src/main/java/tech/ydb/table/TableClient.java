@@ -14,7 +14,7 @@ import tech.ydb.table.settings.CreateSessionSettings;
 /**
  * @author Sergey Polovko
  */
-public interface TableClient extends AutoCloseable {
+public interface TableClient extends SessionSupplier, AutoCloseable {
 
     static Builder newClient(@WillClose TableRpc tableRpc) {
         return new TableClientBuilderImpl(tableRpc);
@@ -28,11 +28,6 @@ public interface TableClient extends AutoCloseable {
     default CompletableFuture<Result<Session>> createSession() {
         return createSession(new CreateSessionSettings());
     }
-
-    /**
-     * Returns session from session pool, if all sessions are occupied new session will be created.
-     */
-    CompletableFuture<Result<Session>> getOrCreateSession();
 
     @Override
     void close();

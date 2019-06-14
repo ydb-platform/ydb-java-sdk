@@ -18,9 +18,6 @@ import io.netty.util.concurrent.DefaultThreadFactory;
  */
 final class SessionPool implements PooledObjectHandler<SessionImpl> {
 
-    // TODO: move to options
-    private static final Duration ACQUIRE_TIMEOUT = Duration.ofSeconds(5);
-
     private final TableClientImpl tableClient;
     private final AsyncPool<SessionImpl> pool;
     private final Timer timer;
@@ -61,8 +58,8 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
             .thenAccept(r -> r.expect("cannot keep alive session: " + s.getId()));
     }
 
-    CompletableFuture<SessionImpl> acquire() {
-        return pool.acquire(ACQUIRE_TIMEOUT);
+    CompletableFuture<SessionImpl> acquire(Duration timeout) {
+        return pool.acquire(timeout);
     }
 
     void release(SessionImpl session) {

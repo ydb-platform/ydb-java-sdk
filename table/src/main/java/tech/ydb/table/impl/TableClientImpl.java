@@ -1,5 +1,6 @@
 package tech.ydb.table.impl;
 
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Nullable;
@@ -59,11 +60,12 @@ final class TableClientImpl implements TableClient {
     }
 
     @Override
-    public CompletableFuture<Result<Session>> getOrCreateSession() {
+    public CompletableFuture<Result<Session>> getOrCreateSession(Duration timeout) {
         if (sessionPool == null) {
+            // TODO: set timeout
             return createSessionImpl(new CreateSessionSettings());
         }
-        return sessionPool.acquire()
+        return sessionPool.acquire(timeout)
             .handle((s, t) -> {
                 if (t == null) return Result.success(s);
                 return Result.error("cannot acquire session from pool", t);
