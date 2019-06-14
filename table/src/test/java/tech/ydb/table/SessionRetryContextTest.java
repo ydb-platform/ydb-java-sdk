@@ -2,7 +2,6 @@ package tech.ydb.table;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import tech.ydb.core.Result;
@@ -20,6 +19,8 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
  * @author Sergey Polovko
  */
 public class SessionRetryContextTest {
+
+    private static final Duration TEN_MILLIS = Duration.ofMillis(10);
 
     @Test
     public void successSession_successResult() {
@@ -41,7 +42,7 @@ public class SessionRetryContextTest {
     public void successSession_failedResult() {
         SessionRetryContext ctx = SessionRetryContext.create(new SuccessSupplier())
             .maxRetries(3)
-            .backoffSlot(10, TimeUnit.MILLISECONDS)
+            .backoffSlot(TEN_MILLIS)
             .build();
 
         // not retryable status code
@@ -73,7 +74,7 @@ public class SessionRetryContextTest {
     public void successSession_exceptionResult() {
         SessionRetryContext ctx = SessionRetryContext.create(new SuccessSupplier())
             .maxRetries(3)
-            .backoffSlot(10, TimeUnit.MILLISECONDS)
+            .backoffSlot(TEN_MILLIS)
             .retryNotFound(true)
             .build();
 
@@ -133,7 +134,7 @@ public class SessionRetryContextTest {
     public void successSession_failedStatus() {
         SessionRetryContext ctx = SessionRetryContext.create(new SuccessSupplier())
             .maxRetries(3)
-            .backoffSlot(10, TimeUnit.MILLISECONDS)
+            .backoffSlot(TEN_MILLIS)
             .build();
 
         // not retryable status code
@@ -168,7 +169,7 @@ public class SessionRetryContextTest {
             FailSupplier sessionSupplier = new FailSupplier(1, StatusCode.OVERLOADED);
             SessionRetryContext ctx = SessionRetryContext.create(sessionSupplier)
                 .maxRetries(3)
-                .backoffSlot(10, TimeUnit.MILLISECONDS)
+                .backoffSlot(TEN_MILLIS)
                 .build();
 
             AtomicInteger cnt = new AtomicInteger();
@@ -187,7 +188,7 @@ public class SessionRetryContextTest {
             FailSupplier sessionSupplier = new FailSupplier(10, StatusCode.CLIENT_RESOURCE_EXHAUSTED);
             SessionRetryContext ctx = SessionRetryContext.create(sessionSupplier)
                 .maxRetries(3)
-                .backoffSlot(10, TimeUnit.MILLISECONDS)
+                .backoffSlot(TEN_MILLIS)
                 .build();
 
             AtomicInteger cnt = new AtomicInteger();

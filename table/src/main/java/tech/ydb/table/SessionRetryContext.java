@@ -22,6 +22,8 @@ import tech.ydb.table.utils.Async;
 import io.netty.util.Timeout;
 import io.netty.util.TimerTask;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 
 /**
  * @author Sergey Polovko
@@ -256,8 +258,9 @@ public class SessionRetryContext {
             return this;
         }
 
-        public Builder backoffSlot(long value, TimeUnit unit) {
-            this.backoffSlotMillis = unit.toMillis(value);
+        public Builder backoffSlot(Duration duration) {
+            checkArgument(!duration.isNegative(), "backoffSlot(%s) is negative", duration);
+            this.backoffSlotMillis = duration.toMillis();
             return this;
         }
 
@@ -266,8 +269,9 @@ public class SessionRetryContext {
             return this;
         }
 
-        public Builder sessionSupplyTimeout(long value, TimeUnit unit) {
-            this.sessionSupplyTimeout = Duration.ofMillis(unit.toMillis(value));
+        public Builder sessionSupplyTimeout(Duration duration) {
+            checkArgument(!duration.isNegative(), "sessionSupplyTimeout(%s) is negative", duration);
+            this.sessionSupplyTimeout = duration;
             return this;
         }
 

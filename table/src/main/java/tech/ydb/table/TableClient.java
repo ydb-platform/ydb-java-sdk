@@ -1,7 +1,7 @@
 package tech.ydb.table;
 
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.WillClose;
 
@@ -43,9 +43,9 @@ public interface TableClient extends SessionSupplier, AutoCloseable {
 
         Builder sessionPoolSize(int minSize, int maxSize);
 
-        Builder sessionKeepAliveTime(long time, TimeUnit timeUnit);
+        Builder sessionKeepAliveTime(Duration duration);
 
-        Builder sessionMaxIdleTime(long time, TimeUnit timeUnit);
+        Builder sessionMaxIdleTime(Duration duration);
 
         Builder sessionCreationMaxRetries(int maxRetries);
 

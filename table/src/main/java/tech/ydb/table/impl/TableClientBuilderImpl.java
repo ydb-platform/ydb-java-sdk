@@ -1,5 +1,6 @@
 package tech.ydb.table.impl;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import tech.ydb.table.TableClient;
@@ -48,33 +49,33 @@ public class TableClientBuilderImpl implements TableClient.Builder {
     }
 
     @Override
-    public TableClient.Builder sessionKeepAliveTime(long time, TimeUnit timeUnit) {
-        checkArgument(time >= 0, "sessionKeepAliveTime(%d, %s) is negative", time, timeUnit);
-        long timeMillis = timeUnit.toMillis(time);
+    public TableClient.Builder sessionKeepAliveTime(Duration duration) {
+        checkArgument(!duration.isNegative(), "sessionKeepAliveTime(%s) is negative", duration);
+        long timeMillis = duration.toMillis();
         checkArgument(
             timeMillis >= TimeUnit.SECONDS.toMillis(1),
-            "sessionKeepAliveTime(%d, %s) is less than 1 second",
-            time, timeUnit);
+            "sessionKeepAliveTime(%s) is less than 1 second",
+            duration);
         checkArgument(
             timeMillis <= TimeUnit.MINUTES.toMillis(30),
-            "sessionKeepAliveTime(%d, %s) is greater than 30 minutes",
-            time, timeUnit);
+            "sessionKeepAliveTime(%s) is greater than 30 minutes",
+            duration);
         this.sessionPoolOptions = sessionPoolOptions.withKeepAliveTimeMillis(timeMillis);
         return this;
     }
 
     @Override
-    public TableClient.Builder sessionMaxIdleTime(long time, TimeUnit timeUnit) {
-        checkArgument(time >= 0, "sessionMaxIdleTime(%d, %s) is negative", time, timeUnit);
-        long timeMillis = timeUnit.toMillis(time);
+    public TableClient.Builder sessionMaxIdleTime(Duration duration) {
+        checkArgument(!duration.isNegative(), "sessionMaxIdleTime(%s) is negative", duration);
+        long timeMillis = duration.toMillis();
         checkArgument(
             timeMillis >= TimeUnit.SECONDS.toMillis(1),
-            "sessionMaxIdleTime(%d, %s) is less than 1 second",
-            time, timeUnit);
+            "sessionMaxIdleTime(%s) is less than 1 second",
+            duration);
         checkArgument(
             timeMillis <= TimeUnit.MINUTES.toMillis(30),
-            "sessionMaxIdleTime(%d, %s) is greater than 30 minutes",
-            time, timeUnit);
+            "sessionMaxIdleTime(%s) is greater than 30 minutes",
+            duration);
         this.sessionPoolOptions = sessionPoolOptions.withMaxIdleTimeMillis(timeMillis);
         return this;
     }
