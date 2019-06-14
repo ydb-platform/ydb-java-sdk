@@ -1,8 +1,13 @@
 package tech.ydb.core;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+
+import javax.annotation.Nullable;
+
+import com.google.common.base.Strings;
 
 
 /**
@@ -54,7 +59,9 @@ public abstract class Result<T> {
 
     public abstract T expect(String message);
 
-    public abstract Optional<T> toOptional();
+    public abstract Optional<T> ok();
+
+    public abstract Optional<Throwable> error();
 
     public abstract <U> Result<U> map(Function<T, U> mapper);
 
@@ -62,6 +69,7 @@ public abstract class Result<T> {
      * SUCCESS
      */
     private static final class Success<V> extends Result<V> {
+        @Nullable
         private final V value;
 
         Success(V value) {
@@ -84,13 +92,32 @@ public abstract class Result<T> {
         }
 
         @Override
-        public Optional<V> toOptional() {
-            return Optional.of(value);
+        public Optional<V> ok() {
+            return Optional.ofNullable(value);
+        }
+
+        @Override
+        public Optional<Throwable> error() {
+            return Optional.empty();
         }
 
         @Override
         public <U> Result<U> map(Function<V, U> mapper) {
             return new Success<>(mapper.apply(value));
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Success<?> success = (Success<?>) o;
+            return Objects.equals(value, success.value);
+        }
+
+        @Override
+        public int hashCode() {
+            return value != null ? value.hashCode() : 1337;
         }
 
         @Override
@@ -108,8 +135,8 @@ public abstract class Result<T> {
 
         Fail(StatusCode code, Issue[] issues) {
             assert code != StatusCode.SUCCESS;
-            this.code = code;
-            this.issues = issues;
+            this.code = Objects.requireNonNull(code, "code");
+            this.issues = Objects.requireNonNull(issues, "issues");
         }
 
         @Override
@@ -124,12 +151,17 @@ public abstract class Result<T> {
 
         @Override
         public V expect(String message) {
-            throw new UnexpectedResultException(message, code, issues);
+            throw newException(message);
         }
 
         @Override
-        public Optional<V> toOptional() {
+        public Optional<V> ok() {
             return Optional.empty();
+        }
+
+        @Override
+        public Optional<Throwable> error() {
+            return Optional.of(newException("error result"));
         }
 
         @SuppressWarnings("unchecked")
@@ -139,8 +171,29 @@ public abstract class Result<T> {
         }
 
         @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Fail<?> fail = (Fail<?>) o;
+            if (code != fail.code) return false;
+            return Arrays.equals(issues, fail.issues);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = code.hashCode();
+            result = 31 * result + Arrays.hashCode(issues);
+            return result;
+        }
+
+        @Override
         public String toString() {
             return "Fail{code=" + code + ", issues=" + Arrays.toString(issues) + '}';
+        }
+
+        private UnexpectedResultException newException(String message) {
+            return new UnexpectedResultException(message, code, issues);
         }
     }
 
@@ -149,10 +202,11 @@ public abstract class Result<T> {
      */
     private static final class Error<V> extends Result<V> {
         private final String message;
+        @Nullable
         private final Throwable cause;
 
         Error(String message, Throwable cause) {
-            this.message = message;
+            this.message = Strings.nullToEmpty(message);
             this.cause = cause;
         }
 
@@ -168,21 +222,41 @@ public abstract class Result<T> {
 
         @Override
         public V expect(String message) {
-            if (this.message.isEmpty()) {
-                throw new UnexpectedResultException(message, cause);
+            if (!this.message.isEmpty()) {
+                message += ": " + this.message;
             }
-            throw new UnexpectedResultException(message + ": " + this.message, cause);
+            throw new UnexpectedResultException(message, getCode(), cause);
         }
 
         @Override
-        public Optional<V> toOptional() {
+        public Optional<V> ok() {
             return Optional.empty();
+        }
+
+        @Override
+        public Optional<Throwable> error() {
+            return Optional.of(new UnexpectedResultException(message, getCode(), cause));
         }
 
         @SuppressWarnings("unchecked")
         @Override
         public <U> Result<U> map(Function<V, U> mapper) {
             return (Result<U>) this;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Error<?> error = (Error<?>) o;
+            if (!message.equals(error.message)) return false;
+            return Objects.equals(cause, error.cause);
+        }
+
+        @Override
+        public int hashCode() {
+            return 31 * message.hashCode() + (cause != null ? cause.hashCode() : 0);
         }
 
         @Override

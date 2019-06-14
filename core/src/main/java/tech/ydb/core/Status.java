@@ -51,10 +51,22 @@ public final class Status {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Status status = (Status) o;
+        if (code != status.code) return false;
+        return Arrays.equals(issues, status.issues);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * code.hashCode() + Arrays.hashCode(issues);
+    }
+
+    @Override
     public String toString() {
-        return "Status{" +
-            "code=" + code +
-            ", issues=" + Arrays.toString(issues) +
-            '}';
+        return "Status{code=" + code + ", issues=" + Arrays.toString(issues) + '}';
     }
 }

@@ -11,9 +11,9 @@ public class UnexpectedResultException extends RuntimeException {
     private final StatusCode statusCode;
     private final Issue[] issues;
 
-    public UnexpectedResultException(String message, Throwable cause) {
+    public UnexpectedResultException(String message, StatusCode statusCode, Throwable cause) {
         super(message, cause);
-        this.statusCode = StatusCode.UNUSED_STATUS;
+        this.statusCode = statusCode;
         this.issues = Issue.EMPTY_ARRAY;
     }
 

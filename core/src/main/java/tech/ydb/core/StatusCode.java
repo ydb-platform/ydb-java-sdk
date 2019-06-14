@@ -30,6 +30,8 @@ public enum StatusCode {
     ALREADY_EXISTS(SERVER_STATUSES_FIRST + 130),
     NOT_FOUND(SERVER_STATUSES_FIRST + 140),
     SESSION_EXPIRED(SERVER_STATUSES_FIRST + 150),
+    CANCELLED(SERVER_STATUSES_FIRST + 160),
+    UNDETERMINED(SERVER_STATUSES_FIRST + 170),
 
     // Client statuses
     // Cannot connect or unrecoverable network error. (map from gRPC UNAVAILABLE)
@@ -83,6 +85,8 @@ public enum StatusCode {
             case ALREADY_EXISTS: return ALREADY_EXISTS;
             case NOT_FOUND: return NOT_FOUND;
             case SESSION_EXPIRED: return SESSION_EXPIRED;
+            case CANCELLED: return CANCELLED;
+            case UNDETERMINED: return UNDETERMINED;
         }
         return UNUSED_STATUS;
     }
