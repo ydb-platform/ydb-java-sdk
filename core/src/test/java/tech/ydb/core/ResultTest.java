@@ -48,7 +48,7 @@ public class ResultTest {
         }
 
         Optional<Void> ok = r.ok();
-        Assert.assertTrue(ok.isEmpty());
+        Assert.assertFalse(ok.isPresent());
 
         Optional<Throwable> error = r.error();
         Assert.assertTrue(error.isPresent());
@@ -89,7 +89,7 @@ public class ResultTest {
         }
 
         Optional<Void> ok = r.ok();
-        Assert.assertTrue(ok.isEmpty());
+        Assert.assertFalse(ok.isPresent());
 
         Optional<Throwable> error = r.error();
         Assert.assertTrue(error.isPresent());
@@ -118,6 +118,6 @@ public class ResultTest {
         Assert.assertEquals(expectedValue, ok.get());
 
         Optional<Throwable> error = r.error();
-        Assert.assertTrue(error.isEmpty());
+        Assert.assertFalse(error.isPresent());
     }
 }
