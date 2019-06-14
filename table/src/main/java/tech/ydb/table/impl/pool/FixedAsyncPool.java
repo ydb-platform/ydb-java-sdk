@@ -77,19 +77,21 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                 return promise;
             }
 
+            final long timeoutNanos = timeout.toNanos();
+            final long deadlineAfter = System.nanoTime() + timeoutNanos;
+
             final int count = acquiredObjectsCount.get();
             if (count < maxSize && acquiredObjectsCount.compareAndSet(count, count + 1)) {
                 assert count >= 0;
-                doAcquireOrCreate(promise);
+                doAcquireOrCreate(promise, deadlineAfter);
                 return promise;
             }
 
-            final long timeoutMillis = timeout.toMillis();
-            if (timeoutMillis <= 0) {
+            if (timeoutNanos <= 0) {
                 promise.completeExceptionally(new IllegalStateException("too many acquired objects"));
             } else {
                 if (pendingAcquireCount.getAndIncrement() < waitQueueMaxSize) {
-                    pendingAcquireTasks.offer(new PendingAcquireTask(promise, timer, timeoutMillis));
+                    pendingAcquireTasks.offer(new PendingAcquireTask(promise, timer, timeoutNanos, deadlineAfter));
                     runPendingAcquireTasks();
                 } else {
                     pendingAcquireCount.decrementAndGet();
@@ -137,7 +139,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         }
     }
 
-    private void doAcquireOrCreate(CompletableFuture<T> promise) {
+    private void doAcquireOrCreate(CompletableFuture<T> promise, long deadlineAfter) {
         assert acquiredObjectsCount.get() > 0;
         try {
             final PooledObject<T> object = pollObject();
@@ -148,7 +150,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
 
             // no objects left in the pool, so create new one
 
-            CompletableFuture<T> future = handler.create();
+            CompletableFuture<T> future = handler.create(deadlineAfter);
             if (future.isDone() && !future.isCompletedExceptionally()) {
                 // faster than subscribing on future
                 onAcquire(promise, future.getNow(null), null);
@@ -208,7 +210,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             PendingAcquireTask task = pendingAcquireTasks.poll();
             if (task != null && task.timeout.cancel()) {
                 pendingAcquireCount.decrementAndGet();
-                doAcquireOrCreate(task.promise);
+                doAcquireOrCreate(task.promise, task.deadlineAfter);
             } else {
                 acquiredObjectsCount.decrementAndGet();
                 break;
@@ -282,13 +284,15 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
      */
     private final class PendingAcquireTask implements TimerTask {
         final CompletableFuture<T> promise;
-        final long timeoutMillis;
+        final long timeoutNanos;
+        final long deadlineAfter;
         final Timeout timeout;
 
-        PendingAcquireTask(CompletableFuture<T> promise, Timer timer, long timeoutMillis) {
+        PendingAcquireTask(CompletableFuture<T> promise, Timer timer, long timeoutNanos, long deadlineAfter) {
             this.promise = promise;
-            this.timeoutMillis = timeoutMillis;
-            this.timeout = timer.newTimeout(this, timeoutMillis, TimeUnit.MILLISECONDS);
+            this.timeoutNanos = timeoutNanos;
+            this.deadlineAfter = deadlineAfter;
+            this.timeout = timer.newTimeout(this, timeoutNanos, TimeUnit.NANOSECONDS);
         }
 
         @Override
@@ -297,7 +301,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             assert count >= 0;
             pendingAcquireTasks.remove(this);
 
-            String msg = "cannot acquire object within " + timeoutMillis + "ms";
+            String msg = "cannot acquire object within " + TimeUnit.NANOSECONDS.toMillis(timeoutNanos) + "ms";
             onAcquire(promise, null, new TimeoutException(msg));
         }
     }

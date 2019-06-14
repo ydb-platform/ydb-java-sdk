@@ -36,8 +36,8 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
     }
 
     @Override
-    public CompletableFuture<SessionImpl> create() {
-        return tableClient.createSessionImpl(new CreateSessionSettings())
+    public CompletableFuture<SessionImpl> create(long deadlineAfter) {
+        return tableClient.createSessionImpl(new CreateSessionSettings().setDeadlineAfter(deadlineAfter))
             .thenApply(r -> (SessionImpl) r.expect("cannot create session"));
     }
 

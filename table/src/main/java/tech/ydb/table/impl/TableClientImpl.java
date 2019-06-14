@@ -64,8 +64,7 @@ final class TableClientImpl implements TableClient {
     @Override
     public CompletableFuture<Result<Session>> getOrCreateSession(Duration timeout) {
         if (sessionPool == null) {
-            // TODO: set timeout
-            return createSessionImpl(new CreateSessionSettings());
+            return createSessionImpl(new CreateSessionSettings().setTimeout(timeout));
         }
         return sessionPool.acquire(timeout)
             .handle((s, t) -> {

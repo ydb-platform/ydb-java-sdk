@@ -11,6 +11,9 @@ public interface AsyncPool<T> {
 
     int getAcquiredCount();
 
+    /**
+     * Zero timeout will be treated as "return object immediately or fail".
+     */
     CompletableFuture<T> acquire(Duration timeout);
 
     void release(T object);

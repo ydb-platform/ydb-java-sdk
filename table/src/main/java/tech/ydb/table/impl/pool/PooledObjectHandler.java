@@ -8,7 +8,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public interface PooledObjectHandler<T> {
 
-    CompletableFuture<T> create();
+    CompletableFuture<T> create(long deadlineAfter);
 
     CompletableFuture<Void> destroy(T object);
 

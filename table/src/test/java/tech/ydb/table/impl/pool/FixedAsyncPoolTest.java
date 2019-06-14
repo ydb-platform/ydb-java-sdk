@@ -287,7 +287,7 @@ public class FixedAsyncPoolTest {
         private final AtomicInteger idSeq = new AtomicInteger();
 
         @Override
-        public CompletableFuture<Resource> create() {
+        public CompletableFuture<Resource> create(long deadlineAfter) {
             return completedFuture(new Resource(idSeq.incrementAndGet()));
         }
 
