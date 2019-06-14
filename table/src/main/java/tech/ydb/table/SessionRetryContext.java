@@ -148,18 +148,22 @@ public class SessionRetryContext {
             final Session session = sessionResult.expect("session must present");
             Async.safeCall(session, fn)
                 .whenComplete((fnResult, fnException) -> {
-                    session.release();
+                    try {
+                        session.release();
 
-                    if (fnException != null) {
-                        retryIfPossible(null, null, fnException);
-                        return;
-                    }
+                        if (fnException != null) {
+                            retryIfPossible(null, null, fnException);
+                            return;
+                        }
 
-                    StatusCode statusCode = toStatusCode(fnResult);
-                    if (statusCode == StatusCode.SUCCESS) {
-                        promise.complete(fnResult);
-                    } else {
-                        retryIfPossible(statusCode, fnResult, null);
+                        StatusCode statusCode = toStatusCode(fnResult);
+                        if (statusCode == StatusCode.SUCCESS) {
+                            promise.complete(fnResult);
+                        } else {
+                            retryIfPossible(statusCode, fnResult, null);
+                        }
+                    } catch (Throwable unexpected) {
+                        promise.completeExceptionally(unexpected);
                     }
                 });
         }

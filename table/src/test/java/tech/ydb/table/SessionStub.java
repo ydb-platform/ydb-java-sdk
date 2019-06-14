@@ -126,7 +126,7 @@ public class SessionStub implements Session {
 
     @Override
     public boolean release() {
-        throw new UnsupportedOperationException("release() not implemented");
+        return false;
     }
 
     @Override
