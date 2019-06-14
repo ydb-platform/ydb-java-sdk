@@ -1,6 +1,7 @@
 package tech.ydb.core.grpc;
 
 import java.net.InetSocketAddress;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
@@ -8,6 +9,7 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.common.net.HostAndPort;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
@@ -41,6 +43,8 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
  */
 public class GrpcTransport implements RpcTransport {
 
+    public static final int DEFAULT_PORT = 2135;
+
     private static final Logger logger = Logger.getLogger(GrpcTransport.class.getName());
 
     private final ManagedChannel realChannel;
@@ -50,17 +54,16 @@ public class GrpcTransport implements RpcTransport {
 
     GrpcTransport(GrpcTransportBuilder builder) {
         if (builder.endpoint != null) {
-            String target = YdbNameResolver.SCHEME + "://" + builder.endpoint +
-                (builder.database.startsWith("/") ? "" : "/") + builder.database;
+            this.realChannel = createChannel(builder.endpoint, builder.database, builder.authProvider);
 
             Metadata extraHeaders = new Metadata();
             extraHeaders.put(YdbHeaders.DATABASE, builder.database);
             ClientInterceptor interceptor = MetadataUtils.newAttachHeadersInterceptor(extraHeaders);
-
-            this.realChannel = createChannel(target, builder.authProvider);
             this.channel = ClientInterceptors.intercept(realChannel, interceptor);
+        } else if (builder.hosts.size() == 1) {
+            this.channel = this.realChannel = createChannel(builder.hosts.get(0));
         } else {
-            this.channel = this.realChannel = createChannel(builder.host, builder.port);
+            this.channel = this.realChannel = createChannel(builder.hosts);
         }
 
         if (builder.authProvider != NopAuthProvider.INSTANCE) {
@@ -73,16 +76,27 @@ public class GrpcTransport implements RpcTransport {
         this.operationTray = new GrpcOperationTray(this);
     }
 
-    private static ManagedChannel createChannel(String host, int port) {
-        return NettyChannelBuilder.forAddress(new InetSocketAddress(host, port))
+    private static ManagedChannel createChannel(HostAndPort host) {
+        int port = host.getPortOrDefault(DEFAULT_PORT);
+        return NettyChannelBuilder.forAddress(new InetSocketAddress(host.getHost(), port))
             .negotiationType(NegotiationType.PLAINTEXT)
             .maxInboundMessageSize(64 << 20) // 64 MiB
             .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
             .build();
     }
 
-    private static ManagedChannel createChannel(String target, AuthProvider authProvider) {
-        return NettyChannelBuilder.forTarget(target)
+    private static ManagedChannel createChannel(List<HostAndPort> hosts) {
+        return NettyChannelBuilder.forTarget(HostsNameResolver.makeTarget(hosts))
+            .negotiationType(NegotiationType.PLAINTEXT)
+            .maxInboundMessageSize(64 << 20) // 64 MiB
+            .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
+            .nameResolverFactory(HostsNameResolver.newFactory(hosts))
+            .loadBalancerFactory(RoundRobinLoadBalancerFactory.getInstance())
+            .build();
+    }
+
+    private static ManagedChannel createChannel(String endpoint, String database, AuthProvider authProvider) {
+        return NettyChannelBuilder.forTarget(YdbNameResolver.makeTarget(endpoint, database))
             .negotiationType(NegotiationType.PLAINTEXT)
             .maxInboundMessageSize(64 << 20) // 64 MiB
             .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)

@@ -30,10 +30,9 @@ import io.grpc.internal.GrpcUtil;
 /**
  * @author Sergey Polovko
  */
-public final class YdbNameResolver extends NameResolver {
+final class YdbNameResolver extends NameResolver {
 
-    public static final String SCHEME = "ydb";
-    private static final int DEFAULT_PORT = 2135;
+    private static final String SCHEME = "ydb";
 
     private final String database;
     private final String authority;
@@ -48,6 +47,16 @@ public final class YdbNameResolver extends NameResolver {
         this.transport = GrpcTransportBuilder.singleHost(hostname, port)
             .withAuthProvider(authProvider)
             .build();
+    }
+
+    static String makeTarget(String endpoint, String database) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(SCHEME).append("://").append(endpoint);
+        if (!database.startsWith("/")) {
+            sb.append('/');
+        }
+        sb.append(database);
+        return sb.toString();
     }
 
     @Override
@@ -127,7 +136,7 @@ public final class YdbNameResolver extends NameResolver {
     }
 
     // TODO: resolve name asynchronously
-    private EquivalentAddressGroup createAddressGroup(EndpointInfo endpoint) throws UnknownHostException {
+    private static EquivalentAddressGroup createAddressGroup(EndpointInfo endpoint) throws UnknownHostException {
         InetAddress[] addresses = InetAddress.getAllByName(endpoint.getAddress());
         if (addresses.length == 1) {
             return new EquivalentAddressGroup(new InetSocketAddress(addresses[0], endpoint.getPort()));
@@ -151,17 +160,17 @@ public final class YdbNameResolver extends NameResolver {
         transport.unaryCall(DiscoveryServiceGrpc.METHOD_LIST_ENDPOINTS, request, consumer, 0);
     }
 
-    public static Factory newFactory(AuthProvider authProvider) {
+    static Factory newFactory(AuthProvider authProvider) {
         return new Factory() {
             @Nullable
             @Override
-            public NameResolver newNameResolver(URI targetUri, Attributes params) {
+            public NameResolver newNameResolver(URI targetUri, Helper helper) {
                 if (!SCHEME.equals(targetUri.getScheme())) {
                     return null;
                 }
                 int port = targetUri.getPort();
                 if (port == -1) {
-                    port = DEFAULT_PORT;
+                    port = GrpcTransport.DEFAULT_PORT;
                 }
                 return new YdbNameResolver(targetUri.getHost(), port, targetUri.getPath(), authProvider);
             }

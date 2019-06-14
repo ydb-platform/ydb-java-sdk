@@ -1,13 +1,18 @@
 package tech.ydb.core.grpc;
 
-import java.util.Objects;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.net.HostAndPort;
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.auth.NopAuthProvider;
 import tech.ydb.core.rpc.RpcTransportBuilder;
 import io.grpc.CallOptions;
+
+import static java.util.Collections.singletonList;
+import static java.util.Objects.requireNonNull;
 
 
 /**
@@ -16,37 +21,42 @@ import io.grpc.CallOptions;
 @ParametersAreNonnullByDefault
 public final class GrpcTransportBuilder extends RpcTransportBuilder<GrpcTransport, GrpcTransportBuilder> {
 
-    final String host;
-    final int port;
+    final List<HostAndPort> hosts;
     final String endpoint;
     final String database;
     AuthProvider authProvider = NopAuthProvider.INSTANCE;
     CallOptions callOptions = CallOptions.DEFAULT;
 
-    private GrpcTransportBuilder(String host, int port) {
-        this.host = host;
-        this.port = port;
+    private GrpcTransportBuilder(List<HostAndPort> hosts) {
+        this.hosts = hosts;
         this.endpoint = null;
         this.database = null;
     }
 
     private GrpcTransportBuilder(String endpoint, String database) {
-        this.host = null;
-        this.port = -1;
+        this.hosts = null;
         this.endpoint = endpoint;
         this.database = database;
     }
 
     public static GrpcTransportBuilder singleHost(String host, int port) {
-        return new GrpcTransportBuilder(host, port);
+        return new GrpcTransportBuilder(singletonList(HostAndPort.fromParts(host, port)));
+    }
+
+    public static GrpcTransportBuilder multipleHosts(HostAndPort... hosts) {
+        return new GrpcTransportBuilder(Arrays.asList(requireNonNull(hosts, "hosts")));
+    }
+
+    public static GrpcTransportBuilder multipleHosts(List<HostAndPort> hosts) {
+        return new GrpcTransportBuilder(requireNonNull(hosts, "hosts"));
     }
 
     public static GrpcTransportBuilder forEndpoint(String endpoint, String database) {
-        return new GrpcTransportBuilder(endpoint, database);
+        return new GrpcTransportBuilder(requireNonNull(endpoint, "endpoint"), requireNonNull(database, "database"));
     }
 
     public GrpcTransportBuilder withAuthProvider(AuthProvider authProvider) {
-        this.authProvider = Objects.requireNonNull(authProvider);
+        this.authProvider = requireNonNull(authProvider);
         return this;
     }
 
