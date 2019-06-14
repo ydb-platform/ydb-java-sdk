@@ -1,18 +1,13 @@
 package tech.ydb.core.grpc;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.net.HostAndPort;
-import com.google.common.util.concurrent.MoreExecutors;
-import tech.ydb.core.auth.AuthProvider;
-import tech.ydb.core.auth.NopAuthProvider;
 import tech.ydb.core.rpc.RpcTransportBuilder;
 import io.grpc.netty.NettyChannelBuilder;
 
@@ -27,13 +22,10 @@ import static java.util.Objects.requireNonNull;
 @ParametersAreNonnullByDefault
 public final class GrpcTransportBuilder extends RpcTransportBuilder<GrpcTransport, GrpcTransportBuilder> {
 
-    final List<HostAndPort> hosts;
-    final String endpoint;
-    final String database;
-    Executor callExecutor = MoreExecutors.directExecutor();
-    Consumer<NettyChannelBuilder> channelInitializer = (cb) -> {};
-    AuthProvider authProvider = NopAuthProvider.INSTANCE;
-    long readTimeoutMillis = 0;
+    private final List<HostAndPort> hosts;
+    private final String endpoint;
+    private final String database;
+    private Consumer<NettyChannelBuilder> channelInitializer = (cb) -> {};
 
     private GrpcTransportBuilder(List<HostAndPort> hosts) {
         this.hosts = hosts;
@@ -45,6 +37,25 @@ public final class GrpcTransportBuilder extends RpcTransportBuilder<GrpcTranspor
         this.hosts = null;
         this.endpoint = endpoint;
         this.database = database;
+    }
+
+    @Nullable
+    public List<HostAndPort> getHosts() {
+        return hosts;
+    }
+
+    @Nullable
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+    @Nullable
+    public String getDatabase() {
+        return database;
+    }
+
+    public Consumer<NettyChannelBuilder> getChannelInitializer() {
+        return channelInitializer;
     }
 
     public static GrpcTransportBuilder singleHost(String host, int port) {
@@ -63,28 +74,6 @@ public final class GrpcTransportBuilder extends RpcTransportBuilder<GrpcTranspor
 
     public static GrpcTransportBuilder forEndpoint(String endpoint, String database) {
         return new GrpcTransportBuilder(requireNonNull(endpoint, "endpoint"), requireNonNull(database, "database"));
-    }
-
-    public GrpcTransportBuilder withAuthProvider(AuthProvider authProvider) {
-        this.authProvider = requireNonNull(authProvider);
-        return this;
-    }
-
-    public GrpcTransportBuilder withReadTimeout(Duration timeout) {
-        this.readTimeoutMillis = timeout.toMillis();
-        checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
-        return this;
-    }
-
-    public GrpcTransportBuilder withReadTimeout(long timeout, TimeUnit unit) {
-        this.readTimeoutMillis = unit.toMillis(timeout);
-        checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
-        return this;
-    }
-
-    public GrpcTransportBuilder withCallExecutor(Executor executor) {
-        this.callExecutor = requireNonNull(executor);
-        return this;
     }
 
     public GrpcTransportBuilder withChannelInitializer(Consumer<NettyChannelBuilder> channelInitializer) {

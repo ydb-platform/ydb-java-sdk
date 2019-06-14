@@ -54,62 +54,65 @@ public class GrpcTransport implements RpcTransport {
     private final long defautlReadTimeoutMillis;
 
     GrpcTransport(GrpcTransportBuilder builder) {
-        if (builder.endpoint != null) {
-            NettyChannelBuilder channelBuilder = createChannel(builder.endpoint, builder.database, builder.authProvider);
-            builder.channelInitializer.accept(channelBuilder);
-            this.realChannel = channelBuilder.build();
-
-            Metadata extraHeaders = new Metadata();
-            extraHeaders.put(YdbHeaders.DATABASE, builder.database);
-            ClientInterceptor interceptor = MetadataUtils.newAttachHeadersInterceptor(extraHeaders);
-            this.channel = ClientInterceptors.intercept(realChannel, interceptor);
-        } else if (builder.hosts.size() == 1) {
-            NettyChannelBuilder channelBuilder = createChannel(builder.hosts.get(0));
-            builder.channelInitializer.accept(channelBuilder);
-            this.channel = this.realChannel = channelBuilder.build();
-        } else {
-            NettyChannelBuilder channelBuilder = createChannel(builder.hosts);
-            builder.channelInitializer.accept(channelBuilder);
-            this.channel = this.realChannel = channelBuilder.build();
-        }
-
-        CallOptions callOptions = CallOptions.DEFAULT;
-        if (builder.authProvider != NopAuthProvider.INSTANCE) {
-            callOptions = callOptions.withCallCredentials(new YdbCallCredentials(builder.authProvider));
-        }
-        if (builder.callExecutor != MoreExecutors.directExecutor()) {
-            callOptions = callOptions.withExecutor(builder.callExecutor);
-        }
-
-        this.callOptions = callOptions;
-        this.defautlReadTimeoutMillis = builder.readTimeoutMillis;
+        this.realChannel = createChannel(builder);
+        this.channel = interceptChannel(realChannel, builder);
+        this.callOptions = createCallOptions(builder);
+        this.defautlReadTimeoutMillis = builder.getReadTimeoutMillis();
         this.operationTray = new GrpcOperationTray(this);
     }
 
-    private static NettyChannelBuilder createChannel(HostAndPort host) {
-        int port = host.getPortOrDefault(DEFAULT_PORT);
-        return NettyChannelBuilder.forAddress(new InetSocketAddress(host.getHost(), port))
+    private static ManagedChannel createChannel(GrpcTransportBuilder builder) {
+        String endpoint = builder.getEndpoint();
+        String database = builder.getDatabase();
+        List<HostAndPort> hosts = builder.getHosts();
+        assert (endpoint != null) == (database != null);
+        assert (endpoint == null) != (hosts == null);
+
+        final NettyChannelBuilder channelBuilder;
+        if (endpoint != null) {
+            channelBuilder = NettyChannelBuilder.forTarget(YdbNameResolver.makeTarget(endpoint, database))
+                    .nameResolverFactory(YdbNameResolver.newFactory(builder.getAuthProvider()))
+                    .defaultLoadBalancingPolicy("round_robin");
+        } else if (hosts.size() > 1) {
+            channelBuilder = NettyChannelBuilder.forTarget(HostsNameResolver.makeTarget(hosts))
+                .nameResolverFactory(HostsNameResolver.newFactory(hosts))
+                .defaultLoadBalancingPolicy("round_robin");
+        } else {
+            channelBuilder = NettyChannelBuilder.forAddress(new InetSocketAddress(
+                hosts.get(0).getHost(),
+                hosts.get(0).getPortOrDefault(DEFAULT_PORT)));
+        }
+
+        channelBuilder
             .negotiationType(NegotiationType.PLAINTEXT)
             .maxInboundMessageSize(64 << 20) // 64 MiB
             .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
+
+        builder.getChannelInitializer().accept(channelBuilder);
+        return channelBuilder.build();
     }
 
-    private static NettyChannelBuilder createChannel(List<HostAndPort> hosts) {
-        return NettyChannelBuilder.forTarget(HostsNameResolver.makeTarget(hosts))
-            .negotiationType(NegotiationType.PLAINTEXT)
-            .maxInboundMessageSize(64 << 20) // 64 MiB
-            .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
-            .nameResolverFactory(HostsNameResolver.newFactory(hosts))
-            .defaultLoadBalancingPolicy("round_robin");
+    private static Channel interceptChannel(ManagedChannel realChannel, GrpcTransportBuilder builder) {
+        if (builder.getDatabase() == null) {
+            return realChannel;
+        }
+
+        Metadata extraHeaders = new Metadata();
+        extraHeaders.put(YdbHeaders.DATABASE, builder.getDatabase());
+        ClientInterceptor interceptor = MetadataUtils.newAttachHeadersInterceptor(extraHeaders);
+        return ClientInterceptors.intercept(realChannel, interceptor);
     }
 
-    private static NettyChannelBuilder createChannel(String endpoint, String database, AuthProvider authProvider) {
-        return NettyChannelBuilder.forTarget(YdbNameResolver.makeTarget(endpoint, database))
-            .negotiationType(NegotiationType.PLAINTEXT)
-            .maxInboundMessageSize(64 << 20) // 64 MiB
-            .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
-            .nameResolverFactory(YdbNameResolver.newFactory(authProvider))
-            .defaultLoadBalancingPolicy("round_robin");
+    private static CallOptions createCallOptions(GrpcTransportBuilder builder) {
+        CallOptions callOptions = CallOptions.DEFAULT;
+        AuthProvider authProvider = builder.getAuthProvider();
+        if (authProvider != NopAuthProvider.INSTANCE) {
+            callOptions = callOptions.withCallCredentials(new YdbCallCredentials(authProvider));
+        }
+        if (builder.getCallExecutor() != MoreExecutors.directExecutor()) {
+            callOptions = callOptions.withExecutor(builder.getCallExecutor());
+        }
+        return callOptions;
     }
 
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
