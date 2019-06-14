@@ -28,7 +28,7 @@ public class TypedValue<T extends Type> {
     public ValueProtos.TypedValue toPb() {
         return ValueProtos.TypedValue.newBuilder()
             .setType(ProtoType.toPb(type))
-            .setValue(value.toPb(type))
+            .setValue(value.toPb())
             .build();
     }
 }

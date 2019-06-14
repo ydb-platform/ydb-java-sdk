@@ -122,13 +122,10 @@ public class StructValue implements Value<StructType> {
     }
 
     @Override
-    public ValueProtos.Value toPb(StructType type) {
+    public ValueProtos.Value toPb() {
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
-        for (int i = 0; i < members.length; i++) {
-            Type memberType = type.getMemberType(i);
-            @SuppressWarnings("unchecked")
-            ValueProtos.Value memberValue = members[i].toPb(memberType);
-            builder.addItems(memberValue);
+        for (Value member : members) {
+            builder.addItems(member.toPb());
         }
         return builder.build();
     }

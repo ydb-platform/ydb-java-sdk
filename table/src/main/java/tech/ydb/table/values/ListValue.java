@@ -85,18 +85,14 @@ public class ListValue implements Value<ListType> {
     }
 
     @Override
-    public ValueProtos.Value toPb(ListType type) {
+    public ValueProtos.Value toPb() {
         if (isEmpty()) {
             return ProtoValue.list();
         }
 
-        Type itemType = type.getItemType();
-
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
         for (Value item : items) {
-            @SuppressWarnings("unchecked")
-            ValueProtos.Value value = item.toPb(itemType);
-            builder.addItems(value);
+            builder.addItems(item.toPb());
         }
         return builder.build();
     }

@@ -66,7 +66,7 @@ public class StructValueTest {
         StructValue value = StructValue.of("a", PrimitiveValue.uint32(1));
         StructType type = value.getType();
 
-        ValueProtos.Value valuePb = value.toPb(type);
+        ValueProtos.Value valuePb = value.toPb();
         ProtoTruth.assertThat(valuePb)
             .isEqualTo(ValueProtos.Value.newBuilder()
                 .addItems(ProtoValue.uint32(1))
@@ -84,7 +84,7 @@ public class StructValueTest {
             "c", PrimitiveValue.utf8("yes"));
         StructType type = value.getType();
 
-        ValueProtos.Value valuePb = value.toPb(type);
+        ValueProtos.Value valuePb = value.toPb();
         ProtoTruth.assertThat(valuePb)
             .isEqualTo(ValueProtos.Value.newBuilder()
                 .addItems(ProtoValue.uint32(1))

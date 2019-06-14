@@ -38,7 +38,7 @@ public class DecimalValueTest {
         DecimalType type = DecimalType.of(13, 2);
         DecimalValue value = type.newValue(0x0001, 0x0002);
 
-        ValueProtos.Value valuePb = value.toPb(type);
+        ValueProtos.Value valuePb = value.toPb();
         ProtoTruth.assertThat(valuePb).isEqualTo(ProtoValue.decimal(0x0001, 0x0002));
 
         assertThat(value).isEqualTo(ProtoValue.fromPb(type, valuePb));

@@ -12,7 +12,7 @@ public interface Value<T extends Type> {
 
     T getType();
 
-    ValueProtos.Value toPb(T type);
+    ValueProtos.Value toPb();
 
     default PrimitiveValue asData() {
         return (PrimitiveValue) this;

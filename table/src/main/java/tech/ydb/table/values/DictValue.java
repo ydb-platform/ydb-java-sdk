@@ -94,20 +94,15 @@ public class DictValue implements Value<DictType> {
     }
 
     @Override
-    public ValueProtos.Value toPb(DictType type) {
+    public ValueProtos.Value toPb() {
         if (isEmpty()) {
             return ProtoValue.dict();
         }
 
-        Type keyType = type.getKeyType();
-        Type valueType = type.getValueType();
-
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
         for (Map.Entry<Value, Value> e : items.entrySet()) {
-            @SuppressWarnings("unchecked")
-            ValueProtos.Value key = e.getKey().toPb(keyType);
-            @SuppressWarnings("unchecked")
-            ValueProtos.Value value = e.getValue().toPb(valueType);
+            ValueProtos.Value key = e.getKey().toPb();
+            ValueProtos.Value value = e.getValue().toPb();
 
             builder.addPairsBuilder()
                 .setKey(key)

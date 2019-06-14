@@ -86,7 +86,7 @@ public abstract class Params {
         public <T extends Type> UnknownTypes put(String name, T type, Value<T> value) {
             this.params.put(name, ValueProtos.TypedValue.newBuilder()
                 .setType(ProtoType.toPb(type))
-                .setValue(value.toPb(type))
+                .setValue(value.toPb())
                 .build());
             return this;
         }
@@ -94,7 +94,7 @@ public abstract class Params {
         public UnknownTypes put(String name, PrimitiveValue value) {
             this.params.put(name, ValueProtos.TypedValue.newBuilder()
                 .setType(ProtoType.toPb(value.getType()))
-                .setValue(value.toPb(value.getType()))
+                .setValue(value.toPb())
                 .build());
             return this;
         }
@@ -128,14 +128,12 @@ public abstract class Params {
         }
 
         public <T extends Type> KnownTypes put(String name, Value<T> value) {
-            @SuppressWarnings("unchecked")
-            T type = (T) types.get(name);
-            if (type == null) {
+            if (!types.containsKey(name)) {
                 throw new NoSuchElementException("unknown parameter: " + name);
             }
             params.put(name, ValueProtos.TypedValue.newBuilder()
                 .setType(Objects.requireNonNull(typesPb.get(name)))
-                .setValue(value.toPb(type))
+                .setValue(value.toPb())
                 .build());
             return this;
         }

@@ -39,7 +39,7 @@ public class VoidValue implements Value<VoidType> {
     }
 
     @Override
-    public ValueProtos.Value toPb(VoidType type) {
+    public ValueProtos.Value toPb() {
         return ProtoValue.voidValue();
     }
 }

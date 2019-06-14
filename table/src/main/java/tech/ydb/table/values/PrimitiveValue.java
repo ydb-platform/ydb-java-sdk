@@ -299,8 +299,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
-            checkType(type, PrimitiveType.Id.Bool);
+        public ValueProtos.Value toPb() {
             return ProtoValue.bool(value);
         }
     }
@@ -340,8 +339,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
-            checkType(type, PrimitiveType.Id.Int8);
+        public ValueProtos.Value toPb() {
             return ProtoValue.int8(value);
         }
     }
@@ -381,8 +379,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
-            checkType(type, PrimitiveType.Id.Uint8);
+        public ValueProtos.Value toPb() {
             return ProtoValue.uint8(value);
         }
     }
@@ -422,8 +419,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
-            checkType(type, PrimitiveType.Id.Int16);
+        public ValueProtos.Value toPb() {
             return ProtoValue.int16(value);
         }
     }
@@ -463,8 +459,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
-            checkType(type, PrimitiveType.Id.Uint16);
+        public ValueProtos.Value toPb() {
             return ProtoValue.uint16(value);
         }
     }
@@ -504,8 +499,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
-            checkType(type, PrimitiveType.Id.Int32);
+        public ValueProtos.Value toPb() {
             return ProtoValue.int32(value);
         }
     }
@@ -545,8 +539,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
-            checkType(type, PrimitiveType.Id.Uint32);
+        public ValueProtos.Value toPb() {
             return ProtoValue.uint32(value);
         }
     }
@@ -586,8 +579,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
-            checkType(type, PrimitiveType.Id.Int64);
+        public ValueProtos.Value toPb() {
             return ProtoValue.int64(value);
         }
     }
@@ -627,8 +619,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
-            checkType(type, PrimitiveType.Id.Uint64);
+        public ValueProtos.Value toPb() {
             return ProtoValue.uint64(value);
         }
     }
@@ -670,8 +661,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
-            checkType(type, PrimitiveType.Id.Float);
+        public ValueProtos.Value toPb() {
             return ProtoValue.float32(value);
         }
     }
@@ -713,8 +703,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
-            checkType(type, PrimitiveType.Id.Double);
+        public ValueProtos.Value toPb() {
             return ProtoValue.float64(value);
         }
     }
@@ -854,7 +843,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
+        public ValueProtos.Value toPb() {
             return ProtoValue.bytes(getByteString(type));
         }
 
@@ -947,8 +936,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
-            checkType(type, type.getId());
+        public ValueProtos.Value toPb() {
             return ProtoValue.text(value);
         }
     }
@@ -1044,7 +1032,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
+        public ValueProtos.Value toPb() {
             return ProtoValue.uuid(high, low);
         }
 
@@ -1114,8 +1102,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
-            checkType(type, type.getId());
+        public ValueProtos.Value toPb() {
             switch (type.getId()) {
                 case Date: return ProtoValue.date(TimeUnit.MICROSECONDS.toDays(microsSinceEpoch));
                 case Datetime: return ProtoValue.datetime(TimeUnit.MICROSECONDS.toSeconds(microsSinceEpoch));
@@ -1163,7 +1150,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
+        public ValueProtos.Value toPb() {
             return ProtoValue.interval(micros);
         }
     }
@@ -1227,7 +1214,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public ValueProtos.Value toPb(PrimitiveType type) {
+        public ValueProtos.Value toPb() {
             return ProtoValue.text(toString());
         }
     }

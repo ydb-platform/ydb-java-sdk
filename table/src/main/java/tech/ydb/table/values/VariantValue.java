@@ -58,13 +58,10 @@ public class VariantValue implements Value<VariantType> {
     }
 
     @Override
-    public ValueProtos.Value toPb(VariantType type) {
-        Type itemType = type.getItemType(typeIndex);
-        @SuppressWarnings("unchecked")
-        ValueProtos.Value itemValue = item.toPb(itemType);
+    public ValueProtos.Value toPb() {
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
+        builder.setNestedValue(item.toPb());
         builder.setVariantIndex(typeIndex);
-        builder.setNestedValue(itemValue);
         return builder.build();
     }
 }

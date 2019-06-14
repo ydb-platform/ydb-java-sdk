@@ -120,17 +120,14 @@ public class TupleValue implements Value<TupleType> {
     }
 
     @Override
-    public ValueProtos.Value toPb(TupleType type) {
+    public ValueProtos.Value toPb() {
         if (isEmpty()) {
             return ProtoValue.tuple();
         }
 
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
-        for (int i = 0; i < items.length; i++) {
-            Type elementType = type.getElementType(i);
-            @SuppressWarnings("unchecked")
-            ValueProtos.Value elementValue = items[i].toPb(elementType);
-            builder.addItems(elementValue);
+        for (Value item : items) {
+            builder.addItems(item.toPb());
         }
         return builder.build();
     }

@@ -80,11 +80,9 @@ public class OptionalValue implements Value<OptionalType> {
     }
 
     @Override
-    public ValueProtos.Value toPb(OptionalType type) {
+    public ValueProtos.Value toPb() {
         if (isPresent()) {
-            Type itemType = type.getItemType();
-            @SuppressWarnings("unchecked")
-            ValueProtos.Value value = get().toPb(itemType);
+            ValueProtos.Value value = get().toPb();
             return ProtoValue.optional(value);
         }
 

@@ -236,10 +236,7 @@ public class DecimalValue implements Value<DecimalType> {
     }
 
     @Override
-    public ValueProtos.Value toPb(DecimalType type) {
-        if (!this.type.equals(type)) {
-            throw new IllegalArgumentException("types mismatch, expected " + type + ", but was " + this.type);
-        }
+    public ValueProtos.Value toPb() {
         return ProtoValue.decimal(high, low);
     }
 
