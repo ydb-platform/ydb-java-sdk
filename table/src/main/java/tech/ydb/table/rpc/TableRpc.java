@@ -4,6 +4,9 @@ import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.rpc.Rpc;
+import tech.ydb.core.rpc.StreamObserver;
+import tech.ydb.table.YdbTable.ReadTableRequest;
+import tech.ydb.table.YdbTable.ReadTableResponse;
 
 import static tech.ydb.table.YdbTable.AlterTableRequest;
 import static tech.ydb.table.YdbTable.AlterTableResponse;
@@ -125,4 +128,8 @@ public interface TableRpc extends Rpc {
      */
     CompletableFuture<Result<RollbackTransactionResponse>> rollbackTransaction(RollbackTransactionRequest request);
 
+    /**
+     * Streaming read table.
+     */
+    void streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer);
 }

@@ -4,12 +4,15 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.auth.NopAuthProvider;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.RpcTransport;
+import tech.ydb.core.rpc.StreamObserver;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.ClientCall;
@@ -31,6 +34,8 @@ import io.netty.channel.ChannelOption;
  * @author Sergey Polovko
  */
 public class GrpcTransport implements RpcTransport {
+
+    private static final Logger logger = Logger.getLogger(GrpcTransport.class.getName());
 
     private final ManagedChannel realChannel;
     private final Channel channel;
@@ -81,76 +86,59 @@ public class GrpcTransport implements RpcTransport {
     }
 
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(MethodDescriptor<ReqT, RespT> method, ReqT request) {
-        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-        return callWithPromise(call, request);
-    }
-
-    public <ReqT, RespT> void unaryCall(
-        MethodDescriptor<ReqT, RespT> method,
-        ReqT request,
-        Consumer<Result<RespT>> consumer)
-    {
-        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-        callWithConsumer(call, request, consumer);
-    }
-
-    public <ReqT, RespT> void unaryCall(
-        MethodDescriptor<ReqT, RespT> method,
-        ReqT request,
-        BiConsumer<RespT, Status> consumer)
-    {
-        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-        callWithBiConsumer(call, request, consumer);
-    }
-
-    private static <ReqT, RespT> CompletableFuture<Result<RespT>> callWithPromise(ClientCall<ReqT, RespT> call, ReqT request) {
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
-        try {
-            call.start(new UnaryStreamToFuture<>(promise), new Metadata());
-            call.request(1);
-            call.sendMessage(request);
-            call.halfClose();
-        } catch (Throwable t) {
-            call.cancel(null, t);
-            promise.complete(Result.error("Unknown internal client error", t));
-        }
+        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+        sendOneRequest(call, request, new UnaryStreamToFuture<>(promise));
         return promise;
     }
 
-    private static <ReqT, RespT> void callWithConsumer(
-        ClientCall<ReqT, RespT> call,
+    public <ReqT, RespT> void unaryCall(
+        MethodDescriptor<ReqT, RespT> method,
         ReqT request,
         Consumer<Result<RespT>> consumer)
     {
-        UnaryStreamToConsumer<RespT> listener = new UnaryStreamToConsumer<>(consumer);
-        try {
-            call.start(listener, new Metadata());
-            call.request(1);
-            call.sendMessage(request);
-            call.halfClose();
-        } catch (Throwable t) {
-            call.cancel(null, t);
-            listener.accept(Result.error("Unknown internal client error", t));
-        }
+        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+        sendOneRequest(call, request, new UnaryStreamToConsumer<>(consumer));
     }
 
-    private static <ReqT, RespT> void callWithBiConsumer(
-        ClientCall<ReqT, RespT> call,
+    public <ReqT, RespT> void unaryCall(
+        MethodDescriptor<ReqT, RespT> method,
         ReqT request,
         BiConsumer<RespT, Status> consumer)
     {
-        UnaryStreamToBiConsumer<RespT> listener = new UnaryStreamToBiConsumer<>(consumer);
+        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+        sendOneRequest(call, request, new UnaryStreamToBiConsumer<>(consumer));
+    }
+
+    public <ReqT, RespT> void serverStreamCall(
+        MethodDescriptor<ReqT, RespT> method,
+        ReqT request,
+        StreamObserver<RespT> observer)
+    {
+        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+        ServerStreamToObserver<ReqT, RespT> listener = new ServerStreamToObserver<>(observer, call);
+        sendOneRequest(call, request, listener);
+    }
+
+    private static <ReqT, RespT> void sendOneRequest(
+        ClientCall<ReqT, RespT> call,
+        ReqT request,
+        ClientCall.Listener<RespT> listener)
+    {
         try {
             call.start(listener, new Metadata());
             call.request(1);
             call.sendMessage(request);
             call.halfClose();
         } catch (Throwable t) {
-            call.cancel(null, t);
-            listener.accept(null, Status.INTERNAL.withCause(t));
+            try {
+                call.cancel(null, t);
+            } catch (Throwable ex) {
+                logger.log(Level.SEVERE, "Exception encountered while closing the call", ex);
+            }
+            listener.onClose(Status.INTERNAL.withCause(t), null);
         }
     }
-
 
     @Override
     public OperationTray getOperationTray() {

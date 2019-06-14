@@ -37,5 +37,9 @@ public interface Value<T extends Type> {
         return (VoidValue) this;
     }
 
+    default OptionalValue makeOptional() {
+        return OptionalValue.of(this);
+    }
+
     ValueProtos.Value toPb(T type);
 }

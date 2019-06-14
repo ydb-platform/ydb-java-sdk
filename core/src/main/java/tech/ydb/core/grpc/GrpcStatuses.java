@@ -14,31 +14,39 @@ import static com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId.S_ERRO
 public final class GrpcStatuses {
     private GrpcStatuses() {}
 
+    public static <T> Result<T> toResult(Status status) {
+        String message = getMessage(status);
 
-    public static <T> Result<T> translate(Status status) {
-        final StatusCode code;
-        switch (status.getCode()) {
-            case UNAVAILABLE:
-                code = StatusCode.TRANSPORT_UNAVAILABLE;
-                break;
-            case UNAUTHENTICATED:
-                code = StatusCode.CLIENT_UNAUTHENTICATED;
-                break;
-            case CANCELLED:
-                code = StatusCode.CLIENT_CANCELLED;
-                break;
-            case UNIMPLEMENTED:
-                code = StatusCode.CLIENT_CALL_UNIMPLEMENTED;
-                break;
-            default:
-                code = StatusCode.CLIENT_INTERNAL_ERROR;
-                break;
+        Throwable cause = status.getCause();
+        if (cause != null && status.getCode() == Status.Code.INTERNAL) {
+            return Result.error(message, cause);
         }
 
-        String message = "gRPC error: (" + status.getCode() + ')';
-        if (status.getDescription() != null) {
-            message += ' ' + status.getDescription();
-        }
+        StatusCode code = getStatusCode(status.getCode());
         return Result.fail(code, Issue.of(message, S_ERROR));
+    }
+
+    public static tech.ydb.core.Status toStatus(Status status) {
+        String message = getMessage(status);
+        StatusCode code = getStatusCode(status.getCode());
+        return tech.ydb.core.Status.of(code, Issue.of(message, S_ERROR));
+    }
+
+    private static String getMessage(Status status) {
+        String message = "gRPC error: (" + status.getCode() + ')';
+        return status.getDescription() == null
+            ? message
+            : message + ' ' + status.getDescription();
+    }
+
+    private static StatusCode getStatusCode(Status.Code code) {
+        switch (code) {
+            case UNAVAILABLE: return StatusCode.TRANSPORT_UNAVAILABLE;
+            case UNAUTHENTICATED: return StatusCode.CLIENT_UNAUTHENTICATED;
+            case CANCELLED: return StatusCode.CLIENT_CANCELLED;
+            case UNIMPLEMENTED: return StatusCode.CLIENT_CALL_UNIMPLEMENTED;
+            default:
+                return StatusCode.CLIENT_INTERNAL_ERROR;
+        }
     }
 }

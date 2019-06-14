@@ -49,7 +49,7 @@ public class UnaryStreamToConsumer<T> extends ClientCall.Listener<T> {
                 accept(Result.success(value));
             }
         } else {
-            accept(GrpcStatuses.translate(status));
+            accept(GrpcStatuses.toResult(status));
         }
     }
 

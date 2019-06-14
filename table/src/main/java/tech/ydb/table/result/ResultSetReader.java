@@ -39,6 +39,11 @@ public interface ResultSetReader {
     String getColumnName(int index);
 
     /**
+     * Returns column index by name.
+     */
+    int getColumnIndex(String name);
+
+    /**
      * Returns value reader for column by index.
      */
     ValueReader getColumn(int index);

@@ -85,6 +85,11 @@ final class ProtoResultSetReader implements ResultSetReader {
     }
 
     @Override
+    public int getColumnIndex(String name) {
+        return columnIndex(name);
+    }
+
+    @Override
     public ValueReader getColumn(int index) {
         if (currentRow == null) {
             throw new IllegalStateException("empty result set or next() was never called");

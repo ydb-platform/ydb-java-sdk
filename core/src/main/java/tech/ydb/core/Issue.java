@@ -1,10 +1,13 @@
 package tech.ydb.core;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.concurrent.Immutable;
 
+import tech.ydb.YdbIssueMessage.IssueMessage;
+import com.yandex.yql.proto.IssueSeverity;
 import com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId;
 
 
@@ -51,6 +54,27 @@ public class Issue {
 
     public static Issue of(String message, ESeverityId severity) {
         return new Issue(Position.EMPTY, Position.EMPTY, 0, message, severity, EMPTY_ARRAY);
+    }
+
+    public static Issue fromPb(IssueMessage m) {
+        return Issue.of(
+            m.hasPosition() ? Position.fromPb(m.getPosition()) : Issue.Position.EMPTY,
+            m.hasEndPosition() ? Position.fromPb(m.getEndPosition()) : Issue.Position.EMPTY,
+            m.getIssueCode(),
+            m.getMessage(),
+            IssueSeverity.TSeverityIds.ESeverityId.forNumber(m.getSeverity()),
+            fromPb(m.getIssuesList()));
+    }
+
+    public static Issue[] fromPb(List<IssueMessage> issues) {
+        if (issues.isEmpty()) {
+            return EMPTY_ARRAY;
+        }
+        Issue[] arr = new Issue[issues.size()];
+        for (int i = 0; i < issues.size(); i++) {
+            arr[i] = fromPb(issues.get(i));
+        }
+        return arr;
     }
 
     public Position getPosition() {
@@ -147,6 +171,10 @@ public class Issue {
                 return EMPTY;
             }
             return new Position(column, row, file);
+        }
+
+        private static Position fromPb(IssueMessage.Position m) {
+            return of(m.getColumn(), m.getRow(), m.getFile());
         }
 
         public int getColumn() {
