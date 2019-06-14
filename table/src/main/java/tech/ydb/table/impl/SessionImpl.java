@@ -622,6 +622,7 @@ class SessionImpl implements Session {
     public boolean release() {
         if (sessionPool != null) {
             sessionPool.release(this);
+            return true;
         }
         return false;
     }

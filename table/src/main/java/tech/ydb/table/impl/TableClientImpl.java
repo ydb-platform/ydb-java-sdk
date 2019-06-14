@@ -40,10 +40,10 @@ final class TableClientImpl implements TableClient {
 
     @Override
     public CompletableFuture<Result<Session>> createSession(CreateSessionSettings settings) {
-        return createSessionImpl(settings);
+        return createSessionImpl(settings, null);
     }
 
-    CompletableFuture<Result<Session>> createSessionImpl(CreateSessionSettings settings) {
+    CompletableFuture<Result<Session>> createSessionImpl(CreateSessionSettings settings, @Nullable SessionPool sessionPool) {
         YdbTable.CreateSessionRequest request = YdbTable.CreateSessionRequest.newBuilder()
             .build();
 
@@ -64,7 +64,7 @@ final class TableClientImpl implements TableClient {
     @Override
     public CompletableFuture<Result<Session>> getOrCreateSession(Duration timeout) {
         if (sessionPool == null) {
-            return createSessionImpl(new CreateSessionSettings().setTimeout(timeout));
+            return createSessionImpl(new CreateSessionSettings().setTimeout(timeout), null);
         }
         return sessionPool.acquire(timeout)
             .handle((s, t) -> {
