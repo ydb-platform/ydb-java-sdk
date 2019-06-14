@@ -15,6 +15,7 @@ public final class GrpcStatuses {
     private GrpcStatuses() {}
 
     public static <T> Result<T> toResult(Status status) {
+        assert !status.isOk();
         String message = getMessage(status);
 
         Throwable cause = status.getCause();
@@ -27,6 +28,9 @@ public final class GrpcStatuses {
     }
 
     public static tech.ydb.core.Status toStatus(Status status) {
+        if (status.isOk()) {
+            return tech.ydb.core.Status.SUCCESS;
+        }
         String message = getMessage(status);
         StatusCode code = getStatusCode(status.getCode());
         return tech.ydb.core.Status.of(code, Issue.of(message, S_ERROR));
