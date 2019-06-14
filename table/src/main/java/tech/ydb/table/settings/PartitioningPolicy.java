@@ -6,9 +6,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import tech.ydb.table.values.Type;
-import tech.ydb.table.values.TypedValue;
-import tech.ydb.table.values.Value;
+import tech.ydb.table.values.TupleValue;
 
 
 /**
@@ -22,7 +20,7 @@ public class PartitioningPolicy {
     private AutoPartitioningPolicy autoPartitioning;
     private long uniformPartitions;
     @Nullable
-    private List<TypedValue<?>> explicitPartitioningPoints;
+    private List<TupleValue> explicitPartitioningPoints;
 
 
     @Nullable
@@ -54,21 +52,21 @@ public class PartitioningPolicy {
         return this;
     }
 
-    public PartitioningPolicy setExplicitPartitioningPoints(@Nullable List<TypedValue<?>> explicitPartitioningPoints) {
+    public PartitioningPolicy setExplicitPartitioningPoints(@Nullable List<TupleValue> explicitPartitioningPoints) {
         this.explicitPartitioningPoints = explicitPartitioningPoints;
         return this;
     }
 
-    public <T extends Type> PartitioningPolicy addExplicitPartitioningPoint(T type, Value<T> value) {
+    public PartitioningPolicy addExplicitPartitioningPoint(TupleValue value) {
         if (this.explicitPartitioningPoints == null) {
             this.explicitPartitioningPoints = new ArrayList<>(2);
         }
-        this.explicitPartitioningPoints.add(new TypedValue<>(type, value));
+        this.explicitPartitioningPoints.add(value);
         return this;
     }
 
     @Nullable
-    public List<TypedValue<?>> getExplicitPartitioningPoints() {
+    public List<TupleValue> getExplicitPartitioningPoints() {
         return explicitPartitioningPoints;
     }
 }

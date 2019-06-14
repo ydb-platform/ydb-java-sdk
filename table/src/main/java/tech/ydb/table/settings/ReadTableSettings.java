@@ -11,11 +11,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.collect.ImmutableList;
 import tech.ydb.table.values.PrimitiveValue;
-import tech.ydb.table.values.TupleType;
 import tech.ydb.table.values.TupleValue;
-import tech.ydb.table.values.Type;
-import tech.ydb.table.values.TypedValue;
-import tech.ydb.table.values.Value;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -27,9 +23,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class ReadTableSettings {
 
     private final boolean ordered;
-    private final TypedValue<?> fromKey;
+    private final TupleValue fromKey;
     private final boolean fromInclusive;
-    private final TypedValue<?> toKey;
+    private final TupleValue toKey;
     private final boolean toInclusive;
     private final int rowLimit;
     private final ImmutableList<String> columns;
@@ -55,7 +51,7 @@ public class ReadTableSettings {
     }
 
     @Nullable
-    public TypedValue<?> getFromKey() {
+    public TupleValue getFromKey() {
         return fromKey;
     }
 
@@ -64,7 +60,7 @@ public class ReadTableSettings {
     }
 
     @Nullable
-    public TypedValue<?> getToKey() {
+    public TupleValue getToKey() {
         return toKey;
     }
 
@@ -94,9 +90,9 @@ public class ReadTableSettings {
     @ParametersAreNonnullByDefault
     public static final class Builder {
         private boolean ordered = false;
-        private TypedValue<?> fromKey = null;
+        private TupleValue fromKey = null;
         private boolean fromInclusive = false;
-        private TypedValue<?> toKey = null;
+        private TupleValue toKey = null;
         private boolean toInclusive = false;
         private int rowLimit = 0;
         private List<String> columns = Collections.emptyList();
@@ -110,60 +106,48 @@ public class ReadTableSettings {
             return this;
         }
 
-        private <T extends Type> Builder fromKey(T type, Value<T> value, boolean inclusive) {
-            checkArgument(type.getKind() == Type.Kind.TUPLE, "from key must have a tuple type");
-            checkArgument(value instanceof TupleValue, "from key must be a tuple value");
-            this.fromKey = new TypedValue<>(type, value);
+        public Builder fromKey(TupleValue value, boolean inclusive) {
+            this.fromKey = value;
             this.fromInclusive = inclusive;
             return this;
         }
 
-        private <T extends Type> Builder toKey(T type, Value<T> value, boolean inclusive) {
-            checkArgument(type.getKind() == Type.Kind.TUPLE, "to key must have a tuple type");
-            checkArgument(value instanceof TupleValue, "to key must be a tuple value");
-            this.toKey = new TypedValue<>(type, value);
+        public Builder toKey(TupleValue value, boolean inclusive) {
+            this.toKey = value;
             this.toInclusive = inclusive;
             return this;
         }
 
-        public <T extends Type> Builder fromKeyInclusive(T type, Value<T> value) {
-            return fromKey(type, value, true);
+        public Builder fromKeyInclusive(TupleValue value) {
+            return fromKey(value, true);
         }
 
-        public <T extends Type> Builder fromKeyExclusive(T type, Value<T> value) {
-            return fromKey(type, value, false);
+        public Builder fromKeyExclusive(TupleValue value) {
+            return fromKey(value, false);
         }
 
         public Builder fromKeyInclusive(PrimitiveValue value) {
-            TupleType keyType = TupleType.of(value.getType().makeOptional());
-            TupleValue keyValue = TupleValue.of(value.makeOptional());
-            return fromKey(keyType, keyValue, true);
+            return fromKey(TupleValue.of(value.makeOptional()), true);
         }
 
         public Builder fromKeyExclusive(PrimitiveValue value) {
-            TupleType keyType = TupleType.of(value.getType().makeOptional());
-            TupleValue keyValue = TupleValue.of(value.makeOptional());
-            return fromKey(keyType, keyValue, false);
+            return fromKey(TupleValue.of(value.makeOptional()), false);
         }
 
-        public <T extends Type> Builder toKeyInclusive(T type, Value<T> value) {
-            return toKey(type, value, true);
+        public Builder toKeyInclusive(TupleValue value) {
+            return toKey(value, true);
         }
 
-        public <T extends Type> Builder toKeyExclusive(T type, Value<T> value) {
-            return toKey(type, value, false);
+        public Builder toKeyExclusive(TupleValue value) {
+            return toKey(value, false);
         }
 
         public Builder toKeyInclusive(PrimitiveValue value) {
-            TupleType keyType = TupleType.of(value.getType().makeOptional());
-            TupleValue keyValue = TupleValue.of(value.makeOptional());
-            return toKey(keyType, keyValue, true);
+            return toKey(TupleValue.of(value.makeOptional()), true);
         }
 
         public Builder toKeyExclusive(PrimitiveValue value) {
-            TupleType keyType = TupleType.of(value.getType().makeOptional());
-            TupleValue keyValue = TupleValue.of(value.makeOptional());
-            return toKey(keyType, keyValue, false);
+            return toKey(TupleValue.of(value.makeOptional()), false);
         }
 
         public Builder rowLimit(int rowLimit) {

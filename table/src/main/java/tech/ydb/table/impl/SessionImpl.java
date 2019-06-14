@@ -50,8 +50,9 @@ import tech.ydb.table.settings.StoragePolicy;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TransactionMode;
 import tech.ydb.table.transaction.TxControl;
-import tech.ydb.table.values.TypedValue;
+import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
+import tech.ydb.table.values.proto.ProtoValue;
 
 
 /**
@@ -153,8 +154,8 @@ class SessionImpl implements Session {
                     policyProto.setUniformPartitions(policy.getUniformPartitions());
                 } else if (policy.getExplicitPartitioningPoints() != null) {
                     YdbTable.ExplicitPartitions.Builder b = policyProto.getExplicitPartitionsBuilder();
-                    for (TypedValue<?> p : policy.getExplicitPartitioningPoints()) {
-                        b.addSplitPoints(p.toPb());
+                    for (Value p : policy.getExplicitPartitioningPoints()) {
+                        b.addSplitPoints(ProtoValue.toTypedValue(p));
                     }
                 }
             }
@@ -489,23 +490,23 @@ class SessionImpl implements Session {
             .setOrdered(settings.isOrdered())
             .setRowLimit(settings.getRowLimit());
 
-        TypedValue fromKey = settings.getFromKey();
+        Value fromKey = settings.getFromKey();
         if (fromKey != null) {
             YdbTable.KeyRange.Builder range = request.getKeyRangeBuilder();
             if (settings.isFromInclusive()) {
-                range.setGreaterOrEqual(fromKey.toPb());
+                range.setGreaterOrEqual(ProtoValue.toTypedValue(fromKey));
             } else {
-                range.setGreater(fromKey.toPb());
+                range.setGreater(ProtoValue.toTypedValue(fromKey));
             }
         }
 
-        TypedValue toKey = settings.getToKey();
+        Value toKey = settings.getToKey();
         if (toKey != null) {
             YdbTable.KeyRange.Builder range = request.getKeyRangeBuilder();
             if (settings.isToInclusive()) {
-                range.setLessOrEqual(toKey.toPb());
+                range.setLessOrEqual(ProtoValue.toTypedValue(toKey));
             } else {
-                range.setLess(toKey.toPb());
+                range.setLess(ProtoValue.toTypedValue(toKey));
             }
         }
 

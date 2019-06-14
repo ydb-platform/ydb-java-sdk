@@ -826,4 +826,11 @@ public class ProtoValue {
         }
         throw new IllegalStateException("unknown PrimitiveType: " + primitiveType.getId());
     }
+
+    public static ValueProtos.TypedValue toTypedValue(Value p) {
+        return ValueProtos.TypedValue.newBuilder()
+            .setType(p.getType().toPb())
+            .setValue(p.toPb())
+            .build();
+    }
 }
