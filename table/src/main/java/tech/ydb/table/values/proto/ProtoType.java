@@ -1,20 +1,20 @@
-package tech.ydb.table.types.proto;
+package tech.ydb.table.values.proto;
 
 
 import java.util.Arrays;
 
 import com.google.protobuf.NullValue;
 import tech.ydb.ValueProtos;
-import tech.ydb.table.types.DecimalType;
-import tech.ydb.table.types.DictType;
-import tech.ydb.table.types.ListType;
-import tech.ydb.table.types.OptionalType;
-import tech.ydb.table.types.PrimitiveType;
-import tech.ydb.table.types.StructType;
-import tech.ydb.table.types.TupleType;
-import tech.ydb.table.types.Type;
-import tech.ydb.table.types.VariantType;
-import tech.ydb.table.types.VoidType;
+import tech.ydb.table.values.DecimalType;
+import tech.ydb.table.values.DictType;
+import tech.ydb.table.values.ListType;
+import tech.ydb.table.values.OptionalType;
+import tech.ydb.table.values.PrimitiveType;
+import tech.ydb.table.values.StructType;
+import tech.ydb.table.values.TupleType;
+import tech.ydb.table.values.Type;
+import tech.ydb.table.values.VariantType;
+import tech.ydb.table.values.VoidType;
 
 
 /**
@@ -289,7 +289,7 @@ public class ProtoType {
                     types[i] = fromPb(member.getType());
                 }
 
-                return StructType.ofOwning(names, types);
+                return StructType.ofOwn(names, types);
             }
 
             case TUPLE_TYPE: {
@@ -300,7 +300,7 @@ public class ProtoType {
                     elements[i] = fromPb(tupleType.getElements(i));
                 }
 
-                return TupleType.ofOwning(elements);
+                return TupleType.ofOwn(elements);
             }
 
             case VARIANT_TYPE: {
@@ -311,14 +311,14 @@ public class ProtoType {
                     for (int i = 0; i < structItems.getMembersCount(); i++) {
                         items[i] = fromPb(structItems.getMembers(i).getType());
                     }
-                    return VariantType.ofOwning(items);
+                    return VariantType.ofOwn(items);
                 } else if (variantType.hasTupleItems()) {
                     ValueProtos.TupleType tupleItems = variantType.getTupleItems();
                     Type[] items = new Type[tupleItems.getElementsCount()];
                     for (int i = 0; i < tupleItems.getElementsCount(); i++) {
                         items[i] = fromPb(tupleItems.getElements(i));
                     }
-                    return VariantType.ofOwning(items);
+                    return VariantType.ofOwn(items);
                 }
                 throw new IllegalStateException("empty variant type");
             }

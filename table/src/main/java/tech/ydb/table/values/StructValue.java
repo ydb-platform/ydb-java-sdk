@@ -1,12 +1,10 @@
 package tech.ydb.table.values;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Map;
 
 import tech.ydb.ValueProtos;
-import tech.ydb.table.types.StructType;
-import tech.ydb.table.types.Type;
+import tech.ydb.table.utils.Arrays2;
 
 
 /**
@@ -14,67 +12,74 @@ import tech.ydb.table.types.Type;
  */
 public class StructValue implements Value<StructType> {
 
+    private final StructType type;
     private final Value[] members;
 
-    private StructValue(Value[] members) {
+    StructValue(StructType type, Value... members) {
+        this.type = type;
         this.members = members;
     }
 
-    public static StructValue of(Value a) {
-        return new StructValue(new Value[] { a });
+    public static StructValue of(String memberName, Value memberValue) {
+        StructType type = StructType.of(memberName, memberValue.getType());
+        return new StructValue(type, memberValue);
     }
 
-    public static StructValue of(Value a, Value b) {
-        return new StructValue(new Value[] { a, b });
+    public static StructValue of(
+        String member1Name, Value member1Value,
+        String member2Name, Value member2Value)
+    {
+        String[] names = { member1Name, member2Name };
+        Value[] values = { member1Value, member2Value };
+        return newStruct(names, values);
     }
 
-    public static StructValue of(Value a, Value b, Value c) {
-        return new StructValue(new Value[] { a, b, c });
+    public static StructValue of(
+        String member1Name, Value member1Value,
+        String member2Name, Value member2Value,
+        String member3Name, Value member3Value)
+    {
+        String[] names = { member1Name, member2Name, member3Name };
+        Value[] values = { member1Value, member2Value, member3Value };
+        return newStruct(names, values);
     }
 
-    public static StructValue of(Value a, Value b, Value c, Value d) {
-        return new StructValue(new Value[] { a, b, c, d });
+    public static StructValue of(
+        String member1Name, Value member1Value,
+        String member2Name, Value member2Value,
+        String member3Name, Value member3Value,
+        String member4Name, Value member4Value)
+    {
+        String[] names = { member1Name, member2Name, member3Name, member4Name };
+        Value[] values = { member1Value, member2Value, member3Value, member4Value };
+        return newStruct(names, values);
     }
 
-    public static StructValue of(Value a, Value b, Value c, Value d, Value e) {
-        return new StructValue(new Value[] { a, b, c, d, e });
+    public static StructValue of(
+        String member1Name, Value member1Value,
+        String member2Name, Value member2Value,
+        String member3Name, Value member3Value,
+        String member4Name, Value member4Value,
+        String member5Name, Value member5Value)
+    {
+        String[] names = { member1Name, member2Name, member3Name, member4Name, member5Name };
+        Value[] values = { member1Value, member2Value, member3Value, member4Value, member5Value };
+        return newStruct(names, values);
     }
 
-    public static StructValue ofCopy(Value... members) {
-        return new StructValue(members.clone());
-    }
+    public static StructValue of(Map<String, Value> members) {
+        final int size = members.size();
+        final String[] names = new String[size];
+        final Value[] values = new Value[size];
 
-    /**
-     * will not clone given arrays
-     */
-    public static StructValue ofOwn(Value... members) {
-        return new StructValue(members);
-    }
-
-    public static StructValue of(Collection<Value> members) {
-        return new StructValue(members.toArray(new Value[members.size()]));
-    }
-
-    public static StructValue of(StructType type, Map<String, Value> membersMap) {
-        if (type.getMembersCount() != membersMap.size()) {
-            throw new IllegalArgumentException(
-                "incompatible struct type " + type +
-                " and values names " + membersMap.keySet());
+        int i = 0;
+        for (Map.Entry<String, Value> e : members.entrySet()) {
+            names[i] = e.getKey();
+            values[i] = e.getValue();
+            i++;
         }
 
-        Value[] members = new Value[membersMap.size()];
-        for (int i = 0; i < type.getMembersCount(); i++) {
-            String name = type.getMemberName(i);
-            Value value = membersMap.get(name);
-            if (value == null) {
-                throw new IllegalArgumentException(
-                    "incompatible struct type " + type +
-                    " and values names " + membersMap.keySet());
-            }
-            members[i] = value;
-        }
-
-        return new StructValue(members);
+        return newStruct(names, values);
     }
 
     public int getMembersCount() {
@@ -112,6 +117,11 @@ public class StructValue implements Value<StructType> {
     }
 
     @Override
+    public StructType getType() {
+        return type;
+    }
+
+    @Override
     public ValueProtos.Value toPb(StructType type) {
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
         for (int i = 0; i < members.length; i++) {
@@ -121,5 +131,14 @@ public class StructValue implements Value<StructType> {
             builder.addItems(memberValue);
         }
         return builder.build();
+    }
+
+    private static StructValue newStruct(String[] names, Value[] values) {
+        Arrays2.sortBothByFirst(names, values);
+        final Type[] types = new Type[values.length];
+        for (int i = 0; i < values.length; i++) {
+            types[i] = values[i].getType();
+        }
+        return new StructValue(new StructType(names, types), values);
     }
 }

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
-import tech.ydb.table.types.OptionalType;
-import tech.ydb.table.types.Type;
+import tech.ydb.table.values.OptionalType;
+import tech.ydb.table.values.Type;
 
 
 /**

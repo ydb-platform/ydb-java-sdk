@@ -18,25 +18,20 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.NullValue;
 import com.google.protobuf.UnsafeByteOperations;
 import tech.ydb.ValueProtos;
-import tech.ydb.table.types.DecimalType;
-import tech.ydb.table.types.DictType;
-import tech.ydb.table.types.ListType;
-import tech.ydb.table.types.OptionalType;
-import tech.ydb.table.types.PrimitiveType;
-import tech.ydb.table.types.StructType;
-import tech.ydb.table.types.TupleType;
-import tech.ydb.table.types.Type;
-import tech.ydb.table.types.VariantType;
 import tech.ydb.table.utils.LittleEndian;
+import tech.ydb.table.values.DecimalType;
 import tech.ydb.table.values.DecimalValue;
-import tech.ydb.table.values.DictValue;
-import tech.ydb.table.values.ListValue;
-import tech.ydb.table.values.OptionalValue;
+import tech.ydb.table.values.DictType;
+import tech.ydb.table.values.ListType;
+import tech.ydb.table.values.OptionalType;
+import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.PrimitiveValue;
-import tech.ydb.table.values.StructValue;
+import tech.ydb.table.values.StructType;
+import tech.ydb.table.values.TupleType;
 import tech.ydb.table.values.TupleValue;
+import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
-import tech.ydb.table.values.VariantValue;
+import tech.ydb.table.values.VariantType;
 import tech.ydb.table.values.VoidValue;
 
 
@@ -405,10 +400,9 @@ public class ProtoValue {
     }
 
     public static DecimalValue toDecimal(ValueProtos.Type type, ValueProtos.Value value) {
-        ValueProtos.DecimalType decimalType = type.getDecimalType();
-        return DecimalValue.of(
-            DecimalType.of(decimalType.getPrecision(), decimalType.getScale()),
-            value.getHigh128(), value.getLow128());
+        ValueProtos.DecimalType dt = type.getDecimalType();
+        DecimalType decimalType = DecimalType.of(dt.getPrecision(), dt.getScale());
+        return decimalType.newValue(value.getHigh128(), value.getLow128());
     }
 
     // -- dict value --
@@ -710,14 +704,14 @@ public class ProtoValue {
 
             case DECIMAL: {
                 DecimalType decimalType = (DecimalType) type;
-                return DecimalValue.of(decimalType, value.getHigh128(), value.getLow128());
+                return decimalType.newValue(value.getHigh128(), value.getLow128());
             }
 
             case DICT: {
                 DictType dictType = (DictType) type;
 
                 if (value.getPairsCount() == 0) {
-                    return DictValue.of();
+                    return dictType.emptyValue();
                 }
 
                 HashMap<Value, Value> items = new HashMap<>(value.getPairsCount());
@@ -727,33 +721,37 @@ public class ProtoValue {
                         fromPb(dictType.getKeyType(), pair.getKey()),
                         fromPb(dictType.getValueType(), pair.getPayload()));
                 }
-                return DictValue.fromMapOwn(items);
+                return dictType.newValueOwn(items);
             }
 
             case LIST: {
                 ListType listType = (ListType) type;
 
                 if (value.getItemsCount() == 0) {
-                    return ListValue.of();
+                    return listType.emptyValue();
                 }
 
                 Value[] items = new Value[value.getItemsCount()];
                 for (int i = 0; i < value.getItemsCount(); i++) {
                     items[i] = fromPb(listType.getItemType(), value.getItems(i));
                 }
-                return ListValue.fromArrayOwn(items);
+                return listType.newValueOwn(items);
             }
 
             case OPTIONAL: {
                 OptionalType optionalType = (OptionalType) type;
 
                 switch (value.getValueCase()) {
-                    case NESTED_VALUE:
-                        return OptionalValue.of(fromPb(optionalType.getItemType(), value.getNestedValue()));
                     case NULL_FLAG_VALUE:
-                        return OptionalValue.empty();
-                    default:
-                        return OptionalValue.of(fromPb(optionalType.getItemType(), value));
+                        return optionalType.emptyValue();
+                    case NESTED_VALUE: {
+                        Value itemValue = fromPb(optionalType.getItemType(), value.getNestedValue());
+                        return optionalType.newValue(itemValue);
+                    }
+                    default: {
+                        Value itemValue = fromPb(optionalType.getItemType(), value);
+                        return optionalType.newValue(itemValue);
+                    }
                 }
             }
 
@@ -761,35 +759,36 @@ public class ProtoValue {
                 StructType structType = (StructType) type;
 
                 if (value.getItemsCount() == 1) {
-                    return StructValue.of(fromPb(structType.getMemberType(0), value.getItems(0)));
+                    Value memberValue = fromPb(structType.getMemberType(0), value.getItems(0));
+                    return structType.newValueUnsafe(memberValue);
                 }
 
                 Value[] members = new Value[value.getItemsCount()];
                 for (int i = 0; i < value.getItemsCount(); i++) {
                     members[i] = fromPb(structType.getMemberType(i), value.getItems(i));
                 }
-                return StructValue.ofOwn(members);
+                return structType.newValueUnsafe(members);
             }
 
             case TUPLE: {
                 TupleType tupleType = (TupleType) type;
 
                 if (value.getItemsCount() == 0) {
-                    return TupleValue.of();
+                    return TupleValue.empty();
                 }
 
                 Value[] items = new Value[value.getItemsCount()];
                 for (int i = 0; i < value.getItemsCount(); i++) {
                     items[i] = fromPb(tupleType.getElementType(i), value.getItems(i));
                 }
-                return TupleValue.fromArrayOwn(items);
+                return tupleType.newValueOwn(items);
             }
 
             case VARIANT: {
                 VariantType variantType = (VariantType) type;
                 Type itemType = variantType.getItemType(value.getVariantIndex());
                 ValueProtos.Value itemValue = value.getNestedValue();
-                return VariantValue.of(value.getVariantIndex(), fromPb(itemType, itemValue));
+                return variantType.newValue(fromPb(itemType, itemValue), value.getVariantIndex());
             }
 
             case VOID:

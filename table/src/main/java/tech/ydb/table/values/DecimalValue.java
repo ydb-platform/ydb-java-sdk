@@ -6,10 +6,9 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 
 import tech.ydb.ValueProtos;
-import tech.ydb.table.types.DecimalType;
 import tech.ydb.table.values.proto.ProtoValue;
 
-import static tech.ydb.table.types.DecimalType.MAX_PRECISION;
+import static tech.ydb.table.values.DecimalType.MAX_PRECISION;
 
 
 /**
@@ -17,9 +16,9 @@ import static tech.ydb.table.types.DecimalType.MAX_PRECISION;
  */
 public class DecimalValue implements Value<DecimalType> {
 
-    private static final long LONG_MASK = 0xFFFFFFFFL;
-    private static final long LONG_SIGN_BIT = 0x8000000000000000L;
-    private static final long LONG_MAX_DIGITS = 18;
+    static final long LONG_MASK = 0xFFFFFFFFL;
+    static final long LONG_SIGN_BIT = 0x8000000000000000L;
+    static final long LONG_MAX_DIGITS = 18;
 
     /**
      * Positive infinity 10^{@value DecimalType#MAX_PRECISION}.
@@ -49,177 +48,13 @@ public class DecimalValue implements Value<DecimalType> {
     private final long high;
     private final long low;
 
-    private DecimalValue(DecimalType type, long high, long low) {
+    DecimalValue(DecimalType type, long high, long low) {
         this.type = type;
         this.high = high;
         this.low = low;
     }
 
-    public static DecimalValue of(DecimalType type, long high, long low) {
-        if (high == 0 && low == 0) {
-            return ZERO;
-        }
-        if (NAN.high == high && NAN.low == low) {
-            return NAN;
-        }
-
-        if (high > INF.high || high == INF.high && Long.compareUnsigned(low, INF.low) >= 0) {
-            return INF;
-        }
-
-        if (high < NEG_INF.high || high == NEG_INF.high && Long.compareUnsigned(low, NEG_INF.low) <= 0) {
-            return NEG_INF;
-        }
-
-        return new DecimalValue(type, high, low);
-    }
-
-    public static DecimalValue of(DecimalType type, long value) {
-        if (value == 0) {
-            return ZERO;
-        }
-        long high = value > 0 ? 0 : -1;
-        return new DecimalValue(type, high, value);
-    }
-
-    public static DecimalValue ofUnsigned(DecimalType type, long value) {
-        if (value == 0) {
-            return ZERO;
-        }
-        return new DecimalValue(type, 0, value);
-    }
-
-    public static DecimalValue of(DecimalType type, BigInteger value) {
-        int bitLength = value.bitLength();
-        if (bitLength < 64) {
-            return of(type, value.longValue());
-        }
-
-        boolean negative = value.signum() < 0;
-        if (bitLength > 128) {
-            return negative ? NEG_INF : INF;
-        }
-
-        byte[] buf = value.abs().toByteArray();
-        long high = getLongBe(buf, 0, buf.length - 8);
-        long low = getLongBe(buf, buf.length - 8, buf.length);
-
-        if (negative && (high != LONG_SIGN_BIT || low != 0)) {
-            // restore negative number
-            high = ~high;
-            low = ~low;
-            if (++low == 0) {
-                high++;
-            }
-        }
-        return of(type, high, low);
-    }
-
-    public static DecimalValue of(DecimalType type, BigDecimal value) {
-        return of(type, value.unscaledValue());
-    }
-
-    public static DecimalValue of(DecimalType type, String value) {
-        if (value.isEmpty()) {
-            throw new NumberFormatException("cannot parse decimal from empty string");
-        }
-
-        final int end = value.length();
-        int cursor = 0;
-
-        // sign
-        boolean negative = false;
-        if (value.charAt(cursor) == '+') {
-            cursor++;
-        } else if (value.charAt(cursor) == '-') {
-            cursor++;
-            negative = true;
-        }
-
-        // text literals
-        if (end - cursor == 3) {
-            char c1 = value.charAt(cursor);
-            char c2 = value.charAt(cursor + 1);
-            char c3 = value.charAt(cursor + 2);
-
-            if ((c1 == 'i' || c1 == 'I') && (c2 == 'n' || c2 == 'N') || (c3 == 'f' || c3 == 'F')) {
-                return negative ? NEG_INF : INF;
-            }
-
-            if ((c1 == 'n' || c1 == 'N') && (c2 == 'a' || c2 == 'A') || (c3 == 'n' || c3 == 'N')) {
-                return NAN;
-            }
-        }
-
-        // skip leading zeros
-        while (cursor < end && value.charAt(cursor) == '0') {
-            ++cursor;
-        }
-
-        if (cursor == end) {
-            return ZERO;
-        }
-
-        long accumulated = 0;
-        int accumulatedCount = 0;
-        boolean fractional = false; // after '.'
-        int fractionalDigits = 0;
-        BigInteger unscaledValue = BigInteger.ZERO;
-
-        while (cursor < end) {
-            char ch = value.charAt(cursor);
-            if (ch >= '0' && ch <= '9') {
-                if (accumulatedCount == LONG_MAX_DIGITS) {
-                    if (unscaledValue == BigInteger.ZERO) {
-                        unscaledValue = BigInteger.valueOf(accumulated);
-                    } else {
-                        unscaledValue = unscaledValue.multiply(BigInteger.TEN.pow(accumulatedCount));
-                        unscaledValue = unscaledValue.add(BigInteger.valueOf(accumulated));
-                    }
-                    accumulated = 0;
-                    accumulatedCount = 0;
-                }
-                int digit = ch - '0';
-                accumulated = accumulated * 10 + digit;
-                ++accumulatedCount;
-                if (fractional) {
-                    ++fractionalDigits;
-                }
-            } else if (ch == '.') {
-                if (fractional) {
-                    throw new NumberFormatException("invalid string: " + value);
-                }
-                fractional = true;
-            } else {
-                throw new NumberFormatException("invalid string: " + value);
-            }
-
-            ++cursor;
-        }
-
-        if (accumulatedCount > 0) {
-            if (unscaledValue == BigInteger.ZERO) {
-                unscaledValue = BigInteger.valueOf(accumulated);
-            } else {
-                unscaledValue = unscaledValue.multiply(BigInteger.TEN.pow(accumulatedCount));
-                unscaledValue = unscaledValue.add(BigInteger.valueOf(accumulated));
-            }
-        }
-
-        int scaleAdjust = type.getScale() - fractionalDigits;
-        if (scaleAdjust > 0) {
-            unscaledValue = unscaledValue.multiply(BigInteger.TEN.pow(scaleAdjust));
-        } else if (scaleAdjust < 0) {
-            unscaledValue = unscaledValue.divide(BigInteger.TEN.pow(-scaleAdjust));
-        }
-
-        if (negative) {
-            unscaledValue = unscaledValue.negate();
-        }
-
-        return of(type, unscaledValue);
-    }
-
+    @Override
     public DecimalType getType() {
         return type;
     }
@@ -406,17 +241,6 @@ public class DecimalValue implements Value<DecimalType> {
             throw new IllegalArgumentException("types mismatch, expected " + type + ", but was " + this.type);
         }
         return ProtoValue.decimal(high, low);
-    }
-
-    /**
-     * Read long from a big-endian buffer.
-     */
-    private static long getLongBe(byte[] buf, int from, int to) {
-        long r = 0;
-        for (int i = from; i < to; i++) {
-            r = (r << 8) | (buf[i] & 0xff);
-        }
-        return r;
     }
 
     /**

@@ -3,24 +3,21 @@ package tech.ydb.table.values;
 import java.util.Objects;
 
 import tech.ydb.ValueProtos;
-import tech.ydb.table.types.Type;
-import tech.ydb.table.types.VariantType;
 
 
 /**
  * @author Sergey Polovko
  */
 public class VariantValue implements Value<VariantType> {
-    private final int typeIndex;
+
+    private final VariantType type;
     private final Value item;
+    private final int typeIndex;
 
-    private VariantValue(int typeIndex, Value item) {
-        this.typeIndex = typeIndex;
+    VariantValue(VariantType type, Value item, int typeIndex) {
+        this.type = type;
         this.item = Objects.requireNonNull(item, "item");
-    }
-
-    public static VariantValue of(int typeIndex, Value item) {
-        return new VariantValue(typeIndex, item);
+        this.typeIndex = typeIndex;
     }
 
     public int getTypeIndex() {
@@ -53,6 +50,11 @@ public class VariantValue implements Value<VariantType> {
     @Override
     public String toString() {
         return "Variant[" + typeIndex + "; " + item.toString() + ']';
+    }
+
+    @Override
+    public VariantType getType() {
+        return type;
     }
 
     @Override

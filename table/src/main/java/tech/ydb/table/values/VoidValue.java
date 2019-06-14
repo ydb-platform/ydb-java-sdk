@@ -1,7 +1,6 @@
 package tech.ydb.table.values;
 
 import tech.ydb.ValueProtos;
-import tech.ydb.table.types.VoidType;
 import tech.ydb.table.values.proto.ProtoValue;
 
 
@@ -32,6 +31,11 @@ public class VoidValue implements Value<VoidType> {
     @Override
     public String toString() {
         return "Void";
+    }
+
+    @Override
+    public VoidType getType() {
+        return VoidType.of();
     }
 
     @Override

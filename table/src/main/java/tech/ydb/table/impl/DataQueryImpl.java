@@ -16,8 +16,8 @@ import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.Params;
 import tech.ydb.table.settings.ExecuteDataQuerySettings;
 import tech.ydb.table.transaction.TxControl;
-import tech.ydb.table.types.Type;
-import tech.ydb.table.types.proto.ProtoType;
+import tech.ydb.table.values.Type;
+import tech.ydb.table.values.proto.ProtoType;
 
 
 /**

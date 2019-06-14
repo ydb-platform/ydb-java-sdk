@@ -1,4 +1,4 @@
-package tech.ydb.table.types;
+package tech.ydb.table.values;
 
 
 /**

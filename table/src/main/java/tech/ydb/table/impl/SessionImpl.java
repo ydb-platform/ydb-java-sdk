@@ -50,8 +50,8 @@ import tech.ydb.table.settings.StoragePolicy;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TransactionMode;
 import tech.ydb.table.transaction.TxControl;
-import tech.ydb.table.types.proto.ProtoType;
 import tech.ydb.table.values.TypedValue;
+import tech.ydb.table.values.proto.ProtoType;
 
 
 /**

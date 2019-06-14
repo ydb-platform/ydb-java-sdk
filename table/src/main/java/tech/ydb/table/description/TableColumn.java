@@ -1,6 +1,6 @@
 package tech.ydb.table.description;
 
-import tech.ydb.table.types.Type;
+import tech.ydb.table.values.Type;
 
 
 /**

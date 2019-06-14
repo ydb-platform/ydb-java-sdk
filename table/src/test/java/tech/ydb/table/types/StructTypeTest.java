@@ -1,5 +1,7 @@
 package tech.ydb.table.types;
 
+import tech.ydb.table.values.PrimitiveType;
+import tech.ydb.table.values.StructType;
 import org.junit.Assert;
 import org.junit.Test;
 

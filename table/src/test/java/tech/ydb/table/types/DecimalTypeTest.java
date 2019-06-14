@@ -2,7 +2,9 @@ package tech.ydb.table.types;
 
 import com.google.common.truth.extensions.proto.ProtoTruth;
 import tech.ydb.ValueProtos;
-import tech.ydb.table.types.proto.ProtoType;
+import tech.ydb.table.values.DecimalType;
+import tech.ydb.table.values.Type;
+import tech.ydb.table.values.proto.ProtoType;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;

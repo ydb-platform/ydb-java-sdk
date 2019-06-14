@@ -1,4 +1,9 @@
-package tech.ydb.table.types;
+package tech.ydb.table.values;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * @author Sergey Polovko
@@ -50,5 +55,23 @@ public final class DictType implements Type {
     @Override
     public String toString() {
         return "Dict<" + keyType + ", " + valueType + '>';
+    }
+
+    public DictValue emptyValue() {
+        return new DictValue(this, Collections.emptyMap());
+    }
+
+    public DictValue newValueCopy(Map<Value, Value> items) {
+        if (items.isEmpty()) {
+            return emptyValue();
+        }
+        return new DictValue(this, new HashMap<>(items));
+    }
+
+    public DictValue newValueOwn(Map<Value, Value> items) {
+        if (items.isEmpty()) {
+            return emptyValue();
+        }
+        return new DictValue(this, items);
     }
 }

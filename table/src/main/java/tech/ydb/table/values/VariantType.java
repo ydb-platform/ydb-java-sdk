@@ -1,4 +1,7 @@
-package tech.ydb.table.types;
+package tech.ydb.table.values;
+
+import java.util.List;
+
 
 /**
  * @author Sergey Polovko
@@ -7,19 +10,23 @@ public final class VariantType implements Type {
 
     private final Type[] itemTypes;
 
-    private VariantType(Type[] itemTypes) {
+    private VariantType(Type... itemTypes) {
         this.itemTypes = itemTypes;
     }
 
-    public static VariantType of(Type[] itemTypes) {
+    public static VariantType ofCopy(Type... itemTypes) {
         return new VariantType(itemTypes.clone());
     }
 
     /**
      * will not clone given array
      */
-    public static VariantType ofOwning(Type[] itemTypes) {
+    public static VariantType ofOwn(Type... itemTypes) {
         return new VariantType(itemTypes);
+    }
+
+    public static VariantType of(List<Type> itemTypes) {
+        return new VariantType(itemTypes.toArray(Type.EMPTY_ARRAY));
     }
 
     public int getItemsCount() {
@@ -75,5 +82,9 @@ public final class VariantType implements Type {
         }
         sb.append('>');
         return sb.toString();
+    }
+
+    public VariantValue newValue(Value item, int typeIndex) {
+        return new VariantValue(this, item, typeIndex);
     }
 }

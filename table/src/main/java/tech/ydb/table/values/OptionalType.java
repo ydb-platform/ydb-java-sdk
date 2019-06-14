@@ -1,4 +1,7 @@
-package tech.ydb.table.types;
+package tech.ydb.table.values;
+
+import java.util.Objects;
+
 
 /**
  * @author Sergey Polovko
@@ -41,5 +44,13 @@ public final class OptionalType implements Type {
     @Override
     public String toString() {
         return String.valueOf(itemType) + '?';
+    }
+
+    public OptionalValue emptyValue() {
+        return new OptionalValue(this, null);
+    }
+
+    public OptionalValue newValue(Value item) {
+        return new OptionalValue(this, Objects.requireNonNull(item, "item"));
     }
 }

@@ -1,11 +1,9 @@
 package tech.ydb.table.values;
 
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
 import tech.ydb.ValueProtos;
-import tech.ydb.table.types.TupleType;
-import tech.ydb.table.types.Type;
 import tech.ydb.table.values.proto.ProtoValue;
 
 
@@ -14,57 +12,66 @@ import tech.ydb.table.values.proto.ProtoValue;
  */
 public class TupleValue implements Value<TupleType> {
 
-    private static final TupleValue EMPTY = new TupleValue(new Value[0]);
+    private static final TupleValue EMPTY = new TupleValue(TupleType.empty(), Value.EMPTY_ARRAY);
 
+    private final TupleType type;
     private final Value[] items;
 
-    private TupleValue(Value[] items) {
+    TupleValue(TupleType type, Value... items) {
+        this.type = type;
         this.items = items;
     }
 
-    public static TupleValue of() {
+    public static TupleValue empty() {
         return EMPTY;
     }
 
     public static TupleValue of(Value item) {
-        return new TupleValue(new Value[] { item });
+        return new TupleValue(TupleType.of(item.getType()), item);
     }
 
     public static TupleValue of(Value a, Value b) {
-        return new TupleValue(new Value[] { a, b });
+        TupleType type = TupleType.ofOwn(a.getType(), b.getType());
+        return new TupleValue(type, a, b);
     }
 
     public static TupleValue of(Value a, Value b, Value c) {
-        return new TupleValue(new Value[] { a, b, c });
+        TupleType type = TupleType.ofOwn(a.getType(), b.getType(), c.getType());
+        return new TupleValue(type, a, b, c);
     }
 
     public static TupleValue of(Value a, Value b, Value c, Value d) {
-        return new TupleValue(new Value[] { a, b, c, d });
+        TupleType type = TupleType.ofOwn(a.getType(), b.getType(), c.getType(), d.getType());
+        return new TupleValue(type, a, b, c, d);
     }
 
     public static TupleValue of(Value a, Value b, Value c, Value d, Value e) {
-        return new TupleValue(new Value[] { a, b, c, d, e });
+        TupleType type = TupleType.ofOwn(a.getType(), b.getType(), c.getType(), d.getType(), e.getType());
+        return new TupleValue(type, a, b, c, d, e);
     }
 
-    public static TupleValue of(Collection<Value> items) {
+    public static TupleValue of(List<Value> items) {
         if (items.isEmpty()) {
             return EMPTY;
         }
-        return new TupleValue(items.toArray(new Value[items.size()]));
+        return fromArray(items.toArray(Value.EMPTY_ARRAY));
     }
 
-    public static TupleValue fromArrayCopy(Value... items) {
+    public static TupleValue ofCopy(Value... items) {
         if (items.length == 0) {
             return EMPTY;
         }
-        return new TupleValue(items.clone());
+        return fromArray(items.clone());
     }
 
-    public static TupleValue fromArrayOwn(Value... items) {
+    /**
+     * will not clone given array
+     */
+    public static TupleValue ofOwn(Value... items) {
         if (items.length == 0) {
             return EMPTY;
         }
-        return new TupleValue(items);
+        return fromArray(items);
     }
 
     public int size() {
@@ -108,6 +115,11 @@ public class TupleValue implements Value<TupleType> {
     }
 
     @Override
+    public TupleType getType() {
+        return type;
+    }
+
+    @Override
     public ValueProtos.Value toPb(TupleType type) {
         if (isEmpty()) {
             return ProtoValue.tuple();
@@ -121,5 +133,14 @@ public class TupleValue implements Value<TupleType> {
             builder.addItems(elementValue);
         }
         return builder.build();
+    }
+
+    private static TupleValue fromArray(Value... items) {
+        final int size = items.length;
+        final Type[] types = new Type[size];
+        for (int i = 0; i < size; i++) {
+            types[i] = items[i].getType();
+        }
+        return new TupleValue(TupleType.ofOwn(types), items);
     }
 }

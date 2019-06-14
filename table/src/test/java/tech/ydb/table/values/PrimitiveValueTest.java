@@ -16,7 +16,6 @@ import java.util.function.Consumer;
 import com.google.common.truth.extensions.proto.ProtoTruth;
 import com.google.protobuf.ByteString;
 import tech.ydb.ValueProtos;
-import tech.ydb.table.types.PrimitiveType;
 import tech.ydb.table.values.proto.ProtoValue;
 import org.junit.Test;
 

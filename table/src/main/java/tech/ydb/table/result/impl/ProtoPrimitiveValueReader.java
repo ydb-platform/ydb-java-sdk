@@ -11,10 +11,10 @@ import com.google.protobuf.ByteString;
 import tech.ydb.ValueProtos;
 import tech.ydb.ValueProtos.Type.PrimitiveTypeId;
 import tech.ydb.table.result.ValueReader;
-import tech.ydb.table.types.Type;
-import tech.ydb.table.types.proto.ProtoType;
 import tech.ydb.table.utils.Hex;
 import tech.ydb.table.values.DecimalValue;
+import tech.ydb.table.values.Type;
+import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
 
 

@@ -3,8 +3,6 @@ package tech.ydb.table.values;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.truth.extensions.proto.ProtoTruth;
 import tech.ydb.ValueProtos;
-import tech.ydb.table.types.PrimitiveType;
-import tech.ydb.table.types.StructType;
 import tech.ydb.table.values.proto.ProtoValue;
 import org.junit.Test;
 
@@ -32,7 +30,7 @@ public class StructValueTest {
         members[ageIdx] = PrimitiveValue.uint32(99);
         members[salaryIdx] = PrimitiveValue.float64(1234.56);
 
-        StructValue employee = StructValue.ofOwn(members);
+        StructValue employee = employeeType.newValueUnsafe(members);
 
         assertThat(employee.getMembersCount())
             .isEqualTo(employeeType.getMembersCount());
@@ -47,7 +45,7 @@ public class StructValueTest {
 
     @Test
     public void newInstanceWithNames() {
-        StructValue employee = employeeType.newInstance(ImmutableMap.of(
+        StructValue employee = employeeType.newValue(ImmutableMap.of(
             "age", PrimitiveValue.uint32(99),
             "salary", PrimitiveValue.float64(1234.56),
             "name", PrimitiveValue.utf8("William")));
@@ -65,8 +63,8 @@ public class StructValueTest {
 
     @Test
     public void oneMemberProtobuf() {
-        StructType type = StructType.of("a", PrimitiveType.uint32());
-        StructValue value = StructValue.of(PrimitiveValue.uint32(1));
+        StructValue value = StructValue.of("a", PrimitiveValue.uint32(1));
+        StructType type = value.getType();
 
         ValueProtos.Value valuePb = value.toPb(type);
         ProtoTruth.assertThat(valuePb)
@@ -80,8 +78,11 @@ public class StructValueTest {
 
     @Test
     public void manyMembersProtobuf() {
-        StructType type = StructType.of("a", PrimitiveType.uint32(), "b", PrimitiveType.bool(), "c", PrimitiveType.utf8());
-        StructValue value = StructValue.of(PrimitiveValue.uint32(1), PrimitiveValue.bool(true), PrimitiveValue.utf8("yes"));
+        StructValue value = StructValue.of(
+            "a", PrimitiveValue.uint32(1),
+            "b", PrimitiveValue.bool(true),
+            "c", PrimitiveValue.utf8("yes"));
+        StructType type = value.getType();
 
         ValueProtos.Value valuePb = value.toPb(type);
         ProtoTruth.assertThat(valuePb)
@@ -97,11 +98,14 @@ public class StructValueTest {
 
     @Test
     public void toStr() {
-        StructValue value1 = StructValue.of(PrimitiveValue.uint32(1));
+        StructValue value1 = StructValue.of("a", PrimitiveValue.uint32(1));
         assertThat(value1.toString())
             .isEqualTo("Struct[1]");
 
-        StructValue value2 = StructValue.of(PrimitiveValue.uint32(1), PrimitiveValue.bool(true), PrimitiveValue.utf8("yes"));
+        StructValue value2 = StructValue.of(
+            "a", PrimitiveValue.uint32(1),
+            "b", PrimitiveValue.bool(true),
+            "c", PrimitiveValue.utf8("yes"));
         assertThat(value2.toString())
             .isEqualTo("Struct[1, true, \"yes\"]");
     }

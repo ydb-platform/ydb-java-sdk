@@ -10,10 +10,10 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.collect.ImmutableList;
-import tech.ydb.table.types.TupleType;
-import tech.ydb.table.types.Type;
 import tech.ydb.table.values.PrimitiveValue;
+import tech.ydb.table.values.TupleType;
 import tech.ydb.table.values.TupleValue;
+import tech.ydb.table.values.Type;
 import tech.ydb.table.values.TypedValue;
 import tech.ydb.table.values.Value;
 

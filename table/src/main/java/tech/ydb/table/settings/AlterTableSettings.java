@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import tech.ydb.table.types.Type;
+import tech.ydb.table.values.Type;
 
 
 /**

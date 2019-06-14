@@ -1,11 +1,8 @@
 package tech.ydb.table.values;
 
 import java.util.Arrays;
-import java.util.Collection;
 
 import tech.ydb.ValueProtos;
-import tech.ydb.table.types.ListType;
-import tech.ydb.table.types.Type;
 import tech.ydb.table.values.proto.ProtoValue;
 
 
@@ -14,57 +11,32 @@ import tech.ydb.table.values.proto.ProtoValue;
  */
 public class ListValue implements Value<ListType> {
 
-    private static final ListValue EMPTY = new ListValue(new Value[0]);
-
+    private final ListType type;
     private final Value[] items;
 
-    private ListValue(Value[] items) {
+    ListValue(ListType type, Value... items) {
+        this.type = type;
         this.items = items;
     }
 
-    public static ListValue of() {
-        return EMPTY;
-    }
-
     public static ListValue of(Value item) {
-        return new ListValue(new Value[] { item });
+        return new ListValue(ListType.of(item.getType()), item);
     }
 
     public static ListValue of(Value a, Value b) {
-        return new ListValue(new Value[] { a, b });
+        return new ListValue(ListType.of(a.getType()), a, b);
     }
 
     public static ListValue of(Value a, Value b, Value c) {
-        return new ListValue(new Value[] { a, b, c });
+        return new ListValue(ListType.of(a.getType()), a, b, c);
     }
 
     public static ListValue of(Value a, Value b, Value c, Value d) {
-        return new ListValue(new Value[] { a, b, c, d });
+        return new ListValue(ListType.of(a.getType()), a, b, c, d);
     }
 
     public static ListValue of(Value a, Value b, Value c, Value d, Value e) {
-        return new ListValue(new Value[] { a, b, c, d, e });
-    }
-
-    public static ListValue of(Collection<Value> items) {
-        if (items.isEmpty()) {
-            return EMPTY;
-        }
-        return new ListValue(items.toArray(new Value[items.size()]));
-    }
-
-    public static ListValue fromArrayCopy(Value... items) {
-        if (items.length == 0) {
-            return EMPTY;
-        }
-        return new ListValue(items.clone());
-    }
-
-    public static ListValue fromArrayOwn(Value... items) {
-        if (items.length == 0) {
-            return EMPTY;
-        }
-        return new ListValue(items);
+        return new ListValue(ListType.of(a.getType()), a, b, c, d, e);
     }
 
     public int size() {
@@ -105,6 +77,11 @@ public class ListValue implements Value<ListType> {
         }
         sb.append(']');
         return sb.toString();
+    }
+
+    @Override
+    public ListType getType() {
+        return type;
     }
 
     @Override

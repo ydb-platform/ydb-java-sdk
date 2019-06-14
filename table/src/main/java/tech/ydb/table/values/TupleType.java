@@ -1,4 +1,4 @@
-package tech.ydb.table.types;
+package tech.ydb.table.values;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,11 +9,11 @@ import java.util.List;
  */
 public final class TupleType implements Type {
 
-    private static final TupleType EMPTY = new TupleType(new Type[0]);
+    private static final TupleType EMPTY = new TupleType(Type.EMPTY_ARRAY);
 
     private final Type[] elementTypes;
 
-    private TupleType(Type[] elementTypes) {
+    private TupleType(Type... elementTypes) {
         this.elementTypes = elementTypes;
     }
 
@@ -21,27 +21,23 @@ public final class TupleType implements Type {
         return TupleType.EMPTY;
     }
 
-    public static TupleType of() {
-        return TupleType.EMPTY;
-    }
-
     public static TupleType of(Type elementType) {
-        return new TupleType(new Type[] { elementType });
+        return new TupleType(elementType);
     }
 
-    public static TupleType of(Type... elementTypes) {
+    public static TupleType ofCopy(Type... elementTypes) {
         return new TupleType(elementTypes.clone());
     }
 
     /**
      * will not clone given array
      */
-    public static TupleType ofOwning(Type... elementTypes) {
+    public static TupleType ofOwn(Type... elementTypes) {
         return new TupleType(elementTypes);
     }
 
     public static TupleType of(List<Type> elementTypes) {
-        return new TupleType(elementTypes.toArray(new Type[0]));
+        return new TupleType(elementTypes.toArray(Type.EMPTY_ARRAY));
     }
 
     public int getElementsCount() {
@@ -91,5 +87,37 @@ public final class TupleType implements Type {
         }
         sb.append('>');
         return sb.toString();
+    }
+
+    public TupleValue newValue(Value item) {
+        return new TupleValue(this, item);
+    }
+
+    public TupleValue newValue(Value a, Value b) {
+        return new TupleValue(this, a, b);
+    }
+
+    public TupleValue newValue(Value a, Value b, Value c) {
+        return new TupleValue(this, a, b, c);
+    }
+
+    public TupleValue newValue(Value a, Value b, Value c, Value d) {
+        return new TupleValue(this, a, b, c, d);
+    }
+
+    public TupleValue newValue(Value a, Value b, Value c, Value d, Value e) {
+        return new TupleValue(this, a, b, c, d, e);
+    }
+
+    public TupleValue newValue(List<Value> items) {
+        return new TupleValue(this, items.toArray(Value.EMPTY_ARRAY));
+    }
+
+    public TupleValue newValueCopy(Value... items) {
+        return new TupleValue(this, items.clone());
+    }
+
+    public TupleValue newValueOwn(Value... items) {
+        return new TupleValue(this, items);
     }
 }

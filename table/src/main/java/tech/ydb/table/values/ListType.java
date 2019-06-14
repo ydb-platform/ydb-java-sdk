@@ -1,4 +1,8 @@
-package tech.ydb.table.types;
+package tech.ydb.table.values;
+
+
+import java.util.List;
+
 
 /**
  * @author Sergey Polovko
@@ -41,5 +45,30 @@ public final class ListType implements Type {
     @Override
     public String toString() {
         return "List<" + itemType + '>';
+    }
+
+    public ListValue emptyValue() {
+        return new ListValue(this, Value.EMPTY_ARRAY);
+    }
+
+    public ListValue newValue(List<Value> items) {
+        if (items.isEmpty()) {
+            return emptyValue();
+        }
+        return new ListValue(this, items.toArray(Value.EMPTY_ARRAY));
+    }
+
+    public ListValue newValueCopy(Value[] items) {
+        if (items.length == 0) {
+            return emptyValue();
+        }
+        return newValueOwn(items.clone());
+    }
+
+    public ListValue newValueOwn(Value... items) {
+        if (items.length == 0) {
+            return emptyValue();
+        }
+        return new ListValue(this, items);
     }
 }

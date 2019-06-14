@@ -9,9 +9,9 @@ import java.util.UUID;
 
 import tech.ydb.ValueProtos;
 import tech.ydb.table.result.ValueReader;
-import tech.ydb.table.types.Type;
-import tech.ydb.table.types.proto.ProtoType;
 import tech.ydb.table.values.DecimalValue;
+import tech.ydb.table.values.Type;
+import tech.ydb.table.values.proto.ProtoType;
 
 
 /**
