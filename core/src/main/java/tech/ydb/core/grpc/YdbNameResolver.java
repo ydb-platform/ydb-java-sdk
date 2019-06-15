@@ -44,7 +44,7 @@ final class YdbNameResolver extends NameResolver {
     private YdbNameResolver(String hostname, int port, String database, AuthProvider authProvider) {
         this.database = database;
         this.authority = GrpcUtil.authorityFromHostAndPort(hostname, port);
-        this.transport = GrpcTransportBuilder.singleHost(hostname, port)
+        this.transport = GrpcTransport.forHost(hostname, port)
             .withAuthProvider(authProvider)
             .build();
     }

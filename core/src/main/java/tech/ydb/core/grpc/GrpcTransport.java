@@ -1,6 +1,7 @@
 package tech.ydb.core.grpc;
 
 import java.net.InetSocketAddress;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -8,6 +9,9 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.net.HostAndPort;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -18,6 +22,7 @@ import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.auth.NopAuthProvider;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.RpcTransport;
+import tech.ydb.core.rpc.RpcTransportBuilder;
 import tech.ydb.core.rpc.StreamObserver;
 import com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId;
 import io.grpc.CallOptions;
@@ -35,6 +40,9 @@ import io.grpc.stub.MetadataUtils;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelOption;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Collections.singletonList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 
 
@@ -53,7 +61,7 @@ public class GrpcTransport implements RpcTransport {
     private final GrpcOperationTray operationTray;
     private final long defautlReadTimeoutMillis;
 
-    GrpcTransport(GrpcTransportBuilder builder) {
+    private GrpcTransport(Builder builder) {
         this.realChannel = createChannel(builder);
         this.channel = interceptChannel(realChannel, builder);
         this.callOptions = createCallOptions(builder);
@@ -61,58 +69,26 @@ public class GrpcTransport implements RpcTransport {
         this.operationTray = new GrpcOperationTray(this);
     }
 
-    private static ManagedChannel createChannel(GrpcTransportBuilder builder) {
-        String endpoint = builder.getEndpoint();
-        String database = builder.getDatabase();
-        List<HostAndPort> hosts = builder.getHosts();
-        assert (endpoint != null) == (database != null);
-        assert (endpoint == null) != (hosts == null);
-
-        final NettyChannelBuilder channelBuilder;
-        if (endpoint != null) {
-            channelBuilder = NettyChannelBuilder.forTarget(YdbNameResolver.makeTarget(endpoint, database))
-                    .nameResolverFactory(YdbNameResolver.newFactory(builder.getAuthProvider()))
-                    .defaultLoadBalancingPolicy("round_robin");
-        } else if (hosts.size() > 1) {
-            channelBuilder = NettyChannelBuilder.forTarget(HostsNameResolver.makeTarget(hosts))
-                .nameResolverFactory(HostsNameResolver.newFactory(hosts))
-                .defaultLoadBalancingPolicy("round_robin");
-        } else {
-            channelBuilder = NettyChannelBuilder.forAddress(new InetSocketAddress(
-                hosts.get(0).getHost(),
-                hosts.get(0).getPortOrDefault(DEFAULT_PORT)));
-        }
-
-        channelBuilder
-            .negotiationType(NegotiationType.PLAINTEXT)
-            .maxInboundMessageSize(64 << 20) // 64 MiB
-            .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
-
-        builder.getChannelInitializer().accept(channelBuilder);
-        return channelBuilder.build();
+    public static Builder forHost(String host, int port) {
+        return new Builder(null, null, singletonList(HostAndPort.fromParts(host, port)));
     }
 
-    private static Channel interceptChannel(ManagedChannel realChannel, GrpcTransportBuilder builder) {
-        if (builder.getDatabase() == null) {
-            return realChannel;
-        }
-
-        Metadata extraHeaders = new Metadata();
-        extraHeaders.put(YdbHeaders.DATABASE, builder.getDatabase());
-        ClientInterceptor interceptor = MetadataUtils.newAttachHeadersInterceptor(extraHeaders);
-        return ClientInterceptors.intercept(realChannel, interceptor);
+    public static Builder forHosts(HostAndPort... hosts) {
+        checkNotNull(hosts, "hosts is null");
+        checkArgument(hosts.length > 0, "empty hosts array");
+        return new Builder(null, null, Arrays.asList(hosts));
     }
 
-    private static CallOptions createCallOptions(GrpcTransportBuilder builder) {
-        CallOptions callOptions = CallOptions.DEFAULT;
-        AuthProvider authProvider = builder.getAuthProvider();
-        if (authProvider != NopAuthProvider.INSTANCE) {
-            callOptions = callOptions.withCallCredentials(new YdbCallCredentials(authProvider));
-        }
-        if (builder.getCallExecutor() != MoreExecutors.directExecutor()) {
-            callOptions = callOptions.withExecutor(builder.getCallExecutor());
-        }
-        return callOptions;
+    public static Builder forHosts(List<HostAndPort> hosts) {
+        checkNotNull(hosts, "hosts is null");
+        checkArgument(!hosts.isEmpty(), "empty hosts list");
+        return new Builder(null, null, hosts);
+    }
+
+    public static Builder forEndpoint(String endpoint, String database) {
+        checkNotNull(endpoint, "endpoint is null");
+        checkNotNull(database, "database is null");
+        return new Builder(endpoint, database, null);
     }
 
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
@@ -234,6 +210,60 @@ public class GrpcTransport implements RpcTransport {
         realChannel.shutdown();
     }
 
+    private static ManagedChannel createChannel(Builder builder) {
+        String endpoint = builder.getEndpoint();
+        String database = builder.getDatabase();
+        List<HostAndPort> hosts = builder.getHosts();
+        assert (endpoint != null) == (database != null);
+        assert (endpoint == null) != (hosts == null);
+
+        final NettyChannelBuilder channelBuilder;
+        if (endpoint != null) {
+            channelBuilder = NettyChannelBuilder.forTarget(YdbNameResolver.makeTarget(endpoint, database))
+                .nameResolverFactory(YdbNameResolver.newFactory(builder.getAuthProvider()))
+                .defaultLoadBalancingPolicy("round_robin");
+        } else if (hosts.size() > 1) {
+            channelBuilder = NettyChannelBuilder.forTarget(HostsNameResolver.makeTarget(hosts))
+                .nameResolverFactory(HostsNameResolver.newFactory(hosts))
+                .defaultLoadBalancingPolicy("round_robin");
+        } else {
+            channelBuilder = NettyChannelBuilder.forAddress(new InetSocketAddress(
+                hosts.get(0).getHost(),
+                hosts.get(0).getPortOrDefault(DEFAULT_PORT)));
+        }
+
+        channelBuilder
+            .negotiationType(NegotiationType.PLAINTEXT)
+            .maxInboundMessageSize(64 << 20) // 64 MiB
+            .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
+
+        builder.getChannelInitializer().accept(channelBuilder);
+        return channelBuilder.build();
+    }
+
+    private static Channel interceptChannel(ManagedChannel realChannel, Builder builder) {
+        if (builder.getDatabase() == null) {
+            return realChannel;
+        }
+
+        Metadata extraHeaders = new Metadata();
+        extraHeaders.put(YdbHeaders.DATABASE, builder.getDatabase());
+        ClientInterceptor interceptor = MetadataUtils.newAttachHeadersInterceptor(extraHeaders);
+        return ClientInterceptors.intercept(realChannel, interceptor);
+    }
+
+    private static CallOptions createCallOptions(Builder builder) {
+        CallOptions callOptions = CallOptions.DEFAULT;
+        AuthProvider authProvider = builder.getAuthProvider();
+        if (authProvider != NopAuthProvider.INSTANCE) {
+            callOptions = callOptions.withCallCredentials(new YdbCallCredentials(authProvider));
+        }
+        if (builder.getCallExecutor() != MoreExecutors.directExecutor()) {
+            callOptions = callOptions.withExecutor(builder.getCallExecutor());
+        }
+        return callOptions;
+    }
+
     private static <T> Result<T> deadlineExpiredResult(MethodDescriptor<?, T> method) {
         String message = "deadline expired before calling method " + method.getFullMethodName();
         return Result.fail(StatusCode.CLIENT_DEADLINE_EXCEEDED, Issue.of(message, ESeverityId.S_ERROR));
@@ -242,5 +272,51 @@ public class GrpcTransport implements RpcTransport {
     private static Status deadlineExpiredStatus(MethodDescriptor<?, ?> method) {
         String message = "deadline expired before calling method " + method.getFullMethodName();
         return Status.DEADLINE_EXCEEDED.withDescription(message);
+    }
+
+    /**
+     * BUILDER
+     */
+    @ParametersAreNonnullByDefault
+    public static final class Builder extends RpcTransportBuilder<GrpcTransport, Builder> {
+        private final String endpoint;
+        private final String database;
+        private final List<HostAndPort> hosts;
+        private Consumer<NettyChannelBuilder> channelInitializer = (cb) -> {};
+
+        private Builder(@Nullable String endpoint, @Nullable String database, @Nullable List<HostAndPort> hosts) {
+            this.endpoint = endpoint;
+            this.database = database;
+            this.hosts = hosts;
+        }
+
+        @Nullable
+        public List<HostAndPort> getHosts() {
+            return hosts;
+        }
+
+        @Nullable
+        public String getEndpoint() {
+            return endpoint;
+        }
+
+        @Nullable
+        public String getDatabase() {
+            return database;
+        }
+
+        public Consumer<NettyChannelBuilder> getChannelInitializer() {
+            return channelInitializer;
+        }
+
+        public Builder withChannelInitializer(Consumer<NettyChannelBuilder> channelInitializer) {
+            this.channelInitializer = checkNotNull(channelInitializer, "channelInitializer is null");
+            return this;
+        }
+
+        @Override
+        public GrpcTransport build() {
+            return new GrpcTransport(this);
+        }
     }
 }
