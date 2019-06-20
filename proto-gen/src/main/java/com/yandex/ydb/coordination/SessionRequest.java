@@ -108,28 +108,28 @@ private static final long serialVersionUID = 0L;
             break;
           }
           case 42: {
-            tech.ydb.coordination.SessionRequest.ClientReady.Builder subBuilder = null;
+            tech.ydb.coordination.Unsupported.Builder subBuilder = null;
             if (requestCase_ == 5) {
-              subBuilder = ((tech.ydb.coordination.SessionRequest.ClientReady) request_).toBuilder();
+              subBuilder = ((tech.ydb.coordination.Unsupported) request_).toBuilder();
             }
             request_ =
-                input.readMessage(tech.ydb.coordination.SessionRequest.ClientReady.parser(), extensionRegistry);
+                input.readMessage(tech.ydb.coordination.Unsupported.parser(), extensionRegistry);
             if (subBuilder != null) {
-              subBuilder.mergeFrom((tech.ydb.coordination.SessionRequest.ClientReady) request_);
+              subBuilder.mergeFrom((tech.ydb.coordination.Unsupported) request_);
               request_ = subBuilder.buildPartial();
             }
             requestCase_ = 5;
             break;
           }
           case 50: {
-            tech.ydb.coordination.SessionRequest.UpdateJobStatus.Builder subBuilder = null;
+            tech.ydb.coordination.Unsupported.Builder subBuilder = null;
             if (requestCase_ == 6) {
-              subBuilder = ((tech.ydb.coordination.SessionRequest.UpdateJobStatus) request_).toBuilder();
+              subBuilder = ((tech.ydb.coordination.Unsupported) request_).toBuilder();
             }
             request_ =
-                input.readMessage(tech.ydb.coordination.SessionRequest.UpdateJobStatus.parser(), extensionRegistry);
+                input.readMessage(tech.ydb.coordination.Unsupported.parser(), extensionRegistry);
             if (subBuilder != null) {
-              subBuilder.mergeFrom((tech.ydb.coordination.SessionRequest.UpdateJobStatus) request_);
+              subBuilder.mergeFrom((tech.ydb.coordination.Unsupported) request_);
               request_ = subBuilder.buildPartial();
             }
             requestCase_ = 6;
@@ -220,42 +220,42 @@ private static final long serialVersionUID = 0L;
             break;
           }
           case 106: {
-            tech.ydb.coordination.SessionRequest.CreateTask.Builder subBuilder = null;
+            tech.ydb.coordination.Unsupported.Builder subBuilder = null;
             if (requestCase_ == 13) {
-              subBuilder = ((tech.ydb.coordination.SessionRequest.CreateTask) request_).toBuilder();
+              subBuilder = ((tech.ydb.coordination.Unsupported) request_).toBuilder();
             }
             request_ =
-                input.readMessage(tech.ydb.coordination.SessionRequest.CreateTask.parser(), extensionRegistry);
+                input.readMessage(tech.ydb.coordination.Unsupported.parser(), extensionRegistry);
             if (subBuilder != null) {
-              subBuilder.mergeFrom((tech.ydb.coordination.SessionRequest.CreateTask) request_);
+              subBuilder.mergeFrom((tech.ydb.coordination.Unsupported) request_);
               request_ = subBuilder.buildPartial();
             }
             requestCase_ = 13;
             break;
           }
           case 114: {
-            tech.ydb.coordination.SessionRequest.UpdateTask.Builder subBuilder = null;
+            tech.ydb.coordination.Unsupported.Builder subBuilder = null;
             if (requestCase_ == 14) {
-              subBuilder = ((tech.ydb.coordination.SessionRequest.UpdateTask) request_).toBuilder();
+              subBuilder = ((tech.ydb.coordination.Unsupported) request_).toBuilder();
             }
             request_ =
-                input.readMessage(tech.ydb.coordination.SessionRequest.UpdateTask.parser(), extensionRegistry);
+                input.readMessage(tech.ydb.coordination.Unsupported.parser(), extensionRegistry);
             if (subBuilder != null) {
-              subBuilder.mergeFrom((tech.ydb.coordination.SessionRequest.UpdateTask) request_);
+              subBuilder.mergeFrom((tech.ydb.coordination.Unsupported) request_);
               request_ = subBuilder.buildPartial();
             }
             requestCase_ = 14;
             break;
           }
           case 122: {
-            tech.ydb.coordination.SessionRequest.DeleteTask.Builder subBuilder = null;
+            tech.ydb.coordination.Unsupported.Builder subBuilder = null;
             if (requestCase_ == 15) {
-              subBuilder = ((tech.ydb.coordination.SessionRequest.DeleteTask) request_).toBuilder();
+              subBuilder = ((tech.ydb.coordination.Unsupported) request_).toBuilder();
             }
             request_ =
-                input.readMessage(tech.ydb.coordination.SessionRequest.DeleteTask.parser(), extensionRegistry);
+                input.readMessage(tech.ydb.coordination.Unsupported.parser(), extensionRegistry);
             if (subBuilder != null) {
-              subBuilder.mergeFrom((tech.ydb.coordination.SessionRequest.DeleteTask) request_);
+              subBuilder.mergeFrom((tech.ydb.coordination.Unsupported) request_);
               request_ = subBuilder.buildPartial();
             }
             requestCase_ = 15;
@@ -2242,2058 +2242,6 @@ private static final long serialVersionUID = 0L;
     }
 
     public tech.ydb.coordination.SessionRequest.SessionStop getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface ClientReadyOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Coordination.SessionRequest.ClientReady)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-     */
-    java.util.List<tech.ydb.coordination.Resource> 
-        getResourcesList();
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-     */
-    tech.ydb.coordination.Resource getResources(int index);
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-     */
-    int getResourcesCount();
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-     */
-    java.util.List<? extends tech.ydb.coordination.ResourceOrBuilder> 
-        getResourcesOrBuilderList();
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-     */
-    tech.ydb.coordination.ResourceOrBuilder getResourcesOrBuilder(
-        int index);
-
-    /**
-     * <code>repeated string supported_task_types = 2;</code>
-     */
-    java.util.List<java.lang.String>
-        getSupportedTaskTypesList();
-    /**
-     * <code>repeated string supported_task_types = 2;</code>
-     */
-    int getSupportedTaskTypesCount();
-    /**
-     * <code>repeated string supported_task_types = 2;</code>
-     */
-    java.lang.String getSupportedTaskTypes(int index);
-    /**
-     * <code>repeated string supported_task_types = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getSupportedTaskTypesBytes(int index);
-
-    /**
-     * <code>repeated uint64 running_jobs = 3;</code>
-     */
-    java.util.List<java.lang.Long> getRunningJobsList();
-    /**
-     * <code>repeated uint64 running_jobs = 3;</code>
-     */
-    int getRunningJobsCount();
-    /**
-     * <code>repeated uint64 running_jobs = 3;</code>
-     */
-    long getRunningJobs(int index);
-  }
-  /**
-   * <pre>
-   **
-   * Used by the client to signal readiness for executing tasks
-   * NOTE: this API is not yet supported and is subject to change
-   * </pre>
-   *
-   * Protobuf type {@code Ydb.Coordination.SessionRequest.ClientReady}
-   */
-  public  static final class ClientReady extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest.ClientReady)
-      ClientReadyOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use ClientReady.newBuilder() to construct.
-    private ClientReady(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private ClientReady() {
-      resources_ = java.util.Collections.emptyList();
-      supportedTaskTypes_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      runningJobs_ = java.util.Collections.emptyList();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private ClientReady(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                resources_ = new java.util.ArrayList<tech.ydb.coordination.Resource>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              resources_.add(
-                  input.readMessage(tech.ydb.coordination.Resource.parser(), extensionRegistry));
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                supportedTaskTypes_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              supportedTaskTypes_.add(s);
-              break;
-            }
-            case 24: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                runningJobs_ = new java.util.ArrayList<java.lang.Long>();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              runningJobs_.add(input.readUInt64());
-              break;
-            }
-            case 26: {
-              int length = input.readRawVarint32();
-              int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004) && input.getBytesUntilLimit() > 0) {
-                runningJobs_ = new java.util.ArrayList<java.lang.Long>();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              while (input.getBytesUntilLimit() > 0) {
-                runningJobs_.add(input.readUInt64());
-              }
-              input.popLimit(limit);
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          resources_ = java.util.Collections.unmodifiableList(resources_);
-        }
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          supportedTaskTypes_ = supportedTaskTypes_.getUnmodifiableView();
-        }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          runningJobs_ = java.util.Collections.unmodifiableList(runningJobs_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_ClientReady_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_ClientReady_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.coordination.SessionRequest.ClientReady.class, tech.ydb.coordination.SessionRequest.ClientReady.Builder.class);
-    }
-
-    public static final int RESOURCES_FIELD_NUMBER = 1;
-    private java.util.List<tech.ydb.coordination.Resource> resources_;
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-     */
-    public java.util.List<tech.ydb.coordination.Resource> getResourcesList() {
-      return resources_;
-    }
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-     */
-    public java.util.List<? extends tech.ydb.coordination.ResourceOrBuilder> 
-        getResourcesOrBuilderList() {
-      return resources_;
-    }
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-     */
-    public int getResourcesCount() {
-      return resources_.size();
-    }
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-     */
-    public tech.ydb.coordination.Resource getResources(int index) {
-      return resources_.get(index);
-    }
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-     */
-    public tech.ydb.coordination.ResourceOrBuilder getResourcesOrBuilder(
-        int index) {
-      return resources_.get(index);
-    }
-
-    public static final int SUPPORTED_TASK_TYPES_FIELD_NUMBER = 2;
-    private com.google.protobuf.LazyStringList supportedTaskTypes_;
-    /**
-     * <code>repeated string supported_task_types = 2;</code>
-     */
-    public com.google.protobuf.ProtocolStringList
-        getSupportedTaskTypesList() {
-      return supportedTaskTypes_;
-    }
-    /**
-     * <code>repeated string supported_task_types = 2;</code>
-     */
-    public int getSupportedTaskTypesCount() {
-      return supportedTaskTypes_.size();
-    }
-    /**
-     * <code>repeated string supported_task_types = 2;</code>
-     */
-    public java.lang.String getSupportedTaskTypes(int index) {
-      return supportedTaskTypes_.get(index);
-    }
-    /**
-     * <code>repeated string supported_task_types = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getSupportedTaskTypesBytes(int index) {
-      return supportedTaskTypes_.getByteString(index);
-    }
-
-    public static final int RUNNING_JOBS_FIELD_NUMBER = 3;
-    private java.util.List<java.lang.Long> runningJobs_;
-    /**
-     * <code>repeated uint64 running_jobs = 3;</code>
-     */
-    public java.util.List<java.lang.Long>
-        getRunningJobsList() {
-      return runningJobs_;
-    }
-    /**
-     * <code>repeated uint64 running_jobs = 3;</code>
-     */
-    public int getRunningJobsCount() {
-      return runningJobs_.size();
-    }
-    /**
-     * <code>repeated uint64 running_jobs = 3;</code>
-     */
-    public long getRunningJobs(int index) {
-      return runningJobs_.get(index);
-    }
-    private int runningJobsMemoizedSerializedSize = -1;
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      for (int i = 0; i < resources_.size(); i++) {
-        output.writeMessage(1, resources_.get(i));
-      }
-      for (int i = 0; i < supportedTaskTypes_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, supportedTaskTypes_.getRaw(i));
-      }
-      if (getRunningJobsList().size() > 0) {
-        output.writeUInt32NoTag(26);
-        output.writeUInt32NoTag(runningJobsMemoizedSerializedSize);
-      }
-      for (int i = 0; i < runningJobs_.size(); i++) {
-        output.writeUInt64NoTag(runningJobs_.get(i));
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      for (int i = 0; i < resources_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, resources_.get(i));
-      }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < supportedTaskTypes_.size(); i++) {
-          dataSize += computeStringSizeNoTag(supportedTaskTypes_.getRaw(i));
-        }
-        size += dataSize;
-        size += 1 * getSupportedTaskTypesList().size();
-      }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < runningJobs_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeUInt64SizeNoTag(runningJobs_.get(i));
-        }
-        size += dataSize;
-        if (!getRunningJobsList().isEmpty()) {
-          size += 1;
-          size += com.google.protobuf.CodedOutputStream
-              .computeInt32SizeNoTag(dataSize);
-        }
-        runningJobsMemoizedSerializedSize = dataSize;
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.coordination.SessionRequest.ClientReady)) {
-        return super.equals(obj);
-      }
-      tech.ydb.coordination.SessionRequest.ClientReady other = (tech.ydb.coordination.SessionRequest.ClientReady) obj;
-
-      boolean result = true;
-      result = result && getResourcesList()
-          .equals(other.getResourcesList());
-      result = result && getSupportedTaskTypesList()
-          .equals(other.getSupportedTaskTypesList());
-      result = result && getRunningJobsList()
-          .equals(other.getRunningJobsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (getResourcesCount() > 0) {
-        hash = (37 * hash) + RESOURCES_FIELD_NUMBER;
-        hash = (53 * hash) + getResourcesList().hashCode();
-      }
-      if (getSupportedTaskTypesCount() > 0) {
-        hash = (37 * hash) + SUPPORTED_TASK_TYPES_FIELD_NUMBER;
-        hash = (53 * hash) + getSupportedTaskTypesList().hashCode();
-      }
-      if (getRunningJobsCount() > 0) {
-        hash = (37 * hash) + RUNNING_JOBS_FIELD_NUMBER;
-        hash = (53 * hash) + getRunningJobsList().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.coordination.SessionRequest.ClientReady parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.ClientReady parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.ClientReady parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.ClientReady parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.ClientReady parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.ClientReady parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.ClientReady parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.ClientReady parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.ClientReady parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.ClientReady parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.ClientReady parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.ClientReady parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.coordination.SessionRequest.ClientReady prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * <pre>
-     **
-     * Used by the client to signal readiness for executing tasks
-     * NOTE: this API is not yet supported and is subject to change
-     * </pre>
-     *
-     * Protobuf type {@code Ydb.Coordination.SessionRequest.ClientReady}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Coordination.SessionRequest.ClientReady)
-        tech.ydb.coordination.SessionRequest.ClientReadyOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_ClientReady_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_ClientReady_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.coordination.SessionRequest.ClientReady.class, tech.ydb.coordination.SessionRequest.ClientReady.Builder.class);
-      }
-
-      // Construct using tech.ydb.coordination.SessionRequest.ClientReady.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-          getResourcesFieldBuilder();
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        if (resourcesBuilder_ == null) {
-          resources_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          resourcesBuilder_.clear();
-        }
-        supportedTaskTypes_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        runningJobs_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_ClientReady_descriptor;
-      }
-
-      public tech.ydb.coordination.SessionRequest.ClientReady getDefaultInstanceForType() {
-        return tech.ydb.coordination.SessionRequest.ClientReady.getDefaultInstance();
-      }
-
-      public tech.ydb.coordination.SessionRequest.ClientReady build() {
-        tech.ydb.coordination.SessionRequest.ClientReady result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public tech.ydb.coordination.SessionRequest.ClientReady buildPartial() {
-        tech.ydb.coordination.SessionRequest.ClientReady result = new tech.ydb.coordination.SessionRequest.ClientReady(this);
-        int from_bitField0_ = bitField0_;
-        if (resourcesBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            resources_ = java.util.Collections.unmodifiableList(resources_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.resources_ = resources_;
-        } else {
-          result.resources_ = resourcesBuilder_.build();
-        }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          supportedTaskTypes_ = supportedTaskTypes_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000002);
-        }
-        result.supportedTaskTypes_ = supportedTaskTypes_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          runningJobs_ = java.util.Collections.unmodifiableList(runningJobs_);
-          bitField0_ = (bitField0_ & ~0x00000004);
-        }
-        result.runningJobs_ = runningJobs_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.coordination.SessionRequest.ClientReady) {
-          return mergeFrom((tech.ydb.coordination.SessionRequest.ClientReady)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.coordination.SessionRequest.ClientReady other) {
-        if (other == tech.ydb.coordination.SessionRequest.ClientReady.getDefaultInstance()) return this;
-        if (resourcesBuilder_ == null) {
-          if (!other.resources_.isEmpty()) {
-            if (resources_.isEmpty()) {
-              resources_ = other.resources_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureResourcesIsMutable();
-              resources_.addAll(other.resources_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.resources_.isEmpty()) {
-            if (resourcesBuilder_.isEmpty()) {
-              resourcesBuilder_.dispose();
-              resourcesBuilder_ = null;
-              resources_ = other.resources_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              resourcesBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getResourcesFieldBuilder() : null;
-            } else {
-              resourcesBuilder_.addAllMessages(other.resources_);
-            }
-          }
-        }
-        if (!other.supportedTaskTypes_.isEmpty()) {
-          if (supportedTaskTypes_.isEmpty()) {
-            supportedTaskTypes_ = other.supportedTaskTypes_;
-            bitField0_ = (bitField0_ & ~0x00000002);
-          } else {
-            ensureSupportedTaskTypesIsMutable();
-            supportedTaskTypes_.addAll(other.supportedTaskTypes_);
-          }
-          onChanged();
-        }
-        if (!other.runningJobs_.isEmpty()) {
-          if (runningJobs_.isEmpty()) {
-            runningJobs_ = other.runningJobs_;
-            bitField0_ = (bitField0_ & ~0x00000004);
-          } else {
-            ensureRunningJobsIsMutable();
-            runningJobs_.addAll(other.runningJobs_);
-          }
-          onChanged();
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.coordination.SessionRequest.ClientReady parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.coordination.SessionRequest.ClientReady) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private java.util.List<tech.ydb.coordination.Resource> resources_ =
-        java.util.Collections.emptyList();
-      private void ensureResourcesIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          resources_ = new java.util.ArrayList<tech.ydb.coordination.Resource>(resources_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.coordination.Resource, tech.ydb.coordination.Resource.Builder, tech.ydb.coordination.ResourceOrBuilder> resourcesBuilder_;
-
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public java.util.List<tech.ydb.coordination.Resource> getResourcesList() {
-        if (resourcesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(resources_);
-        } else {
-          return resourcesBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public int getResourcesCount() {
-        if (resourcesBuilder_ == null) {
-          return resources_.size();
-        } else {
-          return resourcesBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public tech.ydb.coordination.Resource getResources(int index) {
-        if (resourcesBuilder_ == null) {
-          return resources_.get(index);
-        } else {
-          return resourcesBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public Builder setResources(
-          int index, tech.ydb.coordination.Resource value) {
-        if (resourcesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureResourcesIsMutable();
-          resources_.set(index, value);
-          onChanged();
-        } else {
-          resourcesBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public Builder setResources(
-          int index, tech.ydb.coordination.Resource.Builder builderForValue) {
-        if (resourcesBuilder_ == null) {
-          ensureResourcesIsMutable();
-          resources_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          resourcesBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public Builder addResources(tech.ydb.coordination.Resource value) {
-        if (resourcesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureResourcesIsMutable();
-          resources_.add(value);
-          onChanged();
-        } else {
-          resourcesBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public Builder addResources(
-          int index, tech.ydb.coordination.Resource value) {
-        if (resourcesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureResourcesIsMutable();
-          resources_.add(index, value);
-          onChanged();
-        } else {
-          resourcesBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public Builder addResources(
-          tech.ydb.coordination.Resource.Builder builderForValue) {
-        if (resourcesBuilder_ == null) {
-          ensureResourcesIsMutable();
-          resources_.add(builderForValue.build());
-          onChanged();
-        } else {
-          resourcesBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public Builder addResources(
-          int index, tech.ydb.coordination.Resource.Builder builderForValue) {
-        if (resourcesBuilder_ == null) {
-          ensureResourcesIsMutable();
-          resources_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          resourcesBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public Builder addAllResources(
-          java.lang.Iterable<? extends tech.ydb.coordination.Resource> values) {
-        if (resourcesBuilder_ == null) {
-          ensureResourcesIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, resources_);
-          onChanged();
-        } else {
-          resourcesBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public Builder clearResources() {
-        if (resourcesBuilder_ == null) {
-          resources_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          resourcesBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public Builder removeResources(int index) {
-        if (resourcesBuilder_ == null) {
-          ensureResourcesIsMutable();
-          resources_.remove(index);
-          onChanged();
-        } else {
-          resourcesBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public tech.ydb.coordination.Resource.Builder getResourcesBuilder(
-          int index) {
-        return getResourcesFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public tech.ydb.coordination.ResourceOrBuilder getResourcesOrBuilder(
-          int index) {
-        if (resourcesBuilder_ == null) {
-          return resources_.get(index);  } else {
-          return resourcesBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public java.util.List<? extends tech.ydb.coordination.ResourceOrBuilder> 
-           getResourcesOrBuilderList() {
-        if (resourcesBuilder_ != null) {
-          return resourcesBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(resources_);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public tech.ydb.coordination.Resource.Builder addResourcesBuilder() {
-        return getResourcesFieldBuilder().addBuilder(
-            tech.ydb.coordination.Resource.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public tech.ydb.coordination.Resource.Builder addResourcesBuilder(
-          int index) {
-        return getResourcesFieldBuilder().addBuilder(
-            index, tech.ydb.coordination.Resource.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 1;</code>
-       */
-      public java.util.List<tech.ydb.coordination.Resource.Builder> 
-           getResourcesBuilderList() {
-        return getResourcesFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.coordination.Resource, tech.ydb.coordination.Resource.Builder, tech.ydb.coordination.ResourceOrBuilder> 
-          getResourcesFieldBuilder() {
-        if (resourcesBuilder_ == null) {
-          resourcesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              tech.ydb.coordination.Resource, tech.ydb.coordination.Resource.Builder, tech.ydb.coordination.ResourceOrBuilder>(
-                  resources_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
-                  getParentForChildren(),
-                  isClean());
-          resources_ = null;
-        }
-        return resourcesBuilder_;
-      }
-
-      private com.google.protobuf.LazyStringList supportedTaskTypes_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      private void ensureSupportedTaskTypesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          supportedTaskTypes_ = new com.google.protobuf.LazyStringArrayList(supportedTaskTypes_);
-          bitField0_ |= 0x00000002;
-         }
-      }
-      /**
-       * <code>repeated string supported_task_types = 2;</code>
-       */
-      public com.google.protobuf.ProtocolStringList
-          getSupportedTaskTypesList() {
-        return supportedTaskTypes_.getUnmodifiableView();
-      }
-      /**
-       * <code>repeated string supported_task_types = 2;</code>
-       */
-      public int getSupportedTaskTypesCount() {
-        return supportedTaskTypes_.size();
-      }
-      /**
-       * <code>repeated string supported_task_types = 2;</code>
-       */
-      public java.lang.String getSupportedTaskTypes(int index) {
-        return supportedTaskTypes_.get(index);
-      }
-      /**
-       * <code>repeated string supported_task_types = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getSupportedTaskTypesBytes(int index) {
-        return supportedTaskTypes_.getByteString(index);
-      }
-      /**
-       * <code>repeated string supported_task_types = 2;</code>
-       */
-      public Builder setSupportedTaskTypes(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureSupportedTaskTypesIsMutable();
-        supportedTaskTypes_.set(index, value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string supported_task_types = 2;</code>
-       */
-      public Builder addSupportedTaskTypes(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureSupportedTaskTypesIsMutable();
-        supportedTaskTypes_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string supported_task_types = 2;</code>
-       */
-      public Builder addAllSupportedTaskTypes(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureSupportedTaskTypesIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, supportedTaskTypes_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string supported_task_types = 2;</code>
-       */
-      public Builder clearSupportedTaskTypes() {
-        supportedTaskTypes_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string supported_task_types = 2;</code>
-       */
-      public Builder addSupportedTaskTypesBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        ensureSupportedTaskTypesIsMutable();
-        supportedTaskTypes_.add(value);
-        onChanged();
-        return this;
-      }
-
-      private java.util.List<java.lang.Long> runningJobs_ = java.util.Collections.emptyList();
-      private void ensureRunningJobsIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          runningJobs_ = new java.util.ArrayList<java.lang.Long>(runningJobs_);
-          bitField0_ |= 0x00000004;
-         }
-      }
-      /**
-       * <code>repeated uint64 running_jobs = 3;</code>
-       */
-      public java.util.List<java.lang.Long>
-          getRunningJobsList() {
-        return java.util.Collections.unmodifiableList(runningJobs_);
-      }
-      /**
-       * <code>repeated uint64 running_jobs = 3;</code>
-       */
-      public int getRunningJobsCount() {
-        return runningJobs_.size();
-      }
-      /**
-       * <code>repeated uint64 running_jobs = 3;</code>
-       */
-      public long getRunningJobs(int index) {
-        return runningJobs_.get(index);
-      }
-      /**
-       * <code>repeated uint64 running_jobs = 3;</code>
-       */
-      public Builder setRunningJobs(
-          int index, long value) {
-        ensureRunningJobsIsMutable();
-        runningJobs_.set(index, value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated uint64 running_jobs = 3;</code>
-       */
-      public Builder addRunningJobs(long value) {
-        ensureRunningJobsIsMutable();
-        runningJobs_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated uint64 running_jobs = 3;</code>
-       */
-      public Builder addAllRunningJobs(
-          java.lang.Iterable<? extends java.lang.Long> values) {
-        ensureRunningJobsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, runningJobs_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated uint64 running_jobs = 3;</code>
-       */
-      public Builder clearRunningJobs() {
-        runningJobs_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
-        onChanged();
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.Coordination.SessionRequest.ClientReady)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.Coordination.SessionRequest.ClientReady)
-    private static final tech.ydb.coordination.SessionRequest.ClientReady DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.coordination.SessionRequest.ClientReady();
-    }
-
-    public static tech.ydb.coordination.SessionRequest.ClientReady getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<ClientReady>
-        PARSER = new com.google.protobuf.AbstractParser<ClientReady>() {
-      public ClientReady parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ClientReady(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<ClientReady> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ClientReady> getParserForType() {
-      return PARSER;
-    }
-
-    public tech.ydb.coordination.SessionRequest.ClientReady getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface UpdateJobStatusOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Coordination.SessionRequest.UpdateJobStatus)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>uint64 job_id = 1;</code>
-     */
-    long getJobId();
-
-    /**
-     * <code>.Ydb.Coordination.JobStatus job_status = 2;</code>
-     */
-    int getJobStatusValue();
-    /**
-     * <code>.Ydb.Coordination.JobStatus job_status = 2;</code>
-     */
-    tech.ydb.coordination.JobStatus getJobStatus();
-
-    /**
-     * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-     */
-    java.util.List<tech.ydb.coordination.Resource> 
-        getUsedResourcesList();
-    /**
-     * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-     */
-    tech.ydb.coordination.Resource getUsedResources(int index);
-    /**
-     * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-     */
-    int getUsedResourcesCount();
-    /**
-     * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-     */
-    java.util.List<? extends tech.ydb.coordination.ResourceOrBuilder> 
-        getUsedResourcesOrBuilderList();
-    /**
-     * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-     */
-    tech.ydb.coordination.ResourceOrBuilder getUsedResourcesOrBuilder(
-        int index);
-  }
-  /**
-   * <pre>
-   **
-   * Used by the client to report current job status
-   * NOTE: this API is not yet supported and is subject to change
-   * </pre>
-   *
-   * Protobuf type {@code Ydb.Coordination.SessionRequest.UpdateJobStatus}
-   */
-  public  static final class UpdateJobStatus extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest.UpdateJobStatus)
-      UpdateJobStatusOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use UpdateJobStatus.newBuilder() to construct.
-    private UpdateJobStatus(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private UpdateJobStatus() {
-      jobId_ = 0L;
-      jobStatus_ = 0;
-      usedResources_ = java.util.Collections.emptyList();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private UpdateJobStatus(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-
-              jobId_ = input.readUInt64();
-              break;
-            }
-            case 16: {
-              int rawValue = input.readEnum();
-
-              jobStatus_ = rawValue;
-              break;
-            }
-            case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                usedResources_ = new java.util.ArrayList<tech.ydb.coordination.Resource>();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              usedResources_.add(
-                  input.readMessage(tech.ydb.coordination.Resource.parser(), extensionRegistry));
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          usedResources_ = java.util.Collections.unmodifiableList(usedResources_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateJobStatus_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateJobStatus_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.coordination.SessionRequest.UpdateJobStatus.class, tech.ydb.coordination.SessionRequest.UpdateJobStatus.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int JOB_ID_FIELD_NUMBER = 1;
-    private long jobId_;
-    /**
-     * <code>uint64 job_id = 1;</code>
-     */
-    public long getJobId() {
-      return jobId_;
-    }
-
-    public static final int JOB_STATUS_FIELD_NUMBER = 2;
-    private int jobStatus_;
-    /**
-     * <code>.Ydb.Coordination.JobStatus job_status = 2;</code>
-     */
-    public int getJobStatusValue() {
-      return jobStatus_;
-    }
-    /**
-     * <code>.Ydb.Coordination.JobStatus job_status = 2;</code>
-     */
-    public tech.ydb.coordination.JobStatus getJobStatus() {
-      tech.ydb.coordination.JobStatus result = tech.ydb.coordination.JobStatus.valueOf(jobStatus_);
-      return result == null ? tech.ydb.coordination.JobStatus.UNRECOGNIZED : result;
-    }
-
-    public static final int USED_RESOURCES_FIELD_NUMBER = 3;
-    private java.util.List<tech.ydb.coordination.Resource> usedResources_;
-    /**
-     * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-     */
-    public java.util.List<tech.ydb.coordination.Resource> getUsedResourcesList() {
-      return usedResources_;
-    }
-    /**
-     * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-     */
-    public java.util.List<? extends tech.ydb.coordination.ResourceOrBuilder> 
-        getUsedResourcesOrBuilderList() {
-      return usedResources_;
-    }
-    /**
-     * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-     */
-    public int getUsedResourcesCount() {
-      return usedResources_.size();
-    }
-    /**
-     * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-     */
-    public tech.ydb.coordination.Resource getUsedResources(int index) {
-      return usedResources_.get(index);
-    }
-    /**
-     * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-     */
-    public tech.ydb.coordination.ResourceOrBuilder getUsedResourcesOrBuilder(
-        int index) {
-      return usedResources_.get(index);
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (jobId_ != 0L) {
-        output.writeUInt64(1, jobId_);
-      }
-      if (jobStatus_ != tech.ydb.coordination.JobStatus.JOB_STATUS_UNSPECIFIED.getNumber()) {
-        output.writeEnum(2, jobStatus_);
-      }
-      for (int i = 0; i < usedResources_.size(); i++) {
-        output.writeMessage(3, usedResources_.get(i));
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (jobId_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(1, jobId_);
-      }
-      if (jobStatus_ != tech.ydb.coordination.JobStatus.JOB_STATUS_UNSPECIFIED.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(2, jobStatus_);
-      }
-      for (int i = 0; i < usedResources_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, usedResources_.get(i));
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.coordination.SessionRequest.UpdateJobStatus)) {
-        return super.equals(obj);
-      }
-      tech.ydb.coordination.SessionRequest.UpdateJobStatus other = (tech.ydb.coordination.SessionRequest.UpdateJobStatus) obj;
-
-      boolean result = true;
-      result = result && (getJobId()
-          == other.getJobId());
-      result = result && jobStatus_ == other.jobStatus_;
-      result = result && getUsedResourcesList()
-          .equals(other.getUsedResourcesList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + JOB_ID_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getJobId());
-      hash = (37 * hash) + JOB_STATUS_FIELD_NUMBER;
-      hash = (53 * hash) + jobStatus_;
-      if (getUsedResourcesCount() > 0) {
-        hash = (37 * hash) + USED_RESOURCES_FIELD_NUMBER;
-        hash = (53 * hash) + getUsedResourcesList().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.coordination.SessionRequest.UpdateJobStatus parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateJobStatus parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateJobStatus parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateJobStatus parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateJobStatus parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateJobStatus parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateJobStatus parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateJobStatus parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateJobStatus parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateJobStatus parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateJobStatus parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateJobStatus parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.coordination.SessionRequest.UpdateJobStatus prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * <pre>
-     **
-     * Used by the client to report current job status
-     * NOTE: this API is not yet supported and is subject to change
-     * </pre>
-     *
-     * Protobuf type {@code Ydb.Coordination.SessionRequest.UpdateJobStatus}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Coordination.SessionRequest.UpdateJobStatus)
-        tech.ydb.coordination.SessionRequest.UpdateJobStatusOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateJobStatus_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateJobStatus_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.coordination.SessionRequest.UpdateJobStatus.class, tech.ydb.coordination.SessionRequest.UpdateJobStatus.Builder.class);
-      }
-
-      // Construct using tech.ydb.coordination.SessionRequest.UpdateJobStatus.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-          getUsedResourcesFieldBuilder();
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        jobId_ = 0L;
-
-        jobStatus_ = 0;
-
-        if (usedResourcesBuilder_ == null) {
-          usedResources_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
-        } else {
-          usedResourcesBuilder_.clear();
-        }
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateJobStatus_descriptor;
-      }
-
-      public tech.ydb.coordination.SessionRequest.UpdateJobStatus getDefaultInstanceForType() {
-        return tech.ydb.coordination.SessionRequest.UpdateJobStatus.getDefaultInstance();
-      }
-
-      public tech.ydb.coordination.SessionRequest.UpdateJobStatus build() {
-        tech.ydb.coordination.SessionRequest.UpdateJobStatus result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public tech.ydb.coordination.SessionRequest.UpdateJobStatus buildPartial() {
-        tech.ydb.coordination.SessionRequest.UpdateJobStatus result = new tech.ydb.coordination.SessionRequest.UpdateJobStatus(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        result.jobId_ = jobId_;
-        result.jobStatus_ = jobStatus_;
-        if (usedResourcesBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
-            usedResources_ = java.util.Collections.unmodifiableList(usedResources_);
-            bitField0_ = (bitField0_ & ~0x00000004);
-          }
-          result.usedResources_ = usedResources_;
-        } else {
-          result.usedResources_ = usedResourcesBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.coordination.SessionRequest.UpdateJobStatus) {
-          return mergeFrom((tech.ydb.coordination.SessionRequest.UpdateJobStatus)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.coordination.SessionRequest.UpdateJobStatus other) {
-        if (other == tech.ydb.coordination.SessionRequest.UpdateJobStatus.getDefaultInstance()) return this;
-        if (other.getJobId() != 0L) {
-          setJobId(other.getJobId());
-        }
-        if (other.jobStatus_ != 0) {
-          setJobStatusValue(other.getJobStatusValue());
-        }
-        if (usedResourcesBuilder_ == null) {
-          if (!other.usedResources_.isEmpty()) {
-            if (usedResources_.isEmpty()) {
-              usedResources_ = other.usedResources_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-            } else {
-              ensureUsedResourcesIsMutable();
-              usedResources_.addAll(other.usedResources_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.usedResources_.isEmpty()) {
-            if (usedResourcesBuilder_.isEmpty()) {
-              usedResourcesBuilder_.dispose();
-              usedResourcesBuilder_ = null;
-              usedResources_ = other.usedResources_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-              usedResourcesBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getUsedResourcesFieldBuilder() : null;
-            } else {
-              usedResourcesBuilder_.addAllMessages(other.usedResources_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.coordination.SessionRequest.UpdateJobStatus parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.coordination.SessionRequest.UpdateJobStatus) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private long jobId_ ;
-      /**
-       * <code>uint64 job_id = 1;</code>
-       */
-      public long getJobId() {
-        return jobId_;
-      }
-      /**
-       * <code>uint64 job_id = 1;</code>
-       */
-      public Builder setJobId(long value) {
-        
-        jobId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 job_id = 1;</code>
-       */
-      public Builder clearJobId() {
-        
-        jobId_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private int jobStatus_ = 0;
-      /**
-       * <code>.Ydb.Coordination.JobStatus job_status = 2;</code>
-       */
-      public int getJobStatusValue() {
-        return jobStatus_;
-      }
-      /**
-       * <code>.Ydb.Coordination.JobStatus job_status = 2;</code>
-       */
-      public Builder setJobStatusValue(int value) {
-        jobStatus_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.Ydb.Coordination.JobStatus job_status = 2;</code>
-       */
-      public tech.ydb.coordination.JobStatus getJobStatus() {
-        tech.ydb.coordination.JobStatus result = tech.ydb.coordination.JobStatus.valueOf(jobStatus_);
-        return result == null ? tech.ydb.coordination.JobStatus.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.Ydb.Coordination.JobStatus job_status = 2;</code>
-       */
-      public Builder setJobStatus(tech.ydb.coordination.JobStatus value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        
-        jobStatus_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.Ydb.Coordination.JobStatus job_status = 2;</code>
-       */
-      public Builder clearJobStatus() {
-        
-        jobStatus_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private java.util.List<tech.ydb.coordination.Resource> usedResources_ =
-        java.util.Collections.emptyList();
-      private void ensureUsedResourcesIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          usedResources_ = new java.util.ArrayList<tech.ydb.coordination.Resource>(usedResources_);
-          bitField0_ |= 0x00000004;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.coordination.Resource, tech.ydb.coordination.Resource.Builder, tech.ydb.coordination.ResourceOrBuilder> usedResourcesBuilder_;
-
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public java.util.List<tech.ydb.coordination.Resource> getUsedResourcesList() {
-        if (usedResourcesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(usedResources_);
-        } else {
-          return usedResourcesBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public int getUsedResourcesCount() {
-        if (usedResourcesBuilder_ == null) {
-          return usedResources_.size();
-        } else {
-          return usedResourcesBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public tech.ydb.coordination.Resource getUsedResources(int index) {
-        if (usedResourcesBuilder_ == null) {
-          return usedResources_.get(index);
-        } else {
-          return usedResourcesBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public Builder setUsedResources(
-          int index, tech.ydb.coordination.Resource value) {
-        if (usedResourcesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureUsedResourcesIsMutable();
-          usedResources_.set(index, value);
-          onChanged();
-        } else {
-          usedResourcesBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public Builder setUsedResources(
-          int index, tech.ydb.coordination.Resource.Builder builderForValue) {
-        if (usedResourcesBuilder_ == null) {
-          ensureUsedResourcesIsMutable();
-          usedResources_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          usedResourcesBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public Builder addUsedResources(tech.ydb.coordination.Resource value) {
-        if (usedResourcesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureUsedResourcesIsMutable();
-          usedResources_.add(value);
-          onChanged();
-        } else {
-          usedResourcesBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public Builder addUsedResources(
-          int index, tech.ydb.coordination.Resource value) {
-        if (usedResourcesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureUsedResourcesIsMutable();
-          usedResources_.add(index, value);
-          onChanged();
-        } else {
-          usedResourcesBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public Builder addUsedResources(
-          tech.ydb.coordination.Resource.Builder builderForValue) {
-        if (usedResourcesBuilder_ == null) {
-          ensureUsedResourcesIsMutable();
-          usedResources_.add(builderForValue.build());
-          onChanged();
-        } else {
-          usedResourcesBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public Builder addUsedResources(
-          int index, tech.ydb.coordination.Resource.Builder builderForValue) {
-        if (usedResourcesBuilder_ == null) {
-          ensureUsedResourcesIsMutable();
-          usedResources_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          usedResourcesBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public Builder addAllUsedResources(
-          java.lang.Iterable<? extends tech.ydb.coordination.Resource> values) {
-        if (usedResourcesBuilder_ == null) {
-          ensureUsedResourcesIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, usedResources_);
-          onChanged();
-        } else {
-          usedResourcesBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public Builder clearUsedResources() {
-        if (usedResourcesBuilder_ == null) {
-          usedResources_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
-          onChanged();
-        } else {
-          usedResourcesBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public Builder removeUsedResources(int index) {
-        if (usedResourcesBuilder_ == null) {
-          ensureUsedResourcesIsMutable();
-          usedResources_.remove(index);
-          onChanged();
-        } else {
-          usedResourcesBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public tech.ydb.coordination.Resource.Builder getUsedResourcesBuilder(
-          int index) {
-        return getUsedResourcesFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public tech.ydb.coordination.ResourceOrBuilder getUsedResourcesOrBuilder(
-          int index) {
-        if (usedResourcesBuilder_ == null) {
-          return usedResources_.get(index);  } else {
-          return usedResourcesBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public java.util.List<? extends tech.ydb.coordination.ResourceOrBuilder> 
-           getUsedResourcesOrBuilderList() {
-        if (usedResourcesBuilder_ != null) {
-          return usedResourcesBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(usedResources_);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public tech.ydb.coordination.Resource.Builder addUsedResourcesBuilder() {
-        return getUsedResourcesFieldBuilder().addBuilder(
-            tech.ydb.coordination.Resource.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public tech.ydb.coordination.Resource.Builder addUsedResourcesBuilder(
-          int index) {
-        return getUsedResourcesFieldBuilder().addBuilder(
-            index, tech.ydb.coordination.Resource.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource used_resources = 3;</code>
-       */
-      public java.util.List<tech.ydb.coordination.Resource.Builder> 
-           getUsedResourcesBuilderList() {
-        return getUsedResourcesFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.coordination.Resource, tech.ydb.coordination.Resource.Builder, tech.ydb.coordination.ResourceOrBuilder> 
-          getUsedResourcesFieldBuilder() {
-        if (usedResourcesBuilder_ == null) {
-          usedResourcesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              tech.ydb.coordination.Resource, tech.ydb.coordination.Resource.Builder, tech.ydb.coordination.ResourceOrBuilder>(
-                  usedResources_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
-                  getParentForChildren(),
-                  isClean());
-          usedResources_ = null;
-        }
-        return usedResourcesBuilder_;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.Coordination.SessionRequest.UpdateJobStatus)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.Coordination.SessionRequest.UpdateJobStatus)
-    private static final tech.ydb.coordination.SessionRequest.UpdateJobStatus DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.coordination.SessionRequest.UpdateJobStatus();
-    }
-
-    public static tech.ydb.coordination.SessionRequest.UpdateJobStatus getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<UpdateJobStatus>
-        PARSER = new com.google.protobuf.AbstractParser<UpdateJobStatus>() {
-      public UpdateJobStatus parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new UpdateJobStatus(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<UpdateJobStatus> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<UpdateJobStatus> getParserForType() {
-      return PARSER;
-    }
-
-    public tech.ydb.coordination.SessionRequest.UpdateJobStatus getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -9249,2146 +7197,6 @@ private static final long serialVersionUID = 0L;
 
   }
 
-  public interface CreateTaskOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Coordination.SessionRequest.CreateTask)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>uint64 req_id = 1;</code>
-     */
-    long getReqId();
-
-    /**
-     * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-     */
-    boolean hasTaskData();
-    /**
-     * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-     */
-    tech.ydb.coordination.TaskData getTaskData();
-    /**
-     * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-     */
-    tech.ydb.coordination.TaskDataOrBuilder getTaskDataOrBuilder();
-  }
-  /**
-   * <pre>
-   **
-   * Used to create a new task
-   * NOTE: this API is not yet supported and is subject to change
-   * </pre>
-   *
-   * Protobuf type {@code Ydb.Coordination.SessionRequest.CreateTask}
-   */
-  public  static final class CreateTask extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest.CreateTask)
-      CreateTaskOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use CreateTask.newBuilder() to construct.
-    private CreateTask(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private CreateTask() {
-      reqId_ = 0L;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private CreateTask(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-
-              reqId_ = input.readUInt64();
-              break;
-            }
-            case 18: {
-              tech.ydb.coordination.TaskData.Builder subBuilder = null;
-              if (taskData_ != null) {
-                subBuilder = taskData_.toBuilder();
-              }
-              taskData_ = input.readMessage(tech.ydb.coordination.TaskData.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(taskData_);
-                taskData_ = subBuilder.buildPartial();
-              }
-
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_CreateTask_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_CreateTask_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.coordination.SessionRequest.CreateTask.class, tech.ydb.coordination.SessionRequest.CreateTask.Builder.class);
-    }
-
-    public static final int REQ_ID_FIELD_NUMBER = 1;
-    private long reqId_;
-    /**
-     * <code>uint64 req_id = 1;</code>
-     */
-    public long getReqId() {
-      return reqId_;
-    }
-
-    public static final int TASK_DATA_FIELD_NUMBER = 2;
-    private tech.ydb.coordination.TaskData taskData_;
-    /**
-     * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-     */
-    public boolean hasTaskData() {
-      return taskData_ != null;
-    }
-    /**
-     * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-     */
-    public tech.ydb.coordination.TaskData getTaskData() {
-      return taskData_ == null ? tech.ydb.coordination.TaskData.getDefaultInstance() : taskData_;
-    }
-    /**
-     * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-     */
-    public tech.ydb.coordination.TaskDataOrBuilder getTaskDataOrBuilder() {
-      return getTaskData();
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (reqId_ != 0L) {
-        output.writeUInt64(1, reqId_);
-      }
-      if (taskData_ != null) {
-        output.writeMessage(2, getTaskData());
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (reqId_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(1, reqId_);
-      }
-      if (taskData_ != null) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getTaskData());
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.coordination.SessionRequest.CreateTask)) {
-        return super.equals(obj);
-      }
-      tech.ydb.coordination.SessionRequest.CreateTask other = (tech.ydb.coordination.SessionRequest.CreateTask) obj;
-
-      boolean result = true;
-      result = result && (getReqId()
-          == other.getReqId());
-      result = result && (hasTaskData() == other.hasTaskData());
-      if (hasTaskData()) {
-        result = result && getTaskData()
-            .equals(other.getTaskData());
-      }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + REQ_ID_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getReqId());
-      if (hasTaskData()) {
-        hash = (37 * hash) + TASK_DATA_FIELD_NUMBER;
-        hash = (53 * hash) + getTaskData().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.coordination.SessionRequest.CreateTask parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.CreateTask parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.CreateTask parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.CreateTask parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.CreateTask parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.CreateTask parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.CreateTask parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.CreateTask parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.CreateTask parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.CreateTask parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.CreateTask parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.CreateTask parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.coordination.SessionRequest.CreateTask prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * <pre>
-     **
-     * Used to create a new task
-     * NOTE: this API is not yet supported and is subject to change
-     * </pre>
-     *
-     * Protobuf type {@code Ydb.Coordination.SessionRequest.CreateTask}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Coordination.SessionRequest.CreateTask)
-        tech.ydb.coordination.SessionRequest.CreateTaskOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_CreateTask_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_CreateTask_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.coordination.SessionRequest.CreateTask.class, tech.ydb.coordination.SessionRequest.CreateTask.Builder.class);
-      }
-
-      // Construct using tech.ydb.coordination.SessionRequest.CreateTask.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        reqId_ = 0L;
-
-        if (taskDataBuilder_ == null) {
-          taskData_ = null;
-        } else {
-          taskData_ = null;
-          taskDataBuilder_ = null;
-        }
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_CreateTask_descriptor;
-      }
-
-      public tech.ydb.coordination.SessionRequest.CreateTask getDefaultInstanceForType() {
-        return tech.ydb.coordination.SessionRequest.CreateTask.getDefaultInstance();
-      }
-
-      public tech.ydb.coordination.SessionRequest.CreateTask build() {
-        tech.ydb.coordination.SessionRequest.CreateTask result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public tech.ydb.coordination.SessionRequest.CreateTask buildPartial() {
-        tech.ydb.coordination.SessionRequest.CreateTask result = new tech.ydb.coordination.SessionRequest.CreateTask(this);
-        result.reqId_ = reqId_;
-        if (taskDataBuilder_ == null) {
-          result.taskData_ = taskData_;
-        } else {
-          result.taskData_ = taskDataBuilder_.build();
-        }
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.coordination.SessionRequest.CreateTask) {
-          return mergeFrom((tech.ydb.coordination.SessionRequest.CreateTask)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.coordination.SessionRequest.CreateTask other) {
-        if (other == tech.ydb.coordination.SessionRequest.CreateTask.getDefaultInstance()) return this;
-        if (other.getReqId() != 0L) {
-          setReqId(other.getReqId());
-        }
-        if (other.hasTaskData()) {
-          mergeTaskData(other.getTaskData());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.coordination.SessionRequest.CreateTask parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.coordination.SessionRequest.CreateTask) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private long reqId_ ;
-      /**
-       * <code>uint64 req_id = 1;</code>
-       */
-      public long getReqId() {
-        return reqId_;
-      }
-      /**
-       * <code>uint64 req_id = 1;</code>
-       */
-      public Builder setReqId(long value) {
-        
-        reqId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 req_id = 1;</code>
-       */
-      public Builder clearReqId() {
-        
-        reqId_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private tech.ydb.coordination.TaskData taskData_ = null;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.coordination.TaskData, tech.ydb.coordination.TaskData.Builder, tech.ydb.coordination.TaskDataOrBuilder> taskDataBuilder_;
-      /**
-       * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-       */
-      public boolean hasTaskData() {
-        return taskDataBuilder_ != null || taskData_ != null;
-      }
-      /**
-       * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-       */
-      public tech.ydb.coordination.TaskData getTaskData() {
-        if (taskDataBuilder_ == null) {
-          return taskData_ == null ? tech.ydb.coordination.TaskData.getDefaultInstance() : taskData_;
-        } else {
-          return taskDataBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-       */
-      public Builder setTaskData(tech.ydb.coordination.TaskData value) {
-        if (taskDataBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          taskData_ = value;
-          onChanged();
-        } else {
-          taskDataBuilder_.setMessage(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-       */
-      public Builder setTaskData(
-          tech.ydb.coordination.TaskData.Builder builderForValue) {
-        if (taskDataBuilder_ == null) {
-          taskData_ = builderForValue.build();
-          onChanged();
-        } else {
-          taskDataBuilder_.setMessage(builderForValue.build());
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-       */
-      public Builder mergeTaskData(tech.ydb.coordination.TaskData value) {
-        if (taskDataBuilder_ == null) {
-          if (taskData_ != null) {
-            taskData_ =
-              tech.ydb.coordination.TaskData.newBuilder(taskData_).mergeFrom(value).buildPartial();
-          } else {
-            taskData_ = value;
-          }
-          onChanged();
-        } else {
-          taskDataBuilder_.mergeFrom(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-       */
-      public Builder clearTaskData() {
-        if (taskDataBuilder_ == null) {
-          taskData_ = null;
-          onChanged();
-        } else {
-          taskData_ = null;
-          taskDataBuilder_ = null;
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-       */
-      public tech.ydb.coordination.TaskData.Builder getTaskDataBuilder() {
-        
-        onChanged();
-        return getTaskDataFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-       */
-      public tech.ydb.coordination.TaskDataOrBuilder getTaskDataOrBuilder() {
-        if (taskDataBuilder_ != null) {
-          return taskDataBuilder_.getMessageOrBuilder();
-        } else {
-          return taskData_ == null ?
-              tech.ydb.coordination.TaskData.getDefaultInstance() : taskData_;
-        }
-      }
-      /**
-       * <code>.Ydb.Coordination.TaskData task_data = 2;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.coordination.TaskData, tech.ydb.coordination.TaskData.Builder, tech.ydb.coordination.TaskDataOrBuilder> 
-          getTaskDataFieldBuilder() {
-        if (taskDataBuilder_ == null) {
-          taskDataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.coordination.TaskData, tech.ydb.coordination.TaskData.Builder, tech.ydb.coordination.TaskDataOrBuilder>(
-                  getTaskData(),
-                  getParentForChildren(),
-                  isClean());
-          taskData_ = null;
-        }
-        return taskDataBuilder_;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.Coordination.SessionRequest.CreateTask)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.Coordination.SessionRequest.CreateTask)
-    private static final tech.ydb.coordination.SessionRequest.CreateTask DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.coordination.SessionRequest.CreateTask();
-    }
-
-    public static tech.ydb.coordination.SessionRequest.CreateTask getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<CreateTask>
-        PARSER = new com.google.protobuf.AbstractParser<CreateTask>() {
-      public CreateTask parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CreateTask(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<CreateTask> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<CreateTask> getParserForType() {
-      return PARSER;
-    }
-
-    public tech.ydb.coordination.SessionRequest.CreateTask getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface UpdateTaskOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Coordination.SessionRequest.UpdateTask)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>uint64 req_id = 1;</code>
-     */
-    long getReqId();
-
-    /**
-     * <code>uint64 task_id = 2;</code>
-     */
-    long getTaskId();
-
-    /**
-     * <code>uint32 count = 3;</code>
-     */
-    int getCount();
-
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-     */
-    java.util.List<tech.ydb.coordination.Resource> 
-        getResourcesList();
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-     */
-    tech.ydb.coordination.Resource getResources(int index);
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-     */
-    int getResourcesCount();
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-     */
-    java.util.List<? extends tech.ydb.coordination.ResourceOrBuilder> 
-        getResourcesOrBuilderList();
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-     */
-    tech.ydb.coordination.ResourceOrBuilder getResourcesOrBuilder(
-        int index);
-  }
-  /**
-   * <pre>
-   **
-   * Used to update a task
-   * NOTE: this API is not yet supported and is subject to change
-   * </pre>
-   *
-   * Protobuf type {@code Ydb.Coordination.SessionRequest.UpdateTask}
-   */
-  public  static final class UpdateTask extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest.UpdateTask)
-      UpdateTaskOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use UpdateTask.newBuilder() to construct.
-    private UpdateTask(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private UpdateTask() {
-      reqId_ = 0L;
-      taskId_ = 0L;
-      count_ = 0;
-      resources_ = java.util.Collections.emptyList();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private UpdateTask(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-
-              reqId_ = input.readUInt64();
-              break;
-            }
-            case 16: {
-
-              taskId_ = input.readUInt64();
-              break;
-            }
-            case 24: {
-
-              count_ = input.readUInt32();
-              break;
-            }
-            case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                resources_ = new java.util.ArrayList<tech.ydb.coordination.Resource>();
-                mutable_bitField0_ |= 0x00000008;
-              }
-              resources_.add(
-                  input.readMessage(tech.ydb.coordination.Resource.parser(), extensionRegistry));
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-          resources_ = java.util.Collections.unmodifiableList(resources_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateTask_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateTask_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.coordination.SessionRequest.UpdateTask.class, tech.ydb.coordination.SessionRequest.UpdateTask.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int REQ_ID_FIELD_NUMBER = 1;
-    private long reqId_;
-    /**
-     * <code>uint64 req_id = 1;</code>
-     */
-    public long getReqId() {
-      return reqId_;
-    }
-
-    public static final int TASK_ID_FIELD_NUMBER = 2;
-    private long taskId_;
-    /**
-     * <code>uint64 task_id = 2;</code>
-     */
-    public long getTaskId() {
-      return taskId_;
-    }
-
-    public static final int COUNT_FIELD_NUMBER = 3;
-    private int count_;
-    /**
-     * <code>uint32 count = 3;</code>
-     */
-    public int getCount() {
-      return count_;
-    }
-
-    public static final int RESOURCES_FIELD_NUMBER = 4;
-    private java.util.List<tech.ydb.coordination.Resource> resources_;
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-     */
-    public java.util.List<tech.ydb.coordination.Resource> getResourcesList() {
-      return resources_;
-    }
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-     */
-    public java.util.List<? extends tech.ydb.coordination.ResourceOrBuilder> 
-        getResourcesOrBuilderList() {
-      return resources_;
-    }
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-     */
-    public int getResourcesCount() {
-      return resources_.size();
-    }
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-     */
-    public tech.ydb.coordination.Resource getResources(int index) {
-      return resources_.get(index);
-    }
-    /**
-     * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-     */
-    public tech.ydb.coordination.ResourceOrBuilder getResourcesOrBuilder(
-        int index) {
-      return resources_.get(index);
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (reqId_ != 0L) {
-        output.writeUInt64(1, reqId_);
-      }
-      if (taskId_ != 0L) {
-        output.writeUInt64(2, taskId_);
-      }
-      if (count_ != 0) {
-        output.writeUInt32(3, count_);
-      }
-      for (int i = 0; i < resources_.size(); i++) {
-        output.writeMessage(4, resources_.get(i));
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (reqId_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(1, reqId_);
-      }
-      if (taskId_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(2, taskId_);
-      }
-      if (count_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(3, count_);
-      }
-      for (int i = 0; i < resources_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, resources_.get(i));
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.coordination.SessionRequest.UpdateTask)) {
-        return super.equals(obj);
-      }
-      tech.ydb.coordination.SessionRequest.UpdateTask other = (tech.ydb.coordination.SessionRequest.UpdateTask) obj;
-
-      boolean result = true;
-      result = result && (getReqId()
-          == other.getReqId());
-      result = result && (getTaskId()
-          == other.getTaskId());
-      result = result && (getCount()
-          == other.getCount());
-      result = result && getResourcesList()
-          .equals(other.getResourcesList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + REQ_ID_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getReqId());
-      hash = (37 * hash) + TASK_ID_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getTaskId());
-      hash = (37 * hash) + COUNT_FIELD_NUMBER;
-      hash = (53 * hash) + getCount();
-      if (getResourcesCount() > 0) {
-        hash = (37 * hash) + RESOURCES_FIELD_NUMBER;
-        hash = (53 * hash) + getResourcesList().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.coordination.SessionRequest.UpdateTask parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateTask parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateTask parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateTask parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateTask parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateTask parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateTask parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateTask parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateTask parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateTask parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateTask parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.UpdateTask parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.coordination.SessionRequest.UpdateTask prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * <pre>
-     **
-     * Used to update a task
-     * NOTE: this API is not yet supported and is subject to change
-     * </pre>
-     *
-     * Protobuf type {@code Ydb.Coordination.SessionRequest.UpdateTask}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Coordination.SessionRequest.UpdateTask)
-        tech.ydb.coordination.SessionRequest.UpdateTaskOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateTask_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateTask_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.coordination.SessionRequest.UpdateTask.class, tech.ydb.coordination.SessionRequest.UpdateTask.Builder.class);
-      }
-
-      // Construct using tech.ydb.coordination.SessionRequest.UpdateTask.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-          getResourcesFieldBuilder();
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        reqId_ = 0L;
-
-        taskId_ = 0L;
-
-        count_ = 0;
-
-        if (resourcesBuilder_ == null) {
-          resources_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
-        } else {
-          resourcesBuilder_.clear();
-        }
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateTask_descriptor;
-      }
-
-      public tech.ydb.coordination.SessionRequest.UpdateTask getDefaultInstanceForType() {
-        return tech.ydb.coordination.SessionRequest.UpdateTask.getDefaultInstance();
-      }
-
-      public tech.ydb.coordination.SessionRequest.UpdateTask build() {
-        tech.ydb.coordination.SessionRequest.UpdateTask result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public tech.ydb.coordination.SessionRequest.UpdateTask buildPartial() {
-        tech.ydb.coordination.SessionRequest.UpdateTask result = new tech.ydb.coordination.SessionRequest.UpdateTask(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        result.reqId_ = reqId_;
-        result.taskId_ = taskId_;
-        result.count_ = count_;
-        if (resourcesBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
-            resources_ = java.util.Collections.unmodifiableList(resources_);
-            bitField0_ = (bitField0_ & ~0x00000008);
-          }
-          result.resources_ = resources_;
-        } else {
-          result.resources_ = resourcesBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.coordination.SessionRequest.UpdateTask) {
-          return mergeFrom((tech.ydb.coordination.SessionRequest.UpdateTask)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.coordination.SessionRequest.UpdateTask other) {
-        if (other == tech.ydb.coordination.SessionRequest.UpdateTask.getDefaultInstance()) return this;
-        if (other.getReqId() != 0L) {
-          setReqId(other.getReqId());
-        }
-        if (other.getTaskId() != 0L) {
-          setTaskId(other.getTaskId());
-        }
-        if (other.getCount() != 0) {
-          setCount(other.getCount());
-        }
-        if (resourcesBuilder_ == null) {
-          if (!other.resources_.isEmpty()) {
-            if (resources_.isEmpty()) {
-              resources_ = other.resources_;
-              bitField0_ = (bitField0_ & ~0x00000008);
-            } else {
-              ensureResourcesIsMutable();
-              resources_.addAll(other.resources_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.resources_.isEmpty()) {
-            if (resourcesBuilder_.isEmpty()) {
-              resourcesBuilder_.dispose();
-              resourcesBuilder_ = null;
-              resources_ = other.resources_;
-              bitField0_ = (bitField0_ & ~0x00000008);
-              resourcesBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getResourcesFieldBuilder() : null;
-            } else {
-              resourcesBuilder_.addAllMessages(other.resources_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.coordination.SessionRequest.UpdateTask parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.coordination.SessionRequest.UpdateTask) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private long reqId_ ;
-      /**
-       * <code>uint64 req_id = 1;</code>
-       */
-      public long getReqId() {
-        return reqId_;
-      }
-      /**
-       * <code>uint64 req_id = 1;</code>
-       */
-      public Builder setReqId(long value) {
-        
-        reqId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 req_id = 1;</code>
-       */
-      public Builder clearReqId() {
-        
-        reqId_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private long taskId_ ;
-      /**
-       * <code>uint64 task_id = 2;</code>
-       */
-      public long getTaskId() {
-        return taskId_;
-      }
-      /**
-       * <code>uint64 task_id = 2;</code>
-       */
-      public Builder setTaskId(long value) {
-        
-        taskId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 task_id = 2;</code>
-       */
-      public Builder clearTaskId() {
-        
-        taskId_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private int count_ ;
-      /**
-       * <code>uint32 count = 3;</code>
-       */
-      public int getCount() {
-        return count_;
-      }
-      /**
-       * <code>uint32 count = 3;</code>
-       */
-      public Builder setCount(int value) {
-        
-        count_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint32 count = 3;</code>
-       */
-      public Builder clearCount() {
-        
-        count_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private java.util.List<tech.ydb.coordination.Resource> resources_ =
-        java.util.Collections.emptyList();
-      private void ensureResourcesIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          resources_ = new java.util.ArrayList<tech.ydb.coordination.Resource>(resources_);
-          bitField0_ |= 0x00000008;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.coordination.Resource, tech.ydb.coordination.Resource.Builder, tech.ydb.coordination.ResourceOrBuilder> resourcesBuilder_;
-
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public java.util.List<tech.ydb.coordination.Resource> getResourcesList() {
-        if (resourcesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(resources_);
-        } else {
-          return resourcesBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public int getResourcesCount() {
-        if (resourcesBuilder_ == null) {
-          return resources_.size();
-        } else {
-          return resourcesBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public tech.ydb.coordination.Resource getResources(int index) {
-        if (resourcesBuilder_ == null) {
-          return resources_.get(index);
-        } else {
-          return resourcesBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public Builder setResources(
-          int index, tech.ydb.coordination.Resource value) {
-        if (resourcesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureResourcesIsMutable();
-          resources_.set(index, value);
-          onChanged();
-        } else {
-          resourcesBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public Builder setResources(
-          int index, tech.ydb.coordination.Resource.Builder builderForValue) {
-        if (resourcesBuilder_ == null) {
-          ensureResourcesIsMutable();
-          resources_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          resourcesBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public Builder addResources(tech.ydb.coordination.Resource value) {
-        if (resourcesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureResourcesIsMutable();
-          resources_.add(value);
-          onChanged();
-        } else {
-          resourcesBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public Builder addResources(
-          int index, tech.ydb.coordination.Resource value) {
-        if (resourcesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureResourcesIsMutable();
-          resources_.add(index, value);
-          onChanged();
-        } else {
-          resourcesBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public Builder addResources(
-          tech.ydb.coordination.Resource.Builder builderForValue) {
-        if (resourcesBuilder_ == null) {
-          ensureResourcesIsMutable();
-          resources_.add(builderForValue.build());
-          onChanged();
-        } else {
-          resourcesBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public Builder addResources(
-          int index, tech.ydb.coordination.Resource.Builder builderForValue) {
-        if (resourcesBuilder_ == null) {
-          ensureResourcesIsMutable();
-          resources_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          resourcesBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public Builder addAllResources(
-          java.lang.Iterable<? extends tech.ydb.coordination.Resource> values) {
-        if (resourcesBuilder_ == null) {
-          ensureResourcesIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, resources_);
-          onChanged();
-        } else {
-          resourcesBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public Builder clearResources() {
-        if (resourcesBuilder_ == null) {
-          resources_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
-          onChanged();
-        } else {
-          resourcesBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public Builder removeResources(int index) {
-        if (resourcesBuilder_ == null) {
-          ensureResourcesIsMutable();
-          resources_.remove(index);
-          onChanged();
-        } else {
-          resourcesBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public tech.ydb.coordination.Resource.Builder getResourcesBuilder(
-          int index) {
-        return getResourcesFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public tech.ydb.coordination.ResourceOrBuilder getResourcesOrBuilder(
-          int index) {
-        if (resourcesBuilder_ == null) {
-          return resources_.get(index);  } else {
-          return resourcesBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public java.util.List<? extends tech.ydb.coordination.ResourceOrBuilder> 
-           getResourcesOrBuilderList() {
-        if (resourcesBuilder_ != null) {
-          return resourcesBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(resources_);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public tech.ydb.coordination.Resource.Builder addResourcesBuilder() {
-        return getResourcesFieldBuilder().addBuilder(
-            tech.ydb.coordination.Resource.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public tech.ydb.coordination.Resource.Builder addResourcesBuilder(
-          int index) {
-        return getResourcesFieldBuilder().addBuilder(
-            index, tech.ydb.coordination.Resource.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Ydb.Coordination.Resource resources = 4;</code>
-       */
-      public java.util.List<tech.ydb.coordination.Resource.Builder> 
-           getResourcesBuilderList() {
-        return getResourcesFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.coordination.Resource, tech.ydb.coordination.Resource.Builder, tech.ydb.coordination.ResourceOrBuilder> 
-          getResourcesFieldBuilder() {
-        if (resourcesBuilder_ == null) {
-          resourcesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              tech.ydb.coordination.Resource, tech.ydb.coordination.Resource.Builder, tech.ydb.coordination.ResourceOrBuilder>(
-                  resources_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
-                  getParentForChildren(),
-                  isClean());
-          resources_ = null;
-        }
-        return resourcesBuilder_;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.Coordination.SessionRequest.UpdateTask)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.Coordination.SessionRequest.UpdateTask)
-    private static final tech.ydb.coordination.SessionRequest.UpdateTask DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.coordination.SessionRequest.UpdateTask();
-    }
-
-    public static tech.ydb.coordination.SessionRequest.UpdateTask getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<UpdateTask>
-        PARSER = new com.google.protobuf.AbstractParser<UpdateTask>() {
-      public UpdateTask parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new UpdateTask(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<UpdateTask> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<UpdateTask> getParserForType() {
-      return PARSER;
-    }
-
-    public tech.ydb.coordination.SessionRequest.UpdateTask getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface DeleteTaskOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Coordination.SessionRequest.DeleteTask)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>uint64 req_id = 1;</code>
-     */
-    long getReqId();
-
-    /**
-     * <code>uint64 task_id = 2;</code>
-     */
-    long getTaskId();
-  }
-  /**
-   * <pre>
-   **
-   * Used to delete a task
-   * NOTE: this API is not yet supported and is subject to change
-   * </pre>
-   *
-   * Protobuf type {@code Ydb.Coordination.SessionRequest.DeleteTask}
-   */
-  public  static final class DeleteTask extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest.DeleteTask)
-      DeleteTaskOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use DeleteTask.newBuilder() to construct.
-    private DeleteTask(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private DeleteTask() {
-      reqId_ = 0L;
-      taskId_ = 0L;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private DeleteTask(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-
-              reqId_ = input.readUInt64();
-              break;
-            }
-            case 16: {
-
-              taskId_ = input.readUInt64();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DeleteTask_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DeleteTask_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.coordination.SessionRequest.DeleteTask.class, tech.ydb.coordination.SessionRequest.DeleteTask.Builder.class);
-    }
-
-    public static final int REQ_ID_FIELD_NUMBER = 1;
-    private long reqId_;
-    /**
-     * <code>uint64 req_id = 1;</code>
-     */
-    public long getReqId() {
-      return reqId_;
-    }
-
-    public static final int TASK_ID_FIELD_NUMBER = 2;
-    private long taskId_;
-    /**
-     * <code>uint64 task_id = 2;</code>
-     */
-    public long getTaskId() {
-      return taskId_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (reqId_ != 0L) {
-        output.writeUInt64(1, reqId_);
-      }
-      if (taskId_ != 0L) {
-        output.writeUInt64(2, taskId_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (reqId_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(1, reqId_);
-      }
-      if (taskId_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(2, taskId_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.coordination.SessionRequest.DeleteTask)) {
-        return super.equals(obj);
-      }
-      tech.ydb.coordination.SessionRequest.DeleteTask other = (tech.ydb.coordination.SessionRequest.DeleteTask) obj;
-
-      boolean result = true;
-      result = result && (getReqId()
-          == other.getReqId());
-      result = result && (getTaskId()
-          == other.getTaskId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + REQ_ID_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getReqId());
-      hash = (37 * hash) + TASK_ID_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getTaskId());
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.coordination.SessionRequest.DeleteTask parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.DeleteTask parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.DeleteTask parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.DeleteTask parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.DeleteTask parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.coordination.SessionRequest.DeleteTask parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.DeleteTask parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.DeleteTask parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.DeleteTask parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.DeleteTask parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.coordination.SessionRequest.DeleteTask parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.coordination.SessionRequest.DeleteTask parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.coordination.SessionRequest.DeleteTask prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * <pre>
-     **
-     * Used to delete a task
-     * NOTE: this API is not yet supported and is subject to change
-     * </pre>
-     *
-     * Protobuf type {@code Ydb.Coordination.SessionRequest.DeleteTask}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Coordination.SessionRequest.DeleteTask)
-        tech.ydb.coordination.SessionRequest.DeleteTaskOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DeleteTask_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DeleteTask_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.coordination.SessionRequest.DeleteTask.class, tech.ydb.coordination.SessionRequest.DeleteTask.Builder.class);
-      }
-
-      // Construct using tech.ydb.coordination.SessionRequest.DeleteTask.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        reqId_ = 0L;
-
-        taskId_ = 0L;
-
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DeleteTask_descriptor;
-      }
-
-      public tech.ydb.coordination.SessionRequest.DeleteTask getDefaultInstanceForType() {
-        return tech.ydb.coordination.SessionRequest.DeleteTask.getDefaultInstance();
-      }
-
-      public tech.ydb.coordination.SessionRequest.DeleteTask build() {
-        tech.ydb.coordination.SessionRequest.DeleteTask result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public tech.ydb.coordination.SessionRequest.DeleteTask buildPartial() {
-        tech.ydb.coordination.SessionRequest.DeleteTask result = new tech.ydb.coordination.SessionRequest.DeleteTask(this);
-        result.reqId_ = reqId_;
-        result.taskId_ = taskId_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.coordination.SessionRequest.DeleteTask) {
-          return mergeFrom((tech.ydb.coordination.SessionRequest.DeleteTask)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.coordination.SessionRequest.DeleteTask other) {
-        if (other == tech.ydb.coordination.SessionRequest.DeleteTask.getDefaultInstance()) return this;
-        if (other.getReqId() != 0L) {
-          setReqId(other.getReqId());
-        }
-        if (other.getTaskId() != 0L) {
-          setTaskId(other.getTaskId());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.coordination.SessionRequest.DeleteTask parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.coordination.SessionRequest.DeleteTask) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private long reqId_ ;
-      /**
-       * <code>uint64 req_id = 1;</code>
-       */
-      public long getReqId() {
-        return reqId_;
-      }
-      /**
-       * <code>uint64 req_id = 1;</code>
-       */
-      public Builder setReqId(long value) {
-        
-        reqId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 req_id = 1;</code>
-       */
-      public Builder clearReqId() {
-        
-        reqId_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private long taskId_ ;
-      /**
-       * <code>uint64 task_id = 2;</code>
-       */
-      public long getTaskId() {
-        return taskId_;
-      }
-      /**
-       * <code>uint64 task_id = 2;</code>
-       */
-      public Builder setTaskId(long value) {
-        
-        taskId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 task_id = 2;</code>
-       */
-      public Builder clearTaskId() {
-        
-        taskId_ = 0L;
-        onChanged();
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.Coordination.SessionRequest.DeleteTask)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.Coordination.SessionRequest.DeleteTask)
-    private static final tech.ydb.coordination.SessionRequest.DeleteTask DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.coordination.SessionRequest.DeleteTask();
-    }
-
-    public static tech.ydb.coordination.SessionRequest.DeleteTask getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<DeleteTask>
-        PARSER = new com.google.protobuf.AbstractParser<DeleteTask>() {
-      public DeleteTask parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DeleteTask(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<DeleteTask> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<DeleteTask> getParserForType() {
-      return PARSER;
-    }
-
-    public tech.ydb.coordination.SessionRequest.DeleteTask getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   private int requestCase_ = 0;
   private java.lang.Object request_;
   public enum RequestCase
@@ -11397,17 +7205,17 @@ private static final long serialVersionUID = 0L;
     PONG(2),
     SESSION_START(3),
     SESSION_STOP(4),
-    CLIENT_READY(5),
-    UPDATE_JOB_STATUS(6),
+    UNSUPPORTED_5(5),
+    UNSUPPORTED_6(6),
     ACQUIRE_SEMAPHORE(7),
     RELEASE_SEMAPHORE(8),
     DESCRIBE_SEMAPHORE(9),
     CREATE_SEMAPHORE(10),
     UPDATE_SEMAPHORE(11),
     DELETE_SEMAPHORE(12),
-    CREATE_TASK(13),
-    UPDATE_TASK(14),
-    DELETE_TASK(15),
+    UNSUPPORTED_13(13),
+    UNSUPPORTED_14(14),
+    UNSUPPORTED_15(15),
     REQUEST_NOT_SET(0);
     private final int value;
     private RequestCase(int value) {
@@ -11427,17 +7235,17 @@ private static final long serialVersionUID = 0L;
         case 2: return PONG;
         case 3: return SESSION_START;
         case 4: return SESSION_STOP;
-        case 5: return CLIENT_READY;
-        case 6: return UPDATE_JOB_STATUS;
+        case 5: return UNSUPPORTED_5;
+        case 6: return UNSUPPORTED_6;
         case 7: return ACQUIRE_SEMAPHORE;
         case 8: return RELEASE_SEMAPHORE;
         case 9: return DESCRIBE_SEMAPHORE;
         case 10: return CREATE_SEMAPHORE;
         case 11: return UPDATE_SEMAPHORE;
         case 12: return DELETE_SEMAPHORE;
-        case 13: return CREATE_TASK;
-        case 14: return UPDATE_TASK;
-        case 15: return DELETE_TASK;
+        case 13: return UNSUPPORTED_13;
+        case 14: return UNSUPPORTED_14;
+        case 15: return UNSUPPORTED_15;
         case 0: return REQUEST_NOT_SET;
         default: return null;
       }
@@ -11557,56 +7365,56 @@ private static final long serialVersionUID = 0L;
     return tech.ydb.coordination.SessionRequest.SessionStop.getDefaultInstance();
   }
 
-  public static final int CLIENT_READY_FIELD_NUMBER = 5;
+  public static final int UNSUPPORTED_5_FIELD_NUMBER = 5;
   /**
-   * <code>.Ydb.Coordination.SessionRequest.ClientReady client_ready = 5;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
    */
-  public boolean hasClientReady() {
+  public boolean hasUnsupported5() {
     return requestCase_ == 5;
   }
   /**
-   * <code>.Ydb.Coordination.SessionRequest.ClientReady client_ready = 5;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
    */
-  public tech.ydb.coordination.SessionRequest.ClientReady getClientReady() {
+  public tech.ydb.coordination.Unsupported getUnsupported5() {
     if (requestCase_ == 5) {
-       return (tech.ydb.coordination.SessionRequest.ClientReady) request_;
+       return (tech.ydb.coordination.Unsupported) request_;
     }
-    return tech.ydb.coordination.SessionRequest.ClientReady.getDefaultInstance();
+    return tech.ydb.coordination.Unsupported.getDefaultInstance();
   }
   /**
-   * <code>.Ydb.Coordination.SessionRequest.ClientReady client_ready = 5;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
    */
-  public tech.ydb.coordination.SessionRequest.ClientReadyOrBuilder getClientReadyOrBuilder() {
+  public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported5OrBuilder() {
     if (requestCase_ == 5) {
-       return (tech.ydb.coordination.SessionRequest.ClientReady) request_;
+       return (tech.ydb.coordination.Unsupported) request_;
     }
-    return tech.ydb.coordination.SessionRequest.ClientReady.getDefaultInstance();
+    return tech.ydb.coordination.Unsupported.getDefaultInstance();
   }
 
-  public static final int UPDATE_JOB_STATUS_FIELD_NUMBER = 6;
+  public static final int UNSUPPORTED_6_FIELD_NUMBER = 6;
   /**
-   * <code>.Ydb.Coordination.SessionRequest.UpdateJobStatus update_job_status = 6;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
    */
-  public boolean hasUpdateJobStatus() {
+  public boolean hasUnsupported6() {
     return requestCase_ == 6;
   }
   /**
-   * <code>.Ydb.Coordination.SessionRequest.UpdateJobStatus update_job_status = 6;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
    */
-  public tech.ydb.coordination.SessionRequest.UpdateJobStatus getUpdateJobStatus() {
+  public tech.ydb.coordination.Unsupported getUnsupported6() {
     if (requestCase_ == 6) {
-       return (tech.ydb.coordination.SessionRequest.UpdateJobStatus) request_;
+       return (tech.ydb.coordination.Unsupported) request_;
     }
-    return tech.ydb.coordination.SessionRequest.UpdateJobStatus.getDefaultInstance();
+    return tech.ydb.coordination.Unsupported.getDefaultInstance();
   }
   /**
-   * <code>.Ydb.Coordination.SessionRequest.UpdateJobStatus update_job_status = 6;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
    */
-  public tech.ydb.coordination.SessionRequest.UpdateJobStatusOrBuilder getUpdateJobStatusOrBuilder() {
+  public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported6OrBuilder() {
     if (requestCase_ == 6) {
-       return (tech.ydb.coordination.SessionRequest.UpdateJobStatus) request_;
+       return (tech.ydb.coordination.Unsupported) request_;
     }
-    return tech.ydb.coordination.SessionRequest.UpdateJobStatus.getDefaultInstance();
+    return tech.ydb.coordination.Unsupported.getDefaultInstance();
   }
 
   public static final int ACQUIRE_SEMAPHORE_FIELD_NUMBER = 7;
@@ -11765,82 +7573,82 @@ private static final long serialVersionUID = 0L;
     return tech.ydb.coordination.SessionRequest.DeleteSemaphore.getDefaultInstance();
   }
 
-  public static final int CREATE_TASK_FIELD_NUMBER = 13;
+  public static final int UNSUPPORTED_13_FIELD_NUMBER = 13;
   /**
-   * <code>.Ydb.Coordination.SessionRequest.CreateTask create_task = 13;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
    */
-  public boolean hasCreateTask() {
+  public boolean hasUnsupported13() {
     return requestCase_ == 13;
   }
   /**
-   * <code>.Ydb.Coordination.SessionRequest.CreateTask create_task = 13;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
    */
-  public tech.ydb.coordination.SessionRequest.CreateTask getCreateTask() {
+  public tech.ydb.coordination.Unsupported getUnsupported13() {
     if (requestCase_ == 13) {
-       return (tech.ydb.coordination.SessionRequest.CreateTask) request_;
+       return (tech.ydb.coordination.Unsupported) request_;
     }
-    return tech.ydb.coordination.SessionRequest.CreateTask.getDefaultInstance();
+    return tech.ydb.coordination.Unsupported.getDefaultInstance();
   }
   /**
-   * <code>.Ydb.Coordination.SessionRequest.CreateTask create_task = 13;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
    */
-  public tech.ydb.coordination.SessionRequest.CreateTaskOrBuilder getCreateTaskOrBuilder() {
+  public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported13OrBuilder() {
     if (requestCase_ == 13) {
-       return (tech.ydb.coordination.SessionRequest.CreateTask) request_;
+       return (tech.ydb.coordination.Unsupported) request_;
     }
-    return tech.ydb.coordination.SessionRequest.CreateTask.getDefaultInstance();
+    return tech.ydb.coordination.Unsupported.getDefaultInstance();
   }
 
-  public static final int UPDATE_TASK_FIELD_NUMBER = 14;
+  public static final int UNSUPPORTED_14_FIELD_NUMBER = 14;
   /**
-   * <code>.Ydb.Coordination.SessionRequest.UpdateTask update_task = 14;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
    */
-  public boolean hasUpdateTask() {
+  public boolean hasUnsupported14() {
     return requestCase_ == 14;
   }
   /**
-   * <code>.Ydb.Coordination.SessionRequest.UpdateTask update_task = 14;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
    */
-  public tech.ydb.coordination.SessionRequest.UpdateTask getUpdateTask() {
+  public tech.ydb.coordination.Unsupported getUnsupported14() {
     if (requestCase_ == 14) {
-       return (tech.ydb.coordination.SessionRequest.UpdateTask) request_;
+       return (tech.ydb.coordination.Unsupported) request_;
     }
-    return tech.ydb.coordination.SessionRequest.UpdateTask.getDefaultInstance();
+    return tech.ydb.coordination.Unsupported.getDefaultInstance();
   }
   /**
-   * <code>.Ydb.Coordination.SessionRequest.UpdateTask update_task = 14;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
    */
-  public tech.ydb.coordination.SessionRequest.UpdateTaskOrBuilder getUpdateTaskOrBuilder() {
+  public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported14OrBuilder() {
     if (requestCase_ == 14) {
-       return (tech.ydb.coordination.SessionRequest.UpdateTask) request_;
+       return (tech.ydb.coordination.Unsupported) request_;
     }
-    return tech.ydb.coordination.SessionRequest.UpdateTask.getDefaultInstance();
+    return tech.ydb.coordination.Unsupported.getDefaultInstance();
   }
 
-  public static final int DELETE_TASK_FIELD_NUMBER = 15;
+  public static final int UNSUPPORTED_15_FIELD_NUMBER = 15;
   /**
-   * <code>.Ydb.Coordination.SessionRequest.DeleteTask delete_task = 15;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
    */
-  public boolean hasDeleteTask() {
+  public boolean hasUnsupported15() {
     return requestCase_ == 15;
   }
   /**
-   * <code>.Ydb.Coordination.SessionRequest.DeleteTask delete_task = 15;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
    */
-  public tech.ydb.coordination.SessionRequest.DeleteTask getDeleteTask() {
+  public tech.ydb.coordination.Unsupported getUnsupported15() {
     if (requestCase_ == 15) {
-       return (tech.ydb.coordination.SessionRequest.DeleteTask) request_;
+       return (tech.ydb.coordination.Unsupported) request_;
     }
-    return tech.ydb.coordination.SessionRequest.DeleteTask.getDefaultInstance();
+    return tech.ydb.coordination.Unsupported.getDefaultInstance();
   }
   /**
-   * <code>.Ydb.Coordination.SessionRequest.DeleteTask delete_task = 15;</code>
+   * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
    */
-  public tech.ydb.coordination.SessionRequest.DeleteTaskOrBuilder getDeleteTaskOrBuilder() {
+  public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported15OrBuilder() {
     if (requestCase_ == 15) {
-       return (tech.ydb.coordination.SessionRequest.DeleteTask) request_;
+       return (tech.ydb.coordination.Unsupported) request_;
     }
-    return tech.ydb.coordination.SessionRequest.DeleteTask.getDefaultInstance();
+    return tech.ydb.coordination.Unsupported.getDefaultInstance();
   }
 
   private byte memoizedIsInitialized = -1;
@@ -11868,10 +7676,10 @@ private static final long serialVersionUID = 0L;
       output.writeMessage(4, (tech.ydb.coordination.SessionRequest.SessionStop) request_);
     }
     if (requestCase_ == 5) {
-      output.writeMessage(5, (tech.ydb.coordination.SessionRequest.ClientReady) request_);
+      output.writeMessage(5, (tech.ydb.coordination.Unsupported) request_);
     }
     if (requestCase_ == 6) {
-      output.writeMessage(6, (tech.ydb.coordination.SessionRequest.UpdateJobStatus) request_);
+      output.writeMessage(6, (tech.ydb.coordination.Unsupported) request_);
     }
     if (requestCase_ == 7) {
       output.writeMessage(7, (tech.ydb.coordination.SessionRequest.AcquireSemaphore) request_);
@@ -11892,13 +7700,13 @@ private static final long serialVersionUID = 0L;
       output.writeMessage(12, (tech.ydb.coordination.SessionRequest.DeleteSemaphore) request_);
     }
     if (requestCase_ == 13) {
-      output.writeMessage(13, (tech.ydb.coordination.SessionRequest.CreateTask) request_);
+      output.writeMessage(13, (tech.ydb.coordination.Unsupported) request_);
     }
     if (requestCase_ == 14) {
-      output.writeMessage(14, (tech.ydb.coordination.SessionRequest.UpdateTask) request_);
+      output.writeMessage(14, (tech.ydb.coordination.Unsupported) request_);
     }
     if (requestCase_ == 15) {
-      output.writeMessage(15, (tech.ydb.coordination.SessionRequest.DeleteTask) request_);
+      output.writeMessage(15, (tech.ydb.coordination.Unsupported) request_);
     }
     unknownFields.writeTo(output);
   }
@@ -11926,11 +7734,11 @@ private static final long serialVersionUID = 0L;
     }
     if (requestCase_ == 5) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(5, (tech.ydb.coordination.SessionRequest.ClientReady) request_);
+        .computeMessageSize(5, (tech.ydb.coordination.Unsupported) request_);
     }
     if (requestCase_ == 6) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(6, (tech.ydb.coordination.SessionRequest.UpdateJobStatus) request_);
+        .computeMessageSize(6, (tech.ydb.coordination.Unsupported) request_);
     }
     if (requestCase_ == 7) {
       size += com.google.protobuf.CodedOutputStream
@@ -11958,15 +7766,15 @@ private static final long serialVersionUID = 0L;
     }
     if (requestCase_ == 13) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(13, (tech.ydb.coordination.SessionRequest.CreateTask) request_);
+        .computeMessageSize(13, (tech.ydb.coordination.Unsupported) request_);
     }
     if (requestCase_ == 14) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(14, (tech.ydb.coordination.SessionRequest.UpdateTask) request_);
+        .computeMessageSize(14, (tech.ydb.coordination.Unsupported) request_);
     }
     if (requestCase_ == 15) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(15, (tech.ydb.coordination.SessionRequest.DeleteTask) request_);
+        .computeMessageSize(15, (tech.ydb.coordination.Unsupported) request_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -12005,12 +7813,12 @@ private static final long serialVersionUID = 0L;
             .equals(other.getSessionStop());
         break;
       case 5:
-        result = result && getClientReady()
-            .equals(other.getClientReady());
+        result = result && getUnsupported5()
+            .equals(other.getUnsupported5());
         break;
       case 6:
-        result = result && getUpdateJobStatus()
-            .equals(other.getUpdateJobStatus());
+        result = result && getUnsupported6()
+            .equals(other.getUnsupported6());
         break;
       case 7:
         result = result && getAcquireSemaphore()
@@ -12037,16 +7845,16 @@ private static final long serialVersionUID = 0L;
             .equals(other.getDeleteSemaphore());
         break;
       case 13:
-        result = result && getCreateTask()
-            .equals(other.getCreateTask());
+        result = result && getUnsupported13()
+            .equals(other.getUnsupported13());
         break;
       case 14:
-        result = result && getUpdateTask()
-            .equals(other.getUpdateTask());
+        result = result && getUnsupported14()
+            .equals(other.getUnsupported14());
         break;
       case 15:
-        result = result && getDeleteTask()
-            .equals(other.getDeleteTask());
+        result = result && getUnsupported15()
+            .equals(other.getUnsupported15());
         break;
       case 0:
       default:
@@ -12080,12 +7888,12 @@ private static final long serialVersionUID = 0L;
         hash = (53 * hash) + getSessionStop().hashCode();
         break;
       case 5:
-        hash = (37 * hash) + CLIENT_READY_FIELD_NUMBER;
-        hash = (53 * hash) + getClientReady().hashCode();
+        hash = (37 * hash) + UNSUPPORTED_5_FIELD_NUMBER;
+        hash = (53 * hash) + getUnsupported5().hashCode();
         break;
       case 6:
-        hash = (37 * hash) + UPDATE_JOB_STATUS_FIELD_NUMBER;
-        hash = (53 * hash) + getUpdateJobStatus().hashCode();
+        hash = (37 * hash) + UNSUPPORTED_6_FIELD_NUMBER;
+        hash = (53 * hash) + getUnsupported6().hashCode();
         break;
       case 7:
         hash = (37 * hash) + ACQUIRE_SEMAPHORE_FIELD_NUMBER;
@@ -12112,16 +7920,16 @@ private static final long serialVersionUID = 0L;
         hash = (53 * hash) + getDeleteSemaphore().hashCode();
         break;
       case 13:
-        hash = (37 * hash) + CREATE_TASK_FIELD_NUMBER;
-        hash = (53 * hash) + getCreateTask().hashCode();
+        hash = (37 * hash) + UNSUPPORTED_13_FIELD_NUMBER;
+        hash = (53 * hash) + getUnsupported13().hashCode();
         break;
       case 14:
-        hash = (37 * hash) + UPDATE_TASK_FIELD_NUMBER;
-        hash = (53 * hash) + getUpdateTask().hashCode();
+        hash = (37 * hash) + UNSUPPORTED_14_FIELD_NUMBER;
+        hash = (53 * hash) + getUnsupported14().hashCode();
         break;
       case 15:
-        hash = (37 * hash) + DELETE_TASK_FIELD_NUMBER;
-        hash = (53 * hash) + getDeleteTask().hashCode();
+        hash = (37 * hash) + UNSUPPORTED_15_FIELD_NUMBER;
+        hash = (53 * hash) + getUnsupported15().hashCode();
         break;
       case 0:
       default:
@@ -12313,17 +8121,17 @@ private static final long serialVersionUID = 0L;
         }
       }
       if (requestCase_ == 5) {
-        if (clientReadyBuilder_ == null) {
+        if (unsupported5Builder_ == null) {
           result.request_ = request_;
         } else {
-          result.request_ = clientReadyBuilder_.build();
+          result.request_ = unsupported5Builder_.build();
         }
       }
       if (requestCase_ == 6) {
-        if (updateJobStatusBuilder_ == null) {
+        if (unsupported6Builder_ == null) {
           result.request_ = request_;
         } else {
-          result.request_ = updateJobStatusBuilder_.build();
+          result.request_ = unsupported6Builder_.build();
         }
       }
       if (requestCase_ == 7) {
@@ -12369,24 +8177,24 @@ private static final long serialVersionUID = 0L;
         }
       }
       if (requestCase_ == 13) {
-        if (createTaskBuilder_ == null) {
+        if (unsupported13Builder_ == null) {
           result.request_ = request_;
         } else {
-          result.request_ = createTaskBuilder_.build();
+          result.request_ = unsupported13Builder_.build();
         }
       }
       if (requestCase_ == 14) {
-        if (updateTaskBuilder_ == null) {
+        if (unsupported14Builder_ == null) {
           result.request_ = request_;
         } else {
-          result.request_ = updateTaskBuilder_.build();
+          result.request_ = unsupported14Builder_.build();
         }
       }
       if (requestCase_ == 15) {
-        if (deleteTaskBuilder_ == null) {
+        if (unsupported15Builder_ == null) {
           result.request_ = request_;
         } else {
-          result.request_ = deleteTaskBuilder_.build();
+          result.request_ = unsupported15Builder_.build();
         }
       }
       result.requestCase_ = requestCase_;
@@ -12448,12 +8256,12 @@ private static final long serialVersionUID = 0L;
           mergeSessionStop(other.getSessionStop());
           break;
         }
-        case CLIENT_READY: {
-          mergeClientReady(other.getClientReady());
+        case UNSUPPORTED_5: {
+          mergeUnsupported5(other.getUnsupported5());
           break;
         }
-        case UPDATE_JOB_STATUS: {
-          mergeUpdateJobStatus(other.getUpdateJobStatus());
+        case UNSUPPORTED_6: {
+          mergeUnsupported6(other.getUnsupported6());
           break;
         }
         case ACQUIRE_SEMAPHORE: {
@@ -12480,16 +8288,16 @@ private static final long serialVersionUID = 0L;
           mergeDeleteSemaphore(other.getDeleteSemaphore());
           break;
         }
-        case CREATE_TASK: {
-          mergeCreateTask(other.getCreateTask());
+        case UNSUPPORTED_13: {
+          mergeUnsupported13(other.getUnsupported13());
           break;
         }
-        case UPDATE_TASK: {
-          mergeUpdateTask(other.getUpdateTask());
+        case UNSUPPORTED_14: {
+          mergeUnsupported14(other.getUnsupported14());
           break;
         }
-        case DELETE_TASK: {
-          mergeDeleteTask(other.getDeleteTask());
+        case UNSUPPORTED_15: {
+          mergeUnsupported15(other.getUnsupported15());
           break;
         }
         case REQUEST_NOT_SET: {
@@ -13083,67 +8891,67 @@ private static final long serialVersionUID = 0L;
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-        tech.ydb.coordination.SessionRequest.ClientReady, tech.ydb.coordination.SessionRequest.ClientReady.Builder, tech.ydb.coordination.SessionRequest.ClientReadyOrBuilder> clientReadyBuilder_;
+        tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> unsupported5Builder_;
     /**
-     * <code>.Ydb.Coordination.SessionRequest.ClientReady client_ready = 5;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
      */
-    public boolean hasClientReady() {
+    public boolean hasUnsupported5() {
       return requestCase_ == 5;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.ClientReady client_ready = 5;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
      */
-    public tech.ydb.coordination.SessionRequest.ClientReady getClientReady() {
-      if (clientReadyBuilder_ == null) {
+    public tech.ydb.coordination.Unsupported getUnsupported5() {
+      if (unsupported5Builder_ == null) {
         if (requestCase_ == 5) {
-          return (tech.ydb.coordination.SessionRequest.ClientReady) request_;
+          return (tech.ydb.coordination.Unsupported) request_;
         }
-        return tech.ydb.coordination.SessionRequest.ClientReady.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       } else {
         if (requestCase_ == 5) {
-          return clientReadyBuilder_.getMessage();
+          return unsupported5Builder_.getMessage();
         }
-        return tech.ydb.coordination.SessionRequest.ClientReady.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       }
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.ClientReady client_ready = 5;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
      */
-    public Builder setClientReady(tech.ydb.coordination.SessionRequest.ClientReady value) {
-      if (clientReadyBuilder_ == null) {
+    public Builder setUnsupported5(tech.ydb.coordination.Unsupported value) {
+      if (unsupported5Builder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
         request_ = value;
         onChanged();
       } else {
-        clientReadyBuilder_.setMessage(value);
+        unsupported5Builder_.setMessage(value);
       }
       requestCase_ = 5;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.ClientReady client_ready = 5;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
      */
-    public Builder setClientReady(
-        tech.ydb.coordination.SessionRequest.ClientReady.Builder builderForValue) {
-      if (clientReadyBuilder_ == null) {
+    public Builder setUnsupported5(
+        tech.ydb.coordination.Unsupported.Builder builderForValue) {
+      if (unsupported5Builder_ == null) {
         request_ = builderForValue.build();
         onChanged();
       } else {
-        clientReadyBuilder_.setMessage(builderForValue.build());
+        unsupported5Builder_.setMessage(builderForValue.build());
       }
       requestCase_ = 5;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.ClientReady client_ready = 5;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
      */
-    public Builder mergeClientReady(tech.ydb.coordination.SessionRequest.ClientReady value) {
-      if (clientReadyBuilder_ == null) {
+    public Builder mergeUnsupported5(tech.ydb.coordination.Unsupported value) {
+      if (unsupported5Builder_ == null) {
         if (requestCase_ == 5 &&
-            request_ != tech.ydb.coordination.SessionRequest.ClientReady.getDefaultInstance()) {
-          request_ = tech.ydb.coordination.SessionRequest.ClientReady.newBuilder((tech.ydb.coordination.SessionRequest.ClientReady) request_)
+            request_ != tech.ydb.coordination.Unsupported.getDefaultInstance()) {
+          request_ = tech.ydb.coordination.Unsupported.newBuilder((tech.ydb.coordination.Unsupported) request_)
               .mergeFrom(value).buildPartial();
         } else {
           request_ = value;
@@ -13151,18 +8959,18 @@ private static final long serialVersionUID = 0L;
         onChanged();
       } else {
         if (requestCase_ == 5) {
-          clientReadyBuilder_.mergeFrom(value);
+          unsupported5Builder_.mergeFrom(value);
         }
-        clientReadyBuilder_.setMessage(value);
+        unsupported5Builder_.setMessage(value);
       }
       requestCase_ = 5;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.ClientReady client_ready = 5;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
      */
-    public Builder clearClientReady() {
-      if (clientReadyBuilder_ == null) {
+    public Builder clearUnsupported5() {
+      if (unsupported5Builder_ == null) {
         if (requestCase_ == 5) {
           requestCase_ = 0;
           request_ = null;
@@ -13173,113 +8981,113 @@ private static final long serialVersionUID = 0L;
           requestCase_ = 0;
           request_ = null;
         }
-        clientReadyBuilder_.clear();
+        unsupported5Builder_.clear();
       }
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.ClientReady client_ready = 5;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
      */
-    public tech.ydb.coordination.SessionRequest.ClientReady.Builder getClientReadyBuilder() {
-      return getClientReadyFieldBuilder().getBuilder();
+    public tech.ydb.coordination.Unsupported.Builder getUnsupported5Builder() {
+      return getUnsupported5FieldBuilder().getBuilder();
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.ClientReady client_ready = 5;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
      */
-    public tech.ydb.coordination.SessionRequest.ClientReadyOrBuilder getClientReadyOrBuilder() {
-      if ((requestCase_ == 5) && (clientReadyBuilder_ != null)) {
-        return clientReadyBuilder_.getMessageOrBuilder();
+    public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported5OrBuilder() {
+      if ((requestCase_ == 5) && (unsupported5Builder_ != null)) {
+        return unsupported5Builder_.getMessageOrBuilder();
       } else {
         if (requestCase_ == 5) {
-          return (tech.ydb.coordination.SessionRequest.ClientReady) request_;
+          return (tech.ydb.coordination.Unsupported) request_;
         }
-        return tech.ydb.coordination.SessionRequest.ClientReady.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       }
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.ClientReady client_ready = 5;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        tech.ydb.coordination.SessionRequest.ClientReady, tech.ydb.coordination.SessionRequest.ClientReady.Builder, tech.ydb.coordination.SessionRequest.ClientReadyOrBuilder> 
-        getClientReadyFieldBuilder() {
-      if (clientReadyBuilder_ == null) {
+        tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> 
+        getUnsupported5FieldBuilder() {
+      if (unsupported5Builder_ == null) {
         if (!(requestCase_ == 5)) {
-          request_ = tech.ydb.coordination.SessionRequest.ClientReady.getDefaultInstance();
+          request_ = tech.ydb.coordination.Unsupported.getDefaultInstance();
         }
-        clientReadyBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            tech.ydb.coordination.SessionRequest.ClientReady, tech.ydb.coordination.SessionRequest.ClientReady.Builder, tech.ydb.coordination.SessionRequest.ClientReadyOrBuilder>(
-                (tech.ydb.coordination.SessionRequest.ClientReady) request_,
+        unsupported5Builder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder>(
+                (tech.ydb.coordination.Unsupported) request_,
                 getParentForChildren(),
                 isClean());
         request_ = null;
       }
       requestCase_ = 5;
       onChanged();;
-      return clientReadyBuilder_;
+      return unsupported5Builder_;
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-        tech.ydb.coordination.SessionRequest.UpdateJobStatus, tech.ydb.coordination.SessionRequest.UpdateJobStatus.Builder, tech.ydb.coordination.SessionRequest.UpdateJobStatusOrBuilder> updateJobStatusBuilder_;
+        tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> unsupported6Builder_;
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateJobStatus update_job_status = 6;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
      */
-    public boolean hasUpdateJobStatus() {
+    public boolean hasUnsupported6() {
       return requestCase_ == 6;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateJobStatus update_job_status = 6;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
      */
-    public tech.ydb.coordination.SessionRequest.UpdateJobStatus getUpdateJobStatus() {
-      if (updateJobStatusBuilder_ == null) {
+    public tech.ydb.coordination.Unsupported getUnsupported6() {
+      if (unsupported6Builder_ == null) {
         if (requestCase_ == 6) {
-          return (tech.ydb.coordination.SessionRequest.UpdateJobStatus) request_;
+          return (tech.ydb.coordination.Unsupported) request_;
         }
-        return tech.ydb.coordination.SessionRequest.UpdateJobStatus.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       } else {
         if (requestCase_ == 6) {
-          return updateJobStatusBuilder_.getMessage();
+          return unsupported6Builder_.getMessage();
         }
-        return tech.ydb.coordination.SessionRequest.UpdateJobStatus.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       }
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateJobStatus update_job_status = 6;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
      */
-    public Builder setUpdateJobStatus(tech.ydb.coordination.SessionRequest.UpdateJobStatus value) {
-      if (updateJobStatusBuilder_ == null) {
+    public Builder setUnsupported6(tech.ydb.coordination.Unsupported value) {
+      if (unsupported6Builder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
         request_ = value;
         onChanged();
       } else {
-        updateJobStatusBuilder_.setMessage(value);
+        unsupported6Builder_.setMessage(value);
       }
       requestCase_ = 6;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateJobStatus update_job_status = 6;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
      */
-    public Builder setUpdateJobStatus(
-        tech.ydb.coordination.SessionRequest.UpdateJobStatus.Builder builderForValue) {
-      if (updateJobStatusBuilder_ == null) {
+    public Builder setUnsupported6(
+        tech.ydb.coordination.Unsupported.Builder builderForValue) {
+      if (unsupported6Builder_ == null) {
         request_ = builderForValue.build();
         onChanged();
       } else {
-        updateJobStatusBuilder_.setMessage(builderForValue.build());
+        unsupported6Builder_.setMessage(builderForValue.build());
       }
       requestCase_ = 6;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateJobStatus update_job_status = 6;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
      */
-    public Builder mergeUpdateJobStatus(tech.ydb.coordination.SessionRequest.UpdateJobStatus value) {
-      if (updateJobStatusBuilder_ == null) {
+    public Builder mergeUnsupported6(tech.ydb.coordination.Unsupported value) {
+      if (unsupported6Builder_ == null) {
         if (requestCase_ == 6 &&
-            request_ != tech.ydb.coordination.SessionRequest.UpdateJobStatus.getDefaultInstance()) {
-          request_ = tech.ydb.coordination.SessionRequest.UpdateJobStatus.newBuilder((tech.ydb.coordination.SessionRequest.UpdateJobStatus) request_)
+            request_ != tech.ydb.coordination.Unsupported.getDefaultInstance()) {
+          request_ = tech.ydb.coordination.Unsupported.newBuilder((tech.ydb.coordination.Unsupported) request_)
               .mergeFrom(value).buildPartial();
         } else {
           request_ = value;
@@ -13287,18 +9095,18 @@ private static final long serialVersionUID = 0L;
         onChanged();
       } else {
         if (requestCase_ == 6) {
-          updateJobStatusBuilder_.mergeFrom(value);
+          unsupported6Builder_.mergeFrom(value);
         }
-        updateJobStatusBuilder_.setMessage(value);
+        unsupported6Builder_.setMessage(value);
       }
       requestCase_ = 6;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateJobStatus update_job_status = 6;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
      */
-    public Builder clearUpdateJobStatus() {
-      if (updateJobStatusBuilder_ == null) {
+    public Builder clearUnsupported6() {
+      if (unsupported6Builder_ == null) {
         if (requestCase_ == 6) {
           requestCase_ = 0;
           request_ = null;
@@ -13309,49 +9117,49 @@ private static final long serialVersionUID = 0L;
           requestCase_ = 0;
           request_ = null;
         }
-        updateJobStatusBuilder_.clear();
+        unsupported6Builder_.clear();
       }
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateJobStatus update_job_status = 6;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
      */
-    public tech.ydb.coordination.SessionRequest.UpdateJobStatus.Builder getUpdateJobStatusBuilder() {
-      return getUpdateJobStatusFieldBuilder().getBuilder();
+    public tech.ydb.coordination.Unsupported.Builder getUnsupported6Builder() {
+      return getUnsupported6FieldBuilder().getBuilder();
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateJobStatus update_job_status = 6;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
      */
-    public tech.ydb.coordination.SessionRequest.UpdateJobStatusOrBuilder getUpdateJobStatusOrBuilder() {
-      if ((requestCase_ == 6) && (updateJobStatusBuilder_ != null)) {
-        return updateJobStatusBuilder_.getMessageOrBuilder();
+    public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported6OrBuilder() {
+      if ((requestCase_ == 6) && (unsupported6Builder_ != null)) {
+        return unsupported6Builder_.getMessageOrBuilder();
       } else {
         if (requestCase_ == 6) {
-          return (tech.ydb.coordination.SessionRequest.UpdateJobStatus) request_;
+          return (tech.ydb.coordination.Unsupported) request_;
         }
-        return tech.ydb.coordination.SessionRequest.UpdateJobStatus.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       }
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateJobStatus update_job_status = 6;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        tech.ydb.coordination.SessionRequest.UpdateJobStatus, tech.ydb.coordination.SessionRequest.UpdateJobStatus.Builder, tech.ydb.coordination.SessionRequest.UpdateJobStatusOrBuilder> 
-        getUpdateJobStatusFieldBuilder() {
-      if (updateJobStatusBuilder_ == null) {
+        tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> 
+        getUnsupported6FieldBuilder() {
+      if (unsupported6Builder_ == null) {
         if (!(requestCase_ == 6)) {
-          request_ = tech.ydb.coordination.SessionRequest.UpdateJobStatus.getDefaultInstance();
+          request_ = tech.ydb.coordination.Unsupported.getDefaultInstance();
         }
-        updateJobStatusBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            tech.ydb.coordination.SessionRequest.UpdateJobStatus, tech.ydb.coordination.SessionRequest.UpdateJobStatus.Builder, tech.ydb.coordination.SessionRequest.UpdateJobStatusOrBuilder>(
-                (tech.ydb.coordination.SessionRequest.UpdateJobStatus) request_,
+        unsupported6Builder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder>(
+                (tech.ydb.coordination.Unsupported) request_,
                 getParentForChildren(),
                 isClean());
         request_ = null;
       }
       requestCase_ = 6;
       onChanged();;
-      return updateJobStatusBuilder_;
+      return unsupported6Builder_;
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
@@ -14171,67 +9979,67 @@ private static final long serialVersionUID = 0L;
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-        tech.ydb.coordination.SessionRequest.CreateTask, tech.ydb.coordination.SessionRequest.CreateTask.Builder, tech.ydb.coordination.SessionRequest.CreateTaskOrBuilder> createTaskBuilder_;
+        tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> unsupported13Builder_;
     /**
-     * <code>.Ydb.Coordination.SessionRequest.CreateTask create_task = 13;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
      */
-    public boolean hasCreateTask() {
+    public boolean hasUnsupported13() {
       return requestCase_ == 13;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.CreateTask create_task = 13;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
      */
-    public tech.ydb.coordination.SessionRequest.CreateTask getCreateTask() {
-      if (createTaskBuilder_ == null) {
+    public tech.ydb.coordination.Unsupported getUnsupported13() {
+      if (unsupported13Builder_ == null) {
         if (requestCase_ == 13) {
-          return (tech.ydb.coordination.SessionRequest.CreateTask) request_;
+          return (tech.ydb.coordination.Unsupported) request_;
         }
-        return tech.ydb.coordination.SessionRequest.CreateTask.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       } else {
         if (requestCase_ == 13) {
-          return createTaskBuilder_.getMessage();
+          return unsupported13Builder_.getMessage();
         }
-        return tech.ydb.coordination.SessionRequest.CreateTask.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       }
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.CreateTask create_task = 13;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
      */
-    public Builder setCreateTask(tech.ydb.coordination.SessionRequest.CreateTask value) {
-      if (createTaskBuilder_ == null) {
+    public Builder setUnsupported13(tech.ydb.coordination.Unsupported value) {
+      if (unsupported13Builder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
         request_ = value;
         onChanged();
       } else {
-        createTaskBuilder_.setMessage(value);
+        unsupported13Builder_.setMessage(value);
       }
       requestCase_ = 13;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.CreateTask create_task = 13;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
      */
-    public Builder setCreateTask(
-        tech.ydb.coordination.SessionRequest.CreateTask.Builder builderForValue) {
-      if (createTaskBuilder_ == null) {
+    public Builder setUnsupported13(
+        tech.ydb.coordination.Unsupported.Builder builderForValue) {
+      if (unsupported13Builder_ == null) {
         request_ = builderForValue.build();
         onChanged();
       } else {
-        createTaskBuilder_.setMessage(builderForValue.build());
+        unsupported13Builder_.setMessage(builderForValue.build());
       }
       requestCase_ = 13;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.CreateTask create_task = 13;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
      */
-    public Builder mergeCreateTask(tech.ydb.coordination.SessionRequest.CreateTask value) {
-      if (createTaskBuilder_ == null) {
+    public Builder mergeUnsupported13(tech.ydb.coordination.Unsupported value) {
+      if (unsupported13Builder_ == null) {
         if (requestCase_ == 13 &&
-            request_ != tech.ydb.coordination.SessionRequest.CreateTask.getDefaultInstance()) {
-          request_ = tech.ydb.coordination.SessionRequest.CreateTask.newBuilder((tech.ydb.coordination.SessionRequest.CreateTask) request_)
+            request_ != tech.ydb.coordination.Unsupported.getDefaultInstance()) {
+          request_ = tech.ydb.coordination.Unsupported.newBuilder((tech.ydb.coordination.Unsupported) request_)
               .mergeFrom(value).buildPartial();
         } else {
           request_ = value;
@@ -14239,18 +10047,18 @@ private static final long serialVersionUID = 0L;
         onChanged();
       } else {
         if (requestCase_ == 13) {
-          createTaskBuilder_.mergeFrom(value);
+          unsupported13Builder_.mergeFrom(value);
         }
-        createTaskBuilder_.setMessage(value);
+        unsupported13Builder_.setMessage(value);
       }
       requestCase_ = 13;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.CreateTask create_task = 13;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
      */
-    public Builder clearCreateTask() {
-      if (createTaskBuilder_ == null) {
+    public Builder clearUnsupported13() {
+      if (unsupported13Builder_ == null) {
         if (requestCase_ == 13) {
           requestCase_ = 0;
           request_ = null;
@@ -14261,113 +10069,113 @@ private static final long serialVersionUID = 0L;
           requestCase_ = 0;
           request_ = null;
         }
-        createTaskBuilder_.clear();
+        unsupported13Builder_.clear();
       }
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.CreateTask create_task = 13;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
      */
-    public tech.ydb.coordination.SessionRequest.CreateTask.Builder getCreateTaskBuilder() {
-      return getCreateTaskFieldBuilder().getBuilder();
+    public tech.ydb.coordination.Unsupported.Builder getUnsupported13Builder() {
+      return getUnsupported13FieldBuilder().getBuilder();
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.CreateTask create_task = 13;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
      */
-    public tech.ydb.coordination.SessionRequest.CreateTaskOrBuilder getCreateTaskOrBuilder() {
-      if ((requestCase_ == 13) && (createTaskBuilder_ != null)) {
-        return createTaskBuilder_.getMessageOrBuilder();
+    public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported13OrBuilder() {
+      if ((requestCase_ == 13) && (unsupported13Builder_ != null)) {
+        return unsupported13Builder_.getMessageOrBuilder();
       } else {
         if (requestCase_ == 13) {
-          return (tech.ydb.coordination.SessionRequest.CreateTask) request_;
+          return (tech.ydb.coordination.Unsupported) request_;
         }
-        return tech.ydb.coordination.SessionRequest.CreateTask.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       }
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.CreateTask create_task = 13;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        tech.ydb.coordination.SessionRequest.CreateTask, tech.ydb.coordination.SessionRequest.CreateTask.Builder, tech.ydb.coordination.SessionRequest.CreateTaskOrBuilder> 
-        getCreateTaskFieldBuilder() {
-      if (createTaskBuilder_ == null) {
+        tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> 
+        getUnsupported13FieldBuilder() {
+      if (unsupported13Builder_ == null) {
         if (!(requestCase_ == 13)) {
-          request_ = tech.ydb.coordination.SessionRequest.CreateTask.getDefaultInstance();
+          request_ = tech.ydb.coordination.Unsupported.getDefaultInstance();
         }
-        createTaskBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            tech.ydb.coordination.SessionRequest.CreateTask, tech.ydb.coordination.SessionRequest.CreateTask.Builder, tech.ydb.coordination.SessionRequest.CreateTaskOrBuilder>(
-                (tech.ydb.coordination.SessionRequest.CreateTask) request_,
+        unsupported13Builder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder>(
+                (tech.ydb.coordination.Unsupported) request_,
                 getParentForChildren(),
                 isClean());
         request_ = null;
       }
       requestCase_ = 13;
       onChanged();;
-      return createTaskBuilder_;
+      return unsupported13Builder_;
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-        tech.ydb.coordination.SessionRequest.UpdateTask, tech.ydb.coordination.SessionRequest.UpdateTask.Builder, tech.ydb.coordination.SessionRequest.UpdateTaskOrBuilder> updateTaskBuilder_;
+        tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> unsupported14Builder_;
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateTask update_task = 14;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
      */
-    public boolean hasUpdateTask() {
+    public boolean hasUnsupported14() {
       return requestCase_ == 14;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateTask update_task = 14;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
      */
-    public tech.ydb.coordination.SessionRequest.UpdateTask getUpdateTask() {
-      if (updateTaskBuilder_ == null) {
+    public tech.ydb.coordination.Unsupported getUnsupported14() {
+      if (unsupported14Builder_ == null) {
         if (requestCase_ == 14) {
-          return (tech.ydb.coordination.SessionRequest.UpdateTask) request_;
+          return (tech.ydb.coordination.Unsupported) request_;
         }
-        return tech.ydb.coordination.SessionRequest.UpdateTask.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       } else {
         if (requestCase_ == 14) {
-          return updateTaskBuilder_.getMessage();
+          return unsupported14Builder_.getMessage();
         }
-        return tech.ydb.coordination.SessionRequest.UpdateTask.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       }
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateTask update_task = 14;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
      */
-    public Builder setUpdateTask(tech.ydb.coordination.SessionRequest.UpdateTask value) {
-      if (updateTaskBuilder_ == null) {
+    public Builder setUnsupported14(tech.ydb.coordination.Unsupported value) {
+      if (unsupported14Builder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
         request_ = value;
         onChanged();
       } else {
-        updateTaskBuilder_.setMessage(value);
+        unsupported14Builder_.setMessage(value);
       }
       requestCase_ = 14;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateTask update_task = 14;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
      */
-    public Builder setUpdateTask(
-        tech.ydb.coordination.SessionRequest.UpdateTask.Builder builderForValue) {
-      if (updateTaskBuilder_ == null) {
+    public Builder setUnsupported14(
+        tech.ydb.coordination.Unsupported.Builder builderForValue) {
+      if (unsupported14Builder_ == null) {
         request_ = builderForValue.build();
         onChanged();
       } else {
-        updateTaskBuilder_.setMessage(builderForValue.build());
+        unsupported14Builder_.setMessage(builderForValue.build());
       }
       requestCase_ = 14;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateTask update_task = 14;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
      */
-    public Builder mergeUpdateTask(tech.ydb.coordination.SessionRequest.UpdateTask value) {
-      if (updateTaskBuilder_ == null) {
+    public Builder mergeUnsupported14(tech.ydb.coordination.Unsupported value) {
+      if (unsupported14Builder_ == null) {
         if (requestCase_ == 14 &&
-            request_ != tech.ydb.coordination.SessionRequest.UpdateTask.getDefaultInstance()) {
-          request_ = tech.ydb.coordination.SessionRequest.UpdateTask.newBuilder((tech.ydb.coordination.SessionRequest.UpdateTask) request_)
+            request_ != tech.ydb.coordination.Unsupported.getDefaultInstance()) {
+          request_ = tech.ydb.coordination.Unsupported.newBuilder((tech.ydb.coordination.Unsupported) request_)
               .mergeFrom(value).buildPartial();
         } else {
           request_ = value;
@@ -14375,18 +10183,18 @@ private static final long serialVersionUID = 0L;
         onChanged();
       } else {
         if (requestCase_ == 14) {
-          updateTaskBuilder_.mergeFrom(value);
+          unsupported14Builder_.mergeFrom(value);
         }
-        updateTaskBuilder_.setMessage(value);
+        unsupported14Builder_.setMessage(value);
       }
       requestCase_ = 14;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateTask update_task = 14;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
      */
-    public Builder clearUpdateTask() {
-      if (updateTaskBuilder_ == null) {
+    public Builder clearUnsupported14() {
+      if (unsupported14Builder_ == null) {
         if (requestCase_ == 14) {
           requestCase_ = 0;
           request_ = null;
@@ -14397,113 +10205,113 @@ private static final long serialVersionUID = 0L;
           requestCase_ = 0;
           request_ = null;
         }
-        updateTaskBuilder_.clear();
+        unsupported14Builder_.clear();
       }
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateTask update_task = 14;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
      */
-    public tech.ydb.coordination.SessionRequest.UpdateTask.Builder getUpdateTaskBuilder() {
-      return getUpdateTaskFieldBuilder().getBuilder();
+    public tech.ydb.coordination.Unsupported.Builder getUnsupported14Builder() {
+      return getUnsupported14FieldBuilder().getBuilder();
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateTask update_task = 14;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
      */
-    public tech.ydb.coordination.SessionRequest.UpdateTaskOrBuilder getUpdateTaskOrBuilder() {
-      if ((requestCase_ == 14) && (updateTaskBuilder_ != null)) {
-        return updateTaskBuilder_.getMessageOrBuilder();
+    public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported14OrBuilder() {
+      if ((requestCase_ == 14) && (unsupported14Builder_ != null)) {
+        return unsupported14Builder_.getMessageOrBuilder();
       } else {
         if (requestCase_ == 14) {
-          return (tech.ydb.coordination.SessionRequest.UpdateTask) request_;
+          return (tech.ydb.coordination.Unsupported) request_;
         }
-        return tech.ydb.coordination.SessionRequest.UpdateTask.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       }
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.UpdateTask update_task = 14;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        tech.ydb.coordination.SessionRequest.UpdateTask, tech.ydb.coordination.SessionRequest.UpdateTask.Builder, tech.ydb.coordination.SessionRequest.UpdateTaskOrBuilder> 
-        getUpdateTaskFieldBuilder() {
-      if (updateTaskBuilder_ == null) {
+        tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> 
+        getUnsupported14FieldBuilder() {
+      if (unsupported14Builder_ == null) {
         if (!(requestCase_ == 14)) {
-          request_ = tech.ydb.coordination.SessionRequest.UpdateTask.getDefaultInstance();
+          request_ = tech.ydb.coordination.Unsupported.getDefaultInstance();
         }
-        updateTaskBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            tech.ydb.coordination.SessionRequest.UpdateTask, tech.ydb.coordination.SessionRequest.UpdateTask.Builder, tech.ydb.coordination.SessionRequest.UpdateTaskOrBuilder>(
-                (tech.ydb.coordination.SessionRequest.UpdateTask) request_,
+        unsupported14Builder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder>(
+                (tech.ydb.coordination.Unsupported) request_,
                 getParentForChildren(),
                 isClean());
         request_ = null;
       }
       requestCase_ = 14;
       onChanged();;
-      return updateTaskBuilder_;
+      return unsupported14Builder_;
     }
 
     private com.google.protobuf.SingleFieldBuilderV3<
-        tech.ydb.coordination.SessionRequest.DeleteTask, tech.ydb.coordination.SessionRequest.DeleteTask.Builder, tech.ydb.coordination.SessionRequest.DeleteTaskOrBuilder> deleteTaskBuilder_;
+        tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> unsupported15Builder_;
     /**
-     * <code>.Ydb.Coordination.SessionRequest.DeleteTask delete_task = 15;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
      */
-    public boolean hasDeleteTask() {
+    public boolean hasUnsupported15() {
       return requestCase_ == 15;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.DeleteTask delete_task = 15;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
      */
-    public tech.ydb.coordination.SessionRequest.DeleteTask getDeleteTask() {
-      if (deleteTaskBuilder_ == null) {
+    public tech.ydb.coordination.Unsupported getUnsupported15() {
+      if (unsupported15Builder_ == null) {
         if (requestCase_ == 15) {
-          return (tech.ydb.coordination.SessionRequest.DeleteTask) request_;
+          return (tech.ydb.coordination.Unsupported) request_;
         }
-        return tech.ydb.coordination.SessionRequest.DeleteTask.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       } else {
         if (requestCase_ == 15) {
-          return deleteTaskBuilder_.getMessage();
+          return unsupported15Builder_.getMessage();
         }
-        return tech.ydb.coordination.SessionRequest.DeleteTask.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       }
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.DeleteTask delete_task = 15;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
      */
-    public Builder setDeleteTask(tech.ydb.coordination.SessionRequest.DeleteTask value) {
-      if (deleteTaskBuilder_ == null) {
+    public Builder setUnsupported15(tech.ydb.coordination.Unsupported value) {
+      if (unsupported15Builder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
         request_ = value;
         onChanged();
       } else {
-        deleteTaskBuilder_.setMessage(value);
+        unsupported15Builder_.setMessage(value);
       }
       requestCase_ = 15;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.DeleteTask delete_task = 15;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
      */
-    public Builder setDeleteTask(
-        tech.ydb.coordination.SessionRequest.DeleteTask.Builder builderForValue) {
-      if (deleteTaskBuilder_ == null) {
+    public Builder setUnsupported15(
+        tech.ydb.coordination.Unsupported.Builder builderForValue) {
+      if (unsupported15Builder_ == null) {
         request_ = builderForValue.build();
         onChanged();
       } else {
-        deleteTaskBuilder_.setMessage(builderForValue.build());
+        unsupported15Builder_.setMessage(builderForValue.build());
       }
       requestCase_ = 15;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.DeleteTask delete_task = 15;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
      */
-    public Builder mergeDeleteTask(tech.ydb.coordination.SessionRequest.DeleteTask value) {
-      if (deleteTaskBuilder_ == null) {
+    public Builder mergeUnsupported15(tech.ydb.coordination.Unsupported value) {
+      if (unsupported15Builder_ == null) {
         if (requestCase_ == 15 &&
-            request_ != tech.ydb.coordination.SessionRequest.DeleteTask.getDefaultInstance()) {
-          request_ = tech.ydb.coordination.SessionRequest.DeleteTask.newBuilder((tech.ydb.coordination.SessionRequest.DeleteTask) request_)
+            request_ != tech.ydb.coordination.Unsupported.getDefaultInstance()) {
+          request_ = tech.ydb.coordination.Unsupported.newBuilder((tech.ydb.coordination.Unsupported) request_)
               .mergeFrom(value).buildPartial();
         } else {
           request_ = value;
@@ -14511,18 +10319,18 @@ private static final long serialVersionUID = 0L;
         onChanged();
       } else {
         if (requestCase_ == 15) {
-          deleteTaskBuilder_.mergeFrom(value);
+          unsupported15Builder_.mergeFrom(value);
         }
-        deleteTaskBuilder_.setMessage(value);
+        unsupported15Builder_.setMessage(value);
       }
       requestCase_ = 15;
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.DeleteTask delete_task = 15;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
      */
-    public Builder clearDeleteTask() {
-      if (deleteTaskBuilder_ == null) {
+    public Builder clearUnsupported15() {
+      if (unsupported15Builder_ == null) {
         if (requestCase_ == 15) {
           requestCase_ = 0;
           request_ = null;
@@ -14533,49 +10341,49 @@ private static final long serialVersionUID = 0L;
           requestCase_ = 0;
           request_ = null;
         }
-        deleteTaskBuilder_.clear();
+        unsupported15Builder_.clear();
       }
       return this;
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.DeleteTask delete_task = 15;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
      */
-    public tech.ydb.coordination.SessionRequest.DeleteTask.Builder getDeleteTaskBuilder() {
-      return getDeleteTaskFieldBuilder().getBuilder();
+    public tech.ydb.coordination.Unsupported.Builder getUnsupported15Builder() {
+      return getUnsupported15FieldBuilder().getBuilder();
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.DeleteTask delete_task = 15;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
      */
-    public tech.ydb.coordination.SessionRequest.DeleteTaskOrBuilder getDeleteTaskOrBuilder() {
-      if ((requestCase_ == 15) && (deleteTaskBuilder_ != null)) {
-        return deleteTaskBuilder_.getMessageOrBuilder();
+    public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported15OrBuilder() {
+      if ((requestCase_ == 15) && (unsupported15Builder_ != null)) {
+        return unsupported15Builder_.getMessageOrBuilder();
       } else {
         if (requestCase_ == 15) {
-          return (tech.ydb.coordination.SessionRequest.DeleteTask) request_;
+          return (tech.ydb.coordination.Unsupported) request_;
         }
-        return tech.ydb.coordination.SessionRequest.DeleteTask.getDefaultInstance();
+        return tech.ydb.coordination.Unsupported.getDefaultInstance();
       }
     }
     /**
-     * <code>.Ydb.Coordination.SessionRequest.DeleteTask delete_task = 15;</code>
+     * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
-        tech.ydb.coordination.SessionRequest.DeleteTask, tech.ydb.coordination.SessionRequest.DeleteTask.Builder, tech.ydb.coordination.SessionRequest.DeleteTaskOrBuilder> 
-        getDeleteTaskFieldBuilder() {
-      if (deleteTaskBuilder_ == null) {
+        tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> 
+        getUnsupported15FieldBuilder() {
+      if (unsupported15Builder_ == null) {
         if (!(requestCase_ == 15)) {
-          request_ = tech.ydb.coordination.SessionRequest.DeleteTask.getDefaultInstance();
+          request_ = tech.ydb.coordination.Unsupported.getDefaultInstance();
         }
-        deleteTaskBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            tech.ydb.coordination.SessionRequest.DeleteTask, tech.ydb.coordination.SessionRequest.DeleteTask.Builder, tech.ydb.coordination.SessionRequest.DeleteTaskOrBuilder>(
-                (tech.ydb.coordination.SessionRequest.DeleteTask) request_,
+        unsupported15Builder_ = new com.google.protobuf.SingleFieldBuilderV3<
+            tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder>(
+                (tech.ydb.coordination.Unsupported) request_,
                 getParentForChildren(),
                 isClean());
         request_ = null;
       }
       requestCase_ = 15;
       onChanged();;
-      return deleteTaskBuilder_;
+      return unsupported15Builder_;
     }
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {

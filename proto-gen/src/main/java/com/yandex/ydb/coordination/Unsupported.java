@@ -6,24 +6,21 @@ package tech.ydb.coordination;
 /**
  * <pre>
  **
- * Abstract resource required for task execution
- * NOTE: this API is not yet supported and is subject to change
+ * Stub for unsupported messages
  * </pre>
  *
- * Protobuf type {@code Ydb.Coordination.Resource}
+ * Protobuf type {@code Ydb.Coordination.Unsupported}
  */
-public  final class Resource extends
+public  final class Unsupported extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:Ydb.Coordination.Resource)
-    ResourceOrBuilder {
+    // @@protoc_insertion_point(message_implements:Ydb.Coordination.Unsupported)
+    UnsupportedOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use Resource.newBuilder() to construct.
-  private Resource(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use Unsupported.newBuilder() to construct.
+  private Unsupported(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private Resource() {
-    resourceType_ = "";
-    amount_ = 0D;
+  private Unsupported() {
   }
 
   @java.lang.Override
@@ -31,12 +28,11 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private Resource(
+  private Unsupported(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     this();
-    int mutable_bitField0_ = 0;
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
@@ -54,17 +50,6 @@ private static final long serialVersionUID = 0L;
             }
             break;
           }
-          case 10: {
-            java.lang.String s = input.readStringRequireUtf8();
-
-            resourceType_ = s;
-            break;
-          }
-          case 17: {
-
-            amount_ = input.readDouble();
-            break;
-          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -79,57 +64,14 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Resource_descriptor;
+    return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Unsupported_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Resource_fieldAccessorTable
+    return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Unsupported_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            tech.ydb.coordination.Resource.class, tech.ydb.coordination.Resource.Builder.class);
-  }
-
-  public static final int RESOURCE_TYPE_FIELD_NUMBER = 1;
-  private volatile java.lang.Object resourceType_;
-  /**
-   * <code>string resource_type = 1;</code>
-   */
-  public java.lang.String getResourceType() {
-    java.lang.Object ref = resourceType_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      resourceType_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string resource_type = 1;</code>
-   */
-  public com.google.protobuf.ByteString
-      getResourceTypeBytes() {
-    java.lang.Object ref = resourceType_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      resourceType_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
-  }
-
-  public static final int AMOUNT_FIELD_NUMBER = 2;
-  private double amount_;
-  /**
-   * <code>double amount = 2;</code>
-   */
-  public double getAmount() {
-    return amount_;
+            tech.ydb.coordination.Unsupported.class, tech.ydb.coordination.Unsupported.Builder.class);
   }
 
   private byte memoizedIsInitialized = -1;
@@ -144,12 +86,6 @@ private static final long serialVersionUID = 0L;
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getResourceTypeBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, resourceType_);
-    }
-    if (amount_ != 0D) {
-      output.writeDouble(2, amount_);
-    }
     unknownFields.writeTo(output);
   }
 
@@ -158,13 +94,6 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getResourceTypeBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, resourceType_);
-    }
-    if (amount_ != 0D) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeDoubleSize(2, amount_);
-    }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
@@ -175,18 +104,12 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof tech.ydb.coordination.Resource)) {
+    if (!(obj instanceof tech.ydb.coordination.Unsupported)) {
       return super.equals(obj);
     }
-    tech.ydb.coordination.Resource other = (tech.ydb.coordination.Resource) obj;
+    tech.ydb.coordination.Unsupported other = (tech.ydb.coordination.Unsupported) obj;
 
     boolean result = true;
-    result = result && getResourceType()
-        .equals(other.getResourceType());
-    result = result && (
-        java.lang.Double.doubleToLongBits(getAmount())
-        == java.lang.Double.doubleToLongBits(
-            other.getAmount()));
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -198,79 +121,74 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + RESOURCE_TYPE_FIELD_NUMBER;
-    hash = (53 * hash) + getResourceType().hashCode();
-    hash = (37 * hash) + AMOUNT_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-        java.lang.Double.doubleToLongBits(getAmount()));
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static tech.ydb.coordination.Resource parseFrom(
+  public static tech.ydb.coordination.Unsupported parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static tech.ydb.coordination.Resource parseFrom(
+  public static tech.ydb.coordination.Unsupported parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static tech.ydb.coordination.Resource parseFrom(
+  public static tech.ydb.coordination.Unsupported parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static tech.ydb.coordination.Resource parseFrom(
+  public static tech.ydb.coordination.Unsupported parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static tech.ydb.coordination.Resource parseFrom(byte[] data)
+  public static tech.ydb.coordination.Unsupported parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static tech.ydb.coordination.Resource parseFrom(
+  public static tech.ydb.coordination.Unsupported parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static tech.ydb.coordination.Resource parseFrom(java.io.InputStream input)
+  public static tech.ydb.coordination.Unsupported parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static tech.ydb.coordination.Resource parseFrom(
+  public static tech.ydb.coordination.Unsupported parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static tech.ydb.coordination.Resource parseDelimitedFrom(java.io.InputStream input)
+  public static tech.ydb.coordination.Unsupported parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static tech.ydb.coordination.Resource parseDelimitedFrom(
+  public static tech.ydb.coordination.Unsupported parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static tech.ydb.coordination.Resource parseFrom(
+  public static tech.ydb.coordination.Unsupported parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static tech.ydb.coordination.Resource parseFrom(
+  public static tech.ydb.coordination.Unsupported parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -282,7 +200,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(tech.ydb.coordination.Resource prototype) {
+  public static Builder newBuilder(tech.ydb.coordination.Unsupported prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   public Builder toBuilder() {
@@ -299,29 +217,28 @@ private static final long serialVersionUID = 0L;
   /**
    * <pre>
    **
-   * Abstract resource required for task execution
-   * NOTE: this API is not yet supported and is subject to change
+   * Stub for unsupported messages
    * </pre>
    *
-   * Protobuf type {@code Ydb.Coordination.Resource}
+   * Protobuf type {@code Ydb.Coordination.Unsupported}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:Ydb.Coordination.Resource)
-      tech.ydb.coordination.ResourceOrBuilder {
+      // @@protoc_insertion_point(builder_implements:Ydb.Coordination.Unsupported)
+      tech.ydb.coordination.UnsupportedOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Resource_descriptor;
+      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Unsupported_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Resource_fieldAccessorTable
+      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Unsupported_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              tech.ydb.coordination.Resource.class, tech.ydb.coordination.Resource.Builder.class);
+              tech.ydb.coordination.Unsupported.class, tech.ydb.coordination.Unsupported.Builder.class);
     }
 
-    // Construct using tech.ydb.coordination.Resource.newBuilder()
+    // Construct using tech.ydb.coordination.Unsupported.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -338,34 +255,28 @@ private static final long serialVersionUID = 0L;
     }
     public Builder clear() {
       super.clear();
-      resourceType_ = "";
-
-      amount_ = 0D;
-
       return this;
     }
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Resource_descriptor;
+      return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Unsupported_descriptor;
     }
 
-    public tech.ydb.coordination.Resource getDefaultInstanceForType() {
-      return tech.ydb.coordination.Resource.getDefaultInstance();
+    public tech.ydb.coordination.Unsupported getDefaultInstanceForType() {
+      return tech.ydb.coordination.Unsupported.getDefaultInstance();
     }
 
-    public tech.ydb.coordination.Resource build() {
-      tech.ydb.coordination.Resource result = buildPartial();
+    public tech.ydb.coordination.Unsupported build() {
+      tech.ydb.coordination.Unsupported result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    public tech.ydb.coordination.Resource buildPartial() {
-      tech.ydb.coordination.Resource result = new tech.ydb.coordination.Resource(this);
-      result.resourceType_ = resourceType_;
-      result.amount_ = amount_;
+    public tech.ydb.coordination.Unsupported buildPartial() {
+      tech.ydb.coordination.Unsupported result = new tech.ydb.coordination.Unsupported(this);
       onBuilt();
       return result;
     }
@@ -397,23 +308,16 @@ private static final long serialVersionUID = 0L;
       return (Builder) super.addRepeatedField(field, value);
     }
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof tech.ydb.coordination.Resource) {
-        return mergeFrom((tech.ydb.coordination.Resource)other);
+      if (other instanceof tech.ydb.coordination.Unsupported) {
+        return mergeFrom((tech.ydb.coordination.Unsupported)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(tech.ydb.coordination.Resource other) {
-      if (other == tech.ydb.coordination.Resource.getDefaultInstance()) return this;
-      if (!other.getResourceType().isEmpty()) {
-        resourceType_ = other.resourceType_;
-        onChanged();
-      }
-      if (other.getAmount() != 0D) {
-        setAmount(other.getAmount());
-      }
+    public Builder mergeFrom(tech.ydb.coordination.Unsupported other) {
+      if (other == tech.ydb.coordination.Unsupported.getDefaultInstance()) return this;
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
       return this;
@@ -427,112 +331,17 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      tech.ydb.coordination.Resource parsedMessage = null;
+      tech.ydb.coordination.Unsupported parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (tech.ydb.coordination.Resource) e.getUnfinishedMessage();
+        parsedMessage = (tech.ydb.coordination.Unsupported) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
           mergeFrom(parsedMessage);
         }
       }
-      return this;
-    }
-
-    private java.lang.Object resourceType_ = "";
-    /**
-     * <code>string resource_type = 1;</code>
-     */
-    public java.lang.String getResourceType() {
-      java.lang.Object ref = resourceType_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        resourceType_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
-    }
-    /**
-     * <code>string resource_type = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getResourceTypeBytes() {
-      java.lang.Object ref = resourceType_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        resourceType_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string resource_type = 1;</code>
-     */
-    public Builder setResourceType(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      resourceType_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string resource_type = 1;</code>
-     */
-    public Builder clearResourceType() {
-      
-      resourceType_ = getDefaultInstance().getResourceType();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string resource_type = 1;</code>
-     */
-    public Builder setResourceTypeBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      resourceType_ = value;
-      onChanged();
-      return this;
-    }
-
-    private double amount_ ;
-    /**
-     * <code>double amount = 2;</code>
-     */
-    public double getAmount() {
-      return amount_;
-    }
-    /**
-     * <code>double amount = 2;</code>
-     */
-    public Builder setAmount(double value) {
-      
-      amount_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>double amount = 2;</code>
-     */
-    public Builder clearAmount() {
-      
-      amount_ = 0D;
-      onChanged();
       return this;
     }
     public final Builder setUnknownFields(
@@ -546,39 +355,39 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:Ydb.Coordination.Resource)
+    // @@protoc_insertion_point(builder_scope:Ydb.Coordination.Unsupported)
   }
 
-  // @@protoc_insertion_point(class_scope:Ydb.Coordination.Resource)
-  private static final tech.ydb.coordination.Resource DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:Ydb.Coordination.Unsupported)
+  private static final tech.ydb.coordination.Unsupported DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new tech.ydb.coordination.Resource();
+    DEFAULT_INSTANCE = new tech.ydb.coordination.Unsupported();
   }
 
-  public static tech.ydb.coordination.Resource getDefaultInstance() {
+  public static tech.ydb.coordination.Unsupported getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<Resource>
-      PARSER = new com.google.protobuf.AbstractParser<Resource>() {
-    public Resource parsePartialFrom(
+  private static final com.google.protobuf.Parser<Unsupported>
+      PARSER = new com.google.protobuf.AbstractParser<Unsupported>() {
+    public Unsupported parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Resource(input, extensionRegistry);
+        return new Unsupported(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<Resource> parser() {
+  public static com.google.protobuf.Parser<Unsupported> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<Resource> getParserForType() {
+  public com.google.protobuf.Parser<Unsupported> getParserForType() {
     return PARSER;
   }
 
-  public tech.ydb.coordination.Resource getDefaultInstanceForType() {
+  public tech.ydb.coordination.Unsupported getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

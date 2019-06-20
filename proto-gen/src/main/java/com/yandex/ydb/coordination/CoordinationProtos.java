@@ -15,20 +15,15 @@ public final class CoordinationProtos {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Coordination_Unsupported_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Coordination_Unsupported_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Coordination_Config_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Coordination_Config_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Coordination_Resource_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Coordination_Resource_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Coordination_TaskData_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Coordination_TaskData_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Coordination_SessionDescription_descriptor;
   static final 
@@ -65,16 +60,6 @@ public final class CoordinationProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Coordination_SessionRequest_SessionStop_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Coordination_SessionRequest_ClientReady_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Coordination_SessionRequest_ClientReady_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Coordination_SessionRequest_UpdateJobStatus_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Coordination_SessionRequest_UpdateJobStatus_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Coordination_SessionRequest_AcquireSemaphore_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -105,21 +90,6 @@ public final class CoordinationProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Coordination_SessionRequest_DeleteSemaphore_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Coordination_SessionRequest_CreateTask_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Coordination_SessionRequest_CreateTask_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Coordination_SessionRequest_UpdateTask_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Coordination_SessionRequest_UpdateTask_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Coordination_SessionRequest_DeleteTask_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Coordination_SessionRequest_DeleteTask_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Coordination_SessionResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -144,16 +114,6 @@ public final class CoordinationProtos {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Coordination_SessionResponse_SessionStopped_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Coordination_SessionResponse_JobStart_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Coordination_SessionResponse_JobStart_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Coordination_SessionResponse_JobStop_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Coordination_SessionResponse_JobStop_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Coordination_SessionResponse_AcquireSemaphorePending_descriptor;
   static final 
@@ -194,21 +154,6 @@ public final class CoordinationProtos {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Coordination_SessionResponse_DeleteSemaphoreResult_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Coordination_SessionResponse_CreateTaskResult_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Coordination_SessionResponse_CreateTaskResult_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Coordination_SessionResponse_UpdateTaskResult_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Coordination_SessionResponse_UpdateTaskResult_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Coordination_SessionResponse_DeleteTaskResult_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Coordination_SessionResponse_DeleteTaskResult_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Coordination_CreateNodeRequest_descriptor;
   static final 
@@ -269,194 +214,158 @@ public final class CoordinationProtos {
       "r/public/api/protos/ydb_status_codes.pro" +
       "to\0320kikimr/public/api/protos/ydb_issue_m" +
       "essage.proto\032)kikimr/public/api/protos/y" +
-      "db_scheme.proto\"\343\001\n\006Config\022\014\n\004path\030\001 \001(\t" +
-      "\022 \n\030self_check_period_millis\030\002 \001(\r\022#\n\033se" +
-      "ssion_grace_period_millis\030\003 \001(\r\022@\n\025read_" +
-      "consistency_mode\030\004 \001(\0162!.Ydb.Coordinatio",
-      "n.ConsistencyMode\022B\n\027attach_consistency_" +
-      "mode\030\005 \001(\0162!.Ydb.Coordination.Consistenc" +
-      "yMode\"1\n\010Resource\022\025\n\rresource_type\030\001 \001(\t" +
-      "\022\016\n\006amount\030\002 \001(\001\"{\n\010TaskData\022\021\n\ttask_typ" +
-      "e\030\001 \001(\t\022\017\n\007payload\030\002 \001(\014\022\r\n\005group\030\003 \001(\014\022" +
-      "\r\n\005count\030\004 \001(\r\022-\n\tresources\030\005 \003(\0132\032.Ydb." +
-      "Coordination.Resource\"g\n\022SessionDescript" +
-      "ion\022\022\n\nsession_id\030\001 \001(\004\022\026\n\016timeout_milli" +
-      "s\030\002 \001(\004\022\023\n\013description\030\003 \001(\t\022\020\n\010attached" +
-      "\030\004 \001(\010\"m\n\020SemaphoreSession\022\020\n\010order_id\030\005",
-      " \001(\004\022\022\n\nsession_id\030\001 \001(\004\022\026\n\016timeout_mill" +
-      "is\030\002 \001(\004\022\r\n\005count\030\003 \001(\004\022\014\n\004data\030\004 \001(\014\"\314\001" +
-      "\n\024SemaphoreDescription\022\014\n\004name\030\001 \001(\t\022\014\n\004" +
-      "data\030\002 \001(\014\022\r\n\005count\030\007 \001(\004\022\r\n\005limit\030\003 \001(\004" +
-      "\022\021\n\tephemeral\030\004 \001(\010\0222\n\006owners\030\005 \003(\0132\".Yd" +
-      "b.Coordination.SemaphoreSession\0223\n\007waite" +
-      "rs\030\006 \003(\0132\".Ydb.Coordination.SemaphoreSes" +
-      "sion\"\373\021\n\016SessionRequest\0229\n\004ping\030\001 \001(\0132)." +
-      "Ydb.Coordination.SessionRequest.PingPong" +
-      "H\000\0229\n\004pong\030\002 \001(\0132).Ydb.Coordination.Sess",
-      "ionRequest.PingPongH\000\022F\n\rsession_start\030\003" +
-      " \001(\0132-.Ydb.Coordination.SessionRequest.S" +
-      "essionStartH\000\022D\n\014session_stop\030\004 \001(\0132,.Yd" +
-      "b.Coordination.SessionRequest.SessionSto" +
-      "pH\000\022D\n\014client_ready\030\005 \001(\0132,.Ydb.Coordina" +
-      "tion.SessionRequest.ClientReadyH\000\022M\n\021upd" +
-      "ate_job_status\030\006 \001(\01320.Ydb.Coordination." +
-      "SessionRequest.UpdateJobStatusH\000\022N\n\021acqu" +
-      "ire_semaphore\030\007 \001(\01321.Ydb.Coordination.S" +
-      "essionRequest.AcquireSemaphoreH\000\022N\n\021rele",
-      "ase_semaphore\030\010 \001(\01321.Ydb.Coordination.S" +
-      "essionRequest.ReleaseSemaphoreH\000\022P\n\022desc" +
-      "ribe_semaphore\030\t \001(\01322.Ydb.Coordination." +
-      "SessionRequest.DescribeSemaphoreH\000\022L\n\020cr" +
-      "eate_semaphore\030\n \001(\01320.Ydb.Coordination." +
-      "SessionRequest.CreateSemaphoreH\000\022L\n\020upda" +
-      "te_semaphore\030\013 \001(\01320.Ydb.Coordination.Se" +
-      "ssionRequest.UpdateSemaphoreH\000\022L\n\020delete" +
-      "_semaphore\030\014 \001(\01320.Ydb.Coordination.Sess" +
-      "ionRequest.DeleteSemaphoreH\000\022B\n\013create_t",
-      "ask\030\r \001(\0132+.Ydb.Coordination.SessionRequ" +
-      "est.CreateTaskH\000\022B\n\013update_task\030\016 \001(\0132+." +
-      "Ydb.Coordination.SessionRequest.UpdateTa" +
-      "skH\000\022B\n\013delete_task\030\017 \001(\0132+.Ydb.Coordina" +
-      "tion.SessionRequest.DeleteTaskH\000\032\032\n\010Ping" +
-      "Pong\022\016\n\006opaque\030\001 \001(\004\032\205\001\n\014SessionStart\022\014\n" +
-      "\004path\030\001 \001(\t\022\022\n\nsession_id\030\002 \001(\004\022\026\n\016timeo" +
-      "ut_millis\030\003 \001(\004\022\023\n\013description\030\004 \001(\t\022\016\n\006" +
-      "seq_no\030\005 \001(\004\022\026\n\016protection_key\030\006 \001(\014\032\r\n\013" +
-      "SessionStop\032p\n\013ClientReady\022-\n\tresources\030",
-      "\001 \003(\0132\032.Ydb.Coordination.Resource\022\034\n\024sup" +
-      "ported_task_types\030\002 \003(\t\022\024\n\014running_jobs\030" +
-      "\003 \003(\004\032\206\001\n\017UpdateJobStatus\022\016\n\006job_id\030\001 \001(" +
-      "\004\022/\n\njob_status\030\002 \001(\0162\033.Ydb.Coordination" +
-      ".JobStatus\0222\n\016used_resources\030\003 \003(\0132\032.Ydb" +
-      ".Coordination.Resource\032x\n\020AcquireSemapho" +
-      "re\022\016\n\006req_id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\026\n\016time" +
-      "out_millis\030\003 \001(\004\022\r\n\005count\030\004 \001(\004\022\014\n\004data\030" +
-      "\005 \001(\014\022\021\n\tephemeral\030\006 \001(\010\0320\n\020ReleaseSemap" +
-      "hore\022\016\n\006req_id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\032\214\001\n\021D",
-      "escribeSemaphore\022\016\n\006req_id\030\001 \001(\004\022\014\n\004name" +
-      "\030\002 \001(\t\022\026\n\016include_owners\030\003 \001(\010\022\027\n\017includ" +
-      "e_waiters\030\004 \001(\010\022\022\n\nwatch_data\030\005 \001(\010\022\024\n\014w" +
-      "atch_owners\030\006 \001(\010\032L\n\017CreateSemaphore\022\016\n\006" +
-      "req_id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\r\n\005limit\030\003 \001(" +
-      "\004\022\014\n\004data\030\004 \001(\014\032=\n\017UpdateSemaphore\022\016\n\006re" +
-      "q_id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\014\n\004data\030\003 \001(\014\032>" +
-      "\n\017DeleteSemaphore\022\016\n\006req_id\030\001 \001(\004\022\014\n\004nam" +
-      "e\030\002 \001(\t\022\r\n\005force\030\003 \001(\010\032K\n\nCreateTask\022\016\n\006" +
-      "req_id\030\001 \001(\004\022-\n\ttask_data\030\002 \001(\0132\032.Ydb.Co",
-      "ordination.TaskData\032k\n\nUpdateTask\022\016\n\006req" +
-      "_id\030\001 \001(\004\022\017\n\007task_id\030\002 \001(\004\022\r\n\005count\030\003 \001(" +
-      "\r\022-\n\tresources\030\004 \003(\0132\032.Ydb.Coordination." +
-      "Resource\032-\n\nDeleteTask\022\016\n\006req_id\030\001 \001(\004\022\017" +
-      "\n\007task_id\030\002 \001(\004B\t\n\007request\"\237\031\n\017SessionRe" +
-      "sponse\022:\n\004ping\030\001 \001(\0132*.Ydb.Coordination." +
-      "SessionResponse.PingPongH\000\022:\n\004pong\030\002 \001(\013" +
-      "2*.Ydb.Coordination.SessionResponse.Ping" +
-      "PongH\000\022<\n\007failure\030\003 \001(\0132).Ydb.Coordinati" +
-      "on.SessionResponse.FailureH\000\022K\n\017session_",
-      "started\030\004 \001(\01320.Ydb.Coordination.Session" +
-      "Response.SessionStartedH\000\022K\n\017session_sto" +
-      "pped\030\005 \001(\01320.Ydb.Coordination.SessionRes" +
-      "ponse.SessionStoppedH\000\022?\n\tjob_start\030\006 \001(" +
-      "\0132*.Ydb.Coordination.SessionResponse.Job" +
-      "StartH\000\022=\n\010job_stop\030\007 \001(\0132).Ydb.Coordina" +
-      "tion.SessionResponse.JobStopH\000\022^\n\031acquir" +
-      "e_semaphore_pending\030\010 \001(\01329.Ydb.Coordina" +
-      "tion.SessionResponse.AcquireSemaphorePen" +
-      "dingH\000\022\\\n\030acquire_semaphore_result\030\t \001(\013",
-      "28.Ydb.Coordination.SessionResponse.Acqu" +
-      "ireSemaphoreResultH\000\022\\\n\030release_semaphor" +
-      "e_result\030\n \001(\01328.Ydb.Coordination.Sessio" +
-      "nResponse.ReleaseSemaphoreResultH\000\022^\n\031de" +
-      "scribe_semaphore_result\030\013 \001(\01329.Ydb.Coor" +
-      "dination.SessionResponse.DescribeSemapho" +
-      "reResultH\000\022`\n\032describe_semaphore_changed" +
-      "\030\014 \001(\0132:.Ydb.Coordination.SessionRespons" +
-      "e.DescribeSemaphoreChangedH\000\022Z\n\027create_s" +
-      "emaphore_result\030\r \001(\01327.Ydb.Coordination",
-      ".SessionResponse.CreateSemaphoreResultH\000" +
-      "\022Z\n\027update_semaphore_result\030\016 \001(\01327.Ydb." +
-      "Coordination.SessionResponse.UpdateSemap" +
-      "horeResultH\000\022Z\n\027delete_semaphore_result\030" +
-      "\017 \001(\01327.Ydb.Coordination.SessionResponse" +
-      ".DeleteSemaphoreResultH\000\022P\n\022create_task_" +
-      "result\030\020 \001(\01322.Ydb.Coordination.SessionR" +
-      "esponse.CreateTaskResultH\000\022P\n\022update_tas" +
-      "k_result\030\021 \001(\01322.Ydb.Coordination.Sessio" +
-      "nResponse.UpdateTaskResultH\000\022P\n\022delete_t",
-      "ask_result\030\022 \001(\01322.Ydb.Coordination.Sess" +
-      "ionResponse.DeleteTaskResultH\000\032\032\n\010PingPo" +
-      "ng\022\016\n\006opaque\030\001 \001(\004\032]\n\007Failure\022)\n\006status\030" +
-      "\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006issu" +
-      "es\030\002 \003(\0132\027.Ydb.Issue.IssueMessage\032<\n\016Ses" +
-      "sionStarted\022\022\n\nsession_id\030\001 \001(\004\022\026\n\016timeo" +
-      "ut_millis\030\002 \001(\004\032$\n\016SessionStopped\022\022\n\nses" +
-      "sion_id\030\001 \001(\004\032Z\n\010JobStart\022\016\n\006job_id\030\001 \001(" +
-      "\004\022\017\n\007task_id\030\002 \001(\004\022-\n\ttask_data\030\003 \001(\0132\032." +
-      "Ydb.Coordination.TaskData\032\031\n\007JobStop\022\016\n\006",
-      "job_id\030\001 \001(\004\032)\n\027AcquireSemaphorePending\022" +
-      "\016\n\006req_id\030\001 \001(\004\032\216\001\n\026AcquireSemaphoreResu" +
-      "lt\022\016\n\006req_id\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031.Ydb" +
-      ".StatusIds.StatusCode\022\'\n\006issues\030\003 \003(\0132\027." +
-      "Ydb.Issue.IssueMessage\022\020\n\010acquired\030\004 \001(\010" +
-      "\032\216\001\n\026ReleaseSemaphoreResult\022\016\n\006req_id\030\001 " +
-      "\001(\004\022)\n\006status\030\002 \001(\0162\031.Ydb.StatusIds.Stat" +
-      "usCode\022\'\n\006issues\030\003 \003(\0132\027.Ydb.Issue.Issue" +
-      "Message\022\020\n\010released\030\004 \001(\010\032\331\001\n\027DescribeSe" +
-      "maphoreResult\022\016\n\006req_id\030\001 \001(\004\022)\n\006status\030",
-      "\002 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006issu" +
-      "es\030\003 \003(\0132\027.Ydb.Issue.IssueMessage\022E\n\025sem" +
-      "aphore_description\030\004 \001(\0132&.Ydb.Coordinat" +
-      "ion.SemaphoreDescription\022\023\n\013watch_added\030" +
-      "\005 \001(\010\032X\n\030DescribeSemaphoreChanged\022\016\n\006req" +
-      "_id\030\001 \001(\004\022\024\n\014data_changed\030\002 \001(\010\022\026\n\016owner" +
-      "s_changed\030\003 \001(\010\032{\n\025CreateSemaphoreResult" +
+      "db_scheme.proto\"\r\n\013Unsupported\"\343\001\n\006Confi" +
+      "g\022\014\n\004path\030\001 \001(\t\022 \n\030self_check_period_mil" +
+      "lis\030\002 \001(\r\022#\n\033session_grace_period_millis" +
+      "\030\003 \001(\r\022@\n\025read_consistency_mode\030\004 \001(\0162!.",
+      "Ydb.Coordination.ConsistencyMode\022B\n\027atta" +
+      "ch_consistency_mode\030\005 \001(\0162!.Ydb.Coordina" +
+      "tion.ConsistencyMode\"g\n\022SessionDescripti" +
+      "on\022\022\n\nsession_id\030\001 \001(\004\022\026\n\016timeout_millis" +
+      "\030\002 \001(\004\022\023\n\013description\030\003 \001(\t\022\020\n\010attached\030" +
+      "\004 \001(\010\"m\n\020SemaphoreSession\022\020\n\010order_id\030\005 " +
+      "\001(\004\022\022\n\nsession_id\030\001 \001(\004\022\026\n\016timeout_milli" +
+      "s\030\002 \001(\004\022\r\n\005count\030\003 \001(\004\022\014\n\004data\030\004 \001(\014\"\314\001\n" +
+      "\024SemaphoreDescription\022\014\n\004name\030\001 \001(\t\022\014\n\004d" +
+      "ata\030\002 \001(\014\022\r\n\005count\030\007 \001(\004\022\r\n\005limit\030\003 \001(\004\022",
+      "\021\n\tephemeral\030\004 \001(\010\0222\n\006owners\030\005 \003(\0132\".Ydb" +
+      ".Coordination.SemaphoreSession\0223\n\007waiter" +
+      "s\030\006 \003(\0132\".Ydb.Coordination.SemaphoreSess" +
+      "ion\"\321\r\n\016SessionRequest\0229\n\004ping\030\001 \001(\0132).Y" +
+      "db.Coordination.SessionRequest.PingPongH" +
+      "\000\0229\n\004pong\030\002 \001(\0132).Ydb.Coordination.Sessi" +
+      "onRequest.PingPongH\000\022F\n\rsession_start\030\003 " +
+      "\001(\0132-.Ydb.Coordination.SessionRequest.Se" +
+      "ssionStartH\000\022D\n\014session_stop\030\004 \001(\0132,.Ydb" +
+      ".Coordination.SessionRequest.SessionStop",
+      "H\000\0226\n\runsupported_5\030\005 \001(\0132\035.Ydb.Coordina" +
+      "tion.UnsupportedH\000\0226\n\runsupported_6\030\006 \001(" +
+      "\0132\035.Ydb.Coordination.UnsupportedH\000\022N\n\021ac" +
+      "quire_semaphore\030\007 \001(\01321.Ydb.Coordination" +
+      ".SessionRequest.AcquireSemaphoreH\000\022N\n\021re" +
+      "lease_semaphore\030\010 \001(\01321.Ydb.Coordination" +
+      ".SessionRequest.ReleaseSemaphoreH\000\022P\n\022de" +
+      "scribe_semaphore\030\t \001(\01322.Ydb.Coordinatio" +
+      "n.SessionRequest.DescribeSemaphoreH\000\022L\n\020" +
+      "create_semaphore\030\n \001(\01320.Ydb.Coordinatio",
+      "n.SessionRequest.CreateSemaphoreH\000\022L\n\020up" +
+      "date_semaphore\030\013 \001(\01320.Ydb.Coordination." +
+      "SessionRequest.UpdateSemaphoreH\000\022L\n\020dele" +
+      "te_semaphore\030\014 \001(\01320.Ydb.Coordination.Se" +
+      "ssionRequest.DeleteSemaphoreH\000\0227\n\016unsupp" +
+      "orted_13\030\r \001(\0132\035.Ydb.Coordination.Unsupp" +
+      "ortedH\000\0227\n\016unsupported_14\030\016 \001(\0132\035.Ydb.Co" +
+      "ordination.UnsupportedH\000\0227\n\016unsupported_" +
+      "15\030\017 \001(\0132\035.Ydb.Coordination.UnsupportedH" +
+      "\000\032\032\n\010PingPong\022\016\n\006opaque\030\001 \001(\004\032\205\001\n\014Sessio",
+      "nStart\022\014\n\004path\030\001 \001(\t\022\022\n\nsession_id\030\002 \001(\004" +
+      "\022\026\n\016timeout_millis\030\003 \001(\004\022\023\n\013description\030" +
+      "\004 \001(\t\022\016\n\006seq_no\030\005 \001(\004\022\026\n\016protection_key\030" +
+      "\006 \001(\014\032\r\n\013SessionStop\032x\n\020AcquireSemaphore" +
+      "\022\016\n\006req_id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\026\n\016timeou" +
+      "t_millis\030\003 \001(\004\022\r\n\005count\030\004 \001(\004\022\014\n\004data\030\005 " +
+      "\001(\014\022\021\n\tephemeral\030\006 \001(\010\0320\n\020ReleaseSemapho" +
+      "re\022\016\n\006req_id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\032\214\001\n\021Des" +
+      "cribeSemaphore\022\016\n\006req_id\030\001 \001(\004\022\014\n\004name\030\002" +
+      " \001(\t\022\026\n\016include_owners\030\003 \001(\010\022\027\n\017include_",
+      "waiters\030\004 \001(\010\022\022\n\nwatch_data\030\005 \001(\010\022\024\n\014wat" +
+      "ch_owners\030\006 \001(\010\032L\n\017CreateSemaphore\022\016\n\006re" +
+      "q_id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\r\n\005limit\030\003 \001(\004\022" +
+      "\014\n\004data\030\004 \001(\014\032=\n\017UpdateSemaphore\022\016\n\006req_" +
+      "id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\014\n\004data\030\003 \001(\014\032>\n\017" +
+      "DeleteSemaphore\022\016\n\006req_id\030\001 \001(\004\022\014\n\004name\030" +
+      "\002 \001(\t\022\r\n\005force\030\003 \001(\010B\t\n\007request\"\323\024\n\017Sess" +
+      "ionResponse\022:\n\004ping\030\001 \001(\0132*.Ydb.Coordina" +
+      "tion.SessionResponse.PingPongH\000\022:\n\004pong\030" +
+      "\002 \001(\0132*.Ydb.Coordination.SessionResponse",
+      ".PingPongH\000\022<\n\007failure\030\003 \001(\0132).Ydb.Coord" +
+      "ination.SessionResponse.FailureH\000\022K\n\017ses" +
+      "sion_started\030\004 \001(\01320.Ydb.Coordination.Se" +
+      "ssionResponse.SessionStartedH\000\022K\n\017sessio" +
+      "n_stopped\030\005 \001(\01320.Ydb.Coordination.Sessi" +
+      "onResponse.SessionStoppedH\000\0226\n\runsupport" +
+      "ed_6\030\006 \001(\0132\035.Ydb.Coordination.Unsupporte" +
+      "dH\000\0226\n\runsupported_7\030\007 \001(\0132\035.Ydb.Coordin" +
+      "ation.UnsupportedH\000\022^\n\031acquire_semaphore" +
+      "_pending\030\010 \001(\01329.Ydb.Coordination.Sessio",
+      "nResponse.AcquireSemaphorePendingH\000\022\\\n\030a" +
+      "cquire_semaphore_result\030\t \001(\01328.Ydb.Coor" +
+      "dination.SessionResponse.AcquireSemaphor" +
+      "eResultH\000\022\\\n\030release_semaphore_result\030\n " +
+      "\001(\01328.Ydb.Coordination.SessionResponse.R" +
+      "eleaseSemaphoreResultH\000\022^\n\031describe_sema" +
+      "phore_result\030\013 \001(\01329.Ydb.Coordination.Se" +
+      "ssionResponse.DescribeSemaphoreResultH\000\022" +
+      "`\n\032describe_semaphore_changed\030\014 \001(\0132:.Yd" +
+      "b.Coordination.SessionResponse.DescribeS",
+      "emaphoreChangedH\000\022Z\n\027create_semaphore_re" +
+      "sult\030\r \001(\01327.Ydb.Coordination.SessionRes" +
+      "ponse.CreateSemaphoreResultH\000\022Z\n\027update_" +
+      "semaphore_result\030\016 \001(\01327.Ydb.Coordinatio" +
+      "n.SessionResponse.UpdateSemaphoreResultH" +
+      "\000\022Z\n\027delete_semaphore_result\030\017 \001(\01327.Ydb" +
+      ".Coordination.SessionResponse.DeleteSema" +
+      "phoreResultH\000\0227\n\016unsupported_16\030\020 \001(\0132\035." +
+      "Ydb.Coordination.UnsupportedH\000\0227\n\016unsupp" +
+      "orted_17\030\021 \001(\0132\035.Ydb.Coordination.Unsupp",
+      "ortedH\000\0227\n\016unsupported_18\030\022 \001(\0132\035.Ydb.Co" +
+      "ordination.UnsupportedH\000\032\032\n\010PingPong\022\016\n\006" +
+      "opaque\030\001 \001(\004\032]\n\007Failure\022)\n\006status\030\001 \001(\0162" +
+      "\031.Ydb.StatusIds.StatusCode\022\'\n\006issues\030\002 \003" +
+      "(\0132\027.Ydb.Issue.IssueMessage\032<\n\016SessionSt" +
+      "arted\022\022\n\nsession_id\030\001 \001(\004\022\026\n\016timeout_mil" +
+      "lis\030\002 \001(\004\032$\n\016SessionStopped\022\022\n\nsession_i" +
+      "d\030\001 \001(\004\032)\n\027AcquireSemaphorePending\022\016\n\006re" +
+      "q_id\030\001 \001(\004\032\216\001\n\026AcquireSemaphoreResult\022\016\n" +
+      "\006req_id\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031.Ydb.Stat",
+      "usIds.StatusCode\022\'\n\006issues\030\003 \003(\0132\027.Ydb.I" +
+      "ssue.IssueMessage\022\020\n\010acquired\030\004 \001(\010\032\216\001\n\026" +
+      "ReleaseSemaphoreResult\022\016\n\006req_id\030\001 \001(\004\022)" +
+      "\n\006status\030\002 \001(\0162\031.Ydb.StatusIds.StatusCod" +
+      "e\022\'\n\006issues\030\003 \003(\0132\027.Ydb.Issue.IssueMessa" +
+      "ge\022\020\n\010released\030\004 \001(\010\032\331\001\n\027DescribeSemapho" +
+      "reResult\022\016\n\006req_id\030\001 \001(\004\022)\n\006status\030\002 \001(\016" +
+      "2\031.Ydb.StatusIds.StatusCode\022\'\n\006issues\030\003 " +
+      "\003(\0132\027.Ydb.Issue.IssueMessage\022E\n\025semaphor" +
+      "e_description\030\004 \001(\0132&.Ydb.Coordination.S",
+      "emaphoreDescription\022\023\n\013watch_added\030\005 \001(\010" +
+      "\032X\n\030DescribeSemaphoreChanged\022\016\n\006req_id\030\001" +
+      " \001(\004\022\024\n\014data_changed\030\002 \001(\010\022\026\n\016owners_cha" +
+      "nged\030\003 \001(\010\032{\n\025CreateSemaphoreResult\022\016\n\006r" +
+      "eq_id\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031.Ydb.Status" +
+      "Ids.StatusCode\022\'\n\006issues\030\003 \003(\0132\027.Ydb.Iss" +
+      "ue.IssueMessage\032{\n\025UpdateSemaphoreResult" +
       "\022\016\n\006req_id\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031.Ydb.S" +
       "tatusIds.StatusCode\022\'\n\006issues\030\003 \003(\0132\027.Yd" +
-      "b.Issue.IssueMessage\032{\n\025UpdateSemaphoreR",
+      "b.Issue.IssueMessage\032{\n\025DeleteSemaphoreR",
       "esult\022\016\n\006req_id\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031." +
       "Ydb.StatusIds.StatusCode\022\'\n\006issues\030\003 \003(\013" +
-      "2\027.Ydb.Issue.IssueMessage\032{\n\025DeleteSemap" +
-      "horeResult\022\016\n\006req_id\030\001 \001(\004\022)\n\006status\030\002 \001" +
-      "(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006issues\030" +
-      "\003 \003(\0132\027.Ydb.Issue.IssueMessage\032\207\001\n\020Creat" +
-      "eTaskResult\022\016\n\006req_id\030\001 \001(\004\022)\n\006status\030\002 " +
-      "\001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006issues" +
-      "\030\003 \003(\0132\027.Ydb.Issue.IssueMessage\022\017\n\007task_" +
-      "id\030\004 \001(\004\032v\n\020UpdateTaskResult\022\016\n\006req_id\030\001",
-      " \001(\004\022)\n\006status\030\002 \001(\0162\031.Ydb.StatusIds.Sta" +
-      "tusCode\022\'\n\006issues\030\003 \003(\0132\027.Ydb.Issue.Issu" +
-      "eMessage\032v\n\020DeleteTaskResult\022\016\n\006req_id\030\001" +
-      " \001(\004\022)\n\006status\030\002 \001(\0162\031.Ydb.StatusIds.Sta" +
-      "tusCode\022\'\n\006issues\030\003 \003(\0132\027.Ydb.Issue.Issu" +
-      "eMessageB\n\n\010response\"\206\001\n\021CreateNodeReque" +
-      "st\022\014\n\004path\030\001 \001(\t\022(\n\006config\030\002 \001(\0132\030.Ydb.C" +
-      "oordination.Config\0229\n\020operation_params\030\003" +
-      " \001(\0132\037.Ydb.Operations.OperationParams\"B\n" +
-      "\022CreateNodeResponse\022,\n\toperation\030\001 \001(\0132\031",
-      ".Ydb.Operations.Operation\"\205\001\n\020AlterNodeR" +
-      "equest\022\014\n\004path\030\001 \001(\t\022(\n\006config\030\002 \001(\0132\030.Y" +
-      "db.Coordination.Config\0229\n\020operation_para" +
-      "ms\030\003 \001(\0132\037.Ydb.Operations.OperationParam" +
-      "s\"A\n\021AlterNodeResponse\022,\n\toperation\030\001 \001(" +
-      "\0132\031.Ydb.Operations.Operation\"Z\n\017DropNode" +
-      "Request\022\014\n\004path\030\001 \001(\t\0229\n\020operation_param" +
-      "s\030\002 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\"@\n\020DropNodeResponse\022,\n\toperation\030\001 \001(\0132" +
-      "\031.Ydb.Operations.Operation\"^\n\023DescribeNo",
-      "deRequest\022\014\n\004path\030\001 \001(\t\0229\n\020operation_par" +
-      "ams\030\002 \001(\0132\037.Ydb.Operations.OperationPara" +
-      "ms\"D\n\024DescribeNodeResponse\022,\n\toperation\030" +
-      "\001 \001(\0132\031.Ydb.Operations.Operation\"_\n\022Desc" +
-      "ribeNodeResult\022\037\n\004self\030\001 \001(\0132\021.Ydb.Schem" +
-      "e.Entry\022(\n\006config\030\002 \001(\0132\030.Ydb.Coordinati" +
-      "on.Config*h\n\017ConsistencyMode\022\032\n\026CONSISTE" +
-      "NCY_MODE_UNSET\020\000\022\033\n\027CONSISTENCY_MODE_STR" +
-      "ICT\020\001\022\034\n\030CONSISTENCY_MODE_RELAXED\020\002*\210\001\n\t" +
-      "JobStatus\022\032\n\026JOB_STATUS_UNSPECIFIED\020\000\022\026\n",
-      "\022JOB_STATUS_STOPPED\020\001\022\026\n\022JOB_STATUS_RUNN" +
-      "ING\020\002\022\025\n\021JOB_STATUS_FAILED\020\003\022\030\n\024JOB_STAT" +
-      "US_SUCCEEDED\020\004B6\n\033tech.ydb.coordin" +
-      "ationB\022CoordinationProtosP\001\370\001\001b\006proto3"
+      "2\027.Ydb.Issue.IssueMessageB\n\n\010response\"\206\001" +
+      "\n\021CreateNodeRequest\022\014\n\004path\030\001 \001(\t\022(\n\006con" +
+      "fig\030\002 \001(\0132\030.Ydb.Coordination.Config\0229\n\020o" +
+      "peration_params\030\003 \001(\0132\037.Ydb.Operations.O" +
+      "perationParams\"B\n\022CreateNodeResponse\022,\n\t" +
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
+      "on\"\205\001\n\020AlterNodeRequest\022\014\n\004path\030\001 \001(\t\022(\n" +
+      "\006config\030\002 \001(\0132\030.Ydb.Coordination.Config\022",
+      "9\n\020operation_params\030\003 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\"A\n\021AlterNodeResponse\022" +
+      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
+      "ation\"Z\n\017DropNodeRequest\022\014\n\004path\030\001 \001(\t\0229" +
+      "\n\020operation_params\030\002 \001(\0132\037.Ydb.Operation" +
+      "s.OperationParams\"@\n\020DropNodeResponse\022,\n" +
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ion\"^\n\023DescribeNodeRequest\022\014\n\004path\030\001 \001(\t" +
+      "\0229\n\020operation_params\030\002 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\"D\n\024DescribeNodeRespo",
+      "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
+      "Operation\"_\n\022DescribeNodeResult\022\037\n\004self\030" +
+      "\001 \001(\0132\021.Ydb.Scheme.Entry\022(\n\006config\030\002 \001(\013" +
+      "2\030.Ydb.Coordination.Config*h\n\017Consistenc" +
+      "yMode\022\032\n\026CONSISTENCY_MODE_UNSET\020\000\022\033\n\027CON" +
+      "SISTENCY_MODE_STRICT\020\001\022\034\n\030CONSISTENCY_MO" +
+      "DE_RELAXED\020\002B6\n\033tech.ydb.coordinat" +
+      "ionB\022CoordinationProtosP\001\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -474,48 +383,42 @@ public final class CoordinationProtos {
           tech.ydb.YdbIssueMessage.getDescriptor(),
           tech.ydb.scheme.SchemeOperationProtos.getDescriptor(),
         }, assigner);
-    internal_static_Ydb_Coordination_Config_descriptor =
+    internal_static_Ydb_Coordination_Unsupported_descriptor =
       getDescriptor().getMessageTypes().get(0);
+    internal_static_Ydb_Coordination_Unsupported_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Coordination_Unsupported_descriptor,
+        new java.lang.String[] { });
+    internal_static_Ydb_Coordination_Config_descriptor =
+      getDescriptor().getMessageTypes().get(1);
     internal_static_Ydb_Coordination_Config_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_Config_descriptor,
         new java.lang.String[] { "Path", "SelfCheckPeriodMillis", "SessionGracePeriodMillis", "ReadConsistencyMode", "AttachConsistencyMode", });
-    internal_static_Ydb_Coordination_Resource_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_Ydb_Coordination_Resource_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Coordination_Resource_descriptor,
-        new java.lang.String[] { "ResourceType", "Amount", });
-    internal_static_Ydb_Coordination_TaskData_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_Ydb_Coordination_TaskData_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Coordination_TaskData_descriptor,
-        new java.lang.String[] { "TaskType", "Payload", "Group", "Count", "Resources", });
     internal_static_Ydb_Coordination_SessionDescription_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_Ydb_Coordination_SessionDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionDescription_descriptor,
         new java.lang.String[] { "SessionId", "TimeoutMillis", "Description", "Attached", });
     internal_static_Ydb_Coordination_SemaphoreSession_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_Ydb_Coordination_SemaphoreSession_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SemaphoreSession_descriptor,
         new java.lang.String[] { "OrderId", "SessionId", "TimeoutMillis", "Count", "Data", });
     internal_static_Ydb_Coordination_SemaphoreDescription_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_Ydb_Coordination_SemaphoreDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SemaphoreDescription_descriptor,
         new java.lang.String[] { "Name", "Data", "Count", "Limit", "Ephemeral", "Owners", "Waiters", });
     internal_static_Ydb_Coordination_SessionRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_Ydb_Coordination_SessionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionRequest_descriptor,
-        new java.lang.String[] { "Ping", "Pong", "SessionStart", "SessionStop", "ClientReady", "UpdateJobStatus", "AcquireSemaphore", "ReleaseSemaphore", "DescribeSemaphore", "CreateSemaphore", "UpdateSemaphore", "DeleteSemaphore", "CreateTask", "UpdateTask", "DeleteTask", "Request", });
+        new java.lang.String[] { "Ping", "Pong", "SessionStart", "SessionStop", "Unsupported5", "Unsupported6", "AcquireSemaphore", "ReleaseSemaphore", "DescribeSemaphore", "CreateSemaphore", "UpdateSemaphore", "DeleteSemaphore", "Unsupported13", "Unsupported14", "Unsupported15", "Request", });
     internal_static_Ydb_Coordination_SessionRequest_PingPong_descriptor =
       internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_Coordination_SessionRequest_PingPong_fieldAccessorTable = new
@@ -534,78 +437,48 @@ public final class CoordinationProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionRequest_SessionStop_descriptor,
         new java.lang.String[] { });
-    internal_static_Ydb_Coordination_SessionRequest_ClientReady_descriptor =
-      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(3);
-    internal_static_Ydb_Coordination_SessionRequest_ClientReady_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Coordination_SessionRequest_ClientReady_descriptor,
-        new java.lang.String[] { "Resources", "SupportedTaskTypes", "RunningJobs", });
-    internal_static_Ydb_Coordination_SessionRequest_UpdateJobStatus_descriptor =
-      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(4);
-    internal_static_Ydb_Coordination_SessionRequest_UpdateJobStatus_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Coordination_SessionRequest_UpdateJobStatus_descriptor,
-        new java.lang.String[] { "JobId", "JobStatus", "UsedResources", });
     internal_static_Ydb_Coordination_SessionRequest_AcquireSemaphore_descriptor =
-      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(5);
+      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(3);
     internal_static_Ydb_Coordination_SessionRequest_AcquireSemaphore_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionRequest_AcquireSemaphore_descriptor,
         new java.lang.String[] { "ReqId", "Name", "TimeoutMillis", "Count", "Data", "Ephemeral", });
     internal_static_Ydb_Coordination_SessionRequest_ReleaseSemaphore_descriptor =
-      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(6);
+      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(4);
     internal_static_Ydb_Coordination_SessionRequest_ReleaseSemaphore_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionRequest_ReleaseSemaphore_descriptor,
         new java.lang.String[] { "ReqId", "Name", });
     internal_static_Ydb_Coordination_SessionRequest_DescribeSemaphore_descriptor =
-      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(7);
+      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(5);
     internal_static_Ydb_Coordination_SessionRequest_DescribeSemaphore_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionRequest_DescribeSemaphore_descriptor,
         new java.lang.String[] { "ReqId", "Name", "IncludeOwners", "IncludeWaiters", "WatchData", "WatchOwners", });
     internal_static_Ydb_Coordination_SessionRequest_CreateSemaphore_descriptor =
-      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(8);
+      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(6);
     internal_static_Ydb_Coordination_SessionRequest_CreateSemaphore_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionRequest_CreateSemaphore_descriptor,
         new java.lang.String[] { "ReqId", "Name", "Limit", "Data", });
     internal_static_Ydb_Coordination_SessionRequest_UpdateSemaphore_descriptor =
-      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(9);
+      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(7);
     internal_static_Ydb_Coordination_SessionRequest_UpdateSemaphore_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionRequest_UpdateSemaphore_descriptor,
         new java.lang.String[] { "ReqId", "Name", "Data", });
     internal_static_Ydb_Coordination_SessionRequest_DeleteSemaphore_descriptor =
-      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(10);
+      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(8);
     internal_static_Ydb_Coordination_SessionRequest_DeleteSemaphore_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionRequest_DeleteSemaphore_descriptor,
         new java.lang.String[] { "ReqId", "Name", "Force", });
-    internal_static_Ydb_Coordination_SessionRequest_CreateTask_descriptor =
-      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(11);
-    internal_static_Ydb_Coordination_SessionRequest_CreateTask_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Coordination_SessionRequest_CreateTask_descriptor,
-        new java.lang.String[] { "ReqId", "TaskData", });
-    internal_static_Ydb_Coordination_SessionRequest_UpdateTask_descriptor =
-      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(12);
-    internal_static_Ydb_Coordination_SessionRequest_UpdateTask_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Coordination_SessionRequest_UpdateTask_descriptor,
-        new java.lang.String[] { "ReqId", "TaskId", "Count", "Resources", });
-    internal_static_Ydb_Coordination_SessionRequest_DeleteTask_descriptor =
-      internal_static_Ydb_Coordination_SessionRequest_descriptor.getNestedTypes().get(13);
-    internal_static_Ydb_Coordination_SessionRequest_DeleteTask_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Coordination_SessionRequest_DeleteTask_descriptor,
-        new java.lang.String[] { "ReqId", "TaskId", });
     internal_static_Ydb_Coordination_SessionResponse_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_Ydb_Coordination_SessionResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionResponse_descriptor,
-        new java.lang.String[] { "Ping", "Pong", "Failure", "SessionStarted", "SessionStopped", "JobStart", "JobStop", "AcquireSemaphorePending", "AcquireSemaphoreResult", "ReleaseSemaphoreResult", "DescribeSemaphoreResult", "DescribeSemaphoreChanged", "CreateSemaphoreResult", "UpdateSemaphoreResult", "DeleteSemaphoreResult", "CreateTaskResult", "UpdateTaskResult", "DeleteTaskResult", "Response", });
+        new java.lang.String[] { "Ping", "Pong", "Failure", "SessionStarted", "SessionStopped", "Unsupported6", "Unsupported7", "AcquireSemaphorePending", "AcquireSemaphoreResult", "ReleaseSemaphoreResult", "DescribeSemaphoreResult", "DescribeSemaphoreChanged", "CreateSemaphoreResult", "UpdateSemaphoreResult", "DeleteSemaphoreResult", "Unsupported16", "Unsupported17", "Unsupported18", "Response", });
     internal_static_Ydb_Coordination_SessionResponse_PingPong_descriptor =
       internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_Coordination_SessionResponse_PingPong_fieldAccessorTable = new
@@ -630,134 +503,104 @@ public final class CoordinationProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionResponse_SessionStopped_descriptor,
         new java.lang.String[] { "SessionId", });
-    internal_static_Ydb_Coordination_SessionResponse_JobStart_descriptor =
-      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(4);
-    internal_static_Ydb_Coordination_SessionResponse_JobStart_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Coordination_SessionResponse_JobStart_descriptor,
-        new java.lang.String[] { "JobId", "TaskId", "TaskData", });
-    internal_static_Ydb_Coordination_SessionResponse_JobStop_descriptor =
-      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(5);
-    internal_static_Ydb_Coordination_SessionResponse_JobStop_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Coordination_SessionResponse_JobStop_descriptor,
-        new java.lang.String[] { "JobId", });
     internal_static_Ydb_Coordination_SessionResponse_AcquireSemaphorePending_descriptor =
-      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(6);
+      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(4);
     internal_static_Ydb_Coordination_SessionResponse_AcquireSemaphorePending_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionResponse_AcquireSemaphorePending_descriptor,
         new java.lang.String[] { "ReqId", });
     internal_static_Ydb_Coordination_SessionResponse_AcquireSemaphoreResult_descriptor =
-      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(7);
+      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(5);
     internal_static_Ydb_Coordination_SessionResponse_AcquireSemaphoreResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionResponse_AcquireSemaphoreResult_descriptor,
         new java.lang.String[] { "ReqId", "Status", "Issues", "Acquired", });
     internal_static_Ydb_Coordination_SessionResponse_ReleaseSemaphoreResult_descriptor =
-      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(8);
+      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(6);
     internal_static_Ydb_Coordination_SessionResponse_ReleaseSemaphoreResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionResponse_ReleaseSemaphoreResult_descriptor,
         new java.lang.String[] { "ReqId", "Status", "Issues", "Released", });
     internal_static_Ydb_Coordination_SessionResponse_DescribeSemaphoreResult_descriptor =
-      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(9);
+      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(7);
     internal_static_Ydb_Coordination_SessionResponse_DescribeSemaphoreResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionResponse_DescribeSemaphoreResult_descriptor,
         new java.lang.String[] { "ReqId", "Status", "Issues", "SemaphoreDescription", "WatchAdded", });
     internal_static_Ydb_Coordination_SessionResponse_DescribeSemaphoreChanged_descriptor =
-      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(10);
+      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(8);
     internal_static_Ydb_Coordination_SessionResponse_DescribeSemaphoreChanged_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionResponse_DescribeSemaphoreChanged_descriptor,
         new java.lang.String[] { "ReqId", "DataChanged", "OwnersChanged", });
     internal_static_Ydb_Coordination_SessionResponse_CreateSemaphoreResult_descriptor =
-      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(11);
+      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(9);
     internal_static_Ydb_Coordination_SessionResponse_CreateSemaphoreResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionResponse_CreateSemaphoreResult_descriptor,
         new java.lang.String[] { "ReqId", "Status", "Issues", });
     internal_static_Ydb_Coordination_SessionResponse_UpdateSemaphoreResult_descriptor =
-      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(12);
+      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(10);
     internal_static_Ydb_Coordination_SessionResponse_UpdateSemaphoreResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionResponse_UpdateSemaphoreResult_descriptor,
         new java.lang.String[] { "ReqId", "Status", "Issues", });
     internal_static_Ydb_Coordination_SessionResponse_DeleteSemaphoreResult_descriptor =
-      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(13);
+      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(11);
     internal_static_Ydb_Coordination_SessionResponse_DeleteSemaphoreResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_SessionResponse_DeleteSemaphoreResult_descriptor,
         new java.lang.String[] { "ReqId", "Status", "Issues", });
-    internal_static_Ydb_Coordination_SessionResponse_CreateTaskResult_descriptor =
-      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(14);
-    internal_static_Ydb_Coordination_SessionResponse_CreateTaskResult_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Coordination_SessionResponse_CreateTaskResult_descriptor,
-        new java.lang.String[] { "ReqId", "Status", "Issues", "TaskId", });
-    internal_static_Ydb_Coordination_SessionResponse_UpdateTaskResult_descriptor =
-      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(15);
-    internal_static_Ydb_Coordination_SessionResponse_UpdateTaskResult_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Coordination_SessionResponse_UpdateTaskResult_descriptor,
-        new java.lang.String[] { "ReqId", "Status", "Issues", });
-    internal_static_Ydb_Coordination_SessionResponse_DeleteTaskResult_descriptor =
-      internal_static_Ydb_Coordination_SessionResponse_descriptor.getNestedTypes().get(16);
-    internal_static_Ydb_Coordination_SessionResponse_DeleteTaskResult_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Coordination_SessionResponse_DeleteTaskResult_descriptor,
-        new java.lang.String[] { "ReqId", "Status", "Issues", });
     internal_static_Ydb_Coordination_CreateNodeRequest_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_Ydb_Coordination_CreateNodeRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_CreateNodeRequest_descriptor,
         new java.lang.String[] { "Path", "Config", "OperationParams", });
     internal_static_Ydb_Coordination_CreateNodeResponse_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Ydb_Coordination_CreateNodeResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_CreateNodeResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Coordination_AlterNodeRequest_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Coordination_AlterNodeRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_AlterNodeRequest_descriptor,
         new java.lang.String[] { "Path", "Config", "OperationParams", });
     internal_static_Ydb_Coordination_AlterNodeResponse_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_Ydb_Coordination_AlterNodeResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_AlterNodeResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Coordination_DropNodeRequest_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_Ydb_Coordination_DropNodeRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_DropNodeRequest_descriptor,
         new java.lang.String[] { "Path", "OperationParams", });
     internal_static_Ydb_Coordination_DropNodeResponse_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_Ydb_Coordination_DropNodeResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_DropNodeResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Coordination_DescribeNodeRequest_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_Ydb_Coordination_DescribeNodeRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_DescribeNodeRequest_descriptor,
         new java.lang.String[] { "Path", "OperationParams", });
     internal_static_Ydb_Coordination_DescribeNodeResponse_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_Ydb_Coordination_DescribeNodeResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_DescribeNodeResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Coordination_DescribeNodeResult_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_Ydb_Coordination_DescribeNodeResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Coordination_DescribeNodeResult_descriptor,
