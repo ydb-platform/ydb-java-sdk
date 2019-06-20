@@ -3249,6 +3249,855 @@ public final class OperationProtos {
 
   }
 
+  public interface CancelOperationResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Operations.CancelOperationResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     */
+    int getStatusValue();
+    /**
+     * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     */
+    tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus();
+
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> 
+        getIssuesList();
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    tech.ydb.YdbIssueMessage.IssueMessage getIssues(int index);
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    int getIssuesCount();
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+        getIssuesOrBuilderList();
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code Ydb.Operations.CancelOperationResponse}
+   */
+  public  static final class CancelOperationResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Operations.CancelOperationResponse)
+      CancelOperationResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use CancelOperationResponse.newBuilder() to construct.
+    private CancelOperationResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CancelOperationResponse() {
+      status_ = 0;
+      issues_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CancelOperationResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+
+              status_ = rawValue;
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              issues_.add(
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          issues_ = java.util.Collections.unmodifiableList(issues_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.OperationProtos.CancelOperationResponse.class, tech.ydb.OperationProtos.CancelOperationResponse.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int STATUS_FIELD_NUMBER = 1;
+    private int status_;
+    /**
+     * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     */
+    public int getStatusValue() {
+      return status_;
+    }
+    /**
+     * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     */
+    public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+      tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
+      return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
+    }
+
+    public static final int ISSUES_FIELD_NUMBER = 2;
+    private java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> issues_;
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> getIssuesList() {
+      return issues_;
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+        getIssuesOrBuilderList() {
+      return issues_;
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public int getIssuesCount() {
+      return issues_.size();
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public tech.ydb.YdbIssueMessage.IssueMessage getIssues(int index) {
+      return issues_.get(index);
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
+        int index) {
+      return issues_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (status_ != tech.ydb.StatusCodesProtos.StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(1, status_);
+      }
+      for (int i = 0; i < issues_.size(); i++) {
+        output.writeMessage(2, issues_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (status_ != tech.ydb.StatusCodesProtos.StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, status_);
+      }
+      for (int i = 0; i < issues_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, issues_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.OperationProtos.CancelOperationResponse)) {
+        return super.equals(obj);
+      }
+      tech.ydb.OperationProtos.CancelOperationResponse other = (tech.ydb.OperationProtos.CancelOperationResponse) obj;
+
+      boolean result = true;
+      result = result && status_ == other.status_;
+      result = result && getIssuesList()
+          .equals(other.getIssuesList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + STATUS_FIELD_NUMBER;
+      hash = (53 * hash) + status_;
+      if (getIssuesCount() > 0) {
+        hash = (37 * hash) + ISSUES_FIELD_NUMBER;
+        hash = (53 * hash) + getIssuesList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.OperationProtos.CancelOperationResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.OperationProtos.CancelOperationResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.OperationProtos.CancelOperationResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.OperationProtos.CancelOperationResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.OperationProtos.CancelOperationResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.OperationProtos.CancelOperationResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.OperationProtos.CancelOperationResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.OperationProtos.CancelOperationResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.OperationProtos.CancelOperationResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.OperationProtos.CancelOperationResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.OperationProtos.CancelOperationResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.OperationProtos.CancelOperationResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.OperationProtos.CancelOperationResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Operations.CancelOperationResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Operations.CancelOperationResponse)
+        tech.ydb.OperationProtos.CancelOperationResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.OperationProtos.CancelOperationResponse.class, tech.ydb.OperationProtos.CancelOperationResponse.Builder.class);
+      }
+
+      // Construct using tech.ydb.OperationProtos.CancelOperationResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getIssuesFieldBuilder();
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        status_ = 0;
+
+        if (issuesBuilder_ == null) {
+          issues_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          issuesBuilder_.clear();
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationResponse_descriptor;
+      }
+
+      public tech.ydb.OperationProtos.CancelOperationResponse getDefaultInstanceForType() {
+        return tech.ydb.OperationProtos.CancelOperationResponse.getDefaultInstance();
+      }
+
+      public tech.ydb.OperationProtos.CancelOperationResponse build() {
+        tech.ydb.OperationProtos.CancelOperationResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.OperationProtos.CancelOperationResponse buildPartial() {
+        tech.ydb.OperationProtos.CancelOperationResponse result = new tech.ydb.OperationProtos.CancelOperationResponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        result.status_ = status_;
+        if (issuesBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            issues_ = java.util.Collections.unmodifiableList(issues_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.issues_ = issues_;
+        } else {
+          result.issues_ = issuesBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.OperationProtos.CancelOperationResponse) {
+          return mergeFrom((tech.ydb.OperationProtos.CancelOperationResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.OperationProtos.CancelOperationResponse other) {
+        if (other == tech.ydb.OperationProtos.CancelOperationResponse.getDefaultInstance()) return this;
+        if (other.status_ != 0) {
+          setStatusValue(other.getStatusValue());
+        }
+        if (issuesBuilder_ == null) {
+          if (!other.issues_.isEmpty()) {
+            if (issues_.isEmpty()) {
+              issues_ = other.issues_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureIssuesIsMutable();
+              issues_.addAll(other.issues_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.issues_.isEmpty()) {
+            if (issuesBuilder_.isEmpty()) {
+              issuesBuilder_.dispose();
+              issuesBuilder_ = null;
+              issues_ = other.issues_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              issuesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getIssuesFieldBuilder() : null;
+            } else {
+              issuesBuilder_.addAllMessages(other.issues_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.OperationProtos.CancelOperationResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.OperationProtos.CancelOperationResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int status_ = 0;
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public int getStatusValue() {
+        return status_;
+      }
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public Builder setStatusValue(int value) {
+        status_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+        tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
+        return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public Builder setStatus(tech.ydb.StatusCodesProtos.StatusIds.StatusCode value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        status_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public Builder clearStatus() {
+        
+        status_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> issues_ =
+        java.util.Collections.emptyList();
+      private void ensureIssuesIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>(issues_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> issuesBuilder_;
+
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> getIssuesList() {
+        if (issuesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(issues_);
+        } else {
+          return issuesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public int getIssuesCount() {
+        if (issuesBuilder_ == null) {
+          return issues_.size();
+        } else {
+          return issuesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessage getIssues(int index) {
+        if (issuesBuilder_ == null) {
+          return issues_.get(index);
+        } else {
+          return issuesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder setIssues(
+          int index, tech.ydb.YdbIssueMessage.IssueMessage value) {
+        if (issuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIssuesIsMutable();
+          issues_.set(index, value);
+          onChanged();
+        } else {
+          issuesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder setIssues(
+          int index, tech.ydb.YdbIssueMessage.IssueMessage.Builder builderForValue) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          issues_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          issuesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addIssues(tech.ydb.YdbIssueMessage.IssueMessage value) {
+        if (issuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIssuesIsMutable();
+          issues_.add(value);
+          onChanged();
+        } else {
+          issuesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addIssues(
+          int index, tech.ydb.YdbIssueMessage.IssueMessage value) {
+        if (issuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIssuesIsMutable();
+          issues_.add(index, value);
+          onChanged();
+        } else {
+          issuesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addIssues(
+          tech.ydb.YdbIssueMessage.IssueMessage.Builder builderForValue) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          issues_.add(builderForValue.build());
+          onChanged();
+        } else {
+          issuesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addIssues(
+          int index, tech.ydb.YdbIssueMessage.IssueMessage.Builder builderForValue) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          issues_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          issuesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addAllIssues(
+          java.lang.Iterable<? extends tech.ydb.YdbIssueMessage.IssueMessage> values) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, issues_);
+          onChanged();
+        } else {
+          issuesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder clearIssues() {
+        if (issuesBuilder_ == null) {
+          issues_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          issuesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder removeIssues(int index) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          issues_.remove(index);
+          onChanged();
+        } else {
+          issuesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessage.Builder getIssuesBuilder(
+          int index) {
+        return getIssuesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
+          int index) {
+        if (issuesBuilder_ == null) {
+          return issues_.get(index);  } else {
+          return issuesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+           getIssuesOrBuilderList() {
+        if (issuesBuilder_ != null) {
+          return issuesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(issues_);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessage.Builder addIssuesBuilder() {
+        return getIssuesFieldBuilder().addBuilder(
+            tech.ydb.YdbIssueMessage.IssueMessage.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessage.Builder addIssuesBuilder(
+          int index) {
+        return getIssuesFieldBuilder().addBuilder(
+            index, tech.ydb.YdbIssueMessage.IssueMessage.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage.Builder> 
+           getIssuesBuilderList() {
+        return getIssuesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+          getIssuesFieldBuilder() {
+        if (issuesBuilder_ == null) {
+          issuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder>(
+                  issues_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          issues_ = null;
+        }
+        return issuesBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Operations.CancelOperationResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Operations.CancelOperationResponse)
+    private static final tech.ydb.OperationProtos.CancelOperationResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.OperationProtos.CancelOperationResponse();
+    }
+
+    public static tech.ydb.OperationProtos.CancelOperationResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CancelOperationResponse>
+        PARSER = new com.google.protobuf.AbstractParser<CancelOperationResponse>() {
+      public CancelOperationResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new CancelOperationResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CancelOperationResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CancelOperationResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.OperationProtos.CancelOperationResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface ForgetOperationRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.Operations.ForgetOperationRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -8730,6 +9579,11 @@ public final class OperationProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Operations_CancelOperationRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Operations_CancelOperationResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Operations_CancelOperationResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Operations_ForgetOperationRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -8786,23 +9640,26 @@ public final class OperationProtos {
       "perationRequest\022\n\n\002id\030\001 \001(\t\"D\n\024GetOperat" +
       "ionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
       "rations.Operation\"$\n\026CancelOperationRequ" +
-      "est\022\n\n\002id\030\001 \001(\t\"$\n\026ForgetOperationReques" +
-      "t\022\n\n\002id\030\001 \001(\t\"m\n\027ForgetOperationResponse",
-      "\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.StatusC" +
-      "ode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMes" +
-      "sage\"/\n\020OperationsFilter\022\014\n\004name\030\001 \001(\t\022\r" +
-      "\n\005value\030\002 \001(\t\"q\n\025ListOperationsRequest\0221" +
-      "\n\007filters\030\001 \003(\0132 .Ydb.Operations.Operati" +
-      "onsFilter\022\021\n\tpage_size\030\002 \001(\004\022\022\n\npage_tok" +
-      "en\030\003 \001(\t\"`\n\026ListOperationsResponse\022-\n\nop" +
-      "erations\030\001 \003(\0132\031.Ydb.Operations.Operatio" +
-      "n\022\027\n\017next_page_token\030\002 \001(\t\"\310\001\n\tOperation" +
-      "\022\n\n\002id\030\001 \001(\t\022\r\n\005ready\030\002 \001(\010\022)\n\006status\030\003 ",
-      "\001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006issues" +
-      "\030\004 \003(\0132\027.Ydb.Issue.IssueMessage\022$\n\006resul" +
-      "t\030\005 \001(\0132\024.google.protobuf.Any\022&\n\010metadat" +
-      "a\030\006 \001(\0132\024.google.protobuf.AnyB$\n\016com.yan" +
-      "dex.ydbB\017OperationProtos\370\001\001b\006proto3"
+      "est\022\n\n\002id\030\001 \001(\t\"m\n\027CancelOperationRespon" +
+      "se\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.Statu",
+      "sCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueM" +
+      "essage\"$\n\026ForgetOperationRequest\022\n\n\002id\030\001" +
+      " \001(\t\"m\n\027ForgetOperationResponse\022)\n\006statu" +
+      "s\030\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006is" +
+      "sues\030\002 \003(\0132\027.Ydb.Issue.IssueMessage\"/\n\020O" +
+      "perationsFilter\022\014\n\004name\030\001 \001(\t\022\r\n\005value\030\002" +
+      " \001(\t\"q\n\025ListOperationsRequest\0221\n\007filters" +
+      "\030\001 \003(\0132 .Ydb.Operations.OperationsFilter" +
+      "\022\021\n\tpage_size\030\002 \001(\004\022\022\n\npage_token\030\003 \001(\t\"" +
+      "`\n\026ListOperationsResponse\022-\n\noperations\030",
+      "\001 \003(\0132\031.Ydb.Operations.Operation\022\027\n\017next" +
+      "_page_token\030\002 \001(\t\"\310\001\n\tOperation\022\n\n\002id\030\001 " +
+      "\001(\t\022\r\n\005ready\030\002 \001(\010\022)\n\006status\030\003 \001(\0162\031.Ydb" +
+      ".StatusIds.StatusCode\022\'\n\006issues\030\004 \003(\0132\027." +
+      "Ydb.Issue.IssueMessage\022$\n\006result\030\005 \001(\0132\024" +
+      ".google.protobuf.Any\022&\n\010metadata\030\006 \001(\0132\024" +
+      ".google.protobuf.AnyB$\n\016tech.ydbB\017" +
+      "OperationProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -8850,38 +9707,44 @@ public final class OperationProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_CancelOperationRequest_descriptor,
         new java.lang.String[] { "Id", });
-    internal_static_Ydb_Operations_ForgetOperationRequest_descriptor =
+    internal_static_Ydb_Operations_CancelOperationResponse_descriptor =
       getDescriptor().getMessageTypes().get(4);
+    internal_static_Ydb_Operations_CancelOperationResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Operations_CancelOperationResponse_descriptor,
+        new java.lang.String[] { "Status", "Issues", });
+    internal_static_Ydb_Operations_ForgetOperationRequest_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_Ydb_Operations_ForgetOperationRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_ForgetOperationRequest_descriptor,
         new java.lang.String[] { "Id", });
     internal_static_Ydb_Operations_ForgetOperationResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_Ydb_Operations_ForgetOperationResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_ForgetOperationResponse_descriptor,
         new java.lang.String[] { "Status", "Issues", });
     internal_static_Ydb_Operations_OperationsFilter_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_Ydb_Operations_OperationsFilter_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_OperationsFilter_descriptor,
         new java.lang.String[] { "Name", "Value", });
     internal_static_Ydb_Operations_ListOperationsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Ydb_Operations_ListOperationsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_ListOperationsRequest_descriptor,
         new java.lang.String[] { "Filters", "PageSize", "PageToken", });
     internal_static_Ydb_Operations_ListOperationsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Operations_ListOperationsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_ListOperationsResponse_descriptor,
         new java.lang.String[] { "Operations", "NextPageToken", });
     internal_static_Ydb_Operations_Operation_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_Ydb_Operations_Operation_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_Operation_descriptor,

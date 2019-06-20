@@ -32,6 +32,7 @@ public enum StatusCode {
     SESSION_EXPIRED(SERVER_STATUSES_FIRST + 150),
     CANCELLED(SERVER_STATUSES_FIRST + 160),
     UNDETERMINED(SERVER_STATUSES_FIRST + 170),
+    UNSUPPORTED(SERVER_STATUSES_FIRST + 180),
 
     // Client statuses
     // Cannot connect or unrecoverable network error. (map from gRPC UNAVAILABLE)
@@ -87,6 +88,7 @@ public enum StatusCode {
             case SESSION_EXPIRED: return SESSION_EXPIRED;
             case CANCELLED: return CANCELLED;
             case UNDETERMINED: return UNDETERMINED;
+            case UNSUPPORTED: return UNSUPPORTED;
         }
         return UNUSED_STATUS;
     }

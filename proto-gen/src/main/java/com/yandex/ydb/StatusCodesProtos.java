@@ -165,6 +165,10 @@ public final class StatusCodesProtos {
        * <code>UNDETERMINED = 400170;</code>
        */
       UNDETERMINED(400170),
+      /**
+       * <code>UNSUPPORTED = 400180;</code>
+       */
+      UNSUPPORTED(400180),
       UNRECOGNIZED(-1),
       ;
 
@@ -240,6 +244,10 @@ public final class StatusCodesProtos {
        * <code>UNDETERMINED = 400170;</code>
        */
       public static final int UNDETERMINED_VALUE = 400170;
+      /**
+       * <code>UNSUPPORTED = 400180;</code>
+       */
+      public static final int UNSUPPORTED_VALUE = 400180;
 
 
       public final int getNumber() {
@@ -278,6 +286,7 @@ public final class StatusCodesProtos {
           case 400150: return SESSION_EXPIRED;
           case 400160: return CANCELLED;
           case 400170: return UNDETERMINED;
+          case 400180: return UNSUPPORTED;
           default: return null;
         }
       }
@@ -659,7 +668,7 @@ public final class StatusCodesProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n/kikimr/public/api/protos/ydb_status_co" +
-      "des.proto\022\003Ydb\"\200\003\n\tStatusIds\"\362\002\n\nStatusC" +
+      "des.proto\022\003Ydb\"\223\003\n\tStatusIds\"\205\003\n\nStatusC" +
       "ode\022\033\n\027STATUS_CODE_UNSPECIFIED\020\000\022\r\n\007SUCC" +
       "ESS\020\200\265\030\022\021\n\013BAD_REQUEST\020\212\265\030\022\022\n\014UNAUTHORIZ" +
       "ED\020\224\265\030\022\024\n\016INTERNAL_ERROR\020\236\265\030\022\r\n\007ABORTED\020" +
@@ -669,8 +678,8 @@ public final class StatusCodesProtos {
       "RECONDITION_FAILED\020\370\265\030\022\024\n\016ALREADY_EXISTS" +
       "\020\202\266\030\022\017\n\tNOT_FOUND\020\214\266\030\022\025\n\017SESSION_EXPIRED",
       "\020\226\266\030\022\017\n\tCANCELLED\020\240\266\030\022\022\n\014UNDETERMINED\020\252\266" +
-      "\030B#\n\016tech.ydbB\021StatusCodesProtosb\006" +
-      "proto3"
+      "\030\022\021\n\013UNSUPPORTED\020\264\266\030B#\n\016tech.ydbB\021" +
+      "StatusCodesProtosb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
