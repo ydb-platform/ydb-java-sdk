@@ -9,8 +9,6 @@ import java.util.concurrent.CompletableFuture;
  */
 public interface AsyncPool<T> {
 
-    int getAcquiredCount();
-
     /**
      * Zero timeout will be treated as "return object immediately or fail".
      */
@@ -19,4 +17,10 @@ public interface AsyncPool<T> {
     void release(T object);
 
     void close();
+
+    int getAcquiredCount();
+
+    int getIdleCount();
+
+    int getPendingAcquireCount();
 }

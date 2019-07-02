@@ -69,6 +69,18 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
     }
 
     @Override
+    public int getIdleCount() {
+        synchronized (objects) {
+            return objects.size();
+        }
+    }
+
+    @Override
+    public int getPendingAcquireCount() {
+        return pendingAcquireCount.get();
+    }
+
+    @Override
     public CompletableFuture<T> acquire(Duration timeout) {
         final CompletableFuture<T> promise = new CompletableFuture<>();
         try {

@@ -12,6 +12,7 @@ import tech.ydb.table.TableClient;
 import tech.ydb.table.YdbTable;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.settings.CreateSessionSettings;
+import tech.ydb.table.stats.SessionPoolStats;
 
 
 /**
@@ -41,6 +42,11 @@ final class TableClientImpl implements TableClient {
     @Override
     public CompletableFuture<Result<Session>> createSession(CreateSessionSettings settings) {
         return createSessionImpl(settings, null);
+    }
+
+    @Override
+    public SessionPoolStats getSessionPoolStats() {
+        return sessionPool.getStats();
     }
 
     CompletableFuture<Result<Session>> createSessionImpl(CreateSessionSettings settings, @Nullable SessionPool sessionPool) {

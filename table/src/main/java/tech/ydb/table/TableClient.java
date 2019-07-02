@@ -9,6 +9,7 @@ import tech.ydb.core.Result;
 import tech.ydb.table.impl.TableClientBuilderImpl;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.settings.CreateSessionSettings;
+import tech.ydb.table.stats.SessionPoolStats;
 
 
 /**
@@ -28,6 +29,8 @@ public interface TableClient extends SessionSupplier, AutoCloseable {
     default CompletableFuture<Result<Session>> createSession() {
         return createSession(new CreateSessionSettings());
     }
+
+    SessionPoolStats getSessionPoolStats();
 
     @Override
     void close();

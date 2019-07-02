@@ -8,6 +8,7 @@ import tech.ydb.table.impl.pool.AsyncPool;
 import tech.ydb.table.impl.pool.FixedAsyncPool;
 import tech.ydb.table.impl.pool.PooledObjectHandler;
 import tech.ydb.table.settings.CreateSessionSettings;
+import tech.ydb.table.stats.SessionPoolStats;
 import io.netty.util.HashedWheelTimer;
 import io.netty.util.Timer;
 import io.netty.util.concurrent.DefaultThreadFactory;
@@ -21,16 +22,20 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
     private final TableClientImpl tableClient;
     private final AsyncPool<SessionImpl> pool;
     private final Timer timer;
+    private final int minSize;
+    private final int maxSize;
 
     SessionPool(TableClientImpl tableClient, SessionPoolOptions options) {
         this.tableClient = tableClient;
+        this.minSize = options.getMinSize();
+        this.maxSize = options.getMaxSize();
         this.timer = new HashedWheelTimer(new DefaultThreadFactory("SessionPoolTimer"));
         this.pool = new FixedAsyncPool<>(
             this,
             timer,
-            options.getMinSize(),
-            options.getMaxSize(),
-            options.getMaxSize() * 2,
+            minSize,
+            maxSize,
+            maxSize * 2,
             options.getKeepAliveTimeMillis(),
             options.getMaxIdleTimeMillis());
     }
@@ -72,5 +77,15 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
         } finally {
             timer.stop();
         }
+    }
+
+    public SessionPoolStats getStats() {
+        return new SessionPoolStats(
+            minSize,
+            maxSize,
+            pool.getIdleCount(),
+            pool.getAcquiredCount(),
+            pool.getPendingAcquireCount()
+        );
     }
 }
