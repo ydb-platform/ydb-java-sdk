@@ -1,7 +1,9 @@
 package tech.ydb.table.impl;
 
+import java.util.Iterator;
 import java.util.concurrent.CompletableFuture;
 
+import com.google.common.base.Splitter;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.scheme.SchemeOperationProtos;
@@ -13,6 +15,8 @@ import tech.ydb.table.SchemeClient;
 import tech.ydb.table.description.DescribePathResult;
 import tech.ydb.table.description.ListDirectoryResult;
 import tech.ydb.table.rpc.SchemeRpc;
+
+import static java.util.concurrent.CompletableFuture.completedFuture;
 
 
 /**
@@ -28,6 +32,43 @@ final class SchemeClientImpl implements SchemeClient {
 
     @Override
     public CompletableFuture<Status> makeDirectory(String path) {
+        return mkdir(path);
+    }
+
+    @Override
+    public CompletableFuture<Status> makeDirectories(String path) {
+        if (path.indexOf('/') < 1) {
+            return mkdir(path);
+        }
+
+        Iterator<String> it = Splitter.on('/')
+            .omitEmptyStrings()
+            .split(path)
+            .iterator();
+
+        CompletableFuture<Status> future = new CompletableFuture<>();
+        mkdirs("", it, future);
+        return future;
+    }
+
+    private void mkdirs(String prefix, Iterator<String> it, CompletableFuture<Status> promise) {
+        if (!it.hasNext()) {
+            promise.complete(Status.SUCCESS);
+            return;
+        }
+        String path = prefix + '/' + it.next();
+        mkdir(path).whenComplete((s, e) -> {
+            if (e != null) {
+                promise.completeExceptionally(e);
+            } else if (!s.isSuccess() && !prefix.isEmpty()) { // ignore non success status for root node
+                promise.complete(s);
+            } else {
+                mkdirs(path, it, promise);
+            }
+        });
+    }
+
+    private CompletableFuture<Status> mkdir(String path) {
         MakeDirectoryRequest request = MakeDirectoryRequest.newBuilder()
             .setPath(path)
             .build();
@@ -35,7 +76,7 @@ final class SchemeClientImpl implements SchemeClient {
         return schemeRpc.makeDirectory(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
-                    return CompletableFuture.completedFuture(response.toStatus());
+                    return completedFuture(response.toStatus());
                 }
                 return schemeRpc.getOperationTray()
                     .waitStatus(response.expect("makeDirectory()").getOperation(), deadlineAfter);
@@ -51,7 +92,7 @@ final class SchemeClientImpl implements SchemeClient {
         return schemeRpc.removeDirectory(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
-                    return CompletableFuture.completedFuture(response.toStatus());
+                    return completedFuture(response.toStatus());
                 }
                 return schemeRpc.getOperationTray()
                     .waitStatus(response.expect("removeDirectory()").getOperation(), deadlineAfter);
@@ -67,7 +108,7 @@ final class SchemeClientImpl implements SchemeClient {
         return schemeRpc.describePath(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
-                    return CompletableFuture.completedFuture(response.cast());
+                    return completedFuture(response.cast());
                 }
                 return schemeRpc.getOperationTray().waitResult(
                     response.expect("describePath()").getOperation(),
@@ -86,7 +127,7 @@ final class SchemeClientImpl implements SchemeClient {
         return schemeRpc.describeDirectory(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
-                    return CompletableFuture.completedFuture(response.cast());
+                    return completedFuture(response.cast());
                 }
                 return schemeRpc.getOperationTray().waitResult(
                     response.expect("describeDirectory()").getOperation(),

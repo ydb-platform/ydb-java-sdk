@@ -21,7 +21,22 @@ public interface SchemeClient extends AutoCloseable {
         return new SchemeClientBuilderImpl(schemeRpc);
     }
 
+    /**
+     * Create single directory.
+     *
+     * Parent directories must be already present.
+     * @param path  path to directory
+     * @return operation status
+     */
     CompletableFuture<Status> makeDirectory(String path);
+
+    /**
+     * Create directory and all its parent directories if they are not present.
+     *
+     * @param path  path to directory
+     * @return operation status
+     */
+    CompletableFuture<Status> makeDirectories(String path);
 
     CompletableFuture<Status> removeDirectory(String path);
 
