@@ -37,7 +37,7 @@ final class SchemeClientImpl implements SchemeClient {
 
     @Override
     public CompletableFuture<Status> makeDirectories(String path) {
-        if (path.indexOf('/') < 1) {
+        if (path.lastIndexOf('/') < 1) {
             return mkdir(path);
         }
 
