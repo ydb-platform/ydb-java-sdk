@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import io.netty.util.HashedWheelTimer;
 import org.junit.Test;
 
-import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -40,14 +39,14 @@ public class FixedAsyncPoolTest {
             assertTrue(f.isDone());
             Resource r = f.getNow(null);
             assertNotNull(r);
-            assertEquals(1, r.id);
+            assertEquals(1, r.getId());
         }
         {
             CompletableFuture<Resource> f = pool.acquire(timeout);
             assertTrue(f.isDone());
             Resource r = f.getNow(null);
             assertNotNull(r);
-            assertEquals(2, r.id);
+            assertEquals(2, r.getId());
         }
         {
             // immediate fail
@@ -86,12 +85,12 @@ public class FixedAsyncPoolTest {
 
         Resource r1 = pool.acquire(Duration.ZERO)
             .join();
-        assertEquals(1, r1.id);
+        assertEquals(1, r1.getId());
         assertEquals(1, pool.getAcquiredCount());
 
         Resource r2 = pool.acquire(Duration.ZERO)
             .join();
-        assertEquals(2, r2.id);
+        assertEquals(2, r2.getId());
         assertEquals(2, pool.getAcquiredCount());
 
         {
@@ -102,7 +101,7 @@ public class FixedAsyncPoolTest {
             // get same object on acquire
             Resource r = pool.acquire(Duration.ZERO)
                 .join();
-            assertEquals(r1.id, r.id);
+            assertEquals(r1.getId(), r.getId());
             assertEquals(2, pool.getAcquiredCount());
         }
         {
@@ -114,7 +113,7 @@ public class FixedAsyncPoolTest {
             // get another object on acquire
             Resource r = pool.acquire(Duration.ZERO)
                 .join();
-            assertEquals(3, r.id);
+            assertEquals(3, r.getId());
             assertEquals(2, pool.getAcquiredCount());
         }
     }
@@ -128,19 +127,19 @@ public class FixedAsyncPoolTest {
 
         Resource r1 = pool.acquire(Duration.ZERO)
             .join();
-        assertEquals(1, r1.id);
+        assertEquals(1, r1.getId());
         assertEquals(1, pool.getAcquiredCount());
 
         Resource r2 = pool.acquire(Duration.ZERO)
             .join();
-        assertEquals(2, r2.id);
+        assertEquals(2, r2.getId());
         assertEquals(2, pool.getAcquiredCount());
 
         CompletableFuture<Resource> r3Future = pool.acquire(Duration.ofMinutes(10));
         pool.release(r1);
 
         Resource r3 = r3Future.join();
-        assertEquals(1, r3.id);
+        assertEquals(1, r3.getId());
         assertEquals(2, pool.getAcquiredCount());
     }
 
@@ -188,13 +187,13 @@ public class FixedAsyncPoolTest {
             1, 10, 10, 500, 2_000);
 
         Resource r1 = pool.acquire(Duration.ZERO).join();
-        assertEquals(1, r1.id);
+        assertEquals(1, r1.getId());
 
         Resource r2 = pool.acquire(Duration.ZERO).join();
-        assertEquals(2, r2.id);
+        assertEquals(2, r2.getId());
 
         Resource r3 = pool.acquire(Duration.ZERO).join();
-        assertEquals(3, r3.id);
+        assertEquals(3, r3.getId());
 
         pool.release(r1);
         pool.release(r2);
@@ -202,18 +201,18 @@ public class FixedAsyncPoolTest {
 
         // wait some time to make all resources been keepalived
         Thread.sleep(1000);
-        assertTrue(r1.keepAlived);
-        assertTrue(r2.keepAlived);
-        assertTrue(r3.keepAlived);
+        assertTrue(r1.isKeepAlived());
+        assertTrue(r2.isKeepAlived());
+        assertTrue(r3.isKeepAlived());
 
         Resource rUsed = pool.acquire(Duration.ZERO).join();
         assertSame(r3, rUsed);
 
         // wait more time to make one resource been destroyed
         Thread.sleep(2000);
-        assertEquals(ResourceState.DESTROYED, r1.state);
-        assertEquals(ResourceState.OK, r2.state); // kept idle in pool, because minSize = 1
-        assertEquals(ResourceState.OK, r3.state); // keeps ok because used right now
+        assertEquals(Resource.State.DESTROYED, r1.getState());
+        assertEquals(Resource.State.OK, r2.getState()); // kept idle in pool, because minSize = 1
+        assertEquals(Resource.State.OK, r3.getState()); // keeps ok because used right now
     }
 
     @Test
@@ -242,7 +241,7 @@ public class FixedAsyncPoolTest {
 
                         Resource r = pool.acquire(timeout).join();
                         try {
-                            assertEquals(1, r.id);
+                            assertEquals(1, r.getId());
                             // sleep 1-2us to add contention
                             nanoSleep(rnd.nextInt(1000, 2000));
                         } finally {
@@ -277,75 +276,6 @@ public class FixedAsyncPoolTest {
         final long start = System.nanoTime();
         while (System.nanoTime() - start < delay) {
             /* busy loop */
-        }
-    }
-
-    /**
-     * RESOURCE HANDLER
-     */
-    private static class ResourceHandler implements PooledObjectHandler<Resource> {
-        private final AtomicInteger idSeq = new AtomicInteger();
-
-        @Override
-        public CompletableFuture<Resource> create(long deadlineAfter) {
-            return completedFuture(new Resource(idSeq.incrementAndGet()));
-        }
-
-        @Override
-        public CompletableFuture<Void> destroy(Resource r) {
-            r.markDestroyed();
-            return completedFuture(null);
-        }
-
-        @Override
-        public boolean isValid(Resource r) {
-            return r.state == ResourceState.OK;
-        }
-
-        @Override
-        public CompletableFuture<Void> keepAlive(Resource r) {
-            r.markKeepAlived();
-            return completedFuture(null);
-        }
-    }
-
-    /**
-     * RESOURCE STATE
-     */
-    private enum ResourceState {
-        OK,
-        BROKEN,
-        DESTROYED,
-    }
-
-    /**
-     * RESOURCE
-     */
-    private static final class Resource {
-        private final int id;
-        private volatile ResourceState state;
-        private volatile boolean keepAlived = false;
-
-        Resource(int id) {
-            this.id = id;
-            this.state = ResourceState.OK;
-        }
-
-        void markBroken() {
-            state = ResourceState.BROKEN;
-        }
-
-        void markDestroyed() {
-            state = ResourceState.DESTROYED;
-        }
-
-        void markKeepAlived() {
-            keepAlived = true;
-        }
-
-        @Override
-        public String toString() {
-            return "Resource{id=" + id + ", state=" + state + ", keepAlived=" + keepAlived + '}';
         }
     }
 }

@@ -3,10 +3,11 @@ package tech.ydb.table.impl;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.table.SessionStatus;
 import tech.ydb.table.impl.SessionImpl.State;
-import tech.ydb.table.impl.pool.AsyncPool;
 import tech.ydb.table.impl.pool.FixedAsyncPool;
 import tech.ydb.table.impl.pool.PooledObjectHandler;
+import tech.ydb.table.impl.pool.SettlersPool;
 import tech.ydb.table.settings.CreateSessionSettings;
 import tech.ydb.table.stats.SessionPoolStats;
 import io.netty.util.HashedWheelTimer;
@@ -20,7 +21,17 @@ import io.netty.util.concurrent.DefaultThreadFactory;
 final class SessionPool implements PooledObjectHandler<SessionImpl> {
 
     private final TableClientImpl tableClient;
-    private final AsyncPool<SessionImpl> pool;
+
+    /**
+     * Pool to store sessions which are ready but ide right now
+     */
+    private final FixedAsyncPool<SessionImpl> idlePool;
+
+    /**
+     * Pool to store sessions with unknown status due to some transport errors.
+     */
+    private final SettlersPool<SessionImpl> settlersPool;
+
     private final Timer timer;
     private final int minSize;
     private final int maxSize;
@@ -30,7 +41,7 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
         this.minSize = options.getMinSize();
         this.maxSize = options.getMaxSize();
         this.timer = new HashedWheelTimer(new DefaultThreadFactory("SessionPoolTimer"));
-        this.pool = new FixedAsyncPool<>(
+        this.idlePool = new FixedAsyncPool<>(
             this,
             timer,
             minSize,
@@ -38,6 +49,7 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
             maxSize * 2,
             options.getKeepAliveTimeMillis(),
             options.getMaxIdleTimeMillis());
+        this.settlersPool = new SettlersPool<>(this, idlePool, timer, 10, 5_000);
     }
 
     @Override
@@ -54,26 +66,43 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
 
     @Override
     public boolean isValid(SessionImpl s) {
-        return s.getState() != State.BROKEN;
+        return s.switchState(State.ACTIVE, State.IDLE);
     }
 
     @Override
-    public CompletableFuture<Void> keepAlive(SessionImpl s) {
+    public CompletableFuture<Boolean> keepAlive(SessionImpl s) {
         return s.keepAlive()
-            .thenAccept(r -> r.expect("cannot keep alive session: " + s.getId()));
+            .thenApply(r -> {
+                if (!r.isSuccess()) {
+                    return Boolean.FALSE;
+                }
+                SessionStatus status = r.expect("cannot keep alive session: " + s.getId());
+                return status == SessionStatus.READY;
+            });
     }
 
     CompletableFuture<SessionImpl> acquire(Duration timeout) {
-        return pool.acquire(timeout);
+        return idlePool.acquire(timeout)
+            .thenApply(s -> {
+                s.setState(State.ACTIVE);
+                return s;
+            });
     }
 
     void release(SessionImpl session) {
-        pool.release(session);
+        if (session.switchState(State.DISCONNECTED, State.IDLE)) {
+            if (!settlersPool.offerIfHaveSpace(session)) {
+                session.close(); // do not await session to be closed
+            }
+        } else {
+            idlePool.release(session);
+        }
     }
 
     void close() {
         try {
-            pool.close();
+            idlePool.close();
+            settlersPool.close();
         } finally {
             timer.stop();
         }
@@ -83,9 +112,9 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
         return new SessionPoolStats(
             minSize,
             maxSize,
-            pool.getIdleCount(),
-            pool.getAcquiredCount(),
-            pool.getPendingAcquireCount()
-        );
+            idlePool.getIdleCount(),
+            settlersPool.size(),
+            idlePool.getAcquiredCount(),
+            idlePool.getPendingAcquireCount());
     }
 }

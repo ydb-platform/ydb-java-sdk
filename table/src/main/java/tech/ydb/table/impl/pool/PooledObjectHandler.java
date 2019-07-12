@@ -14,5 +14,5 @@ public interface PooledObjectHandler<T> {
 
     boolean isValid(T object);
 
-    CompletableFuture<Void> keepAlive(T object);
+    CompletableFuture<Boolean> keepAlive(T object);
 }

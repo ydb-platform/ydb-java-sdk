@@ -99,6 +99,10 @@ class SessionImpl implements Session {
         return stateUpdater.get(this);
     }
 
+    void setState(State state) {
+        stateUpdater.set(this, state);
+    }
+
     boolean switchState(State from, State to) {
         return stateUpdater.compareAndSet(this, from, to);
     }

@@ -63,6 +63,14 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         this.keepAliveTask.scheduleNext(this.timer);
     }
 
+    public int getMinSize() {
+        return minSize;
+    }
+
+    public int getMaxSize() {
+        return maxSize;
+    }
+
     @Override
     public int getAcquiredCount() {
         return acquiredObjectsCount.get();
@@ -139,6 +147,28 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         runPendingAcquireTasks();
     }
 
+    void fakeRelease() {
+        acquiredObjectsCount.decrementAndGet();
+    }
+
+    void offerOrDestroy(T object) {
+        if (closed) {
+            // Since the pool is closed, we have no choice but to close the channel
+            handler.destroy(object);
+            throw new IllegalStateException("pool was closed");
+        }
+
+        // create wrapper outside from synchronized block
+        PooledObject<T> po = new PooledObject<>(object, System.currentTimeMillis());
+        synchronized (objects) {
+            if (acquiredObjectsCount.get() + objects.size() < maxSize) {
+                objects.offerLast(po);
+                return;
+            }
+        }
+        handler.destroy(object);
+    }
+
     private PooledObject<T> pollObject() {
         synchronized (objects) {
             return objects.pollLast();
@@ -169,7 +199,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                 return;
             }
 
-            future.whenComplete((o, ex) -> {
+            future.whenCompleteAsync((o, ex) -> {
                 if (ex != null) {
                     acquiredObjectsCount.decrementAndGet();
                     onAcquire(promise, null, ex);
