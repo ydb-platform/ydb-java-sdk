@@ -135,21 +135,36 @@ public final class YdbBackup {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string destination_path = 1;</code>
+     * <code>string host = 1;</code>
+     */
+    java.lang.String getHost();
+    /**
+     * <code>string host = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getHostBytes();
+
+    /**
+     * <code>uint32 port = 2;</code>
+     */
+    int getPort();
+
+    /**
+     * <code>string destination_path = 3;</code>
      */
     java.lang.String getDestinationPath();
     /**
-     * <code>string destination_path = 1;</code>
+     * <code>string destination_path = 3;</code>
      */
     com.google.protobuf.ByteString
         getDestinationPathBytes();
 
     /**
-     * <code>string token = 2;</code>
+     * <code>string token = 4;</code>
      */
     java.lang.String getToken();
     /**
-     * <code>string token = 2;</code>
+     * <code>string token = 4;</code>
      */
     com.google.protobuf.ByteString
         getTokenBytes();
@@ -167,6 +182,8 @@ public final class YdbBackup {
       super(builder);
     }
     private YtSettings() {
+      host_ = "";
+      port_ = 0;
       destinationPath_ = "";
       token_ = "";
     }
@@ -202,10 +219,21 @@ public final class YdbBackup {
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
+              host_ = s;
+              break;
+            }
+            case 16: {
+
+              port_ = input.readUInt32();
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
               destinationPath_ = s;
               break;
             }
-            case 18: {
+            case 34: {
               java.lang.String s = input.readStringRequireUtf8();
 
               token_ = s;
@@ -235,10 +263,53 @@ public final class YdbBackup {
               tech.ydb.backup.YdbBackup.YtSettings.class, tech.ydb.backup.YdbBackup.YtSettings.Builder.class);
     }
 
-    public static final int DESTINATION_PATH_FIELD_NUMBER = 1;
+    public static final int HOST_FIELD_NUMBER = 1;
+    private volatile java.lang.Object host_;
+    /**
+     * <code>string host = 1;</code>
+     */
+    public java.lang.String getHost() {
+      java.lang.Object ref = host_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        host_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string host = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getHostBytes() {
+      java.lang.Object ref = host_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        host_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PORT_FIELD_NUMBER = 2;
+    private int port_;
+    /**
+     * <code>uint32 port = 2;</code>
+     */
+    public int getPort() {
+      return port_;
+    }
+
+    public static final int DESTINATION_PATH_FIELD_NUMBER = 3;
     private volatile java.lang.Object destinationPath_;
     /**
-     * <code>string destination_path = 1;</code>
+     * <code>string destination_path = 3;</code>
      */
     public java.lang.String getDestinationPath() {
       java.lang.Object ref = destinationPath_;
@@ -253,7 +324,7 @@ public final class YdbBackup {
       }
     }
     /**
-     * <code>string destination_path = 1;</code>
+     * <code>string destination_path = 3;</code>
      */
     public com.google.protobuf.ByteString
         getDestinationPathBytes() {
@@ -269,10 +340,10 @@ public final class YdbBackup {
       }
     }
 
-    public static final int TOKEN_FIELD_NUMBER = 2;
+    public static final int TOKEN_FIELD_NUMBER = 4;
     private volatile java.lang.Object token_;
     /**
-     * <code>string token = 2;</code>
+     * <code>string token = 4;</code>
      */
     public java.lang.String getToken() {
       java.lang.Object ref = token_;
@@ -287,7 +358,7 @@ public final class YdbBackup {
       }
     }
     /**
-     * <code>string token = 2;</code>
+     * <code>string token = 4;</code>
      */
     public com.google.protobuf.ByteString
         getTokenBytes() {
@@ -315,11 +386,17 @@ public final class YdbBackup {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (!getHostBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, host_);
+      }
+      if (port_ != 0) {
+        output.writeUInt32(2, port_);
+      }
       if (!getDestinationPathBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, destinationPath_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, destinationPath_);
       }
       if (!getTokenBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, token_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, token_);
       }
       unknownFields.writeTo(output);
     }
@@ -329,11 +406,18 @@ public final class YdbBackup {
       if (size != -1) return size;
 
       size = 0;
+      if (!getHostBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, host_);
+      }
+      if (port_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, port_);
+      }
       if (!getDestinationPathBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, destinationPath_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, destinationPath_);
       }
       if (!getTokenBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, token_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, token_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -351,6 +435,10 @@ public final class YdbBackup {
       tech.ydb.backup.YdbBackup.YtSettings other = (tech.ydb.backup.YdbBackup.YtSettings) obj;
 
       boolean result = true;
+      result = result && getHost()
+          .equals(other.getHost());
+      result = result && (getPort()
+          == other.getPort());
       result = result && getDestinationPath()
           .equals(other.getDestinationPath());
       result = result && getToken()
@@ -366,6 +454,10 @@ public final class YdbBackup {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + HOST_FIELD_NUMBER;
+      hash = (53 * hash) + getHost().hashCode();
+      hash = (37 * hash) + PORT_FIELD_NUMBER;
+      hash = (53 * hash) + getPort();
       hash = (37 * hash) + DESTINATION_PATH_FIELD_NUMBER;
       hash = (53 * hash) + getDestinationPath().hashCode();
       hash = (37 * hash) + TOKEN_FIELD_NUMBER;
@@ -499,6 +591,10 @@ public final class YdbBackup {
       }
       public Builder clear() {
         super.clear();
+        host_ = "";
+
+        port_ = 0;
+
         destinationPath_ = "";
 
         token_ = "";
@@ -525,6 +621,8 @@ public final class YdbBackup {
 
       public tech.ydb.backup.YdbBackup.YtSettings buildPartial() {
         tech.ydb.backup.YdbBackup.YtSettings result = new tech.ydb.backup.YdbBackup.YtSettings(this);
+        result.host_ = host_;
+        result.port_ = port_;
         result.destinationPath_ = destinationPath_;
         result.token_ = token_;
         onBuilt();
@@ -568,6 +666,13 @@ public final class YdbBackup {
 
       public Builder mergeFrom(tech.ydb.backup.YdbBackup.YtSettings other) {
         if (other == tech.ydb.backup.YdbBackup.YtSettings.getDefaultInstance()) return this;
+        if (!other.getHost().isEmpty()) {
+          host_ = other.host_;
+          onChanged();
+        }
+        if (other.getPort() != 0) {
+          setPort(other.getPort());
+        }
         if (!other.getDestinationPath().isEmpty()) {
           destinationPath_ = other.destinationPath_;
           onChanged();
@@ -603,9 +708,104 @@ public final class YdbBackup {
         return this;
       }
 
+      private java.lang.Object host_ = "";
+      /**
+       * <code>string host = 1;</code>
+       */
+      public java.lang.String getHost() {
+        java.lang.Object ref = host_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          host_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string host = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getHostBytes() {
+        java.lang.Object ref = host_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          host_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string host = 1;</code>
+       */
+      public Builder setHost(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        host_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string host = 1;</code>
+       */
+      public Builder clearHost() {
+        
+        host_ = getDefaultInstance().getHost();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string host = 1;</code>
+       */
+      public Builder setHostBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        host_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int port_ ;
+      /**
+       * <code>uint32 port = 2;</code>
+       */
+      public int getPort() {
+        return port_;
+      }
+      /**
+       * <code>uint32 port = 2;</code>
+       */
+      public Builder setPort(int value) {
+        
+        port_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 port = 2;</code>
+       */
+      public Builder clearPort() {
+        
+        port_ = 0;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object destinationPath_ = "";
       /**
-       * <code>string destination_path = 1;</code>
+       * <code>string destination_path = 3;</code>
        */
       public java.lang.String getDestinationPath() {
         java.lang.Object ref = destinationPath_;
@@ -620,7 +820,7 @@ public final class YdbBackup {
         }
       }
       /**
-       * <code>string destination_path = 1;</code>
+       * <code>string destination_path = 3;</code>
        */
       public com.google.protobuf.ByteString
           getDestinationPathBytes() {
@@ -636,7 +836,7 @@ public final class YdbBackup {
         }
       }
       /**
-       * <code>string destination_path = 1;</code>
+       * <code>string destination_path = 3;</code>
        */
       public Builder setDestinationPath(
           java.lang.String value) {
@@ -649,7 +849,7 @@ public final class YdbBackup {
         return this;
       }
       /**
-       * <code>string destination_path = 1;</code>
+       * <code>string destination_path = 3;</code>
        */
       public Builder clearDestinationPath() {
         
@@ -658,7 +858,7 @@ public final class YdbBackup {
         return this;
       }
       /**
-       * <code>string destination_path = 1;</code>
+       * <code>string destination_path = 3;</code>
        */
       public Builder setDestinationPathBytes(
           com.google.protobuf.ByteString value) {
@@ -674,7 +874,7 @@ public final class YdbBackup {
 
       private java.lang.Object token_ = "";
       /**
-       * <code>string token = 2;</code>
+       * <code>string token = 4;</code>
        */
       public java.lang.String getToken() {
         java.lang.Object ref = token_;
@@ -689,7 +889,7 @@ public final class YdbBackup {
         }
       }
       /**
-       * <code>string token = 2;</code>
+       * <code>string token = 4;</code>
        */
       public com.google.protobuf.ByteString
           getTokenBytes() {
@@ -705,7 +905,7 @@ public final class YdbBackup {
         }
       }
       /**
-       * <code>string token = 2;</code>
+       * <code>string token = 4;</code>
        */
       public Builder setToken(
           java.lang.String value) {
@@ -718,7 +918,7 @@ public final class YdbBackup {
         return this;
       }
       /**
-       * <code>string token = 2;</code>
+       * <code>string token = 4;</code>
        */
       public Builder clearToken() {
         
@@ -727,7 +927,7 @@ public final class YdbBackup {
         return this;
       }
       /**
-       * <code>string token = 2;</code>
+       * <code>string token = 4;</code>
        */
       public Builder setTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -5056,25 +5256,26 @@ public final class YdbBackup {
     java.lang.String[] descriptorData = {
       "\n)kikimr/public/api/protos/ydb_backup.pr" +
       "oto\022\nYdb.Backup\032,kikimr/public/api/proto" +
-      "s/ydb_operation.proto\"5\n\nYtSettings\022\030\n\020d" +
-      "estination_path\030\001 \001(\t\022\r\n\005token\030\002 \001(\t\"\266\001\n" +
-      "\016BackupSettings\0222\n\007targets\030\001 \003(\0132!.Ydb.B" +
-      "ackup.BackupSettings.Target\022\023\n\013descripti" +
-      "on\030\002 \001(\t\032[\n\006Target\022\023\n\013source_path\030\001 \001(\t\022" +
-      "$\n\002yt\030\002 \001(\0132\026.Ydb.Backup.YtSettingsH\000B\026\n" +
-      "\024destination_settings\"\016\n\014BackupResult\"l\n" +
-      "\016BackupMetadata\022,\n\010settings\030\001 \001(\0132\032.Ydb.",
-      "Backup.BackupSettings\022,\n\010progress\030\002 \001(\0162" +
-      "\032.Ydb.Backup.BackupProgress\"~\n\023CreateBac" +
-      "kupRequest\0229\n\020operation_params\030\001 \001(\0132\037.Y" +
-      "db.Operations.OperationParams\022,\n\010setting" +
-      "s\030\002 \001(\0132\032.Ydb.Backup.BackupSettings\"D\n\024C" +
-      "reateBackupResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.Operation*q\n\016BackupProgr" +
-      "ess\022\030\n\024PROGRESS_UNSPECIFIED\020\000\022\026\n\022PROGRES" +
-      "S_PREPARING\020\001\022\032\n\026PROGRESS_TRANSFER_DATA\020" +
-      "\002\022\021\n\rPROGRESS_DONE\020\003B\032\n\025tech.ydb.b",
-      "ackup\370\001\001b\006proto3"
+      "s/ydb_operation.proto\"Q\n\nYtSettings\022\014\n\004h" +
+      "ost\030\001 \001(\t\022\014\n\004port\030\002 \001(\r\022\030\n\020destination_p" +
+      "ath\030\003 \001(\t\022\r\n\005token\030\004 \001(\t\"\266\001\n\016BackupSetti" +
+      "ngs\0222\n\007targets\030\001 \003(\0132!.Ydb.Backup.Backup" +
+      "Settings.Target\022\023\n\013description\030\002 \001(\t\032[\n\006" +
+      "Target\022\023\n\013source_path\030\001 \001(\t\022$\n\002yt\030\002 \001(\0132" +
+      "\026.Ydb.Backup.YtSettingsH\000B\026\n\024destination" +
+      "_settings\"\016\n\014BackupResult\"l\n\016BackupMetad",
+      "ata\022,\n\010settings\030\001 \001(\0132\032.Ydb.Backup.Backu" +
+      "pSettings\022,\n\010progress\030\002 \001(\0162\032.Ydb.Backup" +
+      ".BackupProgress\"~\n\023CreateBackupRequest\0229" +
+      "\n\020operation_params\030\001 \001(\0132\037.Ydb.Operation" +
+      "s.OperationParams\022,\n\010settings\030\002 \001(\0132\032.Yd" +
+      "b.Backup.BackupSettings\"D\n\024CreateBackupR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation*q\n\016BackupProgress\022\030\n\024PROGR" +
+      "ESS_UNSPECIFIED\020\000\022\026\n\022PROGRESS_PREPARING\020" +
+      "\001\022\032\n\026PROGRESS_TRANSFER_DATA\020\002\022\021\n\rPROGRES",
+      "S_DONE\020\003B\032\n\025tech.ydb.backup\370\001\001b\006pr" +
+      "oto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5094,7 +5295,7 @@ public final class YdbBackup {
     internal_static_Ydb_Backup_YtSettings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Backup_YtSettings_descriptor,
-        new java.lang.String[] { "DestinationPath", "Token", });
+        new java.lang.String[] { "Host", "Port", "DestinationPath", "Token", });
     internal_static_Ydb_Backup_BackupSettings_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_Ydb_Backup_BackupSettings_fieldAccessorTable = new
