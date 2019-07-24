@@ -26,7 +26,7 @@ public final class Status {
     }
 
     public static Status of(StatusCode code, Issue... issues) {
-        if (code == StatusCode.SUCCESS) {
+        if (code == StatusCode.SUCCESS && issues.length == 0) {
             return SUCCESS;
         }
         return new Status(code, issues);
@@ -41,11 +41,11 @@ public final class Status {
     }
 
     public boolean isSuccess() {
-        return this == SUCCESS;
+        return code == StatusCode.SUCCESS;
     }
 
     public void expect(String message) {
-        if (this != SUCCESS) {
+        if (!isSuccess()) {
             throw new UnexpectedResultException(message, code, issues);
         }
     }

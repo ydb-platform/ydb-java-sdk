@@ -14,7 +14,7 @@ public final class Operations {
     private Operations() {}
 
     public static Status status(Operation operation) {
-        if (operation.getStatus() == StatusIds.StatusCode.SUCCESS) {
+        if (operation.getStatus() == StatusIds.StatusCode.SUCCESS && operation.getIssuesCount() == 0) {
             return Status.SUCCESS;
         }
         StatusCode code = StatusCode.fromProto(operation.getStatus());
