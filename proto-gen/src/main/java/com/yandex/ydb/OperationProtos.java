@@ -5469,692 +5469,19 @@ public final class OperationProtos {
 
   }
 
-  public interface OperationsFilterOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Operations.OperationsFilter)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>string name = 1;</code>
-     */
-    java.lang.String getName();
-    /**
-     * <code>string name = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getNameBytes();
-
-    /**
-     * <code>string value = 2;</code>
-     */
-    java.lang.String getValue();
-    /**
-     * <code>string value = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getValueBytes();
-  }
-  /**
-   * Protobuf type {@code Ydb.Operations.OperationsFilter}
-   */
-  public  static final class OperationsFilter extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Operations.OperationsFilter)
-      OperationsFilterOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use OperationsFilter.newBuilder() to construct.
-    private OperationsFilter(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private OperationsFilter() {
-      name_ = "";
-      value_ = "";
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private OperationsFilter(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              name_ = s;
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              value_ = s;
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.OperationProtos.internal_static_Ydb_Operations_OperationsFilter_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.OperationProtos.internal_static_Ydb_Operations_OperationsFilter_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.OperationProtos.OperationsFilter.class, tech.ydb.OperationProtos.OperationsFilter.Builder.class);
-    }
-
-    public static final int NAME_FIELD_NUMBER = 1;
-    private volatile java.lang.Object name_;
-    /**
-     * <code>string name = 1;</code>
-     */
-    public java.lang.String getName() {
-      java.lang.Object ref = name_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        name_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string name = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getNameBytes() {
-      java.lang.Object ref = name_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        name_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int VALUE_FIELD_NUMBER = 2;
-    private volatile java.lang.Object value_;
-    /**
-     * <code>string value = 2;</code>
-     */
-    public java.lang.String getValue() {
-      java.lang.Object ref = value_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        value_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string value = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getValueBytes() {
-      java.lang.Object ref = value_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        value_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (!getNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
-      }
-      if (!getValueBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, value_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (!getNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
-      }
-      if (!getValueBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, value_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.OperationProtos.OperationsFilter)) {
-        return super.equals(obj);
-      }
-      tech.ydb.OperationProtos.OperationsFilter other = (tech.ydb.OperationProtos.OperationsFilter) obj;
-
-      boolean result = true;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && getValue()
-          .equals(other.getValue());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + NAME_FIELD_NUMBER;
-      hash = (53 * hash) + getName().hashCode();
-      hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + getValue().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.OperationProtos.OperationsFilter parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.OperationProtos.OperationsFilter parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.OperationProtos.OperationsFilter parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.OperationProtos.OperationsFilter parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.OperationProtos.OperationsFilter parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.OperationProtos.OperationsFilter parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.OperationProtos.OperationsFilter parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.OperationProtos.OperationsFilter parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.OperationProtos.OperationsFilter parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.OperationProtos.OperationsFilter parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.OperationProtos.OperationsFilter parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.OperationProtos.OperationsFilter parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.OperationProtos.OperationsFilter prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code Ydb.Operations.OperationsFilter}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Operations.OperationsFilter)
-        tech.ydb.OperationProtos.OperationsFilterOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_OperationsFilter_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_OperationsFilter_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.OperationProtos.OperationsFilter.class, tech.ydb.OperationProtos.OperationsFilter.Builder.class);
-      }
-
-      // Construct using tech.ydb.OperationProtos.OperationsFilter.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        name_ = "";
-
-        value_ = "";
-
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.OperationProtos.internal_static_Ydb_Operations_OperationsFilter_descriptor;
-      }
-
-      public tech.ydb.OperationProtos.OperationsFilter getDefaultInstanceForType() {
-        return tech.ydb.OperationProtos.OperationsFilter.getDefaultInstance();
-      }
-
-      public tech.ydb.OperationProtos.OperationsFilter build() {
-        tech.ydb.OperationProtos.OperationsFilter result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public tech.ydb.OperationProtos.OperationsFilter buildPartial() {
-        tech.ydb.OperationProtos.OperationsFilter result = new tech.ydb.OperationProtos.OperationsFilter(this);
-        result.name_ = name_;
-        result.value_ = value_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.OperationProtos.OperationsFilter) {
-          return mergeFrom((tech.ydb.OperationProtos.OperationsFilter)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.OperationProtos.OperationsFilter other) {
-        if (other == tech.ydb.OperationProtos.OperationsFilter.getDefaultInstance()) return this;
-        if (!other.getName().isEmpty()) {
-          name_ = other.name_;
-          onChanged();
-        }
-        if (!other.getValue().isEmpty()) {
-          value_ = other.value_;
-          onChanged();
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.OperationProtos.OperationsFilter parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.OperationProtos.OperationsFilter) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private java.lang.Object name_ = "";
-      /**
-       * <code>string name = 1;</code>
-       */
-      public java.lang.String getName() {
-        java.lang.Object ref = name_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          name_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string name = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getNameBytes() {
-        java.lang.Object ref = name_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          name_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string name = 1;</code>
-       */
-      public Builder setName(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        name_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string name = 1;</code>
-       */
-      public Builder clearName() {
-        
-        name_ = getDefaultInstance().getName();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string name = 1;</code>
-       */
-      public Builder setNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        name_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object value_ = "";
-      /**
-       * <code>string value = 2;</code>
-       */
-      public java.lang.String getValue() {
-        java.lang.Object ref = value_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          value_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string value = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getValueBytes() {
-        java.lang.Object ref = value_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          value_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string value = 2;</code>
-       */
-      public Builder setValue(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        value_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string value = 2;</code>
-       */
-      public Builder clearValue() {
-        
-        value_ = getDefaultInstance().getValue();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string value = 2;</code>
-       */
-      public Builder setValueBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        value_ = value;
-        onChanged();
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.Operations.OperationsFilter)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.Operations.OperationsFilter)
-    private static final tech.ydb.OperationProtos.OperationsFilter DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.OperationProtos.OperationsFilter();
-    }
-
-    public static tech.ydb.OperationProtos.OperationsFilter getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<OperationsFilter>
-        PARSER = new com.google.protobuf.AbstractParser<OperationsFilter>() {
-      public OperationsFilter parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new OperationsFilter(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<OperationsFilter> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<OperationsFilter> getParserForType() {
-      return PARSER;
-    }
-
-    public tech.ydb.OperationProtos.OperationsFilter getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface ListOperationsRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.Operations.ListOperationsRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
+     * <code>string kind = 1;</code>
      */
-    java.util.List<tech.ydb.OperationProtos.OperationsFilter> 
-        getFiltersList();
+    java.lang.String getKind();
     /**
-     * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
+     * <code>string kind = 1;</code>
      */
-    tech.ydb.OperationProtos.OperationsFilter getFilters(int index);
-    /**
-     * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-     */
-    int getFiltersCount();
-    /**
-     * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-     */
-    java.util.List<? extends tech.ydb.OperationProtos.OperationsFilterOrBuilder> 
-        getFiltersOrBuilderList();
-    /**
-     * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-     */
-    tech.ydb.OperationProtos.OperationsFilterOrBuilder getFiltersOrBuilder(
-        int index);
+    com.google.protobuf.ByteString
+        getKindBytes();
 
     /**
      * <code>uint64 page_size = 2;</code>
@@ -6184,7 +5511,7 @@ public final class OperationProtos {
       super(builder);
     }
     private ListOperationsRequest() {
-      filters_ = java.util.Collections.emptyList();
+      kind_ = "";
       pageSize_ = 0L;
       pageToken_ = "";
     }
@@ -6218,12 +5545,9 @@ public final class OperationProtos {
               break;
             }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                filters_ = new java.util.ArrayList<tech.ydb.OperationProtos.OperationsFilter>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              filters_.add(
-                  input.readMessage(tech.ydb.OperationProtos.OperationsFilter.parser(), extensionRegistry));
+              java.lang.String s = input.readStringRequireUtf8();
+
+              kind_ = s;
               break;
             }
             case 16: {
@@ -6245,9 +5569,6 @@ public final class OperationProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          filters_ = java.util.Collections.unmodifiableList(filters_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -6264,40 +5585,38 @@ public final class OperationProtos {
               tech.ydb.OperationProtos.ListOperationsRequest.class, tech.ydb.OperationProtos.ListOperationsRequest.Builder.class);
     }
 
-    private int bitField0_;
-    public static final int FILTERS_FIELD_NUMBER = 1;
-    private java.util.List<tech.ydb.OperationProtos.OperationsFilter> filters_;
+    public static final int KIND_FIELD_NUMBER = 1;
+    private volatile java.lang.Object kind_;
     /**
-     * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
+     * <code>string kind = 1;</code>
      */
-    public java.util.List<tech.ydb.OperationProtos.OperationsFilter> getFiltersList() {
-      return filters_;
+    public java.lang.String getKind() {
+      java.lang.Object ref = kind_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        kind_ = s;
+        return s;
+      }
     }
     /**
-     * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
+     * <code>string kind = 1;</code>
      */
-    public java.util.List<? extends tech.ydb.OperationProtos.OperationsFilterOrBuilder> 
-        getFiltersOrBuilderList() {
-      return filters_;
-    }
-    /**
-     * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-     */
-    public int getFiltersCount() {
-      return filters_.size();
-    }
-    /**
-     * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-     */
-    public tech.ydb.OperationProtos.OperationsFilter getFilters(int index) {
-      return filters_.get(index);
-    }
-    /**
-     * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-     */
-    public tech.ydb.OperationProtos.OperationsFilterOrBuilder getFiltersOrBuilder(
-        int index) {
-      return filters_.get(index);
+    public com.google.protobuf.ByteString
+        getKindBytes() {
+      java.lang.Object ref = kind_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        kind_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int PAGE_SIZE_FIELD_NUMBER = 2;
@@ -6355,8 +5674,8 @@ public final class OperationProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      for (int i = 0; i < filters_.size(); i++) {
-        output.writeMessage(1, filters_.get(i));
+      if (!getKindBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, kind_);
       }
       if (pageSize_ != 0L) {
         output.writeUInt64(2, pageSize_);
@@ -6372,9 +5691,8 @@ public final class OperationProtos {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < filters_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, filters_.get(i));
+      if (!getKindBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, kind_);
       }
       if (pageSize_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
@@ -6399,8 +5717,8 @@ public final class OperationProtos {
       tech.ydb.OperationProtos.ListOperationsRequest other = (tech.ydb.OperationProtos.ListOperationsRequest) obj;
 
       boolean result = true;
-      result = result && getFiltersList()
-          .equals(other.getFiltersList());
+      result = result && getKind()
+          .equals(other.getKind());
       result = result && (getPageSize()
           == other.getPageSize());
       result = result && getPageToken()
@@ -6416,10 +5734,8 @@ public final class OperationProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (getFiltersCount() > 0) {
-        hash = (37 * hash) + FILTERS_FIELD_NUMBER;
-        hash = (53 * hash) + getFiltersList().hashCode();
-      }
+      hash = (37 * hash) + KIND_FIELD_NUMBER;
+      hash = (53 * hash) + getKind().hashCode();
       hash = (37 * hash) + PAGE_SIZE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getPageSize());
@@ -6550,17 +5866,12 @@ public final class OperationProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getFiltersFieldBuilder();
         }
       }
       public Builder clear() {
         super.clear();
-        if (filtersBuilder_ == null) {
-          filters_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          filtersBuilder_.clear();
-        }
+        kind_ = "";
+
         pageSize_ = 0L;
 
         pageToken_ = "";
@@ -6587,20 +5898,9 @@ public final class OperationProtos {
 
       public tech.ydb.OperationProtos.ListOperationsRequest buildPartial() {
         tech.ydb.OperationProtos.ListOperationsRequest result = new tech.ydb.OperationProtos.ListOperationsRequest(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (filtersBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            filters_ = java.util.Collections.unmodifiableList(filters_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.filters_ = filters_;
-        } else {
-          result.filters_ = filtersBuilder_.build();
-        }
+        result.kind_ = kind_;
         result.pageSize_ = pageSize_;
         result.pageToken_ = pageToken_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -6642,31 +5942,9 @@ public final class OperationProtos {
 
       public Builder mergeFrom(tech.ydb.OperationProtos.ListOperationsRequest other) {
         if (other == tech.ydb.OperationProtos.ListOperationsRequest.getDefaultInstance()) return this;
-        if (filtersBuilder_ == null) {
-          if (!other.filters_.isEmpty()) {
-            if (filters_.isEmpty()) {
-              filters_ = other.filters_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureFiltersIsMutable();
-              filters_.addAll(other.filters_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.filters_.isEmpty()) {
-            if (filtersBuilder_.isEmpty()) {
-              filtersBuilder_.dispose();
-              filtersBuilder_ = null;
-              filters_ = other.filters_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              filtersBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getFiltersFieldBuilder() : null;
-            } else {
-              filtersBuilder_.addAllMessages(other.filters_);
-            }
-          }
+        if (!other.getKind().isEmpty()) {
+          kind_ = other.kind_;
+          onChanged();
         }
         if (other.getPageSize() != 0L) {
           setPageSize(other.getPageSize());
@@ -6701,246 +5979,74 @@ public final class OperationProtos {
         }
         return this;
       }
-      private int bitField0_;
 
-      private java.util.List<tech.ydb.OperationProtos.OperationsFilter> filters_ =
-        java.util.Collections.emptyList();
-      private void ensureFiltersIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          filters_ = new java.util.ArrayList<tech.ydb.OperationProtos.OperationsFilter>(filters_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.OperationProtos.OperationsFilter, tech.ydb.OperationProtos.OperationsFilter.Builder, tech.ydb.OperationProtos.OperationsFilterOrBuilder> filtersBuilder_;
-
+      private java.lang.Object kind_ = "";
       /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
+       * <code>string kind = 1;</code>
        */
-      public java.util.List<tech.ydb.OperationProtos.OperationsFilter> getFiltersList() {
-        if (filtersBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(filters_);
+      public java.lang.String getKind() {
+        java.lang.Object ref = kind_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          kind_ = s;
+          return s;
         } else {
-          return filtersBuilder_.getMessageList();
+          return (java.lang.String) ref;
         }
       }
       /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
+       * <code>string kind = 1;</code>
        */
-      public int getFiltersCount() {
-        if (filtersBuilder_ == null) {
-          return filters_.size();
+      public com.google.protobuf.ByteString
+          getKindBytes() {
+        java.lang.Object ref = kind_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          kind_ = b;
+          return b;
         } else {
-          return filtersBuilder_.getCount();
+          return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
+       * <code>string kind = 1;</code>
        */
-      public tech.ydb.OperationProtos.OperationsFilter getFilters(int index) {
-        if (filtersBuilder_ == null) {
-          return filters_.get(index);
-        } else {
-          return filtersBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-       */
-      public Builder setFilters(
-          int index, tech.ydb.OperationProtos.OperationsFilter value) {
-        if (filtersBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureFiltersIsMutable();
-          filters_.set(index, value);
-          onChanged();
-        } else {
-          filtersBuilder_.setMessage(index, value);
-        }
+      public Builder setKind(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        kind_ = value;
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
+       * <code>string kind = 1;</code>
        */
-      public Builder setFilters(
-          int index, tech.ydb.OperationProtos.OperationsFilter.Builder builderForValue) {
-        if (filtersBuilder_ == null) {
-          ensureFiltersIsMutable();
-          filters_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          filtersBuilder_.setMessage(index, builderForValue.build());
-        }
+      public Builder clearKind() {
+        
+        kind_ = getDefaultInstance().getKind();
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
+       * <code>string kind = 1;</code>
        */
-      public Builder addFilters(tech.ydb.OperationProtos.OperationsFilter value) {
-        if (filtersBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureFiltersIsMutable();
-          filters_.add(value);
-          onChanged();
-        } else {
-          filtersBuilder_.addMessage(value);
-        }
+      public Builder setKindBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        kind_ = value;
+        onChanged();
         return this;
-      }
-      /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-       */
-      public Builder addFilters(
-          int index, tech.ydb.OperationProtos.OperationsFilter value) {
-        if (filtersBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureFiltersIsMutable();
-          filters_.add(index, value);
-          onChanged();
-        } else {
-          filtersBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-       */
-      public Builder addFilters(
-          tech.ydb.OperationProtos.OperationsFilter.Builder builderForValue) {
-        if (filtersBuilder_ == null) {
-          ensureFiltersIsMutable();
-          filters_.add(builderForValue.build());
-          onChanged();
-        } else {
-          filtersBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-       */
-      public Builder addFilters(
-          int index, tech.ydb.OperationProtos.OperationsFilter.Builder builderForValue) {
-        if (filtersBuilder_ == null) {
-          ensureFiltersIsMutable();
-          filters_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          filtersBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-       */
-      public Builder addAllFilters(
-          java.lang.Iterable<? extends tech.ydb.OperationProtos.OperationsFilter> values) {
-        if (filtersBuilder_ == null) {
-          ensureFiltersIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, filters_);
-          onChanged();
-        } else {
-          filtersBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-       */
-      public Builder clearFilters() {
-        if (filtersBuilder_ == null) {
-          filters_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          filtersBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-       */
-      public Builder removeFilters(int index) {
-        if (filtersBuilder_ == null) {
-          ensureFiltersIsMutable();
-          filters_.remove(index);
-          onChanged();
-        } else {
-          filtersBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-       */
-      public tech.ydb.OperationProtos.OperationsFilter.Builder getFiltersBuilder(
-          int index) {
-        return getFiltersFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-       */
-      public tech.ydb.OperationProtos.OperationsFilterOrBuilder getFiltersOrBuilder(
-          int index) {
-        if (filtersBuilder_ == null) {
-          return filters_.get(index);  } else {
-          return filtersBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-       */
-      public java.util.List<? extends tech.ydb.OperationProtos.OperationsFilterOrBuilder> 
-           getFiltersOrBuilderList() {
-        if (filtersBuilder_ != null) {
-          return filtersBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(filters_);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-       */
-      public tech.ydb.OperationProtos.OperationsFilter.Builder addFiltersBuilder() {
-        return getFiltersFieldBuilder().addBuilder(
-            tech.ydb.OperationProtos.OperationsFilter.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-       */
-      public tech.ydb.OperationProtos.OperationsFilter.Builder addFiltersBuilder(
-          int index) {
-        return getFiltersFieldBuilder().addBuilder(
-            index, tech.ydb.OperationProtos.OperationsFilter.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Ydb.Operations.OperationsFilter filters = 1;</code>
-       */
-      public java.util.List<tech.ydb.OperationProtos.OperationsFilter.Builder> 
-           getFiltersBuilderList() {
-        return getFiltersFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.OperationProtos.OperationsFilter, tech.ydb.OperationProtos.OperationsFilter.Builder, tech.ydb.OperationProtos.OperationsFilterOrBuilder> 
-          getFiltersFieldBuilder() {
-        if (filtersBuilder_ == null) {
-          filtersBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              tech.ydb.OperationProtos.OperationsFilter, tech.ydb.OperationProtos.OperationsFilter.Builder, tech.ydb.OperationProtos.OperationsFilterOrBuilder>(
-                  filters_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
-                  getParentForChildren(),
-                  isClean());
-          filters_ = null;
-        }
-        return filtersBuilder_;
       }
 
       private long pageSize_ ;
@@ -9594,11 +8700,6 @@ public final class OperationProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Operations_ForgetOperationResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Operations_OperationsFilter_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Operations_OperationsFilter_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Operations_ListOperationsRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -9646,20 +8747,18 @@ public final class OperationProtos {
       "essage\"$\n\026ForgetOperationRequest\022\n\n\002id\030\001" +
       " \001(\t\"m\n\027ForgetOperationResponse\022)\n\006statu" +
       "s\030\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006is" +
-      "sues\030\002 \003(\0132\027.Ydb.Issue.IssueMessage\"/\n\020O" +
-      "perationsFilter\022\014\n\004name\030\001 \001(\t\022\r\n\005value\030\002" +
-      " \001(\t\"q\n\025ListOperationsRequest\0221\n\007filters" +
-      "\030\001 \003(\0132 .Ydb.Operations.OperationsFilter" +
-      "\022\021\n\tpage_size\030\002 \001(\004\022\022\n\npage_token\030\003 \001(\t\"" +
-      "`\n\026ListOperationsResponse\022-\n\noperations\030",
-      "\001 \003(\0132\031.Ydb.Operations.Operation\022\027\n\017next" +
-      "_page_token\030\002 \001(\t\"\310\001\n\tOperation\022\n\n\002id\030\001 " +
-      "\001(\t\022\r\n\005ready\030\002 \001(\010\022)\n\006status\030\003 \001(\0162\031.Ydb" +
-      ".StatusIds.StatusCode\022\'\n\006issues\030\004 \003(\0132\027." +
-      "Ydb.Issue.IssueMessage\022$\n\006result\030\005 \001(\0132\024" +
-      ".google.protobuf.Any\022&\n\010metadata\030\006 \001(\0132\024" +
-      ".google.protobuf.AnyB$\n\016tech.ydbB\017" +
-      "OperationProtos\370\001\001b\006proto3"
+      "sues\030\002 \003(\0132\027.Ydb.Issue.IssueMessage\"L\n\025L" +
+      "istOperationsRequest\022\014\n\004kind\030\001 \001(\t\022\021\n\tpa" +
+      "ge_size\030\002 \001(\004\022\022\n\npage_token\030\003 \001(\t\"`\n\026Lis" +
+      "tOperationsResponse\022-\n\noperations\030\001 \003(\0132" +
+      "\031.Ydb.Operations.Operation\022\027\n\017next_page_" +
+      "token\030\002 \001(\t\"\310\001\n\tOperation\022\n\n\002id\030\001 \001(\t\022\r\n",
+      "\005ready\030\002 \001(\010\022)\n\006status\030\003 \001(\0162\031.Ydb.Statu" +
+      "sIds.StatusCode\022\'\n\006issues\030\004 \003(\0132\027.Ydb.Is" +
+      "sue.IssueMessage\022$\n\006result\030\005 \001(\0132\024.googl" +
+      "e.protobuf.Any\022&\n\010metadata\030\006 \001(\0132\024.googl" +
+      "e.protobuf.AnyB$\n\016tech.ydbB\017Operat" +
+      "ionProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -9725,26 +8824,20 @@ public final class OperationProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_ForgetOperationResponse_descriptor,
         new java.lang.String[] { "Status", "Issues", });
-    internal_static_Ydb_Operations_OperationsFilter_descriptor =
-      getDescriptor().getMessageTypes().get(7);
-    internal_static_Ydb_Operations_OperationsFilter_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Operations_OperationsFilter_descriptor,
-        new java.lang.String[] { "Name", "Value", });
     internal_static_Ydb_Operations_ListOperationsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_Ydb_Operations_ListOperationsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_ListOperationsRequest_descriptor,
-        new java.lang.String[] { "Filters", "PageSize", "PageToken", });
+        new java.lang.String[] { "Kind", "PageSize", "PageToken", });
     internal_static_Ydb_Operations_ListOperationsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Ydb_Operations_ListOperationsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_ListOperationsResponse_descriptor,
         new java.lang.String[] { "Operations", "NextPageToken", });
     internal_static_Ydb_Operations_Operation_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Operations_Operation_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_Operation_descriptor,

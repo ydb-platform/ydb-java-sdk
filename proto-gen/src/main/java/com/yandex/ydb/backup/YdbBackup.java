@@ -35,6 +35,14 @@ public final class YdbBackup {
      * <code>PROGRESS_DONE = 3;</code>
      */
     PROGRESS_DONE(3),
+    /**
+     * <code>PROGRESS_CANCELLATION = 4;</code>
+     */
+    PROGRESS_CANCELLATION(4),
+    /**
+     * <code>PROGRESS_CANCELLED = 5;</code>
+     */
+    PROGRESS_CANCELLED(5),
     UNRECOGNIZED(-1),
     ;
 
@@ -54,6 +62,14 @@ public final class YdbBackup {
      * <code>PROGRESS_DONE = 3;</code>
      */
     public static final int PROGRESS_DONE_VALUE = 3;
+    /**
+     * <code>PROGRESS_CANCELLATION = 4;</code>
+     */
+    public static final int PROGRESS_CANCELLATION_VALUE = 4;
+    /**
+     * <code>PROGRESS_CANCELLED = 5;</code>
+     */
+    public static final int PROGRESS_CANCELLED_VALUE = 5;
 
 
     public final int getNumber() {
@@ -78,6 +94,8 @@ public final class YdbBackup {
         case 1: return PROGRESS_PREPARING;
         case 2: return PROGRESS_TRANSFER_DATA;
         case 3: return PROGRESS_DONE;
+        case 4: return PROGRESS_CANCELLATION;
+        case 5: return PROGRESS_CANCELLED;
         default: return null;
       }
     }
@@ -5271,11 +5289,12 @@ public final class YdbBackup {
       "s.OperationParams\022,\n\010settings\030\002 \001(\0132\032.Yd" +
       "b.Backup.BackupSettings\"D\n\024CreateBackupR" +
       "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
-      "ons.Operation*q\n\016BackupProgress\022\030\n\024PROGR" +
-      "ESS_UNSPECIFIED\020\000\022\026\n\022PROGRESS_PREPARING\020" +
-      "\001\022\032\n\026PROGRESS_TRANSFER_DATA\020\002\022\021\n\rPROGRES",
-      "S_DONE\020\003B\032\n\025tech.ydb.backup\370\001\001b\006pr" +
-      "oto3"
+      "ons.Operation*\244\001\n\016BackupProgress\022\030\n\024PROG" +
+      "RESS_UNSPECIFIED\020\000\022\026\n\022PROGRESS_PREPARING" +
+      "\020\001\022\032\n\026PROGRESS_TRANSFER_DATA\020\002\022\021\n\rPROGRE",
+      "SS_DONE\020\003\022\031\n\025PROGRESS_CANCELLATION\020\004\022\026\n\022" +
+      "PROGRESS_CANCELLED\020\005B\032\n\025tech.ydb.b" +
+      "ackup\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

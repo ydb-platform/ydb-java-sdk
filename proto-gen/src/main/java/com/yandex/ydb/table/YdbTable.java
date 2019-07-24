@@ -5240,6 +5240,30 @@ public final class YdbTable {
      * <code>.Ydb.FeatureFlag.Status keep_in_memory = 6;</code>
      */
     tech.ydb.common.CommonProtos.FeatureFlag.Status getKeepInMemory();
+
+    /**
+     * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+     */
+    java.util.List<tech.ydb.table.YdbTable.ColumnFamilyPolicy> 
+        getColumnFamiliesList();
+    /**
+     * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+     */
+    tech.ydb.table.YdbTable.ColumnFamilyPolicy getColumnFamilies(int index);
+    /**
+     * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+     */
+    int getColumnFamiliesCount();
+    /**
+     * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+     */
+    java.util.List<? extends tech.ydb.table.YdbTable.ColumnFamilyPolicyOrBuilder> 
+        getColumnFamiliesOrBuilderList();
+    /**
+     * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+     */
+    tech.ydb.table.YdbTable.ColumnFamilyPolicyOrBuilder getColumnFamiliesOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code Ydb.Table.StoragePolicy}
@@ -5256,6 +5280,7 @@ public final class YdbTable {
     private StoragePolicy() {
       presetName_ = "";
       keepInMemory_ = 0;
+      columnFamilies_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -5350,6 +5375,15 @@ public final class YdbTable {
               keepInMemory_ = rawValue;
               break;
             }
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                columnFamilies_ = new java.util.ArrayList<tech.ydb.table.YdbTable.ColumnFamilyPolicy>();
+                mutable_bitField0_ |= 0x00000040;
+              }
+              columnFamilies_.add(
+                  input.readMessage(tech.ydb.table.YdbTable.ColumnFamilyPolicy.parser(), extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5358,6 +5392,9 @@ public final class YdbTable {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+          columnFamilies_ = java.util.Collections.unmodifiableList(columnFamilies_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -5374,6 +5411,7 @@ public final class YdbTable {
               tech.ydb.table.YdbTable.StoragePolicy.class, tech.ydb.table.YdbTable.StoragePolicy.Builder.class);
     }
 
+    private int bitField0_;
     public static final int PRESET_NAME_FIELD_NUMBER = 1;
     private volatile java.lang.Object presetName_;
     /**
@@ -5508,6 +5546,41 @@ public final class YdbTable {
       return result == null ? tech.ydb.common.CommonProtos.FeatureFlag.Status.UNRECOGNIZED : result;
     }
 
+    public static final int COLUMN_FAMILIES_FIELD_NUMBER = 7;
+    private java.util.List<tech.ydb.table.YdbTable.ColumnFamilyPolicy> columnFamilies_;
+    /**
+     * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+     */
+    public java.util.List<tech.ydb.table.YdbTable.ColumnFamilyPolicy> getColumnFamiliesList() {
+      return columnFamilies_;
+    }
+    /**
+     * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+     */
+    public java.util.List<? extends tech.ydb.table.YdbTable.ColumnFamilyPolicyOrBuilder> 
+        getColumnFamiliesOrBuilderList() {
+      return columnFamilies_;
+    }
+    /**
+     * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+     */
+    public int getColumnFamiliesCount() {
+      return columnFamilies_.size();
+    }
+    /**
+     * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+     */
+    public tech.ydb.table.YdbTable.ColumnFamilyPolicy getColumnFamilies(int index) {
+      return columnFamilies_.get(index);
+    }
+    /**
+     * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+     */
+    public tech.ydb.table.YdbTable.ColumnFamilyPolicyOrBuilder getColumnFamiliesOrBuilder(
+        int index) {
+      return columnFamilies_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -5537,6 +5610,9 @@ public final class YdbTable {
       }
       if (keepInMemory_ != tech.ydb.common.CommonProtos.FeatureFlag.Status.STATUS_UNSPECIFIED.getNumber()) {
         output.writeEnum(6, keepInMemory_);
+      }
+      for (int i = 0; i < columnFamilies_.size(); i++) {
+        output.writeMessage(7, columnFamilies_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -5568,6 +5644,10 @@ public final class YdbTable {
       if (keepInMemory_ != tech.ydb.common.CommonProtos.FeatureFlag.Status.STATUS_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(6, keepInMemory_);
+      }
+      for (int i = 0; i < columnFamilies_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, columnFamilies_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -5608,6 +5688,8 @@ public final class YdbTable {
             .equals(other.getExternal());
       }
       result = result && keepInMemory_ == other.keepInMemory_;
+      result = result && getColumnFamiliesList()
+          .equals(other.getColumnFamiliesList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -5639,6 +5721,10 @@ public final class YdbTable {
       }
       hash = (37 * hash) + KEEP_IN_MEMORY_FIELD_NUMBER;
       hash = (53 * hash) + keepInMemory_;
+      if (getColumnFamiliesCount() > 0) {
+        hash = (37 * hash) + COLUMN_FAMILIES_FIELD_NUMBER;
+        hash = (53 * hash) + getColumnFamiliesList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -5764,6 +5850,7 @@ public final class YdbTable {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getColumnFamiliesFieldBuilder();
         }
       }
       public Builder clear() {
@@ -5796,6 +5883,12 @@ public final class YdbTable {
         }
         keepInMemory_ = 0;
 
+        if (columnFamiliesBuilder_ == null) {
+          columnFamilies_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+        } else {
+          columnFamiliesBuilder_.clear();
+        }
         return this;
       }
 
@@ -5818,6 +5911,8 @@ public final class YdbTable {
 
       public tech.ydb.table.YdbTable.StoragePolicy buildPartial() {
         tech.ydb.table.YdbTable.StoragePolicy result = new tech.ydb.table.YdbTable.StoragePolicy(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.presetName_ = presetName_;
         if (syslogBuilder_ == null) {
           result.syslog_ = syslog_;
@@ -5840,6 +5935,16 @@ public final class YdbTable {
           result.external_ = externalBuilder_.build();
         }
         result.keepInMemory_ = keepInMemory_;
+        if (columnFamiliesBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+            columnFamilies_ = java.util.Collections.unmodifiableList(columnFamilies_);
+            bitField0_ = (bitField0_ & ~0x00000040);
+          }
+          result.columnFamilies_ = columnFamilies_;
+        } else {
+          result.columnFamilies_ = columnFamiliesBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -5900,6 +6005,32 @@ public final class YdbTable {
         if (other.keepInMemory_ != 0) {
           setKeepInMemoryValue(other.getKeepInMemoryValue());
         }
+        if (columnFamiliesBuilder_ == null) {
+          if (!other.columnFamilies_.isEmpty()) {
+            if (columnFamilies_.isEmpty()) {
+              columnFamilies_ = other.columnFamilies_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+            } else {
+              ensureColumnFamiliesIsMutable();
+              columnFamilies_.addAll(other.columnFamilies_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.columnFamilies_.isEmpty()) {
+            if (columnFamiliesBuilder_.isEmpty()) {
+              columnFamiliesBuilder_.dispose();
+              columnFamiliesBuilder_ = null;
+              columnFamilies_ = other.columnFamilies_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+              columnFamiliesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getColumnFamiliesFieldBuilder() : null;
+            } else {
+              columnFamiliesBuilder_.addAllMessages(other.columnFamilies_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -5926,6 +6057,7 @@ public final class YdbTable {
         }
         return this;
       }
+      private int bitField0_;
 
       private java.lang.Object presetName_ = "";
       /**
@@ -6507,6 +6639,246 @@ public final class YdbTable {
         onChanged();
         return this;
       }
+
+      private java.util.List<tech.ydb.table.YdbTable.ColumnFamilyPolicy> columnFamilies_ =
+        java.util.Collections.emptyList();
+      private void ensureColumnFamiliesIsMutable() {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+          columnFamilies_ = new java.util.ArrayList<tech.ydb.table.YdbTable.ColumnFamilyPolicy>(columnFamilies_);
+          bitField0_ |= 0x00000040;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.table.YdbTable.ColumnFamilyPolicy, tech.ydb.table.YdbTable.ColumnFamilyPolicy.Builder, tech.ydb.table.YdbTable.ColumnFamilyPolicyOrBuilder> columnFamiliesBuilder_;
+
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public java.util.List<tech.ydb.table.YdbTable.ColumnFamilyPolicy> getColumnFamiliesList() {
+        if (columnFamiliesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(columnFamilies_);
+        } else {
+          return columnFamiliesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public int getColumnFamiliesCount() {
+        if (columnFamiliesBuilder_ == null) {
+          return columnFamilies_.size();
+        } else {
+          return columnFamiliesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnFamilyPolicy getColumnFamilies(int index) {
+        if (columnFamiliesBuilder_ == null) {
+          return columnFamilies_.get(index);
+        } else {
+          return columnFamiliesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public Builder setColumnFamilies(
+          int index, tech.ydb.table.YdbTable.ColumnFamilyPolicy value) {
+        if (columnFamiliesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureColumnFamiliesIsMutable();
+          columnFamilies_.set(index, value);
+          onChanged();
+        } else {
+          columnFamiliesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public Builder setColumnFamilies(
+          int index, tech.ydb.table.YdbTable.ColumnFamilyPolicy.Builder builderForValue) {
+        if (columnFamiliesBuilder_ == null) {
+          ensureColumnFamiliesIsMutable();
+          columnFamilies_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          columnFamiliesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public Builder addColumnFamilies(tech.ydb.table.YdbTable.ColumnFamilyPolicy value) {
+        if (columnFamiliesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureColumnFamiliesIsMutable();
+          columnFamilies_.add(value);
+          onChanged();
+        } else {
+          columnFamiliesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public Builder addColumnFamilies(
+          int index, tech.ydb.table.YdbTable.ColumnFamilyPolicy value) {
+        if (columnFamiliesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureColumnFamiliesIsMutable();
+          columnFamilies_.add(index, value);
+          onChanged();
+        } else {
+          columnFamiliesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public Builder addColumnFamilies(
+          tech.ydb.table.YdbTable.ColumnFamilyPolicy.Builder builderForValue) {
+        if (columnFamiliesBuilder_ == null) {
+          ensureColumnFamiliesIsMutable();
+          columnFamilies_.add(builderForValue.build());
+          onChanged();
+        } else {
+          columnFamiliesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public Builder addColumnFamilies(
+          int index, tech.ydb.table.YdbTable.ColumnFamilyPolicy.Builder builderForValue) {
+        if (columnFamiliesBuilder_ == null) {
+          ensureColumnFamiliesIsMutable();
+          columnFamilies_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          columnFamiliesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public Builder addAllColumnFamilies(
+          java.lang.Iterable<? extends tech.ydb.table.YdbTable.ColumnFamilyPolicy> values) {
+        if (columnFamiliesBuilder_ == null) {
+          ensureColumnFamiliesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, columnFamilies_);
+          onChanged();
+        } else {
+          columnFamiliesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public Builder clearColumnFamilies() {
+        if (columnFamiliesBuilder_ == null) {
+          columnFamilies_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+          onChanged();
+        } else {
+          columnFamiliesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public Builder removeColumnFamilies(int index) {
+        if (columnFamiliesBuilder_ == null) {
+          ensureColumnFamiliesIsMutable();
+          columnFamilies_.remove(index);
+          onChanged();
+        } else {
+          columnFamiliesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnFamilyPolicy.Builder getColumnFamiliesBuilder(
+          int index) {
+        return getColumnFamiliesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnFamilyPolicyOrBuilder getColumnFamiliesOrBuilder(
+          int index) {
+        if (columnFamiliesBuilder_ == null) {
+          return columnFamilies_.get(index);  } else {
+          return columnFamiliesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public java.util.List<? extends tech.ydb.table.YdbTable.ColumnFamilyPolicyOrBuilder> 
+           getColumnFamiliesOrBuilderList() {
+        if (columnFamiliesBuilder_ != null) {
+          return columnFamiliesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(columnFamilies_);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnFamilyPolicy.Builder addColumnFamiliesBuilder() {
+        return getColumnFamiliesFieldBuilder().addBuilder(
+            tech.ydb.table.YdbTable.ColumnFamilyPolicy.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnFamilyPolicy.Builder addColumnFamiliesBuilder(
+          int index) {
+        return getColumnFamiliesFieldBuilder().addBuilder(
+            index, tech.ydb.table.YdbTable.ColumnFamilyPolicy.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnFamilyPolicy column_families = 7;</code>
+       */
+      public java.util.List<tech.ydb.table.YdbTable.ColumnFamilyPolicy.Builder> 
+           getColumnFamiliesBuilderList() {
+        return getColumnFamiliesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.table.YdbTable.ColumnFamilyPolicy, tech.ydb.table.YdbTable.ColumnFamilyPolicy.Builder, tech.ydb.table.YdbTable.ColumnFamilyPolicyOrBuilder> 
+          getColumnFamiliesFieldBuilder() {
+        if (columnFamiliesBuilder_ == null) {
+          columnFamiliesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              tech.ydb.table.YdbTable.ColumnFamilyPolicy, tech.ydb.table.YdbTable.ColumnFamilyPolicy.Builder, tech.ydb.table.YdbTable.ColumnFamilyPolicyOrBuilder>(
+                  columnFamilies_,
+                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  getParentForChildren(),
+                  isClean());
+          columnFamilies_ = null;
+        }
+        return columnFamiliesBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -6551,6 +6923,1825 @@ public final class YdbTable {
     }
 
     public tech.ydb.table.YdbTable.StoragePolicy getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CompressionCodecOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Table.CompressionCodec)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code Ydb.Table.CompressionCodec}
+   */
+  public  static final class CompressionCodec extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Table.CompressionCodec)
+      CompressionCodecOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use CompressionCodec.newBuilder() to construct.
+    private CompressionCodec(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CompressionCodec() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CompressionCodec(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.table.YdbTable.internal_static_Ydb_Table_CompressionCodec_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.table.YdbTable.internal_static_Ydb_Table_CompressionCodec_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.table.YdbTable.CompressionCodec.class, tech.ydb.table.YdbTable.CompressionCodec.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code Ydb.Table.CompressionCodec.Status}
+     */
+    public enum Status
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>UNSPECIFIED = 0;</code>
+       */
+      UNSPECIFIED(0),
+      /**
+       * <code>UNCOMPRESSED = 1;</code>
+       */
+      UNCOMPRESSED(1),
+      /**
+       * <code>LZ4 = 2;</code>
+       */
+      LZ4(2),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>UNSPECIFIED = 0;</code>
+       */
+      public static final int UNSPECIFIED_VALUE = 0;
+      /**
+       * <code>UNCOMPRESSED = 1;</code>
+       */
+      public static final int UNCOMPRESSED_VALUE = 1;
+      /**
+       * <code>LZ4 = 2;</code>
+       */
+      public static final int LZ4_VALUE = 2;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static Status valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static Status forNumber(int value) {
+        switch (value) {
+          case 0: return UNSPECIFIED;
+          case 1: return UNCOMPRESSED;
+          case 2: return LZ4;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Status>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          Status> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Status>() {
+              public Status findValueByNumber(int number) {
+                return Status.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return tech.ydb.table.YdbTable.CompressionCodec.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final Status[] VALUES = values();
+
+      public static Status valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private Status(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:Ydb.Table.CompressionCodec.Status)
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.table.YdbTable.CompressionCodec)) {
+        return super.equals(obj);
+      }
+      tech.ydb.table.YdbTable.CompressionCodec other = (tech.ydb.table.YdbTable.CompressionCodec) obj;
+
+      boolean result = true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.table.YdbTable.CompressionCodec parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.table.YdbTable.CompressionCodec parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.table.YdbTable.CompressionCodec parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.table.YdbTable.CompressionCodec parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.table.YdbTable.CompressionCodec parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.table.YdbTable.CompressionCodec parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.table.YdbTable.CompressionCodec parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.table.YdbTable.CompressionCodec parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.table.YdbTable.CompressionCodec parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.table.YdbTable.CompressionCodec parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.table.YdbTable.CompressionCodec parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.table.YdbTable.CompressionCodec parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.table.YdbTable.CompressionCodec prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Table.CompressionCodec}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Table.CompressionCodec)
+        tech.ydb.table.YdbTable.CompressionCodecOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_CompressionCodec_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_CompressionCodec_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.table.YdbTable.CompressionCodec.class, tech.ydb.table.YdbTable.CompressionCodec.Builder.class);
+      }
+
+      // Construct using tech.ydb.table.YdbTable.CompressionCodec.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_CompressionCodec_descriptor;
+      }
+
+      public tech.ydb.table.YdbTable.CompressionCodec getDefaultInstanceForType() {
+        return tech.ydb.table.YdbTable.CompressionCodec.getDefaultInstance();
+      }
+
+      public tech.ydb.table.YdbTable.CompressionCodec build() {
+        tech.ydb.table.YdbTable.CompressionCodec result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.table.YdbTable.CompressionCodec buildPartial() {
+        tech.ydb.table.YdbTable.CompressionCodec result = new tech.ydb.table.YdbTable.CompressionCodec(this);
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.table.YdbTable.CompressionCodec) {
+          return mergeFrom((tech.ydb.table.YdbTable.CompressionCodec)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.table.YdbTable.CompressionCodec other) {
+        if (other == tech.ydb.table.YdbTable.CompressionCodec.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.table.YdbTable.CompressionCodec parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.table.YdbTable.CompressionCodec) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Table.CompressionCodec)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Table.CompressionCodec)
+    private static final tech.ydb.table.YdbTable.CompressionCodec DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.table.YdbTable.CompressionCodec();
+    }
+
+    public static tech.ydb.table.YdbTable.CompressionCodec getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CompressionCodec>
+        PARSER = new com.google.protobuf.AbstractParser<CompressionCodec>() {
+      public CompressionCodec parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new CompressionCodec(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CompressionCodec> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CompressionCodec> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.table.YdbTable.CompressionCodec getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ColumnFamilyPolicyOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Table.ColumnFamilyPolicy)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Name of the column family, the name "default" must be used for the
+     * primary column family that contains as least primary key columns
+     * </pre>
+     *
+     * <code>string name = 1;</code>
+     */
+    java.lang.String getName();
+    /**
+     * <pre>
+     * Name of the column family, the name "default" must be used for the
+     * primary column family that contains as least primary key columns
+     * </pre>
+     *
+     * <code>string name = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    /**
+     * <pre>
+     * Storage settings for the column group (default to values in storage policy)
+     * </pre>
+     *
+     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     */
+    boolean hasData();
+    /**
+     * <pre>
+     * Storage settings for the column group (default to values in storage policy)
+     * </pre>
+     *
+     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     */
+    tech.ydb.table.YdbTable.StorageSettings getData();
+    /**
+     * <pre>
+     * Storage settings for the column group (default to values in storage policy)
+     * </pre>
+     *
+     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     */
+    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getDataOrBuilder();
+
+    /**
+     * <code>.Ydb.Table.StorageSettings external = 3;</code>
+     */
+    boolean hasExternal();
+    /**
+     * <code>.Ydb.Table.StorageSettings external = 3;</code>
+     */
+    tech.ydb.table.YdbTable.StorageSettings getExternal();
+    /**
+     * <code>.Ydb.Table.StorageSettings external = 3;</code>
+     */
+    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getExternalOrBuilder();
+
+    /**
+     * <code>.Ydb.FeatureFlag.Status keep_in_memory = 4;</code>
+     */
+    int getKeepInMemoryValue();
+    /**
+     * <code>.Ydb.FeatureFlag.Status keep_in_memory = 4;</code>
+     */
+    tech.ydb.common.CommonProtos.FeatureFlag.Status getKeepInMemory();
+
+    /**
+     * <pre>
+     * Optional page size override, e.g. larger page size is better suited for
+     * column groups with very large string columns. Not all values are valid.
+     * Note that currently this page size is specified for uncompressed data.
+     * </pre>
+     *
+     * <code>uint32 page_size = 5;</code>
+     */
+    int getPageSize();
+
+    /**
+     * <pre>
+     * Optional compression codec for data stored in this column group
+     * </pre>
+     *
+     * <code>.Ydb.Table.CompressionCodec.Status compression_codec = 6;</code>
+     */
+    int getCompressionCodecValue();
+    /**
+     * <pre>
+     * Optional compression codec for data stored in this column group
+     * </pre>
+     *
+     * <code>.Ydb.Table.CompressionCodec.Status compression_codec = 6;</code>
+     */
+    tech.ydb.table.YdbTable.CompressionCodec.Status getCompressionCodec();
+  }
+  /**
+   * Protobuf type {@code Ydb.Table.ColumnFamilyPolicy}
+   */
+  public  static final class ColumnFamilyPolicy extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Table.ColumnFamilyPolicy)
+      ColumnFamilyPolicyOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ColumnFamilyPolicy.newBuilder() to construct.
+    private ColumnFamilyPolicy(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ColumnFamilyPolicy() {
+      name_ = "";
+      keepInMemory_ = 0;
+      pageSize_ = 0;
+      compressionCodec_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ColumnFamilyPolicy(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              name_ = s;
+              break;
+            }
+            case 18: {
+              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
+              if (data_ != null) {
+                subBuilder = data_.toBuilder();
+              }
+              data_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(data_);
+                data_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 26: {
+              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
+              if (external_ != null) {
+                subBuilder = external_.toBuilder();
+              }
+              external_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(external_);
+                external_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 32: {
+              int rawValue = input.readEnum();
+
+              keepInMemory_ = rawValue;
+              break;
+            }
+            case 40: {
+
+              pageSize_ = input.readUInt32();
+              break;
+            }
+            case 48: {
+              int rawValue = input.readEnum();
+
+              compressionCodec_ = rawValue;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.table.YdbTable.internal_static_Ydb_Table_ColumnFamilyPolicy_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.table.YdbTable.internal_static_Ydb_Table_ColumnFamilyPolicy_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.table.YdbTable.ColumnFamilyPolicy.class, tech.ydb.table.YdbTable.ColumnFamilyPolicy.Builder.class);
+    }
+
+    public static final int NAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object name_;
+    /**
+     * <pre>
+     * Name of the column family, the name "default" must be used for the
+     * primary column family that contains as least primary key columns
+     * </pre>
+     *
+     * <code>string name = 1;</code>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        name_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Name of the column family, the name "default" must be used for the
+     * primary column family that contains as least primary key columns
+     * </pre>
+     *
+     * <code>string name = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DATA_FIELD_NUMBER = 2;
+    private tech.ydb.table.YdbTable.StorageSettings data_;
+    /**
+     * <pre>
+     * Storage settings for the column group (default to values in storage policy)
+     * </pre>
+     *
+     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     */
+    public boolean hasData() {
+      return data_ != null;
+    }
+    /**
+     * <pre>
+     * Storage settings for the column group (default to values in storage policy)
+     * </pre>
+     *
+     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     */
+    public tech.ydb.table.YdbTable.StorageSettings getData() {
+      return data_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : data_;
+    }
+    /**
+     * <pre>
+     * Storage settings for the column group (default to values in storage policy)
+     * </pre>
+     *
+     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     */
+    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getDataOrBuilder() {
+      return getData();
+    }
+
+    public static final int EXTERNAL_FIELD_NUMBER = 3;
+    private tech.ydb.table.YdbTable.StorageSettings external_;
+    /**
+     * <code>.Ydb.Table.StorageSettings external = 3;</code>
+     */
+    public boolean hasExternal() {
+      return external_ != null;
+    }
+    /**
+     * <code>.Ydb.Table.StorageSettings external = 3;</code>
+     */
+    public tech.ydb.table.YdbTable.StorageSettings getExternal() {
+      return external_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : external_;
+    }
+    /**
+     * <code>.Ydb.Table.StorageSettings external = 3;</code>
+     */
+    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getExternalOrBuilder() {
+      return getExternal();
+    }
+
+    public static final int KEEP_IN_MEMORY_FIELD_NUMBER = 4;
+    private int keepInMemory_;
+    /**
+     * <code>.Ydb.FeatureFlag.Status keep_in_memory = 4;</code>
+     */
+    public int getKeepInMemoryValue() {
+      return keepInMemory_;
+    }
+    /**
+     * <code>.Ydb.FeatureFlag.Status keep_in_memory = 4;</code>
+     */
+    public tech.ydb.common.CommonProtos.FeatureFlag.Status getKeepInMemory() {
+      tech.ydb.common.CommonProtos.FeatureFlag.Status result = tech.ydb.common.CommonProtos.FeatureFlag.Status.valueOf(keepInMemory_);
+      return result == null ? tech.ydb.common.CommonProtos.FeatureFlag.Status.UNRECOGNIZED : result;
+    }
+
+    public static final int PAGE_SIZE_FIELD_NUMBER = 5;
+    private int pageSize_;
+    /**
+     * <pre>
+     * Optional page size override, e.g. larger page size is better suited for
+     * column groups with very large string columns. Not all values are valid.
+     * Note that currently this page size is specified for uncompressed data.
+     * </pre>
+     *
+     * <code>uint32 page_size = 5;</code>
+     */
+    public int getPageSize() {
+      return pageSize_;
+    }
+
+    public static final int COMPRESSION_CODEC_FIELD_NUMBER = 6;
+    private int compressionCodec_;
+    /**
+     * <pre>
+     * Optional compression codec for data stored in this column group
+     * </pre>
+     *
+     * <code>.Ydb.Table.CompressionCodec.Status compression_codec = 6;</code>
+     */
+    public int getCompressionCodecValue() {
+      return compressionCodec_;
+    }
+    /**
+     * <pre>
+     * Optional compression codec for data stored in this column group
+     * </pre>
+     *
+     * <code>.Ydb.Table.CompressionCodec.Status compression_codec = 6;</code>
+     */
+    public tech.ydb.table.YdbTable.CompressionCodec.Status getCompressionCodec() {
+      tech.ydb.table.YdbTable.CompressionCodec.Status result = tech.ydb.table.YdbTable.CompressionCodec.Status.valueOf(compressionCodec_);
+      return result == null ? tech.ydb.table.YdbTable.CompressionCodec.Status.UNRECOGNIZED : result;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
+      }
+      if (data_ != null) {
+        output.writeMessage(2, getData());
+      }
+      if (external_ != null) {
+        output.writeMessage(3, getExternal());
+      }
+      if (keepInMemory_ != tech.ydb.common.CommonProtos.FeatureFlag.Status.STATUS_UNSPECIFIED.getNumber()) {
+        output.writeEnum(4, keepInMemory_);
+      }
+      if (pageSize_ != 0) {
+        output.writeUInt32(5, pageSize_);
+      }
+      if (compressionCodec_ != tech.ydb.table.YdbTable.CompressionCodec.Status.UNSPECIFIED.getNumber()) {
+        output.writeEnum(6, compressionCodec_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
+      }
+      if (data_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getData());
+      }
+      if (external_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getExternal());
+      }
+      if (keepInMemory_ != tech.ydb.common.CommonProtos.FeatureFlag.Status.STATUS_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(4, keepInMemory_);
+      }
+      if (pageSize_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(5, pageSize_);
+      }
+      if (compressionCodec_ != tech.ydb.table.YdbTable.CompressionCodec.Status.UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(6, compressionCodec_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.table.YdbTable.ColumnFamilyPolicy)) {
+        return super.equals(obj);
+      }
+      tech.ydb.table.YdbTable.ColumnFamilyPolicy other = (tech.ydb.table.YdbTable.ColumnFamilyPolicy) obj;
+
+      boolean result = true;
+      result = result && getName()
+          .equals(other.getName());
+      result = result && (hasData() == other.hasData());
+      if (hasData()) {
+        result = result && getData()
+            .equals(other.getData());
+      }
+      result = result && (hasExternal() == other.hasExternal());
+      if (hasExternal()) {
+        result = result && getExternal()
+            .equals(other.getExternal());
+      }
+      result = result && keepInMemory_ == other.keepInMemory_;
+      result = result && (getPageSize()
+          == other.getPageSize());
+      result = result && compressionCodec_ == other.compressionCodec_;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getName().hashCode();
+      if (hasData()) {
+        hash = (37 * hash) + DATA_FIELD_NUMBER;
+        hash = (53 * hash) + getData().hashCode();
+      }
+      if (hasExternal()) {
+        hash = (37 * hash) + EXTERNAL_FIELD_NUMBER;
+        hash = (53 * hash) + getExternal().hashCode();
+      }
+      hash = (37 * hash) + KEEP_IN_MEMORY_FIELD_NUMBER;
+      hash = (53 * hash) + keepInMemory_;
+      hash = (37 * hash) + PAGE_SIZE_FIELD_NUMBER;
+      hash = (53 * hash) + getPageSize();
+      hash = (37 * hash) + COMPRESSION_CODEC_FIELD_NUMBER;
+      hash = (53 * hash) + compressionCodec_;
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.table.YdbTable.ColumnFamilyPolicy parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.table.YdbTable.ColumnFamilyPolicy parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.table.YdbTable.ColumnFamilyPolicy parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.table.YdbTable.ColumnFamilyPolicy parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.table.YdbTable.ColumnFamilyPolicy parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.table.YdbTable.ColumnFamilyPolicy parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.table.YdbTable.ColumnFamilyPolicy parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.table.YdbTable.ColumnFamilyPolicy parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.table.YdbTable.ColumnFamilyPolicy parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.table.YdbTable.ColumnFamilyPolicy parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.table.YdbTable.ColumnFamilyPolicy parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.table.YdbTable.ColumnFamilyPolicy parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.table.YdbTable.ColumnFamilyPolicy prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Table.ColumnFamilyPolicy}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Table.ColumnFamilyPolicy)
+        tech.ydb.table.YdbTable.ColumnFamilyPolicyOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_ColumnFamilyPolicy_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_ColumnFamilyPolicy_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.table.YdbTable.ColumnFamilyPolicy.class, tech.ydb.table.YdbTable.ColumnFamilyPolicy.Builder.class);
+      }
+
+      // Construct using tech.ydb.table.YdbTable.ColumnFamilyPolicy.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        name_ = "";
+
+        if (dataBuilder_ == null) {
+          data_ = null;
+        } else {
+          data_ = null;
+          dataBuilder_ = null;
+        }
+        if (externalBuilder_ == null) {
+          external_ = null;
+        } else {
+          external_ = null;
+          externalBuilder_ = null;
+        }
+        keepInMemory_ = 0;
+
+        pageSize_ = 0;
+
+        compressionCodec_ = 0;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_ColumnFamilyPolicy_descriptor;
+      }
+
+      public tech.ydb.table.YdbTable.ColumnFamilyPolicy getDefaultInstanceForType() {
+        return tech.ydb.table.YdbTable.ColumnFamilyPolicy.getDefaultInstance();
+      }
+
+      public tech.ydb.table.YdbTable.ColumnFamilyPolicy build() {
+        tech.ydb.table.YdbTable.ColumnFamilyPolicy result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.table.YdbTable.ColumnFamilyPolicy buildPartial() {
+        tech.ydb.table.YdbTable.ColumnFamilyPolicy result = new tech.ydb.table.YdbTable.ColumnFamilyPolicy(this);
+        result.name_ = name_;
+        if (dataBuilder_ == null) {
+          result.data_ = data_;
+        } else {
+          result.data_ = dataBuilder_.build();
+        }
+        if (externalBuilder_ == null) {
+          result.external_ = external_;
+        } else {
+          result.external_ = externalBuilder_.build();
+        }
+        result.keepInMemory_ = keepInMemory_;
+        result.pageSize_ = pageSize_;
+        result.compressionCodec_ = compressionCodec_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.table.YdbTable.ColumnFamilyPolicy) {
+          return mergeFrom((tech.ydb.table.YdbTable.ColumnFamilyPolicy)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.table.YdbTable.ColumnFamilyPolicy other) {
+        if (other == tech.ydb.table.YdbTable.ColumnFamilyPolicy.getDefaultInstance()) return this;
+        if (!other.getName().isEmpty()) {
+          name_ = other.name_;
+          onChanged();
+        }
+        if (other.hasData()) {
+          mergeData(other.getData());
+        }
+        if (other.hasExternal()) {
+          mergeExternal(other.getExternal());
+        }
+        if (other.keepInMemory_ != 0) {
+          setKeepInMemoryValue(other.getKeepInMemoryValue());
+        }
+        if (other.getPageSize() != 0) {
+          setPageSize(other.getPageSize());
+        }
+        if (other.compressionCodec_ != 0) {
+          setCompressionCodecValue(other.getCompressionCodecValue());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.table.YdbTable.ColumnFamilyPolicy parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.table.YdbTable.ColumnFamilyPolicy) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object name_ = "";
+      /**
+       * <pre>
+       * Name of the column family, the name "default" must be used for the
+       * primary column family that contains as least primary key columns
+       * </pre>
+       *
+       * <code>string name = 1;</code>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Name of the column family, the name "default" must be used for the
+       * primary column family that contains as least primary key columns
+       * </pre>
+       *
+       * <code>string name = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Name of the column family, the name "default" must be used for the
+       * primary column family that contains as least primary key columns
+       * </pre>
+       *
+       * <code>string name = 1;</code>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Name of the column family, the name "default" must be used for the
+       * primary column family that contains as least primary key columns
+       * </pre>
+       *
+       * <code>string name = 1;</code>
+       */
+      public Builder clearName() {
+        
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Name of the column family, the name "default" must be used for the
+       * primary column family that contains as least primary key columns
+       * </pre>
+       *
+       * <code>string name = 1;</code>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
+      private tech.ydb.table.YdbTable.StorageSettings data_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> dataBuilder_;
+      /**
+       * <pre>
+       * Storage settings for the column group (default to values in storage policy)
+       * </pre>
+       *
+       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       */
+      public boolean hasData() {
+        return dataBuilder_ != null || data_ != null;
+      }
+      /**
+       * <pre>
+       * Storage settings for the column group (default to values in storage policy)
+       * </pre>
+       *
+       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       */
+      public tech.ydb.table.YdbTable.StorageSettings getData() {
+        if (dataBuilder_ == null) {
+          return data_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : data_;
+        } else {
+          return dataBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Storage settings for the column group (default to values in storage policy)
+       * </pre>
+       *
+       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       */
+      public Builder setData(tech.ydb.table.YdbTable.StorageSettings value) {
+        if (dataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          data_ = value;
+          onChanged();
+        } else {
+          dataBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Storage settings for the column group (default to values in storage policy)
+       * </pre>
+       *
+       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       */
+      public Builder setData(
+          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
+        if (dataBuilder_ == null) {
+          data_ = builderForValue.build();
+          onChanged();
+        } else {
+          dataBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Storage settings for the column group (default to values in storage policy)
+       * </pre>
+       *
+       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       */
+      public Builder mergeData(tech.ydb.table.YdbTable.StorageSettings value) {
+        if (dataBuilder_ == null) {
+          if (data_ != null) {
+            data_ =
+              tech.ydb.table.YdbTable.StorageSettings.newBuilder(data_).mergeFrom(value).buildPartial();
+          } else {
+            data_ = value;
+          }
+          onChanged();
+        } else {
+          dataBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Storage settings for the column group (default to values in storage policy)
+       * </pre>
+       *
+       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       */
+      public Builder clearData() {
+        if (dataBuilder_ == null) {
+          data_ = null;
+          onChanged();
+        } else {
+          data_ = null;
+          dataBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Storage settings for the column group (default to values in storage policy)
+       * </pre>
+       *
+       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       */
+      public tech.ydb.table.YdbTable.StorageSettings.Builder getDataBuilder() {
+        
+        onChanged();
+        return getDataFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Storage settings for the column group (default to values in storage policy)
+       * </pre>
+       *
+       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       */
+      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getDataOrBuilder() {
+        if (dataBuilder_ != null) {
+          return dataBuilder_.getMessageOrBuilder();
+        } else {
+          return data_ == null ?
+              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : data_;
+        }
+      }
+      /**
+       * <pre>
+       * Storage settings for the column group (default to values in storage policy)
+       * </pre>
+       *
+       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
+          getDataFieldBuilder() {
+        if (dataBuilder_ == null) {
+          dataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
+                  getData(),
+                  getParentForChildren(),
+                  isClean());
+          data_ = null;
+        }
+        return dataBuilder_;
+      }
+
+      private tech.ydb.table.YdbTable.StorageSettings external_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> externalBuilder_;
+      /**
+       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       */
+      public boolean hasExternal() {
+        return externalBuilder_ != null || external_ != null;
+      }
+      /**
+       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       */
+      public tech.ydb.table.YdbTable.StorageSettings getExternal() {
+        if (externalBuilder_ == null) {
+          return external_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : external_;
+        } else {
+          return externalBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       */
+      public Builder setExternal(tech.ydb.table.YdbTable.StorageSettings value) {
+        if (externalBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          external_ = value;
+          onChanged();
+        } else {
+          externalBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       */
+      public Builder setExternal(
+          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
+        if (externalBuilder_ == null) {
+          external_ = builderForValue.build();
+          onChanged();
+        } else {
+          externalBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       */
+      public Builder mergeExternal(tech.ydb.table.YdbTable.StorageSettings value) {
+        if (externalBuilder_ == null) {
+          if (external_ != null) {
+            external_ =
+              tech.ydb.table.YdbTable.StorageSettings.newBuilder(external_).mergeFrom(value).buildPartial();
+          } else {
+            external_ = value;
+          }
+          onChanged();
+        } else {
+          externalBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       */
+      public Builder clearExternal() {
+        if (externalBuilder_ == null) {
+          external_ = null;
+          onChanged();
+        } else {
+          external_ = null;
+          externalBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       */
+      public tech.ydb.table.YdbTable.StorageSettings.Builder getExternalBuilder() {
+        
+        onChanged();
+        return getExternalFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       */
+      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getExternalOrBuilder() {
+        if (externalBuilder_ != null) {
+          return externalBuilder_.getMessageOrBuilder();
+        } else {
+          return external_ == null ?
+              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : external_;
+        }
+      }
+      /**
+       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
+          getExternalFieldBuilder() {
+        if (externalBuilder_ == null) {
+          externalBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
+                  getExternal(),
+                  getParentForChildren(),
+                  isClean());
+          external_ = null;
+        }
+        return externalBuilder_;
+      }
+
+      private int keepInMemory_ = 0;
+      /**
+       * <code>.Ydb.FeatureFlag.Status keep_in_memory = 4;</code>
+       */
+      public int getKeepInMemoryValue() {
+        return keepInMemory_;
+      }
+      /**
+       * <code>.Ydb.FeatureFlag.Status keep_in_memory = 4;</code>
+       */
+      public Builder setKeepInMemoryValue(int value) {
+        keepInMemory_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.FeatureFlag.Status keep_in_memory = 4;</code>
+       */
+      public tech.ydb.common.CommonProtos.FeatureFlag.Status getKeepInMemory() {
+        tech.ydb.common.CommonProtos.FeatureFlag.Status result = tech.ydb.common.CommonProtos.FeatureFlag.Status.valueOf(keepInMemory_);
+        return result == null ? tech.ydb.common.CommonProtos.FeatureFlag.Status.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.Ydb.FeatureFlag.Status keep_in_memory = 4;</code>
+       */
+      public Builder setKeepInMemory(tech.ydb.common.CommonProtos.FeatureFlag.Status value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        keepInMemory_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.FeatureFlag.Status keep_in_memory = 4;</code>
+       */
+      public Builder clearKeepInMemory() {
+        
+        keepInMemory_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int pageSize_ ;
+      /**
+       * <pre>
+       * Optional page size override, e.g. larger page size is better suited for
+       * column groups with very large string columns. Not all values are valid.
+       * Note that currently this page size is specified for uncompressed data.
+       * </pre>
+       *
+       * <code>uint32 page_size = 5;</code>
+       */
+      public int getPageSize() {
+        return pageSize_;
+      }
+      /**
+       * <pre>
+       * Optional page size override, e.g. larger page size is better suited for
+       * column groups with very large string columns. Not all values are valid.
+       * Note that currently this page size is specified for uncompressed data.
+       * </pre>
+       *
+       * <code>uint32 page_size = 5;</code>
+       */
+      public Builder setPageSize(int value) {
+        
+        pageSize_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional page size override, e.g. larger page size is better suited for
+       * column groups with very large string columns. Not all values are valid.
+       * Note that currently this page size is specified for uncompressed data.
+       * </pre>
+       *
+       * <code>uint32 page_size = 5;</code>
+       */
+      public Builder clearPageSize() {
+        
+        pageSize_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int compressionCodec_ = 0;
+      /**
+       * <pre>
+       * Optional compression codec for data stored in this column group
+       * </pre>
+       *
+       * <code>.Ydb.Table.CompressionCodec.Status compression_codec = 6;</code>
+       */
+      public int getCompressionCodecValue() {
+        return compressionCodec_;
+      }
+      /**
+       * <pre>
+       * Optional compression codec for data stored in this column group
+       * </pre>
+       *
+       * <code>.Ydb.Table.CompressionCodec.Status compression_codec = 6;</code>
+       */
+      public Builder setCompressionCodecValue(int value) {
+        compressionCodec_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional compression codec for data stored in this column group
+       * </pre>
+       *
+       * <code>.Ydb.Table.CompressionCodec.Status compression_codec = 6;</code>
+       */
+      public tech.ydb.table.YdbTable.CompressionCodec.Status getCompressionCodec() {
+        tech.ydb.table.YdbTable.CompressionCodec.Status result = tech.ydb.table.YdbTable.CompressionCodec.Status.valueOf(compressionCodec_);
+        return result == null ? tech.ydb.table.YdbTable.CompressionCodec.Status.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * Optional compression codec for data stored in this column group
+       * </pre>
+       *
+       * <code>.Ydb.Table.CompressionCodec.Status compression_codec = 6;</code>
+       */
+      public Builder setCompressionCodec(tech.ydb.table.YdbTable.CompressionCodec.Status value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        compressionCodec_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional compression codec for data stored in this column group
+       * </pre>
+       *
+       * <code>.Ydb.Table.CompressionCodec.Status compression_codec = 6;</code>
+       */
+      public Builder clearCompressionCodec() {
+        
+        compressionCodec_ = 0;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Table.ColumnFamilyPolicy)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Table.ColumnFamilyPolicy)
+    private static final tech.ydb.table.YdbTable.ColumnFamilyPolicy DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.table.YdbTable.ColumnFamilyPolicy();
+    }
+
+    public static tech.ydb.table.YdbTable.ColumnFamilyPolicy getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ColumnFamilyPolicy>
+        PARSER = new com.google.protobuf.AbstractParser<ColumnFamilyPolicy>() {
+      public ColumnFamilyPolicy parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ColumnFamilyPolicy(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ColumnFamilyPolicy> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ColumnFamilyPolicy> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.table.YdbTable.ColumnFamilyPolicy getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -12916,6 +15107,24 @@ public final class YdbTable {
      * <code>.Ydb.Type type = 2;</code>
      */
     tech.ydb.ValueProtos.TypeOrBuilder getTypeOrBuilder();
+
+    /**
+     * <pre>
+     * Column family name of the column
+     * </pre>
+     *
+     * <code>string family = 3;</code>
+     */
+    java.lang.String getFamily();
+    /**
+     * <pre>
+     * Column family name of the column
+     * </pre>
+     *
+     * <code>string family = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getFamilyBytes();
   }
   /**
    * Protobuf type {@code Ydb.Table.ColumnMeta}
@@ -12931,6 +15140,7 @@ public final class YdbTable {
     }
     private ColumnMeta() {
       name_ = "";
+      family_ = "";
     }
 
     @java.lang.Override
@@ -12978,6 +15188,12 @@ public final class YdbTable {
                 type_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              family_ = s;
               break;
             }
           }
@@ -13079,6 +15295,48 @@ public final class YdbTable {
       return getType();
     }
 
+    public static final int FAMILY_FIELD_NUMBER = 3;
+    private volatile java.lang.Object family_;
+    /**
+     * <pre>
+     * Column family name of the column
+     * </pre>
+     *
+     * <code>string family = 3;</code>
+     */
+    public java.lang.String getFamily() {
+      java.lang.Object ref = family_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        family_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Column family name of the column
+     * </pre>
+     *
+     * <code>string family = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFamilyBytes() {
+      java.lang.Object ref = family_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        family_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -13097,6 +15355,9 @@ public final class YdbTable {
       if (type_ != null) {
         output.writeMessage(2, getType());
       }
+      if (!getFamilyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, family_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -13111,6 +15372,9 @@ public final class YdbTable {
       if (type_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getType());
+      }
+      if (!getFamilyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, family_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -13135,6 +15399,8 @@ public final class YdbTable {
         result = result && getType()
             .equals(other.getType());
       }
+      result = result && getFamily()
+          .equals(other.getFamily());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -13152,6 +15418,8 @@ public final class YdbTable {
         hash = (37 * hash) + TYPE_FIELD_NUMBER;
         hash = (53 * hash) + getType().hashCode();
       }
+      hash = (37 * hash) + FAMILY_FIELD_NUMBER;
+      hash = (53 * hash) + getFamily().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -13289,6 +15557,8 @@ public final class YdbTable {
           type_ = null;
           typeBuilder_ = null;
         }
+        family_ = "";
+
         return this;
       }
 
@@ -13317,6 +15587,7 @@ public final class YdbTable {
         } else {
           result.type_ = typeBuilder_.build();
         }
+        result.family_ = family_;
         onBuilt();
         return result;
       }
@@ -13364,6 +15635,10 @@ public final class YdbTable {
         }
         if (other.hasType()) {
           mergeType(other.getType());
+        }
+        if (!other.getFamily().isEmpty()) {
+          family_ = other.family_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -13632,6 +15907,95 @@ public final class YdbTable {
           type_ = null;
         }
         return typeBuilder_;
+      }
+
+      private java.lang.Object family_ = "";
+      /**
+       * <pre>
+       * Column family name of the column
+       * </pre>
+       *
+       * <code>string family = 3;</code>
+       */
+      public java.lang.String getFamily() {
+        java.lang.Object ref = family_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          family_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Column family name of the column
+       * </pre>
+       *
+       * <code>string family = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFamilyBytes() {
+        java.lang.Object ref = family_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          family_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Column family name of the column
+       * </pre>
+       *
+       * <code>string family = 3;</code>
+       */
+      public Builder setFamily(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        family_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Column family name of the column
+       * </pre>
+       *
+       * <code>string family = 3;</code>
+       */
+      public Builder clearFamily() {
+        
+        family_ = getDefaultInstance().getFamily();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Column family name of the column
+       * </pre>
+       *
+       * <code>string family = 3;</code>
+       */
+      public Builder setFamilyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        family_ = value;
+        onChanged();
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -18303,6 +20667,50 @@ public final class YdbTable {
      * <code>.Ydb.Operations.OperationParams operation_params = 5;</code>
      */
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <pre>
+     * Columns to alter
+     * </pre>
+     *
+     * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+     */
+    java.util.List<tech.ydb.table.YdbTable.ColumnMeta> 
+        getAlterColumnsList();
+    /**
+     * <pre>
+     * Columns to alter
+     * </pre>
+     *
+     * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+     */
+    tech.ydb.table.YdbTable.ColumnMeta getAlterColumns(int index);
+    /**
+     * <pre>
+     * Columns to alter
+     * </pre>
+     *
+     * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+     */
+    int getAlterColumnsCount();
+    /**
+     * <pre>
+     * Columns to alter
+     * </pre>
+     *
+     * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+     */
+    java.util.List<? extends tech.ydb.table.YdbTable.ColumnMetaOrBuilder> 
+        getAlterColumnsOrBuilderList();
+    /**
+     * <pre>
+     * Columns to alter
+     * </pre>
+     *
+     * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+     */
+    tech.ydb.table.YdbTable.ColumnMetaOrBuilder getAlterColumnsOrBuilder(
+        int index);
   }
   /**
    * <pre>
@@ -18325,6 +20733,7 @@ public final class YdbTable {
       path_ = "";
       addColumns_ = java.util.Collections.emptyList();
       dropColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      alterColumns_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -18398,6 +20807,15 @@ public final class YdbTable {
 
               break;
             }
+            case 50: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                alterColumns_ = new java.util.ArrayList<tech.ydb.table.YdbTable.ColumnMeta>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              alterColumns_.add(
+                  input.readMessage(tech.ydb.table.YdbTable.ColumnMeta.parser(), extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -18411,6 +20829,9 @@ public final class YdbTable {
         }
         if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           dropColumns_ = dropColumns_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+          alterColumns_ = java.util.Collections.unmodifiableList(alterColumns_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -18634,6 +21055,61 @@ public final class YdbTable {
       return getOperationParams();
     }
 
+    public static final int ALTER_COLUMNS_FIELD_NUMBER = 6;
+    private java.util.List<tech.ydb.table.YdbTable.ColumnMeta> alterColumns_;
+    /**
+     * <pre>
+     * Columns to alter
+     * </pre>
+     *
+     * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+     */
+    public java.util.List<tech.ydb.table.YdbTable.ColumnMeta> getAlterColumnsList() {
+      return alterColumns_;
+    }
+    /**
+     * <pre>
+     * Columns to alter
+     * </pre>
+     *
+     * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+     */
+    public java.util.List<? extends tech.ydb.table.YdbTable.ColumnMetaOrBuilder> 
+        getAlterColumnsOrBuilderList() {
+      return alterColumns_;
+    }
+    /**
+     * <pre>
+     * Columns to alter
+     * </pre>
+     *
+     * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+     */
+    public int getAlterColumnsCount() {
+      return alterColumns_.size();
+    }
+    /**
+     * <pre>
+     * Columns to alter
+     * </pre>
+     *
+     * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+     */
+    public tech.ydb.table.YdbTable.ColumnMeta getAlterColumns(int index) {
+      return alterColumns_.get(index);
+    }
+    /**
+     * <pre>
+     * Columns to alter
+     * </pre>
+     *
+     * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+     */
+    public tech.ydb.table.YdbTable.ColumnMetaOrBuilder getAlterColumnsOrBuilder(
+        int index) {
+      return alterColumns_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -18660,6 +21136,9 @@ public final class YdbTable {
       }
       if (operationParams_ != null) {
         output.writeMessage(5, getOperationParams());
+      }
+      for (int i = 0; i < alterColumns_.size(); i++) {
+        output.writeMessage(6, alterColumns_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -18691,6 +21170,10 @@ public final class YdbTable {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, getOperationParams());
       }
+      for (int i = 0; i < alterColumns_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, alterColumns_.get(i));
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -18720,6 +21203,8 @@ public final class YdbTable {
         result = result && getOperationParams()
             .equals(other.getOperationParams());
       }
+      result = result && getAlterColumnsList()
+          .equals(other.getAlterColumnsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -18746,6 +21231,10 @@ public final class YdbTable {
       if (hasOperationParams()) {
         hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
         hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      if (getAlterColumnsCount() > 0) {
+        hash = (37 * hash) + ALTER_COLUMNS_FIELD_NUMBER;
+        hash = (53 * hash) + getAlterColumnsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -18877,6 +21366,7 @@ public final class YdbTable {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getAddColumnsFieldBuilder();
+          getAlterColumnsFieldBuilder();
         }
       }
       public Builder clear() {
@@ -18898,6 +21388,12 @@ public final class YdbTable {
         } else {
           operationParams_ = null;
           operationParamsBuilder_ = null;
+        }
+        if (alterColumnsBuilder_ == null) {
+          alterColumns_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+        } else {
+          alterColumnsBuilder_.clear();
         }
         return this;
       }
@@ -18943,6 +21439,15 @@ public final class YdbTable {
           result.operationParams_ = operationParams_;
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
+        }
+        if (alterColumnsBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+            alterColumns_ = java.util.Collections.unmodifiableList(alterColumns_);
+            bitField0_ = (bitField0_ & ~0x00000020);
+          }
+          result.alterColumns_ = alterColumns_;
+        } else {
+          result.alterColumns_ = alterColumnsBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -19032,6 +21537,32 @@ public final class YdbTable {
         }
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
+        }
+        if (alterColumnsBuilder_ == null) {
+          if (!other.alterColumns_.isEmpty()) {
+            if (alterColumns_.isEmpty()) {
+              alterColumns_ = other.alterColumns_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+            } else {
+              ensureAlterColumnsIsMutable();
+              alterColumns_.addAll(other.alterColumns_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.alterColumns_.isEmpty()) {
+            if (alterColumnsBuilder_.isEmpty()) {
+              alterColumnsBuilder_.dispose();
+              alterColumnsBuilder_ = null;
+              alterColumns_ = other.alterColumns_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+              alterColumnsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getAlterColumnsFieldBuilder() : null;
+            } else {
+              alterColumnsBuilder_.addAllMessages(other.alterColumns_);
+            }
+          }
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -19796,6 +22327,318 @@ public final class YdbTable {
           operationParams_ = null;
         }
         return operationParamsBuilder_;
+      }
+
+      private java.util.List<tech.ydb.table.YdbTable.ColumnMeta> alterColumns_ =
+        java.util.Collections.emptyList();
+      private void ensureAlterColumnsIsMutable() {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+          alterColumns_ = new java.util.ArrayList<tech.ydb.table.YdbTable.ColumnMeta>(alterColumns_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.table.YdbTable.ColumnMeta, tech.ydb.table.YdbTable.ColumnMeta.Builder, tech.ydb.table.YdbTable.ColumnMetaOrBuilder> alterColumnsBuilder_;
+
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public java.util.List<tech.ydb.table.YdbTable.ColumnMeta> getAlterColumnsList() {
+        if (alterColumnsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(alterColumns_);
+        } else {
+          return alterColumnsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public int getAlterColumnsCount() {
+        if (alterColumnsBuilder_ == null) {
+          return alterColumns_.size();
+        } else {
+          return alterColumnsBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnMeta getAlterColumns(int index) {
+        if (alterColumnsBuilder_ == null) {
+          return alterColumns_.get(index);
+        } else {
+          return alterColumnsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public Builder setAlterColumns(
+          int index, tech.ydb.table.YdbTable.ColumnMeta value) {
+        if (alterColumnsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAlterColumnsIsMutable();
+          alterColumns_.set(index, value);
+          onChanged();
+        } else {
+          alterColumnsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public Builder setAlterColumns(
+          int index, tech.ydb.table.YdbTable.ColumnMeta.Builder builderForValue) {
+        if (alterColumnsBuilder_ == null) {
+          ensureAlterColumnsIsMutable();
+          alterColumns_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          alterColumnsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public Builder addAlterColumns(tech.ydb.table.YdbTable.ColumnMeta value) {
+        if (alterColumnsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAlterColumnsIsMutable();
+          alterColumns_.add(value);
+          onChanged();
+        } else {
+          alterColumnsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public Builder addAlterColumns(
+          int index, tech.ydb.table.YdbTable.ColumnMeta value) {
+        if (alterColumnsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAlterColumnsIsMutable();
+          alterColumns_.add(index, value);
+          onChanged();
+        } else {
+          alterColumnsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public Builder addAlterColumns(
+          tech.ydb.table.YdbTable.ColumnMeta.Builder builderForValue) {
+        if (alterColumnsBuilder_ == null) {
+          ensureAlterColumnsIsMutable();
+          alterColumns_.add(builderForValue.build());
+          onChanged();
+        } else {
+          alterColumnsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public Builder addAlterColumns(
+          int index, tech.ydb.table.YdbTable.ColumnMeta.Builder builderForValue) {
+        if (alterColumnsBuilder_ == null) {
+          ensureAlterColumnsIsMutable();
+          alterColumns_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          alterColumnsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public Builder addAllAlterColumns(
+          java.lang.Iterable<? extends tech.ydb.table.YdbTable.ColumnMeta> values) {
+        if (alterColumnsBuilder_ == null) {
+          ensureAlterColumnsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, alterColumns_);
+          onChanged();
+        } else {
+          alterColumnsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public Builder clearAlterColumns() {
+        if (alterColumnsBuilder_ == null) {
+          alterColumns_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+          onChanged();
+        } else {
+          alterColumnsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public Builder removeAlterColumns(int index) {
+        if (alterColumnsBuilder_ == null) {
+          ensureAlterColumnsIsMutable();
+          alterColumns_.remove(index);
+          onChanged();
+        } else {
+          alterColumnsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnMeta.Builder getAlterColumnsBuilder(
+          int index) {
+        return getAlterColumnsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnMetaOrBuilder getAlterColumnsOrBuilder(
+          int index) {
+        if (alterColumnsBuilder_ == null) {
+          return alterColumns_.get(index);  } else {
+          return alterColumnsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public java.util.List<? extends tech.ydb.table.YdbTable.ColumnMetaOrBuilder> 
+           getAlterColumnsOrBuilderList() {
+        if (alterColumnsBuilder_ != null) {
+          return alterColumnsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(alterColumns_);
+        }
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnMeta.Builder addAlterColumnsBuilder() {
+        return getAlterColumnsFieldBuilder().addBuilder(
+            tech.ydb.table.YdbTable.ColumnMeta.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnMeta.Builder addAlterColumnsBuilder(
+          int index) {
+        return getAlterColumnsFieldBuilder().addBuilder(
+            index, tech.ydb.table.YdbTable.ColumnMeta.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Columns to alter
+       * </pre>
+       *
+       * <code>repeated .Ydb.Table.ColumnMeta alter_columns = 6;</code>
+       */
+      public java.util.List<tech.ydb.table.YdbTable.ColumnMeta.Builder> 
+           getAlterColumnsBuilderList() {
+        return getAlterColumnsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.table.YdbTable.ColumnMeta, tech.ydb.table.YdbTable.ColumnMeta.Builder, tech.ydb.table.YdbTable.ColumnMetaOrBuilder> 
+          getAlterColumnsFieldBuilder() {
+        if (alterColumnsBuilder_ == null) {
+          alterColumnsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              tech.ydb.table.YdbTable.ColumnMeta, tech.ydb.table.YdbTable.ColumnMeta.Builder, tech.ydb.table.YdbTable.ColumnMetaOrBuilder>(
+                  alterColumns_,
+                  ((bitField0_ & 0x00000020) == 0x00000020),
+                  getParentForChildren(),
+                  isClean());
+          alterColumns_ = null;
+        }
+        return alterColumnsBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -69250,6 +72093,16 @@ public final class YdbTable {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Table_StoragePolicy_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Table_CompressionCodec_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Table_CompressionCodec_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Table_ColumnFamilyPolicy_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Table_ColumnFamilyPolicy_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Table_CompactionPolicy_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -69660,242 +72513,254 @@ public final class YdbTable {
       "\"i\n\nTableIndex\022\014\n\004name\030\001 \001(\t\022\025\n\rindex_co",
       "lumns\030\002 \003(\t\022.\n\014global_index\030\003 \001(\0132\026.Ydb." +
       "Table.GlobalIndexH\000B\006\n\004type\"\'\n\017StorageSe" +
-      "ttings\022\024\n\014storage_kind\030\001 \001(\t\"\202\002\n\rStorage" +
+      "ttings\022\024\n\014storage_kind\030\001 \001(\t\"\272\002\n\rStorage" +
       "Policy\022\023\n\013preset_name\030\001 \001(\t\022*\n\006syslog\030\002 " +
       "\001(\0132\032.Ydb.Table.StorageSettings\022\'\n\003log\030\003" +
       " \001(\0132\032.Ydb.Table.StorageSettings\022(\n\004data" +
       "\030\004 \001(\0132\032.Ydb.Table.StorageSettings\022,\n\010ex" +
       "ternal\030\005 \001(\0132\032.Ydb.Table.StorageSettings" +
       "\022/\n\016keep_in_memory\030\006 \001(\0162\027.Ydb.FeatureFl" +
-      "ag.Status\"\'\n\020CompactionPolicy\022\023\n\013preset_",
-      "name\030\001 \001(\t\";\n\022ExplicitPartitions\022%\n\014spli" +
-      "t_points\030\001 \003(\0132\017.Ydb.TypedValue\"\334\002\n\022Part" +
-      "itioningPolicy\022\023\n\013preset_name\030\001 \001(\t\022O\n\021a" +
-      "uto_partitioning\030\002 \001(\01624.Ydb.Table.Parti" +
-      "tioningPolicy.AutoPartitioningPolicy\022\034\n\022" +
-      "uniform_partitions\030\003 \001(\004H\000\022<\n\023explicit_p" +
-      "artitions\030\004 \001(\0132\035.Ydb.Table.ExplicitPart" +
-      "itionsH\000\"v\n\026AutoPartitioningPolicy\022(\n$AU" +
-      "TO_PARTITIONING_POLICY_UNSPECIFIED\020\000\022\014\n\010" +
-      "DISABLED\020\001\022\016\n\nAUTO_SPLIT\020\002\022\024\n\020AUTO_SPLIT",
-      "_MERGE\020\003B\014\n\npartitions\"&\n\017ExecutionPolic" +
-      "y\022\023\n\013preset_name\030\001 \001(\t\"\261\001\n\021ReplicationPo" +
-      "licy\022\023\n\013preset_name\030\001 \001(\t\022\026\n\016replicas_co" +
-      "unt\030\002 \001(\r\022=\n\034create_per_availability_zon" +
-      "e\030\003 \001(\0162\027.Ydb.FeatureFlag.Status\0220\n\017allo" +
-      "w_promotion\030\004 \001(\0162\027.Ydb.FeatureFlag.Stat" +
-      "us\"$\n\rCachingPolicy\022\023\n\013preset_name\030\001 \001(\t" +
-      "\"\353\002\n\014TableProfile\022\023\n\013preset_name\030\001 \001(\t\0220" +
-      "\n\016storage_policy\030\002 \001(\0132\030.Ydb.Table.Stora" +
-      "gePolicy\0226\n\021compaction_policy\030\003 \001(\0132\033.Yd",
-      "b.Table.CompactionPolicy\022:\n\023partitioning" +
-      "_policy\030\004 \001(\0132\035.Ydb.Table.PartitioningPo" +
-      "licy\0224\n\020execution_policy\030\005 \001(\0132\032.Ydb.Tab" +
-      "le.ExecutionPolicy\0228\n\022replication_policy" +
-      "\030\006 \001(\0132\034.Ydb.Table.ReplicationPolicy\0220\n\016" +
-      "caching_policy\030\007 \001(\0132\030.Ydb.Table.Caching" +
-      "Policy\"3\n\nColumnMeta\022\014\n\004name\030\001 \001(\t\022\027\n\004ty" +
-      "pe\030\002 \001(\0132\t.Ydb.Type\"\200\002\n\022CreateTableReque" +
-      "st\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022&\n\007" +
-      "columns\030\003 \003(\0132\025.Ydb.Table.ColumnMeta\022\023\n\013",
-      "primary_key\030\004 \003(\t\022(\n\007profile\030\005 \001(\0132\027.Ydb" +
-      ".Table.TableProfile\0229\n\020operation_params\030" +
-      "\006 \001(\0132\037.Ydb.Operations.OperationParams\022&" +
-      "\n\007indexes\030\007 \003(\0132\025.Ydb.Table.TableIndex\"C" +
-      "\n\023CreateTableResponse\022,\n\toperation\030\001 \001(\013" +
-      "2\031.Ydb.Operations.Operation\"u\n\020DropTable" +
-      "Request\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 \001(" +
-      "\t\0229\n\020operation_params\030\004 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParamsJ\004\010\003\020\004\"A\n\021DropTableR" +
-      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati",
-      "ons.Operation\"\262\001\n\021AlterTableRequest\022\022\n\ns" +
-      "ession_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022*\n\013add_col" +
-      "umns\030\003 \003(\0132\025.Ydb.Table.ColumnMeta\022\024\n\014dro" +
-      "p_columns\030\004 \003(\t\0229\n\020operation_params\030\005 \001(" +
-      "\0132\037.Ydb.Operations.OperationParams\"B\n\022Al" +
-      "terTableResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
-      "b.Operations.Operation\"\220\001\n\020CopyTableRequ" +
-      "est\022\022\n\nsession_id\030\001 \001(\t\022\023\n\013source_path\030\002" +
-      " \001(\t\022\030\n\020destination_path\030\003 \001(\t\0229\n\020operat" +
-      "ion_params\030\004 \001(\0132\037.Ydb.Operations.Operat",
-      "ionParams\"A\n\021CopyTableResponse\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"T\n\r" +
-      "CopyTableItem\022\023\n\013source_path\030\001 \001(\t\022\030\n\020de" +
-      "stination_path\030\002 \001(\t\022\024\n\014omit_indexes\030\003 \001" +
-      "(\010\"\214\001\n\021CopyTablesRequest\0229\n\020operation_pa" +
-      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
-      "ams\022\022\n\nsession_id\030\002 \001(\t\022(\n\006tables\030\003 \003(\0132" +
-      "\030.Ydb.Table.CopyTableItem\"B\n\022CopyTablesR" +
-      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
-      "ons.Operation\"\225\001\n\024DescribeTableRequest\022\022",
-      "\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\0229\n\020oper" +
-      "ation_params\030\004 \001(\0132\037.Ydb.Operations.Oper" +
-      "ationParams\022 \n\030include_shard_key_bounds\030" +
-      "\005 \001(\010\"E\n\025DescribeTableResponse\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\306\001\n" +
-      "\023DescribeTableResult\022\037\n\004self\030\001 \001(\0132\021.Ydb" +
-      ".Scheme.Entry\022&\n\007columns\030\002 \003(\0132\025.Ydb.Tab" +
-      "le.ColumnMeta\022\023\n\013primary_key\030\003 \003(\t\022)\n\020sh" +
-      "ard_key_bounds\030\004 \003(\0132\017.Ydb.TypedValue\022&\n" +
-      "\007indexes\030\005 \003(\0132\025.Ydb.Table.TableIndex\"2\n",
-      "\005Query\022\022\n\010yql_text\030\001 \001(\tH\000\022\014\n\002id\030\002 \001(\tH\000" +
-      "B\007\n\005query\"\032\n\030SerializableModeSettings\"6\n" +
-      "\022OnlineModeSettings\022 \n\030allow_inconsisten" +
-      "t_reads\030\001 \001(\010\"\023\n\021StaleModeSettings\"\334\001\n\023T" +
-      "ransactionSettings\022F\n\027serializable_read_" +
-      "write\030\001 \001(\0132#.Ydb.Table.SerializableMode" +
-      "SettingsH\000\0229\n\020online_read_only\030\002 \001(\0132\035.Y" +
-      "db.Table.OnlineModeSettingsH\000\0227\n\017stale_r" +
-      "ead_only\030\003 \001(\0132\034.Ydb.Table.StaleModeSett" +
-      "ingsH\000B\t\n\007tx_mode\"{\n\022TransactionControl\022",
-      "\017\n\005tx_id\030\001 \001(\tH\000\0222\n\010begin_tx\030\002 \001(\0132\036.Ydb" +
-      ".Table.TransactionSettingsH\000\022\021\n\tcommit_t" +
-      "x\030\n \001(\010B\r\n\013tx_selector\")\n\020QueryCachePoli" +
-      "cy\022\025\n\rkeep_in_cache\030\001 \001(\010\"\300\004\n\027ExecuteDat" +
-      "aQueryRequest\022\022\n\nsession_id\030\001 \001(\t\0221\n\ntx_" +
-      "control\030\002 \001(\0132\035.Ydb.Table.TransactionCon" +
-      "trol\022\037\n\005query\030\003 \001(\0132\020.Ydb.Table.Query\022F\n" +
-      "\nparameters\030\004 \003(\01322.Ydb.Table.ExecuteDat" +
-      "aQueryRequest.ParametersEntry\0227\n\022query_c" +
-      "ache_policy\030\005 \001(\0132\033.Ydb.Table.QueryCache",
-      "Policy\0229\n\020operation_params\030\006 \001(\0132\037.Ydb.O" +
-      "perations.OperationParams\022M\n\rcollect_sta" +
-      "ts\030\007 \001(\01626.Ydb.Table.ExecuteDataQueryReq" +
-      "uest.StatsCollectionMode\032B\n\017ParametersEn" +
-      "try\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.Ty" +
-      "pedValue:\0028\001\"n\n\023StatsCollectionMode\022 \n\034S" +
-      "TATS_COLLECTION_UNSPECIFIED\020\000\022\031\n\025STATS_C" +
-      "OLLECTION_NONE\020\001\022\032\n\026STATS_COLLECTION_BAS" +
-      "IC\020\002\"H\n\030ExecuteDataQueryResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"|",
-      "\n\031ExecuteSchemeQueryRequest\022\022\n\nsession_i" +
-      "d\030\001 \001(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020operation_p" +
-      "arams\030\003 \001(\0132\037.Ydb.Operations.OperationPa" +
-      "rams\"J\n\032ExecuteSchemeQueryResponse\022,\n\top" +
-      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
-      "\"\035\n\017TransactionMeta\022\n\n\002id\030\001 \001(\t\"\237\001\n\tQuer" +
-      "yMeta\022\n\n\002id\030\001 \001(\t\022C\n\020parameters_types\030\002 " +
-      "\003(\0132).Ydb.Table.QueryMeta.ParametersType" +
-      "sEntry\032A\n\024ParametersTypesEntry\022\013\n\003key\030\001 " +
-      "\001(\t\022\030\n\005value\030\002 \001(\0132\t.Ydb.Type:\0028\001\"\301\001\n\022Ex",
-      "ecuteQueryResult\022#\n\013result_sets\030\001 \003(\0132\016." +
-      "Ydb.ResultSet\022+\n\007tx_meta\030\002 \001(\0132\032.Ydb.Tab" +
-      "le.TransactionMeta\022(\n\nquery_meta\030\003 \001(\0132\024" +
-      ".Ydb.Table.QueryMeta\022/\n\013query_stats\030\004 \001(" +
-      "\0132\032.Ydb.TableStats.QueryStats\"z\n\027Explain" +
-      "DataQueryRequest\022\022\n\nsession_id\030\001 \001(\t\022\020\n\010" +
-      "yql_text\030\002 \001(\t\0229\n\020operation_params\030\003 \001(\013" +
-      "2\037.Ydb.Operations.OperationParams\"H\n\030Exp" +
-      "lainDataQueryResponse\022,\n\toperation\030\001 \001(\013" +
-      "2\031.Ydb.Operations.Operation\";\n\022ExplainQu",
-      "eryResult\022\021\n\tquery_ast\030\001 \001(\t\022\022\n\nquery_pl" +
-      "an\030\002 \001(\t\"z\n\027PrepareDataQueryRequest\022\022\n\ns" +
+      "ag.Status\0226\n\017column_families\030\007 \003(\0132\035.Ydb",
+      ".Table.ColumnFamilyPolicy\"H\n\020Compression" +
+      "Codec\"4\n\006Status\022\017\n\013UNSPECIFIED\020\000\022\020\n\014UNCO" +
+      "MPRESSED\020\001\022\007\n\003LZ4\020\002\"\375\001\n\022ColumnFamilyPoli" +
+      "cy\022\014\n\004name\030\001 \001(\t\022(\n\004data\030\002 \001(\0132\032.Ydb.Tab" +
+      "le.StorageSettings\022,\n\010external\030\003 \001(\0132\032.Y" +
+      "db.Table.StorageSettings\022/\n\016keep_in_memo" +
+      "ry\030\004 \001(\0162\027.Ydb.FeatureFlag.Status\022\021\n\tpag" +
+      "e_size\030\005 \001(\r\022=\n\021compression_codec\030\006 \001(\0162" +
+      "\".Ydb.Table.CompressionCodec.Status\"\'\n\020C" +
+      "ompactionPolicy\022\023\n\013preset_name\030\001 \001(\t\";\n\022",
+      "ExplicitPartitions\022%\n\014split_points\030\001 \003(\013" +
+      "2\017.Ydb.TypedValue\"\334\002\n\022PartitioningPolicy" +
+      "\022\023\n\013preset_name\030\001 \001(\t\022O\n\021auto_partitioni" +
+      "ng\030\002 \001(\01624.Ydb.Table.PartitioningPolicy." +
+      "AutoPartitioningPolicy\022\034\n\022uniform_partit" +
+      "ions\030\003 \001(\004H\000\022<\n\023explicit_partitions\030\004 \001(" +
+      "\0132\035.Ydb.Table.ExplicitPartitionsH\000\"v\n\026Au" +
+      "toPartitioningPolicy\022(\n$AUTO_PARTITIONIN" +
+      "G_POLICY_UNSPECIFIED\020\000\022\014\n\010DISABLED\020\001\022\016\n\n" +
+      "AUTO_SPLIT\020\002\022\024\n\020AUTO_SPLIT_MERGE\020\003B\014\n\npa",
+      "rtitions\"&\n\017ExecutionPolicy\022\023\n\013preset_na" +
+      "me\030\001 \001(\t\"\261\001\n\021ReplicationPolicy\022\023\n\013preset" +
+      "_name\030\001 \001(\t\022\026\n\016replicas_count\030\002 \001(\r\022=\n\034c" +
+      "reate_per_availability_zone\030\003 \001(\0162\027.Ydb." +
+      "FeatureFlag.Status\0220\n\017allow_promotion\030\004 " +
+      "\001(\0162\027.Ydb.FeatureFlag.Status\"$\n\rCachingP" +
+      "olicy\022\023\n\013preset_name\030\001 \001(\t\"\353\002\n\014TableProf" +
+      "ile\022\023\n\013preset_name\030\001 \001(\t\0220\n\016storage_poli" +
+      "cy\030\002 \001(\0132\030.Ydb.Table.StoragePolicy\0226\n\021co" +
+      "mpaction_policy\030\003 \001(\0132\033.Ydb.Table.Compac",
+      "tionPolicy\022:\n\023partitioning_policy\030\004 \001(\0132" +
+      "\035.Ydb.Table.PartitioningPolicy\0224\n\020execut" +
+      "ion_policy\030\005 \001(\0132\032.Ydb.Table.ExecutionPo" +
+      "licy\0228\n\022replication_policy\030\006 \001(\0132\034.Ydb.T" +
+      "able.ReplicationPolicy\0220\n\016caching_policy" +
+      "\030\007 \001(\0132\030.Ydb.Table.CachingPolicy\"C\n\nColu" +
+      "mnMeta\022\014\n\004name\030\001 \001(\t\022\027\n\004type\030\002 \001(\0132\t.Ydb" +
+      ".Type\022\016\n\006family\030\003 \001(\t\"\200\002\n\022CreateTableReq" +
+      "uest\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022&" +
+      "\n\007columns\030\003 \003(\0132\025.Ydb.Table.ColumnMeta\022\023",
+      "\n\013primary_key\030\004 \003(\t\022(\n\007profile\030\005 \001(\0132\027.Y" +
+      "db.Table.TableProfile\0229\n\020operation_param" +
+      "s\030\006 \001(\0132\037.Ydb.Operations.OperationParams" +
+      "\022&\n\007indexes\030\007 \003(\0132\025.Ydb.Table.TableIndex" +
+      "\"C\n\023CreateTableResponse\022,\n\toperation\030\001 \001" +
+      "(\0132\031.Ydb.Operations.Operation\"u\n\020DropTab" +
+      "leRequest\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 " +
+      "\001(\t\0229\n\020operation_params\030\004 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParamsJ\004\010\003\020\004\"A\n\021DropTabl" +
+      "eResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera",
+      "tions.Operation\"\340\001\n\021AlterTableRequest\022\022\n" +
+      "\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022*\n\013add_c" +
+      "olumns\030\003 \003(\0132\025.Ydb.Table.ColumnMeta\022\024\n\014d" +
+      "rop_columns\030\004 \003(\t\0229\n\020operation_params\030\005 " +
+      "\001(\0132\037.Ydb.Operations.OperationParams\022,\n\r" +
+      "alter_columns\030\006 \003(\0132\025.Ydb.Table.ColumnMe" +
+      "ta\"B\n\022AlterTableResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"\220\001\n\020CopyT" +
+      "ableRequest\022\022\n\nsession_id\030\001 \001(\t\022\023\n\013sourc" +
+      "e_path\030\002 \001(\t\022\030\n\020destination_path\030\003 \001(\t\0229",
+      "\n\020operation_params\030\004 \001(\0132\037.Ydb.Operation" +
+      "s.OperationParams\"A\n\021CopyTableResponse\022," +
+      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
+      "tion\"T\n\rCopyTableItem\022\023\n\013source_path\030\001 \001" +
+      "(\t\022\030\n\020destination_path\030\002 \001(\t\022\024\n\014omit_ind" +
+      "exes\030\003 \001(\010\"\214\001\n\021CopyTablesRequest\0229\n\020oper" +
+      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
+      "ationParams\022\022\n\nsession_id\030\002 \001(\t\022(\n\006table" +
+      "s\030\003 \003(\0132\030.Ydb.Table.CopyTableItem\"B\n\022Cop" +
+      "yTablesResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb",
+      ".Operations.Operation\"\225\001\n\024DescribeTableR" +
+      "equest\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t" +
+      "\0229\n\020operation_params\030\004 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\022 \n\030include_shard_key" +
+      "_bounds\030\005 \001(\010\"E\n\025DescribeTableResponse\022," +
+      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
+      "tion\"\306\001\n\023DescribeTableResult\022\037\n\004self\030\001 \001" +
+      "(\0132\021.Ydb.Scheme.Entry\022&\n\007columns\030\002 \003(\0132\025" +
+      ".Ydb.Table.ColumnMeta\022\023\n\013primary_key\030\003 \003" +
+      "(\t\022)\n\020shard_key_bounds\030\004 \003(\0132\017.Ydb.Typed",
+      "Value\022&\n\007indexes\030\005 \003(\0132\025.Ydb.Table.Table" +
+      "Index\"2\n\005Query\022\022\n\010yql_text\030\001 \001(\tH\000\022\014\n\002id" +
+      "\030\002 \001(\tH\000B\007\n\005query\"\032\n\030SerializableModeSet" +
+      "tings\"6\n\022OnlineModeSettings\022 \n\030allow_inc" +
+      "onsistent_reads\030\001 \001(\010\"\023\n\021StaleModeSettin" +
+      "gs\"\334\001\n\023TransactionSettings\022F\n\027serializab" +
+      "le_read_write\030\001 \001(\0132#.Ydb.Table.Serializ" +
+      "ableModeSettingsH\000\0229\n\020online_read_only\030\002" +
+      " \001(\0132\035.Ydb.Table.OnlineModeSettingsH\000\0227\n" +
+      "\017stale_read_only\030\003 \001(\0132\034.Ydb.Table.Stale",
+      "ModeSettingsH\000B\t\n\007tx_mode\"{\n\022Transaction" +
+      "Control\022\017\n\005tx_id\030\001 \001(\tH\000\0222\n\010begin_tx\030\002 \001" +
+      "(\0132\036.Ydb.Table.TransactionSettingsH\000\022\021\n\t" +
+      "commit_tx\030\n \001(\010B\r\n\013tx_selector\")\n\020QueryC" +
+      "achePolicy\022\025\n\rkeep_in_cache\030\001 \001(\010\"\300\004\n\027Ex" +
+      "ecuteDataQueryRequest\022\022\n\nsession_id\030\001 \001(" +
+      "\t\0221\n\ntx_control\030\002 \001(\0132\035.Ydb.Table.Transa" +
+      "ctionControl\022\037\n\005query\030\003 \001(\0132\020.Ydb.Table." +
+      "Query\022F\n\nparameters\030\004 \003(\01322.Ydb.Table.Ex" +
+      "ecuteDataQueryRequest.ParametersEntry\0227\n",
+      "\022query_cache_policy\030\005 \001(\0132\033.Ydb.Table.Qu" +
+      "eryCachePolicy\0229\n\020operation_params\030\006 \001(\013" +
+      "2\037.Ydb.Operations.OperationParams\022M\n\rcol" +
+      "lect_stats\030\007 \001(\01626.Ydb.Table.ExecuteData" +
+      "QueryRequest.StatsCollectionMode\032B\n\017Para" +
+      "metersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132" +
+      "\017.Ydb.TypedValue:\0028\001\"n\n\023StatsCollectionM" +
+      "ode\022 \n\034STATS_COLLECTION_UNSPECIFIED\020\000\022\031\n" +
+      "\025STATS_COLLECTION_NONE\020\001\022\032\n\026STATS_COLLEC" +
+      "TION_BASIC\020\002\"H\n\030ExecuteDataQueryResponse",
+      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
+      "ration\"|\n\031ExecuteSchemeQueryRequest\022\022\n\ns" +
       "ession_id\030\001 \001(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020ope" +
       "ration_params\030\003 \001(\0132\037.Ydb.Operations.Ope" +
-      "rationParams\"H\n\030PrepareDataQueryResponse" +
+      "rationParams\"J\n\032ExecuteSchemeQueryRespon" +
+      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
+      "peration\"\035\n\017TransactionMeta\022\n\n\002id\030\001 \001(\t\"" +
+      "\237\001\n\tQueryMeta\022\n\n\002id\030\001 \001(\t\022C\n\020parameters_" +
+      "types\030\002 \003(\0132).Ydb.Table.QueryMeta.Parame" +
+      "tersTypesEntry\032A\n\024ParametersTypesEntry\022\013",
+      "\n\003key\030\001 \001(\t\022\030\n\005value\030\002 \001(\0132\t.Ydb.Type:\0028" +
+      "\001\"\301\001\n\022ExecuteQueryResult\022#\n\013result_sets\030" +
+      "\001 \003(\0132\016.Ydb.ResultSet\022+\n\007tx_meta\030\002 \001(\0132\032" +
+      ".Ydb.Table.TransactionMeta\022(\n\nquery_meta" +
+      "\030\003 \001(\0132\024.Ydb.Table.QueryMeta\022/\n\013query_st" +
+      "ats\030\004 \001(\0132\032.Ydb.TableStats.QueryStats\"z\n" +
+      "\027ExplainDataQueryRequest\022\022\n\nsession_id\030\001" +
+      " \001(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020operation_para" +
+      "ms\030\003 \001(\0132\037.Ydb.Operations.OperationParam" +
+      "s\"H\n\030ExplainDataQueryResponse\022,\n\toperati",
+      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\";\n\022E" +
+      "xplainQueryResult\022\021\n\tquery_ast\030\001 \001(\t\022\022\n\n" +
+      "query_plan\030\002 \001(\t\"z\n\027PrepareDataQueryRequ" +
+      "est\022\022\n\nsession_id\030\001 \001(\t\022\020\n\010yql_text\030\002 \001(" +
+      "\t\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\"H\n\030PrepareDataQuery" +
+      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
+      "ions.Operation\"\267\001\n\022PrepareQueryResult\022\020\n" +
+      "\010query_id\030\001 \001(\t\022L\n\020parameters_types\030\002 \003(" +
+      "\01322.Ydb.Table.PrepareQueryResult.Paramet",
+      "ersTypesEntry\032A\n\024ParametersTypesEntry\022\013\n" +
+      "\003key\030\001 \001(\t\022\030\n\005value\030\002 \001(\0132\t.Ydb.Type:\0028\001" +
+      "\"a\n\020KeepAliveRequest\022\022\n\nsession_id\030\001 \001(\t" +
+      "\0229\n\020operation_params\030\002 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\"A\n\021KeepAliveResponse" +
       "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
-      "ration\"\267\001\n\022PrepareQueryResult\022\020\n\010query_i" +
-      "d\030\001 \001(\t\022L\n\020parameters_types\030\002 \003(\01322.Ydb." +
-      "Table.PrepareQueryResult.ParametersTypes" +
-      "Entry\032A\n\024ParametersTypesEntry\022\013\n\003key\030\001 \001",
-      "(\t\022\030\n\005value\030\002 \001(\0132\t.Ydb.Type:\0028\001\"a\n\020Keep" +
-      "AliveRequest\022\022\n\nsession_id\030\001 \001(\t\0229\n\020oper" +
-      "ation_params\030\002 \001(\0132\037.Ydb.Operations.Oper" +
-      "ationParams\"A\n\021KeepAliveResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\267" +
-      "\001\n\017KeepAliveResult\022@\n\016session_status\030\001 \001" +
-      "(\0162(.Ydb.Table.KeepAliveResult.SessionSt" +
-      "atus\"b\n\rSessionStatus\022\036\n\032SESSION_STATUS_" +
-      "UNSPECIFIED\020\000\022\030\n\024SESSION_STATUS_READY\020\001\022" +
-      "\027\n\023SESSION_STATUS_BUSY\020\002\"\235\001\n\027BeginTransa",
-      "ctionRequest\022\022\n\nsession_id\030\001 \001(\t\0223\n\013tx_s" +
-      "ettings\030\002 \001(\0132\036.Ydb.Table.TransactionSet" +
-      "tings\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Op" +
-      "erations.OperationParams\"H\n\030BeginTransac" +
-      "tionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
-      "erations.Operation\"E\n\026BeginTransactionRe" +
-      "sult\022+\n\007tx_meta\030\001 \001(\0132\032.Ydb.Table.Transa" +
-      "ctionMeta\"x\n\030CommitTransactionRequest\022\022\n" +
-      "\nsession_id\030\001 \001(\t\022\r\n\005tx_id\030\002 \001(\t\0229\n\020oper" +
-      "ation_params\030\003 \001(\0132\037.Ydb.Operations.Oper",
-      "ationParams\"I\n\031CommitTransactionResponse" +
-      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
-      "ration\"z\n\032RollbackTransactionRequest\022\022\n\n" +
-      "session_id\030\001 \001(\t\022\r\n\005tx_id\030\002 \001(\t\0229\n\020opera" +
-      "tion_params\030\003 \001(\0132\037.Ydb.Operations.Opera" +
-      "tionParams\"K\n\033RollbackTransactionRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"\230\001\n\030StoragePolicyDescription\022\014\n\004" +
-      "name\030\001 \001(\t\022?\n\006labels\030\002 \003(\0132/.Ydb.Table.S" +
-      "toragePolicyDescription.LabelsEntry\032-\n\013L",
-      "abelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\002" +
-      "8\001\"\236\001\n\033CompactionPolicyDescription\022\014\n\004na" +
-      "me\030\001 \001(\t\022B\n\006labels\030\002 \003(\01322.Ydb.Table.Com" +
-      "pactionPolicyDescription.LabelsEntry\032-\n\013" +
-      "LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:" +
-      "\0028\001\"\242\001\n\035PartitioningPolicyDescription\022\014\n" +
-      "\004name\030\001 \001(\t\022D\n\006labels\030\002 \003(\01324.Ydb.Table." +
-      "PartitioningPolicyDescription.LabelsEntr" +
-      "y\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002" +
-      " \001(\t:\0028\001\"\234\001\n\032ExecutionPolicyDescription\022",
-      "\014\n\004name\030\001 \001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.Tabl" +
-      "e.ExecutionPolicyDescription.LabelsEntry" +
-      "\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 " +
-      "\001(\t:\0028\001\"\240\001\n\034ReplicationPolicyDescription" +
-      "\022\014\n\004name\030\001 \001(\t\022C\n\006labels\030\002 \003(\01323.Ydb.Tab" +
-      "le.ReplicationPolicyDescription.LabelsEn" +
+      "ration\"\267\001\n\017KeepAliveResult\022@\n\016session_st" +
+      "atus\030\001 \001(\0162(.Ydb.Table.KeepAliveResult.S" +
+      "essionStatus\"b\n\rSessionStatus\022\036\n\032SESSION" +
+      "_STATUS_UNSPECIFIED\020\000\022\030\n\024SESSION_STATUS_",
+      "READY\020\001\022\027\n\023SESSION_STATUS_BUSY\020\002\"\235\001\n\027Beg" +
+      "inTransactionRequest\022\022\n\nsession_id\030\001 \001(\t" +
+      "\0223\n\013tx_settings\030\002 \001(\0132\036.Ydb.Table.Transa" +
+      "ctionSettings\0229\n\020operation_params\030\003 \001(\0132" +
+      "\037.Ydb.Operations.OperationParams\"H\n\030Begi" +
+      "nTransactionResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"E\n\026BeginTrans" +
+      "actionResult\022+\n\007tx_meta\030\001 \001(\0132\032.Ydb.Tabl" +
+      "e.TransactionMeta\"x\n\030CommitTransactionRe" +
+      "quest\022\022\n\nsession_id\030\001 \001(\t\022\r\n\005tx_id\030\002 \001(\t",
+      "\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\"I\n\031CommitTransaction" +
+      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
+      "ions.Operation\"z\n\032RollbackTransactionReq" +
+      "uest\022\022\n\nsession_id\030\001 \001(\t\022\r\n\005tx_id\030\002 \001(\t\022" +
+      "9\n\020operation_params\030\003 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\"K\n\033RollbackTransactio" +
+      "nResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.Operation\"\230\001\n\030StoragePolicyDescrip" +
+      "tion\022\014\n\004name\030\001 \001(\t\022?\n\006labels\030\002 \003(\0132/.Ydb",
+      ".Table.StoragePolicyDescription.LabelsEn" +
       "try\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value" +
-      "\030\002 \001(\t:\0028\001\"\230\001\n\030CachingPolicyDescription\022" +
-      "\014\n\004name\030\001 \001(\t\022?\n\006labels\030\002 \003(\0132/.Ydb.Tabl" +
-      "e.CachingPolicyDescription.LabelsEntry\032-",
-      "\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(" +
-      "\t:\0028\001\"\276\004\n\027TableProfileDescription\022\014\n\004nam" +
-      "e\030\001 \001(\t\022>\n\006labels\030\002 \003(\0132..Ydb.Table.Tabl" +
-      "eProfileDescription.LabelsEntry\022\036\n\026defau" +
-      "lt_storage_policy\030\003 \001(\t\022 \n\030allowed_stora" +
-      "ge_policies\030\004 \003(\t\022!\n\031default_compaction_" +
-      "policy\030\005 \001(\t\022#\n\033allowed_compaction_polic" +
-      "ies\030\006 \003(\t\022#\n\033default_partitioning_policy" +
-      "\030\007 \001(\t\022%\n\035allowed_partitioning_policies\030" +
-      "\010 \003(\t\022 \n\030default_execution_policy\030\t \001(\t\022",
-      "\"\n\032allowed_execution_policies\030\n \003(\t\022\"\n\032d" +
-      "efault_replication_policy\030\013 \001(\t\022$\n\034allow" +
-      "ed_replication_policies\030\014 \003(\t\022\036\n\026default" +
-      "_caching_policy\030\r \001(\t\022 \n\030allowed_caching" +
-      "_policies\030\016 \003(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001 " +
-      "\001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"X\n\033DescribeTableO" +
-      "ptionsRequest\0229\n\020operation_params\030\001 \001(\0132" +
-      "\037.Ydb.Operations.OperationParams\"L\n\034Desc" +
-      "ribeTableOptionsResponse\022,\n\toperation\030\001 " +
-      "\001(\0132\031.Ydb.Operations.Operation\"\231\004\n\032Descr",
-      "ibeTableOptionsResult\022A\n\025table_profile_p" +
-      "resets\030\001 \003(\0132\".Ydb.Table.TableProfileDes" +
-      "cription\022C\n\026storage_policy_presets\030\002 \003(\013" +
-      "2#.Ydb.Table.StoragePolicyDescription\022I\n" +
-      "\031compaction_policy_presets\030\003 \003(\0132&.Ydb.T" +
-      "able.CompactionPolicyDescription\022M\n\033part" +
-      "itioning_policy_presets\030\004 \003(\0132(.Ydb.Tabl" +
-      "e.PartitioningPolicyDescription\022G\n\030execu" +
-      "tion_policy_presets\030\005 \003(\0132%.Ydb.Table.Ex" +
-      "ecutionPolicyDescription\022K\n\032replication_",
-      "policy_presets\030\006 \003(\0132\'.Ydb.Table.Replica" +
-      "tionPolicyDescription\022C\n\026caching_policy_" +
-      "presets\030\007 \003(\0132#.Ydb.Table.CachingPolicyD" +
-      "escription\"\300\001\n\010KeyRange\022\"\n\007greater\030\001 \001(\013" +
-      "2\017.Ydb.TypedValueH\000\022+\n\020greater_or_equal\030" +
-      "\002 \001(\0132\017.Ydb.TypedValueH\000\022\037\n\004less\030\003 \001(\0132\017" +
-      ".Ydb.TypedValueH\001\022(\n\rless_or_equal\030\004 \001(\013" +
-      "2\017.Ydb.TypedValueH\001B\014\n\nfrom_boundB\n\n\010to_" +
-      "bound\"\221\001\n\020ReadTableRequest\022\022\n\nsession_id" +
-      "\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022&\n\tkey_range\030\003 \001(\0132",
-      "\023.Ydb.Table.KeyRange\022\017\n\007columns\030\004 \003(\t\022\017\n" +
-      "\007ordered\030\005 \001(\010\022\021\n\trow_limit\030\006 \001(\004\"\223\001\n\021Re" +
-      "adTableResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.St" +
-      "atusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb" +
-      ".Issue.IssueMessage\022*\n\006result\030\003 \001(\0132\032.Yd" +
-      "b.Table.ReadTableResult\"5\n\017ReadTableResu" +
-      "lt\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultSetB\031" +
-      "\n\024tech.ydb.table\370\001\001b\006proto3"
+      "\030\002 \001(\t:\0028\001\"\236\001\n\033CompactionPolicyDescripti" +
+      "on\022\014\n\004name\030\001 \001(\t\022B\n\006labels\030\002 \003(\01322.Ydb.T" +
+      "able.CompactionPolicyDescription.LabelsE" +
+      "ntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005valu" +
+      "e\030\002 \001(\t:\0028\001\"\242\001\n\035PartitioningPolicyDescri" +
+      "ption\022\014\n\004name\030\001 \001(\t\022D\n\006labels\030\002 \003(\01324.Yd" +
+      "b.Table.PartitioningPolicyDescription.La" +
+      "belsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n",
+      "\005value\030\002 \001(\t:\0028\001\"\234\001\n\032ExecutionPolicyDesc" +
+      "ription\022\014\n\004name\030\001 \001(\t\022A\n\006labels\030\002 \003(\01321." +
+      "Ydb.Table.ExecutionPolicyDescription.Lab" +
+      "elsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005" +
+      "value\030\002 \001(\t:\0028\001\"\240\001\n\034ReplicationPolicyDes" +
+      "cription\022\014\n\004name\030\001 \001(\t\022C\n\006labels\030\002 \003(\01323" +
+      ".Ydb.Table.ReplicationPolicyDescription." +
+      "LabelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022" +
+      "\r\n\005value\030\002 \001(\t:\0028\001\"\230\001\n\030CachingPolicyDesc" +
+      "ription\022\014\n\004name\030\001 \001(\t\022?\n\006labels\030\002 \003(\0132/.",
+      "Ydb.Table.CachingPolicyDescription.Label" +
+      "sEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005va" +
+      "lue\030\002 \001(\t:\0028\001\"\276\004\n\027TableProfileDescriptio" +
+      "n\022\014\n\004name\030\001 \001(\t\022>\n\006labels\030\002 \003(\0132..Ydb.Ta" +
+      "ble.TableProfileDescription.LabelsEntry\022" +
+      "\036\n\026default_storage_policy\030\003 \001(\t\022 \n\030allow" +
+      "ed_storage_policies\030\004 \003(\t\022!\n\031default_com" +
+      "paction_policy\030\005 \001(\t\022#\n\033allowed_compacti" +
+      "on_policies\030\006 \003(\t\022#\n\033default_partitionin" +
+      "g_policy\030\007 \001(\t\022%\n\035allowed_partitioning_p",
+      "olicies\030\010 \003(\t\022 \n\030default_execution_polic" +
+      "y\030\t \001(\t\022\"\n\032allowed_execution_policies\030\n " +
+      "\003(\t\022\"\n\032default_replication_policy\030\013 \001(\t\022" +
+      "$\n\034allowed_replication_policies\030\014 \003(\t\022\036\n" +
+      "\026default_caching_policy\030\r \001(\t\022 \n\030allowed" +
+      "_caching_policies\030\016 \003(\t\032-\n\013LabelsEntry\022\013" +
+      "\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"X\n\033Descri" +
+      "beTableOptionsRequest\0229\n\020operation_param" +
+      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
+      "\"L\n\034DescribeTableOptionsResponse\022,\n\toper",
+      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\231" +
+      "\004\n\032DescribeTableOptionsResult\022A\n\025table_p" +
+      "rofile_presets\030\001 \003(\0132\".Ydb.Table.TablePr" +
+      "ofileDescription\022C\n\026storage_policy_prese" +
+      "ts\030\002 \003(\0132#.Ydb.Table.StoragePolicyDescri" +
+      "ption\022I\n\031compaction_policy_presets\030\003 \003(\013" +
+      "2&.Ydb.Table.CompactionPolicyDescription" +
+      "\022M\n\033partitioning_policy_presets\030\004 \003(\0132(." +
+      "Ydb.Table.PartitioningPolicyDescription\022" +
+      "G\n\030execution_policy_presets\030\005 \003(\0132%.Ydb.",
+      "Table.ExecutionPolicyDescription\022K\n\032repl" +
+      "ication_policy_presets\030\006 \003(\0132\'.Ydb.Table" +
+      ".ReplicationPolicyDescription\022C\n\026caching" +
+      "_policy_presets\030\007 \003(\0132#.Ydb.Table.Cachin" +
+      "gPolicyDescription\"\300\001\n\010KeyRange\022\"\n\007great" +
+      "er\030\001 \001(\0132\017.Ydb.TypedValueH\000\022+\n\020greater_o" +
+      "r_equal\030\002 \001(\0132\017.Ydb.TypedValueH\000\022\037\n\004less" +
+      "\030\003 \001(\0132\017.Ydb.TypedValueH\001\022(\n\rless_or_equ" +
+      "al\030\004 \001(\0132\017.Ydb.TypedValueH\001B\014\n\nfrom_boun" +
+      "dB\n\n\010to_bound\"\221\001\n\020ReadTableRequest\022\022\n\nse",
+      "ssion_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022&\n\tkey_rang" +
+      "e\030\003 \001(\0132\023.Ydb.Table.KeyRange\022\017\n\007columns\030" +
+      "\004 \003(\t\022\017\n\007ordered\030\005 \001(\010\022\021\n\trow_limit\030\006 \001(" +
+      "\004\"\223\001\n\021ReadTableResponse\022)\n\006status\030\001 \001(\0162" +
+      "\031.Ydb.StatusIds.StatusCode\022\'\n\006issues\030\002 \003" +
+      "(\0132\027.Ydb.Issue.IssueMessage\022*\n\006result\030\003 " +
+      "\001(\0132\032.Ydb.Table.ReadTableResult\"5\n\017ReadT" +
+      "ableResult\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.Res" +
+      "ultSetB\031\n\024tech.ydb.table\370\001\001b\006proto" +
+      "3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -69969,183 +72834,195 @@ public final class YdbTable {
     internal_static_Ydb_Table_StoragePolicy_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_StoragePolicy_descriptor,
-        new java.lang.String[] { "PresetName", "Syslog", "Log", "Data", "External", "KeepInMemory", });
-    internal_static_Ydb_Table_CompactionPolicy_descriptor =
+        new java.lang.String[] { "PresetName", "Syslog", "Log", "Data", "External", "KeepInMemory", "ColumnFamilies", });
+    internal_static_Ydb_Table_CompressionCodec_descriptor =
       getDescriptor().getMessageTypes().get(9);
+    internal_static_Ydb_Table_CompressionCodec_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Table_CompressionCodec_descriptor,
+        new java.lang.String[] { });
+    internal_static_Ydb_Table_ColumnFamilyPolicy_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_Ydb_Table_ColumnFamilyPolicy_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Table_ColumnFamilyPolicy_descriptor,
+        new java.lang.String[] { "Name", "Data", "External", "KeepInMemory", "PageSize", "CompressionCodec", });
+    internal_static_Ydb_Table_CompactionPolicy_descriptor =
+      getDescriptor().getMessageTypes().get(11);
     internal_static_Ydb_Table_CompactionPolicy_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_CompactionPolicy_descriptor,
         new java.lang.String[] { "PresetName", });
     internal_static_Ydb_Table_ExplicitPartitions_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_Ydb_Table_ExplicitPartitions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ExplicitPartitions_descriptor,
         new java.lang.String[] { "SplitPoints", });
     internal_static_Ydb_Table_PartitioningPolicy_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_Ydb_Table_PartitioningPolicy_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_PartitioningPolicy_descriptor,
         new java.lang.String[] { "PresetName", "AutoPartitioning", "UniformPartitions", "ExplicitPartitions", "Partitions", });
     internal_static_Ydb_Table_ExecutionPolicy_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_Ydb_Table_ExecutionPolicy_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ExecutionPolicy_descriptor,
         new java.lang.String[] { "PresetName", });
     internal_static_Ydb_Table_ReplicationPolicy_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_Ydb_Table_ReplicationPolicy_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ReplicationPolicy_descriptor,
         new java.lang.String[] { "PresetName", "ReplicasCount", "CreatePerAvailabilityZone", "AllowPromotion", });
     internal_static_Ydb_Table_CachingPolicy_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_Ydb_Table_CachingPolicy_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_CachingPolicy_descriptor,
         new java.lang.String[] { "PresetName", });
     internal_static_Ydb_Table_TableProfile_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_Ydb_Table_TableProfile_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_TableProfile_descriptor,
         new java.lang.String[] { "PresetName", "StoragePolicy", "CompactionPolicy", "PartitioningPolicy", "ExecutionPolicy", "ReplicationPolicy", "CachingPolicy", });
     internal_static_Ydb_Table_ColumnMeta_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_Ydb_Table_ColumnMeta_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ColumnMeta_descriptor,
-        new java.lang.String[] { "Name", "Type", });
+        new java.lang.String[] { "Name", "Type", "Family", });
     internal_static_Ydb_Table_CreateTableRequest_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_Ydb_Table_CreateTableRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_CreateTableRequest_descriptor,
         new java.lang.String[] { "SessionId", "Path", "Columns", "PrimaryKey", "Profile", "OperationParams", "Indexes", });
     internal_static_Ydb_Table_CreateTableResponse_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_Ydb_Table_CreateTableResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_CreateTableResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_DropTableRequest_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_Ydb_Table_DropTableRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_DropTableRequest_descriptor,
         new java.lang.String[] { "SessionId", "Path", "OperationParams", });
     internal_static_Ydb_Table_DropTableResponse_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_Ydb_Table_DropTableResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_DropTableResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_AlterTableRequest_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_Ydb_Table_AlterTableRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_AlterTableRequest_descriptor,
-        new java.lang.String[] { "SessionId", "Path", "AddColumns", "DropColumns", "OperationParams", });
+        new java.lang.String[] { "SessionId", "Path", "AddColumns", "DropColumns", "OperationParams", "AlterColumns", });
     internal_static_Ydb_Table_AlterTableResponse_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_Ydb_Table_AlterTableResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_AlterTableResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_CopyTableRequest_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_Ydb_Table_CopyTableRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_CopyTableRequest_descriptor,
         new java.lang.String[] { "SessionId", "SourcePath", "DestinationPath", "OperationParams", });
     internal_static_Ydb_Table_CopyTableResponse_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_Ydb_Table_CopyTableResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_CopyTableResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_CopyTableItem_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_Ydb_Table_CopyTableItem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_CopyTableItem_descriptor,
         new java.lang.String[] { "SourcePath", "DestinationPath", "OmitIndexes", });
     internal_static_Ydb_Table_CopyTablesRequest_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_Ydb_Table_CopyTablesRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_CopyTablesRequest_descriptor,
         new java.lang.String[] { "OperationParams", "SessionId", "Tables", });
     internal_static_Ydb_Table_CopyTablesResponse_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_Ydb_Table_CopyTablesResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_CopyTablesResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_DescribeTableRequest_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(30);
     internal_static_Ydb_Table_DescribeTableRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_DescribeTableRequest_descriptor,
         new java.lang.String[] { "SessionId", "Path", "OperationParams", "IncludeShardKeyBounds", });
     internal_static_Ydb_Table_DescribeTableResponse_descriptor =
-      getDescriptor().getMessageTypes().get(29);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_Ydb_Table_DescribeTableResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_DescribeTableResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_DescribeTableResult_descriptor =
-      getDescriptor().getMessageTypes().get(30);
+      getDescriptor().getMessageTypes().get(32);
     internal_static_Ydb_Table_DescribeTableResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_DescribeTableResult_descriptor,
         new java.lang.String[] { "Self", "Columns", "PrimaryKey", "ShardKeyBounds", "Indexes", });
     internal_static_Ydb_Table_Query_descriptor =
-      getDescriptor().getMessageTypes().get(31);
+      getDescriptor().getMessageTypes().get(33);
     internal_static_Ydb_Table_Query_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_Query_descriptor,
         new java.lang.String[] { "YqlText", "Id", "Query", });
     internal_static_Ydb_Table_SerializableModeSettings_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(34);
     internal_static_Ydb_Table_SerializableModeSettings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_SerializableModeSettings_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_Table_OnlineModeSettings_descriptor =
-      getDescriptor().getMessageTypes().get(33);
+      getDescriptor().getMessageTypes().get(35);
     internal_static_Ydb_Table_OnlineModeSettings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_OnlineModeSettings_descriptor,
         new java.lang.String[] { "AllowInconsistentReads", });
     internal_static_Ydb_Table_StaleModeSettings_descriptor =
-      getDescriptor().getMessageTypes().get(34);
+      getDescriptor().getMessageTypes().get(36);
     internal_static_Ydb_Table_StaleModeSettings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_StaleModeSettings_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_Table_TransactionSettings_descriptor =
-      getDescriptor().getMessageTypes().get(35);
+      getDescriptor().getMessageTypes().get(37);
     internal_static_Ydb_Table_TransactionSettings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_TransactionSettings_descriptor,
         new java.lang.String[] { "SerializableReadWrite", "OnlineReadOnly", "StaleReadOnly", "TxMode", });
     internal_static_Ydb_Table_TransactionControl_descriptor =
-      getDescriptor().getMessageTypes().get(36);
+      getDescriptor().getMessageTypes().get(38);
     internal_static_Ydb_Table_TransactionControl_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_TransactionControl_descriptor,
         new java.lang.String[] { "TxId", "BeginTx", "CommitTx", "TxSelector", });
     internal_static_Ydb_Table_QueryCachePolicy_descriptor =
-      getDescriptor().getMessageTypes().get(37);
+      getDescriptor().getMessageTypes().get(39);
     internal_static_Ydb_Table_QueryCachePolicy_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_QueryCachePolicy_descriptor,
         new java.lang.String[] { "KeepInCache", });
     internal_static_Ydb_Table_ExecuteDataQueryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(38);
+      getDescriptor().getMessageTypes().get(40);
     internal_static_Ydb_Table_ExecuteDataQueryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ExecuteDataQueryRequest_descriptor,
@@ -70157,31 +73034,31 @@ public final class YdbTable {
         internal_static_Ydb_Table_ExecuteDataQueryRequest_ParametersEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Table_ExecuteDataQueryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(39);
+      getDescriptor().getMessageTypes().get(41);
     internal_static_Ydb_Table_ExecuteDataQueryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ExecuteDataQueryResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_ExecuteSchemeQueryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(40);
+      getDescriptor().getMessageTypes().get(42);
     internal_static_Ydb_Table_ExecuteSchemeQueryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ExecuteSchemeQueryRequest_descriptor,
         new java.lang.String[] { "SessionId", "YqlText", "OperationParams", });
     internal_static_Ydb_Table_ExecuteSchemeQueryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(41);
+      getDescriptor().getMessageTypes().get(43);
     internal_static_Ydb_Table_ExecuteSchemeQueryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ExecuteSchemeQueryResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_TransactionMeta_descriptor =
-      getDescriptor().getMessageTypes().get(42);
+      getDescriptor().getMessageTypes().get(44);
     internal_static_Ydb_Table_TransactionMeta_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_TransactionMeta_descriptor,
         new java.lang.String[] { "Id", });
     internal_static_Ydb_Table_QueryMeta_descriptor =
-      getDescriptor().getMessageTypes().get(43);
+      getDescriptor().getMessageTypes().get(45);
     internal_static_Ydb_Table_QueryMeta_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_QueryMeta_descriptor,
@@ -70193,43 +73070,43 @@ public final class YdbTable {
         internal_static_Ydb_Table_QueryMeta_ParametersTypesEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Table_ExecuteQueryResult_descriptor =
-      getDescriptor().getMessageTypes().get(44);
+      getDescriptor().getMessageTypes().get(46);
     internal_static_Ydb_Table_ExecuteQueryResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ExecuteQueryResult_descriptor,
         new java.lang.String[] { "ResultSets", "TxMeta", "QueryMeta", "QueryStats", });
     internal_static_Ydb_Table_ExplainDataQueryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(45);
+      getDescriptor().getMessageTypes().get(47);
     internal_static_Ydb_Table_ExplainDataQueryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ExplainDataQueryRequest_descriptor,
         new java.lang.String[] { "SessionId", "YqlText", "OperationParams", });
     internal_static_Ydb_Table_ExplainDataQueryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(46);
+      getDescriptor().getMessageTypes().get(48);
     internal_static_Ydb_Table_ExplainDataQueryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ExplainDataQueryResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_ExplainQueryResult_descriptor =
-      getDescriptor().getMessageTypes().get(47);
+      getDescriptor().getMessageTypes().get(49);
     internal_static_Ydb_Table_ExplainQueryResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ExplainQueryResult_descriptor,
         new java.lang.String[] { "QueryAst", "QueryPlan", });
     internal_static_Ydb_Table_PrepareDataQueryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(48);
+      getDescriptor().getMessageTypes().get(50);
     internal_static_Ydb_Table_PrepareDataQueryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_PrepareDataQueryRequest_descriptor,
         new java.lang.String[] { "SessionId", "YqlText", "OperationParams", });
     internal_static_Ydb_Table_PrepareDataQueryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(49);
+      getDescriptor().getMessageTypes().get(51);
     internal_static_Ydb_Table_PrepareDataQueryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_PrepareDataQueryResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_PrepareQueryResult_descriptor =
-      getDescriptor().getMessageTypes().get(50);
+      getDescriptor().getMessageTypes().get(52);
     internal_static_Ydb_Table_PrepareQueryResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_PrepareQueryResult_descriptor,
@@ -70241,67 +73118,67 @@ public final class YdbTable {
         internal_static_Ydb_Table_PrepareQueryResult_ParametersTypesEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Table_KeepAliveRequest_descriptor =
-      getDescriptor().getMessageTypes().get(51);
+      getDescriptor().getMessageTypes().get(53);
     internal_static_Ydb_Table_KeepAliveRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_KeepAliveRequest_descriptor,
         new java.lang.String[] { "SessionId", "OperationParams", });
     internal_static_Ydb_Table_KeepAliveResponse_descriptor =
-      getDescriptor().getMessageTypes().get(52);
+      getDescriptor().getMessageTypes().get(54);
     internal_static_Ydb_Table_KeepAliveResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_KeepAliveResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_KeepAliveResult_descriptor =
-      getDescriptor().getMessageTypes().get(53);
+      getDescriptor().getMessageTypes().get(55);
     internal_static_Ydb_Table_KeepAliveResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_KeepAliveResult_descriptor,
         new java.lang.String[] { "SessionStatus", });
     internal_static_Ydb_Table_BeginTransactionRequest_descriptor =
-      getDescriptor().getMessageTypes().get(54);
+      getDescriptor().getMessageTypes().get(56);
     internal_static_Ydb_Table_BeginTransactionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_BeginTransactionRequest_descriptor,
         new java.lang.String[] { "SessionId", "TxSettings", "OperationParams", });
     internal_static_Ydb_Table_BeginTransactionResponse_descriptor =
-      getDescriptor().getMessageTypes().get(55);
+      getDescriptor().getMessageTypes().get(57);
     internal_static_Ydb_Table_BeginTransactionResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_BeginTransactionResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_BeginTransactionResult_descriptor =
-      getDescriptor().getMessageTypes().get(56);
+      getDescriptor().getMessageTypes().get(58);
     internal_static_Ydb_Table_BeginTransactionResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_BeginTransactionResult_descriptor,
         new java.lang.String[] { "TxMeta", });
     internal_static_Ydb_Table_CommitTransactionRequest_descriptor =
-      getDescriptor().getMessageTypes().get(57);
+      getDescriptor().getMessageTypes().get(59);
     internal_static_Ydb_Table_CommitTransactionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_CommitTransactionRequest_descriptor,
         new java.lang.String[] { "SessionId", "TxId", "OperationParams", });
     internal_static_Ydb_Table_CommitTransactionResponse_descriptor =
-      getDescriptor().getMessageTypes().get(58);
+      getDescriptor().getMessageTypes().get(60);
     internal_static_Ydb_Table_CommitTransactionResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_CommitTransactionResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_RollbackTransactionRequest_descriptor =
-      getDescriptor().getMessageTypes().get(59);
+      getDescriptor().getMessageTypes().get(61);
     internal_static_Ydb_Table_RollbackTransactionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_RollbackTransactionRequest_descriptor,
         new java.lang.String[] { "SessionId", "TxId", "OperationParams", });
     internal_static_Ydb_Table_RollbackTransactionResponse_descriptor =
-      getDescriptor().getMessageTypes().get(60);
+      getDescriptor().getMessageTypes().get(62);
     internal_static_Ydb_Table_RollbackTransactionResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_RollbackTransactionResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_StoragePolicyDescription_descriptor =
-      getDescriptor().getMessageTypes().get(61);
+      getDescriptor().getMessageTypes().get(63);
     internal_static_Ydb_Table_StoragePolicyDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_StoragePolicyDescription_descriptor,
@@ -70313,7 +73190,7 @@ public final class YdbTable {
         internal_static_Ydb_Table_StoragePolicyDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Table_CompactionPolicyDescription_descriptor =
-      getDescriptor().getMessageTypes().get(62);
+      getDescriptor().getMessageTypes().get(64);
     internal_static_Ydb_Table_CompactionPolicyDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_CompactionPolicyDescription_descriptor,
@@ -70325,7 +73202,7 @@ public final class YdbTable {
         internal_static_Ydb_Table_CompactionPolicyDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Table_PartitioningPolicyDescription_descriptor =
-      getDescriptor().getMessageTypes().get(63);
+      getDescriptor().getMessageTypes().get(65);
     internal_static_Ydb_Table_PartitioningPolicyDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_PartitioningPolicyDescription_descriptor,
@@ -70337,7 +73214,7 @@ public final class YdbTable {
         internal_static_Ydb_Table_PartitioningPolicyDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Table_ExecutionPolicyDescription_descriptor =
-      getDescriptor().getMessageTypes().get(64);
+      getDescriptor().getMessageTypes().get(66);
     internal_static_Ydb_Table_ExecutionPolicyDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ExecutionPolicyDescription_descriptor,
@@ -70349,7 +73226,7 @@ public final class YdbTable {
         internal_static_Ydb_Table_ExecutionPolicyDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Table_ReplicationPolicyDescription_descriptor =
-      getDescriptor().getMessageTypes().get(65);
+      getDescriptor().getMessageTypes().get(67);
     internal_static_Ydb_Table_ReplicationPolicyDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ReplicationPolicyDescription_descriptor,
@@ -70361,7 +73238,7 @@ public final class YdbTable {
         internal_static_Ydb_Table_ReplicationPolicyDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Table_CachingPolicyDescription_descriptor =
-      getDescriptor().getMessageTypes().get(66);
+      getDescriptor().getMessageTypes().get(68);
     internal_static_Ydb_Table_CachingPolicyDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_CachingPolicyDescription_descriptor,
@@ -70373,7 +73250,7 @@ public final class YdbTable {
         internal_static_Ydb_Table_CachingPolicyDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Table_TableProfileDescription_descriptor =
-      getDescriptor().getMessageTypes().get(67);
+      getDescriptor().getMessageTypes().get(69);
     internal_static_Ydb_Table_TableProfileDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_TableProfileDescription_descriptor,
@@ -70385,43 +73262,43 @@ public final class YdbTable {
         internal_static_Ydb_Table_TableProfileDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Table_DescribeTableOptionsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(68);
+      getDescriptor().getMessageTypes().get(70);
     internal_static_Ydb_Table_DescribeTableOptionsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_DescribeTableOptionsRequest_descriptor,
         new java.lang.String[] { "OperationParams", });
     internal_static_Ydb_Table_DescribeTableOptionsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(69);
+      getDescriptor().getMessageTypes().get(71);
     internal_static_Ydb_Table_DescribeTableOptionsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_DescribeTableOptionsResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Table_DescribeTableOptionsResult_descriptor =
-      getDescriptor().getMessageTypes().get(70);
+      getDescriptor().getMessageTypes().get(72);
     internal_static_Ydb_Table_DescribeTableOptionsResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_DescribeTableOptionsResult_descriptor,
         new java.lang.String[] { "TableProfilePresets", "StoragePolicyPresets", "CompactionPolicyPresets", "PartitioningPolicyPresets", "ExecutionPolicyPresets", "ReplicationPolicyPresets", "CachingPolicyPresets", });
     internal_static_Ydb_Table_KeyRange_descriptor =
-      getDescriptor().getMessageTypes().get(71);
+      getDescriptor().getMessageTypes().get(73);
     internal_static_Ydb_Table_KeyRange_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_KeyRange_descriptor,
         new java.lang.String[] { "Greater", "GreaterOrEqual", "Less", "LessOrEqual", "FromBound", "ToBound", });
     internal_static_Ydb_Table_ReadTableRequest_descriptor =
-      getDescriptor().getMessageTypes().get(72);
+      getDescriptor().getMessageTypes().get(74);
     internal_static_Ydb_Table_ReadTableRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ReadTableRequest_descriptor,
         new java.lang.String[] { "SessionId", "Path", "KeyRange", "Columns", "Ordered", "RowLimit", });
     internal_static_Ydb_Table_ReadTableResponse_descriptor =
-      getDescriptor().getMessageTypes().get(73);
+      getDescriptor().getMessageTypes().get(75);
     internal_static_Ydb_Table_ReadTableResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ReadTableResponse_descriptor,
         new java.lang.String[] { "Status", "Issues", "Result", });
     internal_static_Ydb_Table_ReadTableResult_descriptor =
-      getDescriptor().getMessageTypes().get(74);
+      getDescriptor().getMessageTypes().get(76);
     internal_static_Ydb_Table_ReadTableResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ReadTableResult_descriptor,
