@@ -24,17 +24,23 @@ public final class YdbPersqueueV1 {
   static {
     java.lang.String[] descriptorData = {
       "\n3kikimr/public/api/grpc/draft/ydb_persq" +
-      "ueue_v1.proto\022\020Ydb.PersQueue.V1\032/kikimr/" +
-      "public/api/protos/ydb_persqueue_v1.proto" +
-      "2\255\002\n\020PersQueueService\022a\n\022CreateWriteSess" +
-      "ion\022\".Ydb.PersQueue.WriteSessionRequest\032" +
-      "#.Ydb.PersQueue.WriteSessionResponse(\0010\001" +
-      "\022^\n\021CreateReadSession\022!.Ydb.PersQueue.Re" +
-      "adSessionRequest\032\".Ydb.PersQueue.ReadSes" +
-      "sionResponse(\0010\001\022V\n\023GetReadSessionsInfo\022" +
-      "\036.Ydb.PersQueue.ReadInfoRequest\032\037.Ydb.Pe",
-      "rsQueue.ReadInfoResponseB\035\n\033com.yandex.y" +
-      "db.persqueue.v1b\006proto3"
+      "ueue_v1.proto\022\020Ydb.PersQueue.V1\032>kikimr/" +
+      "public/api/protos/ydb_persqueue_cluster_" +
+      "discovery.proto\032/kikimr/public/api/proto" +
+      "s/ydb_persqueue_v1.proto2\255\002\n\020PersQueueSe" +
+      "rvice\022a\n\022CreateWriteSession\022\".Ydb.PersQu" +
+      "eue.WriteSessionRequest\032#.Ydb.PersQueue." +
+      "WriteSessionResponse(\0010\001\022^\n\021CreateReadSe" +
+      "ssion\022!.Ydb.PersQueue.ReadSessionRequest" +
+      "\032\".Ydb.PersQueue.ReadSessionResponse(\0010\001",
+      "\022V\n\023GetReadSessionsInfo\022\036.Ydb.PersQueue." +
+      "ReadInfoRequest\032\037.Ydb.PersQueue.ReadInfo" +
+      "Response2\241\001\n\027ClusterDiscoveryService\022\205\001\n" +
+      "\020DiscoverClusters\0227.Ydb.PersQueue.Cluste" +
+      "rDiscovery.DiscoverClustersRequest\0328.Ydb" +
+      ".PersQueue.ClusterDiscovery.DiscoverClus" +
+      "tersResponseB \n\033tech.ydb.persqueue" +
+      ".v1\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -47,8 +53,10 @@ public final class YdbPersqueueV1 {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.getDescriptor(),
           tech.ydb.persqueue.YdbPersqueueV1.getDescriptor(),
         }, assigner);
+    tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.getDescriptor();
     tech.ydb.persqueue.YdbPersqueueV1.getDescriptor();
   }
 
