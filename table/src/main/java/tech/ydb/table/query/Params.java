@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.collect.Maps;
 import tech.ydb.ValueProtos;
 import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
@@ -102,7 +103,7 @@ public interface Params {
      * @return {@link Params} containing specified values
      */
     static Params copyOf(Map<String, Value<?>> values) {
-        HashMap<String, ValueProtos.TypedValue> params = new HashMap<>(values.size());
+        HashMap<String, ValueProtos.TypedValue> params = Maps.newHashMapWithExpectedSize(values.size());
         for (Map.Entry<String, Value<?>> e : values.entrySet()) {
             params.put(e.getKey(), ProtoValue.toTypedValue(e.getValue()));
         }
