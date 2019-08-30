@@ -22,6 +22,7 @@ import tech.ydb.table.YdbTable.ReadTableRequest;
 import tech.ydb.table.YdbTable.ReadTableResponse;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
+import tech.ydb.table.description.TableIndex;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
@@ -123,6 +124,15 @@ class SessionImpl implements Session {
                 .setName(column.getName())
                 .setType(column.getType().toPb())
                 .build());
+        }
+
+        for (TableIndex index : tableDescriptions.getIndexes()) {
+            YdbTable.TableIndex.Builder b = request.addIndexesBuilder();
+            b.setName(index.getName());
+            b.addAllIndexColumns(index.getColumns());
+            if (index.getType() == TableIndex.Type.GLOBAL) {
+                b.setGlobalIndex(YdbTable.GlobalIndex.getDefaultInstance());
+            }
         }
 
         if (settings.getPresetName() != null) {
@@ -295,6 +305,10 @@ class SessionImpl implements Session {
             description.addNonnullColumn(column.getName(), ProtoType.fromPb(column.getType()));
         }
         description.setPrimaryKeys(result.getPrimaryKeyList());
+        for (int i = 0; i < result.getIndexesCount(); i++) {
+            YdbTable.TableIndex index = result.getIndexes(i);
+            description.addGlobalIndex(index.getName(), index.getIndexColumnsList());
+        }
         return description.build();
     }
 

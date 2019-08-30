@@ -1,5 +1,6 @@
 package tech.ydb.table.description;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -18,10 +19,12 @@ public class TableDescription {
 
     private final List<String> primaryKeys;
     private final List<TableColumn> columns;
+    private final List<TableIndex> indexes;
 
-    private TableDescription(List<String> primaryKeys, List<TableColumn> columns) {
+    private TableDescription(List<String> primaryKeys, List<TableColumn> columns, List<TableIndex> indexes) {
         this.primaryKeys = primaryKeys;
         this.columns = columns;
+        this.indexes = indexes;
     }
 
     public static Builder newBuilder() {
@@ -36,6 +39,10 @@ public class TableDescription {
         return columns;
     }
 
+    public List<TableIndex> getIndexes() {
+        return indexes;
+    }
+
     /**
      * BUILDER
      */
@@ -43,6 +50,7 @@ public class TableDescription {
 
         private List<String> primaryKeys = Collections.emptyList();
         private LinkedHashMap<String, Type> columns = new LinkedHashMap<>();
+        private List<TableIndex> indexes = Collections.emptyList();
 
         public Builder addNonnullColumn(String name, Type type) {
             columns.put(name, type);
@@ -94,6 +102,14 @@ public class TableDescription {
             return this;
         }
 
+        public Builder addGlobalIndex(String name, List<String> columns) {
+            if (indexes.isEmpty()) {
+                indexes = new ArrayList<>(1);
+            }
+            indexes.add(new TableIndex(name, columns, TableIndex.Type.GLOBAL));
+            return this;
+        }
+
         public TableDescription build() {
             if (columns.isEmpty()) {
                 throw new IllegalStateException("cannot build table description with no columns");
@@ -105,7 +121,7 @@ public class TableDescription {
                 columns[i++] = new TableColumn(e.getKey(), e.getValue());
             }
 
-            return new TableDescription(primaryKeys, ImmutableList.copyOf(columns));
+            return new TableDescription(primaryKeys, ImmutableList.copyOf(columns), ImmutableList.copyOf(indexes));
         }
 
         private void checkColumnKnown(String name) {
