@@ -6197,35 +6197,68 @@ public final class OperationProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+     * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     */
+    int getStatusValue();
+    /**
+     * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     */
+    tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus();
+
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> 
+        getIssuesList();
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    tech.ydb.YdbIssueMessage.IssueMessage getIssues(int index);
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    int getIssuesCount();
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+        getIssuesOrBuilderList();
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
+        int index);
+
+    /**
+     * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
     java.util.List<tech.ydb.OperationProtos.Operation> 
         getOperationsList();
     /**
-     * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+     * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
     tech.ydb.OperationProtos.Operation getOperations(int index);
     /**
-     * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+     * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
     int getOperationsCount();
     /**
-     * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+     * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
     java.util.List<? extends tech.ydb.OperationProtos.OperationOrBuilder> 
         getOperationsOrBuilderList();
     /**
-     * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+     * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
     tech.ydb.OperationProtos.OperationOrBuilder getOperationsOrBuilder(
         int index);
 
     /**
-     * <code>string next_page_token = 2;</code>
+     * <code>string next_page_token = 4;</code>
      */
     java.lang.String getNextPageToken();
     /**
-     * <code>string next_page_token = 2;</code>
+     * <code>string next_page_token = 4;</code>
      */
     com.google.protobuf.ByteString
         getNextPageTokenBytes();
@@ -6243,6 +6276,8 @@ public final class OperationProtos {
       super(builder);
     }
     private ListOperationsResponse() {
+      status_ = 0;
+      issues_ = java.util.Collections.emptyList();
       operations_ = java.util.Collections.emptyList();
       nextPageToken_ = "";
     }
@@ -6275,16 +6310,31 @@ public final class OperationProtos {
               }
               break;
             }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+            case 8: {
+              int rawValue = input.readEnum();
+
+              status_ = rawValue;
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              issues_.add(
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
                 operations_ = new java.util.ArrayList<tech.ydb.OperationProtos.Operation>();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000004;
               }
               operations_.add(
                   input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry));
               break;
             }
-            case 18: {
+            case 34: {
               java.lang.String s = input.readStringRequireUtf8();
 
               nextPageToken_ = s;
@@ -6298,7 +6348,10 @@ public final class OperationProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          issues_ = java.util.Collections.unmodifiableList(issues_);
+        }
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           operations_ = java.util.Collections.unmodifiableList(operations_);
         }
         this.unknownFields = unknownFields.build();
@@ -6318,45 +6371,96 @@ public final class OperationProtos {
     }
 
     private int bitField0_;
-    public static final int OPERATIONS_FIELD_NUMBER = 1;
+    public static final int STATUS_FIELD_NUMBER = 1;
+    private int status_;
+    /**
+     * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     */
+    public int getStatusValue() {
+      return status_;
+    }
+    /**
+     * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     */
+    public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+      tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
+      return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
+    }
+
+    public static final int ISSUES_FIELD_NUMBER = 2;
+    private java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> issues_;
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> getIssuesList() {
+      return issues_;
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+        getIssuesOrBuilderList() {
+      return issues_;
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public int getIssuesCount() {
+      return issues_.size();
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public tech.ydb.YdbIssueMessage.IssueMessage getIssues(int index) {
+      return issues_.get(index);
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+     */
+    public tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
+        int index) {
+      return issues_.get(index);
+    }
+
+    public static final int OPERATIONS_FIELD_NUMBER = 3;
     private java.util.List<tech.ydb.OperationProtos.Operation> operations_;
     /**
-     * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+     * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
     public java.util.List<tech.ydb.OperationProtos.Operation> getOperationsList() {
       return operations_;
     }
     /**
-     * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+     * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
     public java.util.List<? extends tech.ydb.OperationProtos.OperationOrBuilder> 
         getOperationsOrBuilderList() {
       return operations_;
     }
     /**
-     * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+     * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
     public int getOperationsCount() {
       return operations_.size();
     }
     /**
-     * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+     * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
     public tech.ydb.OperationProtos.Operation getOperations(int index) {
       return operations_.get(index);
     }
     /**
-     * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+     * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationsOrBuilder(
         int index) {
       return operations_.get(index);
     }
 
-    public static final int NEXT_PAGE_TOKEN_FIELD_NUMBER = 2;
+    public static final int NEXT_PAGE_TOKEN_FIELD_NUMBER = 4;
     private volatile java.lang.Object nextPageToken_;
     /**
-     * <code>string next_page_token = 2;</code>
+     * <code>string next_page_token = 4;</code>
      */
     public java.lang.String getNextPageToken() {
       java.lang.Object ref = nextPageToken_;
@@ -6371,7 +6475,7 @@ public final class OperationProtos {
       }
     }
     /**
-     * <code>string next_page_token = 2;</code>
+     * <code>string next_page_token = 4;</code>
      */
     public com.google.protobuf.ByteString
         getNextPageTokenBytes() {
@@ -6399,11 +6503,17 @@ public final class OperationProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (status_ != tech.ydb.StatusCodesProtos.StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(1, status_);
+      }
+      for (int i = 0; i < issues_.size(); i++) {
+        output.writeMessage(2, issues_.get(i));
+      }
       for (int i = 0; i < operations_.size(); i++) {
-        output.writeMessage(1, operations_.get(i));
+        output.writeMessage(3, operations_.get(i));
       }
       if (!getNextPageTokenBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, nextPageToken_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, nextPageToken_);
       }
       unknownFields.writeTo(output);
     }
@@ -6413,12 +6523,20 @@ public final class OperationProtos {
       if (size != -1) return size;
 
       size = 0;
+      if (status_ != tech.ydb.StatusCodesProtos.StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, status_);
+      }
+      for (int i = 0; i < issues_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, issues_.get(i));
+      }
       for (int i = 0; i < operations_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, operations_.get(i));
+          .computeMessageSize(3, operations_.get(i));
       }
       if (!getNextPageTokenBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, nextPageToken_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, nextPageToken_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6436,6 +6554,9 @@ public final class OperationProtos {
       tech.ydb.OperationProtos.ListOperationsResponse other = (tech.ydb.OperationProtos.ListOperationsResponse) obj;
 
       boolean result = true;
+      result = result && status_ == other.status_;
+      result = result && getIssuesList()
+          .equals(other.getIssuesList());
       result = result && getOperationsList()
           .equals(other.getOperationsList());
       result = result && getNextPageToken()
@@ -6451,6 +6572,12 @@ public final class OperationProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + STATUS_FIELD_NUMBER;
+      hash = (53 * hash) + status_;
+      if (getIssuesCount() > 0) {
+        hash = (37 * hash) + ISSUES_FIELD_NUMBER;
+        hash = (53 * hash) + getIssuesList().hashCode();
+      }
       if (getOperationsCount() > 0) {
         hash = (37 * hash) + OPERATIONS_FIELD_NUMBER;
         hash = (53 * hash) + getOperationsList().hashCode();
@@ -6582,14 +6709,23 @@ public final class OperationProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getIssuesFieldBuilder();
           getOperationsFieldBuilder();
         }
       }
       public Builder clear() {
         super.clear();
+        status_ = 0;
+
+        if (issuesBuilder_ == null) {
+          issues_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          issuesBuilder_.clear();
+        }
         if (operationsBuilder_ == null) {
           operations_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
           operationsBuilder_.clear();
         }
@@ -6619,10 +6755,20 @@ public final class OperationProtos {
         tech.ydb.OperationProtos.ListOperationsResponse result = new tech.ydb.OperationProtos.ListOperationsResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
+        result.status_ = status_;
+        if (issuesBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            issues_ = java.util.Collections.unmodifiableList(issues_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.issues_ = issues_;
+        } else {
+          result.issues_ = issuesBuilder_.build();
+        }
         if (operationsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
             operations_ = java.util.Collections.unmodifiableList(operations_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.operations_ = operations_;
         } else {
@@ -6671,11 +6817,40 @@ public final class OperationProtos {
 
       public Builder mergeFrom(tech.ydb.OperationProtos.ListOperationsResponse other) {
         if (other == tech.ydb.OperationProtos.ListOperationsResponse.getDefaultInstance()) return this;
+        if (other.status_ != 0) {
+          setStatusValue(other.getStatusValue());
+        }
+        if (issuesBuilder_ == null) {
+          if (!other.issues_.isEmpty()) {
+            if (issues_.isEmpty()) {
+              issues_ = other.issues_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureIssuesIsMutable();
+              issues_.addAll(other.issues_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.issues_.isEmpty()) {
+            if (issuesBuilder_.isEmpty()) {
+              issuesBuilder_.dispose();
+              issuesBuilder_ = null;
+              issues_ = other.issues_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              issuesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getIssuesFieldBuilder() : null;
+            } else {
+              issuesBuilder_.addAllMessages(other.issues_);
+            }
+          }
+        }
         if (operationsBuilder_ == null) {
           if (!other.operations_.isEmpty()) {
             if (operations_.isEmpty()) {
               operations_ = other.operations_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureOperationsIsMutable();
               operations_.addAll(other.operations_);
@@ -6688,7 +6863,7 @@ public final class OperationProtos {
               operationsBuilder_.dispose();
               operationsBuilder_ = null;
               operations_ = other.operations_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000004);
               operationsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getOperationsFieldBuilder() : null;
@@ -6729,12 +6904,296 @@ public final class OperationProtos {
       }
       private int bitField0_;
 
+      private int status_ = 0;
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public int getStatusValue() {
+        return status_;
+      }
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public Builder setStatusValue(int value) {
+        status_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+        tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
+        return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public Builder setStatus(tech.ydb.StatusCodesProtos.StatusIds.StatusCode value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        status_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       */
+      public Builder clearStatus() {
+        
+        status_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> issues_ =
+        java.util.Collections.emptyList();
+      private void ensureIssuesIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>(issues_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> issuesBuilder_;
+
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> getIssuesList() {
+        if (issuesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(issues_);
+        } else {
+          return issuesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public int getIssuesCount() {
+        if (issuesBuilder_ == null) {
+          return issues_.size();
+        } else {
+          return issuesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessage getIssues(int index) {
+        if (issuesBuilder_ == null) {
+          return issues_.get(index);
+        } else {
+          return issuesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder setIssues(
+          int index, tech.ydb.YdbIssueMessage.IssueMessage value) {
+        if (issuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIssuesIsMutable();
+          issues_.set(index, value);
+          onChanged();
+        } else {
+          issuesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder setIssues(
+          int index, tech.ydb.YdbIssueMessage.IssueMessage.Builder builderForValue) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          issues_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          issuesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addIssues(tech.ydb.YdbIssueMessage.IssueMessage value) {
+        if (issuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIssuesIsMutable();
+          issues_.add(value);
+          onChanged();
+        } else {
+          issuesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addIssues(
+          int index, tech.ydb.YdbIssueMessage.IssueMessage value) {
+        if (issuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIssuesIsMutable();
+          issues_.add(index, value);
+          onChanged();
+        } else {
+          issuesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addIssues(
+          tech.ydb.YdbIssueMessage.IssueMessage.Builder builderForValue) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          issues_.add(builderForValue.build());
+          onChanged();
+        } else {
+          issuesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addIssues(
+          int index, tech.ydb.YdbIssueMessage.IssueMessage.Builder builderForValue) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          issues_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          issuesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder addAllIssues(
+          java.lang.Iterable<? extends tech.ydb.YdbIssueMessage.IssueMessage> values) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, issues_);
+          onChanged();
+        } else {
+          issuesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder clearIssues() {
+        if (issuesBuilder_ == null) {
+          issues_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          issuesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public Builder removeIssues(int index) {
+        if (issuesBuilder_ == null) {
+          ensureIssuesIsMutable();
+          issues_.remove(index);
+          onChanged();
+        } else {
+          issuesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessage.Builder getIssuesBuilder(
+          int index) {
+        return getIssuesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
+          int index) {
+        if (issuesBuilder_ == null) {
+          return issues_.get(index);  } else {
+          return issuesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+           getIssuesOrBuilderList() {
+        if (issuesBuilder_ != null) {
+          return issuesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(issues_);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessage.Builder addIssuesBuilder() {
+        return getIssuesFieldBuilder().addBuilder(
+            tech.ydb.YdbIssueMessage.IssueMessage.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessage.Builder addIssuesBuilder(
+          int index) {
+        return getIssuesFieldBuilder().addBuilder(
+            index, tech.ydb.YdbIssueMessage.IssueMessage.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
+       */
+      public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage.Builder> 
+           getIssuesBuilderList() {
+        return getIssuesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+          getIssuesFieldBuilder() {
+        if (issuesBuilder_ == null) {
+          issuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder>(
+                  issues_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          issues_ = null;
+        }
+        return issuesBuilder_;
+      }
+
       private java.util.List<tech.ydb.OperationProtos.Operation> operations_ =
         java.util.Collections.emptyList();
       private void ensureOperationsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
           operations_ = new java.util.ArrayList<tech.ydb.OperationProtos.Operation>(operations_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000004;
          }
       }
 
@@ -6742,7 +7201,7 @@ public final class OperationProtos {
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationsBuilder_;
 
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public java.util.List<tech.ydb.OperationProtos.Operation> getOperationsList() {
         if (operationsBuilder_ == null) {
@@ -6752,7 +7211,7 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public int getOperationsCount() {
         if (operationsBuilder_ == null) {
@@ -6762,7 +7221,7 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public tech.ydb.OperationProtos.Operation getOperations(int index) {
         if (operationsBuilder_ == null) {
@@ -6772,7 +7231,7 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public Builder setOperations(
           int index, tech.ydb.OperationProtos.Operation value) {
@@ -6789,7 +7248,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public Builder setOperations(
           int index, tech.ydb.OperationProtos.Operation.Builder builderForValue) {
@@ -6803,7 +7262,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public Builder addOperations(tech.ydb.OperationProtos.Operation value) {
         if (operationsBuilder_ == null) {
@@ -6819,7 +7278,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public Builder addOperations(
           int index, tech.ydb.OperationProtos.Operation value) {
@@ -6836,7 +7295,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public Builder addOperations(
           tech.ydb.OperationProtos.Operation.Builder builderForValue) {
@@ -6850,7 +7309,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public Builder addOperations(
           int index, tech.ydb.OperationProtos.Operation.Builder builderForValue) {
@@ -6864,7 +7323,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public Builder addAllOperations(
           java.lang.Iterable<? extends tech.ydb.OperationProtos.Operation> values) {
@@ -6879,12 +7338,12 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public Builder clearOperations() {
         if (operationsBuilder_ == null) {
           operations_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           operationsBuilder_.clear();
@@ -6892,7 +7351,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public Builder removeOperations(int index) {
         if (operationsBuilder_ == null) {
@@ -6905,14 +7364,14 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public tech.ydb.OperationProtos.Operation.Builder getOperationsBuilder(
           int index) {
         return getOperationsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public tech.ydb.OperationProtos.OperationOrBuilder getOperationsOrBuilder(
           int index) {
@@ -6922,7 +7381,7 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public java.util.List<? extends tech.ydb.OperationProtos.OperationOrBuilder> 
            getOperationsOrBuilderList() {
@@ -6933,14 +7392,14 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public tech.ydb.OperationProtos.Operation.Builder addOperationsBuilder() {
         return getOperationsFieldBuilder().addBuilder(
             tech.ydb.OperationProtos.Operation.getDefaultInstance());
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public tech.ydb.OperationProtos.Operation.Builder addOperationsBuilder(
           int index) {
@@ -6948,7 +7407,7 @@ public final class OperationProtos {
             index, tech.ydb.OperationProtos.Operation.getDefaultInstance());
       }
       /**
-       * <code>repeated .Ydb.Operations.Operation operations = 1;</code>
+       * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
        */
       public java.util.List<tech.ydb.OperationProtos.Operation.Builder> 
            getOperationsBuilderList() {
@@ -6961,7 +7420,7 @@ public final class OperationProtos {
           operationsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
                   operations_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
                   isClean());
           operations_ = null;
@@ -6971,7 +7430,7 @@ public final class OperationProtos {
 
       private java.lang.Object nextPageToken_ = "";
       /**
-       * <code>string next_page_token = 2;</code>
+       * <code>string next_page_token = 4;</code>
        */
       public java.lang.String getNextPageToken() {
         java.lang.Object ref = nextPageToken_;
@@ -6986,7 +7445,7 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>string next_page_token = 2;</code>
+       * <code>string next_page_token = 4;</code>
        */
       public com.google.protobuf.ByteString
           getNextPageTokenBytes() {
@@ -7002,7 +7461,7 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>string next_page_token = 2;</code>
+       * <code>string next_page_token = 4;</code>
        */
       public Builder setNextPageToken(
           java.lang.String value) {
@@ -7015,7 +7474,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>string next_page_token = 2;</code>
+       * <code>string next_page_token = 4;</code>
        */
       public Builder clearNextPageToken() {
         
@@ -7024,7 +7483,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>string next_page_token = 2;</code>
+       * <code>string next_page_token = 4;</code>
        */
       public Builder setNextPageTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -8749,16 +9208,18 @@ public final class OperationProtos {
       "s\030\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006is" +
       "sues\030\002 \003(\0132\027.Ydb.Issue.IssueMessage\"L\n\025L" +
       "istOperationsRequest\022\014\n\004kind\030\001 \001(\t\022\021\n\tpa" +
-      "ge_size\030\002 \001(\004\022\022\n\npage_token\030\003 \001(\t\"`\n\026Lis" +
-      "tOperationsResponse\022-\n\noperations\030\001 \003(\0132" +
-      "\031.Ydb.Operations.Operation\022\027\n\017next_page_" +
-      "token\030\002 \001(\t\"\310\001\n\tOperation\022\n\n\002id\030\001 \001(\t\022\r\n",
-      "\005ready\030\002 \001(\010\022)\n\006status\030\003 \001(\0162\031.Ydb.Statu" +
-      "sIds.StatusCode\022\'\n\006issues\030\004 \003(\0132\027.Ydb.Is" +
-      "sue.IssueMessage\022$\n\006result\030\005 \001(\0132\024.googl" +
-      "e.protobuf.Any\022&\n\010metadata\030\006 \001(\0132\024.googl" +
-      "e.protobuf.AnyB$\n\016tech.ydbB\017Operat" +
-      "ionProtos\370\001\001b\006proto3"
+      "ge_size\030\002 \001(\004\022\022\n\npage_token\030\003 \001(\t\"\264\001\n\026Li" +
+      "stOperationsResponse\022)\n\006status\030\001 \001(\0162\031.Y" +
+      "db.StatusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132" +
+      "\027.Ydb.Issue.IssueMessage\022-\n\noperations\030\003",
+      " \003(\0132\031.Ydb.Operations.Operation\022\027\n\017next_" +
+      "page_token\030\004 \001(\t\"\310\001\n\tOperation\022\n\n\002id\030\001 \001" +
+      "(\t\022\r\n\005ready\030\002 \001(\010\022)\n\006status\030\003 \001(\0162\031.Ydb." +
+      "StatusIds.StatusCode\022\'\n\006issues\030\004 \003(\0132\027.Y" +
+      "db.Issue.IssueMessage\022$\n\006result\030\005 \001(\0132\024." +
+      "google.protobuf.Any\022&\n\010metadata\030\006 \001(\0132\024." +
+      "google.protobuf.AnyB$\n\016tech.ydbB\017O" +
+      "perationProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -8835,7 +9296,7 @@ public final class OperationProtos {
     internal_static_Ydb_Operations_ListOperationsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_ListOperationsResponse_descriptor,
-        new java.lang.String[] { "Operations", "NextPageToken", });
+        new java.lang.String[] { "Status", "Issues", "Operations", "NextPageToken", });
     internal_static_Ydb_Operations_Operation_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Operations_Operation_fieldAccessorTable = new

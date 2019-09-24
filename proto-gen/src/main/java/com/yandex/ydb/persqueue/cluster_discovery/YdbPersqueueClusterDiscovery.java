@@ -1752,14 +1752,14 @@ public final class YdbPersqueueClusterDiscovery {
         getTopicBytes();
 
     /**
-     * <code>string mirroring_cluster_name = 2;</code>
+     * <code>string mirror_to_cluster = 2;</code>
      */
-    java.lang.String getMirroringClusterName();
+    java.lang.String getMirrorToCluster();
     /**
-     * <code>string mirroring_cluster_name = 2;</code>
+     * <code>string mirror_to_cluster = 2;</code>
      */
     com.google.protobuf.ByteString
-        getMirroringClusterNameBytes();
+        getMirrorToClusterBytes();
 
     /**
      * <code>.google.protobuf.Empty all_original = 3;</code>
@@ -1774,7 +1774,7 @@ public final class YdbPersqueueClusterDiscovery {
      */
     com.google.protobuf.EmptyOrBuilder getAllOriginalOrBuilder();
 
-    public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams.ReadModeCase getReadModeCase();
+    public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams.ReadRuleCase getReadRuleCase();
   }
   /**
    * Protobuf type {@code Ydb.PersQueue.ClusterDiscovery.ReadSessionParams}
@@ -1828,22 +1828,22 @@ public final class YdbPersqueueClusterDiscovery {
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
-              readModeCase_ = 2;
-              readMode_ = s;
+              readRuleCase_ = 2;
+              readRule_ = s;
               break;
             }
             case 26: {
               com.google.protobuf.Empty.Builder subBuilder = null;
-              if (readModeCase_ == 3) {
-                subBuilder = ((com.google.protobuf.Empty) readMode_).toBuilder();
+              if (readRuleCase_ == 3) {
+                subBuilder = ((com.google.protobuf.Empty) readRule_).toBuilder();
               }
-              readMode_ =
+              readRule_ =
                   input.readMessage(com.google.protobuf.Empty.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((com.google.protobuf.Empty) readMode_);
-                readMode_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom((com.google.protobuf.Empty) readRule_);
+                readRule_ = subBuilder.buildPartial();
               }
-              readModeCase_ = 3;
+              readRuleCase_ = 3;
               break;
             }
           }
@@ -1870,30 +1870,30 @@ public final class YdbPersqueueClusterDiscovery {
               tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams.class, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams.Builder.class);
     }
 
-    private int readModeCase_ = 0;
-    private java.lang.Object readMode_;
-    public enum ReadModeCase
+    private int readRuleCase_ = 0;
+    private java.lang.Object readRule_;
+    public enum ReadRuleCase
         implements com.google.protobuf.Internal.EnumLite {
-      MIRRORING_CLUSTER_NAME(2),
+      MIRROR_TO_CLUSTER(2),
       ALL_ORIGINAL(3),
-      READMODE_NOT_SET(0);
+      READRULE_NOT_SET(0);
       private final int value;
-      private ReadModeCase(int value) {
+      private ReadRuleCase(int value) {
         this.value = value;
       }
       /**
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
-      public static ReadModeCase valueOf(int value) {
+      public static ReadRuleCase valueOf(int value) {
         return forNumber(value);
       }
 
-      public static ReadModeCase forNumber(int value) {
+      public static ReadRuleCase forNumber(int value) {
         switch (value) {
-          case 2: return MIRRORING_CLUSTER_NAME;
+          case 2: return MIRROR_TO_CLUSTER;
           case 3: return ALL_ORIGINAL;
-          case 0: return READMODE_NOT_SET;
+          case 0: return READRULE_NOT_SET;
           default: return null;
         }
       }
@@ -1902,10 +1902,10 @@ public final class YdbPersqueueClusterDiscovery {
       }
     };
 
-    public ReadModeCase
-    getReadModeCase() {
-      return ReadModeCase.forNumber(
-          readModeCase_);
+    public ReadRuleCase
+    getReadRuleCase() {
+      return ReadRuleCase.forNumber(
+          readRuleCase_);
     }
 
     public static final int TOPIC_FIELD_NUMBER = 1;
@@ -1950,14 +1950,14 @@ public final class YdbPersqueueClusterDiscovery {
       }
     }
 
-    public static final int MIRRORING_CLUSTER_NAME_FIELD_NUMBER = 2;
+    public static final int MIRROR_TO_CLUSTER_FIELD_NUMBER = 2;
     /**
-     * <code>string mirroring_cluster_name = 2;</code>
+     * <code>string mirror_to_cluster = 2;</code>
      */
-    public java.lang.String getMirroringClusterName() {
+    public java.lang.String getMirrorToCluster() {
       java.lang.Object ref = "";
-      if (readModeCase_ == 2) {
-        ref = readMode_;
+      if (readRuleCase_ == 2) {
+        ref = readRule_;
       }
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
@@ -1965,27 +1965,27 @@ public final class YdbPersqueueClusterDiscovery {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        if (readModeCase_ == 2) {
-          readMode_ = s;
+        if (readRuleCase_ == 2) {
+          readRule_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>string mirroring_cluster_name = 2;</code>
+     * <code>string mirror_to_cluster = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getMirroringClusterNameBytes() {
+        getMirrorToClusterBytes() {
       java.lang.Object ref = "";
-      if (readModeCase_ == 2) {
-        ref = readMode_;
+      if (readRuleCase_ == 2) {
+        ref = readRule_;
       }
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        if (readModeCase_ == 2) {
-          readMode_ = b;
+        if (readRuleCase_ == 2) {
+          readRule_ = b;
         }
         return b;
       } else {
@@ -1998,14 +1998,14 @@ public final class YdbPersqueueClusterDiscovery {
      * <code>.google.protobuf.Empty all_original = 3;</code>
      */
     public boolean hasAllOriginal() {
-      return readModeCase_ == 3;
+      return readRuleCase_ == 3;
     }
     /**
      * <code>.google.protobuf.Empty all_original = 3;</code>
      */
     public com.google.protobuf.Empty getAllOriginal() {
-      if (readModeCase_ == 3) {
-         return (com.google.protobuf.Empty) readMode_;
+      if (readRuleCase_ == 3) {
+         return (com.google.protobuf.Empty) readRule_;
       }
       return com.google.protobuf.Empty.getDefaultInstance();
     }
@@ -2013,8 +2013,8 @@ public final class YdbPersqueueClusterDiscovery {
      * <code>.google.protobuf.Empty all_original = 3;</code>
      */
     public com.google.protobuf.EmptyOrBuilder getAllOriginalOrBuilder() {
-      if (readModeCase_ == 3) {
-         return (com.google.protobuf.Empty) readMode_;
+      if (readRuleCase_ == 3) {
+         return (com.google.protobuf.Empty) readRule_;
       }
       return com.google.protobuf.Empty.getDefaultInstance();
     }
@@ -2034,11 +2034,11 @@ public final class YdbPersqueueClusterDiscovery {
       if (!getTopicBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, topic_);
       }
-      if (readModeCase_ == 2) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, readMode_);
+      if (readRuleCase_ == 2) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, readRule_);
       }
-      if (readModeCase_ == 3) {
-        output.writeMessage(3, (com.google.protobuf.Empty) readMode_);
+      if (readRuleCase_ == 3) {
+        output.writeMessage(3, (com.google.protobuf.Empty) readRule_);
       }
       unknownFields.writeTo(output);
     }
@@ -2051,12 +2051,12 @@ public final class YdbPersqueueClusterDiscovery {
       if (!getTopicBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, topic_);
       }
-      if (readModeCase_ == 2) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, readMode_);
+      if (readRuleCase_ == 2) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, readRule_);
       }
-      if (readModeCase_ == 3) {
+      if (readRuleCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, (com.google.protobuf.Empty) readMode_);
+          .computeMessageSize(3, (com.google.protobuf.Empty) readRule_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2076,13 +2076,13 @@ public final class YdbPersqueueClusterDiscovery {
       boolean result = true;
       result = result && getTopic()
           .equals(other.getTopic());
-      result = result && getReadModeCase().equals(
-          other.getReadModeCase());
+      result = result && getReadRuleCase().equals(
+          other.getReadRuleCase());
       if (!result) return false;
-      switch (readModeCase_) {
+      switch (readRuleCase_) {
         case 2:
-          result = result && getMirroringClusterName()
-              .equals(other.getMirroringClusterName());
+          result = result && getMirrorToCluster()
+              .equals(other.getMirrorToCluster());
           break;
         case 3:
           result = result && getAllOriginal()
@@ -2104,10 +2104,10 @@ public final class YdbPersqueueClusterDiscovery {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + TOPIC_FIELD_NUMBER;
       hash = (53 * hash) + getTopic().hashCode();
-      switch (readModeCase_) {
+      switch (readRuleCase_) {
         case 2:
-          hash = (37 * hash) + MIRRORING_CLUSTER_NAME_FIELD_NUMBER;
-          hash = (53 * hash) + getMirroringClusterName().hashCode();
+          hash = (37 * hash) + MIRROR_TO_CLUSTER_FIELD_NUMBER;
+          hash = (53 * hash) + getMirrorToCluster().hashCode();
           break;
         case 3:
           hash = (37 * hash) + ALL_ORIGINAL_FIELD_NUMBER;
@@ -2247,8 +2247,8 @@ public final class YdbPersqueueClusterDiscovery {
         super.clear();
         topic_ = "";
 
-        readModeCase_ = 0;
-        readMode_ = null;
+        readRuleCase_ = 0;
+        readRule_ = null;
         return this;
       }
 
@@ -2272,17 +2272,17 @@ public final class YdbPersqueueClusterDiscovery {
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams buildPartial() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams result = new tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams(this);
         result.topic_ = topic_;
-        if (readModeCase_ == 2) {
-          result.readMode_ = readMode_;
+        if (readRuleCase_ == 2) {
+          result.readRule_ = readRule_;
         }
-        if (readModeCase_ == 3) {
+        if (readRuleCase_ == 3) {
           if (allOriginalBuilder_ == null) {
-            result.readMode_ = readMode_;
+            result.readRule_ = readRule_;
           } else {
-            result.readMode_ = allOriginalBuilder_.build();
+            result.readRule_ = allOriginalBuilder_.build();
           }
         }
-        result.readModeCase_ = readModeCase_;
+        result.readRuleCase_ = readRuleCase_;
         onBuilt();
         return result;
       }
@@ -2328,10 +2328,10 @@ public final class YdbPersqueueClusterDiscovery {
           topic_ = other.topic_;
           onChanged();
         }
-        switch (other.getReadModeCase()) {
-          case MIRRORING_CLUSTER_NAME: {
-            readModeCase_ = 2;
-            readMode_ = other.readMode_;
+        switch (other.getReadRuleCase()) {
+          case MIRROR_TO_CLUSTER: {
+            readRuleCase_ = 2;
+            readRule_ = other.readRule_;
             onChanged();
             break;
           }
@@ -2339,7 +2339,7 @@ public final class YdbPersqueueClusterDiscovery {
             mergeAllOriginal(other.getAllOriginal());
             break;
           }
-          case READMODE_NOT_SET: {
+          case READRULE_NOT_SET: {
             break;
           }
         }
@@ -2369,17 +2369,17 @@ public final class YdbPersqueueClusterDiscovery {
         }
         return this;
       }
-      private int readModeCase_ = 0;
-      private java.lang.Object readMode_;
-      public ReadModeCase
-          getReadModeCase() {
-        return ReadModeCase.forNumber(
-            readModeCase_);
+      private int readRuleCase_ = 0;
+      private java.lang.Object readRule_;
+      public ReadRuleCase
+          getReadRuleCase() {
+        return ReadRuleCase.forNumber(
+            readRuleCase_);
       }
 
-      public Builder clearReadMode() {
-        readModeCase_ = 0;
-        readMode_ = null;
+      public Builder clearReadRule() {
+        readRuleCase_ = 0;
+        readRule_ = null;
         onChanged();
         return this;
       }
@@ -2475,19 +2475,19 @@ public final class YdbPersqueueClusterDiscovery {
       }
 
       /**
-       * <code>string mirroring_cluster_name = 2;</code>
+       * <code>string mirror_to_cluster = 2;</code>
        */
-      public java.lang.String getMirroringClusterName() {
+      public java.lang.String getMirrorToCluster() {
         java.lang.Object ref = "";
-        if (readModeCase_ == 2) {
-          ref = readMode_;
+        if (readRuleCase_ == 2) {
+          ref = readRule_;
         }
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          if (readModeCase_ == 2) {
-            readMode_ = s;
+          if (readRuleCase_ == 2) {
+            readRule_ = s;
           }
           return s;
         } else {
@@ -2495,20 +2495,20 @@ public final class YdbPersqueueClusterDiscovery {
         }
       }
       /**
-       * <code>string mirroring_cluster_name = 2;</code>
+       * <code>string mirror_to_cluster = 2;</code>
        */
       public com.google.protobuf.ByteString
-          getMirroringClusterNameBytes() {
+          getMirrorToClusterBytes() {
         java.lang.Object ref = "";
-        if (readModeCase_ == 2) {
-          ref = readMode_;
+        if (readRuleCase_ == 2) {
+          ref = readRule_;
         }
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          if (readModeCase_ == 2) {
-            readMode_ = b;
+          if (readRuleCase_ == 2) {
+            readRule_ = b;
           }
           return b;
         } else {
@@ -2516,40 +2516,40 @@ public final class YdbPersqueueClusterDiscovery {
         }
       }
       /**
-       * <code>string mirroring_cluster_name = 2;</code>
+       * <code>string mirror_to_cluster = 2;</code>
        */
-      public Builder setMirroringClusterName(
+      public Builder setMirrorToCluster(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  readModeCase_ = 2;
-        readMode_ = value;
+  readRuleCase_ = 2;
+        readRule_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string mirroring_cluster_name = 2;</code>
+       * <code>string mirror_to_cluster = 2;</code>
        */
-      public Builder clearMirroringClusterName() {
-        if (readModeCase_ == 2) {
-          readModeCase_ = 0;
-          readMode_ = null;
+      public Builder clearMirrorToCluster() {
+        if (readRuleCase_ == 2) {
+          readRuleCase_ = 0;
+          readRule_ = null;
           onChanged();
         }
         return this;
       }
       /**
-       * <code>string mirroring_cluster_name = 2;</code>
+       * <code>string mirror_to_cluster = 2;</code>
        */
-      public Builder setMirroringClusterNameBytes(
+      public Builder setMirrorToClusterBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        readModeCase_ = 2;
-        readMode_ = value;
+        readRuleCase_ = 2;
+        readRule_ = value;
         onChanged();
         return this;
       }
@@ -2560,19 +2560,19 @@ public final class YdbPersqueueClusterDiscovery {
        * <code>.google.protobuf.Empty all_original = 3;</code>
        */
       public boolean hasAllOriginal() {
-        return readModeCase_ == 3;
+        return readRuleCase_ == 3;
       }
       /**
        * <code>.google.protobuf.Empty all_original = 3;</code>
        */
       public com.google.protobuf.Empty getAllOriginal() {
         if (allOriginalBuilder_ == null) {
-          if (readModeCase_ == 3) {
-            return (com.google.protobuf.Empty) readMode_;
+          if (readRuleCase_ == 3) {
+            return (com.google.protobuf.Empty) readRule_;
           }
           return com.google.protobuf.Empty.getDefaultInstance();
         } else {
-          if (readModeCase_ == 3) {
+          if (readRuleCase_ == 3) {
             return allOriginalBuilder_.getMessage();
           }
           return com.google.protobuf.Empty.getDefaultInstance();
@@ -2586,12 +2586,12 @@ public final class YdbPersqueueClusterDiscovery {
           if (value == null) {
             throw new NullPointerException();
           }
-          readMode_ = value;
+          readRule_ = value;
           onChanged();
         } else {
           allOriginalBuilder_.setMessage(value);
         }
-        readModeCase_ = 3;
+        readRuleCase_ = 3;
         return this;
       }
       /**
@@ -2600,12 +2600,12 @@ public final class YdbPersqueueClusterDiscovery {
       public Builder setAllOriginal(
           com.google.protobuf.Empty.Builder builderForValue) {
         if (allOriginalBuilder_ == null) {
-          readMode_ = builderForValue.build();
+          readRule_ = builderForValue.build();
           onChanged();
         } else {
           allOriginalBuilder_.setMessage(builderForValue.build());
         }
-        readModeCase_ = 3;
+        readRuleCase_ = 3;
         return this;
       }
       /**
@@ -2613,21 +2613,21 @@ public final class YdbPersqueueClusterDiscovery {
        */
       public Builder mergeAllOriginal(com.google.protobuf.Empty value) {
         if (allOriginalBuilder_ == null) {
-          if (readModeCase_ == 3 &&
-              readMode_ != com.google.protobuf.Empty.getDefaultInstance()) {
-            readMode_ = com.google.protobuf.Empty.newBuilder((com.google.protobuf.Empty) readMode_)
+          if (readRuleCase_ == 3 &&
+              readRule_ != com.google.protobuf.Empty.getDefaultInstance()) {
+            readRule_ = com.google.protobuf.Empty.newBuilder((com.google.protobuf.Empty) readRule_)
                 .mergeFrom(value).buildPartial();
           } else {
-            readMode_ = value;
+            readRule_ = value;
           }
           onChanged();
         } else {
-          if (readModeCase_ == 3) {
+          if (readRuleCase_ == 3) {
             allOriginalBuilder_.mergeFrom(value);
           }
           allOriginalBuilder_.setMessage(value);
         }
-        readModeCase_ = 3;
+        readRuleCase_ = 3;
         return this;
       }
       /**
@@ -2635,15 +2635,15 @@ public final class YdbPersqueueClusterDiscovery {
        */
       public Builder clearAllOriginal() {
         if (allOriginalBuilder_ == null) {
-          if (readModeCase_ == 3) {
-            readModeCase_ = 0;
-            readMode_ = null;
+          if (readRuleCase_ == 3) {
+            readRuleCase_ = 0;
+            readRule_ = null;
             onChanged();
           }
         } else {
-          if (readModeCase_ == 3) {
-            readModeCase_ = 0;
-            readMode_ = null;
+          if (readRuleCase_ == 3) {
+            readRuleCase_ = 0;
+            readRule_ = null;
           }
           allOriginalBuilder_.clear();
         }
@@ -2659,11 +2659,11 @@ public final class YdbPersqueueClusterDiscovery {
        * <code>.google.protobuf.Empty all_original = 3;</code>
        */
       public com.google.protobuf.EmptyOrBuilder getAllOriginalOrBuilder() {
-        if ((readModeCase_ == 3) && (allOriginalBuilder_ != null)) {
+        if ((readRuleCase_ == 3) && (allOriginalBuilder_ != null)) {
           return allOriginalBuilder_.getMessageOrBuilder();
         } else {
-          if (readModeCase_ == 3) {
-            return (com.google.protobuf.Empty) readMode_;
+          if (readRuleCase_ == 3) {
+            return (com.google.protobuf.Empty) readRule_;
           }
           return com.google.protobuf.Empty.getDefaultInstance();
         }
@@ -2675,17 +2675,17 @@ public final class YdbPersqueueClusterDiscovery {
           com.google.protobuf.Empty, com.google.protobuf.Empty.Builder, com.google.protobuf.EmptyOrBuilder> 
           getAllOriginalFieldBuilder() {
         if (allOriginalBuilder_ == null) {
-          if (!(readModeCase_ == 3)) {
-            readMode_ = com.google.protobuf.Empty.getDefaultInstance();
+          if (!(readRuleCase_ == 3)) {
+            readRule_ = com.google.protobuf.Empty.getDefaultInstance();
           }
           allOriginalBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               com.google.protobuf.Empty, com.google.protobuf.Empty.Builder, com.google.protobuf.EmptyOrBuilder>(
-                  (com.google.protobuf.Empty) readMode_,
+                  (com.google.protobuf.Empty) readRule_,
                   getParentForChildren(),
                   isClean());
-          readMode_ = null;
+          readRule_ = null;
         }
-        readModeCase_ = 3;
+        readRuleCase_ = 3;
         onChanged();;
         return allOriginalBuilder_;
       }
@@ -8000,30 +8000,30 @@ public final class YdbPersqueueClusterDiscovery {
       "ic\030\001 \001(\t\022\021\n\tsource_id\030\002 \001(\014\022\027\n\017partition" +
       "_group\030\003 \001(\r\022\036\n\026preferred_cluster_name\030\004" +
       " \001(\t\"@\n\013ClusterInfo\022\020\n\010endpoint\030\001 \001(\t\022\014\n" +
-      "\004name\030\002 \001(\t\022\021\n\tavailable\030\003 \001(\010\"\201\001\n\021ReadS" +
-      "essionParams\022\r\n\005topic\030\001 \001(\t\022 \n\026mirroring",
-      "_cluster_name\030\002 \001(\tH\000\022.\n\014all_original\030\003 " +
-      "\001(\0132\026.google.protobuf.EmptyH\000B\013\n\tread_mo" +
-      "de\"U\n\024WriteSessionClusters\022=\n\010clusters\030\001" +
+      "\004name\030\002 \001(\t\022\021\n\tavailable\030\003 \001(\010\"|\n\021ReadSe" +
+      "ssionParams\022\r\n\005topic\030\001 \001(\t\022\033\n\021mirror_to_",
+      "cluster\030\002 \001(\tH\000\022.\n\014all_original\030\003 \001(\0132\026." +
+      "google.protobuf.EmptyH\000B\013\n\tread_rule\"U\n\024" +
+      "WriteSessionClusters\022=\n\010clusters\030\001 \003(\0132+" +
+      ".Ydb.PersQueue.ClusterDiscovery.ClusterI" +
+      "nfo\"T\n\023ReadSessionClusters\022=\n\010clusters\030\001" +
       " \003(\0132+.Ydb.PersQueue.ClusterDiscovery.Cl" +
-      "usterInfo\"T\n\023ReadSessionClusters\022=\n\010clus" +
-      "ters\030\001 \003(\0132+.Ydb.PersQueue.ClusterDiscov" +
-      "ery.ClusterInfo\"\203\002\n\027DiscoverClustersRequ" +
-      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022J\n\016write_sessions" +
-      "\030\002 \003(\01322.Ydb.PersQueue.ClusterDiscovery.",
-      "WriteSessionParams\022H\n\rread_sessions\030\003 \003(" +
-      "\01321.Ydb.PersQueue.ClusterDiscovery.ReadS" +
-      "essionParams\022\027\n\017minimal_version\030\004 \001(\003\"H\n" +
-      "\030DiscoverClustersResponse\022,\n\toperation\030\001" +
-      " \001(\0132\031.Ydb.Operations.Operation\"\325\001\n\026Disc" +
-      "overClustersResult\022U\n\027write_sessions_clu" +
-      "sters\030\001 \003(\01324.Ydb.PersQueue.ClusterDisco" +
-      "very.WriteSessionClusters\022S\n\026read_sessio" +
-      "ns_clusters\030\002 \003(\01323.Ydb.PersQueue.Cluste" +
-      "rDiscovery.ReadSessionClusters\022\017\n\007versio",
-      "n\030\003 \001(\003B/\n*tech.ydb.persqueue.clus" +
-      "ter_discovery\370\001\001b\006proto3"
+      "usterInfo\"\203\002\n\027DiscoverClustersRequest\0229\n" +
+      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
+      ".OperationParams\022J\n\016write_sessions\030\002 \003(\013" +
+      "22.Ydb.PersQueue.ClusterDiscovery.WriteS",
+      "essionParams\022H\n\rread_sessions\030\003 \003(\01321.Yd" +
+      "b.PersQueue.ClusterDiscovery.ReadSession" +
+      "Params\022\027\n\017minimal_version\030\004 \001(\003\"H\n\030Disco" +
+      "verClustersResponse\022,\n\toperation\030\001 \001(\0132\031" +
+      ".Ydb.Operations.Operation\"\325\001\n\026DiscoverCl" +
+      "ustersResult\022U\n\027write_sessions_clusters\030" +
+      "\001 \003(\01324.Ydb.PersQueue.ClusterDiscovery.W" +
+      "riteSessionClusters\022S\n\026read_sessions_clu" +
+      "sters\030\002 \003(\01323.Ydb.PersQueue.ClusterDisco" +
+      "very.ReadSessionClusters\022\017\n\007version\030\003 \001(",
+      "\003B/\n*tech.ydb.persqueue.cluster_di" +
+      "scovery\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -8056,7 +8056,7 @@ public final class YdbPersqueueClusterDiscovery {
     internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionParams_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionParams_descriptor,
-        new java.lang.String[] { "Topic", "MirroringClusterName", "AllOriginal", "ReadMode", });
+        new java.lang.String[] { "Topic", "MirrorToCluster", "AllOriginal", "ReadRule", });
     internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionClusters_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionClusters_fieldAccessorTable = new

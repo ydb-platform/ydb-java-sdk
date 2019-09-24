@@ -3990,10 +3990,18 @@ public final class SchemeOperationProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * SID (Security ID) of user or group
+     * </pre>
+     *
      * <code>string subject = 1;</code>
      */
     java.lang.String getSubject();
     /**
+     * <pre>
+     * SID (Security ID) of user or group
+     * </pre>
+     *
      * <code>string subject = 1;</code>
      */
     com.google.protobuf.ByteString
@@ -4109,6 +4117,10 @@ public final class SchemeOperationProtos {
     public static final int SUBJECT_FIELD_NUMBER = 1;
     private volatile java.lang.Object subject_;
     /**
+     * <pre>
+     * SID (Security ID) of user or group
+     * </pre>
+     *
      * <code>string subject = 1;</code>
      */
     public java.lang.String getSubject() {
@@ -4124,6 +4136,10 @@ public final class SchemeOperationProtos {
       }
     }
     /**
+     * <pre>
+     * SID (Security ID) of user or group
+     * </pre>
+     *
      * <code>string subject = 1;</code>
      */
     public com.google.protobuf.ByteString
@@ -4492,6 +4508,10 @@ public final class SchemeOperationProtos {
 
       private java.lang.Object subject_ = "";
       /**
+       * <pre>
+       * SID (Security ID) of user or group
+       * </pre>
+       *
        * <code>string subject = 1;</code>
        */
       public java.lang.String getSubject() {
@@ -4507,6 +4527,10 @@ public final class SchemeOperationProtos {
         }
       }
       /**
+       * <pre>
+       * SID (Security ID) of user or group
+       * </pre>
+       *
        * <code>string subject = 1;</code>
        */
       public com.google.protobuf.ByteString
@@ -4523,6 +4547,10 @@ public final class SchemeOperationProtos {
         }
       }
       /**
+       * <pre>
+       * SID (Security ID) of user or group
+       * </pre>
+       *
        * <code>string subject = 1;</code>
        */
       public Builder setSubject(
@@ -4536,6 +4564,10 @@ public final class SchemeOperationProtos {
         return this;
       }
       /**
+       * <pre>
+       * SID (Security ID) of user or group
+       * </pre>
+       *
        * <code>string subject = 1;</code>
        */
       public Builder clearSubject() {
@@ -4545,6 +4577,10 @@ public final class SchemeOperationProtos {
         return this;
       }
       /**
+       * <pre>
+       * SID (Security ID) of user or group
+       * </pre>
+       *
        * <code>string subject = 1;</code>
        */
       public Builder setSubjectBytes(
@@ -4706,20 +4742,36 @@ public final class SchemeOperationProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Name of scheme entry (dir2 of /dir1/dir2)
+     * </pre>
+     *
      * <code>string name = 1;</code>
      */
     java.lang.String getName();
     /**
+     * <pre>
+     * Name of scheme entry (dir2 of /dir1/dir2)
+     * </pre>
+     *
      * <code>string name = 1;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
+     * <pre>
+     * SID (Security ID) of user or group
+     * </pre>
+     *
      * <code>string owner = 2;</code>
      */
     java.lang.String getOwner();
     /**
+     * <pre>
+     * SID (Security ID) of user or group
+     * </pre>
+     *
      * <code>string owner = 2;</code>
      */
     com.google.protobuf.ByteString
@@ -5052,6 +5104,10 @@ public final class SchemeOperationProtos {
     public static final int NAME_FIELD_NUMBER = 1;
     private volatile java.lang.Object name_;
     /**
+     * <pre>
+     * Name of scheme entry (dir2 of /dir1/dir2)
+     * </pre>
+     *
      * <code>string name = 1;</code>
      */
     public java.lang.String getName() {
@@ -5067,6 +5123,10 @@ public final class SchemeOperationProtos {
       }
     }
     /**
+     * <pre>
+     * Name of scheme entry (dir2 of /dir1/dir2)
+     * </pre>
+     *
      * <code>string name = 1;</code>
      */
     public com.google.protobuf.ByteString
@@ -5086,6 +5146,10 @@ public final class SchemeOperationProtos {
     public static final int OWNER_FIELD_NUMBER = 2;
     private volatile java.lang.Object owner_;
     /**
+     * <pre>
+     * SID (Security ID) of user or group
+     * </pre>
+     *
      * <code>string owner = 2;</code>
      */
     public java.lang.String getOwner() {
@@ -5101,6 +5165,10 @@ public final class SchemeOperationProtos {
       }
     }
     /**
+     * <pre>
+     * SID (Security ID) of user or group
+     * </pre>
+     *
      * <code>string owner = 2;</code>
      */
     public com.google.protobuf.ByteString
@@ -5635,6 +5703,10 @@ public final class SchemeOperationProtos {
 
       private java.lang.Object name_ = "";
       /**
+       * <pre>
+       * Name of scheme entry (dir2 of /dir1/dir2)
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public java.lang.String getName() {
@@ -5650,6 +5722,10 @@ public final class SchemeOperationProtos {
         }
       }
       /**
+       * <pre>
+       * Name of scheme entry (dir2 of /dir1/dir2)
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public com.google.protobuf.ByteString
@@ -5666,6 +5742,10 @@ public final class SchemeOperationProtos {
         }
       }
       /**
+       * <pre>
+       * Name of scheme entry (dir2 of /dir1/dir2)
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public Builder setName(
@@ -5679,6 +5759,10 @@ public final class SchemeOperationProtos {
         return this;
       }
       /**
+       * <pre>
+       * Name of scheme entry (dir2 of /dir1/dir2)
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public Builder clearName() {
@@ -5688,6 +5772,10 @@ public final class SchemeOperationProtos {
         return this;
       }
       /**
+       * <pre>
+       * Name of scheme entry (dir2 of /dir1/dir2)
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public Builder setNameBytes(
@@ -5704,6 +5792,10 @@ public final class SchemeOperationProtos {
 
       private java.lang.Object owner_ = "";
       /**
+       * <pre>
+       * SID (Security ID) of user or group
+       * </pre>
+       *
        * <code>string owner = 2;</code>
        */
       public java.lang.String getOwner() {
@@ -5719,6 +5811,10 @@ public final class SchemeOperationProtos {
         }
       }
       /**
+       * <pre>
+       * SID (Security ID) of user or group
+       * </pre>
+       *
        * <code>string owner = 2;</code>
        */
       public com.google.protobuf.ByteString
@@ -5735,6 +5831,10 @@ public final class SchemeOperationProtos {
         }
       }
       /**
+       * <pre>
+       * SID (Security ID) of user or group
+       * </pre>
+       *
        * <code>string owner = 2;</code>
        */
       public Builder setOwner(
@@ -5748,6 +5848,10 @@ public final class SchemeOperationProtos {
         return this;
       }
       /**
+       * <pre>
+       * SID (Security ID) of user or group
+       * </pre>
+       *
        * <code>string owner = 2;</code>
        */
       public Builder clearOwner() {
@@ -5757,6 +5861,10 @@ public final class SchemeOperationProtos {
         return this;
       }
       /**
+       * <pre>
+       * SID (Security ID) of user or group
+       * </pre>
+       *
        * <code>string owner = 2;</code>
        */
       public Builder setOwnerBytes(

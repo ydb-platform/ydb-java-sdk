@@ -25,11 +25,13 @@ public final class YdbDiscoveryV1 {
     java.lang.String[] descriptorData = {
       "\n-kikimr/public/api/grpc/ydb_discovery_v" +
       "1.proto\022\020Ydb.Discovery.V1\032,kikimr/public" +
-      "/api/protos/ydb_discovery.proto2n\n\020Disco" +
-      "veryService\022Z\n\rListEndpoints\022#.Ydb.Disco" +
-      "very.ListEndpointsRequest\032$.Ydb.Discover" +
-      "y.ListEndpointsResponseB\035\n\033com.yandex.yd" +
-      "b.discovery.v1b\006proto3"
+      "/api/protos/ydb_discovery.proto2\265\001\n\020Disc" +
+      "overyService\022Z\n\rListEndpoints\022#.Ydb.Disc" +
+      "overy.ListEndpointsRequest\032$.Ydb.Discove" +
+      "ry.ListEndpointsResponse\022E\n\006WhoAmI\022\034.Ydb" +
+      ".Discovery.WhoAmIRequest\032\035.Ydb.Discovery" +
+      ".WhoAmIResponseB\035\n\033tech.ydb.discov" +
+      "ery.v1b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

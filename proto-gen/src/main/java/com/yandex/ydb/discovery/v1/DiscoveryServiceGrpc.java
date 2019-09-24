@@ -36,6 +36,15 @@ public final class DiscoveryServiceGrpc {
               "Ydb.Discovery.V1.DiscoveryService", "ListEndpoints"),
           io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest,
+      tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse> METHOD_WHO_AM_I =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "Ydb.Discovery.V1.DiscoveryService", "WhoAmI"),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse.getDefaultInstance()));
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -71,6 +80,13 @@ public final class DiscoveryServiceGrpc {
       asyncUnimplementedUnaryCall(METHOD_LIST_ENDPOINTS, responseObserver);
     }
 
+    /**
+     */
+    public void whoAmI(tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_WHO_AM_I, responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -80,6 +96,13 @@ public final class DiscoveryServiceGrpc {
                 tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest,
                 tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse>(
                   this, METHODID_LIST_ENDPOINTS)))
+          .addMethod(
+            METHOD_WHO_AM_I,
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest,
+                tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse>(
+                  this, METHODID_WHO_AM_I)))
           .build();
     }
   }
@@ -109,6 +132,14 @@ public final class DiscoveryServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(METHOD_LIST_ENDPOINTS, getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void whoAmI(tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_WHO_AM_I, getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -134,6 +165,13 @@ public final class DiscoveryServiceGrpc {
     public tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse listEndpoints(tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_LIST_ENDPOINTS, getCallOptions(), request);
+    }
+
+    /**
+     */
+    public tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse whoAmI(tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_WHO_AM_I, getCallOptions(), request);
     }
   }
 
@@ -162,9 +200,18 @@ public final class DiscoveryServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(METHOD_LIST_ENDPOINTS, getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse> whoAmI(
+        tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_WHO_AM_I, getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_LIST_ENDPOINTS = 0;
+  private static final int METHODID_WHO_AM_I = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -186,6 +233,10 @@ public final class DiscoveryServiceGrpc {
         case METHODID_LIST_ENDPOINTS:
           serviceImpl.listEndpoints((tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest) request,
               (io.grpc.stub.StreamObserver<tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse>) responseObserver);
+          break;
+        case METHODID_WHO_AM_I:
+          serviceImpl.whoAmI((tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -221,6 +272,7 @@ public final class DiscoveryServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new DiscoveryServiceDescriptorSupplier())
               .addMethod(METHOD_LIST_ENDPOINTS)
+              .addMethod(METHOD_WHO_AM_I)
               .build();
         }
       }

@@ -3249,6 +3249,1874 @@ public final class DiscoveryProtos {
 
   }
 
+  public interface WhoAmIRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Discovery.WhoAmIRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Include user groups in response
+     * </pre>
+     *
+     * <code>bool include_groups = 1;</code>
+     */
+    boolean getIncludeGroups();
+  }
+  /**
+   * Protobuf type {@code Ydb.Discovery.WhoAmIRequest}
+   */
+  public  static final class WhoAmIRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Discovery.WhoAmIRequest)
+      WhoAmIRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use WhoAmIRequest.newBuilder() to construct.
+    private WhoAmIRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private WhoAmIRequest() {
+      includeGroups_ = false;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private WhoAmIRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+
+              includeGroups_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest.class, tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest.Builder.class);
+    }
+
+    public static final int INCLUDE_GROUPS_FIELD_NUMBER = 1;
+    private boolean includeGroups_;
+    /**
+     * <pre>
+     * Include user groups in response
+     * </pre>
+     *
+     * <code>bool include_groups = 1;</code>
+     */
+    public boolean getIncludeGroups() {
+      return includeGroups_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (includeGroups_ != false) {
+        output.writeBool(1, includeGroups_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (includeGroups_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, includeGroups_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest)) {
+        return super.equals(obj);
+      }
+      tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest other = (tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest) obj;
+
+      boolean result = true;
+      result = result && (getIncludeGroups()
+          == other.getIncludeGroups());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + INCLUDE_GROUPS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIncludeGroups());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Discovery.WhoAmIRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Discovery.WhoAmIRequest)
+        tech.ydb.discovery.DiscoveryProtos.WhoAmIRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest.class, tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest.Builder.class);
+      }
+
+      // Construct using tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        includeGroups_ = false;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIRequest_descriptor;
+      }
+
+      public tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest getDefaultInstanceForType() {
+        return tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest.getDefaultInstance();
+      }
+
+      public tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest build() {
+        tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest buildPartial() {
+        tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest result = new tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest(this);
+        result.includeGroups_ = includeGroups_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest) {
+          return mergeFrom((tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest other) {
+        if (other == tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest.getDefaultInstance()) return this;
+        if (other.getIncludeGroups() != false) {
+          setIncludeGroups(other.getIncludeGroups());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private boolean includeGroups_ ;
+      /**
+       * <pre>
+       * Include user groups in response
+       * </pre>
+       *
+       * <code>bool include_groups = 1;</code>
+       */
+      public boolean getIncludeGroups() {
+        return includeGroups_;
+      }
+      /**
+       * <pre>
+       * Include user groups in response
+       * </pre>
+       *
+       * <code>bool include_groups = 1;</code>
+       */
+      public Builder setIncludeGroups(boolean value) {
+        
+        includeGroups_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Include user groups in response
+       * </pre>
+       *
+       * <code>bool include_groups = 1;</code>
+       */
+      public Builder clearIncludeGroups() {
+        
+        includeGroups_ = false;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Discovery.WhoAmIRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Discovery.WhoAmIRequest)
+    private static final tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest();
+    }
+
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<WhoAmIRequest>
+        PARSER = new com.google.protobuf.AbstractParser<WhoAmIRequest>() {
+      public WhoAmIRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new WhoAmIRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<WhoAmIRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<WhoAmIRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface WhoAmIResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Discovery.WhoAmIResult)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * User SID (Security ID)
+     * </pre>
+     *
+     * <code>string user = 1;</code>
+     */
+    java.lang.String getUser();
+    /**
+     * <pre>
+     * User SID (Security ID)
+     * </pre>
+     *
+     * <code>string user = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getUserBytes();
+
+    /**
+     * <pre>
+     * List of group SIDs (Security IDs) for the user
+     * </pre>
+     *
+     * <code>repeated string groups = 2;</code>
+     */
+    java.util.List<java.lang.String>
+        getGroupsList();
+    /**
+     * <pre>
+     * List of group SIDs (Security IDs) for the user
+     * </pre>
+     *
+     * <code>repeated string groups = 2;</code>
+     */
+    int getGroupsCount();
+    /**
+     * <pre>
+     * List of group SIDs (Security IDs) for the user
+     * </pre>
+     *
+     * <code>repeated string groups = 2;</code>
+     */
+    java.lang.String getGroups(int index);
+    /**
+     * <pre>
+     * List of group SIDs (Security IDs) for the user
+     * </pre>
+     *
+     * <code>repeated string groups = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getGroupsBytes(int index);
+  }
+  /**
+   * Protobuf type {@code Ydb.Discovery.WhoAmIResult}
+   */
+  public  static final class WhoAmIResult extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Discovery.WhoAmIResult)
+      WhoAmIResultOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use WhoAmIResult.newBuilder() to construct.
+    private WhoAmIResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private WhoAmIResult() {
+      user_ = "";
+      groups_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private WhoAmIResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              user_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                groups_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              groups_.add(s);
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          groups_ = groups_.getUnmodifiableView();
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResult_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.discovery.DiscoveryProtos.WhoAmIResult.class, tech.ydb.discovery.DiscoveryProtos.WhoAmIResult.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int USER_FIELD_NUMBER = 1;
+    private volatile java.lang.Object user_;
+    /**
+     * <pre>
+     * User SID (Security ID)
+     * </pre>
+     *
+     * <code>string user = 1;</code>
+     */
+    public java.lang.String getUser() {
+      java.lang.Object ref = user_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        user_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * User SID (Security ID)
+     * </pre>
+     *
+     * <code>string user = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getUserBytes() {
+      java.lang.Object ref = user_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        user_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int GROUPS_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList groups_;
+    /**
+     * <pre>
+     * List of group SIDs (Security IDs) for the user
+     * </pre>
+     *
+     * <code>repeated string groups = 2;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getGroupsList() {
+      return groups_;
+    }
+    /**
+     * <pre>
+     * List of group SIDs (Security IDs) for the user
+     * </pre>
+     *
+     * <code>repeated string groups = 2;</code>
+     */
+    public int getGroupsCount() {
+      return groups_.size();
+    }
+    /**
+     * <pre>
+     * List of group SIDs (Security IDs) for the user
+     * </pre>
+     *
+     * <code>repeated string groups = 2;</code>
+     */
+    public java.lang.String getGroups(int index) {
+      return groups_.get(index);
+    }
+    /**
+     * <pre>
+     * List of group SIDs (Security IDs) for the user
+     * </pre>
+     *
+     * <code>repeated string groups = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getGroupsBytes(int index) {
+      return groups_.getByteString(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getUserBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, user_);
+      }
+      for (int i = 0; i < groups_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, groups_.getRaw(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getUserBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, user_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < groups_.size(); i++) {
+          dataSize += computeStringSizeNoTag(groups_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getGroupsList().size();
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.discovery.DiscoveryProtos.WhoAmIResult)) {
+        return super.equals(obj);
+      }
+      tech.ydb.discovery.DiscoveryProtos.WhoAmIResult other = (tech.ydb.discovery.DiscoveryProtos.WhoAmIResult) obj;
+
+      boolean result = true;
+      result = result && getUser()
+          .equals(other.getUser());
+      result = result && getGroupsList()
+          .equals(other.getGroupsList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + USER_FIELD_NUMBER;
+      hash = (53 * hash) + getUser().hashCode();
+      if (getGroupsCount() > 0) {
+        hash = (37 * hash) + GROUPS_FIELD_NUMBER;
+        hash = (53 * hash) + getGroupsList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResult parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResult parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.discovery.DiscoveryProtos.WhoAmIResult prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Discovery.WhoAmIResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Discovery.WhoAmIResult)
+        tech.ydb.discovery.DiscoveryProtos.WhoAmIResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResult_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.discovery.DiscoveryProtos.WhoAmIResult.class, tech.ydb.discovery.DiscoveryProtos.WhoAmIResult.Builder.class);
+      }
+
+      // Construct using tech.ydb.discovery.DiscoveryProtos.WhoAmIResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        user_ = "";
+
+        groups_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResult_descriptor;
+      }
+
+      public tech.ydb.discovery.DiscoveryProtos.WhoAmIResult getDefaultInstanceForType() {
+        return tech.ydb.discovery.DiscoveryProtos.WhoAmIResult.getDefaultInstance();
+      }
+
+      public tech.ydb.discovery.DiscoveryProtos.WhoAmIResult build() {
+        tech.ydb.discovery.DiscoveryProtos.WhoAmIResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.discovery.DiscoveryProtos.WhoAmIResult buildPartial() {
+        tech.ydb.discovery.DiscoveryProtos.WhoAmIResult result = new tech.ydb.discovery.DiscoveryProtos.WhoAmIResult(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        result.user_ = user_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          groups_ = groups_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.groups_ = groups_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.discovery.DiscoveryProtos.WhoAmIResult) {
+          return mergeFrom((tech.ydb.discovery.DiscoveryProtos.WhoAmIResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.discovery.DiscoveryProtos.WhoAmIResult other) {
+        if (other == tech.ydb.discovery.DiscoveryProtos.WhoAmIResult.getDefaultInstance()) return this;
+        if (!other.getUser().isEmpty()) {
+          user_ = other.user_;
+          onChanged();
+        }
+        if (!other.groups_.isEmpty()) {
+          if (groups_.isEmpty()) {
+            groups_ = other.groups_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureGroupsIsMutable();
+            groups_.addAll(other.groups_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.discovery.DiscoveryProtos.WhoAmIResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.discovery.DiscoveryProtos.WhoAmIResult) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object user_ = "";
+      /**
+       * <pre>
+       * User SID (Security ID)
+       * </pre>
+       *
+       * <code>string user = 1;</code>
+       */
+      public java.lang.String getUser() {
+        java.lang.Object ref = user_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          user_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * User SID (Security ID)
+       * </pre>
+       *
+       * <code>string user = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getUserBytes() {
+        java.lang.Object ref = user_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          user_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * User SID (Security ID)
+       * </pre>
+       *
+       * <code>string user = 1;</code>
+       */
+      public Builder setUser(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        user_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * User SID (Security ID)
+       * </pre>
+       *
+       * <code>string user = 1;</code>
+       */
+      public Builder clearUser() {
+        
+        user_ = getDefaultInstance().getUser();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * User SID (Security ID)
+       * </pre>
+       *
+       * <code>string user = 1;</code>
+       */
+      public Builder setUserBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        user_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList groups_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureGroupsIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          groups_ = new com.google.protobuf.LazyStringArrayList(groups_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <pre>
+       * List of group SIDs (Security IDs) for the user
+       * </pre>
+       *
+       * <code>repeated string groups = 2;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getGroupsList() {
+        return groups_.getUnmodifiableView();
+      }
+      /**
+       * <pre>
+       * List of group SIDs (Security IDs) for the user
+       * </pre>
+       *
+       * <code>repeated string groups = 2;</code>
+       */
+      public int getGroupsCount() {
+        return groups_.size();
+      }
+      /**
+       * <pre>
+       * List of group SIDs (Security IDs) for the user
+       * </pre>
+       *
+       * <code>repeated string groups = 2;</code>
+       */
+      public java.lang.String getGroups(int index) {
+        return groups_.get(index);
+      }
+      /**
+       * <pre>
+       * List of group SIDs (Security IDs) for the user
+       * </pre>
+       *
+       * <code>repeated string groups = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getGroupsBytes(int index) {
+        return groups_.getByteString(index);
+      }
+      /**
+       * <pre>
+       * List of group SIDs (Security IDs) for the user
+       * </pre>
+       *
+       * <code>repeated string groups = 2;</code>
+       */
+      public Builder setGroups(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureGroupsIsMutable();
+        groups_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * List of group SIDs (Security IDs) for the user
+       * </pre>
+       *
+       * <code>repeated string groups = 2;</code>
+       */
+      public Builder addGroups(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureGroupsIsMutable();
+        groups_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * List of group SIDs (Security IDs) for the user
+       * </pre>
+       *
+       * <code>repeated string groups = 2;</code>
+       */
+      public Builder addAllGroups(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureGroupsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, groups_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * List of group SIDs (Security IDs) for the user
+       * </pre>
+       *
+       * <code>repeated string groups = 2;</code>
+       */
+      public Builder clearGroups() {
+        groups_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * List of group SIDs (Security IDs) for the user
+       * </pre>
+       *
+       * <code>repeated string groups = 2;</code>
+       */
+      public Builder addGroupsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureGroupsIsMutable();
+        groups_.add(value);
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Discovery.WhoAmIResult)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Discovery.WhoAmIResult)
+    private static final tech.ydb.discovery.DiscoveryProtos.WhoAmIResult DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.discovery.DiscoveryProtos.WhoAmIResult();
+    }
+
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResult getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<WhoAmIResult>
+        PARSER = new com.google.protobuf.AbstractParser<WhoAmIResult>() {
+      public WhoAmIResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new WhoAmIResult(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<WhoAmIResult> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<WhoAmIResult> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.discovery.DiscoveryProtos.WhoAmIResult getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface WhoAmIResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Discovery.WhoAmIResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    boolean hasOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.Discovery.WhoAmIResponse}
+   */
+  public  static final class WhoAmIResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Discovery.WhoAmIResponse)
+      WhoAmIResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use WhoAmIResponse.newBuilder() to construct.
+    private WhoAmIResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private WhoAmIResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private WhoAmIResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse.class, tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse)) {
+        return super.equals(obj);
+      }
+      tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse other = (tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse) obj;
+
+      boolean result = true;
+      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation()) {
+        result = result && getOperation()
+            .equals(other.getOperation());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Discovery.WhoAmIResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Discovery.WhoAmIResponse)
+        tech.ydb.discovery.DiscoveryProtos.WhoAmIResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse.class, tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse.Builder.class);
+      }
+
+      // Construct using tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResponse_descriptor;
+      }
+
+      public tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse getDefaultInstanceForType() {
+        return tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse.getDefaultInstance();
+      }
+
+      public tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse build() {
+        tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse buildPartial() {
+        tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse result = new tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse) {
+          return mergeFrom((tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse other) {
+        if (other == tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Discovery.WhoAmIResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Discovery.WhoAmIResponse)
+    private static final tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse();
+    }
+
+    public static tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<WhoAmIResponse>
+        PARSER = new com.google.protobuf.AbstractParser<WhoAmIResponse>() {
+      public WhoAmIResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new WhoAmIResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<WhoAmIResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<WhoAmIResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Discovery_ListEndpointsRequest_descriptor;
   private static final 
@@ -3269,6 +5137,21 @@ public final class DiscoveryProtos {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Discovery_ListEndpointsResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Discovery_WhoAmIRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Discovery_WhoAmIRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Discovery_WhoAmIResult_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Discovery_WhoAmIResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Discovery_WhoAmIResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Discovery_WhoAmIResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3289,8 +5172,12 @@ public final class DiscoveryProtos {
       " \003(\0132\033.Ydb.Discovery.EndpointInfo\022\025\n\rsel" +
       "f_location\030\002 \001(\t\"E\n\025ListEndpointsRespons",
       "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "erationB.\n\030tech.ydb.discoveryB\017Dis" +
-      "coveryProtos\370\001\001b\006proto3"
+      "eration\"\'\n\rWhoAmIRequest\022\026\n\016include_grou" +
+      "ps\030\001 \001(\010\",\n\014WhoAmIResult\022\014\n\004user\030\001 \001(\t\022\016" +
+      "\n\006groups\030\002 \003(\t\">\n\016WhoAmIResponse\022,\n\toper" +
+      "ation\030\001 \001(\0132\031.Ydb.Operations.OperationB." +
+      "\n\030tech.ydb.discoveryB\017DiscoveryPro" +
+      "tos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3328,6 +5215,24 @@ public final class DiscoveryProtos {
     internal_static_Ydb_Discovery_ListEndpointsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Discovery_ListEndpointsResponse_descriptor,
+        new java.lang.String[] { "Operation", });
+    internal_static_Ydb_Discovery_WhoAmIRequest_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_Ydb_Discovery_WhoAmIRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Discovery_WhoAmIRequest_descriptor,
+        new java.lang.String[] { "IncludeGroups", });
+    internal_static_Ydb_Discovery_WhoAmIResult_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_Ydb_Discovery_WhoAmIResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Discovery_WhoAmIResult_descriptor,
+        new java.lang.String[] { "User", "Groups", });
+    internal_static_Ydb_Discovery_WhoAmIResponse_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_Ydb_Discovery_WhoAmIResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Discovery_WhoAmIResponse_descriptor,
         new java.lang.String[] { "Operation", });
     tech.ydb.OperationProtos.getDescriptor();
   }

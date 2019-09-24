@@ -189,6 +189,15 @@ public final class TableServiceGrpc {
               "Ydb.Table.V1.TableService", "StreamReadTable"),
           io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.ReadTableRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.ReadTableResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.BulkUpsertRequest,
+      tech.ydb.table.YdbTable.BulkUpsertResponse> METHOD_BULK_UPSERT =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "Ydb.Table.V1.TableService", "BulkUpsert"),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.BulkUpsertRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.BulkUpsertResponse.getDefaultInstance()));
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -407,6 +416,18 @@ public final class TableServiceGrpc {
       asyncUnimplementedUnaryCall(METHOD_STREAM_READ_TABLE, responseObserver);
     }
 
+    /**
+     * <pre>
+     * Upserts a batch of rows non-transactionally.
+     * Returns success only when all rows were successfully upserted. In case of an error some rows might
+     * be upserted and some might not.
+     * </pre>
+     */
+    public void bulkUpsert(tech.ydb.table.YdbTable.BulkUpsertRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.BulkUpsertResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_BULK_UPSERT, responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -535,6 +556,13 @@ public final class TableServiceGrpc {
                 tech.ydb.table.YdbTable.ReadTableRequest,
                 tech.ydb.table.YdbTable.ReadTableResponse>(
                   this, METHODID_STREAM_READ_TABLE)))
+          .addMethod(
+            METHOD_BULK_UPSERT,
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.table.YdbTable.BulkUpsertRequest,
+                tech.ydb.table.YdbTable.BulkUpsertResponse>(
+                  this, METHODID_BULK_UPSERT)))
           .build();
     }
   }
@@ -764,6 +792,19 @@ public final class TableServiceGrpc {
       asyncServerStreamingCall(
           getChannel().newCall(METHOD_STREAM_READ_TABLE, getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     * Upserts a batch of rows non-transactionally.
+     * Returns success only when all rows were successfully upserted. In case of an error some rows might
+     * be upserted and some might not.
+     * </pre>
+     */
+    public void bulkUpsert(tech.ydb.table.YdbTable.BulkUpsertRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.BulkUpsertResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_BULK_UPSERT, getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -973,6 +1014,18 @@ public final class TableServiceGrpc {
         tech.ydb.table.YdbTable.ReadTableRequest request) {
       return blockingServerStreamingCall(
           getChannel(), METHOD_STREAM_READ_TABLE, getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Upserts a batch of rows non-transactionally.
+     * Returns success only when all rows were successfully upserted. In case of an error some rows might
+     * be upserted and some might not.
+     * </pre>
+     */
+    public tech.ydb.table.YdbTable.BulkUpsertResponse bulkUpsert(tech.ydb.table.YdbTable.BulkUpsertRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_BULK_UPSERT, getCallOptions(), request);
     }
   }
 
@@ -1190,6 +1243,19 @@ public final class TableServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(METHOD_DESCRIBE_TABLE_OPTIONS, getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     * Upserts a batch of rows non-transactionally.
+     * Returns success only when all rows were successfully upserted. In case of an error some rows might
+     * be upserted and some might not.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.BulkUpsertResponse> bulkUpsert(
+        tech.ydb.table.YdbTable.BulkUpsertRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_BULK_UPSERT, getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_CREATE_SESSION = 0;
@@ -1210,6 +1276,7 @@ public final class TableServiceGrpc {
   private static final int METHODID_ROLLBACK_TRANSACTION = 15;
   private static final int METHODID_DESCRIBE_TABLE_OPTIONS = 16;
   private static final int METHODID_STREAM_READ_TABLE = 17;
+  private static final int METHODID_BULK_UPSERT = 18;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -1300,6 +1367,10 @@ public final class TableServiceGrpc {
           serviceImpl.streamReadTable((tech.ydb.table.YdbTable.ReadTableRequest) request,
               (io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ReadTableResponse>) responseObserver);
           break;
+        case METHODID_BULK_UPSERT:
+          serviceImpl.bulkUpsert((tech.ydb.table.YdbTable.BulkUpsertRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.BulkUpsertResponse>) responseObserver);
+          break;
         default:
           throw new AssertionError();
       }
@@ -1351,6 +1422,7 @@ public final class TableServiceGrpc {
               .addMethod(METHOD_ROLLBACK_TRANSACTION)
               .addMethod(METHOD_DESCRIBE_TABLE_OPTIONS)
               .addMethod(METHOD_STREAM_READ_TABLE)
+              .addMethod(METHOD_BULK_UPSERT)
               .build();
         }
       }
