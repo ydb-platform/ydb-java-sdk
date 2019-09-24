@@ -33,6 +33,7 @@ public enum StatusCode {
     CANCELLED(SERVER_STATUSES_FIRST + 160),
     UNDETERMINED(SERVER_STATUSES_FIRST + 170),
     UNSUPPORTED(SERVER_STATUSES_FIRST + 180),
+    SESSION_BUSY(SERVER_STATUSES_FIRST + 190),
 
     // Client statuses
     // Cannot connect or unrecoverable network error. (map from gRPC UNAVAILABLE)
@@ -89,6 +90,7 @@ public enum StatusCode {
             case CANCELLED: return CANCELLED;
             case UNDETERMINED: return UNDETERMINED;
             case UNSUPPORTED: return UNSUPPORTED;
+            case SESSION_BUSY: return SESSION_BUSY;
         }
         return UNUSED_STATUS;
     }
