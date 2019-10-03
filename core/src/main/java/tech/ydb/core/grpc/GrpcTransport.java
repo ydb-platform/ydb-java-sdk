@@ -1,5 +1,6 @@
 package tech.ydb.core.grpc;
 
+import java.io.ByteArrayInputStream;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import javax.net.ssl.SSLException;
 
 import com.google.common.net.HostAndPort;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -34,11 +36,13 @@ import io.grpc.ManagedChannel;
 import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
 import io.grpc.Status;
+import io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.NegotiationType;
 import io.grpc.netty.NettyChannelBuilder;
 import io.grpc.stub.MetadataUtils;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelOption;
+import io.netty.handler.ssl.SslContext;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -220,7 +224,7 @@ public class GrpcTransport implements RpcTransport {
         final NettyChannelBuilder channelBuilder;
         if (endpoint != null) {
             channelBuilder = NettyChannelBuilder.forTarget(YdbNameResolver.makeTarget(endpoint, database))
-                .nameResolverFactory(YdbNameResolver.newFactory(builder.getAuthProvider()))
+                .nameResolverFactory(YdbNameResolver.newFactory(builder.getAuthProvider(), builder.cert))
                 .defaultLoadBalancingPolicy("round_robin");
         } else if (hosts.size() > 1) {
             channelBuilder = NettyChannelBuilder.forTarget(HostsNameResolver.makeTarget(hosts))
@@ -232,13 +236,30 @@ public class GrpcTransport implements RpcTransport {
                 hosts.get(0).getPortOrDefault(DEFAULT_PORT)));
         }
 
+        if (builder.cert != null) {
+            channelBuilder
+                .negotiationType(NegotiationType.TLS)
+                .sslContext(createSslContext(builder.cert));
+        } else {
+            channelBuilder.negotiationType(NegotiationType.PLAINTEXT);
+        }
+
         channelBuilder
-            .negotiationType(NegotiationType.PLAINTEXT)
             .maxInboundMessageSize(64 << 20) // 64 MiB
             .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
 
         builder.getChannelInitializer().accept(channelBuilder);
         return channelBuilder.build();
+    }
+
+    private static SslContext createSslContext(byte[] cert) {
+        try {
+            return GrpcSslContexts.forClient()
+                .trustManager(new ByteArrayInputStream(cert))
+                .build();
+        } catch (SSLException e) {
+            throw new RuntimeException("cannot create ssl context", e);
+        }
     }
 
     private static Channel interceptChannel(ManagedChannel realChannel, Builder builder) {
@@ -282,6 +303,7 @@ public class GrpcTransport implements RpcTransport {
         private final String endpoint;
         private final String database;
         private final List<HostAndPort> hosts;
+        private byte[] cert = null;
         private Consumer<NettyChannelBuilder> channelInitializer = (cb) -> {};
 
         private Builder(@Nullable String endpoint, @Nullable String database, @Nullable List<HostAndPort> hosts) {
@@ -311,6 +333,11 @@ public class GrpcTransport implements RpcTransport {
 
         public Builder withChannelInitializer(Consumer<NettyChannelBuilder> channelInitializer) {
             this.channelInitializer = checkNotNull(channelInitializer, "channelInitializer is null");
+            return this;
+        }
+
+        public Builder withSecureConnection(byte[] cert) {
+            this.cert = cert.clone();
             return this;
         }
 

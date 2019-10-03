@@ -41,12 +41,15 @@ final class YdbNameResolver extends NameResolver {
     private Listener listener;
     private volatile boolean shutdown = false;
 
-    private YdbNameResolver(String hostname, int port, String database, AuthProvider authProvider) {
+    private YdbNameResolver(String hostname, int port, String database, AuthProvider authProvider, @Nullable byte[] cert) {
         this.database = database;
         this.authority = GrpcUtil.authorityFromHostAndPort(hostname, port);
-        this.transport = GrpcTransport.forHost(hostname, port)
-            .withAuthProvider(authProvider)
-            .build();
+        GrpcTransport.Builder transportBuilder = GrpcTransport.forHost(hostname, port)
+            .withAuthProvider(authProvider);
+        if (cert != null) {
+            transportBuilder.withSecureConnection(cert);
+        }
+        this.transport = transportBuilder.build();
     }
 
     static String makeTarget(String endpoint, String database) {
@@ -160,7 +163,7 @@ final class YdbNameResolver extends NameResolver {
         transport.unaryCall(DiscoveryServiceGrpc.METHOD_LIST_ENDPOINTS, request, consumer, 0);
     }
 
-    static Factory newFactory(AuthProvider authProvider) {
+    static Factory newFactory(AuthProvider authProvider, @Nullable byte[] cert) {
         return new Factory() {
             @Nullable
             @Override
@@ -172,7 +175,7 @@ final class YdbNameResolver extends NameResolver {
                 if (port == -1) {
                     port = GrpcTransport.DEFAULT_PORT;
                 }
-                return new YdbNameResolver(targetUri.getHost(), port, targetUri.getPath(), authProvider);
+                return new YdbNameResolver(targetUri.getHost(), port, targetUri.getPath(), authProvider, cert);
             }
 
             @Override
