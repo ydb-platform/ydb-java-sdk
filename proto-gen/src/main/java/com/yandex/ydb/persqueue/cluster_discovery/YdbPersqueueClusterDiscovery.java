@@ -2785,6 +2785,23 @@ public final class YdbPersqueueClusterDiscovery {
      */
     tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfoOrBuilder getClustersOrBuilder(
         int index);
+
+    /**
+     * <pre>
+     * The reason why a particular cluster was prioritized.
+     * </pre>
+     *
+     * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+     */
+    int getPrimaryClusterSelectionPrincipleValue();
+    /**
+     * <pre>
+     * The reason why a particular cluster was prioritized.
+     * </pre>
+     *
+     * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+     */
+    tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple getPrimaryClusterSelectionPrinciple();
   }
   /**
    * Protobuf type {@code Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters}
@@ -2800,6 +2817,7 @@ public final class YdbPersqueueClusterDiscovery {
     }
     private WriteSessionClusters() {
       clusters_ = java.util.Collections.emptyList();
+      primaryClusterSelectionPrinciple_ = 0;
     }
 
     @java.lang.Override
@@ -2839,6 +2857,12 @@ public final class YdbPersqueueClusterDiscovery {
                   input.readMessage(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo.parser(), extensionRegistry));
               break;
             }
+            case 16: {
+              int rawValue = input.readEnum();
+
+              primaryClusterSelectionPrinciple_ = rawValue;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2866,6 +2890,123 @@ public final class YdbPersqueueClusterDiscovery {
               tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.class, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.Builder.class);
     }
 
+    /**
+     * Protobuf enum {@code Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple}
+     */
+    public enum SelectionPrinciple
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>SELECTION_PRINCIPLE_UNSPECIFIED = 0;</code>
+       */
+      SELECTION_PRINCIPLE_UNSPECIFIED(0),
+      /**
+       * <code>CLIENT_PREFERENCE = 1;</code>
+       */
+      CLIENT_PREFERENCE(1),
+      /**
+       * <code>CLIENT_LOCATION = 2;</code>
+       */
+      CLIENT_LOCATION(2),
+      /**
+       * <code>CONSISTENT_DISTRIBUTION = 3;</code>
+       */
+      CONSISTENT_DISTRIBUTION(3),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>SELECTION_PRINCIPLE_UNSPECIFIED = 0;</code>
+       */
+      public static final int SELECTION_PRINCIPLE_UNSPECIFIED_VALUE = 0;
+      /**
+       * <code>CLIENT_PREFERENCE = 1;</code>
+       */
+      public static final int CLIENT_PREFERENCE_VALUE = 1;
+      /**
+       * <code>CLIENT_LOCATION = 2;</code>
+       */
+      public static final int CLIENT_LOCATION_VALUE = 2;
+      /**
+       * <code>CONSISTENT_DISTRIBUTION = 3;</code>
+       */
+      public static final int CONSISTENT_DISTRIBUTION_VALUE = 3;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static SelectionPrinciple valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static SelectionPrinciple forNumber(int value) {
+        switch (value) {
+          case 0: return SELECTION_PRINCIPLE_UNSPECIFIED;
+          case 1: return CLIENT_PREFERENCE;
+          case 2: return CLIENT_LOCATION;
+          case 3: return CONSISTENT_DISTRIBUTION;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<SelectionPrinciple>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          SelectionPrinciple> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<SelectionPrinciple>() {
+              public SelectionPrinciple findValueByNumber(int number) {
+                return SelectionPrinciple.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final SelectionPrinciple[] VALUES = values();
+
+      public static SelectionPrinciple valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private SelectionPrinciple(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple)
+    }
+
+    private int bitField0_;
     public static final int CLUSTERS_FIELD_NUMBER = 1;
     private java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo> clusters_;
     /**
@@ -2921,6 +3062,30 @@ public final class YdbPersqueueClusterDiscovery {
       return clusters_.get(index);
     }
 
+    public static final int PRIMARY_CLUSTER_SELECTION_PRINCIPLE_FIELD_NUMBER = 2;
+    private int primaryClusterSelectionPrinciple_;
+    /**
+     * <pre>
+     * The reason why a particular cluster was prioritized.
+     * </pre>
+     *
+     * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+     */
+    public int getPrimaryClusterSelectionPrincipleValue() {
+      return primaryClusterSelectionPrinciple_;
+    }
+    /**
+     * <pre>
+     * The reason why a particular cluster was prioritized.
+     * </pre>
+     *
+     * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+     */
+    public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple getPrimaryClusterSelectionPrinciple() {
+      tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple result = tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple.valueOf(primaryClusterSelectionPrinciple_);
+      return result == null ? tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2936,6 +3101,9 @@ public final class YdbPersqueueClusterDiscovery {
       for (int i = 0; i < clusters_.size(); i++) {
         output.writeMessage(1, clusters_.get(i));
       }
+      if (primaryClusterSelectionPrinciple_ != tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple.SELECTION_PRINCIPLE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(2, primaryClusterSelectionPrinciple_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2947,6 +3115,10 @@ public final class YdbPersqueueClusterDiscovery {
       for (int i = 0; i < clusters_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, clusters_.get(i));
+      }
+      if (primaryClusterSelectionPrinciple_ != tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple.SELECTION_PRINCIPLE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, primaryClusterSelectionPrinciple_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2966,6 +3138,7 @@ public final class YdbPersqueueClusterDiscovery {
       boolean result = true;
       result = result && getClustersList()
           .equals(other.getClustersList());
+      result = result && primaryClusterSelectionPrinciple_ == other.primaryClusterSelectionPrinciple_;
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2981,6 +3154,8 @@ public final class YdbPersqueueClusterDiscovery {
         hash = (37 * hash) + CLUSTERS_FIELD_NUMBER;
         hash = (53 * hash) + getClustersList().hashCode();
       }
+      hash = (37 * hash) + PRIMARY_CLUSTER_SELECTION_PRINCIPLE_FIELD_NUMBER;
+      hash = (53 * hash) + primaryClusterSelectionPrinciple_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3117,6 +3292,8 @@ public final class YdbPersqueueClusterDiscovery {
         } else {
           clustersBuilder_.clear();
         }
+        primaryClusterSelectionPrinciple_ = 0;
+
         return this;
       }
 
@@ -3140,6 +3317,7 @@ public final class YdbPersqueueClusterDiscovery {
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters buildPartial() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters result = new tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (clustersBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             clusters_ = java.util.Collections.unmodifiableList(clusters_);
@@ -3149,6 +3327,8 @@ public final class YdbPersqueueClusterDiscovery {
         } else {
           result.clusters_ = clustersBuilder_.build();
         }
+        result.primaryClusterSelectionPrinciple_ = primaryClusterSelectionPrinciple_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -3215,6 +3395,9 @@ public final class YdbPersqueueClusterDiscovery {
               clustersBuilder_.addAllMessages(other.clusters_);
             }
           }
+        }
+        if (other.primaryClusterSelectionPrinciple_ != 0) {
+          setPrimaryClusterSelectionPrincipleValue(other.getPrimaryClusterSelectionPrincipleValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -3554,6 +3737,70 @@ public final class YdbPersqueueClusterDiscovery {
           clusters_ = null;
         }
         return clustersBuilder_;
+      }
+
+      private int primaryClusterSelectionPrinciple_ = 0;
+      /**
+       * <pre>
+       * The reason why a particular cluster was prioritized.
+       * </pre>
+       *
+       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+       */
+      public int getPrimaryClusterSelectionPrincipleValue() {
+        return primaryClusterSelectionPrinciple_;
+      }
+      /**
+       * <pre>
+       * The reason why a particular cluster was prioritized.
+       * </pre>
+       *
+       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+       */
+      public Builder setPrimaryClusterSelectionPrincipleValue(int value) {
+        primaryClusterSelectionPrinciple_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The reason why a particular cluster was prioritized.
+       * </pre>
+       *
+       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+       */
+      public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple getPrimaryClusterSelectionPrinciple() {
+        tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple result = tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple.valueOf(primaryClusterSelectionPrinciple_);
+        return result == null ? tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * The reason why a particular cluster was prioritized.
+       * </pre>
+       *
+       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+       */
+      public Builder setPrimaryClusterSelectionPrinciple(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        primaryClusterSelectionPrinciple_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The reason why a particular cluster was prioritized.
+       * </pre>
+       *
+       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+       */
+      public Builder clearPrimaryClusterSelectionPrinciple() {
+        
+        primaryClusterSelectionPrinciple_ = 0;
+        onChanged();
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -8003,27 +8250,33 @@ public final class YdbPersqueueClusterDiscovery {
       "\004name\030\002 \001(\t\022\021\n\tavailable\030\003 \001(\010\"|\n\021ReadSe" +
       "ssionParams\022\r\n\005topic\030\001 \001(\t\022\033\n\021mirror_to_",
       "cluster\030\002 \001(\tH\000\022.\n\014all_original\030\003 \001(\0132\026." +
-      "google.protobuf.EmptyH\000B\013\n\tread_rule\"U\n\024" +
-      "WriteSessionClusters\022=\n\010clusters\030\001 \003(\0132+" +
-      ".Ydb.PersQueue.ClusterDiscovery.ClusterI" +
-      "nfo\"T\n\023ReadSessionClusters\022=\n\010clusters\030\001" +
-      " \003(\0132+.Ydb.PersQueue.ClusterDiscovery.Cl" +
-      "usterInfo\"\203\002\n\027DiscoverClustersRequest\0229\n" +
-      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
-      ".OperationParams\022J\n\016write_sessions\030\002 \003(\013" +
-      "22.Ydb.PersQueue.ClusterDiscovery.WriteS",
-      "essionParams\022H\n\rread_sessions\030\003 \003(\01321.Yd" +
-      "b.PersQueue.ClusterDiscovery.ReadSession" +
-      "Params\022\027\n\017minimal_version\030\004 \001(\003\"H\n\030Disco" +
-      "verClustersResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.Operation\"\325\001\n\026DiscoverCl" +
-      "ustersResult\022U\n\027write_sessions_clusters\030" +
-      "\001 \003(\01324.Ydb.PersQueue.ClusterDiscovery.W" +
-      "riteSessionClusters\022S\n\026read_sessions_clu" +
-      "sters\030\002 \003(\01323.Ydb.PersQueue.ClusterDisco" +
-      "very.ReadSessionClusters\022\017\n\007version\030\003 \001(",
-      "\003B/\n*tech.ydb.persqueue.cluster_di" +
-      "scovery\370\001\001b\006proto3"
+      "google.protobuf.EmptyH\000B\013\n\tread_rule\"\320\002\n" +
+      "\024WriteSessionClusters\022=\n\010clusters\030\001 \003(\0132" +
+      "+.Ydb.PersQueue.ClusterDiscovery.Cluster" +
+      "Info\022t\n#primary_cluster_selection_princi" +
+      "ple\030\002 \001(\0162G.Ydb.PersQueue.ClusterDiscove" +
+      "ry.WriteSessionClusters.SelectionPrincip" +
+      "le\"\202\001\n\022SelectionPrinciple\022#\n\037SELECTION_P" +
+      "RINCIPLE_UNSPECIFIED\020\000\022\025\n\021CLIENT_PREFERE" +
+      "NCE\020\001\022\023\n\017CLIENT_LOCATION\020\002\022\033\n\027CONSISTENT",
+      "_DISTRIBUTION\020\003\"T\n\023ReadSessionClusters\022=" +
+      "\n\010clusters\030\001 \003(\0132+.Ydb.PersQueue.Cluster" +
+      "Discovery.ClusterInfo\"\203\002\n\027DiscoverCluste" +
+      "rsRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
+      "b.Operations.OperationParams\022J\n\016write_se" +
+      "ssions\030\002 \003(\01322.Ydb.PersQueue.ClusterDisc" +
+      "overy.WriteSessionParams\022H\n\rread_session" +
+      "s\030\003 \003(\01321.Ydb.PersQueue.ClusterDiscovery" +
+      ".ReadSessionParams\022\027\n\017minimal_version\030\004 " +
+      "\001(\003\"H\n\030DiscoverClustersResponse\022,\n\topera",
+      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\325\001" +
+      "\n\026DiscoverClustersResult\022U\n\027write_sessio" +
+      "ns_clusters\030\001 \003(\01324.Ydb.PersQueue.Cluste" +
+      "rDiscovery.WriteSessionClusters\022S\n\026read_" +
+      "sessions_clusters\030\002 \003(\01323.Ydb.PersQueue." +
+      "ClusterDiscovery.ReadSessionClusters\022\017\n\007" +
+      "version\030\003 \001(\003B/\n*tech.ydb.persqueu" +
+      "e.cluster_discovery\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -8062,7 +8315,7 @@ public final class YdbPersqueueClusterDiscovery {
     internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionClusters_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionClusters_descriptor,
-        new java.lang.String[] { "Clusters", });
+        new java.lang.String[] { "Clusters", "PrimaryClusterSelectionPrinciple", });
     internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionClusters_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionClusters_fieldAccessorTable = new
