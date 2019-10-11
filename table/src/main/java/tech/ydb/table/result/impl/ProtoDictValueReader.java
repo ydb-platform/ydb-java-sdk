@@ -45,7 +45,7 @@ final class ProtoDictValueReader extends AbstractValueReader {
     @Override
     public ValueReader getDictValue(int index) {
         ValueProtos.ValuePair pair = value.getPairs(index);
-        valueReader.setValue(pair.getKey());
+        valueReader.setValue(pair.getPayload());
         return valueReader;
     }
 
