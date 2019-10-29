@@ -594,6 +594,11 @@ public final class YdbExport {
      */
     com.google.protobuf.ByteString
         getDescriptionBytes();
+
+    /**
+     * <code>uint32 number_of_retries = 6;</code>
+     */
+    int getNumberOfRetries();
   }
   /**
    * Protobuf type {@code Ydb.Export.ExportToYtSettings}
@@ -613,6 +618,7 @@ public final class YdbExport {
       token_ = "";
       items_ = java.util.Collections.emptyList();
       description_ = "";
+      numberOfRetries_ = 0;
     }
 
     @java.lang.Override
@@ -673,6 +679,11 @@ public final class YdbExport {
               java.lang.String s = input.readStringRequireUtf8();
 
               description_ = s;
+              break;
+            }
+            case 48: {
+
+              numberOfRetries_ = input.readUInt32();
               break;
             }
           }
@@ -1544,6 +1555,15 @@ public final class YdbExport {
       }
     }
 
+    public static final int NUMBER_OF_RETRIES_FIELD_NUMBER = 6;
+    private int numberOfRetries_;
+    /**
+     * <code>uint32 number_of_retries = 6;</code>
+     */
+    public int getNumberOfRetries() {
+      return numberOfRetries_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1571,6 +1591,9 @@ public final class YdbExport {
       if (!getDescriptionBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, description_);
       }
+      if (numberOfRetries_ != 0) {
+        output.writeUInt32(6, numberOfRetries_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1595,6 +1618,10 @@ public final class YdbExport {
       }
       if (!getDescriptionBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, description_);
+      }
+      if (numberOfRetries_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(6, numberOfRetries_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1622,6 +1649,8 @@ public final class YdbExport {
           .equals(other.getItemsList());
       result = result && getDescription()
           .equals(other.getDescription());
+      result = result && (getNumberOfRetries()
+          == other.getNumberOfRetries());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1645,6 +1674,8 @@ public final class YdbExport {
       }
       hash = (37 * hash) + DESCRIPTION_FIELD_NUMBER;
       hash = (53 * hash) + getDescription().hashCode();
+      hash = (37 * hash) + NUMBER_OF_RETRIES_FIELD_NUMBER;
+      hash = (53 * hash) + getNumberOfRetries();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1789,6 +1820,8 @@ public final class YdbExport {
         }
         description_ = "";
 
+        numberOfRetries_ = 0;
+
         return this;
       }
 
@@ -1826,6 +1859,7 @@ public final class YdbExport {
           result.items_ = itemsBuilder_.build();
         }
         result.description_ = description_;
+        result.numberOfRetries_ = numberOfRetries_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1908,6 +1942,9 @@ public final class YdbExport {
         if (!other.getDescription().isEmpty()) {
           description_ = other.description_;
           onChanged();
+        }
+        if (other.getNumberOfRetries() != 0) {
+          setNumberOfRetries(other.getNumberOfRetries());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2406,6 +2443,32 @@ public final class YdbExport {
   checkByteStringIsUtf8(value);
         
         description_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int numberOfRetries_ ;
+      /**
+       * <code>uint32 number_of_retries = 6;</code>
+       */
+      public int getNumberOfRetries() {
+        return numberOfRetries_;
+      }
+      /**
+       * <code>uint32 number_of_retries = 6;</code>
+       */
+      public Builder setNumberOfRetries(int value) {
+        
+        numberOfRetries_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 number_of_retries = 6;</code>
+       */
+      public Builder clearNumberOfRetries() {
+        
+        numberOfRetries_ = 0;
         onChanged();
         return this;
       }
@@ -4991,21 +5054,22 @@ public final class YdbExport {
       "\026\n\022PROGRESS_PREPARING\020\001\022\032\n\026PROGRESS_TRAN" +
       "SFER_DATA\020\002\022\021\n\rPROGRESS_DONE\020\003\022\031\n\025PROGRE" +
       "SS_CANCELLATION\020\004\022\026\n\022PROGRESS_CANCELLED\020" +
-      "\005\"\277\001\n\022ExportToYtSettings\022\014\n\004host\030\001 \001(\t\022\014" +
+      "\005\"\332\001\n\022ExportToYtSettings\022\014\n\004host\030\001 \001(\t\022\014" +
       "\n\004port\030\002 \001(\r\022\r\n\005token\030\003 \001(\t\0222\n\005items\030\004 \003" +
       "(\0132#.Ydb.Export.ExportToYtSettings.Item\022",
-      "\023\n\013description\030\005 \001(\t\0325\n\004Item\022\023\n\013source_p" +
-      "ath\030\001 \001(\t\022\030\n\020destination_path\030\002 \001(\t\"\022\n\020E" +
-      "xportToYtResult\"}\n\022ExportToYtMetadata\0220\n" +
-      "\010settings\030\001 \001(\0132\036.Ydb.Export.ExportToYtS" +
-      "ettings\0225\n\010progress\030\002 \001(\0162#.Ydb.Export.E" +
-      "xportProgress.Progress\"\200\001\n\021ExportToYtReq" +
-      "uest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Ope" +
-      "rations.OperationParams\0220\n\010settings\030\002 \001(" +
-      "\0132\036.Ydb.Export.ExportToYtSettings\"B\n\022Exp" +
-      "ortToYtResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb",
-      ".Operations.OperationB\032\n\025tech.ydb." +
-      "export\370\001\001b\006proto3"
+      "\023\n\013description\030\005 \001(\t\022\031\n\021number_of_retrie" +
+      "s\030\006 \001(\r\0325\n\004Item\022\023\n\013source_path\030\001 \001(\t\022\030\n\020" +
+      "destination_path\030\002 \001(\t\"\022\n\020ExportToYtResu" +
+      "lt\"}\n\022ExportToYtMetadata\0220\n\010settings\030\001 \001" +
+      "(\0132\036.Ydb.Export.ExportToYtSettings\0225\n\010pr" +
+      "ogress\030\002 \001(\0162#.Ydb.Export.ExportProgress" +
+      ".Progress\"\200\001\n\021ExportToYtRequest\0229\n\020opera" +
+      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
+      "tionParams\0220\n\010settings\030\002 \001(\0132\036.Ydb.Expor" +
+      "t.ExportToYtSettings\"B\n\022ExportToYtRespon",
+      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
+      "perationB\032\n\025tech.ydb.export\370\001\001b\006pr" +
+      "oto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5031,7 +5095,7 @@ public final class YdbExport {
     internal_static_Ydb_Export_ExportToYtSettings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToYtSettings_descriptor,
-        new java.lang.String[] { "Host", "Port", "Token", "Items", "Description", });
+        new java.lang.String[] { "Host", "Port", "Token", "Items", "Description", "NumberOfRetries", });
     internal_static_Ydb_Export_ExportToYtSettings_Item_descriptor =
       internal_static_Ydb_Export_ExportToYtSettings_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_Export_ExportToYtSettings_Item_fieldAccessorTable = new

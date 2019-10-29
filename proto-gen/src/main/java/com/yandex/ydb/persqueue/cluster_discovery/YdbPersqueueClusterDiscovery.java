@@ -2791,17 +2791,17 @@ public final class YdbPersqueueClusterDiscovery {
      * The reason why a particular cluster was prioritized.
      * </pre>
      *
-     * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+     * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
      */
-    int getPrimaryClusterSelectionPrincipleValue();
+    int getPrimaryClusterSelectionReasonValue();
     /**
      * <pre>
      * The reason why a particular cluster was prioritized.
      * </pre>
      *
-     * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+     * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
      */
-    tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple getPrimaryClusterSelectionPrinciple();
+    tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason getPrimaryClusterSelectionReason();
   }
   /**
    * Protobuf type {@code Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters}
@@ -2817,7 +2817,7 @@ public final class YdbPersqueueClusterDiscovery {
     }
     private WriteSessionClusters() {
       clusters_ = java.util.Collections.emptyList();
-      primaryClusterSelectionPrinciple_ = 0;
+      primaryClusterSelectionReason_ = 0;
     }
 
     @java.lang.Override
@@ -2860,7 +2860,7 @@ public final class YdbPersqueueClusterDiscovery {
             case 16: {
               int rawValue = input.readEnum();
 
-              primaryClusterSelectionPrinciple_ = rawValue;
+              primaryClusterSelectionReason_ = rawValue;
               break;
             }
           }
@@ -2891,14 +2891,14 @@ public final class YdbPersqueueClusterDiscovery {
     }
 
     /**
-     * Protobuf enum {@code Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple}
+     * Protobuf enum {@code Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason}
      */
-    public enum SelectionPrinciple
+    public enum SelectionReason
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
-       * <code>SELECTION_PRINCIPLE_UNSPECIFIED = 0;</code>
+       * <code>SELECTION_REASON_UNSPECIFIED = 0;</code>
        */
-      SELECTION_PRINCIPLE_UNSPECIFIED(0),
+      SELECTION_REASON_UNSPECIFIED(0),
       /**
        * <code>CLIENT_PREFERENCE = 1;</code>
        */
@@ -2915,9 +2915,9 @@ public final class YdbPersqueueClusterDiscovery {
       ;
 
       /**
-       * <code>SELECTION_PRINCIPLE_UNSPECIFIED = 0;</code>
+       * <code>SELECTION_REASON_UNSPECIFIED = 0;</code>
        */
-      public static final int SELECTION_PRINCIPLE_UNSPECIFIED_VALUE = 0;
+      public static final int SELECTION_REASON_UNSPECIFIED_VALUE = 0;
       /**
        * <code>CLIENT_PREFERENCE = 1;</code>
        */
@@ -2944,13 +2944,13 @@ public final class YdbPersqueueClusterDiscovery {
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
-      public static SelectionPrinciple valueOf(int value) {
+      public static SelectionReason valueOf(int value) {
         return forNumber(value);
       }
 
-      public static SelectionPrinciple forNumber(int value) {
+      public static SelectionReason forNumber(int value) {
         switch (value) {
-          case 0: return SELECTION_PRINCIPLE_UNSPECIFIED;
+          case 0: return SELECTION_REASON_UNSPECIFIED;
           case 1: return CLIENT_PREFERENCE;
           case 2: return CLIENT_LOCATION;
           case 3: return CONSISTENT_DISTRIBUTION;
@@ -2958,15 +2958,15 @@ public final class YdbPersqueueClusterDiscovery {
         }
       }
 
-      public static com.google.protobuf.Internal.EnumLiteMap<SelectionPrinciple>
+      public static com.google.protobuf.Internal.EnumLiteMap<SelectionReason>
           internalGetValueMap() {
         return internalValueMap;
       }
       private static final com.google.protobuf.Internal.EnumLiteMap<
-          SelectionPrinciple> internalValueMap =
-            new com.google.protobuf.Internal.EnumLiteMap<SelectionPrinciple>() {
-              public SelectionPrinciple findValueByNumber(int number) {
-                return SelectionPrinciple.forNumber(number);
+          SelectionReason> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<SelectionReason>() {
+              public SelectionReason findValueByNumber(int number) {
+                return SelectionReason.forNumber(number);
               }
             };
 
@@ -2983,9 +2983,9 @@ public final class YdbPersqueueClusterDiscovery {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.getDescriptor().getEnumTypes().get(0);
       }
 
-      private static final SelectionPrinciple[] VALUES = values();
+      private static final SelectionReason[] VALUES = values();
 
-      public static SelectionPrinciple valueOf(
+      public static SelectionReason valueOf(
           com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
         if (desc.getType() != getDescriptor()) {
           throw new java.lang.IllegalArgumentException(
@@ -2999,11 +2999,11 @@ public final class YdbPersqueueClusterDiscovery {
 
       private final int value;
 
-      private SelectionPrinciple(int value) {
+      private SelectionReason(int value) {
         this.value = value;
       }
 
-      // @@protoc_insertion_point(enum_scope:Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple)
+      // @@protoc_insertion_point(enum_scope:Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason)
     }
 
     private int bitField0_;
@@ -3062,28 +3062,28 @@ public final class YdbPersqueueClusterDiscovery {
       return clusters_.get(index);
     }
 
-    public static final int PRIMARY_CLUSTER_SELECTION_PRINCIPLE_FIELD_NUMBER = 2;
-    private int primaryClusterSelectionPrinciple_;
+    public static final int PRIMARY_CLUSTER_SELECTION_REASON_FIELD_NUMBER = 2;
+    private int primaryClusterSelectionReason_;
     /**
      * <pre>
      * The reason why a particular cluster was prioritized.
      * </pre>
      *
-     * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+     * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
      */
-    public int getPrimaryClusterSelectionPrincipleValue() {
-      return primaryClusterSelectionPrinciple_;
+    public int getPrimaryClusterSelectionReasonValue() {
+      return primaryClusterSelectionReason_;
     }
     /**
      * <pre>
      * The reason why a particular cluster was prioritized.
      * </pre>
      *
-     * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+     * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
      */
-    public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple getPrimaryClusterSelectionPrinciple() {
-      tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple result = tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple.valueOf(primaryClusterSelectionPrinciple_);
-      return result == null ? tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple.UNRECOGNIZED : result;
+    public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason getPrimaryClusterSelectionReason() {
+      tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason result = tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason.valueOf(primaryClusterSelectionReason_);
+      return result == null ? tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -3101,8 +3101,8 @@ public final class YdbPersqueueClusterDiscovery {
       for (int i = 0; i < clusters_.size(); i++) {
         output.writeMessage(1, clusters_.get(i));
       }
-      if (primaryClusterSelectionPrinciple_ != tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple.SELECTION_PRINCIPLE_UNSPECIFIED.getNumber()) {
-        output.writeEnum(2, primaryClusterSelectionPrinciple_);
+      if (primaryClusterSelectionReason_ != tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason.SELECTION_REASON_UNSPECIFIED.getNumber()) {
+        output.writeEnum(2, primaryClusterSelectionReason_);
       }
       unknownFields.writeTo(output);
     }
@@ -3116,9 +3116,9 @@ public final class YdbPersqueueClusterDiscovery {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, clusters_.get(i));
       }
-      if (primaryClusterSelectionPrinciple_ != tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple.SELECTION_PRINCIPLE_UNSPECIFIED.getNumber()) {
+      if (primaryClusterSelectionReason_ != tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason.SELECTION_REASON_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(2, primaryClusterSelectionPrinciple_);
+          .computeEnumSize(2, primaryClusterSelectionReason_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3138,7 +3138,7 @@ public final class YdbPersqueueClusterDiscovery {
       boolean result = true;
       result = result && getClustersList()
           .equals(other.getClustersList());
-      result = result && primaryClusterSelectionPrinciple_ == other.primaryClusterSelectionPrinciple_;
+      result = result && primaryClusterSelectionReason_ == other.primaryClusterSelectionReason_;
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -3154,8 +3154,8 @@ public final class YdbPersqueueClusterDiscovery {
         hash = (37 * hash) + CLUSTERS_FIELD_NUMBER;
         hash = (53 * hash) + getClustersList().hashCode();
       }
-      hash = (37 * hash) + PRIMARY_CLUSTER_SELECTION_PRINCIPLE_FIELD_NUMBER;
-      hash = (53 * hash) + primaryClusterSelectionPrinciple_;
+      hash = (37 * hash) + PRIMARY_CLUSTER_SELECTION_REASON_FIELD_NUMBER;
+      hash = (53 * hash) + primaryClusterSelectionReason_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3292,7 +3292,7 @@ public final class YdbPersqueueClusterDiscovery {
         } else {
           clustersBuilder_.clear();
         }
-        primaryClusterSelectionPrinciple_ = 0;
+        primaryClusterSelectionReason_ = 0;
 
         return this;
       }
@@ -3327,7 +3327,7 @@ public final class YdbPersqueueClusterDiscovery {
         } else {
           result.clusters_ = clustersBuilder_.build();
         }
-        result.primaryClusterSelectionPrinciple_ = primaryClusterSelectionPrinciple_;
+        result.primaryClusterSelectionReason_ = primaryClusterSelectionReason_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3396,8 +3396,8 @@ public final class YdbPersqueueClusterDiscovery {
             }
           }
         }
-        if (other.primaryClusterSelectionPrinciple_ != 0) {
-          setPrimaryClusterSelectionPrincipleValue(other.getPrimaryClusterSelectionPrincipleValue());
+        if (other.primaryClusterSelectionReason_ != 0) {
+          setPrimaryClusterSelectionReasonValue(other.getPrimaryClusterSelectionReasonValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -3739,26 +3739,26 @@ public final class YdbPersqueueClusterDiscovery {
         return clustersBuilder_;
       }
 
-      private int primaryClusterSelectionPrinciple_ = 0;
+      private int primaryClusterSelectionReason_ = 0;
       /**
        * <pre>
        * The reason why a particular cluster was prioritized.
        * </pre>
        *
-       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
        */
-      public int getPrimaryClusterSelectionPrincipleValue() {
-        return primaryClusterSelectionPrinciple_;
+      public int getPrimaryClusterSelectionReasonValue() {
+        return primaryClusterSelectionReason_;
       }
       /**
        * <pre>
        * The reason why a particular cluster was prioritized.
        * </pre>
        *
-       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
        */
-      public Builder setPrimaryClusterSelectionPrincipleValue(int value) {
-        primaryClusterSelectionPrinciple_ = value;
+      public Builder setPrimaryClusterSelectionReasonValue(int value) {
+        primaryClusterSelectionReason_ = value;
         onChanged();
         return this;
       }
@@ -3767,25 +3767,25 @@ public final class YdbPersqueueClusterDiscovery {
        * The reason why a particular cluster was prioritized.
        * </pre>
        *
-       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
        */
-      public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple getPrimaryClusterSelectionPrinciple() {
-        tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple result = tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple.valueOf(primaryClusterSelectionPrinciple_);
-        return result == null ? tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple.UNRECOGNIZED : result;
+      public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason getPrimaryClusterSelectionReason() {
+        tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason result = tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason.valueOf(primaryClusterSelectionReason_);
+        return result == null ? tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason.UNRECOGNIZED : result;
       }
       /**
        * <pre>
        * The reason why a particular cluster was prioritized.
        * </pre>
        *
-       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
        */
-      public Builder setPrimaryClusterSelectionPrinciple(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionPrinciple value) {
+      public Builder setPrimaryClusterSelectionReason(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason value) {
         if (value == null) {
           throw new NullPointerException();
         }
         
-        primaryClusterSelectionPrinciple_ = value.getNumber();
+        primaryClusterSelectionReason_ = value.getNumber();
         onChanged();
         return this;
       }
@@ -3794,11 +3794,11 @@ public final class YdbPersqueueClusterDiscovery {
        * The reason why a particular cluster was prioritized.
        * </pre>
        *
-       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionPrinciple primary_cluster_selection_principle = 2;</code>
+       * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
        */
-      public Builder clearPrimaryClusterSelectionPrinciple() {
+      public Builder clearPrimaryClusterSelectionReason() {
         
-        primaryClusterSelectionPrinciple_ = 0;
+        primaryClusterSelectionReason_ = 0;
         onChanged();
         return this;
       }
@@ -8250,33 +8250,33 @@ public final class YdbPersqueueClusterDiscovery {
       "\004name\030\002 \001(\t\022\021\n\tavailable\030\003 \001(\010\"|\n\021ReadSe" +
       "ssionParams\022\r\n\005topic\030\001 \001(\t\022\033\n\021mirror_to_",
       "cluster\030\002 \001(\tH\000\022.\n\014all_original\030\003 \001(\0132\026." +
-      "google.protobuf.EmptyH\000B\013\n\tread_rule\"\320\002\n" +
+      "google.protobuf.EmptyH\000B\013\n\tread_rule\"\303\002\n" +
       "\024WriteSessionClusters\022=\n\010clusters\030\001 \003(\0132" +
       "+.Ydb.PersQueue.ClusterDiscovery.Cluster" +
-      "Info\022t\n#primary_cluster_selection_princi" +
-      "ple\030\002 \001(\0162G.Ydb.PersQueue.ClusterDiscove" +
-      "ry.WriteSessionClusters.SelectionPrincip" +
-      "le\"\202\001\n\022SelectionPrinciple\022#\n\037SELECTION_P" +
-      "RINCIPLE_UNSPECIFIED\020\000\022\025\n\021CLIENT_PREFERE" +
-      "NCE\020\001\022\023\n\017CLIENT_LOCATION\020\002\022\033\n\027CONSISTENT",
-      "_DISTRIBUTION\020\003\"T\n\023ReadSessionClusters\022=" +
-      "\n\010clusters\030\001 \003(\0132+.Ydb.PersQueue.Cluster" +
-      "Discovery.ClusterInfo\"\203\002\n\027DiscoverCluste" +
-      "rsRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\022J\n\016write_se" +
-      "ssions\030\002 \003(\01322.Ydb.PersQueue.ClusterDisc" +
-      "overy.WriteSessionParams\022H\n\rread_session" +
-      "s\030\003 \003(\01321.Ydb.PersQueue.ClusterDiscovery" +
-      ".ReadSessionParams\022\027\n\017minimal_version\030\004 " +
-      "\001(\003\"H\n\030DiscoverClustersResponse\022,\n\topera",
-      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\325\001" +
-      "\n\026DiscoverClustersResult\022U\n\027write_sessio" +
-      "ns_clusters\030\001 \003(\01324.Ydb.PersQueue.Cluste" +
-      "rDiscovery.WriteSessionClusters\022S\n\026read_" +
-      "sessions_clusters\030\002 \003(\01323.Ydb.PersQueue." +
-      "ClusterDiscovery.ReadSessionClusters\022\017\n\007" +
-      "version\030\003 \001(\003B/\n*tech.ydb.persqueu" +
-      "e.cluster_discovery\370\001\001b\006proto3"
+      "Info\022n\n primary_cluster_selection_reason" +
+      "\030\002 \001(\0162D.Ydb.PersQueue.ClusterDiscovery." +
+      "WriteSessionClusters.SelectionReason\"|\n\017" +
+      "SelectionReason\022 \n\034SELECTION_REASON_UNSP" +
+      "ECIFIED\020\000\022\025\n\021CLIENT_PREFERENCE\020\001\022\023\n\017CLIE" +
+      "NT_LOCATION\020\002\022\033\n\027CONSISTENT_DISTRIBUTION",
+      "\020\003\"T\n\023ReadSessionClusters\022=\n\010clusters\030\001 " +
+      "\003(\0132+.Ydb.PersQueue.ClusterDiscovery.Clu" +
+      "sterInfo\"\203\002\n\027DiscoverClustersRequest\0229\n\020" +
+      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
+      "OperationParams\022J\n\016write_sessions\030\002 \003(\0132" +
+      "2.Ydb.PersQueue.ClusterDiscovery.WriteSe" +
+      "ssionParams\022H\n\rread_sessions\030\003 \003(\01321.Ydb" +
+      ".PersQueue.ClusterDiscovery.ReadSessionP" +
+      "arams\022\027\n\017minimal_version\030\004 \001(\003\"H\n\030Discov" +
+      "erClustersResponse\022,\n\toperation\030\001 \001(\0132\031.",
+      "Ydb.Operations.Operation\"\325\001\n\026DiscoverClu" +
+      "stersResult\022U\n\027write_sessions_clusters\030\001" +
+      " \003(\01324.Ydb.PersQueue.ClusterDiscovery.Wr" +
+      "iteSessionClusters\022S\n\026read_sessions_clus" +
+      "ters\030\002 \003(\01323.Ydb.PersQueue.ClusterDiscov" +
+      "ery.ReadSessionClusters\022\017\n\007version\030\003 \001(\003" +
+      "B/\n*tech.ydb.persqueue.cluster_dis" +
+      "covery\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -8315,7 +8315,7 @@ public final class YdbPersqueueClusterDiscovery {
     internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionClusters_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionClusters_descriptor,
-        new java.lang.String[] { "Clusters", "PrimaryClusterSelectionPrinciple", });
+        new java.lang.String[] { "Clusters", "PrimaryClusterSelectionReason", });
     internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionClusters_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionClusters_fieldAccessorTable = new
