@@ -102,7 +102,13 @@ public final class CoordinationServiceGrpc {
 
     /**
      * <pre>
-     * Establishes a coordination session
+     **
+     * Bidirectional stream used to establish a session with a coordination node
+     * Relevant APIs for managing semaphores, distributed locking, creating or
+     * restoring a previously established session are described using nested
+     * messages in SessionRequest and SessionResponse. Session is established
+     * with a specific coordination node (previously created using CreateNode
+     * below) and semaphores are local to that coordination node.
      * </pre>
      */
     public io.grpc.stub.StreamObserver<tech.ydb.coordination.SessionRequest> session(
@@ -211,7 +217,13 @@ public final class CoordinationServiceGrpc {
 
     /**
      * <pre>
-     * Establishes a coordination session
+     **
+     * Bidirectional stream used to establish a session with a coordination node
+     * Relevant APIs for managing semaphores, distributed locking, creating or
+     * restoring a previously established session are described using nested
+     * messages in SessionRequest and SessionResponse. Session is established
+     * with a specific coordination node (previously created using CreateNode
+     * below) and semaphores are local to that coordination node.
      * </pre>
      */
     public io.grpc.stub.StreamObserver<tech.ydb.coordination.SessionRequest> session(
