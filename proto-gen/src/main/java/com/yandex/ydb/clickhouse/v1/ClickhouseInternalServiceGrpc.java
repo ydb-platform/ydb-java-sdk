@@ -45,6 +45,15 @@ public final class ClickhouseInternalServiceGrpc {
               "Ydb.ClickhouseInternal.V1.ClickhouseInternalService", "GetShardLocations"),
           io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse> METHOD_DESCRIBE_TABLE =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "Ydb.ClickhouseInternal.V1.ClickhouseInternalService", "DescribeTable"),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse.getDefaultInstance()));
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -87,6 +96,13 @@ public final class ClickhouseInternalServiceGrpc {
       asyncUnimplementedUnaryCall(METHOD_GET_SHARD_LOCATIONS, responseObserver);
     }
 
+    /**
+     */
+    public void describeTable(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_DESCRIBE_TABLE, responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -103,6 +119,13 @@ public final class ClickhouseInternalServiceGrpc {
                 tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest,
                 tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse>(
                   this, METHODID_GET_SHARD_LOCATIONS)))
+          .addMethod(
+            METHOD_DESCRIBE_TABLE,
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest,
+                tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse>(
+                  this, METHODID_DESCRIBE_TABLE)))
           .build();
     }
   }
@@ -140,6 +163,14 @@ public final class ClickhouseInternalServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(METHOD_GET_SHARD_LOCATIONS, getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void describeTable(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_DESCRIBE_TABLE, getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -172,6 +203,13 @@ public final class ClickhouseInternalServiceGrpc {
     public tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse getShardLocations(tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_GET_SHARD_LOCATIONS, getCallOptions(), request);
+    }
+
+    /**
+     */
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse describeTable(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_DESCRIBE_TABLE, getCallOptions(), request);
     }
   }
 
@@ -208,10 +246,19 @@ public final class ClickhouseInternalServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(METHOD_GET_SHARD_LOCATIONS, getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse> describeTable(
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_DESCRIBE_TABLE, getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_SCAN = 0;
   private static final int METHODID_GET_SHARD_LOCATIONS = 1;
+  private static final int METHODID_DESCRIBE_TABLE = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -237,6 +284,10 @@ public final class ClickhouseInternalServiceGrpc {
         case METHODID_GET_SHARD_LOCATIONS:
           serviceImpl.getShardLocations((tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest) request,
               (io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse>) responseObserver);
+          break;
+        case METHODID_DESCRIBE_TABLE:
+          serviceImpl.describeTable((tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -273,6 +324,7 @@ public final class ClickhouseInternalServiceGrpc {
               .setSchemaDescriptor(new ClickhouseInternalServiceDescriptorSupplier())
               .addMethod(METHOD_SCAN)
               .addMethod(METHOD_GET_SHARD_LOCATIONS)
+              .addMethod(METHOD_DESCRIBE_TABLE)
               .build();
         }
       }

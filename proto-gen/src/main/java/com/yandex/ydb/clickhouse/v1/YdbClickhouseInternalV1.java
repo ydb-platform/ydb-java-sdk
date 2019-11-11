@@ -26,14 +26,17 @@ public final class YdbClickhouseInternalV1 {
       "\n=kikimr/public/api/grpc/draft/ydb_click" +
       "house_internal_v1.proto\022\031Ydb.ClickhouseI" +
       "nternal.V1\0326kikimr/public/api/protos/ydb" +
-      "_clickhouse_internal.proto2\350\001\n\031Clickhous" +
+      "_clickhouse_internal.proto2\326\002\n\031Clickhous" +
       "eInternalService\022Q\n\004Scan\022#.Ydb.Clickhous" +
       "eInternal.ScanRequest\032$.Ydb.ClickhouseIn" +
       "ternal.ScanResponse\022x\n\021GetShardLocations" +
       "\0220.Ydb.ClickhouseInternal.GetShardLocati" +
       "onsRequest\0321.Ydb.ClickhouseInternal.GetS" +
-      "hardLocationsResponseB\036\n\034tech.ydb.",
-      "clickhouse.v1b\006proto3"
+      "hardLocationsResponse\022l\n\rDescribeTable\022,",
+      ".Ydb.ClickhouseInternal.DescribeTableReq" +
+      "uest\032-.Ydb.ClickhouseInternal.DescribeTa" +
+      "bleResponseB\036\n\034tech.ydb.clickhouse" +
+      ".v1b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

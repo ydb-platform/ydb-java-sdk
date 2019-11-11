@@ -11962,6 +11962,19 @@ public final class Persqueue {
     tech.ydb.persqueue.Persqueue.ReadRequest.CommitOrBuilder getCommitOrBuilder();
 
     /**
+     * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+     */
+    boolean hasStatus();
+    /**
+     * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+     */
+    tech.ydb.persqueue.Persqueue.ReadRequest.Status getStatus();
+    /**
+     * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+     */
+    tech.ydb.persqueue.Persqueue.ReadRequest.StatusOrBuilder getStatusOrBuilder();
+
+    /**
      * <code>.NPersQueue.Credentials credentials = 20;</code>
      */
     boolean hasCredentials();
@@ -12082,6 +12095,20 @@ public final class Persqueue {
                 request_ = subBuilder.buildPartial();
               }
               requestCase_ = 4;
+              break;
+            }
+            case 42: {
+              tech.ydb.persqueue.Persqueue.ReadRequest.Status.Builder subBuilder = null;
+              if (requestCase_ == 5) {
+                subBuilder = ((tech.ydb.persqueue.Persqueue.ReadRequest.Status) request_).toBuilder();
+              }
+              request_ =
+                  input.readMessage(tech.ydb.persqueue.Persqueue.ReadRequest.Status.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((tech.ydb.persqueue.Persqueue.ReadRequest.Status) request_);
+                request_ = subBuilder.buildPartial();
+              }
+              requestCase_ = 5;
               break;
             }
             case 162: {
@@ -16676,6 +16703,655 @@ public final class Persqueue {
 
     }
 
+    public interface StatusOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:NPersQueue.ReadRequest.Status)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>uint64 generation = 1;</code>
+       */
+      long getGeneration();
+
+      /**
+       * <code>string topic = 2;</code>
+       */
+      java.lang.String getTopic();
+      /**
+       * <code>string topic = 2;</code>
+       */
+      com.google.protobuf.ByteString
+          getTopicBytes();
+
+      /**
+       * <code>uint32 partition = 3;</code>
+       */
+      int getPartition();
+    }
+    /**
+     * Protobuf type {@code NPersQueue.ReadRequest.Status}
+     */
+    public  static final class Status extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:NPersQueue.ReadRequest.Status)
+        StatusOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use Status.newBuilder() to construct.
+      private Status(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private Status() {
+        generation_ = 0L;
+        topic_ = "";
+        partition_ = 0;
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Status(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownFieldProto3(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 8: {
+
+                generation_ = input.readUInt64();
+                break;
+              }
+              case 18: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                topic_ = s;
+                break;
+              }
+              case 24: {
+
+                partition_ = input.readUInt32();
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Status_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Status_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.persqueue.Persqueue.ReadRequest.Status.class, tech.ydb.persqueue.Persqueue.ReadRequest.Status.Builder.class);
+      }
+
+      public static final int GENERATION_FIELD_NUMBER = 1;
+      private long generation_;
+      /**
+       * <code>uint64 generation = 1;</code>
+       */
+      public long getGeneration() {
+        return generation_;
+      }
+
+      public static final int TOPIC_FIELD_NUMBER = 2;
+      private volatile java.lang.Object topic_;
+      /**
+       * <code>string topic = 2;</code>
+       */
+      public java.lang.String getTopic() {
+        java.lang.Object ref = topic_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          topic_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string topic = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTopicBytes() {
+        java.lang.Object ref = topic_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          topic_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int PARTITION_FIELD_NUMBER = 3;
+      private int partition_;
+      /**
+       * <code>uint32 partition = 3;</code>
+       */
+      public int getPartition() {
+        return partition_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (generation_ != 0L) {
+          output.writeUInt64(1, generation_);
+        }
+        if (!getTopicBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, topic_);
+        }
+        if (partition_ != 0) {
+          output.writeUInt32(3, partition_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (generation_ != 0L) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeUInt64Size(1, generation_);
+        }
+        if (!getTopicBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, topic_);
+        }
+        if (partition_ != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeUInt32Size(3, partition_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof tech.ydb.persqueue.Persqueue.ReadRequest.Status)) {
+          return super.equals(obj);
+        }
+        tech.ydb.persqueue.Persqueue.ReadRequest.Status other = (tech.ydb.persqueue.Persqueue.ReadRequest.Status) obj;
+
+        boolean result = true;
+        result = result && (getGeneration()
+            == other.getGeneration());
+        result = result && getTopic()
+            .equals(other.getTopic());
+        result = result && (getPartition()
+            == other.getPartition());
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + GENERATION_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getGeneration());
+        hash = (37 * hash) + TOPIC_FIELD_NUMBER;
+        hash = (53 * hash) + getTopic().hashCode();
+        hash = (37 * hash) + PARTITION_FIELD_NUMBER;
+        hash = (53 * hash) + getPartition();
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static tech.ydb.persqueue.Persqueue.ReadRequest.Status parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadRequest.Status parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadRequest.Status parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadRequest.Status parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadRequest.Status parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadRequest.Status parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadRequest.Status parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadRequest.Status parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadRequest.Status parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadRequest.Status parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadRequest.Status parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadRequest.Status parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadRequest.Status prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code NPersQueue.ReadRequest.Status}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:NPersQueue.ReadRequest.Status)
+          tech.ydb.persqueue.Persqueue.ReadRequest.StatusOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Status_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Status_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  tech.ydb.persqueue.Persqueue.ReadRequest.Status.class, tech.ydb.persqueue.Persqueue.ReadRequest.Status.Builder.class);
+        }
+
+        // Construct using tech.ydb.persqueue.Persqueue.ReadRequest.Status.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        public Builder clear() {
+          super.clear();
+          generation_ = 0L;
+
+          topic_ = "";
+
+          partition_ = 0;
+
+          return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Status_descriptor;
+        }
+
+        public tech.ydb.persqueue.Persqueue.ReadRequest.Status getDefaultInstanceForType() {
+          return tech.ydb.persqueue.Persqueue.ReadRequest.Status.getDefaultInstance();
+        }
+
+        public tech.ydb.persqueue.Persqueue.ReadRequest.Status build() {
+          tech.ydb.persqueue.Persqueue.ReadRequest.Status result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public tech.ydb.persqueue.Persqueue.ReadRequest.Status buildPartial() {
+          tech.ydb.persqueue.Persqueue.ReadRequest.Status result = new tech.ydb.persqueue.Persqueue.ReadRequest.Status(this);
+          result.generation_ = generation_;
+          result.topic_ = topic_;
+          result.partition_ = partition_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof tech.ydb.persqueue.Persqueue.ReadRequest.Status) {
+            return mergeFrom((tech.ydb.persqueue.Persqueue.ReadRequest.Status)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(tech.ydb.persqueue.Persqueue.ReadRequest.Status other) {
+          if (other == tech.ydb.persqueue.Persqueue.ReadRequest.Status.getDefaultInstance()) return this;
+          if (other.getGeneration() != 0L) {
+            setGeneration(other.getGeneration());
+          }
+          if (!other.getTopic().isEmpty()) {
+            topic_ = other.topic_;
+            onChanged();
+          }
+          if (other.getPartition() != 0) {
+            setPartition(other.getPartition());
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          tech.ydb.persqueue.Persqueue.ReadRequest.Status parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (tech.ydb.persqueue.Persqueue.ReadRequest.Status) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private long generation_ ;
+        /**
+         * <code>uint64 generation = 1;</code>
+         */
+        public long getGeneration() {
+          return generation_;
+        }
+        /**
+         * <code>uint64 generation = 1;</code>
+         */
+        public Builder setGeneration(long value) {
+          
+          generation_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>uint64 generation = 1;</code>
+         */
+        public Builder clearGeneration() {
+          
+          generation_ = 0L;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object topic_ = "";
+        /**
+         * <code>string topic = 2;</code>
+         */
+        public java.lang.String getTopic() {
+          java.lang.Object ref = topic_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            topic_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string topic = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+            getTopicBytes() {
+          java.lang.Object ref = topic_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            topic_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string topic = 2;</code>
+         */
+        public Builder setTopic(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          topic_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string topic = 2;</code>
+         */
+        public Builder clearTopic() {
+          
+          topic_ = getDefaultInstance().getTopic();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string topic = 2;</code>
+         */
+        public Builder setTopicBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          topic_ = value;
+          onChanged();
+          return this;
+        }
+
+        private int partition_ ;
+        /**
+         * <code>uint32 partition = 3;</code>
+         */
+        public int getPartition() {
+          return partition_;
+        }
+        /**
+         * <code>uint32 partition = 3;</code>
+         */
+        public Builder setPartition(int value) {
+          
+          partition_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>uint32 partition = 3;</code>
+         */
+        public Builder clearPartition() {
+          
+          partition_ = 0;
+          onChanged();
+          return this;
+        }
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFieldsProto3(unknownFields);
+        }
+
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:NPersQueue.ReadRequest.Status)
+      }
+
+      // @@protoc_insertion_point(class_scope:NPersQueue.ReadRequest.Status)
+      private static final tech.ydb.persqueue.Persqueue.ReadRequest.Status DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new tech.ydb.persqueue.Persqueue.ReadRequest.Status();
+      }
+
+      public static tech.ydb.persqueue.Persqueue.ReadRequest.Status getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<Status>
+          PARSER = new com.google.protobuf.AbstractParser<Status>() {
+        public Status parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+            return new Status(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<Status> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Status> getParserForType() {
+        return PARSER;
+      }
+
+      public tech.ydb.persqueue.Persqueue.ReadRequest.Status getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     private int requestCase_ = 0;
     private java.lang.Object request_;
     public enum RequestCase
@@ -16684,6 +17360,7 @@ public final class Persqueue {
       READ(2),
       START_READ(3),
       COMMIT(4),
+      STATUS(5),
       REQUEST_NOT_SET(0);
       private final int value;
       private RequestCase(int value) {
@@ -16703,6 +17380,7 @@ public final class Persqueue {
           case 2: return READ;
           case 3: return START_READ;
           case 4: return COMMIT;
+          case 5: return STATUS;
           case 0: return REQUEST_NOT_SET;
           default: return null;
         }
@@ -16834,6 +17512,32 @@ public final class Persqueue {
       return tech.ydb.persqueue.Persqueue.ReadRequest.Commit.getDefaultInstance();
     }
 
+    public static final int STATUS_FIELD_NUMBER = 5;
+    /**
+     * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+     */
+    public boolean hasStatus() {
+      return requestCase_ == 5;
+    }
+    /**
+     * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+     */
+    public tech.ydb.persqueue.Persqueue.ReadRequest.Status getStatus() {
+      if (requestCase_ == 5) {
+         return (tech.ydb.persqueue.Persqueue.ReadRequest.Status) request_;
+      }
+      return tech.ydb.persqueue.Persqueue.ReadRequest.Status.getDefaultInstance();
+    }
+    /**
+     * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+     */
+    public tech.ydb.persqueue.Persqueue.ReadRequest.StatusOrBuilder getStatusOrBuilder() {
+      if (requestCase_ == 5) {
+         return (tech.ydb.persqueue.Persqueue.ReadRequest.Status) request_;
+      }
+      return tech.ydb.persqueue.Persqueue.ReadRequest.Status.getDefaultInstance();
+    }
+
     public static final int CREDENTIALS_FIELD_NUMBER = 20;
     private tech.ydb.persqueue.Persqueue.Credentials credentials_;
     /**
@@ -16879,6 +17583,9 @@ public final class Persqueue {
       if (requestCase_ == 4) {
         output.writeMessage(4, (tech.ydb.persqueue.Persqueue.ReadRequest.Commit) request_);
       }
+      if (requestCase_ == 5) {
+        output.writeMessage(5, (tech.ydb.persqueue.Persqueue.ReadRequest.Status) request_);
+      }
       if (credentials_ != null) {
         output.writeMessage(20, getCredentials());
       }
@@ -16905,6 +17612,10 @@ public final class Persqueue {
       if (requestCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, (tech.ydb.persqueue.Persqueue.ReadRequest.Commit) request_);
+      }
+      if (requestCase_ == 5) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, (tech.ydb.persqueue.Persqueue.ReadRequest.Status) request_);
       }
       if (credentials_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -16951,6 +17662,10 @@ public final class Persqueue {
           result = result && getCommit()
               .equals(other.getCommit());
           break;
+        case 5:
+          result = result && getStatus()
+              .equals(other.getStatus());
+          break;
         case 0:
         default:
       }
@@ -16985,6 +17700,10 @@ public final class Persqueue {
         case 4:
           hash = (37 * hash) + COMMIT_FIELD_NUMBER;
           hash = (53 * hash) + getCommit().hashCode();
+          break;
+        case 5:
+          hash = (37 * hash) + STATUS_FIELD_NUMBER;
+          hash = (53 * hash) + getStatus().hashCode();
           break;
         case 0:
         default:
@@ -17185,6 +17904,13 @@ public final class Persqueue {
             result.request_ = commitBuilder_.build();
           }
         }
+        if (requestCase_ == 5) {
+          if (statusBuilder_ == null) {
+            result.request_ = request_;
+          } else {
+            result.request_ = statusBuilder_.build();
+          }
+        }
         if (credentialsBuilder_ == null) {
           result.credentials_ = credentials_;
         } else {
@@ -17250,6 +17976,10 @@ public final class Persqueue {
           }
           case COMMIT: {
             mergeCommit(other.getCommit());
+            break;
+          }
+          case STATUS: {
+            mergeStatus(other.getStatus());
             break;
           }
           case REQUEST_NOT_SET: {
@@ -17876,6 +18606,142 @@ public final class Persqueue {
         requestCase_ = 4;
         onChanged();;
         return commitBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.persqueue.Persqueue.ReadRequest.Status, tech.ydb.persqueue.Persqueue.ReadRequest.Status.Builder, tech.ydb.persqueue.Persqueue.ReadRequest.StatusOrBuilder> statusBuilder_;
+      /**
+       * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+       */
+      public boolean hasStatus() {
+        return requestCase_ == 5;
+      }
+      /**
+       * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+       */
+      public tech.ydb.persqueue.Persqueue.ReadRequest.Status getStatus() {
+        if (statusBuilder_ == null) {
+          if (requestCase_ == 5) {
+            return (tech.ydb.persqueue.Persqueue.ReadRequest.Status) request_;
+          }
+          return tech.ydb.persqueue.Persqueue.ReadRequest.Status.getDefaultInstance();
+        } else {
+          if (requestCase_ == 5) {
+            return statusBuilder_.getMessage();
+          }
+          return tech.ydb.persqueue.Persqueue.ReadRequest.Status.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+       */
+      public Builder setStatus(tech.ydb.persqueue.Persqueue.ReadRequest.Status value) {
+        if (statusBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          request_ = value;
+          onChanged();
+        } else {
+          statusBuilder_.setMessage(value);
+        }
+        requestCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+       */
+      public Builder setStatus(
+          tech.ydb.persqueue.Persqueue.ReadRequest.Status.Builder builderForValue) {
+        if (statusBuilder_ == null) {
+          request_ = builderForValue.build();
+          onChanged();
+        } else {
+          statusBuilder_.setMessage(builderForValue.build());
+        }
+        requestCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+       */
+      public Builder mergeStatus(tech.ydb.persqueue.Persqueue.ReadRequest.Status value) {
+        if (statusBuilder_ == null) {
+          if (requestCase_ == 5 &&
+              request_ != tech.ydb.persqueue.Persqueue.ReadRequest.Status.getDefaultInstance()) {
+            request_ = tech.ydb.persqueue.Persqueue.ReadRequest.Status.newBuilder((tech.ydb.persqueue.Persqueue.ReadRequest.Status) request_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            request_ = value;
+          }
+          onChanged();
+        } else {
+          if (requestCase_ == 5) {
+            statusBuilder_.mergeFrom(value);
+          }
+          statusBuilder_.setMessage(value);
+        }
+        requestCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+       */
+      public Builder clearStatus() {
+        if (statusBuilder_ == null) {
+          if (requestCase_ == 5) {
+            requestCase_ = 0;
+            request_ = null;
+            onChanged();
+          }
+        } else {
+          if (requestCase_ == 5) {
+            requestCase_ = 0;
+            request_ = null;
+          }
+          statusBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+       */
+      public tech.ydb.persqueue.Persqueue.ReadRequest.Status.Builder getStatusBuilder() {
+        return getStatusFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+       */
+      public tech.ydb.persqueue.Persqueue.ReadRequest.StatusOrBuilder getStatusOrBuilder() {
+        if ((requestCase_ == 5) && (statusBuilder_ != null)) {
+          return statusBuilder_.getMessageOrBuilder();
+        } else {
+          if (requestCase_ == 5) {
+            return (tech.ydb.persqueue.Persqueue.ReadRequest.Status) request_;
+          }
+          return tech.ydb.persqueue.Persqueue.ReadRequest.Status.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.persqueue.Persqueue.ReadRequest.Status, tech.ydb.persqueue.Persqueue.ReadRequest.Status.Builder, tech.ydb.persqueue.Persqueue.ReadRequest.StatusOrBuilder> 
+          getStatusFieldBuilder() {
+        if (statusBuilder_ == null) {
+          if (!(requestCase_ == 5)) {
+            request_ = tech.ydb.persqueue.Persqueue.ReadRequest.Status.getDefaultInstance();
+          }
+          statusBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.persqueue.Persqueue.ReadRequest.Status, tech.ydb.persqueue.Persqueue.ReadRequest.Status.Builder, tech.ydb.persqueue.Persqueue.ReadRequest.StatusOrBuilder>(
+                  (tech.ydb.persqueue.Persqueue.ReadRequest.Status) request_,
+                  getParentForChildren(),
+                  isClean());
+          request_ = null;
+        }
+        requestCase_ = 5;
+        onChanged();;
+        return statusBuilder_;
       }
 
       private tech.ydb.persqueue.Persqueue.Credentials credentials_ = null;
@@ -19204,6 +20070,19 @@ public final class Persqueue {
      */
     tech.ydb.persqueue.Persqueue.ReadResponse.CommitOrBuilder getCommitOrBuilder();
 
+    /**
+     * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+     */
+    boolean hasPartitionStatus();
+    /**
+     * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+     */
+    tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus getPartitionStatus();
+    /**
+     * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+     */
+    tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatusOrBuilder getPartitionStatusOrBuilder();
+
     public tech.ydb.persqueue.Persqueue.ReadResponse.ResponseCase getResponseCase();
   }
   /**
@@ -19345,6 +20224,20 @@ public final class Persqueue {
                 response_ = subBuilder.buildPartial();
               }
               responseCase_ = 7;
+              break;
+            }
+            case 66: {
+              tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.Builder subBuilder = null;
+              if (responseCase_ == 8) {
+                subBuilder = ((tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) response_).toBuilder();
+              }
+              response_ =
+                  input.readMessage(tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) response_);
+                response_ = subBuilder.buildPartial();
+              }
+              responseCase_ = 8;
               break;
             }
           }
@@ -28595,6 +29488,855 @@ public final class Persqueue {
 
     }
 
+    public interface PartitionStatusOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:NPersQueue.ReadResponse.PartitionStatus)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>uint64 generation = 1;</code>
+       */
+      long getGeneration();
+
+      /**
+       * <code>string topic = 2;</code>
+       */
+      java.lang.String getTopic();
+      /**
+       * <code>string topic = 2;</code>
+       */
+      com.google.protobuf.ByteString
+          getTopicBytes();
+
+      /**
+       * <code>uint32 partition = 3;</code>
+       */
+      int getPartition();
+
+      /**
+       * <code>uint64 committed_offset = 4;</code>
+       */
+      long getCommittedOffset();
+
+      /**
+       * <code>uint64 end_offset = 5;</code>
+       */
+      long getEndOffset();
+
+      /**
+       * <code>uint64 write_watermark_ms = 6;</code>
+       */
+      long getWriteWatermarkMs();
+    }
+    /**
+     * <pre>
+     * Response for status requst.
+     * </pre>
+     *
+     * Protobuf type {@code NPersQueue.ReadResponse.PartitionStatus}
+     */
+    public  static final class PartitionStatus extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:NPersQueue.ReadResponse.PartitionStatus)
+        PartitionStatusOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use PartitionStatus.newBuilder() to construct.
+      private PartitionStatus(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private PartitionStatus() {
+        generation_ = 0L;
+        topic_ = "";
+        partition_ = 0;
+        committedOffset_ = 0L;
+        endOffset_ = 0L;
+        writeWatermarkMs_ = 0L;
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private PartitionStatus(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownFieldProto3(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 8: {
+
+                generation_ = input.readUInt64();
+                break;
+              }
+              case 18: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                topic_ = s;
+                break;
+              }
+              case 24: {
+
+                partition_ = input.readUInt32();
+                break;
+              }
+              case 32: {
+
+                committedOffset_ = input.readUInt64();
+                break;
+              }
+              case 40: {
+
+                endOffset_ = input.readUInt64();
+                break;
+              }
+              case 48: {
+
+                writeWatermarkMs_ = input.readUInt64();
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_PartitionStatus_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_PartitionStatus_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.class, tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.Builder.class);
+      }
+
+      public static final int GENERATION_FIELD_NUMBER = 1;
+      private long generation_;
+      /**
+       * <code>uint64 generation = 1;</code>
+       */
+      public long getGeneration() {
+        return generation_;
+      }
+
+      public static final int TOPIC_FIELD_NUMBER = 2;
+      private volatile java.lang.Object topic_;
+      /**
+       * <code>string topic = 2;</code>
+       */
+      public java.lang.String getTopic() {
+        java.lang.Object ref = topic_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          topic_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string topic = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTopicBytes() {
+        java.lang.Object ref = topic_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          topic_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int PARTITION_FIELD_NUMBER = 3;
+      private int partition_;
+      /**
+       * <code>uint32 partition = 3;</code>
+       */
+      public int getPartition() {
+        return partition_;
+      }
+
+      public static final int COMMITTED_OFFSET_FIELD_NUMBER = 4;
+      private long committedOffset_;
+      /**
+       * <code>uint64 committed_offset = 4;</code>
+       */
+      public long getCommittedOffset() {
+        return committedOffset_;
+      }
+
+      public static final int END_OFFSET_FIELD_NUMBER = 5;
+      private long endOffset_;
+      /**
+       * <code>uint64 end_offset = 5;</code>
+       */
+      public long getEndOffset() {
+        return endOffset_;
+      }
+
+      public static final int WRITE_WATERMARK_MS_FIELD_NUMBER = 6;
+      private long writeWatermarkMs_;
+      /**
+       * <code>uint64 write_watermark_ms = 6;</code>
+       */
+      public long getWriteWatermarkMs() {
+        return writeWatermarkMs_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (generation_ != 0L) {
+          output.writeUInt64(1, generation_);
+        }
+        if (!getTopicBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, topic_);
+        }
+        if (partition_ != 0) {
+          output.writeUInt32(3, partition_);
+        }
+        if (committedOffset_ != 0L) {
+          output.writeUInt64(4, committedOffset_);
+        }
+        if (endOffset_ != 0L) {
+          output.writeUInt64(5, endOffset_);
+        }
+        if (writeWatermarkMs_ != 0L) {
+          output.writeUInt64(6, writeWatermarkMs_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (generation_ != 0L) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeUInt64Size(1, generation_);
+        }
+        if (!getTopicBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, topic_);
+        }
+        if (partition_ != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeUInt32Size(3, partition_);
+        }
+        if (committedOffset_ != 0L) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeUInt64Size(4, committedOffset_);
+        }
+        if (endOffset_ != 0L) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeUInt64Size(5, endOffset_);
+        }
+        if (writeWatermarkMs_ != 0L) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeUInt64Size(6, writeWatermarkMs_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus)) {
+          return super.equals(obj);
+        }
+        tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus other = (tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) obj;
+
+        boolean result = true;
+        result = result && (getGeneration()
+            == other.getGeneration());
+        result = result && getTopic()
+            .equals(other.getTopic());
+        result = result && (getPartition()
+            == other.getPartition());
+        result = result && (getCommittedOffset()
+            == other.getCommittedOffset());
+        result = result && (getEndOffset()
+            == other.getEndOffset());
+        result = result && (getWriteWatermarkMs()
+            == other.getWriteWatermarkMs());
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + GENERATION_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getGeneration());
+        hash = (37 * hash) + TOPIC_FIELD_NUMBER;
+        hash = (53 * hash) + getTopic().hashCode();
+        hash = (37 * hash) + PARTITION_FIELD_NUMBER;
+        hash = (53 * hash) + getPartition();
+        hash = (37 * hash) + COMMITTED_OFFSET_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getCommittedOffset());
+        hash = (37 * hash) + END_OFFSET_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getEndOffset());
+        hash = (37 * hash) + WRITE_WATERMARK_MS_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getWriteWatermarkMs());
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * <pre>
+       * Response for status requst.
+       * </pre>
+       *
+       * Protobuf type {@code NPersQueue.ReadResponse.PartitionStatus}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:NPersQueue.ReadResponse.PartitionStatus)
+          tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatusOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_PartitionStatus_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_PartitionStatus_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.class, tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.Builder.class);
+        }
+
+        // Construct using tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        public Builder clear() {
+          super.clear();
+          generation_ = 0L;
+
+          topic_ = "";
+
+          partition_ = 0;
+
+          committedOffset_ = 0L;
+
+          endOffset_ = 0L;
+
+          writeWatermarkMs_ = 0L;
+
+          return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_PartitionStatus_descriptor;
+        }
+
+        public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus getDefaultInstanceForType() {
+          return tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.getDefaultInstance();
+        }
+
+        public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus build() {
+          tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus buildPartial() {
+          tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus result = new tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus(this);
+          result.generation_ = generation_;
+          result.topic_ = topic_;
+          result.partition_ = partition_;
+          result.committedOffset_ = committedOffset_;
+          result.endOffset_ = endOffset_;
+          result.writeWatermarkMs_ = writeWatermarkMs_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) {
+            return mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus other) {
+          if (other == tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.getDefaultInstance()) return this;
+          if (other.getGeneration() != 0L) {
+            setGeneration(other.getGeneration());
+          }
+          if (!other.getTopic().isEmpty()) {
+            topic_ = other.topic_;
+            onChanged();
+          }
+          if (other.getPartition() != 0) {
+            setPartition(other.getPartition());
+          }
+          if (other.getCommittedOffset() != 0L) {
+            setCommittedOffset(other.getCommittedOffset());
+          }
+          if (other.getEndOffset() != 0L) {
+            setEndOffset(other.getEndOffset());
+          }
+          if (other.getWriteWatermarkMs() != 0L) {
+            setWriteWatermarkMs(other.getWriteWatermarkMs());
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private long generation_ ;
+        /**
+         * <code>uint64 generation = 1;</code>
+         */
+        public long getGeneration() {
+          return generation_;
+        }
+        /**
+         * <code>uint64 generation = 1;</code>
+         */
+        public Builder setGeneration(long value) {
+          
+          generation_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>uint64 generation = 1;</code>
+         */
+        public Builder clearGeneration() {
+          
+          generation_ = 0L;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object topic_ = "";
+        /**
+         * <code>string topic = 2;</code>
+         */
+        public java.lang.String getTopic() {
+          java.lang.Object ref = topic_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            topic_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string topic = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+            getTopicBytes() {
+          java.lang.Object ref = topic_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            topic_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string topic = 2;</code>
+         */
+        public Builder setTopic(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          topic_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string topic = 2;</code>
+         */
+        public Builder clearTopic() {
+          
+          topic_ = getDefaultInstance().getTopic();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string topic = 2;</code>
+         */
+        public Builder setTopicBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          topic_ = value;
+          onChanged();
+          return this;
+        }
+
+        private int partition_ ;
+        /**
+         * <code>uint32 partition = 3;</code>
+         */
+        public int getPartition() {
+          return partition_;
+        }
+        /**
+         * <code>uint32 partition = 3;</code>
+         */
+        public Builder setPartition(int value) {
+          
+          partition_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>uint32 partition = 3;</code>
+         */
+        public Builder clearPartition() {
+          
+          partition_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private long committedOffset_ ;
+        /**
+         * <code>uint64 committed_offset = 4;</code>
+         */
+        public long getCommittedOffset() {
+          return committedOffset_;
+        }
+        /**
+         * <code>uint64 committed_offset = 4;</code>
+         */
+        public Builder setCommittedOffset(long value) {
+          
+          committedOffset_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>uint64 committed_offset = 4;</code>
+         */
+        public Builder clearCommittedOffset() {
+          
+          committedOffset_ = 0L;
+          onChanged();
+          return this;
+        }
+
+        private long endOffset_ ;
+        /**
+         * <code>uint64 end_offset = 5;</code>
+         */
+        public long getEndOffset() {
+          return endOffset_;
+        }
+        /**
+         * <code>uint64 end_offset = 5;</code>
+         */
+        public Builder setEndOffset(long value) {
+          
+          endOffset_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>uint64 end_offset = 5;</code>
+         */
+        public Builder clearEndOffset() {
+          
+          endOffset_ = 0L;
+          onChanged();
+          return this;
+        }
+
+        private long writeWatermarkMs_ ;
+        /**
+         * <code>uint64 write_watermark_ms = 6;</code>
+         */
+        public long getWriteWatermarkMs() {
+          return writeWatermarkMs_;
+        }
+        /**
+         * <code>uint64 write_watermark_ms = 6;</code>
+         */
+        public Builder setWriteWatermarkMs(long value) {
+          
+          writeWatermarkMs_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>uint64 write_watermark_ms = 6;</code>
+         */
+        public Builder clearWriteWatermarkMs() {
+          
+          writeWatermarkMs_ = 0L;
+          onChanged();
+          return this;
+        }
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFieldsProto3(unknownFields);
+        }
+
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:NPersQueue.ReadResponse.PartitionStatus)
+      }
+
+      // @@protoc_insertion_point(class_scope:NPersQueue.ReadResponse.PartitionStatus)
+      private static final tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus();
+      }
+
+      public static tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<PartitionStatus>
+          PARSER = new com.google.protobuf.AbstractParser<PartitionStatus>() {
+        public PartitionStatus parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+            return new PartitionStatus(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<PartitionStatus> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<PartitionStatus> getParserForType() {
+        return PARSER;
+      }
+
+      public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     private int responseCase_ = 0;
     private java.lang.Object response_;
     public enum ResponseCase
@@ -28606,6 +30348,7 @@ public final class Persqueue {
       LOCK(4),
       RELEASE(5),
       COMMIT(6),
+      PARTITION_STATUS(8),
       RESPONSE_NOT_SET(0);
       private final int value;
       private ResponseCase(int value) {
@@ -28628,6 +30371,7 @@ public final class Persqueue {
           case 4: return LOCK;
           case 5: return RELEASE;
           case 6: return COMMIT;
+          case 8: return PARTITION_STATUS;
           case 0: return RESPONSE_NOT_SET;
           default: return null;
         }
@@ -28825,6 +30569,32 @@ public final class Persqueue {
       return tech.ydb.persqueue.Persqueue.ReadResponse.Commit.getDefaultInstance();
     }
 
+    public static final int PARTITION_STATUS_FIELD_NUMBER = 8;
+    /**
+     * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+     */
+    public boolean hasPartitionStatus() {
+      return responseCase_ == 8;
+    }
+    /**
+     * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+     */
+    public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus getPartitionStatus() {
+      if (responseCase_ == 8) {
+         return (tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) response_;
+      }
+      return tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.getDefaultInstance();
+    }
+    /**
+     * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+     */
+    public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatusOrBuilder getPartitionStatusOrBuilder() {
+      if (responseCase_ == 8) {
+         return (tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) response_;
+      }
+      return tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -28857,6 +30627,9 @@ public final class Persqueue {
       }
       if (responseCase_ == 7) {
         output.writeMessage(7, (tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData) response_);
+      }
+      if (responseCase_ == 8) {
+        output.writeMessage(8, (tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) response_);
       }
       unknownFields.writeTo(output);
     }
@@ -28893,6 +30666,10 @@ public final class Persqueue {
       if (responseCase_ == 7) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, (tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData) response_);
+      }
+      if (responseCase_ == 8) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, (tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) response_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -28942,6 +30719,10 @@ public final class Persqueue {
           result = result && getCommit()
               .equals(other.getCommit());
           break;
+        case 8:
+          result = result && getPartitionStatus()
+              .equals(other.getPartitionStatus());
+          break;
         case 0:
         default:
       }
@@ -28984,6 +30765,10 @@ public final class Persqueue {
         case 6:
           hash = (37 * hash) + COMMIT_FIELD_NUMBER;
           hash = (53 * hash) + getCommit().hashCode();
+          break;
+        case 8:
+          hash = (37 * hash) + PARTITION_STATUS_FIELD_NUMBER;
+          hash = (53 * hash) + getPartitionStatus().hashCode();
           break;
         case 0:
         default:
@@ -29190,6 +30975,13 @@ public final class Persqueue {
             result.response_ = commitBuilder_.build();
           }
         }
+        if (responseCase_ == 8) {
+          if (partitionStatusBuilder_ == null) {
+            result.response_ = response_;
+          } else {
+            result.response_ = partitionStatusBuilder_.build();
+          }
+        }
         result.responseCase_ = responseCase_;
         onBuilt();
         return result;
@@ -29259,6 +31051,10 @@ public final class Persqueue {
           }
           case COMMIT: {
             mergeCommit(other.getCommit());
+            break;
+          }
+          case PARTITION_STATUS: {
+            mergePartitionStatus(other.getPartitionStatus());
             break;
           }
           case RESPONSE_NOT_SET: {
@@ -30258,6 +32054,142 @@ public final class Persqueue {
         onChanged();;
         return commitBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus, tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatusOrBuilder> partitionStatusBuilder_;
+      /**
+       * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+       */
+      public boolean hasPartitionStatus() {
+        return responseCase_ == 8;
+      }
+      /**
+       * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+       */
+      public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus getPartitionStatus() {
+        if (partitionStatusBuilder_ == null) {
+          if (responseCase_ == 8) {
+            return (tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) response_;
+          }
+          return tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.getDefaultInstance();
+        } else {
+          if (responseCase_ == 8) {
+            return partitionStatusBuilder_.getMessage();
+          }
+          return tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+       */
+      public Builder setPartitionStatus(tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus value) {
+        if (partitionStatusBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          response_ = value;
+          onChanged();
+        } else {
+          partitionStatusBuilder_.setMessage(value);
+        }
+        responseCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+       */
+      public Builder setPartitionStatus(
+          tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.Builder builderForValue) {
+        if (partitionStatusBuilder_ == null) {
+          response_ = builderForValue.build();
+          onChanged();
+        } else {
+          partitionStatusBuilder_.setMessage(builderForValue.build());
+        }
+        responseCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+       */
+      public Builder mergePartitionStatus(tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus value) {
+        if (partitionStatusBuilder_ == null) {
+          if (responseCase_ == 8 &&
+              response_ != tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.getDefaultInstance()) {
+            response_ = tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.newBuilder((tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) response_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            response_ = value;
+          }
+          onChanged();
+        } else {
+          if (responseCase_ == 8) {
+            partitionStatusBuilder_.mergeFrom(value);
+          }
+          partitionStatusBuilder_.setMessage(value);
+        }
+        responseCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+       */
+      public Builder clearPartitionStatus() {
+        if (partitionStatusBuilder_ == null) {
+          if (responseCase_ == 8) {
+            responseCase_ = 0;
+            response_ = null;
+            onChanged();
+          }
+        } else {
+          if (responseCase_ == 8) {
+            responseCase_ = 0;
+            response_ = null;
+          }
+          partitionStatusBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+       */
+      public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.Builder getPartitionStatusBuilder() {
+        return getPartitionStatusFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+       */
+      public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatusOrBuilder getPartitionStatusOrBuilder() {
+        if ((responseCase_ == 8) && (partitionStatusBuilder_ != null)) {
+          return partitionStatusBuilder_.getMessageOrBuilder();
+        } else {
+          if (responseCase_ == 8) {
+            return (tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) response_;
+          }
+          return tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus, tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatusOrBuilder> 
+          getPartitionStatusFieldBuilder() {
+        if (partitionStatusBuilder_ == null) {
+          if (!(responseCase_ == 8)) {
+            response_ = tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.getDefaultInstance();
+          }
+          partitionStatusBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus, tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatusOrBuilder>(
+                  (tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) response_,
+                  getParentForChildren(),
+                  isClean());
+          response_ = null;
+        }
+        responseCase_ = 8;
+        onChanged();;
+        return partitionStatusBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -30414,6 +32346,11 @@ public final class Persqueue {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_NPersQueue_ReadRequest_Commit_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_NPersQueue_ReadRequest_Status_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_NPersQueue_ReadRequest_Status_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_NPersQueue_MessageMeta_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -30478,6 +32415,11 @@ public final class Persqueue {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_NPersQueue_ReadResponse_Commit_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_NPersQueue_ReadResponse_PartitionStatus_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_NPersQueue_ReadResponse_PartitionStatus_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -30526,78 +32468,86 @@ public final class Persqueue {
       "eue.WriteResponse.Stat\032d\n\010AckBatch\022,\n\004st" +
       "at\030\002 \001(\0132\036.NPersQueue.WriteResponse.Stat" +
       "\022*\n\003ack\030\001 \003(\0132\035.NPersQueue.WriteResponse" +
-      ".AckB\n\n\010response\"\271\010\n\013ReadRequest\022,\n\004init",
+      ".AckB\n\n\010response\"\253\t\n\013ReadRequest\022,\n\004init",
       "\030\001 \001(\0132\034.NPersQueue.ReadRequest.InitH\000\022," +
       "\n\004read\030\002 \001(\0132\034.NPersQueue.ReadRequest.Re" +
       "adH\000\0227\n\nstart_read\030\003 \001(\0132!.NPersQueue.Re" +
       "adRequest.StartReadH\000\0220\n\006commit\030\004 \001(\0132\036." +
-      "NPersQueue.ReadRequest.CommitH\000\022,\n\013crede" +
-      "ntials\030\024 \001(\0132\027.NPersQueue.Credentials\032\304\003" +
-      "\n\004Init\022\016\n\006topics\030\001 \003(\t\022\027\n\017read_only_loca" +
-      "l\030\002 \001(\010\022\021\n\tclient_id\030\004 \001(\t\022 \n\030clientside" +
-      "_locks_allowed\030\005 \001(\010\022\024\n\014proxy_cookie\030\006 \001" +
-      "(\004\022#\n\033balance_partition_right_now\030\010 \001(\010\022",
-      "\030\n\020partition_groups\030\t \003(\r\022\030\n\020idle_timeou" +
-      "t_sec\030\n \001(\r\022\032\n\022commit_interval_ms\030\014 \001(\r\022" +
-      "\037\n\027max_read_messages_count\030\016 \001(\r\022\025\n\rmax_" +
-      "read_size\030\017 \001(\r\022!\n\031max_read_partitions_c" +
-      "ount\030\020 \001(\r\022\027\n\017max_time_lag_ms\030\021 \001(\r\022\031\n\021r" +
-      "ead_timestamp_ms\030\022 \001(\004\022\030\n\020commits_disabl" +
-      "ed\030\023 \001(\010\022\020\n\007version\030\347\007 \001(\t\022\030\n\020protocol_v" +
-      "ersion\030\r \001(\r\032{\n\004Read\022\021\n\tmax_count\030\001 \001(\r\022" +
-      "\020\n\010max_size\030\002 \001(\r\022\032\n\022partitions_at_once\030" +
-      "\003 \001(\r\022\027\n\017max_time_lag_ms\030\005 \001(\r\022\031\n\021read_t",
-      "imestamp_ms\030\006 \001(\004\032\211\001\n\tStartRead\022\r\n\005topic" +
-      "\030\001 \001(\t\022\021\n\tpartition\030\002 \001(\r\022\023\n\013read_offset" +
-      "\030\003 \001(\004\022\032\n\022verify_read_offset\030\004 \001(\010\022\022\n\nge" +
-      "neration\030\005 \001(\004\022\025\n\rcommit_offset\030\006 \001(\004\032\030\n" +
-      "\006Commit\022\016\n\006cookie\030\001 \003(\004\"@\n\020EProtocolVers" +
-      "ion\022\010\n\004Base\020\000\022\014\n\010Batching\020\001\022\024\n\020ReadParam" +
-      "sInInit\020\002B\t\n\007request\"\271\001\n\013MessageMeta\022\021\n\t" +
-      "source_id\030\001 \001(\014\022\016\n\006seq_no\030\002 \001(\004\022\026\n\016creat" +
-      "e_time_ms\030\003 \001(\004\022\025\n\rwrite_time_ms\030\004 \001(\004\022)" +
-      "\n\014extra_fields\030\007 \001(\0132\023.NPersQueue.MapTyp",
-      "e\022!\n\005codec\030\010 \001(\0162\022.NPersQueue.ECodec\022\n\n\002" +
-      "ip\030\t \001(\t\"\376\n\n\014ReadResponse\022-\n\004init\030\001 \001(\0132" +
-      "\035.NPersQueue.ReadResponse.InitH\000\022-\n\004data" +
-      "\030\002 \001(\0132\035.NPersQueue.ReadResponse.DataH\000\022" +
-      "<\n\014batched_data\030\007 \001(\0132$.NPersQueue.ReadR" +
-      "esponse.BatchedDataH\000\022\"\n\005error\030\003 \001(\0132\021.N" +
-      "PersQueue.ErrorH\000\022-\n\004lock\030\004 \001(\0132\035.NPersQ" +
-      "ueue.ReadResponse.LockH\000\0223\n\007release\030\005 \001(" +
-      "\0132 .NPersQueue.ReadResponse.ReleaseH\000\0221\n" +
-      "\006commit\030\006 \001(\0132\037.NPersQueue.ReadResponse.",
-      "CommitH\000\032\032\n\004Init\022\022\n\nsession_id\030\002 \001(\t\032\223\002\n" +
-      "\004Data\022A\n\rmessage_batch\030\001 \003(\0132*.NPersQueu" +
-      "e.ReadResponse.Data.MessageBatch\022\016\n\006cook" +
-      "ie\030\002 \001(\004\032N\n\007Message\022%\n\004meta\030\001 \001(\0132\027.NPer" +
-      "sQueue.MessageMeta\022\014\n\004data\030\002 \001(\014\022\016\n\006offs" +
-      "et\030\003 \001(\004\032h\n\014MessageBatch\022\r\n\005topic\030\001 \001(\t\022" +
-      "\021\n\tpartition\030\002 \001(\r\0226\n\007message\030\003 \003(\0132%.NP" +
-      "ersQueue.ReadResponse.Data.Message\032\202\004\n\013B" +
-      "atchedData\022\016\n\006cookie\030\002 \001(\004\022J\n\016partition_" +
-      "data\030\001 \003(\01322.NPersQueue.ReadResponse.Bat",
-      "chedData.PartitionData\032v\n\013MessageData\022!\n" +
-      "\005codec\030\002 \001(\0162\022.NPersQueue.ECodec\022\016\n\006offs" +
-      "et\030\003 \001(\004\022\016\n\006seq_no\030\004 \001(\004\022\026\n\016create_time_" +
-      "ms\030\005 \001(\004\022\014\n\004data\030\001 \001(\014\032\260\001\n\005Batch\022\021\n\tsour" +
-      "ce_id\030\002 \001(\014\022)\n\014extra_fields\030\003 \001(\0132\023.NPer" +
-      "sQueue.MapType\022\025\n\rwrite_time_ms\030\004 \001(\004\022\n\n" +
-      "\002ip\030\005 \001(\t\022F\n\014message_data\030\001 \003(\01320.NPersQ" +
-      "ueue.ReadResponse.BatchedData.MessageDat" +
-      "a\032l\n\rPartitionData\022\r\n\005topic\030\002 \001(\t\022\021\n\tpar" +
-      "tition\030\003 \001(\r\0229\n\005batch\030\001 \003(\0132*.NPersQueue",
-      ".ReadResponse.BatchedData.Batch\032e\n\004Lock\022" +
-      "\r\n\005topic\030\001 \001(\t\022\021\n\tpartition\030\002 \001(\r\022\023\n\013rea" +
-      "d_offset\030\003 \001(\004\022\022\n\nend_offset\030\004 \001(\004\022\022\n\nge" +
-      "neration\030\005 \001(\004\032S\n\007Release\022\r\n\005topic\030\001 \001(\t" +
-      "\022\021\n\tpartition\030\002 \001(\r\022\022\n\ncan_commit\030\003 \001(\010\022" +
-      "\022\n\ngeneration\030\004 \001(\004\032\030\n\006Commit\022\016\n\006cookie\030" +
-      "\001 \003(\004B\n\n\010response*2\n\006ECodec\022\007\n\003RAW\020\000\022\010\n\004" +
-      "GZIP\020\001\022\010\n\004LZOP\020\002\022\013\n\007DEFAULT\020d:7\n\017Generat" +
-      "eYaStyle\022\034.google.protobuf.FileOptions\030\365" +
-      "\210\004 \001(\010B\035\n\030tech.ydb.persqueue\370\001\001b\006p",
-      "roto3"
+      "NPersQueue.ReadRequest.CommitH\000\0220\n\006statu" +
+      "s\030\005 \001(\0132\036.NPersQueue.ReadRequest.StatusH" +
+      "\000\022,\n\013credentials\030\024 \001(\0132\027.NPersQueue.Cred" +
+      "entials\032\304\003\n\004Init\022\016\n\006topics\030\001 \003(\t\022\027\n\017read" +
+      "_only_local\030\002 \001(\010\022\021\n\tclient_id\030\004 \001(\t\022 \n\030" +
+      "clientside_locks_allowed\030\005 \001(\010\022\024\n\014proxy_",
+      "cookie\030\006 \001(\004\022#\n\033balance_partition_right_" +
+      "now\030\010 \001(\010\022\030\n\020partition_groups\030\t \003(\r\022\030\n\020i" +
+      "dle_timeout_sec\030\n \001(\r\022\032\n\022commit_interval" +
+      "_ms\030\014 \001(\r\022\037\n\027max_read_messages_count\030\016 \001" +
+      "(\r\022\025\n\rmax_read_size\030\017 \001(\r\022!\n\031max_read_pa" +
+      "rtitions_count\030\020 \001(\r\022\027\n\017max_time_lag_ms\030" +
+      "\021 \001(\r\022\031\n\021read_timestamp_ms\030\022 \001(\004\022\030\n\020comm" +
+      "its_disabled\030\023 \001(\010\022\020\n\007version\030\347\007 \001(\t\022\030\n\020" +
+      "protocol_version\030\r \001(\r\032{\n\004Read\022\021\n\tmax_co" +
+      "unt\030\001 \001(\r\022\020\n\010max_size\030\002 \001(\r\022\032\n\022partition",
+      "s_at_once\030\003 \001(\r\022\027\n\017max_time_lag_ms\030\005 \001(\r" +
+      "\022\031\n\021read_timestamp_ms\030\006 \001(\004\032\211\001\n\tStartRea" +
+      "d\022\r\n\005topic\030\001 \001(\t\022\021\n\tpartition\030\002 \001(\r\022\023\n\013r" +
+      "ead_offset\030\003 \001(\004\022\032\n\022verify_read_offset\030\004" +
+      " \001(\010\022\022\n\ngeneration\030\005 \001(\004\022\025\n\rcommit_offse" +
+      "t\030\006 \001(\004\032\030\n\006Commit\022\016\n\006cookie\030\001 \003(\004\032>\n\006Sta" +
+      "tus\022\022\n\ngeneration\030\001 \001(\004\022\r\n\005topic\030\002 \001(\t\022\021" +
+      "\n\tpartition\030\003 \001(\r\"@\n\020EProtocolVersion\022\010\n" +
+      "\004Base\020\000\022\014\n\010Batching\020\001\022\024\n\020ReadParamsInIni" +
+      "t\020\002B\t\n\007request\"\271\001\n\013MessageMeta\022\021\n\tsource",
+      "_id\030\001 \001(\014\022\016\n\006seq_no\030\002 \001(\004\022\026\n\016create_time" +
+      "_ms\030\003 \001(\004\022\025\n\rwrite_time_ms\030\004 \001(\004\022)\n\014extr" +
+      "a_fields\030\007 \001(\0132\023.NPersQueue.MapType\022!\n\005c" +
+      "odec\030\010 \001(\0162\022.NPersQueue.ECodec\022\n\n\002ip\030\t \001" +
+      "(\t\"\330\014\n\014ReadResponse\022-\n\004init\030\001 \001(\0132\035.NPer" +
+      "sQueue.ReadResponse.InitH\000\022-\n\004data\030\002 \001(\013" +
+      "2\035.NPersQueue.ReadResponse.DataH\000\022<\n\014bat" +
+      "ched_data\030\007 \001(\0132$.NPersQueue.ReadRespons" +
+      "e.BatchedDataH\000\022\"\n\005error\030\003 \001(\0132\021.NPersQu" +
+      "eue.ErrorH\000\022-\n\004lock\030\004 \001(\0132\035.NPersQueue.R",
+      "eadResponse.LockH\000\0223\n\007release\030\005 \001(\0132 .NP" +
+      "ersQueue.ReadResponse.ReleaseH\000\0221\n\006commi" +
+      "t\030\006 \001(\0132\037.NPersQueue.ReadResponse.Commit" +
+      "H\000\022D\n\020partition_status\030\010 \001(\0132(.NPersQueu" +
+      "e.ReadResponse.PartitionStatusH\000\032\032\n\004Init" +
+      "\022\022\n\nsession_id\030\002 \001(\t\032\223\002\n\004Data\022A\n\rmessage" +
+      "_batch\030\001 \003(\0132*.NPersQueue.ReadResponse.D" +
+      "ata.MessageBatch\022\016\n\006cookie\030\002 \001(\004\032N\n\007Mess" +
+      "age\022%\n\004meta\030\001 \001(\0132\027.NPersQueue.MessageMe" +
+      "ta\022\014\n\004data\030\002 \001(\014\022\016\n\006offset\030\003 \001(\004\032h\n\014Mess",
+      "ageBatch\022\r\n\005topic\030\001 \001(\t\022\021\n\tpartition\030\002 \001" +
+      "(\r\0226\n\007message\030\003 \003(\0132%.NPersQueue.ReadRes" +
+      "ponse.Data.Message\032\202\004\n\013BatchedData\022\016\n\006co" +
+      "okie\030\002 \001(\004\022J\n\016partition_data\030\001 \003(\01322.NPe" +
+      "rsQueue.ReadResponse.BatchedData.Partiti" +
+      "onData\032v\n\013MessageData\022!\n\005codec\030\002 \001(\0162\022.N" +
+      "PersQueue.ECodec\022\016\n\006offset\030\003 \001(\004\022\016\n\006seq_" +
+      "no\030\004 \001(\004\022\026\n\016create_time_ms\030\005 \001(\004\022\014\n\004data" +
+      "\030\001 \001(\014\032\260\001\n\005Batch\022\021\n\tsource_id\030\002 \001(\014\022)\n\014e" +
+      "xtra_fields\030\003 \001(\0132\023.NPersQueue.MapType\022\025",
+      "\n\rwrite_time_ms\030\004 \001(\004\022\n\n\002ip\030\005 \001(\t\022F\n\014mes" +
+      "sage_data\030\001 \003(\01320.NPersQueue.ReadRespons" +
+      "e.BatchedData.MessageData\032l\n\rPartitionDa" +
+      "ta\022\r\n\005topic\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\r\0229\n\005" +
+      "batch\030\001 \003(\0132*.NPersQueue.ReadResponse.Ba" +
+      "tchedData.Batch\032e\n\004Lock\022\r\n\005topic\030\001 \001(\t\022\021" +
+      "\n\tpartition\030\002 \001(\r\022\023\n\013read_offset\030\003 \001(\004\022\022" +
+      "\n\nend_offset\030\004 \001(\004\022\022\n\ngeneration\030\005 \001(\004\032S" +
+      "\n\007Release\022\r\n\005topic\030\001 \001(\t\022\021\n\tpartition\030\002 " +
+      "\001(\r\022\022\n\ncan_commit\030\003 \001(\010\022\022\n\ngeneration\030\004 ",
+      "\001(\004\032\030\n\006Commit\022\016\n\006cookie\030\001 \003(\004\032\221\001\n\017Partit" +
+      "ionStatus\022\022\n\ngeneration\030\001 \001(\004\022\r\n\005topic\030\002" +
+      " \001(\t\022\021\n\tpartition\030\003 \001(\r\022\030\n\020committed_off" +
+      "set\030\004 \001(\004\022\022\n\nend_offset\030\005 \001(\004\022\032\n\022write_w" +
+      "atermark_ms\030\006 \001(\004B\n\n\010response*2\n\006ECodec\022" +
+      "\007\n\003RAW\020\000\022\010\n\004GZIP\020\001\022\010\n\004LZOP\020\002\022\013\n\007DEFAULT\020" +
+      "d:7\n\017GenerateYaStyle\022\034.google.protobuf.F" +
+      "ileOptions\030\365\210\004 \001(\010B\035\n\030tech.ydb.per" +
+      "squeue\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -30702,7 +32652,7 @@ public final class Persqueue {
     internal_static_NPersQueue_ReadRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NPersQueue_ReadRequest_descriptor,
-        new java.lang.String[] { "Init", "Read", "StartRead", "Commit", "Credentials", "Request", });
+        new java.lang.String[] { "Init", "Read", "StartRead", "Commit", "Status", "Credentials", "Request", });
     internal_static_NPersQueue_ReadRequest_Init_descriptor =
       internal_static_NPersQueue_ReadRequest_descriptor.getNestedTypes().get(0);
     internal_static_NPersQueue_ReadRequest_Init_fieldAccessorTable = new
@@ -30727,6 +32677,12 @@ public final class Persqueue {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NPersQueue_ReadRequest_Commit_descriptor,
         new java.lang.String[] { "Cookie", });
+    internal_static_NPersQueue_ReadRequest_Status_descriptor =
+      internal_static_NPersQueue_ReadRequest_descriptor.getNestedTypes().get(4);
+    internal_static_NPersQueue_ReadRequest_Status_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_NPersQueue_ReadRequest_Status_descriptor,
+        new java.lang.String[] { "Generation", "Topic", "Partition", });
     internal_static_NPersQueue_MessageMeta_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_NPersQueue_MessageMeta_fieldAccessorTable = new
@@ -30738,7 +32694,7 @@ public final class Persqueue {
     internal_static_NPersQueue_ReadResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NPersQueue_ReadResponse_descriptor,
-        new java.lang.String[] { "Init", "Data", "BatchedData", "Error", "Lock", "Release", "Commit", "Response", });
+        new java.lang.String[] { "Init", "Data", "BatchedData", "Error", "Lock", "Release", "Commit", "PartitionStatus", "Response", });
     internal_static_NPersQueue_ReadResponse_Init_descriptor =
       internal_static_NPersQueue_ReadResponse_descriptor.getNestedTypes().get(0);
     internal_static_NPersQueue_ReadResponse_Init_fieldAccessorTable = new
@@ -30805,6 +32761,12 @@ public final class Persqueue {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NPersQueue_ReadResponse_Commit_descriptor,
         new java.lang.String[] { "Cookie", });
+    internal_static_NPersQueue_ReadResponse_PartitionStatus_descriptor =
+      internal_static_NPersQueue_ReadResponse_descriptor.getNestedTypes().get(6);
+    internal_static_NPersQueue_ReadResponse_PartitionStatus_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_NPersQueue_ReadResponse_PartitionStatus_descriptor,
+        new java.lang.String[] { "Generation", "Topic", "Partition", "CommittedOffset", "EndOffset", "WriteWatermarkMs", });
     generateYaStyle.internalInit(descriptor.getExtensions().get(0));
     com.google.protobuf.DescriptorProtos.getDescriptor();
     tech.ydb.persqueue.PersqueueErrorCodes.getDescriptor();

@@ -5324,6 +5324,3321 @@ public final class ClickhouseInternalProtos {
 
   }
 
+  public interface DescribeTableRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.ClickhouseInternal.DescribeTableRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>string path = 2;</code>
+     */
+    java.lang.String getPath();
+    /**
+     * <code>string path = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getPathBytes();
+
+    /**
+     * <code>bool include_partitions_info = 3;</code>
+     */
+    boolean getIncludePartitionsInfo();
+  }
+  /**
+   * Protobuf type {@code Ydb.ClickhouseInternal.DescribeTableRequest}
+   */
+  public  static final class DescribeTableRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.DescribeTableRequest)
+      DescribeTableRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DescribeTableRequest.newBuilder() to construct.
+    private DescribeTableRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DescribeTableRequest() {
+      path_ = "";
+      includePartitionsInfo_ = false;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DescribeTableRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              path_ = s;
+              break;
+            }
+            case 24: {
+
+              includePartitionsInfo_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest.class, tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest.Builder.class);
+    }
+
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int PATH_FIELD_NUMBER = 2;
+    private volatile java.lang.Object path_;
+    /**
+     * <code>string path = 2;</code>
+     */
+    public java.lang.String getPath() {
+      java.lang.Object ref = path_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        path_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string path = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPathBytes() {
+      java.lang.Object ref = path_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        path_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int INCLUDE_PARTITIONS_INFO_FIELD_NUMBER = 3;
+    private boolean includePartitionsInfo_;
+    /**
+     * <code>bool include_partitions_info = 3;</code>
+     */
+    public boolean getIncludePartitionsInfo() {
+      return includePartitionsInfo_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operationParams_ != null) {
+        output.writeMessage(1, getOperationParams());
+      }
+      if (!getPathBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, path_);
+      }
+      if (includePartitionsInfo_ != false) {
+        output.writeBool(3, includePartitionsInfo_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperationParams());
+      }
+      if (!getPathBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, path_);
+      }
+      if (includePartitionsInfo_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, includePartitionsInfo_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest)) {
+        return super.equals(obj);
+      }
+      tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest other = (tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest) obj;
+
+      boolean result = true;
+      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams()) {
+        result = result && getOperationParams()
+            .equals(other.getOperationParams());
+      }
+      result = result && getPath()
+          .equals(other.getPath());
+      result = result && (getIncludePartitionsInfo()
+          == other.getIncludePartitionsInfo());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      hash = (37 * hash) + PATH_FIELD_NUMBER;
+      hash = (53 * hash) + getPath().hashCode();
+      hash = (37 * hash) + INCLUDE_PARTITIONS_INFO_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIncludePartitionsInfo());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.ClickhouseInternal.DescribeTableRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.ClickhouseInternal.DescribeTableRequest)
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest.class, tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest.Builder.class);
+      }
+
+      // Construct using tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        path_ = "";
+
+        includePartitionsInfo_ = false;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_descriptor;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest getDefaultInstanceForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest.getDefaultInstance();
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest build() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest buildPartial() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest result = new tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest(this);
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        result.path_ = path_;
+        result.includePartitionsInfo_ = includePartitionsInfo_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest) {
+          return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest other) {
+        if (other == tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest.getDefaultInstance()) return this;
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        if (!other.getPath().isEmpty()) {
+          path_ = other.path_;
+          onChanged();
+        }
+        if (other.getIncludePartitionsInfo() != false) {
+          setIncludePartitionsInfo(other.getIncludePartitionsInfo());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
+      private java.lang.Object path_ = "";
+      /**
+       * <code>string path = 2;</code>
+       */
+      public java.lang.String getPath() {
+        java.lang.Object ref = path_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          path_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string path = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPathBytes() {
+        java.lang.Object ref = path_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          path_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string path = 2;</code>
+       */
+      public Builder setPath(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        path_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string path = 2;</code>
+       */
+      public Builder clearPath() {
+        
+        path_ = getDefaultInstance().getPath();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string path = 2;</code>
+       */
+      public Builder setPathBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        path_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean includePartitionsInfo_ ;
+      /**
+       * <code>bool include_partitions_info = 3;</code>
+       */
+      public boolean getIncludePartitionsInfo() {
+        return includePartitionsInfo_;
+      }
+      /**
+       * <code>bool include_partitions_info = 3;</code>
+       */
+      public Builder setIncludePartitionsInfo(boolean value) {
+        
+        includePartitionsInfo_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool include_partitions_info = 3;</code>
+       */
+      public Builder clearIncludePartitionsInfo() {
+        
+        includePartitionsInfo_ = false;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.ClickhouseInternal.DescribeTableRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.ClickhouseInternal.DescribeTableRequest)
+    private static final tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest();
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DescribeTableRequest>
+        PARSER = new com.google.protobuf.AbstractParser<DescribeTableRequest>() {
+      public DescribeTableRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new DescribeTableRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DescribeTableRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DescribeTableRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface PartitionInfoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.ClickhouseInternal.PartitionInfo)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>uint64 tablet_id = 1;</code>
+     */
+    long getTabletId();
+
+    /**
+     * <code>bytes end_key = 2;</code>
+     */
+    com.google.protobuf.ByteString getEndKey();
+
+    /**
+     * <code>bool end_key_inclusive = 3;</code>
+     */
+    boolean getEndKeyInclusive();
+  }
+  /**
+   * Protobuf type {@code Ydb.ClickhouseInternal.PartitionInfo}
+   */
+  public  static final class PartitionInfo extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.PartitionInfo)
+      PartitionInfoOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use PartitionInfo.newBuilder() to construct.
+    private PartitionInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private PartitionInfo() {
+      tabletId_ = 0L;
+      endKey_ = com.google.protobuf.ByteString.EMPTY;
+      endKeyInclusive_ = false;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PartitionInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+
+              tabletId_ = input.readUInt64();
+              break;
+            }
+            case 18: {
+
+              endKey_ = input.readBytes();
+              break;
+            }
+            case 24: {
+
+              endKeyInclusive_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_PartitionInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_PartitionInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.class, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.Builder.class);
+    }
+
+    public static final int TABLET_ID_FIELD_NUMBER = 1;
+    private long tabletId_;
+    /**
+     * <code>uint64 tablet_id = 1;</code>
+     */
+    public long getTabletId() {
+      return tabletId_;
+    }
+
+    public static final int END_KEY_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString endKey_;
+    /**
+     * <code>bytes end_key = 2;</code>
+     */
+    public com.google.protobuf.ByteString getEndKey() {
+      return endKey_;
+    }
+
+    public static final int END_KEY_INCLUSIVE_FIELD_NUMBER = 3;
+    private boolean endKeyInclusive_;
+    /**
+     * <code>bool end_key_inclusive = 3;</code>
+     */
+    public boolean getEndKeyInclusive() {
+      return endKeyInclusive_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (tabletId_ != 0L) {
+        output.writeUInt64(1, tabletId_);
+      }
+      if (!endKey_.isEmpty()) {
+        output.writeBytes(2, endKey_);
+      }
+      if (endKeyInclusive_ != false) {
+        output.writeBool(3, endKeyInclusive_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (tabletId_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(1, tabletId_);
+      }
+      if (!endKey_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, endKey_);
+      }
+      if (endKeyInclusive_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, endKeyInclusive_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo)) {
+        return super.equals(obj);
+      }
+      tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo other = (tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo) obj;
+
+      boolean result = true;
+      result = result && (getTabletId()
+          == other.getTabletId());
+      result = result && getEndKey()
+          .equals(other.getEndKey());
+      result = result && (getEndKeyInclusive()
+          == other.getEndKeyInclusive());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TABLET_ID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTabletId());
+      hash = (37 * hash) + END_KEY_FIELD_NUMBER;
+      hash = (53 * hash) + getEndKey().hashCode();
+      hash = (37 * hash) + END_KEY_INCLUSIVE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getEndKeyInclusive());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.ClickhouseInternal.PartitionInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.ClickhouseInternal.PartitionInfo)
+        tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_PartitionInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_PartitionInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.class, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.Builder.class);
+      }
+
+      // Construct using tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        tabletId_ = 0L;
+
+        endKey_ = com.google.protobuf.ByteString.EMPTY;
+
+        endKeyInclusive_ = false;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_PartitionInfo_descriptor;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo getDefaultInstanceForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.getDefaultInstance();
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo build() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo buildPartial() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo result = new tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo(this);
+        result.tabletId_ = tabletId_;
+        result.endKey_ = endKey_;
+        result.endKeyInclusive_ = endKeyInclusive_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo) {
+          return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo other) {
+        if (other == tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.getDefaultInstance()) return this;
+        if (other.getTabletId() != 0L) {
+          setTabletId(other.getTabletId());
+        }
+        if (other.getEndKey() != com.google.protobuf.ByteString.EMPTY) {
+          setEndKey(other.getEndKey());
+        }
+        if (other.getEndKeyInclusive() != false) {
+          setEndKeyInclusive(other.getEndKeyInclusive());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private long tabletId_ ;
+      /**
+       * <code>uint64 tablet_id = 1;</code>
+       */
+      public long getTabletId() {
+        return tabletId_;
+      }
+      /**
+       * <code>uint64 tablet_id = 1;</code>
+       */
+      public Builder setTabletId(long value) {
+        
+        tabletId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 tablet_id = 1;</code>
+       */
+      public Builder clearTabletId() {
+        
+        tabletId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString endKey_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>bytes end_key = 2;</code>
+       */
+      public com.google.protobuf.ByteString getEndKey() {
+        return endKey_;
+      }
+      /**
+       * <code>bytes end_key = 2;</code>
+       */
+      public Builder setEndKey(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        endKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bytes end_key = 2;</code>
+       */
+      public Builder clearEndKey() {
+        
+        endKey_ = getDefaultInstance().getEndKey();
+        onChanged();
+        return this;
+      }
+
+      private boolean endKeyInclusive_ ;
+      /**
+       * <code>bool end_key_inclusive = 3;</code>
+       */
+      public boolean getEndKeyInclusive() {
+        return endKeyInclusive_;
+      }
+      /**
+       * <code>bool end_key_inclusive = 3;</code>
+       */
+      public Builder setEndKeyInclusive(boolean value) {
+        
+        endKeyInclusive_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool end_key_inclusive = 3;</code>
+       */
+      public Builder clearEndKeyInclusive() {
+        
+        endKeyInclusive_ = false;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.ClickhouseInternal.PartitionInfo)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.ClickhouseInternal.PartitionInfo)
+    private static final tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo();
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<PartitionInfo>
+        PARSER = new com.google.protobuf.AbstractParser<PartitionInfo>() {
+      public PartitionInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new PartitionInfo(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<PartitionInfo> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PartitionInfo> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DescribeTableResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.ClickhouseInternal.DescribeTableResult)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+     */
+    java.util.List<tech.ydb.table.YdbTable.ColumnMeta> 
+        getColumnsList();
+    /**
+     * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+     */
+    tech.ydb.table.YdbTable.ColumnMeta getColumns(int index);
+    /**
+     * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+     */
+    int getColumnsCount();
+    /**
+     * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+     */
+    java.util.List<? extends tech.ydb.table.YdbTable.ColumnMetaOrBuilder> 
+        getColumnsOrBuilderList();
+    /**
+     * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+     */
+    tech.ydb.table.YdbTable.ColumnMetaOrBuilder getColumnsOrBuilder(
+        int index);
+
+    /**
+     * <code>repeated string primary_key = 3;</code>
+     */
+    java.util.List<java.lang.String>
+        getPrimaryKeyList();
+    /**
+     * <code>repeated string primary_key = 3;</code>
+     */
+    int getPrimaryKeyCount();
+    /**
+     * <code>repeated string primary_key = 3;</code>
+     */
+    java.lang.String getPrimaryKey(int index);
+    /**
+     * <code>repeated string primary_key = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getPrimaryKeyBytes(int index);
+
+    /**
+     * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+     */
+    java.util.List<tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo> 
+        getPartitionsList();
+    /**
+     * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+     */
+    tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo getPartitions(int index);
+    /**
+     * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+     */
+    int getPartitionsCount();
+    /**
+     * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+     */
+    java.util.List<? extends tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfoOrBuilder> 
+        getPartitionsOrBuilderList();
+    /**
+     * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+     */
+    tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfoOrBuilder getPartitionsOrBuilder(
+        int index);
+
+    /**
+     * <code>bool is_virtual = 5;</code>
+     */
+    boolean getIsVirtual();
+  }
+  /**
+   * Protobuf type {@code Ydb.ClickhouseInternal.DescribeTableResult}
+   */
+  public  static final class DescribeTableResult extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.DescribeTableResult)
+      DescribeTableResultOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DescribeTableResult.newBuilder() to construct.
+    private DescribeTableResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DescribeTableResult() {
+      columns_ = java.util.Collections.emptyList();
+      primaryKey_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      partitions_ = java.util.Collections.emptyList();
+      isVirtual_ = false;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DescribeTableResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                columns_ = new java.util.ArrayList<tech.ydb.table.YdbTable.ColumnMeta>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              columns_.add(
+                  input.readMessage(tech.ydb.table.YdbTable.ColumnMeta.parser(), extensionRegistry));
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                primaryKey_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              primaryKey_.add(s);
+              break;
+            }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                partitions_ = new java.util.ArrayList<tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              partitions_.add(
+                  input.readMessage(tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.parser(), extensionRegistry));
+              break;
+            }
+            case 40: {
+
+              isVirtual_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          columns_ = java.util.Collections.unmodifiableList(columns_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          primaryKey_ = primaryKey_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          partitions_ = java.util.Collections.unmodifiableList(partitions_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResult_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult.class, tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int COLUMNS_FIELD_NUMBER = 2;
+    private java.util.List<tech.ydb.table.YdbTable.ColumnMeta> columns_;
+    /**
+     * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+     */
+    public java.util.List<tech.ydb.table.YdbTable.ColumnMeta> getColumnsList() {
+      return columns_;
+    }
+    /**
+     * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+     */
+    public java.util.List<? extends tech.ydb.table.YdbTable.ColumnMetaOrBuilder> 
+        getColumnsOrBuilderList() {
+      return columns_;
+    }
+    /**
+     * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+     */
+    public int getColumnsCount() {
+      return columns_.size();
+    }
+    /**
+     * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+     */
+    public tech.ydb.table.YdbTable.ColumnMeta getColumns(int index) {
+      return columns_.get(index);
+    }
+    /**
+     * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+     */
+    public tech.ydb.table.YdbTable.ColumnMetaOrBuilder getColumnsOrBuilder(
+        int index) {
+      return columns_.get(index);
+    }
+
+    public static final int PRIMARY_KEY_FIELD_NUMBER = 3;
+    private com.google.protobuf.LazyStringList primaryKey_;
+    /**
+     * <code>repeated string primary_key = 3;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getPrimaryKeyList() {
+      return primaryKey_;
+    }
+    /**
+     * <code>repeated string primary_key = 3;</code>
+     */
+    public int getPrimaryKeyCount() {
+      return primaryKey_.size();
+    }
+    /**
+     * <code>repeated string primary_key = 3;</code>
+     */
+    public java.lang.String getPrimaryKey(int index) {
+      return primaryKey_.get(index);
+    }
+    /**
+     * <code>repeated string primary_key = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPrimaryKeyBytes(int index) {
+      return primaryKey_.getByteString(index);
+    }
+
+    public static final int PARTITIONS_FIELD_NUMBER = 4;
+    private java.util.List<tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo> partitions_;
+    /**
+     * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+     */
+    public java.util.List<tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo> getPartitionsList() {
+      return partitions_;
+    }
+    /**
+     * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+     */
+    public java.util.List<? extends tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfoOrBuilder> 
+        getPartitionsOrBuilderList() {
+      return partitions_;
+    }
+    /**
+     * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+     */
+    public int getPartitionsCount() {
+      return partitions_.size();
+    }
+    /**
+     * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+     */
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo getPartitions(int index) {
+      return partitions_.get(index);
+    }
+    /**
+     * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+     */
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfoOrBuilder getPartitionsOrBuilder(
+        int index) {
+      return partitions_.get(index);
+    }
+
+    public static final int IS_VIRTUAL_FIELD_NUMBER = 5;
+    private boolean isVirtual_;
+    /**
+     * <code>bool is_virtual = 5;</code>
+     */
+    public boolean getIsVirtual() {
+      return isVirtual_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < columns_.size(); i++) {
+        output.writeMessage(2, columns_.get(i));
+      }
+      for (int i = 0; i < primaryKey_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, primaryKey_.getRaw(i));
+      }
+      for (int i = 0; i < partitions_.size(); i++) {
+        output.writeMessage(4, partitions_.get(i));
+      }
+      if (isVirtual_ != false) {
+        output.writeBool(5, isVirtual_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < columns_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, columns_.get(i));
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < primaryKey_.size(); i++) {
+          dataSize += computeStringSizeNoTag(primaryKey_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getPrimaryKeyList().size();
+      }
+      for (int i = 0; i < partitions_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, partitions_.get(i));
+      }
+      if (isVirtual_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(5, isVirtual_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult)) {
+        return super.equals(obj);
+      }
+      tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult other = (tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult) obj;
+
+      boolean result = true;
+      result = result && getColumnsList()
+          .equals(other.getColumnsList());
+      result = result && getPrimaryKeyList()
+          .equals(other.getPrimaryKeyList());
+      result = result && getPartitionsList()
+          .equals(other.getPartitionsList());
+      result = result && (getIsVirtual()
+          == other.getIsVirtual());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getColumnsCount() > 0) {
+        hash = (37 * hash) + COLUMNS_FIELD_NUMBER;
+        hash = (53 * hash) + getColumnsList().hashCode();
+      }
+      if (getPrimaryKeyCount() > 0) {
+        hash = (37 * hash) + PRIMARY_KEY_FIELD_NUMBER;
+        hash = (53 * hash) + getPrimaryKeyList().hashCode();
+      }
+      if (getPartitionsCount() > 0) {
+        hash = (37 * hash) + PARTITIONS_FIELD_NUMBER;
+        hash = (53 * hash) + getPartitionsList().hashCode();
+      }
+      hash = (37 * hash) + IS_VIRTUAL_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsVirtual());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.ClickhouseInternal.DescribeTableResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.ClickhouseInternal.DescribeTableResult)
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResult_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult.class, tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult.Builder.class);
+      }
+
+      // Construct using tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getColumnsFieldBuilder();
+          getPartitionsFieldBuilder();
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (columnsBuilder_ == null) {
+          columns_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          columnsBuilder_.clear();
+        }
+        primaryKey_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        if (partitionsBuilder_ == null) {
+          partitions_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          partitionsBuilder_.clear();
+        }
+        isVirtual_ = false;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResult_descriptor;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult getDefaultInstanceForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult.getDefaultInstance();
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult build() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult buildPartial() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult result = new tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (columnsBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            columns_ = java.util.Collections.unmodifiableList(columns_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.columns_ = columns_;
+        } else {
+          result.columns_ = columnsBuilder_.build();
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          primaryKey_ = primaryKey_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.primaryKey_ = primaryKey_;
+        if (partitionsBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            partitions_ = java.util.Collections.unmodifiableList(partitions_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.partitions_ = partitions_;
+        } else {
+          result.partitions_ = partitionsBuilder_.build();
+        }
+        result.isVirtual_ = isVirtual_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult) {
+          return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult other) {
+        if (other == tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult.getDefaultInstance()) return this;
+        if (columnsBuilder_ == null) {
+          if (!other.columns_.isEmpty()) {
+            if (columns_.isEmpty()) {
+              columns_ = other.columns_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureColumnsIsMutable();
+              columns_.addAll(other.columns_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.columns_.isEmpty()) {
+            if (columnsBuilder_.isEmpty()) {
+              columnsBuilder_.dispose();
+              columnsBuilder_ = null;
+              columns_ = other.columns_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              columnsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getColumnsFieldBuilder() : null;
+            } else {
+              columnsBuilder_.addAllMessages(other.columns_);
+            }
+          }
+        }
+        if (!other.primaryKey_.isEmpty()) {
+          if (primaryKey_.isEmpty()) {
+            primaryKey_ = other.primaryKey_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensurePrimaryKeyIsMutable();
+            primaryKey_.addAll(other.primaryKey_);
+          }
+          onChanged();
+        }
+        if (partitionsBuilder_ == null) {
+          if (!other.partitions_.isEmpty()) {
+            if (partitions_.isEmpty()) {
+              partitions_ = other.partitions_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensurePartitionsIsMutable();
+              partitions_.addAll(other.partitions_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.partitions_.isEmpty()) {
+            if (partitionsBuilder_.isEmpty()) {
+              partitionsBuilder_.dispose();
+              partitionsBuilder_ = null;
+              partitions_ = other.partitions_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              partitionsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getPartitionsFieldBuilder() : null;
+            } else {
+              partitionsBuilder_.addAllMessages(other.partitions_);
+            }
+          }
+        }
+        if (other.getIsVirtual() != false) {
+          setIsVirtual(other.getIsVirtual());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<tech.ydb.table.YdbTable.ColumnMeta> columns_ =
+        java.util.Collections.emptyList();
+      private void ensureColumnsIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          columns_ = new java.util.ArrayList<tech.ydb.table.YdbTable.ColumnMeta>(columns_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.table.YdbTable.ColumnMeta, tech.ydb.table.YdbTable.ColumnMeta.Builder, tech.ydb.table.YdbTable.ColumnMetaOrBuilder> columnsBuilder_;
+
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public java.util.List<tech.ydb.table.YdbTable.ColumnMeta> getColumnsList() {
+        if (columnsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(columns_);
+        } else {
+          return columnsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public int getColumnsCount() {
+        if (columnsBuilder_ == null) {
+          return columns_.size();
+        } else {
+          return columnsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnMeta getColumns(int index) {
+        if (columnsBuilder_ == null) {
+          return columns_.get(index);
+        } else {
+          return columnsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public Builder setColumns(
+          int index, tech.ydb.table.YdbTable.ColumnMeta value) {
+        if (columnsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureColumnsIsMutable();
+          columns_.set(index, value);
+          onChanged();
+        } else {
+          columnsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public Builder setColumns(
+          int index, tech.ydb.table.YdbTable.ColumnMeta.Builder builderForValue) {
+        if (columnsBuilder_ == null) {
+          ensureColumnsIsMutable();
+          columns_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          columnsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public Builder addColumns(tech.ydb.table.YdbTable.ColumnMeta value) {
+        if (columnsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureColumnsIsMutable();
+          columns_.add(value);
+          onChanged();
+        } else {
+          columnsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public Builder addColumns(
+          int index, tech.ydb.table.YdbTable.ColumnMeta value) {
+        if (columnsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureColumnsIsMutable();
+          columns_.add(index, value);
+          onChanged();
+        } else {
+          columnsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public Builder addColumns(
+          tech.ydb.table.YdbTable.ColumnMeta.Builder builderForValue) {
+        if (columnsBuilder_ == null) {
+          ensureColumnsIsMutable();
+          columns_.add(builderForValue.build());
+          onChanged();
+        } else {
+          columnsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public Builder addColumns(
+          int index, tech.ydb.table.YdbTable.ColumnMeta.Builder builderForValue) {
+        if (columnsBuilder_ == null) {
+          ensureColumnsIsMutable();
+          columns_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          columnsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public Builder addAllColumns(
+          java.lang.Iterable<? extends tech.ydb.table.YdbTable.ColumnMeta> values) {
+        if (columnsBuilder_ == null) {
+          ensureColumnsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, columns_);
+          onChanged();
+        } else {
+          columnsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public Builder clearColumns() {
+        if (columnsBuilder_ == null) {
+          columns_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          columnsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public Builder removeColumns(int index) {
+        if (columnsBuilder_ == null) {
+          ensureColumnsIsMutable();
+          columns_.remove(index);
+          onChanged();
+        } else {
+          columnsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnMeta.Builder getColumnsBuilder(
+          int index) {
+        return getColumnsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnMetaOrBuilder getColumnsOrBuilder(
+          int index) {
+        if (columnsBuilder_ == null) {
+          return columns_.get(index);  } else {
+          return columnsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public java.util.List<? extends tech.ydb.table.YdbTable.ColumnMetaOrBuilder> 
+           getColumnsOrBuilderList() {
+        if (columnsBuilder_ != null) {
+          return columnsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(columns_);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnMeta.Builder addColumnsBuilder() {
+        return getColumnsFieldBuilder().addBuilder(
+            tech.ydb.table.YdbTable.ColumnMeta.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public tech.ydb.table.YdbTable.ColumnMeta.Builder addColumnsBuilder(
+          int index) {
+        return getColumnsFieldBuilder().addBuilder(
+            index, tech.ydb.table.YdbTable.ColumnMeta.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
+       */
+      public java.util.List<tech.ydb.table.YdbTable.ColumnMeta.Builder> 
+           getColumnsBuilderList() {
+        return getColumnsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.table.YdbTable.ColumnMeta, tech.ydb.table.YdbTable.ColumnMeta.Builder, tech.ydb.table.YdbTable.ColumnMetaOrBuilder> 
+          getColumnsFieldBuilder() {
+        if (columnsBuilder_ == null) {
+          columnsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              tech.ydb.table.YdbTable.ColumnMeta, tech.ydb.table.YdbTable.ColumnMeta.Builder, tech.ydb.table.YdbTable.ColumnMetaOrBuilder>(
+                  columns_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          columns_ = null;
+        }
+        return columnsBuilder_;
+      }
+
+      private com.google.protobuf.LazyStringList primaryKey_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensurePrimaryKeyIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          primaryKey_ = new com.google.protobuf.LazyStringArrayList(primaryKey_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated string primary_key = 3;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getPrimaryKeyList() {
+        return primaryKey_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string primary_key = 3;</code>
+       */
+      public int getPrimaryKeyCount() {
+        return primaryKey_.size();
+      }
+      /**
+       * <code>repeated string primary_key = 3;</code>
+       */
+      public java.lang.String getPrimaryKey(int index) {
+        return primaryKey_.get(index);
+      }
+      /**
+       * <code>repeated string primary_key = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPrimaryKeyBytes(int index) {
+        return primaryKey_.getByteString(index);
+      }
+      /**
+       * <code>repeated string primary_key = 3;</code>
+       */
+      public Builder setPrimaryKey(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePrimaryKeyIsMutable();
+        primaryKey_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string primary_key = 3;</code>
+       */
+      public Builder addPrimaryKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePrimaryKeyIsMutable();
+        primaryKey_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string primary_key = 3;</code>
+       */
+      public Builder addAllPrimaryKey(
+          java.lang.Iterable<java.lang.String> values) {
+        ensurePrimaryKeyIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, primaryKey_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string primary_key = 3;</code>
+       */
+      public Builder clearPrimaryKey() {
+        primaryKey_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string primary_key = 3;</code>
+       */
+      public Builder addPrimaryKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensurePrimaryKeyIsMutable();
+        primaryKey_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo> partitions_ =
+        java.util.Collections.emptyList();
+      private void ensurePartitionsIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          partitions_ = new java.util.ArrayList<tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo>(partitions_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.Builder, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfoOrBuilder> partitionsBuilder_;
+
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public java.util.List<tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo> getPartitionsList() {
+        if (partitionsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(partitions_);
+        } else {
+          return partitionsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public int getPartitionsCount() {
+        if (partitionsBuilder_ == null) {
+          return partitions_.size();
+        } else {
+          return partitionsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo getPartitions(int index) {
+        if (partitionsBuilder_ == null) {
+          return partitions_.get(index);
+        } else {
+          return partitionsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public Builder setPartitions(
+          int index, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo value) {
+        if (partitionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePartitionsIsMutable();
+          partitions_.set(index, value);
+          onChanged();
+        } else {
+          partitionsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public Builder setPartitions(
+          int index, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.Builder builderForValue) {
+        if (partitionsBuilder_ == null) {
+          ensurePartitionsIsMutable();
+          partitions_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          partitionsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public Builder addPartitions(tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo value) {
+        if (partitionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePartitionsIsMutable();
+          partitions_.add(value);
+          onChanged();
+        } else {
+          partitionsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public Builder addPartitions(
+          int index, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo value) {
+        if (partitionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePartitionsIsMutable();
+          partitions_.add(index, value);
+          onChanged();
+        } else {
+          partitionsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public Builder addPartitions(
+          tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.Builder builderForValue) {
+        if (partitionsBuilder_ == null) {
+          ensurePartitionsIsMutable();
+          partitions_.add(builderForValue.build());
+          onChanged();
+        } else {
+          partitionsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public Builder addPartitions(
+          int index, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.Builder builderForValue) {
+        if (partitionsBuilder_ == null) {
+          ensurePartitionsIsMutable();
+          partitions_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          partitionsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public Builder addAllPartitions(
+          java.lang.Iterable<? extends tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo> values) {
+        if (partitionsBuilder_ == null) {
+          ensurePartitionsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, partitions_);
+          onChanged();
+        } else {
+          partitionsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public Builder clearPartitions() {
+        if (partitionsBuilder_ == null) {
+          partitions_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          partitionsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public Builder removePartitions(int index) {
+        if (partitionsBuilder_ == null) {
+          ensurePartitionsIsMutable();
+          partitions_.remove(index);
+          onChanged();
+        } else {
+          partitionsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.Builder getPartitionsBuilder(
+          int index) {
+        return getPartitionsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfoOrBuilder getPartitionsOrBuilder(
+          int index) {
+        if (partitionsBuilder_ == null) {
+          return partitions_.get(index);  } else {
+          return partitionsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public java.util.List<? extends tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfoOrBuilder> 
+           getPartitionsOrBuilderList() {
+        if (partitionsBuilder_ != null) {
+          return partitionsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(partitions_);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.Builder addPartitionsBuilder() {
+        return getPartitionsFieldBuilder().addBuilder(
+            tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.Builder addPartitionsBuilder(
+          int index) {
+        return getPartitionsFieldBuilder().addBuilder(
+            index, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
+       */
+      public java.util.List<tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.Builder> 
+           getPartitionsBuilderList() {
+        return getPartitionsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.Builder, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfoOrBuilder> 
+          getPartitionsFieldBuilder() {
+        if (partitionsBuilder_ == null) {
+          partitionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.Builder, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfoOrBuilder>(
+                  partitions_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          partitions_ = null;
+        }
+        return partitionsBuilder_;
+      }
+
+      private boolean isVirtual_ ;
+      /**
+       * <code>bool is_virtual = 5;</code>
+       */
+      public boolean getIsVirtual() {
+        return isVirtual_;
+      }
+      /**
+       * <code>bool is_virtual = 5;</code>
+       */
+      public Builder setIsVirtual(boolean value) {
+        
+        isVirtual_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool is_virtual = 5;</code>
+       */
+      public Builder clearIsVirtual() {
+        
+        isVirtual_ = false;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.ClickhouseInternal.DescribeTableResult)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.ClickhouseInternal.DescribeTableResult)
+    private static final tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult();
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DescribeTableResult>
+        PARSER = new com.google.protobuf.AbstractParser<DescribeTableResult>() {
+      public DescribeTableResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new DescribeTableResult(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DescribeTableResult> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DescribeTableResult> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DescribeTableResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.ClickhouseInternal.DescribeTableResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    boolean hasOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.ClickhouseInternal.DescribeTableResponse}
+   */
+  public  static final class DescribeTableResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.DescribeTableResponse)
+      DescribeTableResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DescribeTableResponse.newBuilder() to construct.
+    private DescribeTableResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DescribeTableResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DescribeTableResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse.class, tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse)) {
+        return super.equals(obj);
+      }
+      tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse other = (tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse) obj;
+
+      boolean result = true;
+      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation()) {
+        result = result && getOperation()
+            .equals(other.getOperation());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.ClickhouseInternal.DescribeTableResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.ClickhouseInternal.DescribeTableResponse)
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse.class, tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse.Builder.class);
+      }
+
+      // Construct using tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_descriptor;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse getDefaultInstanceForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse.getDefaultInstance();
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse build() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse buildPartial() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse result = new tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse) {
+          return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse other) {
+        if (other == tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.ClickhouseInternal.DescribeTableResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.ClickhouseInternal.DescribeTableResponse)
+    private static final tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse();
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DescribeTableResponse>
+        PARSER = new com.google.protobuf.AbstractParser<DescribeTableResponse>() {
+      public DescribeTableResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new DescribeTableResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DescribeTableResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DescribeTableResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_ClickhouseInternal_ScanRequest_descriptor;
   private static final 
@@ -5359,6 +8674,26 @@ public final class ClickhouseInternalProtos {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_ClickhouseInternal_GetShardLocationsResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_ClickhouseInternal_PartitionInfo_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_ClickhouseInternal_PartitionInfo_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_ClickhouseInternal_DescribeTableResult_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_ClickhouseInternal_DescribeTableResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -5371,26 +8706,38 @@ public final class ClickhouseInternalProtos {
       "\n6kikimr/public/api/protos/ydb_clickhous" +
       "e_internal.proto\022\026Ydb.ClickhouseInternal" +
       "\032,kikimr/public/api/protos/ydb_operation" +
-      ".proto\"\345\001\n\013ScanRequest\0229\n\020operation_para" +
-      "ms\030\001 \001(\0132\037.Ydb.Operations.OperationParam" +
-      "s\022\r\n\005table\030\002 \001(\t\022\017\n\007columns\030\003 \003(\t\022\020\n\010fro" +
-      "m_key\030\004 \001(\014\022\032\n\022from_key_inclusive\030\005 \001(\010\022" +
-      "\016\n\006to_key\030\006 \001(\014\022\030\n\020to_key_inclusive\030\007 \001(" +
-      "\010\022\020\n\010max_rows\030\010 \001(\004\022\021\n\tmax_bytes\030\t \001(\004\"<" +
-      "\n\014ScanResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.",
-      "Operations.Operation\"W\n\nScanResult\022\016\n\006bl" +
-      "ocks\030\001 \003(\014\022\013\n\003eos\030\002 \001(\010\022\020\n\010last_key\030\003 \001(" +
-      "\014\022\032\n\022last_key_inclusive\030\004 \001(\010\"i\n\030GetShar" +
-      "dLocationsRequest\0229\n\020operation_params\030\001 " +
-      "\001(\0132\037.Ydb.Operations.OperationParams\022\022\n\n" +
-      "tablet_ids\030\002 \003(\004\"I\n\031GetShardLocationsRes" +
-      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
-      "s.Operation\"-\n\nTabletInfo\022\021\n\ttablet_id\030\001" +
-      " \001(\004\022\014\n\004host\030\002 \001(\t\"N\n\027GetShardLocationsR" +
-      "esult\0223\n\007tablets\030\001 \003(\0132\".Ydb.ClickhouseI",
-      "nternal.TabletInfoB8\n\031tech.ydb.cli" +
-      "ckhouseB\030ClickhouseInternalProtos\370\001\001b\006pr" +
-      "oto3"
+      ".proto\032(kikimr/public/api/protos/ydb_tab" +
+      "le.proto\"\345\001\n\013ScanRequest\0229\n\020operation_pa" +
+      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
+      "ams\022\r\n\005table\030\002 \001(\t\022\017\n\007columns\030\003 \003(\t\022\020\n\010f" +
+      "rom_key\030\004 \001(\014\022\032\n\022from_key_inclusive\030\005 \001(" +
+      "\010\022\016\n\006to_key\030\006 \001(\014\022\030\n\020to_key_inclusive\030\007 " +
+      "\001(\010\022\020\n\010max_rows\030\010 \001(\004\022\021\n\tmax_bytes\030\t \001(\004",
+      "\"<\n\014ScanResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
+      "b.Operations.Operation\"W\n\nScanResult\022\016\n\006" +
+      "blocks\030\001 \003(\014\022\013\n\003eos\030\002 \001(\010\022\020\n\010last_key\030\003 " +
+      "\001(\014\022\032\n\022last_key_inclusive\030\004 \001(\010\"i\n\030GetSh" +
+      "ardLocationsRequest\0229\n\020operation_params\030" +
+      "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\022" +
+      "\n\ntablet_ids\030\002 \003(\004\"I\n\031GetShardLocationsR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"-\n\nTabletInfo\022\021\n\ttablet_id" +
+      "\030\001 \001(\004\022\014\n\004host\030\002 \001(\t\"N\n\027GetShardLocation",
+      "sResult\0223\n\007tablets\030\001 \003(\0132\".Ydb.Clickhous" +
+      "eInternal.TabletInfo\"\200\001\n\024DescribeTableRe" +
+      "quest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Op" +
+      "erations.OperationParams\022\014\n\004path\030\002 \001(\t\022\037" +
+      "\n\027include_partitions_info\030\003 \001(\010\"N\n\rParti" +
+      "tionInfo\022\021\n\ttablet_id\030\001 \001(\004\022\017\n\007end_key\030\002" +
+      " \001(\014\022\031\n\021end_key_inclusive\030\003 \001(\010\"\241\001\n\023Desc" +
+      "ribeTableResult\022&\n\007columns\030\002 \003(\0132\025.Ydb.T" +
+      "able.ColumnMeta\022\023\n\013primary_key\030\003 \003(\t\0229\n\n" +
+      "partitions\030\004 \003(\0132%.Ydb.ClickhouseInterna",
+      "l.PartitionInfo\022\022\n\nis_virtual\030\005 \001(\010\"E\n\025D" +
+      "escribeTableResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.OperationB8\n\031com.yandex" +
+      ".ydb.clickhouseB\030ClickhouseInternalProto" +
+      "s\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5404,6 +8751,7 @@ public final class ClickhouseInternalProtos {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
+          tech.ydb.table.YdbTable.getDescriptor(),
         }, assigner);
     internal_static_Ydb_ClickhouseInternal_ScanRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -5447,7 +8795,32 @@ public final class ClickhouseInternalProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_ClickhouseInternal_GetShardLocationsResult_descriptor,
         new java.lang.String[] { "Tablets", });
+    internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "Path", "IncludePartitionsInfo", });
+    internal_static_Ydb_ClickhouseInternal_PartitionInfo_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_Ydb_ClickhouseInternal_PartitionInfo_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_ClickhouseInternal_PartitionInfo_descriptor,
+        new java.lang.String[] { "TabletId", "EndKey", "EndKeyInclusive", });
+    internal_static_Ydb_ClickhouseInternal_DescribeTableResult_descriptor =
+      getDescriptor().getMessageTypes().get(9);
+    internal_static_Ydb_ClickhouseInternal_DescribeTableResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_ClickhouseInternal_DescribeTableResult_descriptor,
+        new java.lang.String[] { "Columns", "PrimaryKey", "Partitions", "IsVirtual", });
+    internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_descriptor,
+        new java.lang.String[] { "Operation", });
     tech.ydb.OperationProtos.getDescriptor();
+    tech.ydb.table.YdbTable.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)
