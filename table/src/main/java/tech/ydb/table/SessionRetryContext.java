@@ -37,7 +37,8 @@ public class SessionRetryContext {
         StatusCode.UNAVAILABLE,
         StatusCode.OVERLOADED,
         StatusCode.CLIENT_RESOURCE_EXHAUSTED,
-        StatusCode.BAD_SESSION
+        StatusCode.BAD_SESSION,
+        StatusCode.SESSION_BUSY
     );
 
     private final SessionSupplier sessionSupplier;
@@ -97,6 +98,25 @@ public class SessionRetryContext {
         int slots = 1 << Math.min(retryNumber, backoffCeiling);
         long maxDurationMillis = backoffSlotMillis * slots;
         return backoffSlotMillis + ThreadLocalRandom.current().nextLong(maxDurationMillis);
+    }
+
+    private long backoffTimeMillis(StatusCode code, int retryNumber) {
+        switch (code) {
+            case BAD_SESSION:
+            case SESSION_BUSY:
+                return 0;
+            default:
+                return backoffTimeMillis(retryNumber);
+        }
+    }
+
+    private long backoffTimeMillis(Throwable t, int retryNumber) {
+        Throwable cause = Async.unwrapCompletionException(t);
+        if (cause instanceof UnexpectedResultException) {
+            StatusCode statusCode = ((UnexpectedResultException) cause).getStatusCode();
+            return backoffTimeMillis(statusCode, retryNumber);
+        }
+        return backoffTimeMillis(retryNumber);
     }
 
     /**
@@ -192,13 +212,13 @@ public class SessionRetryContext {
 
             if (ex != null) {
                 if (retry <= maxRetries && canRetry(ex)) {
-                    scheduleNext(backoffTimeMillis(retry));
+                    scheduleNext(backoffTimeMillis(ex, retry));
                 } else {
                     promise.completeExceptionally(ex);
                 }
             } else {
                 if (retry <= maxRetries && canRetry(code)) {
-                    scheduleNext(backoffTimeMillis(retry));
+                    scheduleNext(backoffTimeMillis(code, retry));
                 } else {
                     promise.complete(result);
                 }

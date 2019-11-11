@@ -685,6 +685,8 @@ class SessionImpl implements Session {
             switchState(oldState, State.DISCONNECTED);
         } else if (code == StatusCode.BAD_SESSION) {
             switchState(oldState, State.BROKEN);
+        } else if (code == StatusCode.SESSION_BUSY) {
+            switchState(oldState, State.DISCONNECTED);
         }
     }
 }

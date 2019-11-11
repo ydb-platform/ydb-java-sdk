@@ -245,6 +245,25 @@ public class SessionRetryContextTest {
         Assert.assertEquals(0, cnt.get());
     }
 
+    @Test(timeout = 5_000)
+    public void sessionBusy_retryable() {
+        SessionRetryContext ctx = SessionRetryContext.create(new SuccessSupplier())
+            .maxRetries(3)
+            .backoffSlot(Duration.ofHours(10L))
+            .build();
+
+        AtomicInteger cnt = new AtomicInteger();
+        Status status = ctx.supplyStatus(session -> {
+            if (cnt.incrementAndGet() == 1) {
+                return completedFuture(Status.of(StatusCode.SESSION_BUSY));
+            }
+            return completedFuture(Status.SUCCESS);
+        }).join();
+
+        Assert.assertEquals(Status.SUCCESS, status);
+        Assert.assertEquals(2, cnt.get());
+    }
+
     /**
      * SUCCESS SUPPLIER
      */
