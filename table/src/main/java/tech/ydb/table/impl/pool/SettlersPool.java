@@ -5,6 +5,8 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import io.netty.util.Timeout;
 import io.netty.util.Timer;
@@ -14,6 +16,7 @@ import io.netty.util.TimerTask;
  * @author Sergey Polovko
  */
 public class SettlersPool<T> {
+    private static final Logger logger = Logger.getLogger(SettlersPool.class.getName());
 
     private final PooledObjectHandler<T> handler;
     private final FixedAsyncPool<T> mainPool;
@@ -57,6 +60,7 @@ public class SettlersPool<T> {
         keepAliveTask.stop();
         for (PooledObject<T> po : pool) {
             // avoid simultaneous session destruction
+            logger.log(Level.FINE, "Destroy {0} because pool closed", po.object);
             handler.destroy(po.object).join();
         }
     }
@@ -114,6 +118,11 @@ public class SettlersPool<T> {
                 try {
                     it.remove();
                     size.decrementAndGet();
+                    if (logger.isLoggable(Level.FINE)) {
+                        logger.log(Level.FINE,
+                            "Destroy {0} because {1} keep alive iterations in settlers pool, max {2}",
+                            new Object[]{po.object, po.keepAliveCount, maxKeepAliveCount});
+                    }
                     handler.destroy(po.object); // do not await object to be destroyed
                 } catch (Exception ignore) {}
                 checkNextObject(it);
@@ -122,8 +131,11 @@ public class SettlersPool<T> {
 
             handler.keepAlive(po.object)
                 .whenCompleteAsync((ready, throwable) -> {
+
                     try {
-                        if (throwable == null && ready) {
+                        if (throwable != null) {
+                            logger.log(Level.WARNING, "Keep alive for " + po.object + " failed", throwable);
+                        } else if (ready) {
                             it.remove();
                             size.decrementAndGet();
                             mainPool.offerOrDestroy(po.object);

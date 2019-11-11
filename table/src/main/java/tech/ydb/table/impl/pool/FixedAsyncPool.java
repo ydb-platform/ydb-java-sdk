@@ -14,6 +14,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import io.netty.util.Timeout;
 import io.netty.util.Timer;
@@ -27,6 +29,7 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
  * @author Sergey Polovko
  */
 public final class FixedAsyncPool<T> implements AsyncPool<T> {
+    private static final Logger logger = Logger.getLogger(FixedAsyncPool.class.getName());
 
     private final Deque<PooledObject<T>> objects = new LinkedList<>();
     private final AtomicInteger acquiredObjectsCount = new AtomicInteger(0);
@@ -128,6 +131,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
     public void release(T object) {
         if (closed) {
             // Since the pool is closed, we have no choice but to close the channel
+            logger.log(Level.FINE, "Destroy {0} because pool already closed", object);
             handler.destroy(object);
             throw new IllegalStateException("pool was closed");
         }
@@ -141,6 +145,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             acquiredObjectsCount.decrementAndGet();
         } else {
             acquiredObjectsCount.decrementAndGet();
+            logger.log(Level.FINE, "Destroy {0} because invalid state");
             handler.destroy(object);
         }
 
@@ -154,6 +159,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
     void offerOrDestroy(T object) {
         if (closed) {
             // Since the pool is closed, we have no choice but to close the channel
+            logger.log(Level.FINE, "Destroy {0} because pool already closed", object);
             handler.destroy(object);
             throw new IllegalStateException("pool was closed");
         }
@@ -166,6 +172,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                 return;
             }
         }
+        logger.log(Level.FINE, "Destroy {0} because max pool size already reached", object);
         handler.destroy(object);
     }
 
@@ -192,7 +199,11 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
 
             // no objects left in the pool, so create new one
 
-            CompletableFuture<T> future = handler.create(deadlineAfter);
+            CompletableFuture<T> future = handler.create(deadlineAfter)
+                .thenApply(o -> {
+                    logger.log(Level.FINE, "Created {0}", o);
+                    return o;
+                });
             if (future.isDone() && !future.isCompletedExceptionally()) {
                 // faster than subscribing on future
                 onAcquire(promise, future.getNow(null), null);
@@ -221,6 +232,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         if (closed) {
             // destroy object because pool was already closed
             if (error == null) {
+                logger.log(Level.FINE, "Destroy {0} because pool already closed", object);
                 handler.destroy(object);
             }
             promise.completeExceptionally(new IllegalStateException("pool was closed"));
@@ -282,6 +294,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         PooledObject<T> object;
         while ((object = pollObject()) != null) {
             // avoid simultaneous session destruction
+            logger.log(Level.FINE, "Destroy {0} because pool is closed", object);
             handler.destroy(object.getValue()).join();
         }
 
@@ -378,7 +391,13 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             synchronized (objects) {
                 for (Iterator<PooledObject<T>> it = objects.iterator(); it.hasNext(); ) {
                     PooledObject<T> o = it.next();
-                    if ((nowMillis - o.getPooledAt()) >= maxIdleTimeMillis && objects.size() > minSize) {
+                    long idleTime = nowMillis - o.getPooledAt();
+                    if (idleTime >= maxIdleTimeMillis && objects.size() > minSize) {
+                        if (logger.isLoggable(Level.FINE)) {
+                            logger.log(Level.FINE,
+                                "Destroy {0} because idle time {1} >= max idle time {2}",
+                                new Object[]{o.getValue(), idleTime, maxIdleTimeMillis});
+                        }
                         toDestroy.add(o);
                         it.remove();
                     } else if ((nowMillis - o.getKeepAlivedAt()) >= keepAliveTimeMillis) {

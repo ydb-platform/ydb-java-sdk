@@ -689,4 +689,12 @@ class SessionImpl implements Session {
             switchState(oldState, State.DISCONNECTED);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Session{" +
+            "id='" + id + '\'' +
+            ", state=" + state +
+            '}';
+    }
 }
