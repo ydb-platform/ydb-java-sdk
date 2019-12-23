@@ -109,7 +109,7 @@ public final class OperationProtos {
      * User-defined labels of operation.
      * </pre>
      *
-     * <code>map&lt;string, string&gt; labels = 4;</code>
+     * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
      */
     int getLabelsCount();
     /**
@@ -117,7 +117,7 @@ public final class OperationProtos {
      * User-defined labels of operation.
      * </pre>
      *
-     * <code>map&lt;string, string&gt; labels = 4;</code>
+     * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
      */
     boolean containsLabels(
         java.lang.String key);
@@ -132,7 +132,7 @@ public final class OperationProtos {
      * User-defined labels of operation.
      * </pre>
      *
-     * <code>map&lt;string, string&gt; labels = 4;</code>
+     * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
      */
     java.util.Map<java.lang.String, java.lang.String>
     getLabelsMap();
@@ -141,7 +141,7 @@ public final class OperationProtos {
      * User-defined labels of operation.
      * </pre>
      *
-     * <code>map&lt;string, string&gt; labels = 4;</code>
+     * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
      */
 
     java.lang.String getLabelsOrDefault(
@@ -152,7 +152,7 @@ public final class OperationProtos {
      * User-defined labels of operation.
      * </pre>
      *
-     * <code>map&lt;string, string&gt; labels = 4;</code>
+     * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
      */
 
     java.lang.String getLabelsOrThrow(
@@ -540,7 +540,7 @@ public final class OperationProtos {
      * User-defined labels of operation.
      * </pre>
      *
-     * <code>map&lt;string, string&gt; labels = 4;</code>
+     * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
      */
 
     public boolean containsLabels(
@@ -560,7 +560,7 @@ public final class OperationProtos {
      * User-defined labels of operation.
      * </pre>
      *
-     * <code>map&lt;string, string&gt; labels = 4;</code>
+     * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
      */
 
     public java.util.Map<java.lang.String, java.lang.String> getLabelsMap() {
@@ -571,7 +571,7 @@ public final class OperationProtos {
      * User-defined labels of operation.
      * </pre>
      *
-     * <code>map&lt;string, string&gt; labels = 4;</code>
+     * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
      */
 
     public java.lang.String getLabelsOrDefault(
@@ -587,7 +587,7 @@ public final class OperationProtos {
      * User-defined labels of operation.
      * </pre>
      *
-     * <code>map&lt;string, string&gt; labels = 4;</code>
+     * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
      */
 
     public java.lang.String getLabelsOrThrow(
@@ -1458,7 +1458,7 @@ public final class OperationProtos {
        * User-defined labels of operation.
        * </pre>
        *
-       * <code>map&lt;string, string&gt; labels = 4;</code>
+       * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
        */
 
       public boolean containsLabels(
@@ -1478,7 +1478,7 @@ public final class OperationProtos {
        * User-defined labels of operation.
        * </pre>
        *
-       * <code>map&lt;string, string&gt; labels = 4;</code>
+       * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
        */
 
       public java.util.Map<java.lang.String, java.lang.String> getLabelsMap() {
@@ -1489,7 +1489,7 @@ public final class OperationProtos {
        * User-defined labels of operation.
        * </pre>
        *
-       * <code>map&lt;string, string&gt; labels = 4;</code>
+       * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
        */
 
       public java.lang.String getLabelsOrDefault(
@@ -1505,7 +1505,7 @@ public final class OperationProtos {
        * User-defined labels of operation.
        * </pre>
        *
-       * <code>map&lt;string, string&gt; labels = 4;</code>
+       * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
        */
 
       public java.lang.String getLabelsOrThrow(
@@ -1529,7 +1529,7 @@ public final class OperationProtos {
        * User-defined labels of operation.
        * </pre>
        *
-       * <code>map&lt;string, string&gt; labels = 4;</code>
+       * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
        */
 
       public Builder removeLabels(
@@ -1552,7 +1552,7 @@ public final class OperationProtos {
        * User-defined labels of operation.
        * </pre>
        *
-       * <code>map&lt;string, string&gt; labels = 4;</code>
+       * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
        */
       public Builder putLabels(
           java.lang.String key,
@@ -1568,7 +1568,7 @@ public final class OperationProtos {
        * User-defined labels of operation.
        * </pre>
        *
-       * <code>map&lt;string, string&gt; labels = 4;</code>
+       * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
        */
 
       public Builder putAllLabels(
@@ -1631,11 +1631,11 @@ public final class OperationProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string id = 1;</code>
+     * <code>string id = 1 [(.Ydb.required) = true];</code>
      */
     java.lang.String getId();
     /**
-     * <code>string id = 1;</code>
+     * <code>string id = 1 [(.Ydb.required) = true];</code>
      */
     com.google.protobuf.ByteString
         getIdBytes();
@@ -1717,7 +1717,7 @@ public final class OperationProtos {
     public static final int ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object id_;
     /**
-     * <code>string id = 1;</code>
+     * <code>string id = 1 [(.Ydb.required) = true];</code>
      */
     public java.lang.String getId() {
       java.lang.Object ref = id_;
@@ -1732,7 +1732,7 @@ public final class OperationProtos {
       }
     }
     /**
-     * <code>string id = 1;</code>
+     * <code>string id = 1 [(.Ydb.required) = true];</code>
      */
     public com.google.protobuf.ByteString
         getIdBytes() {
@@ -2033,7 +2033,7 @@ public final class OperationProtos {
 
       private java.lang.Object id_ = "";
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -2048,7 +2048,7 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -2064,7 +2064,7 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public Builder setId(
           java.lang.String value) {
@@ -2077,7 +2077,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public Builder clearId() {
         
@@ -2086,7 +2086,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -2732,11 +2732,11 @@ public final class OperationProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string id = 1;</code>
+     * <code>string id = 1 [(.Ydb.required) = true];</code>
      */
     java.lang.String getId();
     /**
-     * <code>string id = 1;</code>
+     * <code>string id = 1 [(.Ydb.required) = true];</code>
      */
     com.google.protobuf.ByteString
         getIdBytes();
@@ -2818,7 +2818,7 @@ public final class OperationProtos {
     public static final int ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object id_;
     /**
-     * <code>string id = 1;</code>
+     * <code>string id = 1 [(.Ydb.required) = true];</code>
      */
     public java.lang.String getId() {
       java.lang.Object ref = id_;
@@ -2833,7 +2833,7 @@ public final class OperationProtos {
       }
     }
     /**
-     * <code>string id = 1;</code>
+     * <code>string id = 1 [(.Ydb.required) = true];</code>
      */
     public com.google.protobuf.ByteString
         getIdBytes() {
@@ -3134,7 +3134,7 @@ public final class OperationProtos {
 
       private java.lang.Object id_ = "";
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -3149,7 +3149,7 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -3165,7 +3165,7 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public Builder setId(
           java.lang.String value) {
@@ -3178,7 +3178,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public Builder clearId() {
         
@@ -3187,7 +3187,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -4103,11 +4103,11 @@ public final class OperationProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string id = 1;</code>
+     * <code>string id = 1 [(.Ydb.required) = true];</code>
      */
     java.lang.String getId();
     /**
-     * <code>string id = 1;</code>
+     * <code>string id = 1 [(.Ydb.required) = true];</code>
      */
     com.google.protobuf.ByteString
         getIdBytes();
@@ -4189,7 +4189,7 @@ public final class OperationProtos {
     public static final int ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object id_;
     /**
-     * <code>string id = 1;</code>
+     * <code>string id = 1 [(.Ydb.required) = true];</code>
      */
     public java.lang.String getId() {
       java.lang.Object ref = id_;
@@ -4204,7 +4204,7 @@ public final class OperationProtos {
       }
     }
     /**
-     * <code>string id = 1;</code>
+     * <code>string id = 1 [(.Ydb.required) = true];</code>
      */
     public com.google.protobuf.ByteString
         getIdBytes() {
@@ -4505,7 +4505,7 @@ public final class OperationProtos {
 
       private java.lang.Object id_ = "";
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -4520,7 +4520,7 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -4536,7 +4536,7 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public Builder setId(
           java.lang.String value) {
@@ -4549,7 +4549,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public Builder clearId() {
         
@@ -4558,7 +4558,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>string id = 1;</code>
+       * <code>string id = 1 [(.Ydb.required) = true];</code>
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -5474,11 +5474,11 @@ public final class OperationProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string kind = 1;</code>
+     * <code>string kind = 1 [(.Ydb.required) = true];</code>
      */
     java.lang.String getKind();
     /**
-     * <code>string kind = 1;</code>
+     * <code>string kind = 1 [(.Ydb.required) = true];</code>
      */
     com.google.protobuf.ByteString
         getKindBytes();
@@ -5588,7 +5588,7 @@ public final class OperationProtos {
     public static final int KIND_FIELD_NUMBER = 1;
     private volatile java.lang.Object kind_;
     /**
-     * <code>string kind = 1;</code>
+     * <code>string kind = 1 [(.Ydb.required) = true];</code>
      */
     public java.lang.String getKind() {
       java.lang.Object ref = kind_;
@@ -5603,7 +5603,7 @@ public final class OperationProtos {
       }
     }
     /**
-     * <code>string kind = 1;</code>
+     * <code>string kind = 1 [(.Ydb.required) = true];</code>
      */
     public com.google.protobuf.ByteString
         getKindBytes() {
@@ -5982,7 +5982,7 @@ public final class OperationProtos {
 
       private java.lang.Object kind_ = "";
       /**
-       * <code>string kind = 1;</code>
+       * <code>string kind = 1 [(.Ydb.required) = true];</code>
        */
       public java.lang.String getKind() {
         java.lang.Object ref = kind_;
@@ -5997,7 +5997,7 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>string kind = 1;</code>
+       * <code>string kind = 1 [(.Ydb.required) = true];</code>
        */
       public com.google.protobuf.ByteString
           getKindBytes() {
@@ -6013,7 +6013,7 @@ public final class OperationProtos {
         }
       }
       /**
-       * <code>string kind = 1;</code>
+       * <code>string kind = 1 [(.Ydb.required) = true];</code>
        */
       public Builder setKind(
           java.lang.String value) {
@@ -6026,7 +6026,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>string kind = 1;</code>
+       * <code>string kind = 1 [(.Ydb.required) = true];</code>
        */
       public Builder clearKind() {
         
@@ -6035,7 +6035,7 @@ public final class OperationProtos {
         return this;
       }
       /**
-       * <code>string kind = 1;</code>
+       * <code>string kind = 1 [(.Ydb.required) = true];</code>
        */
       public Builder setKindBytes(
           com.google.protobuf.ByteString value) {
@@ -9185,41 +9185,44 @@ public final class OperationProtos {
       "\n,kikimr/public/api/protos/ydb_operation" +
       ".proto\022\016Ydb.Operations\032\031google/protobuf/" +
       "any.proto\032\036google/protobuf/duration.prot" +
-      "o\0320kikimr/public/api/protos/ydb_issue_me" +
-      "ssage.proto\032/kikimr/public/api/protos/yd" +
-      "b_status_codes.proto\"\361\002\n\017OperationParams" +
-      "\022E\n\016operation_mode\030\001 \001(\0162-.Ydb.Operation" +
-      "s.OperationParams.OperationMode\0224\n\021opera" +
-      "tion_timeout\030\002 \001(\0132\031.google.protobuf.Dur" +
-      "ation\022/\n\014cancel_after\030\003 \001(\0132\031.google.pro",
-      "tobuf.Duration\022;\n\006labels\030\004 \003(\0132+.Ydb.Ope" +
-      "rations.OperationParams.LabelsEntry\032-\n\013L" +
-      "abelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\002" +
-      "8\001\"D\n\rOperationMode\022\036\n\032OPERATION_MODE_UN" +
-      "SPECIFIED\020\000\022\010\n\004SYNC\020\001\022\t\n\005ASYNC\020\002\"!\n\023GetO" +
-      "perationRequest\022\n\n\002id\030\001 \001(\t\"D\n\024GetOperat" +
-      "ionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"$\n\026CancelOperationRequ" +
-      "est\022\n\n\002id\030\001 \001(\t\"m\n\027CancelOperationRespon" +
-      "se\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.Statu",
-      "sCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueM" +
-      "essage\"$\n\026ForgetOperationRequest\022\n\n\002id\030\001" +
-      " \001(\t\"m\n\027ForgetOperationResponse\022)\n\006statu" +
-      "s\030\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006is" +
-      "sues\030\002 \003(\0132\027.Ydb.Issue.IssueMessage\"L\n\025L" +
-      "istOperationsRequest\022\014\n\004kind\030\001 \001(\t\022\021\n\tpa" +
-      "ge_size\030\002 \001(\004\022\022\n\npage_token\030\003 \001(\t\"\264\001\n\026Li" +
-      "stOperationsResponse\022)\n\006status\030\001 \001(\0162\031.Y" +
-      "db.StatusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132" +
-      "\027.Ydb.Issue.IssueMessage\022-\n\noperations\030\003",
-      " \003(\0132\031.Ydb.Operations.Operation\022\027\n\017next_" +
-      "page_token\030\004 \001(\t\"\310\001\n\tOperation\022\n\n\002id\030\001 \001" +
-      "(\t\022\r\n\005ready\030\002 \001(\010\022)\n\006status\030\003 \001(\0162\031.Ydb." +
-      "StatusIds.StatusCode\022\'\n\006issues\030\004 \003(\0132\027.Y" +
-      "db.Issue.IssueMessage\022$\n\006result\030\005 \001(\0132\024." +
-      "google.protobuf.Any\022&\n\010metadata\030\006 \001(\0132\024." +
-      "google.protobuf.AnyB$\n\016tech.ydbB\017O" +
-      "perationProtos\370\001\001b\006proto3"
+      "o\0324kikimr/public/api/protos/validation/v" +
+      "alidation.proto\0320kikimr/public/api/proto" +
+      "s/ydb_issue_message.proto\032/kikimr/public" +
+      "/api/protos/ydb_status_codes.proto\"\203\003\n\017O" +
+      "perationParams\022E\n\016operation_mode\030\001 \001(\0162-" +
+      ".Ydb.Operations.OperationParams.Operatio" +
+      "nMode\0224\n\021operation_timeout\030\002 \001(\0132\031.googl",
+      "e.protobuf.Duration\022/\n\014cancel_after\030\003 \001(" +
+      "\0132\031.google.protobuf.Duration\022M\n\006labels\030\004" +
+      " \003(\0132+.Ydb.Operations.OperationParams.La" +
+      "belsEntryB\020\252\346*\005\n\003\030\200\001\242\346*\003\030\200\001\032-\n\013LabelsEnt" +
+      "ry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"D\n\rOp" +
+      "erationMode\022\036\n\032OPERATION_MODE_UNSPECIFIE" +
+      "D\020\000\022\010\n\004SYNC\020\001\022\t\n\005ASYNC\020\002\"\'\n\023GetOperation" +
+      "Request\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"D\n\024GetOperatio" +
+      "nResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.Operation\"*\n\026CancelOperationReques",
+      "t\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"m\n\027CancelOperationRe" +
+      "sponse\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.S" +
+      "tatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.Is" +
+      "sueMessage\"*\n\026ForgetOperationRequest\022\020\n\002" +
+      "id\030\001 \001(\tB\004\220\346*\001\"m\n\027ForgetOperationRespons" +
+      "e\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.Status" +
+      "Code\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMe" +
+      "ssage\"R\n\025ListOperationsRequest\022\022\n\004kind\030\001" +
+      " \001(\tB\004\220\346*\001\022\021\n\tpage_size\030\002 \001(\004\022\022\n\npage_to" +
+      "ken\030\003 \001(\t\"\264\001\n\026ListOperationsResponse\022)\n\006",
+      "status\030\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022" +
+      "\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMessage" +
+      "\022-\n\noperations\030\003 \003(\0132\031.Ydb.Operations.Op" +
+      "eration\022\027\n\017next_page_token\030\004 \001(\t\"\310\001\n\tOpe" +
+      "ration\022\n\n\002id\030\001 \001(\t\022\r\n\005ready\030\002 \001(\010\022)\n\006sta" +
+      "tus\030\003 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006" +
+      "issues\030\004 \003(\0132\027.Ydb.Issue.IssueMessage\022$\n" +
+      "\006result\030\005 \001(\0132\024.google.protobuf.Any\022&\n\010m" +
+      "etadata\030\006 \001(\0132\024.google.protobuf.AnyB$\n\016c" +
+      "om.yandex.ydbB\017OperationProtos\370\001\001b\006proto",
+      "3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -9234,6 +9237,7 @@ public final class OperationProtos {
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.AnyProto.getDescriptor(),
           com.google.protobuf.DurationProto.getDescriptor(),
+          tech.ydb.Validation.getDescriptor(),
           tech.ydb.YdbIssueMessage.getDescriptor(),
           tech.ydb.StatusCodesProtos.getDescriptor(),
         }, assigner);
@@ -9303,8 +9307,16 @@ public final class OperationProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_Operation_descriptor,
         new java.lang.String[] { "Id", "Ready", "Status", "Issues", "Result", "Metadata", });
+    com.google.protobuf.ExtensionRegistry registry =
+        com.google.protobuf.ExtensionRegistry.newInstance();
+    registry.add(tech.ydb.Validation.length);
+    registry.add(tech.ydb.Validation.mapKey);
+    registry.add(tech.ydb.Validation.required);
+    com.google.protobuf.Descriptors.FileDescriptor
+        .internalUpdateFileDescriptor(descriptor, registry);
     com.google.protobuf.AnyProto.getDescriptor();
     com.google.protobuf.DurationProto.getDescriptor();
+    tech.ydb.Validation.getDescriptor();
     tech.ydb.YdbIssueMessage.getDescriptor();
     tech.ydb.StatusCodesProtos.getDescriptor();
   }

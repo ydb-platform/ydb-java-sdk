@@ -76,4 +76,21 @@ public interface ConfigOrBuilder extends
    * <code>.Ydb.Coordination.ConsistencyMode attach_consistency_mode = 5;</code>
    */
   tech.ydb.coordination.ConsistencyMode getAttachConsistencyMode();
+
+  /**
+   * <pre>
+   * Rate limiter counters mode
+   * </pre>
+   *
+   * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+   */
+  int getRateLimiterCountersModeValue();
+  /**
+   * <pre>
+   * Rate limiter counters mode
+   * </pre>
+   *
+   * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+   */
+  tech.ydb.coordination.RateLimiterCountersMode getRateLimiterCountersMode();
 }

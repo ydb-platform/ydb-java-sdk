@@ -537,11 +537,11 @@ public final class YdbExport {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string host = 1;</code>
+     * <code>string host = 1 [(.Ydb.required) = true];</code>
      */
     java.lang.String getHost();
     /**
-     * <code>string host = 1;</code>
+     * <code>string host = 1 [(.Ydb.required) = true];</code>
      */
     com.google.protobuf.ByteString
         getHostBytes();
@@ -552,45 +552,45 @@ public final class YdbExport {
     int getPort();
 
     /**
-     * <code>string token = 3;</code>
+     * <code>string token = 3 [(.Ydb.required) = true];</code>
      */
     java.lang.String getToken();
     /**
-     * <code>string token = 3;</code>
+     * <code>string token = 3 [(.Ydb.required) = true];</code>
      */
     com.google.protobuf.ByteString
         getTokenBytes();
 
     /**
-     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
     java.util.List<tech.ydb.export.YdbExport.ExportToYtSettings.Item> 
         getItemsList();
     /**
-     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
     tech.ydb.export.YdbExport.ExportToYtSettings.Item getItems(int index);
     /**
-     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
     int getItemsCount();
     /**
-     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
     java.util.List<? extends tech.ydb.export.YdbExport.ExportToYtSettings.ItemOrBuilder> 
         getItemsOrBuilderList();
     /**
-     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
     tech.ydb.export.YdbExport.ExportToYtSettings.ItemOrBuilder getItemsOrBuilder(
         int index);
 
     /**
-     * <code>string description = 5;</code>
+     * <code>string description = 5 [(.Ydb.length) = { ... }</code>
      */
     java.lang.String getDescription();
     /**
-     * <code>string description = 5;</code>
+     * <code>string description = 5 [(.Ydb.length) = { ... }</code>
      */
     com.google.protobuf.ByteString
         getDescriptionBytes();
@@ -722,7 +722,7 @@ public final class YdbExport {
        * Database path to a directory or a table to be exported
        * </pre>
        *
-       * <code>string source_path = 1;</code>
+       * <code>string source_path = 1 [(.Ydb.required) = true];</code>
        */
       java.lang.String getSourcePath();
       /**
@@ -730,17 +730,17 @@ public final class YdbExport {
        * Database path to a directory or a table to be exported
        * </pre>
        *
-       * <code>string source_path = 1;</code>
+       * <code>string source_path = 1 [(.Ydb.required) = true];</code>
        */
       com.google.protobuf.ByteString
           getSourcePathBytes();
 
       /**
-       * <code>string destination_path = 2;</code>
+       * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
        */
       java.lang.String getDestinationPath();
       /**
-       * <code>string destination_path = 2;</code>
+       * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
        */
       com.google.protobuf.ByteString
           getDestinationPathBytes();
@@ -833,7 +833,7 @@ public final class YdbExport {
        * Database path to a directory or a table to be exported
        * </pre>
        *
-       * <code>string source_path = 1;</code>
+       * <code>string source_path = 1 [(.Ydb.required) = true];</code>
        */
       public java.lang.String getSourcePath() {
         java.lang.Object ref = sourcePath_;
@@ -852,7 +852,7 @@ public final class YdbExport {
        * Database path to a directory or a table to be exported
        * </pre>
        *
-       * <code>string source_path = 1;</code>
+       * <code>string source_path = 1 [(.Ydb.required) = true];</code>
        */
       public com.google.protobuf.ByteString
           getSourcePathBytes() {
@@ -871,7 +871,7 @@ public final class YdbExport {
       public static final int DESTINATION_PATH_FIELD_NUMBER = 2;
       private volatile java.lang.Object destinationPath_;
       /**
-       * <code>string destination_path = 2;</code>
+       * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
        */
       public java.lang.String getDestinationPath() {
         java.lang.Object ref = destinationPath_;
@@ -886,7 +886,7 @@ public final class YdbExport {
         }
       }
       /**
-       * <code>string destination_path = 2;</code>
+       * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
        */
       public com.google.protobuf.ByteString
           getDestinationPathBytes() {
@@ -1208,7 +1208,7 @@ public final class YdbExport {
          * Database path to a directory or a table to be exported
          * </pre>
          *
-         * <code>string source_path = 1;</code>
+         * <code>string source_path = 1 [(.Ydb.required) = true];</code>
          */
         public java.lang.String getSourcePath() {
           java.lang.Object ref = sourcePath_;
@@ -1227,7 +1227,7 @@ public final class YdbExport {
          * Database path to a directory or a table to be exported
          * </pre>
          *
-         * <code>string source_path = 1;</code>
+         * <code>string source_path = 1 [(.Ydb.required) = true];</code>
          */
         public com.google.protobuf.ByteString
             getSourcePathBytes() {
@@ -1247,7 +1247,7 @@ public final class YdbExport {
          * Database path to a directory or a table to be exported
          * </pre>
          *
-         * <code>string source_path = 1;</code>
+         * <code>string source_path = 1 [(.Ydb.required) = true];</code>
          */
         public Builder setSourcePath(
             java.lang.String value) {
@@ -1264,7 +1264,7 @@ public final class YdbExport {
          * Database path to a directory or a table to be exported
          * </pre>
          *
-         * <code>string source_path = 1;</code>
+         * <code>string source_path = 1 [(.Ydb.required) = true];</code>
          */
         public Builder clearSourcePath() {
           
@@ -1277,7 +1277,7 @@ public final class YdbExport {
          * Database path to a directory or a table to be exported
          * </pre>
          *
-         * <code>string source_path = 1;</code>
+         * <code>string source_path = 1 [(.Ydb.required) = true];</code>
          */
         public Builder setSourcePathBytes(
             com.google.protobuf.ByteString value) {
@@ -1293,7 +1293,7 @@ public final class YdbExport {
 
         private java.lang.Object destinationPath_ = "";
         /**
-         * <code>string destination_path = 2;</code>
+         * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
          */
         public java.lang.String getDestinationPath() {
           java.lang.Object ref = destinationPath_;
@@ -1308,7 +1308,7 @@ public final class YdbExport {
           }
         }
         /**
-         * <code>string destination_path = 2;</code>
+         * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
          */
         public com.google.protobuf.ByteString
             getDestinationPathBytes() {
@@ -1324,7 +1324,7 @@ public final class YdbExport {
           }
         }
         /**
-         * <code>string destination_path = 2;</code>
+         * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
          */
         public Builder setDestinationPath(
             java.lang.String value) {
@@ -1337,7 +1337,7 @@ public final class YdbExport {
           return this;
         }
         /**
-         * <code>string destination_path = 2;</code>
+         * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
          */
         public Builder clearDestinationPath() {
           
@@ -1346,7 +1346,7 @@ public final class YdbExport {
           return this;
         }
         /**
-         * <code>string destination_path = 2;</code>
+         * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
          */
         public Builder setDestinationPathBytes(
             com.google.protobuf.ByteString value) {
@@ -1412,7 +1412,7 @@ public final class YdbExport {
     public static final int HOST_FIELD_NUMBER = 1;
     private volatile java.lang.Object host_;
     /**
-     * <code>string host = 1;</code>
+     * <code>string host = 1 [(.Ydb.required) = true];</code>
      */
     public java.lang.String getHost() {
       java.lang.Object ref = host_;
@@ -1427,7 +1427,7 @@ public final class YdbExport {
       }
     }
     /**
-     * <code>string host = 1;</code>
+     * <code>string host = 1 [(.Ydb.required) = true];</code>
      */
     public com.google.protobuf.ByteString
         getHostBytes() {
@@ -1455,7 +1455,7 @@ public final class YdbExport {
     public static final int TOKEN_FIELD_NUMBER = 3;
     private volatile java.lang.Object token_;
     /**
-     * <code>string token = 3;</code>
+     * <code>string token = 3 [(.Ydb.required) = true];</code>
      */
     public java.lang.String getToken() {
       java.lang.Object ref = token_;
@@ -1470,7 +1470,7 @@ public final class YdbExport {
       }
     }
     /**
-     * <code>string token = 3;</code>
+     * <code>string token = 3 [(.Ydb.required) = true];</code>
      */
     public com.google.protobuf.ByteString
         getTokenBytes() {
@@ -1489,32 +1489,32 @@ public final class YdbExport {
     public static final int ITEMS_FIELD_NUMBER = 4;
     private java.util.List<tech.ydb.export.YdbExport.ExportToYtSettings.Item> items_;
     /**
-     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
     public java.util.List<tech.ydb.export.YdbExport.ExportToYtSettings.Item> getItemsList() {
       return items_;
     }
     /**
-     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
     public java.util.List<? extends tech.ydb.export.YdbExport.ExportToYtSettings.ItemOrBuilder> 
         getItemsOrBuilderList() {
       return items_;
     }
     /**
-     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
     public int getItemsCount() {
       return items_.size();
     }
     /**
-     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
     public tech.ydb.export.YdbExport.ExportToYtSettings.Item getItems(int index) {
       return items_.get(index);
     }
     /**
-     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+     * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
     public tech.ydb.export.YdbExport.ExportToYtSettings.ItemOrBuilder getItemsOrBuilder(
         int index) {
@@ -1524,7 +1524,7 @@ public final class YdbExport {
     public static final int DESCRIPTION_FIELD_NUMBER = 5;
     private volatile java.lang.Object description_;
     /**
-     * <code>string description = 5;</code>
+     * <code>string description = 5 [(.Ydb.length) = { ... }</code>
      */
     public java.lang.String getDescription() {
       java.lang.Object ref = description_;
@@ -1539,7 +1539,7 @@ public final class YdbExport {
       }
     }
     /**
-     * <code>string description = 5;</code>
+     * <code>string description = 5 [(.Ydb.length) = { ... }</code>
      */
     public com.google.protobuf.ByteString
         getDescriptionBytes() {
@@ -1976,7 +1976,7 @@ public final class YdbExport {
 
       private java.lang.Object host_ = "";
       /**
-       * <code>string host = 1;</code>
+       * <code>string host = 1 [(.Ydb.required) = true];</code>
        */
       public java.lang.String getHost() {
         java.lang.Object ref = host_;
@@ -1991,7 +1991,7 @@ public final class YdbExport {
         }
       }
       /**
-       * <code>string host = 1;</code>
+       * <code>string host = 1 [(.Ydb.required) = true];</code>
        */
       public com.google.protobuf.ByteString
           getHostBytes() {
@@ -2007,7 +2007,7 @@ public final class YdbExport {
         }
       }
       /**
-       * <code>string host = 1;</code>
+       * <code>string host = 1 [(.Ydb.required) = true];</code>
        */
       public Builder setHost(
           java.lang.String value) {
@@ -2020,7 +2020,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>string host = 1;</code>
+       * <code>string host = 1 [(.Ydb.required) = true];</code>
        */
       public Builder clearHost() {
         
@@ -2029,7 +2029,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>string host = 1;</code>
+       * <code>string host = 1 [(.Ydb.required) = true];</code>
        */
       public Builder setHostBytes(
           com.google.protobuf.ByteString value) {
@@ -2071,7 +2071,7 @@ public final class YdbExport {
 
       private java.lang.Object token_ = "";
       /**
-       * <code>string token = 3;</code>
+       * <code>string token = 3 [(.Ydb.required) = true];</code>
        */
       public java.lang.String getToken() {
         java.lang.Object ref = token_;
@@ -2086,7 +2086,7 @@ public final class YdbExport {
         }
       }
       /**
-       * <code>string token = 3;</code>
+       * <code>string token = 3 [(.Ydb.required) = true];</code>
        */
       public com.google.protobuf.ByteString
           getTokenBytes() {
@@ -2102,7 +2102,7 @@ public final class YdbExport {
         }
       }
       /**
-       * <code>string token = 3;</code>
+       * <code>string token = 3 [(.Ydb.required) = true];</code>
        */
       public Builder setToken(
           java.lang.String value) {
@@ -2115,7 +2115,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>string token = 3;</code>
+       * <code>string token = 3 [(.Ydb.required) = true];</code>
        */
       public Builder clearToken() {
         
@@ -2124,7 +2124,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>string token = 3;</code>
+       * <code>string token = 3 [(.Ydb.required) = true];</code>
        */
       public Builder setTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -2151,7 +2151,7 @@ public final class YdbExport {
           tech.ydb.export.YdbExport.ExportToYtSettings.Item, tech.ydb.export.YdbExport.ExportToYtSettings.Item.Builder, tech.ydb.export.YdbExport.ExportToYtSettings.ItemOrBuilder> itemsBuilder_;
 
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public java.util.List<tech.ydb.export.YdbExport.ExportToYtSettings.Item> getItemsList() {
         if (itemsBuilder_ == null) {
@@ -2161,7 +2161,7 @@ public final class YdbExport {
         }
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public int getItemsCount() {
         if (itemsBuilder_ == null) {
@@ -2171,7 +2171,7 @@ public final class YdbExport {
         }
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public tech.ydb.export.YdbExport.ExportToYtSettings.Item getItems(int index) {
         if (itemsBuilder_ == null) {
@@ -2181,7 +2181,7 @@ public final class YdbExport {
         }
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder setItems(
           int index, tech.ydb.export.YdbExport.ExportToYtSettings.Item value) {
@@ -2198,7 +2198,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder setItems(
           int index, tech.ydb.export.YdbExport.ExportToYtSettings.Item.Builder builderForValue) {
@@ -2212,7 +2212,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder addItems(tech.ydb.export.YdbExport.ExportToYtSettings.Item value) {
         if (itemsBuilder_ == null) {
@@ -2228,7 +2228,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder addItems(
           int index, tech.ydb.export.YdbExport.ExportToYtSettings.Item value) {
@@ -2245,7 +2245,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder addItems(
           tech.ydb.export.YdbExport.ExportToYtSettings.Item.Builder builderForValue) {
@@ -2259,7 +2259,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder addItems(
           int index, tech.ydb.export.YdbExport.ExportToYtSettings.Item.Builder builderForValue) {
@@ -2273,7 +2273,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder addAllItems(
           java.lang.Iterable<? extends tech.ydb.export.YdbExport.ExportToYtSettings.Item> values) {
@@ -2288,7 +2288,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder clearItems() {
         if (itemsBuilder_ == null) {
@@ -2301,7 +2301,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder removeItems(int index) {
         if (itemsBuilder_ == null) {
@@ -2314,14 +2314,14 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public tech.ydb.export.YdbExport.ExportToYtSettings.Item.Builder getItemsBuilder(
           int index) {
         return getItemsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public tech.ydb.export.YdbExport.ExportToYtSettings.ItemOrBuilder getItemsOrBuilder(
           int index) {
@@ -2331,7 +2331,7 @@ public final class YdbExport {
         }
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public java.util.List<? extends tech.ydb.export.YdbExport.ExportToYtSettings.ItemOrBuilder> 
            getItemsOrBuilderList() {
@@ -2342,14 +2342,14 @@ public final class YdbExport {
         }
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public tech.ydb.export.YdbExport.ExportToYtSettings.Item.Builder addItemsBuilder() {
         return getItemsFieldBuilder().addBuilder(
             tech.ydb.export.YdbExport.ExportToYtSettings.Item.getDefaultInstance());
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public tech.ydb.export.YdbExport.ExportToYtSettings.Item.Builder addItemsBuilder(
           int index) {
@@ -2357,7 +2357,7 @@ public final class YdbExport {
             index, tech.ydb.export.YdbExport.ExportToYtSettings.Item.getDefaultInstance());
       }
       /**
-       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4;</code>
+       * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
        */
       public java.util.List<tech.ydb.export.YdbExport.ExportToYtSettings.Item.Builder> 
            getItemsBuilderList() {
@@ -2380,7 +2380,7 @@ public final class YdbExport {
 
       private java.lang.Object description_ = "";
       /**
-       * <code>string description = 5;</code>
+       * <code>string description = 5 [(.Ydb.length) = { ... }</code>
        */
       public java.lang.String getDescription() {
         java.lang.Object ref = description_;
@@ -2395,7 +2395,7 @@ public final class YdbExport {
         }
       }
       /**
-       * <code>string description = 5;</code>
+       * <code>string description = 5 [(.Ydb.length) = { ... }</code>
        */
       public com.google.protobuf.ByteString
           getDescriptionBytes() {
@@ -2411,7 +2411,7 @@ public final class YdbExport {
         }
       }
       /**
-       * <code>string description = 5;</code>
+       * <code>string description = 5 [(.Ydb.length) = { ... }</code>
        */
       public Builder setDescription(
           java.lang.String value) {
@@ -2424,7 +2424,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>string description = 5;</code>
+       * <code>string description = 5 [(.Ydb.length) = { ... }</code>
        */
       public Builder clearDescription() {
         
@@ -2433,7 +2433,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>string description = 5;</code>
+       * <code>string description = 5 [(.Ydb.length) = { ... }</code>
        */
       public Builder setDescriptionBytes(
           com.google.protobuf.ByteString value) {
@@ -3594,15 +3594,15 @@ public final class YdbExport {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
-     * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+     * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
      */
     boolean hasSettings();
     /**
-     * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+     * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
      */
     tech.ydb.export.YdbExport.ExportToYtSettings getSettings();
     /**
-     * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+     * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
      */
     tech.ydb.export.YdbExport.ExportToYtSettingsOrBuilder getSettingsOrBuilder();
   }
@@ -3723,19 +3723,19 @@ public final class YdbExport {
     public static final int SETTINGS_FIELD_NUMBER = 2;
     private tech.ydb.export.YdbExport.ExportToYtSettings settings_;
     /**
-     * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+     * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
      */
     public boolean hasSettings() {
       return settings_ != null;
     }
     /**
-     * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+     * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
      */
     public tech.ydb.export.YdbExport.ExportToYtSettings getSettings() {
       return settings_ == null ? tech.ydb.export.YdbExport.ExportToYtSettings.getDefaultInstance() : settings_;
     }
     /**
-     * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+     * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
      */
     public tech.ydb.export.YdbExport.ExportToYtSettingsOrBuilder getSettingsOrBuilder() {
       return getSettings();
@@ -4188,13 +4188,13 @@ public final class YdbExport {
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.export.YdbExport.ExportToYtSettings, tech.ydb.export.YdbExport.ExportToYtSettings.Builder, tech.ydb.export.YdbExport.ExportToYtSettingsOrBuilder> settingsBuilder_;
       /**
-       * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+       * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
        */
       public boolean hasSettings() {
         return settingsBuilder_ != null || settings_ != null;
       }
       /**
-       * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+       * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
        */
       public tech.ydb.export.YdbExport.ExportToYtSettings getSettings() {
         if (settingsBuilder_ == null) {
@@ -4204,7 +4204,7 @@ public final class YdbExport {
         }
       }
       /**
-       * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+       * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
        */
       public Builder setSettings(tech.ydb.export.YdbExport.ExportToYtSettings value) {
         if (settingsBuilder_ == null) {
@@ -4220,7 +4220,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+       * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
        */
       public Builder setSettings(
           tech.ydb.export.YdbExport.ExportToYtSettings.Builder builderForValue) {
@@ -4234,7 +4234,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+       * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
        */
       public Builder mergeSettings(tech.ydb.export.YdbExport.ExportToYtSettings value) {
         if (settingsBuilder_ == null) {
@@ -4252,7 +4252,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+       * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
        */
       public Builder clearSettings() {
         if (settingsBuilder_ == null) {
@@ -4266,7 +4266,7 @@ public final class YdbExport {
         return this;
       }
       /**
-       * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+       * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
        */
       public tech.ydb.export.YdbExport.ExportToYtSettings.Builder getSettingsBuilder() {
         
@@ -4274,7 +4274,7 @@ public final class YdbExport {
         return getSettingsFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+       * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
        */
       public tech.ydb.export.YdbExport.ExportToYtSettingsOrBuilder getSettingsOrBuilder() {
         if (settingsBuilder_ != null) {
@@ -4285,7 +4285,7 @@ public final class YdbExport {
         }
       }
       /**
-       * <code>.Ydb.Export.ExportToYtSettings settings = 2;</code>
+       * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.export.YdbExport.ExportToYtSettings, tech.ydb.export.YdbExport.ExportToYtSettings.Builder, tech.ydb.export.YdbExport.ExportToYtSettingsOrBuilder> 
@@ -5048,28 +5048,30 @@ public final class YdbExport {
   static {
     java.lang.String[] descriptorData = {
       "\n)kikimr/public/api/protos/ydb_export.pr" +
-      "oto\022\nYdb.Export\032,kikimr/public/api/proto" +
-      "s/ydb_operation.proto\"\261\001\n\016ExportProgress" +
-      "\"\236\001\n\010Progress\022\030\n\024PROGRESS_UNSPECIFIED\020\000\022" +
-      "\026\n\022PROGRESS_PREPARING\020\001\022\032\n\026PROGRESS_TRAN" +
-      "SFER_DATA\020\002\022\021\n\rPROGRESS_DONE\020\003\022\031\n\025PROGRE" +
-      "SS_CANCELLATION\020\004\022\026\n\022PROGRESS_CANCELLED\020" +
-      "\005\"\332\001\n\022ExportToYtSettings\022\014\n\004host\030\001 \001(\t\022\014" +
-      "\n\004port\030\002 \001(\r\022\r\n\005token\030\003 \001(\t\0222\n\005items\030\004 \003" +
-      "(\0132#.Ydb.Export.ExportToYtSettings.Item\022",
-      "\023\n\013description\030\005 \001(\t\022\031\n\021number_of_retrie" +
-      "s\030\006 \001(\r\0325\n\004Item\022\023\n\013source_path\030\001 \001(\t\022\030\n\020" +
-      "destination_path\030\002 \001(\t\"\022\n\020ExportToYtResu" +
-      "lt\"}\n\022ExportToYtMetadata\0220\n\010settings\030\001 \001" +
-      "(\0132\036.Ydb.Export.ExportToYtSettings\0225\n\010pr" +
-      "ogress\030\002 \001(\0162#.Ydb.Export.ExportProgress" +
-      ".Progress\"\200\001\n\021ExportToYtRequest\0229\n\020opera" +
-      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
-      "tionParams\0220\n\010settings\030\002 \001(\0132\036.Ydb.Expor" +
-      "t.ExportToYtSettings\"B\n\022ExportToYtRespon",
-      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
-      "perationB\032\n\025tech.ydb.export\370\001\001b\006pr" +
-      "oto3"
+      "oto\022\nYdb.Export\0324kikimr/public/api/proto" +
+      "s/validation/validation.proto\032,kikimr/pu" +
+      "blic/api/protos/ydb_operation.proto\"\261\001\n\016" +
+      "ExportProgress\"\236\001\n\010Progress\022\030\n\024PROGRESS_" +
+      "UNSPECIFIED\020\000\022\026\n\022PROGRESS_PREPARING\020\001\022\032\n" +
+      "\026PROGRESS_TRANSFER_DATA\020\002\022\021\n\rPROGRESS_DO" +
+      "NE\020\003\022\031\n\025PROGRESS_CANCELLATION\020\004\022\026\n\022PROGR" +
+      "ESS_CANCELLED\020\005\"\203\002\n\022ExportToYtSettings\022\022" +
+      "\n\004host\030\001 \001(\tB\004\220\346*\001\022\014\n\004port\030\002 \001(\r\022\023\n\005toke",
+      "n\030\003 \001(\tB\004\220\346*\001\022:\n\005items\030\004 \003(\0132#.Ydb.Expor" +
+      "t.ExportToYtSettings.ItemB\006\232\346*\002(\001\022\034\n\013des" +
+      "cription\030\005 \001(\tB\007\242\346*\003\030\200\001\022\031\n\021number_of_ret" +
+      "ries\030\006 \001(\r\032A\n\004Item\022\031\n\013source_path\030\001 \001(\tB" +
+      "\004\220\346*\001\022\036\n\020destination_path\030\002 \001(\tB\004\220\346*\001\"\022\n" +
+      "\020ExportToYtResult\"}\n\022ExportToYtMetadata\022" +
+      "0\n\010settings\030\001 \001(\0132\036.Ydb.Export.ExportToY" +
+      "tSettings\0225\n\010progress\030\002 \001(\0162#.Ydb.Export" +
+      ".ExportProgress.Progress\"\206\001\n\021ExportToYtR" +
+      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O",
+      "perations.OperationParams\0226\n\010settings\030\002 " +
+      "\001(\0132\036.Ydb.Export.ExportToYtSettingsB\004\220\346*" +
+      "\001\"B\n\022ExportToYtResponse\022,\n\toperation\030\001 \001" +
+      "(\0132\031.Ydb.Operations.OperationB\032\n\025com.yan" +
+      "dex.ydb.export\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5082,6 +5084,7 @@ public final class YdbExport {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          tech.ydb.Validation.getDescriptor(),
           tech.ydb.OperationProtos.getDescriptor(),
         }, assigner);
     internal_static_Ydb_Export_ExportProgress_descriptor =
@@ -5126,6 +5129,14 @@ public final class YdbExport {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToYtResponse_descriptor,
         new java.lang.String[] { "Operation", });
+    com.google.protobuf.ExtensionRegistry registry =
+        com.google.protobuf.ExtensionRegistry.newInstance();
+    registry.add(tech.ydb.Validation.length);
+    registry.add(tech.ydb.Validation.required);
+    registry.add(tech.ydb.Validation.size);
+    com.google.protobuf.Descriptors.FileDescriptor
+        .internalUpdateFileDescriptor(descriptor, registry);
+    tech.ydb.Validation.getDescriptor();
     tech.ydb.OperationProtos.getDescriptor();
   }
 

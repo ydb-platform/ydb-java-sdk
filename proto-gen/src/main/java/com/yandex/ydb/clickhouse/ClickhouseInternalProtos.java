@@ -4002,6 +4002,11 @@ public final class ClickhouseInternalProtos {
      */
     com.google.protobuf.ByteString
         getHostBytes();
+
+    /**
+     * <code>uint32 port = 3;</code>
+     */
+    int getPort();
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.TabletInfo}
@@ -4018,6 +4023,7 @@ public final class ClickhouseInternalProtos {
     private TabletInfo() {
       tabletId_ = 0L;
       host_ = "";
+      port_ = 0;
     }
 
     @java.lang.Override
@@ -4057,6 +4063,11 @@ public final class ClickhouseInternalProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               host_ = s;
+              break;
+            }
+            case 24: {
+
+              port_ = input.readUInt32();
               break;
             }
           }
@@ -4126,6 +4137,15 @@ public final class ClickhouseInternalProtos {
       }
     }
 
+    public static final int PORT_FIELD_NUMBER = 3;
+    private int port_;
+    /**
+     * <code>uint32 port = 3;</code>
+     */
+    public int getPort() {
+      return port_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -4144,6 +4164,9 @@ public final class ClickhouseInternalProtos {
       if (!getHostBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, host_);
       }
+      if (port_ != 0) {
+        output.writeUInt32(3, port_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -4158,6 +4181,10 @@ public final class ClickhouseInternalProtos {
       }
       if (!getHostBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, host_);
+      }
+      if (port_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(3, port_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4179,6 +4206,8 @@ public final class ClickhouseInternalProtos {
           == other.getTabletId());
       result = result && getHost()
           .equals(other.getHost());
+      result = result && (getPort()
+          == other.getPort());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -4195,6 +4224,8 @@ public final class ClickhouseInternalProtos {
           getTabletId());
       hash = (37 * hash) + HOST_FIELD_NUMBER;
       hash = (53 * hash) + getHost().hashCode();
+      hash = (37 * hash) + PORT_FIELD_NUMBER;
+      hash = (53 * hash) + getPort();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4328,6 +4359,8 @@ public final class ClickhouseInternalProtos {
 
         host_ = "";
 
+        port_ = 0;
+
         return this;
       }
 
@@ -4352,6 +4385,7 @@ public final class ClickhouseInternalProtos {
         tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo result = new tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo(this);
         result.tabletId_ = tabletId_;
         result.host_ = host_;
+        result.port_ = port_;
         onBuilt();
         return result;
       }
@@ -4399,6 +4433,9 @@ public final class ClickhouseInternalProtos {
         if (!other.getHost().isEmpty()) {
           host_ = other.host_;
           onChanged();
+        }
+        if (other.getPort() != 0) {
+          setPort(other.getPort());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -4518,6 +4555,32 @@ public final class ClickhouseInternalProtos {
   checkByteStringIsUtf8(value);
         
         host_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int port_ ;
+      /**
+       * <code>uint32 port = 3;</code>
+       */
+      public int getPort() {
+        return port_;
+      }
+      /**
+       * <code>uint32 port = 3;</code>
+       */
+      public Builder setPort(int value) {
+        
+        port_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 port = 3;</code>
+       */
+      public Builder clearPort() {
+        
+        port_ = 0;
         onChanged();
         return this;
       }
@@ -8721,23 +8784,23 @@ public final class ClickhouseInternalProtos {
       "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\022" +
       "\n\ntablet_ids\030\002 \003(\004\"I\n\031GetShardLocationsR" +
       "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
-      "ons.Operation\"-\n\nTabletInfo\022\021\n\ttablet_id" +
-      "\030\001 \001(\004\022\014\n\004host\030\002 \001(\t\"N\n\027GetShardLocation",
-      "sResult\0223\n\007tablets\030\001 \003(\0132\".Ydb.Clickhous" +
-      "eInternal.TabletInfo\"\200\001\n\024DescribeTableRe" +
-      "quest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Op" +
-      "erations.OperationParams\022\014\n\004path\030\002 \001(\t\022\037" +
-      "\n\027include_partitions_info\030\003 \001(\010\"N\n\rParti" +
-      "tionInfo\022\021\n\ttablet_id\030\001 \001(\004\022\017\n\007end_key\030\002" +
-      " \001(\014\022\031\n\021end_key_inclusive\030\003 \001(\010\"\241\001\n\023Desc" +
-      "ribeTableResult\022&\n\007columns\030\002 \003(\0132\025.Ydb.T" +
-      "able.ColumnMeta\022\023\n\013primary_key\030\003 \003(\t\0229\n\n" +
-      "partitions\030\004 \003(\0132%.Ydb.ClickhouseInterna",
-      "l.PartitionInfo\022\022\n\nis_virtual\030\005 \001(\010\"E\n\025D" +
-      "escribeTableResponse\022,\n\toperation\030\001 \001(\0132" +
-      "\031.Ydb.Operations.OperationB8\n\031com.yandex" +
-      ".ydb.clickhouseB\030ClickhouseInternalProto" +
-      "s\370\001\001b\006proto3"
+      "ons.Operation\";\n\nTabletInfo\022\021\n\ttablet_id" +
+      "\030\001 \001(\004\022\014\n\004host\030\002 \001(\t\022\014\n\004port\030\003 \001(\r\"N\n\027Ge",
+      "tShardLocationsResult\0223\n\007tablets\030\001 \003(\0132\"" +
+      ".Ydb.ClickhouseInternal.TabletInfo\"\200\001\n\024D" +
+      "escribeTableRequest\0229\n\020operation_params\030" +
+      "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\014" +
+      "\n\004path\030\002 \001(\t\022\037\n\027include_partitions_info\030" +
+      "\003 \001(\010\"N\n\rPartitionInfo\022\021\n\ttablet_id\030\001 \001(" +
+      "\004\022\017\n\007end_key\030\002 \001(\014\022\031\n\021end_key_inclusive\030" +
+      "\003 \001(\010\"\241\001\n\023DescribeTableResult\022&\n\007columns" +
+      "\030\002 \003(\0132\025.Ydb.Table.ColumnMeta\022\023\n\013primary" +
+      "_key\030\003 \003(\t\0229\n\npartitions\030\004 \003(\0132%.Ydb.Cli",
+      "ckhouseInternal.PartitionInfo\022\022\n\nis_virt" +
+      "ual\030\005 \001(\010\"E\n\025DescribeTableResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "B8\n\031tech.ydb.clickhouseB\030Clickhous" +
+      "eInternalProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -8788,7 +8851,7 @@ public final class ClickhouseInternalProtos {
     internal_static_Ydb_ClickhouseInternal_TabletInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_ClickhouseInternal_TabletInfo_descriptor,
-        new java.lang.String[] { "TabletId", "Host", });
+        new java.lang.String[] { "TabletId", "Host", "Port", });
     internal_static_Ydb_ClickhouseInternal_GetShardLocationsResult_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_Ydb_ClickhouseInternal_GetShardLocationsResult_fieldAccessorTable = new

@@ -26,6 +26,7 @@ private static final long serialVersionUID = 0L;
     sessionGracePeriodMillis_ = 0;
     readConsistencyMode_ = 0;
     attachConsistencyMode_ = 0;
+    rateLimiterCountersMode_ = 0;
   }
 
   @java.lang.Override
@@ -82,6 +83,12 @@ private static final long serialVersionUID = 0L;
             int rawValue = input.readEnum();
 
             attachConsistencyMode_ = rawValue;
+            break;
+          }
+          case 48: {
+            int rawValue = input.readEnum();
+
+            rateLimiterCountersMode_ = rawValue;
             break;
           }
         }
@@ -224,6 +231,30 @@ private static final long serialVersionUID = 0L;
     return result == null ? tech.ydb.coordination.ConsistencyMode.UNRECOGNIZED : result;
   }
 
+  public static final int RATE_LIMITER_COUNTERS_MODE_FIELD_NUMBER = 6;
+  private int rateLimiterCountersMode_;
+  /**
+   * <pre>
+   * Rate limiter counters mode
+   * </pre>
+   *
+   * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+   */
+  public int getRateLimiterCountersModeValue() {
+    return rateLimiterCountersMode_;
+  }
+  /**
+   * <pre>
+   * Rate limiter counters mode
+   * </pre>
+   *
+   * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+   */
+  public tech.ydb.coordination.RateLimiterCountersMode getRateLimiterCountersMode() {
+    tech.ydb.coordination.RateLimiterCountersMode result = tech.ydb.coordination.RateLimiterCountersMode.valueOf(rateLimiterCountersMode_);
+    return result == null ? tech.ydb.coordination.RateLimiterCountersMode.UNRECOGNIZED : result;
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -250,6 +281,9 @@ private static final long serialVersionUID = 0L;
     }
     if (attachConsistencyMode_ != tech.ydb.coordination.ConsistencyMode.CONSISTENCY_MODE_UNSET.getNumber()) {
       output.writeEnum(5, attachConsistencyMode_);
+    }
+    if (rateLimiterCountersMode_ != tech.ydb.coordination.RateLimiterCountersMode.RATE_LIMITER_COUNTERS_MODE_UNSET.getNumber()) {
+      output.writeEnum(6, rateLimiterCountersMode_);
     }
     unknownFields.writeTo(output);
   }
@@ -278,6 +312,10 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeEnumSize(5, attachConsistencyMode_);
     }
+    if (rateLimiterCountersMode_ != tech.ydb.coordination.RateLimiterCountersMode.RATE_LIMITER_COUNTERS_MODE_UNSET.getNumber()) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeEnumSize(6, rateLimiterCountersMode_);
+    }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
     return size;
@@ -302,6 +340,7 @@ private static final long serialVersionUID = 0L;
         == other.getSessionGracePeriodMillis());
     result = result && readConsistencyMode_ == other.readConsistencyMode_;
     result = result && attachConsistencyMode_ == other.attachConsistencyMode_;
+    result = result && rateLimiterCountersMode_ == other.rateLimiterCountersMode_;
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -323,6 +362,8 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + readConsistencyMode_;
     hash = (37 * hash) + ATTACH_CONSISTENCY_MODE_FIELD_NUMBER;
     hash = (53 * hash) + attachConsistencyMode_;
+    hash = (37 * hash) + RATE_LIMITER_COUNTERS_MODE_FIELD_NUMBER;
+    hash = (53 * hash) + rateLimiterCountersMode_;
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -467,6 +508,8 @@ private static final long serialVersionUID = 0L;
 
       attachConsistencyMode_ = 0;
 
+      rateLimiterCountersMode_ = 0;
+
       return this;
     }
 
@@ -494,6 +537,7 @@ private static final long serialVersionUID = 0L;
       result.sessionGracePeriodMillis_ = sessionGracePeriodMillis_;
       result.readConsistencyMode_ = readConsistencyMode_;
       result.attachConsistencyMode_ = attachConsistencyMode_;
+      result.rateLimiterCountersMode_ = rateLimiterCountersMode_;
       onBuilt();
       return result;
     }
@@ -550,6 +594,9 @@ private static final long serialVersionUID = 0L;
       }
       if (other.attachConsistencyMode_ != 0) {
         setAttachConsistencyModeValue(other.getAttachConsistencyModeValue());
+      }
+      if (other.rateLimiterCountersMode_ != 0) {
+        setRateLimiterCountersModeValue(other.getRateLimiterCountersModeValue());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -867,6 +914,70 @@ private static final long serialVersionUID = 0L;
     public Builder clearAttachConsistencyMode() {
       
       attachConsistencyMode_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private int rateLimiterCountersMode_ = 0;
+    /**
+     * <pre>
+     * Rate limiter counters mode
+     * </pre>
+     *
+     * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+     */
+    public int getRateLimiterCountersModeValue() {
+      return rateLimiterCountersMode_;
+    }
+    /**
+     * <pre>
+     * Rate limiter counters mode
+     * </pre>
+     *
+     * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+     */
+    public Builder setRateLimiterCountersModeValue(int value) {
+      rateLimiterCountersMode_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * Rate limiter counters mode
+     * </pre>
+     *
+     * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+     */
+    public tech.ydb.coordination.RateLimiterCountersMode getRateLimiterCountersMode() {
+      tech.ydb.coordination.RateLimiterCountersMode result = tech.ydb.coordination.RateLimiterCountersMode.valueOf(rateLimiterCountersMode_);
+      return result == null ? tech.ydb.coordination.RateLimiterCountersMode.UNRECOGNIZED : result;
+    }
+    /**
+     * <pre>
+     * Rate limiter counters mode
+     * </pre>
+     *
+     * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+     */
+    public Builder setRateLimiterCountersMode(tech.ydb.coordination.RateLimiterCountersMode value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      
+      rateLimiterCountersMode_ = value.getNumber();
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * Rate limiter counters mode
+     * </pre>
+     *
+     * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+     */
+    public Builder clearRateLimiterCountersMode() {
+      
+      rateLimiterCountersMode_ = 0;
       onChanged();
       return this;
     }

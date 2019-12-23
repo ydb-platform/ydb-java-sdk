@@ -2002,6 +2002,15 @@ public final class ExperimentalProtos {
 
     tech.ydb.ValueProtos.TypedValue getParametersOrThrow(
         java.lang.String key);
+
+    /**
+     * <code>.Ydb.Experimental.ExecuteStreamQueryRequest.ProfileMode profile_mode = 3;</code>
+     */
+    int getProfileModeValue();
+    /**
+     * <code>.Ydb.Experimental.ExecuteStreamQueryRequest.ProfileMode profile_mode = 3;</code>
+     */
+    tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode getProfileMode();
   }
   /**
    * Protobuf type {@code Ydb.Experimental.ExecuteStreamQueryRequest}
@@ -2017,6 +2026,7 @@ public final class ExperimentalProtos {
     }
     private ExecuteStreamQueryRequest() {
       yqlText_ = "";
+      profileMode_ = 0;
     }
 
     @java.lang.Override
@@ -2066,6 +2076,12 @@ public final class ExperimentalProtos {
                   parameters__.getKey(), parameters__.getValue());
               break;
             }
+            case 24: {
+              int rawValue = input.readEnum();
+
+              profileMode_ = rawValue;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2099,6 +2115,121 @@ public final class ExperimentalProtos {
       return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.class, tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code Ydb.Experimental.ExecuteStreamQueryRequest.ProfileMode}
+     */
+    public enum ProfileMode
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>PROFILE_MODE_UNSPECIFIED = 0;</code>
+       */
+      PROFILE_MODE_UNSPECIFIED(0),
+      /**
+       * <code>NONE = 1;</code>
+       */
+      NONE(1),
+      /**
+       * <pre>
+       * tmp name
+       * </pre>
+       *
+       * <code>BASIC = 2;</code>
+       */
+      BASIC(2),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>PROFILE_MODE_UNSPECIFIED = 0;</code>
+       */
+      public static final int PROFILE_MODE_UNSPECIFIED_VALUE = 0;
+      /**
+       * <code>NONE = 1;</code>
+       */
+      public static final int NONE_VALUE = 1;
+      /**
+       * <pre>
+       * tmp name
+       * </pre>
+       *
+       * <code>BASIC = 2;</code>
+       */
+      public static final int BASIC_VALUE = 2;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static ProfileMode valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static ProfileMode forNumber(int value) {
+        switch (value) {
+          case 0: return PROFILE_MODE_UNSPECIFIED;
+          case 1: return NONE;
+          case 2: return BASIC;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<ProfileMode>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          ProfileMode> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<ProfileMode>() {
+              public ProfileMode findValueByNumber(int number) {
+                return ProfileMode.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final ProfileMode[] VALUES = values();
+
+      public static ProfileMode valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private ProfileMode(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:Ydb.Experimental.ExecuteStreamQueryRequest.ProfileMode)
     }
 
     private int bitField0_;
@@ -2212,6 +2343,22 @@ public final class ExperimentalProtos {
       return map.get(key);
     }
 
+    public static final int PROFILE_MODE_FIELD_NUMBER = 3;
+    private int profileMode_;
+    /**
+     * <code>.Ydb.Experimental.ExecuteStreamQueryRequest.ProfileMode profile_mode = 3;</code>
+     */
+    public int getProfileModeValue() {
+      return profileMode_;
+    }
+    /**
+     * <code>.Ydb.Experimental.ExecuteStreamQueryRequest.ProfileMode profile_mode = 3;</code>
+     */
+    public tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode getProfileMode() {
+      tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode result = tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode.valueOf(profileMode_);
+      return result == null ? tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2233,6 +2380,9 @@ public final class ExperimentalProtos {
           internalGetParameters(),
           ParametersDefaultEntryHolder.defaultEntry,
           2);
+      if (profileMode_ != tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode.PROFILE_MODE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(3, profileMode_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2254,6 +2404,10 @@ public final class ExperimentalProtos {
         size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(2, parameters__);
       }
+      if (profileMode_ != tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode.PROFILE_MODE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, profileMode_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2274,6 +2428,7 @@ public final class ExperimentalProtos {
           .equals(other.getYqlText());
       result = result && internalGetParameters().equals(
           other.internalGetParameters());
+      result = result && profileMode_ == other.profileMode_;
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2291,6 +2446,8 @@ public final class ExperimentalProtos {
         hash = (37 * hash) + PARAMETERS_FIELD_NUMBER;
         hash = (53 * hash) + internalGetParameters().hashCode();
       }
+      hash = (37 * hash) + PROFILE_MODE_FIELD_NUMBER;
+      hash = (53 * hash) + profileMode_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2445,6 +2602,8 @@ public final class ExperimentalProtos {
         yqlText_ = "";
 
         internalGetMutableParameters().clear();
+        profileMode_ = 0;
+
         return this;
       }
 
@@ -2472,6 +2631,7 @@ public final class ExperimentalProtos {
         result.yqlText_ = yqlText_;
         result.parameters_ = internalGetParameters();
         result.parameters_.makeImmutable();
+        result.profileMode_ = profileMode_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2520,6 +2680,9 @@ public final class ExperimentalProtos {
         }
         internalGetMutableParameters().mergeFrom(
             other.internalGetParameters());
+        if (other.profileMode_ != 0) {
+          setProfileModeValue(other.getProfileModeValue());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -2737,6 +2900,50 @@ public final class ExperimentalProtos {
           java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> values) {
         internalGetMutableParameters().getMutableMap()
             .putAll(values);
+        return this;
+      }
+
+      private int profileMode_ = 0;
+      /**
+       * <code>.Ydb.Experimental.ExecuteStreamQueryRequest.ProfileMode profile_mode = 3;</code>
+       */
+      public int getProfileModeValue() {
+        return profileMode_;
+      }
+      /**
+       * <code>.Ydb.Experimental.ExecuteStreamQueryRequest.ProfileMode profile_mode = 3;</code>
+       */
+      public Builder setProfileModeValue(int value) {
+        profileMode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.Experimental.ExecuteStreamQueryRequest.ProfileMode profile_mode = 3;</code>
+       */
+      public tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode getProfileMode() {
+        tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode result = tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode.valueOf(profileMode_);
+        return result == null ? tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.Ydb.Experimental.ExecuteStreamQueryRequest.ProfileMode profile_mode = 3;</code>
+       */
+      public Builder setProfileMode(tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        profileMode_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.Experimental.ExecuteStreamQueryRequest.ProfileMode profile_mode = 3;</code>
+       */
+      public Builder clearProfileMode() {
+        
+        profileMode_ = 0;
+        onChanged();
         return this;
       }
       public final Builder setUnknownFields(
@@ -3847,6 +4054,18 @@ public final class ExperimentalProtos {
      * <code>.Ydb.ResultSet result_set = 1;</code>
      */
     tech.ydb.ValueProtos.ResultSetOrBuilder getResultSetOrBuilder();
+
+    /**
+     * <code>string profile = 2;</code>
+     */
+    java.lang.String getProfile();
+    /**
+     * <code>string profile = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getProfileBytes();
+
+    public tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.ResultCase getResultCase();
   }
   /**
    * Protobuf type {@code Ydb.Experimental.ExecuteStreamQueryResult}
@@ -3893,15 +4112,22 @@ public final class ExperimentalProtos {
             }
             case 10: {
               tech.ydb.ValueProtos.ResultSet.Builder subBuilder = null;
-              if (resultSet_ != null) {
-                subBuilder = resultSet_.toBuilder();
+              if (resultCase_ == 1) {
+                subBuilder = ((tech.ydb.ValueProtos.ResultSet) result_).toBuilder();
               }
-              resultSet_ = input.readMessage(tech.ydb.ValueProtos.ResultSet.parser(), extensionRegistry);
+              result_ =
+                  input.readMessage(tech.ydb.ValueProtos.ResultSet.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(resultSet_);
-                resultSet_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom((tech.ydb.ValueProtos.ResultSet) result_);
+                result_ = subBuilder.buildPartial();
               }
-
+              resultCase_ = 1;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+              resultCase_ = 2;
+              result_ = s;
               break;
             }
           }
@@ -3928,25 +4154,111 @@ public final class ExperimentalProtos {
               tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.class, tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.Builder.class);
     }
 
+    private int resultCase_ = 0;
+    private java.lang.Object result_;
+    public enum ResultCase
+        implements com.google.protobuf.Internal.EnumLite {
+      RESULT_SET(1),
+      PROFILE(2),
+      RESULT_NOT_SET(0);
+      private final int value;
+      private ResultCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static ResultCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static ResultCase forNumber(int value) {
+        switch (value) {
+          case 1: return RESULT_SET;
+          case 2: return PROFILE;
+          case 0: return RESULT_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public ResultCase
+    getResultCase() {
+      return ResultCase.forNumber(
+          resultCase_);
+    }
+
     public static final int RESULT_SET_FIELD_NUMBER = 1;
-    private tech.ydb.ValueProtos.ResultSet resultSet_;
     /**
      * <code>.Ydb.ResultSet result_set = 1;</code>
      */
     public boolean hasResultSet() {
-      return resultSet_ != null;
+      return resultCase_ == 1;
     }
     /**
      * <code>.Ydb.ResultSet result_set = 1;</code>
      */
     public tech.ydb.ValueProtos.ResultSet getResultSet() {
-      return resultSet_ == null ? tech.ydb.ValueProtos.ResultSet.getDefaultInstance() : resultSet_;
+      if (resultCase_ == 1) {
+         return (tech.ydb.ValueProtos.ResultSet) result_;
+      }
+      return tech.ydb.ValueProtos.ResultSet.getDefaultInstance();
     }
     /**
      * <code>.Ydb.ResultSet result_set = 1;</code>
      */
     public tech.ydb.ValueProtos.ResultSetOrBuilder getResultSetOrBuilder() {
-      return getResultSet();
+      if (resultCase_ == 1) {
+         return (tech.ydb.ValueProtos.ResultSet) result_;
+      }
+      return tech.ydb.ValueProtos.ResultSet.getDefaultInstance();
+    }
+
+    public static final int PROFILE_FIELD_NUMBER = 2;
+    /**
+     * <code>string profile = 2;</code>
+     */
+    public java.lang.String getProfile() {
+      java.lang.Object ref = "";
+      if (resultCase_ == 2) {
+        ref = result_;
+      }
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (resultCase_ == 2) {
+          result_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>string profile = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getProfileBytes() {
+      java.lang.Object ref = "";
+      if (resultCase_ == 2) {
+        ref = result_;
+      }
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        if (resultCase_ == 2) {
+          result_ = b;
+        }
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -3961,8 +4273,11 @@ public final class ExperimentalProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (resultSet_ != null) {
-        output.writeMessage(1, getResultSet());
+      if (resultCase_ == 1) {
+        output.writeMessage(1, (tech.ydb.ValueProtos.ResultSet) result_);
+      }
+      if (resultCase_ == 2) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, result_);
       }
       unknownFields.writeTo(output);
     }
@@ -3972,9 +4287,12 @@ public final class ExperimentalProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (resultSet_ != null) {
+      if (resultCase_ == 1) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getResultSet());
+          .computeMessageSize(1, (tech.ydb.ValueProtos.ResultSet) result_);
+      }
+      if (resultCase_ == 2) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, result_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3992,10 +4310,20 @@ public final class ExperimentalProtos {
       tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult other = (tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult) obj;
 
       boolean result = true;
-      result = result && (hasResultSet() == other.hasResultSet());
-      if (hasResultSet()) {
-        result = result && getResultSet()
-            .equals(other.getResultSet());
+      result = result && getResultCase().equals(
+          other.getResultCase());
+      if (!result) return false;
+      switch (resultCase_) {
+        case 1:
+          result = result && getResultSet()
+              .equals(other.getResultSet());
+          break;
+        case 2:
+          result = result && getProfile()
+              .equals(other.getProfile());
+          break;
+        case 0:
+        default:
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -4008,9 +4336,17 @@ public final class ExperimentalProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasResultSet()) {
-        hash = (37 * hash) + RESULT_SET_FIELD_NUMBER;
-        hash = (53 * hash) + getResultSet().hashCode();
+      switch (resultCase_) {
+        case 1:
+          hash = (37 * hash) + RESULT_SET_FIELD_NUMBER;
+          hash = (53 * hash) + getResultSet().hashCode();
+          break;
+        case 2:
+          hash = (37 * hash) + PROFILE_FIELD_NUMBER;
+          hash = (53 * hash) + getProfile().hashCode();
+          break;
+        case 0:
+        default:
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -4141,12 +4477,8 @@ public final class ExperimentalProtos {
       }
       public Builder clear() {
         super.clear();
-        if (resultSetBuilder_ == null) {
-          resultSet_ = null;
-        } else {
-          resultSet_ = null;
-          resultSetBuilder_ = null;
-        }
+        resultCase_ = 0;
+        result_ = null;
         return this;
       }
 
@@ -4169,11 +4501,17 @@ public final class ExperimentalProtos {
 
       public tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult buildPartial() {
         tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult result = new tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult(this);
-        if (resultSetBuilder_ == null) {
-          result.resultSet_ = resultSet_;
-        } else {
-          result.resultSet_ = resultSetBuilder_.build();
+        if (resultCase_ == 1) {
+          if (resultSetBuilder_ == null) {
+            result.result_ = result_;
+          } else {
+            result.result_ = resultSetBuilder_.build();
+          }
         }
+        if (resultCase_ == 2) {
+          result.result_ = result_;
+        }
+        result.resultCase_ = resultCase_;
         onBuilt();
         return result;
       }
@@ -4215,8 +4553,20 @@ public final class ExperimentalProtos {
 
       public Builder mergeFrom(tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult other) {
         if (other == tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.getDefaultInstance()) return this;
-        if (other.hasResultSet()) {
-          mergeResultSet(other.getResultSet());
+        switch (other.getResultCase()) {
+          case RESULT_SET: {
+            mergeResultSet(other.getResultSet());
+            break;
+          }
+          case PROFILE: {
+            resultCase_ = 2;
+            result_ = other.result_;
+            onChanged();
+            break;
+          }
+          case RESULT_NOT_SET: {
+            break;
+          }
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -4244,24 +4594,44 @@ public final class ExperimentalProtos {
         }
         return this;
       }
+      private int resultCase_ = 0;
+      private java.lang.Object result_;
+      public ResultCase
+          getResultCase() {
+        return ResultCase.forNumber(
+            resultCase_);
+      }
 
-      private tech.ydb.ValueProtos.ResultSet resultSet_ = null;
+      public Builder clearResult() {
+        resultCase_ = 0;
+        result_ = null;
+        onChanged();
+        return this;
+      }
+
+
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.ResultSet, tech.ydb.ValueProtos.ResultSet.Builder, tech.ydb.ValueProtos.ResultSetOrBuilder> resultSetBuilder_;
       /**
        * <code>.Ydb.ResultSet result_set = 1;</code>
        */
       public boolean hasResultSet() {
-        return resultSetBuilder_ != null || resultSet_ != null;
+        return resultCase_ == 1;
       }
       /**
        * <code>.Ydb.ResultSet result_set = 1;</code>
        */
       public tech.ydb.ValueProtos.ResultSet getResultSet() {
         if (resultSetBuilder_ == null) {
-          return resultSet_ == null ? tech.ydb.ValueProtos.ResultSet.getDefaultInstance() : resultSet_;
+          if (resultCase_ == 1) {
+            return (tech.ydb.ValueProtos.ResultSet) result_;
+          }
+          return tech.ydb.ValueProtos.ResultSet.getDefaultInstance();
         } else {
-          return resultSetBuilder_.getMessage();
+          if (resultCase_ == 1) {
+            return resultSetBuilder_.getMessage();
+          }
+          return tech.ydb.ValueProtos.ResultSet.getDefaultInstance();
         }
       }
       /**
@@ -4272,12 +4642,12 @@ public final class ExperimentalProtos {
           if (value == null) {
             throw new NullPointerException();
           }
-          resultSet_ = value;
+          result_ = value;
           onChanged();
         } else {
           resultSetBuilder_.setMessage(value);
         }
-
+        resultCase_ = 1;
         return this;
       }
       /**
@@ -4286,12 +4656,12 @@ public final class ExperimentalProtos {
       public Builder setResultSet(
           tech.ydb.ValueProtos.ResultSet.Builder builderForValue) {
         if (resultSetBuilder_ == null) {
-          resultSet_ = builderForValue.build();
+          result_ = builderForValue.build();
           onChanged();
         } else {
           resultSetBuilder_.setMessage(builderForValue.build());
         }
-
+        resultCase_ = 1;
         return this;
       }
       /**
@@ -4299,17 +4669,21 @@ public final class ExperimentalProtos {
        */
       public Builder mergeResultSet(tech.ydb.ValueProtos.ResultSet value) {
         if (resultSetBuilder_ == null) {
-          if (resultSet_ != null) {
-            resultSet_ =
-              tech.ydb.ValueProtos.ResultSet.newBuilder(resultSet_).mergeFrom(value).buildPartial();
+          if (resultCase_ == 1 &&
+              result_ != tech.ydb.ValueProtos.ResultSet.getDefaultInstance()) {
+            result_ = tech.ydb.ValueProtos.ResultSet.newBuilder((tech.ydb.ValueProtos.ResultSet) result_)
+                .mergeFrom(value).buildPartial();
           } else {
-            resultSet_ = value;
+            result_ = value;
           }
           onChanged();
         } else {
-          resultSetBuilder_.mergeFrom(value);
+          if (resultCase_ == 1) {
+            resultSetBuilder_.mergeFrom(value);
+          }
+          resultSetBuilder_.setMessage(value);
         }
-
+        resultCase_ = 1;
         return this;
       }
       /**
@@ -4317,32 +4691,37 @@ public final class ExperimentalProtos {
        */
       public Builder clearResultSet() {
         if (resultSetBuilder_ == null) {
-          resultSet_ = null;
-          onChanged();
+          if (resultCase_ == 1) {
+            resultCase_ = 0;
+            result_ = null;
+            onChanged();
+          }
         } else {
-          resultSet_ = null;
-          resultSetBuilder_ = null;
+          if (resultCase_ == 1) {
+            resultCase_ = 0;
+            result_ = null;
+          }
+          resultSetBuilder_.clear();
         }
-
         return this;
       }
       /**
        * <code>.Ydb.ResultSet result_set = 1;</code>
        */
       public tech.ydb.ValueProtos.ResultSet.Builder getResultSetBuilder() {
-        
-        onChanged();
         return getResultSetFieldBuilder().getBuilder();
       }
       /**
        * <code>.Ydb.ResultSet result_set = 1;</code>
        */
       public tech.ydb.ValueProtos.ResultSetOrBuilder getResultSetOrBuilder() {
-        if (resultSetBuilder_ != null) {
+        if ((resultCase_ == 1) && (resultSetBuilder_ != null)) {
           return resultSetBuilder_.getMessageOrBuilder();
         } else {
-          return resultSet_ == null ?
-              tech.ydb.ValueProtos.ResultSet.getDefaultInstance() : resultSet_;
+          if (resultCase_ == 1) {
+            return (tech.ydb.ValueProtos.ResultSet) result_;
+          }
+          return tech.ydb.ValueProtos.ResultSet.getDefaultInstance();
         }
       }
       /**
@@ -4352,14 +4731,99 @@ public final class ExperimentalProtos {
           tech.ydb.ValueProtos.ResultSet, tech.ydb.ValueProtos.ResultSet.Builder, tech.ydb.ValueProtos.ResultSetOrBuilder> 
           getResultSetFieldBuilder() {
         if (resultSetBuilder_ == null) {
+          if (!(resultCase_ == 1)) {
+            result_ = tech.ydb.ValueProtos.ResultSet.getDefaultInstance();
+          }
           resultSetBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               tech.ydb.ValueProtos.ResultSet, tech.ydb.ValueProtos.ResultSet.Builder, tech.ydb.ValueProtos.ResultSetOrBuilder>(
-                  getResultSet(),
+                  (tech.ydb.ValueProtos.ResultSet) result_,
                   getParentForChildren(),
                   isClean());
-          resultSet_ = null;
+          result_ = null;
         }
+        resultCase_ = 1;
+        onChanged();;
         return resultSetBuilder_;
+      }
+
+      /**
+       * <code>string profile = 2;</code>
+       */
+      public java.lang.String getProfile() {
+        java.lang.Object ref = "";
+        if (resultCase_ == 2) {
+          ref = result_;
+        }
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (resultCase_ == 2) {
+            result_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string profile = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getProfileBytes() {
+        java.lang.Object ref = "";
+        if (resultCase_ == 2) {
+          ref = result_;
+        }
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          if (resultCase_ == 2) {
+            result_ = b;
+          }
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string profile = 2;</code>
+       */
+      public Builder setProfile(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  resultCase_ = 2;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string profile = 2;</code>
+       */
+      public Builder clearProfile() {
+        if (resultCase_ == 2) {
+          resultCase_ = 0;
+          result_ = null;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>string profile = 2;</code>
+       */
+      public Builder setProfileBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        resultCase_ = 2;
+        result_ = value;
+        onChanged();
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -4465,20 +4929,24 @@ public final class ExperimentalProtos {
       "e\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Operat" +
       "ions.OperationParams\"B\n\022UploadRowsRespon",
       "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
-      "peration\"\022\n\020UploadRowsResult\"\302\001\n\031Execute" +
+      "peration\"\022\n\020UploadRowsResult\"\323\002\n\031Execute" +
       "StreamQueryRequest\022\020\n\010yql_text\030\001 \001(\t\022O\n\n" +
       "parameters\030\002 \003(\0132;.Ydb.Experimental.Exec" +
-      "uteStreamQueryRequest.ParametersEntry\032B\n" +
-      "\017ParametersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002" +
-      " \001(\0132\017.Ydb.TypedValue:\0028\001\"\254\001\n\032ExecuteStr" +
-      "eamQueryResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.S" +
-      "tatusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Yd" +
-      "b.Issue.IssueMessage\022:\n\006result\030\003 \001(\0132*.Y",
-      "db.Experimental.ExecuteStreamQueryResult" +
-      "\">\n\030ExecuteStreamQueryResult\022\"\n\nresult_s" +
-      "et\030\001 \001(\0132\016.Ydb.ResultSetB4\n\033com.yandex.y" +
-      "db.experimentalB\022ExperimentalProtos\370\001\001b\006" +
-      "proto3"
+      "uteStreamQueryRequest.ParametersEntry\022M\n" +
+      "\014profile_mode\030\003 \001(\01627.Ydb.Experimental.E" +
+      "xecuteStreamQueryRequest.ProfileMode\032B\n\017" +
+      "ParametersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 " +
+      "\001(\0132\017.Ydb.TypedValue:\0028\001\"@\n\013ProfileMode\022" +
+      "\034\n\030PROFILE_MODE_UNSPECIFIED\020\000\022\010\n\004NONE\020\001\022",
+      "\t\n\005BASIC\020\002\"\254\001\n\032ExecuteStreamQueryRespons" +
+      "e\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.Status" +
+      "Code\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMe" +
+      "ssage\022:\n\006result\030\003 \001(\0132*.Ydb.Experimental" +
+      ".ExecuteStreamQueryResult\"]\n\030ExecuteStre" +
+      "amQueryResult\022$\n\nresult_set\030\001 \001(\0132\016.Ydb." +
+      "ResultSetH\000\022\021\n\007profile\030\002 \001(\tH\000B\010\n\006result" +
+      "B4\n\033tech.ydb.experimentalB\022Experim" +
+      "entalProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4519,7 +4987,7 @@ public final class ExperimentalProtos {
     internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_descriptor,
-        new java.lang.String[] { "YqlText", "Parameters", });
+        new java.lang.String[] { "YqlText", "Parameters", "ProfileMode", });
     internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_ParametersEntry_descriptor =
       internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_ParametersEntry_fieldAccessorTable = new
@@ -4537,7 +5005,7 @@ public final class ExperimentalProtos {
     internal_static_Ydb_Experimental_ExecuteStreamQueryResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Experimental_ExecuteStreamQueryResult_descriptor,
-        new java.lang.String[] { "ResultSet", });
+        new java.lang.String[] { "ResultSet", "Profile", "Result", });
     tech.ydb.YdbIssueMessage.getDescriptor();
     tech.ydb.OperationProtos.getDescriptor();
     tech.ydb.StatusCodesProtos.getDescriptor();
