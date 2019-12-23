@@ -19,6 +19,13 @@ public class ListValue implements Value<ListType> {
         this.items = items;
     }
 
+    public static ListValue of(Value... items) {
+        if (items.length == 0) {
+            return new ListValue(ListType.of(VoidType.of()));
+        }
+        return new ListValue(ListType.of(items[0].getType()), items);
+    }
+
     public static ListValue of(Value item) {
         return new ListValue(ListType.of(item.getType()), item);
     }
