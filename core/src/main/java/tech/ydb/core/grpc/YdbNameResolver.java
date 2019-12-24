@@ -80,6 +80,7 @@ final class YdbNameResolver extends NameResolver {
 
     @Override
     public void shutdown() {
+        transport.close();
         shutdown = true;
     }
 
