@@ -97,6 +97,7 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
             if (!settlersPool.offerIfHaveSpace(session)) {
                 logger.log(Level.FINE, "Destroy {0} because settlers pool overflow", session);
                 session.close(); // do not await session to be closed
+                idlePool.release(session);
             }
         } else {
             idlePool.release(session);
