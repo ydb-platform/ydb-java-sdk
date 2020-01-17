@@ -1,9 +1,11 @@
 package tech.ydb.core.grpc;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
@@ -269,6 +271,7 @@ public class GrpcTransport implements RpcTransport {
 
         Metadata extraHeaders = new Metadata();
         extraHeaders.put(YdbHeaders.DATABASE, builder.getDatabase());
+        extraHeaders.put(YdbHeaders.BUILD_INFO, builder.getVersionString());
         ClientInterceptor interceptor = MetadataUtils.newAttachHeadersInterceptor(extraHeaders);
         return ClientInterceptors.intercept(realChannel, interceptor);
     }
@@ -325,6 +328,28 @@ public class GrpcTransport implements RpcTransport {
         @Nullable
         public String getDatabase() {
             return database;
+        }
+
+        public String getVersionString() {
+            Properties prop = new Properties();
+
+            try {
+                InputStream in = getClass().getResourceAsStream("/version.properties");
+                prop.load(in);
+
+                String arcadiaSourceUrl = prop.getProperty("ArcadiaSourceUrl");
+                String arcadiaLastChangeNum = prop.getProperty("ArcadiaLastChangeNum");
+                String version = prop.getProperty("version");
+
+                if (version != null) {
+                    return version;
+                } else {
+                    return arcadiaSourceUrl + "@" + arcadiaLastChangeNum;
+                }
+
+            } catch (Exception ex) { }
+
+            return "unknown-version";
         }
 
         public Consumer<NettyChannelBuilder> getChannelInitializer() {
