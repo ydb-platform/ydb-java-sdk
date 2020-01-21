@@ -8,6 +8,9 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -29,10 +32,14 @@ import io.grpc.internal.GrpcUtil;
 
 /**
  * @author Sergey Polovko
+ * @author Evgeniy Pshenitsin
  */
 final class YdbNameResolver extends NameResolver {
 
+    private static final Logger logger = Logger.getLogger(YdbNameResolver.class.getName());
+
     private static final String SCHEME = "ydb";
+    public static final Attributes.Key<String> LOCATION_ATTR = Attributes.Key.create("loc");
 
     private final String database;
     private final String authority;
@@ -91,6 +98,8 @@ final class YdbNameResolver extends NameResolver {
                 return;
             }
 
+            logger.log(Level.INFO, String.format("response METHOD_LIST_ENDPOINTS - %s", response.toString()));
+
             try {
                 Operation operation = response.getOperation();
                 if (!operation.getReady()) {
@@ -111,6 +120,21 @@ final class YdbNameResolver extends NameResolver {
                 }
 
                 ListEndpointsResult result = Operations.unpackResult(operation, ListEndpointsResult.class);
+
+                /*
+                     ---EXAMPLE---
+                * METHOD_LIST_ENDPOINTS
+                *
+                * result = {DiscoveryProtos$ListEndpointsResult@9576} "endpoints {
+                 bitField0_ = 0
+                 endpoints_ = {Collections$UnmodifiableRandomAccessList@9597}  size = 6
+                 selfLocation_ = "SAS"
+                 memoizedIsInitialized = 1
+                 unknownFields = {UnknownFieldSet@9420} ""
+                 memoizedSize = -1
+                 memoizedHashCode = 0
+                 */
+
                 int endpointsCount = result.getEndpointsCount();
                 if (endpointsCount == 0) {
                     String msg = "unable to resolve database " + database + ", got empty list of endpoints";
@@ -118,9 +142,31 @@ final class YdbNameResolver extends NameResolver {
                     return;
                 }
 
+                logger.info(String.format("ListEndpointsResult - %s)",
+                        result.getEndpointsList().stream()
+                        .map(e -> String.format("{addr - %s, loc - %s}", e.getAddress(), e.getLocation()))
+                                .collect(Collectors.joining(","))));
+
                 List<EquivalentAddressGroup> groups = new ArrayList<>(endpointsCount);
                 for (int i = 0; i < endpointsCount; i++) {
                     EndpointInfo e = result.getEndpoints(i);
+
+                    /*
+                     ---EXAMPLE---
+                    * e = {DiscoveryProtos$EndpointInfo@9601} "address: "ydb-eu-man-1022.search.yandex.net"\nport: 31011\nlocation: "MAN"\n"
+                     bitField0_ = 0
+                     address_ = "ydb-eu-man-1022.search.yandex.net"
+                     port_ = 31011
+                     loadFactor_ = 0.0
+                     ssl_ = false
+                     service_ = {LazyStringArrayList@9762}  size = 0
+                     location_ = "MAN"
+                     memoizedIsInitialized = -1
+                     unknownFields = {UnknownFieldSet@9420} ""
+                     memoizedSize = -1
+                     memoizedHashCode = 0
+                     */
+
                     try {
                         groups.add(createAddressGroup(e));
                     } catch (UnknownHostException x) {
@@ -143,14 +189,16 @@ final class YdbNameResolver extends NameResolver {
     private static EquivalentAddressGroup createAddressGroup(EndpointInfo endpoint) throws UnknownHostException {
         InetAddress[] addresses = InetAddress.getAllByName(endpoint.getAddress());
         if (addresses.length == 1) {
-            return new EquivalentAddressGroup(new InetSocketAddress(addresses[0], endpoint.getPort()));
+            return new EquivalentAddressGroup(new InetSocketAddress(addresses[0], endpoint.getPort()),
+                    Attributes.newBuilder().set(LOCATION_ATTR, endpoint.getLocation()).build());
         }
 
         List<SocketAddress> socketAddresses = new ArrayList<>(addresses.length);
         for (InetAddress address : addresses) {
             socketAddresses.add(new InetSocketAddress(address, endpoint.getPort()));
         }
-        return new EquivalentAddressGroup(socketAddresses);
+        return new EquivalentAddressGroup(socketAddresses,
+                Attributes.newBuilder().set(LOCATION_ATTR, endpoint.getLocation()).build());
     }
 
     private void listEndpoints(BiConsumer<ListEndpointsResponse, Status> consumer) {

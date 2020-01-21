@@ -34,6 +34,9 @@ import io.grpc.Channel;
 import io.grpc.ClientCall;
 import io.grpc.ClientInterceptor;
 import io.grpc.ClientInterceptors;
+import io.grpc.LoadBalancer;
+import io.grpc.LoadBalancerProvider;
+import io.grpc.LoadBalancerRegistry;
 import io.grpc.ManagedChannel;
 import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
@@ -45,6 +48,7 @@ import io.grpc.stub.MetadataUtils;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.ssl.SslContext;
+import io.netty.util.internal.StringUtil;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -54,6 +58,7 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 
 /**
  * @author Sergey Polovko
+ * @author Evgeniy Pshenitsin
  */
 public class GrpcTransport implements RpcTransport {
 
@@ -223,15 +228,46 @@ public class GrpcTransport implements RpcTransport {
         assert (endpoint != null) == (database != null);
         assert (endpoint == null) != (hosts == null);
 
+        final String localDc = builder.getLocalDc();
+
+        String defaultPolicy = "round_robin";
+
+        if (!StringUtil.isNullOrEmpty(localDc)) {
+            defaultPolicy = "prefer_nearest";
+            final LoadBalancerRegistry lbr = LoadBalancerRegistry.getDefaultRegistry();
+
+            lbr.register(new LoadBalancerProvider() {
+                @Override
+                public boolean isAvailable() {
+                    return true;
+                }
+
+                @Override
+                public int getPriority() {
+                    return 10;
+                };
+
+                @Override
+                public String getPolicyName() {
+                    return "prefer_nearest";
+                }
+
+                @Override
+                public LoadBalancer newLoadBalancer(LoadBalancer.Helper helper) {
+                    return new PreferNearestLoadBalancer(helper, localDc);
+                }
+            });
+        }
+
         final NettyChannelBuilder channelBuilder;
         if (endpoint != null) {
             channelBuilder = NettyChannelBuilder.forTarget(YdbNameResolver.makeTarget(endpoint, database))
                 .nameResolverFactory(YdbNameResolver.newFactory(builder.getAuthProvider(), builder.cert))
-                .defaultLoadBalancingPolicy("round_robin");
+                .defaultLoadBalancingPolicy(defaultPolicy);
         } else if (hosts.size() > 1) {
             channelBuilder = NettyChannelBuilder.forTarget(HostsNameResolver.makeTarget(hosts))
                 .nameResolverFactory(HostsNameResolver.newFactory(hosts))
-                .defaultLoadBalancingPolicy("round_robin");
+                .defaultLoadBalancingPolicy(defaultPolicy);
         } else {
             channelBuilder = NettyChannelBuilder.forAddress(new InetSocketAddress(
                 hosts.get(0).getHost(),
@@ -308,6 +344,7 @@ public class GrpcTransport implements RpcTransport {
         private final List<HostAndPort> hosts;
         private byte[] cert = null;
         private Consumer<NettyChannelBuilder> channelInitializer = (cb) -> {};
+        private String localDc;
 
         private Builder(@Nullable String endpoint, @Nullable String database, @Nullable List<HostAndPort> hosts) {
             this.endpoint = endpoint;
@@ -356,6 +393,10 @@ public class GrpcTransport implements RpcTransport {
             return channelInitializer;
         }
 
+        public String getLocalDc() {
+            return localDc;
+        }
+
         public Builder withChannelInitializer(Consumer<NettyChannelBuilder> channelInitializer) {
             this.channelInitializer = checkNotNull(channelInitializer, "channelInitializer is null");
             return this;
@@ -363,6 +404,11 @@ public class GrpcTransport implements RpcTransport {
 
         public Builder withSecureConnection(byte[] cert) {
             this.cert = cert.clone();
+            return this;
+        }
+
+        public Builder withLocalDataCenter(String dc) {
+            this.localDc = dc;
             return this;
         }
 
