@@ -42,12 +42,11 @@ final class DataQueryImpl implements DataQuery {
     private final String textHash;
 
     DataQueryImpl(
-        SessionImpl session,
-        String queryId,
-        String text,
-        boolean keepText,
-        Map<String, ValueProtos.Type> parametersTypes)
-    {
+            SessionImpl session,
+            String queryId,
+            String text,
+            boolean keepText,
+            Map<String, ValueProtos.Type> parametersTypes) {
         this.session = session;
         this.queryId = queryId;
         this.types = buildTypes(parametersTypes);
@@ -58,8 +57,8 @@ final class DataQueryImpl implements DataQuery {
 
     static String makeHash(String text) {
         return Hashing.sha256()
-            .hashString(text, StandardCharsets.UTF_8)
-            .toString();
+                .hashString(text, StandardCharsets.UTF_8)
+                .toString();
     }
 
     private static ImmutableMap<String, Type> buildTypes(Map<String, ValueProtos.Type> parametersTypes) {
@@ -91,8 +90,7 @@ final class DataQueryImpl implements DataQuery {
 
     @Override
     public CompletableFuture<Result<DataQueryResult>> execute(
-        TxControl txControl, Params params, ExecuteDataQuerySettings settings)
-    {
+            TxControl txControl, Params params, ExecuteDataQuerySettings settings) {
         return session.executePreparedDataQuery(queryId, text, txControl, params, settings);
     }
 
@@ -105,7 +103,7 @@ final class DataQueryImpl implements DataQuery {
     static final class DataQueryParams implements Params {
         private final ImmutableMap<String, Type> types;
         private final ImmutableMap<String, ValueProtos.Type> typesPb;
-        private final HashMap<String, ValueProtos.TypedValue> params;
+        private final HashMap<String, Value<?>> params;
 
         DataQueryParams(ImmutableMap<String, Type> types, ImmutableMap<String, ValueProtos.Type> typesPb) {
             this.types = types;
@@ -124,19 +122,31 @@ final class DataQueryImpl implements DataQuery {
             checkArgument(type != null, "unknown parameter: %s", name);
             checkArgument(type.equals(value.getType()), "types mismatch: expected %s, got %s", type, value.getType());
 
-            ValueProtos.Type typePb = Objects.requireNonNull(typesPb.get(name));
-            ValueProtos.TypedValue valuePb = ValueProtos.TypedValue.newBuilder()
-                .setType(typePb)
-                .setValue(value.toPb())
-                .build();
-
-            ValueProtos.TypedValue prev = params.putIfAbsent(name, valuePb);
+            Value<?> prev = params.putIfAbsent(name, value);
             Preconditions.checkArgument(prev == null, "duplicate parameter: %s", name);
             return this;
         }
 
         @Override
         public Map<String, ValueProtos.TypedValue> toPb() {
+            Map<String, ValueProtos.TypedValue> result = new HashMap<>(params.size());
+            for (Map.Entry<String, Value<?>> entry : params.entrySet()) {
+                Value<?> value = entry.getValue();
+                String name = entry.getKey();
+
+                ValueProtos.Type typePb = Objects.requireNonNull(typesPb.get(name));
+                ValueProtos.TypedValue valuePb = ValueProtos.TypedValue.newBuilder()
+                        .setType(typePb)
+                        .setValue(value.toPb())
+                        .build();
+
+                result.put(name, valuePb);
+            }
+            return Collections.unmodifiableMap(result);
+        }
+
+        @Override
+        public Map<String, Value<?>> values() {
             return Collections.unmodifiableMap(params);
         }
     }

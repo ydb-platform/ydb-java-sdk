@@ -25,44 +25,42 @@ final class ParamsImmutableMap implements Params {
 
     static final ParamsImmutableMap EMPTY = new ParamsImmutableMap(Collections.emptyMap());
 
-    private final Map<String, TypedValue> params;
+    private final Map<String, Value<?>> params;
 
-    private ParamsImmutableMap(Map<String, TypedValue> params) {
+    private ParamsImmutableMap(Map<String, Value<?>> params) {
         this.params = params;
     }
 
     static ParamsImmutableMap create(String name, Value<?> value) {
-        return new ParamsImmutableMap(Collections.singletonMap(name, toTypedValue(value)));
+        return new ParamsImmutableMap(Collections.singletonMap(name, value));
     }
 
     static ParamsImmutableMap create(String name1, Value<?> value1, String name2, Value<?> value2) {
         checkArgument(!name1.equals(name2), "parameter duplicate: %s", name1);
-        HashMap<String, TypedValue> params = Maps.newHashMapWithExpectedSize(2);
-        params.put(name1, toTypedValue(value1));
-        params.put(name2, toTypedValue(value2));
+        HashMap<String, Value<?>> params = Maps.newHashMapWithExpectedSize(2);
+        params.put(name1, value1);
+        params.put(name2, value2);
         return new ParamsImmutableMap(Collections.unmodifiableMap(params));
     }
 
     static ParamsImmutableMap create(
-        String name1, Value<?> value1,
-        String name2, Value<?> value2,
-        String name3, Value<?> value3)
-    {
-        HashMap<String, TypedValue> params = Maps.newHashMapWithExpectedSize(3);
-        params.put(name1, toTypedValue(value1));
+            String name1, Value<?> value1,
+            String name2, Value<?> value2,
+            String name3, Value<?> value3) {
+        HashMap<String, Value<?>> params = Maps.newHashMapWithExpectedSize(3);
+        params.put(name1, value1);
         putParam(params, name2, value2);
         putParam(params, name3, value3);
         return new ParamsImmutableMap(Collections.unmodifiableMap(params));
     }
 
     static ParamsImmutableMap create(
-        String name1, Value<?> value1,
-        String name2, Value<?> value2,
-        String name3, Value<?> value3,
-        String name4, Value<?> value4)
-    {
-        HashMap<String, TypedValue> params = Maps.newHashMapWithExpectedSize(4);
-        params.put(name1, toTypedValue(value1));
+            String name1, Value<?> value1,
+            String name2, Value<?> value2,
+            String name3, Value<?> value3,
+            String name4, Value<?> value4) {
+        HashMap<String, Value<?>> params = Maps.newHashMapWithExpectedSize(4);
+        params.put(name1, value1);
         putParam(params, name2, value2);
         putParam(params, name3, value3);
         putParam(params, name4, value4);
@@ -70,14 +68,13 @@ final class ParamsImmutableMap implements Params {
     }
 
     static ParamsImmutableMap create(
-        String name1, Value<?> value1,
-        String name2, Value<?> value2,
-        String name3, Value<?> value3,
-        String name4, Value<?> value4,
-        String name5, Value<?> value5)
-    {
-        HashMap<String, TypedValue> params = Maps.newHashMapWithExpectedSize(5);
-        params.put(name1, toTypedValue(value1));
+            String name1, Value<?> value1,
+            String name2, Value<?> value2,
+            String name3, Value<?> value3,
+            String name4, Value<?> value4,
+            String name5, Value<?> value5) {
+        HashMap<String, Value<?>> params = Maps.newHashMapWithExpectedSize(5);
+        params.put(name1, value1);
         putParam(params, name2, value2);
         putParam(params, name3, value3);
         putParam(params, name4, value4);
@@ -85,8 +82,8 @@ final class ParamsImmutableMap implements Params {
         return new ParamsImmutableMap(Collections.unmodifiableMap(params));
     }
 
-    private static void putParam(HashMap<String, TypedValue> params, String name, Value<?> value) {
-        checkArgument(params.putIfAbsent(name, toTypedValue(value)) == null, "parameter duplicate: %s", name);
+    private static void putParam(HashMap<String, Value<?>> params, String name, Value<?> value) {
+        checkArgument(params.putIfAbsent(name, value) == null, "parameter duplicate: %s", name);
     }
 
     @Override
@@ -101,6 +98,15 @@ final class ParamsImmutableMap implements Params {
 
     @Override
     public Map<String, TypedValue> toPb() {
-        return params;
+        Map<String, TypedValue> result = new HashMap<>(params.size());
+        for (Map.Entry<String, Value<?>> entry : params.entrySet()) {
+            result.put(entry.getKey(), toTypedValue(entry.getValue()));
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, Value<?>> values() {
+        return Collections.unmodifiableMap(params);
     }
 }

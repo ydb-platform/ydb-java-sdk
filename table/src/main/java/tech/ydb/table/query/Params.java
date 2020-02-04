@@ -1,15 +1,12 @@
 package tech.ydb.table.query;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.google.common.collect.Maps;
 import tech.ydb.ValueProtos;
 import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
-import tech.ydb.table.values.proto.ProtoValue;
 
 
 /**
@@ -103,11 +100,7 @@ public interface Params {
      * @return {@link Params} containing specified values
      */
     static Params copyOf(Map<String, Value<?>> values) {
-        HashMap<String, ValueProtos.TypedValue> params = Maps.newHashMapWithExpectedSize(values.size());
-        for (Map.Entry<String, Value<?>> e : values.entrySet()) {
-            params.put(e.getKey(), ProtoValue.toTypedValue(e.getValue()));
-        }
-        return new ParamsMutableMap(params);
+        return new ParamsMutableMap(values);
     }
 
     /**
@@ -117,7 +110,7 @@ public interface Params {
      * @return {@link Params} containing specified parameters
      */
     static Params copyOf(Params params) {
-        return new ParamsMutableMap(params.toPb());
+        return new ParamsMutableMap(params.values());
     }
 
     /**
@@ -143,4 +136,11 @@ public interface Params {
      * @return map of converted parameters
      */
     Map<String, ValueProtos.TypedValue> toPb();
+
+    /**
+     * Returns original values as unmodifiable map.
+     *
+     * @return unmodifiable map of values
+     */
+    Map<String, Value<?>> values();
 }

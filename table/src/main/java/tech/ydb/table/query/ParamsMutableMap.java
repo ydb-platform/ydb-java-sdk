@@ -21,13 +21,13 @@ import tech.ydb.table.values.proto.ProtoValue;
 @ParametersAreNonnullByDefault
 final class ParamsMutableMap implements Params {
 
-    private final HashMap<String, ValueProtos.TypedValue> params;
+    private final HashMap<String, Value<?>> params;
 
     ParamsMutableMap() {
         this.params = new HashMap<>();
     }
 
-    ParamsMutableMap(Map<String, ValueProtos.TypedValue> params) {
+    ParamsMutableMap(Map<String, Value<?>> params) {
         this.params = new HashMap<>(params);
     }
 
@@ -38,14 +38,26 @@ final class ParamsMutableMap implements Params {
 
     @Override
     public <T extends Type> Params put(String name, Value<T> value) {
-        ValueProtos.TypedValue valuePb = ProtoValue.toTypedValue(value);
-        ValueProtos.TypedValue prev = params.putIfAbsent(name, valuePb);
+        Value<?> prev = params.putIfAbsent(name, value);
         Preconditions.checkArgument(prev == null, "duplicate parameter: %s", name);
         return this;
     }
 
     @Override
     public Map<String, ValueProtos.TypedValue> toPb() {
+        Map<String, ValueProtos.TypedValue> result = new HashMap<>(params.size());
+        for (Map.Entry<String, Value<?>> entry : params.entrySet()) {
+            Value<?> value = entry.getValue();
+            String name = entry.getKey();
+
+            ValueProtos.TypedValue valuePb = ProtoValue.toTypedValue(value);
+            result.put(name, valuePb);
+        }
+        return Collections.unmodifiableMap(result);
+    }
+
+    @Override
+    public Map<String, Value<?>> values() {
         return Collections.unmodifiableMap(params);
     }
 }
