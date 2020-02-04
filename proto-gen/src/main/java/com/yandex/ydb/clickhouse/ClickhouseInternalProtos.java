@@ -89,6 +89,16 @@ public final class ClickhouseInternalProtos {
      * <code>uint64 max_bytes = 9;</code>
      */
     long getMaxBytes();
+
+    /**
+     * <code>string snapshot_id = 10;</code>
+     */
+    java.lang.String getSnapshotId();
+    /**
+     * <code>string snapshot_id = 10;</code>
+     */
+    com.google.protobuf.ByteString
+        getSnapshotIdBytes();
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.ScanRequest}
@@ -111,6 +121,7 @@ public final class ClickhouseInternalProtos {
       toKeyInclusive_ = false;
       maxRows_ = 0L;
       maxBytes_ = 0L;
+      snapshotId_ = "";
     }
 
     @java.lang.Override
@@ -197,6 +208,12 @@ public final class ClickhouseInternalProtos {
             case 72: {
 
               maxBytes_ = input.readUInt64();
+              break;
+            }
+            case 82: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              snapshotId_ = s;
               break;
             }
           }
@@ -365,6 +382,40 @@ public final class ClickhouseInternalProtos {
       return maxBytes_;
     }
 
+    public static final int SNAPSHOT_ID_FIELD_NUMBER = 10;
+    private volatile java.lang.Object snapshotId_;
+    /**
+     * <code>string snapshot_id = 10;</code>
+     */
+    public java.lang.String getSnapshotId() {
+      java.lang.Object ref = snapshotId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        snapshotId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string snapshot_id = 10;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSnapshotIdBytes() {
+      java.lang.Object ref = snapshotId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        snapshotId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -403,6 +454,9 @@ public final class ClickhouseInternalProtos {
       }
       if (maxBytes_ != 0L) {
         output.writeUInt64(9, maxBytes_);
+      }
+      if (!getSnapshotIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 10, snapshotId_);
       }
       unknownFields.writeTo(output);
     }
@@ -451,6 +505,9 @@ public final class ClickhouseInternalProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(9, maxBytes_);
       }
+      if (!getSnapshotIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, snapshotId_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -488,6 +545,8 @@ public final class ClickhouseInternalProtos {
           == other.getMaxRows());
       result = result && (getMaxBytes()
           == other.getMaxBytes());
+      result = result && getSnapshotId()
+          .equals(other.getSnapshotId());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -525,6 +584,8 @@ public final class ClickhouseInternalProtos {
       hash = (37 * hash) + MAX_BYTES_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getMaxBytes());
+      hash = (37 * hash) + SNAPSHOT_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getSnapshotId().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -676,6 +737,8 @@ public final class ClickhouseInternalProtos {
 
         maxBytes_ = 0L;
 
+        snapshotId_ = "";
+
         return this;
       }
 
@@ -717,6 +780,7 @@ public final class ClickhouseInternalProtos {
         result.toKeyInclusive_ = toKeyInclusive_;
         result.maxRows_ = maxRows_;
         result.maxBytes_ = maxBytes_;
+        result.snapshotId_ = snapshotId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -793,6 +857,10 @@ public final class ClickhouseInternalProtos {
         }
         if (other.getMaxBytes() != 0L) {
           setMaxBytes(other.getMaxBytes());
+        }
+        if (!other.getSnapshotId().isEmpty()) {
+          snapshotId_ = other.snapshotId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1260,6 +1328,75 @@ public final class ClickhouseInternalProtos {
       public Builder clearMaxBytes() {
         
         maxBytes_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object snapshotId_ = "";
+      /**
+       * <code>string snapshot_id = 10;</code>
+       */
+      public java.lang.String getSnapshotId() {
+        java.lang.Object ref = snapshotId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          snapshotId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string snapshot_id = 10;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSnapshotIdBytes() {
+        java.lang.Object ref = snapshotId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          snapshotId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string snapshot_id = 10;</code>
+       */
+      public Builder setSnapshotId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        snapshotId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string snapshot_id = 10;</code>
+       */
+      public Builder clearSnapshotId() {
+        
+        snapshotId_ = getDefaultInstance().getSnapshotId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string snapshot_id = 10;</code>
+       */
+      public Builder setSnapshotIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        snapshotId_ = value;
         onChanged();
         return this;
       }
@@ -8702,6 +8839,5966 @@ public final class ClickhouseInternalProtos {
 
   }
 
+  public interface CreateSnapshotRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.ClickhouseInternal.CreateSnapshotRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    java.util.List<java.lang.String>
+        getPathList();
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    int getPathCount();
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    java.lang.String getPath(int index);
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getPathBytes(int index);
+  }
+  /**
+   * Protobuf type {@code Ydb.ClickhouseInternal.CreateSnapshotRequest}
+   */
+  public  static final class CreateSnapshotRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.CreateSnapshotRequest)
+      CreateSnapshotRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use CreateSnapshotRequest.newBuilder() to construct.
+    private CreateSnapshotRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CreateSnapshotRequest() {
+      path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CreateSnapshotRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                path_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              path_.add(s);
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          path_ = path_.getUnmodifiableView();
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest.class, tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int PATH_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList path_;
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getPathList() {
+      return path_;
+    }
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    public int getPathCount() {
+      return path_.size();
+    }
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    public java.lang.String getPath(int index) {
+      return path_.get(index);
+    }
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPathBytes(int index) {
+      return path_.getByteString(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operationParams_ != null) {
+        output.writeMessage(1, getOperationParams());
+      }
+      for (int i = 0; i < path_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, path_.getRaw(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperationParams());
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < path_.size(); i++) {
+          dataSize += computeStringSizeNoTag(path_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getPathList().size();
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest)) {
+        return super.equals(obj);
+      }
+      tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest other = (tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest) obj;
+
+      boolean result = true;
+      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams()) {
+        result = result && getOperationParams()
+            .equals(other.getOperationParams());
+      }
+      result = result && getPathList()
+          .equals(other.getPathList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      if (getPathCount() > 0) {
+        hash = (37 * hash) + PATH_FIELD_NUMBER;
+        hash = (53 * hash) + getPathList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.ClickhouseInternal.CreateSnapshotRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.ClickhouseInternal.CreateSnapshotRequest)
+        tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest.class, tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest.Builder.class);
+      }
+
+      // Construct using tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_descriptor;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest getDefaultInstanceForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest.getDefaultInstance();
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest build() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest buildPartial() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest result = new tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          path_ = path_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.path_ = path_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest) {
+          return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest other) {
+        if (other == tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest.getDefaultInstance()) return this;
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        if (!other.path_.isEmpty()) {
+          if (path_.isEmpty()) {
+            path_ = other.path_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensurePathIsMutable();
+            path_.addAll(other.path_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
+      private com.google.protobuf.LazyStringList path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensurePathIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          path_ = new com.google.protobuf.LazyStringArrayList(path_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getPathList() {
+        return path_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public int getPathCount() {
+        return path_.size();
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public java.lang.String getPath(int index) {
+        return path_.get(index);
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPathBytes(int index) {
+        return path_.getByteString(index);
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder setPath(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePathIsMutable();
+        path_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder addPath(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePathIsMutable();
+        path_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder addAllPath(
+          java.lang.Iterable<java.lang.String> values) {
+        ensurePathIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, path_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder clearPath() {
+        path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder addPathBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensurePathIsMutable();
+        path_.add(value);
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.ClickhouseInternal.CreateSnapshotRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.ClickhouseInternal.CreateSnapshotRequest)
+    private static final tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest();
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CreateSnapshotRequest>
+        PARSER = new com.google.protobuf.AbstractParser<CreateSnapshotRequest>() {
+      public CreateSnapshotRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new CreateSnapshotRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CreateSnapshotRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CreateSnapshotRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CreateSnapshotResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.ClickhouseInternal.CreateSnapshotResult)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string snapshot_id = 1;</code>
+     */
+    java.lang.String getSnapshotId();
+    /**
+     * <code>string snapshot_id = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getSnapshotIdBytes();
+
+    /**
+     * <code>uint64 timeout_ms = 2;</code>
+     */
+    long getTimeoutMs();
+  }
+  /**
+   * Protobuf type {@code Ydb.ClickhouseInternal.CreateSnapshotResult}
+   */
+  public  static final class CreateSnapshotResult extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.CreateSnapshotResult)
+      CreateSnapshotResultOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use CreateSnapshotResult.newBuilder() to construct.
+    private CreateSnapshotResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CreateSnapshotResult() {
+      snapshotId_ = "";
+      timeoutMs_ = 0L;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CreateSnapshotResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              snapshotId_ = s;
+              break;
+            }
+            case 16: {
+
+              timeoutMs_ = input.readUInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult.class, tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult.Builder.class);
+    }
+
+    public static final int SNAPSHOT_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object snapshotId_;
+    /**
+     * <code>string snapshot_id = 1;</code>
+     */
+    public java.lang.String getSnapshotId() {
+      java.lang.Object ref = snapshotId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        snapshotId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string snapshot_id = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSnapshotIdBytes() {
+      java.lang.Object ref = snapshotId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        snapshotId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TIMEOUT_MS_FIELD_NUMBER = 2;
+    private long timeoutMs_;
+    /**
+     * <code>uint64 timeout_ms = 2;</code>
+     */
+    public long getTimeoutMs() {
+      return timeoutMs_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getSnapshotIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, snapshotId_);
+      }
+      if (timeoutMs_ != 0L) {
+        output.writeUInt64(2, timeoutMs_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getSnapshotIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, snapshotId_);
+      }
+      if (timeoutMs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(2, timeoutMs_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult)) {
+        return super.equals(obj);
+      }
+      tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult other = (tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult) obj;
+
+      boolean result = true;
+      result = result && getSnapshotId()
+          .equals(other.getSnapshotId());
+      result = result && (getTimeoutMs()
+          == other.getTimeoutMs());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SNAPSHOT_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getSnapshotId().hashCode();
+      hash = (37 * hash) + TIMEOUT_MS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTimeoutMs());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.ClickhouseInternal.CreateSnapshotResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.ClickhouseInternal.CreateSnapshotResult)
+        tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult.class, tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult.Builder.class);
+      }
+
+      // Construct using tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        snapshotId_ = "";
+
+        timeoutMs_ = 0L;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_descriptor;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult getDefaultInstanceForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult.getDefaultInstance();
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult build() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult buildPartial() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult result = new tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult(this);
+        result.snapshotId_ = snapshotId_;
+        result.timeoutMs_ = timeoutMs_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult) {
+          return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult other) {
+        if (other == tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult.getDefaultInstance()) return this;
+        if (!other.getSnapshotId().isEmpty()) {
+          snapshotId_ = other.snapshotId_;
+          onChanged();
+        }
+        if (other.getTimeoutMs() != 0L) {
+          setTimeoutMs(other.getTimeoutMs());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object snapshotId_ = "";
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public java.lang.String getSnapshotId() {
+        java.lang.Object ref = snapshotId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          snapshotId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSnapshotIdBytes() {
+        java.lang.Object ref = snapshotId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          snapshotId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public Builder setSnapshotId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        snapshotId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public Builder clearSnapshotId() {
+        
+        snapshotId_ = getDefaultInstance().getSnapshotId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public Builder setSnapshotIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        snapshotId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private long timeoutMs_ ;
+      /**
+       * <code>uint64 timeout_ms = 2;</code>
+       */
+      public long getTimeoutMs() {
+        return timeoutMs_;
+      }
+      /**
+       * <code>uint64 timeout_ms = 2;</code>
+       */
+      public Builder setTimeoutMs(long value) {
+        
+        timeoutMs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 timeout_ms = 2;</code>
+       */
+      public Builder clearTimeoutMs() {
+        
+        timeoutMs_ = 0L;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.ClickhouseInternal.CreateSnapshotResult)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.ClickhouseInternal.CreateSnapshotResult)
+    private static final tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult();
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CreateSnapshotResult>
+        PARSER = new com.google.protobuf.AbstractParser<CreateSnapshotResult>() {
+      public CreateSnapshotResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new CreateSnapshotResult(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CreateSnapshotResult> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CreateSnapshotResult> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CreateSnapshotResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.ClickhouseInternal.CreateSnapshotResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    boolean hasOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.ClickhouseInternal.CreateSnapshotResponse}
+   */
+  public  static final class CreateSnapshotResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.CreateSnapshotResponse)
+      CreateSnapshotResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use CreateSnapshotResponse.newBuilder() to construct.
+    private CreateSnapshotResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CreateSnapshotResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CreateSnapshotResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse.class, tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse)) {
+        return super.equals(obj);
+      }
+      tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse other = (tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse) obj;
+
+      boolean result = true;
+      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation()) {
+        result = result && getOperation()
+            .equals(other.getOperation());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.ClickhouseInternal.CreateSnapshotResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.ClickhouseInternal.CreateSnapshotResponse)
+        tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse.class, tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse.Builder.class);
+      }
+
+      // Construct using tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_descriptor;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse getDefaultInstanceForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse.getDefaultInstance();
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse build() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse buildPartial() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse result = new tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse) {
+          return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse other) {
+        if (other == tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.ClickhouseInternal.CreateSnapshotResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.ClickhouseInternal.CreateSnapshotResponse)
+    private static final tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse();
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CreateSnapshotResponse>
+        PARSER = new com.google.protobuf.AbstractParser<CreateSnapshotResponse>() {
+      public CreateSnapshotResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new CreateSnapshotResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CreateSnapshotResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CreateSnapshotResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface RefreshSnapshotRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.ClickhouseInternal.RefreshSnapshotRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    java.util.List<java.lang.String>
+        getPathList();
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    int getPathCount();
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    java.lang.String getPath(int index);
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getPathBytes(int index);
+
+    /**
+     * <code>string snapshot_id = 3;</code>
+     */
+    java.lang.String getSnapshotId();
+    /**
+     * <code>string snapshot_id = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getSnapshotIdBytes();
+  }
+  /**
+   * Protobuf type {@code Ydb.ClickhouseInternal.RefreshSnapshotRequest}
+   */
+  public  static final class RefreshSnapshotRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.RefreshSnapshotRequest)
+      RefreshSnapshotRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RefreshSnapshotRequest.newBuilder() to construct.
+    private RefreshSnapshotRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RefreshSnapshotRequest() {
+      path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      snapshotId_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RefreshSnapshotRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                path_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              path_.add(s);
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              snapshotId_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          path_ = path_.getUnmodifiableView();
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest.class, tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int PATH_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList path_;
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getPathList() {
+      return path_;
+    }
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    public int getPathCount() {
+      return path_.size();
+    }
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    public java.lang.String getPath(int index) {
+      return path_.get(index);
+    }
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPathBytes(int index) {
+      return path_.getByteString(index);
+    }
+
+    public static final int SNAPSHOT_ID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object snapshotId_;
+    /**
+     * <code>string snapshot_id = 3;</code>
+     */
+    public java.lang.String getSnapshotId() {
+      java.lang.Object ref = snapshotId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        snapshotId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string snapshot_id = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSnapshotIdBytes() {
+      java.lang.Object ref = snapshotId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        snapshotId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operationParams_ != null) {
+        output.writeMessage(1, getOperationParams());
+      }
+      for (int i = 0; i < path_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, path_.getRaw(i));
+      }
+      if (!getSnapshotIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, snapshotId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperationParams());
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < path_.size(); i++) {
+          dataSize += computeStringSizeNoTag(path_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getPathList().size();
+      }
+      if (!getSnapshotIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, snapshotId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest)) {
+        return super.equals(obj);
+      }
+      tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest other = (tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest) obj;
+
+      boolean result = true;
+      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams()) {
+        result = result && getOperationParams()
+            .equals(other.getOperationParams());
+      }
+      result = result && getPathList()
+          .equals(other.getPathList());
+      result = result && getSnapshotId()
+          .equals(other.getSnapshotId());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      if (getPathCount() > 0) {
+        hash = (37 * hash) + PATH_FIELD_NUMBER;
+        hash = (53 * hash) + getPathList().hashCode();
+      }
+      hash = (37 * hash) + SNAPSHOT_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getSnapshotId().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.ClickhouseInternal.RefreshSnapshotRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.ClickhouseInternal.RefreshSnapshotRequest)
+        tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest.class, tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest.Builder.class);
+      }
+
+      // Construct using tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        snapshotId_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_descriptor;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest getDefaultInstanceForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest.getDefaultInstance();
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest build() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest buildPartial() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest result = new tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          path_ = path_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.path_ = path_;
+        result.snapshotId_ = snapshotId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest) {
+          return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest other) {
+        if (other == tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest.getDefaultInstance()) return this;
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        if (!other.path_.isEmpty()) {
+          if (path_.isEmpty()) {
+            path_ = other.path_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensurePathIsMutable();
+            path_.addAll(other.path_);
+          }
+          onChanged();
+        }
+        if (!other.getSnapshotId().isEmpty()) {
+          snapshotId_ = other.snapshotId_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
+      private com.google.protobuf.LazyStringList path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensurePathIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          path_ = new com.google.protobuf.LazyStringArrayList(path_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getPathList() {
+        return path_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public int getPathCount() {
+        return path_.size();
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public java.lang.String getPath(int index) {
+        return path_.get(index);
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPathBytes(int index) {
+        return path_.getByteString(index);
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder setPath(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePathIsMutable();
+        path_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder addPath(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePathIsMutable();
+        path_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder addAllPath(
+          java.lang.Iterable<java.lang.String> values) {
+        ensurePathIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, path_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder clearPath() {
+        path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder addPathBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensurePathIsMutable();
+        path_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object snapshotId_ = "";
+      /**
+       * <code>string snapshot_id = 3;</code>
+       */
+      public java.lang.String getSnapshotId() {
+        java.lang.Object ref = snapshotId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          snapshotId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string snapshot_id = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSnapshotIdBytes() {
+        java.lang.Object ref = snapshotId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          snapshotId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string snapshot_id = 3;</code>
+       */
+      public Builder setSnapshotId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        snapshotId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string snapshot_id = 3;</code>
+       */
+      public Builder clearSnapshotId() {
+        
+        snapshotId_ = getDefaultInstance().getSnapshotId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string snapshot_id = 3;</code>
+       */
+      public Builder setSnapshotIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        snapshotId_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.ClickhouseInternal.RefreshSnapshotRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.ClickhouseInternal.RefreshSnapshotRequest)
+    private static final tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest();
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RefreshSnapshotRequest>
+        PARSER = new com.google.protobuf.AbstractParser<RefreshSnapshotRequest>() {
+      public RefreshSnapshotRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new RefreshSnapshotRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RefreshSnapshotRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RefreshSnapshotRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface RefreshSnapshotResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.ClickhouseInternal.RefreshSnapshotResult)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string snapshot_id = 1;</code>
+     */
+    java.lang.String getSnapshotId();
+    /**
+     * <code>string snapshot_id = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getSnapshotIdBytes();
+  }
+  /**
+   * Protobuf type {@code Ydb.ClickhouseInternal.RefreshSnapshotResult}
+   */
+  public  static final class RefreshSnapshotResult extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.RefreshSnapshotResult)
+      RefreshSnapshotResultOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RefreshSnapshotResult.newBuilder() to construct.
+    private RefreshSnapshotResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RefreshSnapshotResult() {
+      snapshotId_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RefreshSnapshotResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              snapshotId_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult.class, tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult.Builder.class);
+    }
+
+    public static final int SNAPSHOT_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object snapshotId_;
+    /**
+     * <code>string snapshot_id = 1;</code>
+     */
+    public java.lang.String getSnapshotId() {
+      java.lang.Object ref = snapshotId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        snapshotId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string snapshot_id = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSnapshotIdBytes() {
+      java.lang.Object ref = snapshotId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        snapshotId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getSnapshotIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, snapshotId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getSnapshotIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, snapshotId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult)) {
+        return super.equals(obj);
+      }
+      tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult other = (tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult) obj;
+
+      boolean result = true;
+      result = result && getSnapshotId()
+          .equals(other.getSnapshotId());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SNAPSHOT_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getSnapshotId().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.ClickhouseInternal.RefreshSnapshotResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.ClickhouseInternal.RefreshSnapshotResult)
+        tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult.class, tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult.Builder.class);
+      }
+
+      // Construct using tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        snapshotId_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_descriptor;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult getDefaultInstanceForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult.getDefaultInstance();
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult build() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult buildPartial() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult result = new tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult(this);
+        result.snapshotId_ = snapshotId_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult) {
+          return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult other) {
+        if (other == tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult.getDefaultInstance()) return this;
+        if (!other.getSnapshotId().isEmpty()) {
+          snapshotId_ = other.snapshotId_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object snapshotId_ = "";
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public java.lang.String getSnapshotId() {
+        java.lang.Object ref = snapshotId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          snapshotId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSnapshotIdBytes() {
+        java.lang.Object ref = snapshotId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          snapshotId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public Builder setSnapshotId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        snapshotId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public Builder clearSnapshotId() {
+        
+        snapshotId_ = getDefaultInstance().getSnapshotId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public Builder setSnapshotIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        snapshotId_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.ClickhouseInternal.RefreshSnapshotResult)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.ClickhouseInternal.RefreshSnapshotResult)
+    private static final tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult();
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RefreshSnapshotResult>
+        PARSER = new com.google.protobuf.AbstractParser<RefreshSnapshotResult>() {
+      public RefreshSnapshotResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new RefreshSnapshotResult(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RefreshSnapshotResult> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RefreshSnapshotResult> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface RefreshSnapshotResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.ClickhouseInternal.RefreshSnapshotResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    boolean hasOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.ClickhouseInternal.RefreshSnapshotResponse}
+   */
+  public  static final class RefreshSnapshotResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.RefreshSnapshotResponse)
+      RefreshSnapshotResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RefreshSnapshotResponse.newBuilder() to construct.
+    private RefreshSnapshotResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RefreshSnapshotResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RefreshSnapshotResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse.class, tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse)) {
+        return super.equals(obj);
+      }
+      tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse other = (tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse) obj;
+
+      boolean result = true;
+      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation()) {
+        result = result && getOperation()
+            .equals(other.getOperation());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.ClickhouseInternal.RefreshSnapshotResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.ClickhouseInternal.RefreshSnapshotResponse)
+        tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse.class, tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse.Builder.class);
+      }
+
+      // Construct using tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_descriptor;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse getDefaultInstanceForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse.getDefaultInstance();
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse build() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse buildPartial() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse result = new tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse) {
+          return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse other) {
+        if (other == tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.ClickhouseInternal.RefreshSnapshotResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.ClickhouseInternal.RefreshSnapshotResponse)
+    private static final tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse();
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RefreshSnapshotResponse>
+        PARSER = new com.google.protobuf.AbstractParser<RefreshSnapshotResponse>() {
+      public RefreshSnapshotResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new RefreshSnapshotResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RefreshSnapshotResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RefreshSnapshotResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DiscardSnapshotRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.ClickhouseInternal.DiscardSnapshotRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    java.util.List<java.lang.String>
+        getPathList();
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    int getPathCount();
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    java.lang.String getPath(int index);
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getPathBytes(int index);
+
+    /**
+     * <code>string snapshot_id = 3;</code>
+     */
+    java.lang.String getSnapshotId();
+    /**
+     * <code>string snapshot_id = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getSnapshotIdBytes();
+  }
+  /**
+   * Protobuf type {@code Ydb.ClickhouseInternal.DiscardSnapshotRequest}
+   */
+  public  static final class DiscardSnapshotRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.DiscardSnapshotRequest)
+      DiscardSnapshotRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DiscardSnapshotRequest.newBuilder() to construct.
+    private DiscardSnapshotRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DiscardSnapshotRequest() {
+      path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      snapshotId_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DiscardSnapshotRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                path_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              path_.add(s);
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              snapshotId_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          path_ = path_.getUnmodifiableView();
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest.class, tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int PATH_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList path_;
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getPathList() {
+      return path_;
+    }
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    public int getPathCount() {
+      return path_.size();
+    }
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    public java.lang.String getPath(int index) {
+      return path_.get(index);
+    }
+    /**
+     * <code>repeated string path = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPathBytes(int index) {
+      return path_.getByteString(index);
+    }
+
+    public static final int SNAPSHOT_ID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object snapshotId_;
+    /**
+     * <code>string snapshot_id = 3;</code>
+     */
+    public java.lang.String getSnapshotId() {
+      java.lang.Object ref = snapshotId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        snapshotId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string snapshot_id = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSnapshotIdBytes() {
+      java.lang.Object ref = snapshotId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        snapshotId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operationParams_ != null) {
+        output.writeMessage(1, getOperationParams());
+      }
+      for (int i = 0; i < path_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, path_.getRaw(i));
+      }
+      if (!getSnapshotIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, snapshotId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperationParams());
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < path_.size(); i++) {
+          dataSize += computeStringSizeNoTag(path_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getPathList().size();
+      }
+      if (!getSnapshotIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, snapshotId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest)) {
+        return super.equals(obj);
+      }
+      tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest other = (tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest) obj;
+
+      boolean result = true;
+      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams()) {
+        result = result && getOperationParams()
+            .equals(other.getOperationParams());
+      }
+      result = result && getPathList()
+          .equals(other.getPathList());
+      result = result && getSnapshotId()
+          .equals(other.getSnapshotId());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      if (getPathCount() > 0) {
+        hash = (37 * hash) + PATH_FIELD_NUMBER;
+        hash = (53 * hash) + getPathList().hashCode();
+      }
+      hash = (37 * hash) + SNAPSHOT_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getSnapshotId().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.ClickhouseInternal.DiscardSnapshotRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.ClickhouseInternal.DiscardSnapshotRequest)
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest.class, tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest.Builder.class);
+      }
+
+      // Construct using tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        snapshotId_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_descriptor;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest getDefaultInstanceForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest.getDefaultInstance();
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest build() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest buildPartial() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest result = new tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          path_ = path_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.path_ = path_;
+        result.snapshotId_ = snapshotId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest) {
+          return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest other) {
+        if (other == tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest.getDefaultInstance()) return this;
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        if (!other.path_.isEmpty()) {
+          if (path_.isEmpty()) {
+            path_ = other.path_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensurePathIsMutable();
+            path_.addAll(other.path_);
+          }
+          onChanged();
+        }
+        if (!other.getSnapshotId().isEmpty()) {
+          snapshotId_ = other.snapshotId_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
+      private com.google.protobuf.LazyStringList path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensurePathIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          path_ = new com.google.protobuf.LazyStringArrayList(path_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getPathList() {
+        return path_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public int getPathCount() {
+        return path_.size();
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public java.lang.String getPath(int index) {
+        return path_.get(index);
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPathBytes(int index) {
+        return path_.getByteString(index);
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder setPath(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePathIsMutable();
+        path_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder addPath(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePathIsMutable();
+        path_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder addAllPath(
+          java.lang.Iterable<java.lang.String> values) {
+        ensurePathIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, path_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder clearPath() {
+        path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string path = 2;</code>
+       */
+      public Builder addPathBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensurePathIsMutable();
+        path_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object snapshotId_ = "";
+      /**
+       * <code>string snapshot_id = 3;</code>
+       */
+      public java.lang.String getSnapshotId() {
+        java.lang.Object ref = snapshotId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          snapshotId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string snapshot_id = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSnapshotIdBytes() {
+        java.lang.Object ref = snapshotId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          snapshotId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string snapshot_id = 3;</code>
+       */
+      public Builder setSnapshotId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        snapshotId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string snapshot_id = 3;</code>
+       */
+      public Builder clearSnapshotId() {
+        
+        snapshotId_ = getDefaultInstance().getSnapshotId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string snapshot_id = 3;</code>
+       */
+      public Builder setSnapshotIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        snapshotId_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.ClickhouseInternal.DiscardSnapshotRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.ClickhouseInternal.DiscardSnapshotRequest)
+    private static final tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest();
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DiscardSnapshotRequest>
+        PARSER = new com.google.protobuf.AbstractParser<DiscardSnapshotRequest>() {
+      public DiscardSnapshotRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new DiscardSnapshotRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DiscardSnapshotRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DiscardSnapshotRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DiscardSnapshotResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.ClickhouseInternal.DiscardSnapshotResult)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string snapshot_id = 1;</code>
+     */
+    java.lang.String getSnapshotId();
+    /**
+     * <code>string snapshot_id = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getSnapshotIdBytes();
+  }
+  /**
+   * Protobuf type {@code Ydb.ClickhouseInternal.DiscardSnapshotResult}
+   */
+  public  static final class DiscardSnapshotResult extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.DiscardSnapshotResult)
+      DiscardSnapshotResultOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DiscardSnapshotResult.newBuilder() to construct.
+    private DiscardSnapshotResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DiscardSnapshotResult() {
+      snapshotId_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DiscardSnapshotResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              snapshotId_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult.class, tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult.Builder.class);
+    }
+
+    public static final int SNAPSHOT_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object snapshotId_;
+    /**
+     * <code>string snapshot_id = 1;</code>
+     */
+    public java.lang.String getSnapshotId() {
+      java.lang.Object ref = snapshotId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        snapshotId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string snapshot_id = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSnapshotIdBytes() {
+      java.lang.Object ref = snapshotId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        snapshotId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getSnapshotIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, snapshotId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getSnapshotIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, snapshotId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult)) {
+        return super.equals(obj);
+      }
+      tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult other = (tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult) obj;
+
+      boolean result = true;
+      result = result && getSnapshotId()
+          .equals(other.getSnapshotId());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SNAPSHOT_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getSnapshotId().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.ClickhouseInternal.DiscardSnapshotResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.ClickhouseInternal.DiscardSnapshotResult)
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult.class, tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult.Builder.class);
+      }
+
+      // Construct using tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        snapshotId_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_descriptor;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult getDefaultInstanceForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult.getDefaultInstance();
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult build() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult buildPartial() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult result = new tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult(this);
+        result.snapshotId_ = snapshotId_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult) {
+          return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult other) {
+        if (other == tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult.getDefaultInstance()) return this;
+        if (!other.getSnapshotId().isEmpty()) {
+          snapshotId_ = other.snapshotId_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object snapshotId_ = "";
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public java.lang.String getSnapshotId() {
+        java.lang.Object ref = snapshotId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          snapshotId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSnapshotIdBytes() {
+        java.lang.Object ref = snapshotId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          snapshotId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public Builder setSnapshotId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        snapshotId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public Builder clearSnapshotId() {
+        
+        snapshotId_ = getDefaultInstance().getSnapshotId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string snapshot_id = 1;</code>
+       */
+      public Builder setSnapshotIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        snapshotId_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.ClickhouseInternal.DiscardSnapshotResult)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.ClickhouseInternal.DiscardSnapshotResult)
+    private static final tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult();
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DiscardSnapshotResult>
+        PARSER = new com.google.protobuf.AbstractParser<DiscardSnapshotResult>() {
+      public DiscardSnapshotResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new DiscardSnapshotResult(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DiscardSnapshotResult> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DiscardSnapshotResult> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DiscardSnapshotResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.ClickhouseInternal.DiscardSnapshotResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    boolean hasOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.ClickhouseInternal.DiscardSnapshotResponse}
+   */
+  public  static final class DiscardSnapshotResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.DiscardSnapshotResponse)
+      DiscardSnapshotResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DiscardSnapshotResponse.newBuilder() to construct.
+    private DiscardSnapshotResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DiscardSnapshotResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DiscardSnapshotResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse.class, tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse)) {
+        return super.equals(obj);
+      }
+      tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse other = (tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse) obj;
+
+      boolean result = true;
+      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation()) {
+        result = result && getOperation()
+            .equals(other.getOperation());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.ClickhouseInternal.DiscardSnapshotResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.ClickhouseInternal.DiscardSnapshotResponse)
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse.class, tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse.Builder.class);
+      }
+
+      // Construct using tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_descriptor;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse getDefaultInstanceForType() {
+        return tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse.getDefaultInstance();
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse build() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse buildPartial() {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse result = new tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse) {
+          return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse other) {
+        if (other == tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.ClickhouseInternal.DiscardSnapshotResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.ClickhouseInternal.DiscardSnapshotResponse)
+    private static final tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse();
+    }
+
+    public static tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DiscardSnapshotResponse>
+        PARSER = new com.google.protobuf.AbstractParser<DiscardSnapshotResponse>() {
+      public DiscardSnapshotResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new DiscardSnapshotResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DiscardSnapshotResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DiscardSnapshotResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_ClickhouseInternal_ScanRequest_descriptor;
   private static final 
@@ -8757,6 +14854,51 @@ public final class ClickhouseInternalProtos {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -8770,37 +14912,55 @@ public final class ClickhouseInternalProtos {
       "e_internal.proto\022\026Ydb.ClickhouseInternal" +
       "\032,kikimr/public/api/protos/ydb_operation" +
       ".proto\032(kikimr/public/api/protos/ydb_tab" +
-      "le.proto\"\345\001\n\013ScanRequest\0229\n\020operation_pa" +
+      "le.proto\"\372\001\n\013ScanRequest\0229\n\020operation_pa" +
       "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
       "ams\022\r\n\005table\030\002 \001(\t\022\017\n\007columns\030\003 \003(\t\022\020\n\010f" +
       "rom_key\030\004 \001(\014\022\032\n\022from_key_inclusive\030\005 \001(" +
       "\010\022\016\n\006to_key\030\006 \001(\014\022\030\n\020to_key_inclusive\030\007 " +
       "\001(\010\022\020\n\010max_rows\030\010 \001(\004\022\021\n\tmax_bytes\030\t \001(\004",
-      "\"<\n\014ScanResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
-      "b.Operations.Operation\"W\n\nScanResult\022\016\n\006" +
-      "blocks\030\001 \003(\014\022\013\n\003eos\030\002 \001(\010\022\020\n\010last_key\030\003 " +
-      "\001(\014\022\032\n\022last_key_inclusive\030\004 \001(\010\"i\n\030GetSh" +
-      "ardLocationsRequest\0229\n\020operation_params\030" +
-      "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\022" +
-      "\n\ntablet_ids\030\002 \003(\004\"I\n\031GetShardLocationsR" +
-      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
-      "ons.Operation\";\n\nTabletInfo\022\021\n\ttablet_id" +
-      "\030\001 \001(\004\022\014\n\004host\030\002 \001(\t\022\014\n\004port\030\003 \001(\r\"N\n\027Ge",
-      "tShardLocationsResult\0223\n\007tablets\030\001 \003(\0132\"" +
-      ".Ydb.ClickhouseInternal.TabletInfo\"\200\001\n\024D" +
-      "escribeTableRequest\0229\n\020operation_params\030" +
-      "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\014" +
-      "\n\004path\030\002 \001(\t\022\037\n\027include_partitions_info\030" +
-      "\003 \001(\010\"N\n\rPartitionInfo\022\021\n\ttablet_id\030\001 \001(" +
-      "\004\022\017\n\007end_key\030\002 \001(\014\022\031\n\021end_key_inclusive\030" +
-      "\003 \001(\010\"\241\001\n\023DescribeTableResult\022&\n\007columns" +
-      "\030\002 \003(\0132\025.Ydb.Table.ColumnMeta\022\023\n\013primary" +
-      "_key\030\003 \003(\t\0229\n\npartitions\030\004 \003(\0132%.Ydb.Cli",
-      "ckhouseInternal.PartitionInfo\022\022\n\nis_virt" +
-      "ual\030\005 \001(\010\"E\n\025DescribeTableResponse\022,\n\top" +
-      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
-      "B8\n\031tech.ydb.clickhouseB\030Clickhous" +
-      "eInternalProtos\370\001\001b\006proto3"
+      "\022\023\n\013snapshot_id\030\n \001(\t\"<\n\014ScanResponse\022,\n" +
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ion\"W\n\nScanResult\022\016\n\006blocks\030\001 \003(\014\022\013\n\003eos" +
+      "\030\002 \001(\010\022\020\n\010last_key\030\003 \001(\014\022\032\n\022last_key_inc" +
+      "lusive\030\004 \001(\010\"i\n\030GetShardLocationsRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\022\022\n\ntablet_ids\030\002 \003(\004\"" +
+      "I\n\031GetShardLocationsResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\";\n\nTa" +
+      "bletInfo\022\021\n\ttablet_id\030\001 \001(\004\022\014\n\004host\030\002 \001(",
+      "\t\022\014\n\004port\030\003 \001(\r\"N\n\027GetShardLocationsResu" +
+      "lt\0223\n\007tablets\030\001 \003(\0132\".Ydb.ClickhouseInte" +
+      "rnal.TabletInfo\"\200\001\n\024DescribeTableRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\022\014\n\004path\030\002 \001(\t\022\037\n\027inc" +
+      "lude_partitions_info\030\003 \001(\010\"N\n\rPartitionI" +
+      "nfo\022\021\n\ttablet_id\030\001 \001(\004\022\017\n\007end_key\030\002 \001(\014\022" +
+      "\031\n\021end_key_inclusive\030\003 \001(\010\"\241\001\n\023DescribeT" +
+      "ableResult\022&\n\007columns\030\002 \003(\0132\025.Ydb.Table." +
+      "ColumnMeta\022\023\n\013primary_key\030\003 \003(\t\0229\n\nparti",
+      "tions\030\004 \003(\0132%.Ydb.ClickhouseInternal.Par" +
+      "titionInfo\022\022\n\nis_virtual\030\005 \001(\010\"E\n\025Descri" +
+      "beTableResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\"`\n\025CreateSnapshotR" +
+      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
+      "perations.OperationParams\022\014\n\004path\030\002 \003(\t\"" +
+      "?\n\024CreateSnapshotResult\022\023\n\013snapshot_id\030\001" +
+      " \001(\t\022\022\n\ntimeout_ms\030\002 \001(\004\"F\n\026CreateSnapsh" +
+      "otResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.Operation\"v\n\026RefreshSnapshotReque",
+      "st\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Opera" +
+      "tions.OperationParams\022\014\n\004path\030\002 \003(\t\022\023\n\013s" +
+      "napshot_id\030\003 \001(\t\",\n\025RefreshSnapshotResul" +
+      "t\022\023\n\013snapshot_id\030\001 \001(\t\"G\n\027RefreshSnapsho" +
+      "tResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.Operation\"v\n\026DiscardSnapshotReques" +
+      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\022\014\n\004path\030\002 \003(\t\022\023\n\013sn" +
+      "apshot_id\030\003 \001(\t\",\n\025DiscardSnapshotResult" +
+      "\022\023\n\013snapshot_id\030\001 \001(\t\"G\n\027DiscardSnapshot",
+      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
+      "ions.OperationB8\n\031tech.ydb.clickho" +
+      "useB\030ClickhouseInternalProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -8821,7 +14981,7 @@ public final class ClickhouseInternalProtos {
     internal_static_Ydb_ClickhouseInternal_ScanRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_ClickhouseInternal_ScanRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Table", "Columns", "FromKey", "FromKeyInclusive", "ToKey", "ToKeyInclusive", "MaxRows", "MaxBytes", });
+        new java.lang.String[] { "OperationParams", "Table", "Columns", "FromKey", "FromKeyInclusive", "ToKey", "ToKeyInclusive", "MaxRows", "MaxBytes", "SnapshotId", });
     internal_static_Ydb_ClickhouseInternal_ScanResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_Ydb_ClickhouseInternal_ScanResponse_fieldAccessorTable = new
@@ -8881,6 +15041,60 @@ public final class ClickhouseInternalProtos {
     internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_descriptor,
+        new java.lang.String[] { "Operation", });
+    internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_descriptor =
+      getDescriptor().getMessageTypes().get(11);
+    internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "Path", });
+    internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_descriptor =
+      getDescriptor().getMessageTypes().get(12);
+    internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_descriptor,
+        new java.lang.String[] { "SnapshotId", "TimeoutMs", });
+    internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_descriptor =
+      getDescriptor().getMessageTypes().get(13);
+    internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_descriptor,
+        new java.lang.String[] { "Operation", });
+    internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_descriptor =
+      getDescriptor().getMessageTypes().get(14);
+    internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "Path", "SnapshotId", });
+    internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_descriptor =
+      getDescriptor().getMessageTypes().get(15);
+    internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_descriptor,
+        new java.lang.String[] { "SnapshotId", });
+    internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_descriptor =
+      getDescriptor().getMessageTypes().get(16);
+    internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_descriptor,
+        new java.lang.String[] { "Operation", });
+    internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_descriptor =
+      getDescriptor().getMessageTypes().get(17);
+    internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "Path", "SnapshotId", });
+    internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_descriptor =
+      getDescriptor().getMessageTypes().get(18);
+    internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_descriptor,
+        new java.lang.String[] { "SnapshotId", });
+    internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_descriptor =
+      getDescriptor().getMessageTypes().get(19);
+    internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_descriptor,
         new java.lang.String[] { "Operation", });
     tech.ydb.OperationProtos.getDescriptor();
     tech.ydb.table.YdbTable.getDescriptor();

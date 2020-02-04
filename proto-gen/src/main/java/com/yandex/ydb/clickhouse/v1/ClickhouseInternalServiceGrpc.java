@@ -54,6 +54,33 @@ public final class ClickhouseInternalServiceGrpc {
               "Ydb.ClickhouseInternal.V1.ClickhouseInternalService", "DescribeTable"),
           io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse> METHOD_CREATE_SNAPSHOT =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "Ydb.ClickhouseInternal.V1.ClickhouseInternalService", "CreateSnapshot"),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse> METHOD_REFRESH_SNAPSHOT =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "Ydb.ClickhouseInternal.V1.ClickhouseInternalService", "RefreshSnapshot"),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse.getDefaultInstance()));
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse> METHOD_DISCARD_SNAPSHOT =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "Ydb.ClickhouseInternal.V1.ClickhouseInternalService", "DiscardSnapshot"),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse.getDefaultInstance()));
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -103,6 +130,44 @@ public final class ClickhouseInternalServiceGrpc {
       asyncUnimplementedUnaryCall(METHOD_DESCRIBE_TABLE, responseObserver);
     }
 
+    /**
+     * <pre>
+     **
+     * CreateSnapshot creates a temporary consistent snapshot of one or more
+     * tables, which may later be used in requests. Created snapshot will have
+     * an opaque id and a server defined timeout, after which it may become
+     * expired. For prolonged use it must be refreshed before it expires.
+     * </pre>
+     */
+    public void createSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_CREATE_SNAPSHOT, responseObserver);
+    }
+
+    /**
+     * <pre>
+     **
+     * RefreshSnapshot will attempt to refresh a previously created snapshot,
+     * extending expiration time in specified tables.
+     * </pre>
+     */
+    public void refreshSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_REFRESH_SNAPSHOT, responseObserver);
+    }
+
+    /**
+     * <pre>
+     **
+     * DiscardSnapshot will attempt to discard a previously created snapshot,
+     * so resources may be freed earlier than its expiration time.
+     * </pre>
+     */
+    public void discardSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_DISCARD_SNAPSHOT, responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -126,6 +191,27 @@ public final class ClickhouseInternalServiceGrpc {
                 tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest,
                 tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse>(
                   this, METHODID_DESCRIBE_TABLE)))
+          .addMethod(
+            METHOD_CREATE_SNAPSHOT,
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest,
+                tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse>(
+                  this, METHODID_CREATE_SNAPSHOT)))
+          .addMethod(
+            METHOD_REFRESH_SNAPSHOT,
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest,
+                tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse>(
+                  this, METHODID_REFRESH_SNAPSHOT)))
+          .addMethod(
+            METHOD_DISCARD_SNAPSHOT,
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest,
+                tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse>(
+                  this, METHODID_DISCARD_SNAPSHOT)))
           .build();
     }
   }
@@ -171,6 +257,47 @@ public final class ClickhouseInternalServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(METHOD_DESCRIBE_TABLE, getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     **
+     * CreateSnapshot creates a temporary consistent snapshot of one or more
+     * tables, which may later be used in requests. Created snapshot will have
+     * an opaque id and a server defined timeout, after which it may become
+     * expired. For prolonged use it must be refreshed before it expires.
+     * </pre>
+     */
+    public void createSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_CREATE_SNAPSHOT, getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     **
+     * RefreshSnapshot will attempt to refresh a previously created snapshot,
+     * extending expiration time in specified tables.
+     * </pre>
+     */
+    public void refreshSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_REFRESH_SNAPSHOT, getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     **
+     * DiscardSnapshot will attempt to discard a previously created snapshot,
+     * so resources may be freed earlier than its expiration time.
+     * </pre>
+     */
+    public void discardSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_DISCARD_SNAPSHOT, getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -210,6 +337,44 @@ public final class ClickhouseInternalServiceGrpc {
     public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse describeTable(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_DESCRIBE_TABLE, getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     **
+     * CreateSnapshot creates a temporary consistent snapshot of one or more
+     * tables, which may later be used in requests. Created snapshot will have
+     * an opaque id and a server defined timeout, after which it may become
+     * expired. For prolonged use it must be refreshed before it expires.
+     * </pre>
+     */
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse createSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_CREATE_SNAPSHOT, getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     **
+     * RefreshSnapshot will attempt to refresh a previously created snapshot,
+     * extending expiration time in specified tables.
+     * </pre>
+     */
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse refreshSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_REFRESH_SNAPSHOT, getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     **
+     * DiscardSnapshot will attempt to discard a previously created snapshot,
+     * so resources may be freed earlier than its expiration time.
+     * </pre>
+     */
+    public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse discardSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_DISCARD_SNAPSHOT, getCallOptions(), request);
     }
   }
 
@@ -254,11 +419,55 @@ public final class ClickhouseInternalServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(METHOD_DESCRIBE_TABLE, getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     **
+     * CreateSnapshot creates a temporary consistent snapshot of one or more
+     * tables, which may later be used in requests. Created snapshot will have
+     * an opaque id and a server defined timeout, after which it may become
+     * expired. For prolonged use it must be refreshed before it expires.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse> createSnapshot(
+        tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_CREATE_SNAPSHOT, getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
+     **
+     * RefreshSnapshot will attempt to refresh a previously created snapshot,
+     * extending expiration time in specified tables.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse> refreshSnapshot(
+        tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_REFRESH_SNAPSHOT, getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
+     **
+     * DiscardSnapshot will attempt to discard a previously created snapshot,
+     * so resources may be freed earlier than its expiration time.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse> discardSnapshot(
+        tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_DISCARD_SNAPSHOT, getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_SCAN = 0;
   private static final int METHODID_GET_SHARD_LOCATIONS = 1;
   private static final int METHODID_DESCRIBE_TABLE = 2;
+  private static final int METHODID_CREATE_SNAPSHOT = 3;
+  private static final int METHODID_REFRESH_SNAPSHOT = 4;
+  private static final int METHODID_DISCARD_SNAPSHOT = 5;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -288,6 +497,18 @@ public final class ClickhouseInternalServiceGrpc {
         case METHODID_DESCRIBE_TABLE:
           serviceImpl.describeTable((tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest) request,
               (io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse>) responseObserver);
+          break;
+        case METHODID_CREATE_SNAPSHOT:
+          serviceImpl.createSnapshot((tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse>) responseObserver);
+          break;
+        case METHODID_REFRESH_SNAPSHOT:
+          serviceImpl.refreshSnapshot((tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse>) responseObserver);
+          break;
+        case METHODID_DISCARD_SNAPSHOT:
+          serviceImpl.discardSnapshot((tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -325,6 +546,9 @@ public final class ClickhouseInternalServiceGrpc {
               .addMethod(METHOD_SCAN)
               .addMethod(METHOD_GET_SHARD_LOCATIONS)
               .addMethod(METHOD_DESCRIBE_TABLE)
+              .addMethod(METHOD_CREATE_SNAPSHOT)
+              .addMethod(METHOD_REFRESH_SNAPSHOT)
+              .addMethod(METHOD_DISCARD_SNAPSHOT)
               .build();
         }
       }

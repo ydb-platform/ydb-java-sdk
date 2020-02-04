@@ -26,7 +26,7 @@ public final class YdbClickhouseInternalV1 {
       "\n=kikimr/public/api/grpc/draft/ydb_click" +
       "house_internal_v1.proto\022\031Ydb.ClickhouseI" +
       "nternal.V1\0326kikimr/public/api/protos/ydb" +
-      "_clickhouse_internal.proto2\326\002\n\031Clickhous" +
+      "_clickhouse_internal.proto2\257\005\n\031Clickhous" +
       "eInternalService\022Q\n\004Scan\022#.Ydb.Clickhous" +
       "eInternal.ScanRequest\032$.Ydb.ClickhouseIn" +
       "ternal.ScanResponse\022x\n\021GetShardLocations" +
@@ -35,8 +35,16 @@ public final class YdbClickhouseInternalV1 {
       "hardLocationsResponse\022l\n\rDescribeTable\022,",
       ".Ydb.ClickhouseInternal.DescribeTableReq" +
       "uest\032-.Ydb.ClickhouseInternal.DescribeTa" +
-      "bleResponseB\036\n\034tech.ydb.clickhouse" +
-      ".v1b\006proto3"
+      "bleResponse\022o\n\016CreateSnapshot\022-.Ydb.Clic" +
+      "khouseInternal.CreateSnapshotRequest\032..Y" +
+      "db.ClickhouseInternal.CreateSnapshotResp" +
+      "onse\022r\n\017RefreshSnapshot\022..Ydb.Clickhouse" +
+      "Internal.RefreshSnapshotRequest\032/.Ydb.Cl" +
+      "ickhouseInternal.RefreshSnapshotResponse" +
+      "\022r\n\017DiscardSnapshot\022..Ydb.ClickhouseInte" +
+      "rnal.DiscardSnapshotRequest\032/.Ydb.Clickh",
+      "ouseInternal.DiscardSnapshotResponseB\036\n\034" +
+      "tech.ydb.clickhouse.v1b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
