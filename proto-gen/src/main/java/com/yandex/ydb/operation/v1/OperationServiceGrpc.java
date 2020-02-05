@@ -1,19 +1,19 @@
 package tech.ydb.operation.v1;
 
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncUnaryCall;
+import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
+import static io.grpc.stub.ClientCalls.blockingUnaryCall;
+import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  */
@@ -27,48 +27,142 @@ public final class OperationServiceGrpc {
   public static final String SERVICE_NAME = "Ydb.Operation.V1.OperationService";
 
   // Static method descriptors that strictly reflect the proto.
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.OperationProtos.GetOperationRequest,
-      tech.ydb.OperationProtos.GetOperationResponse> METHOD_GET_OPERATION =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Operation.V1.OperationService", "GetOperation"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.GetOperationRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.GetOperationResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.OperationProtos.CancelOperationRequest,
-      tech.ydb.OperationProtos.CancelOperationResponse> METHOD_CANCEL_OPERATION =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Operation.V1.OperationService", "CancelOperation"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.CancelOperationRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.CancelOperationResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.OperationProtos.ForgetOperationRequest,
-      tech.ydb.OperationProtos.ForgetOperationResponse> METHOD_FORGET_OPERATION =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Operation.V1.OperationService", "ForgetOperation"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.ForgetOperationRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.ForgetOperationResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.OperationProtos.ListOperationsRequest,
-      tech.ydb.OperationProtos.ListOperationsResponse> METHOD_LIST_OPERATIONS =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Operation.V1.OperationService", "ListOperations"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.ListOperationsRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.OperationProtos.ListOperationsResponse.getDefaultInstance()));
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.OperationProtos.GetOperationRequest,
+      tech.ydb.OperationProtos.GetOperationResponse> getGetOperationMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetOperation",
+      requestType = tech.ydb.OperationProtos.GetOperationRequest.class,
+      responseType = tech.ydb.OperationProtos.GetOperationResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.OperationProtos.GetOperationRequest,
+      tech.ydb.OperationProtos.GetOperationResponse> getGetOperationMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.OperationProtos.GetOperationRequest, tech.ydb.OperationProtos.GetOperationResponse> getGetOperationMethod;
+    if ((getGetOperationMethod = OperationServiceGrpc.getGetOperationMethod) == null) {
+      synchronized (OperationServiceGrpc.class) {
+        if ((getGetOperationMethod = OperationServiceGrpc.getGetOperationMethod) == null) {
+          OperationServiceGrpc.getGetOperationMethod = getGetOperationMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.OperationProtos.GetOperationRequest, tech.ydb.OperationProtos.GetOperationResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetOperation"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.OperationProtos.GetOperationRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.OperationProtos.GetOperationResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new OperationServiceMethodDescriptorSupplier("GetOperation"))
+              .build();
+        }
+      }
+    }
+    return getGetOperationMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.OperationProtos.CancelOperationRequest,
+      tech.ydb.OperationProtos.CancelOperationResponse> getCancelOperationMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CancelOperation",
+      requestType = tech.ydb.OperationProtos.CancelOperationRequest.class,
+      responseType = tech.ydb.OperationProtos.CancelOperationResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.OperationProtos.CancelOperationRequest,
+      tech.ydb.OperationProtos.CancelOperationResponse> getCancelOperationMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.OperationProtos.CancelOperationRequest, tech.ydb.OperationProtos.CancelOperationResponse> getCancelOperationMethod;
+    if ((getCancelOperationMethod = OperationServiceGrpc.getCancelOperationMethod) == null) {
+      synchronized (OperationServiceGrpc.class) {
+        if ((getCancelOperationMethod = OperationServiceGrpc.getCancelOperationMethod) == null) {
+          OperationServiceGrpc.getCancelOperationMethod = getCancelOperationMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.OperationProtos.CancelOperationRequest, tech.ydb.OperationProtos.CancelOperationResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CancelOperation"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.OperationProtos.CancelOperationRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.OperationProtos.CancelOperationResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new OperationServiceMethodDescriptorSupplier("CancelOperation"))
+              .build();
+        }
+      }
+    }
+    return getCancelOperationMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.OperationProtos.ForgetOperationRequest,
+      tech.ydb.OperationProtos.ForgetOperationResponse> getForgetOperationMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ForgetOperation",
+      requestType = tech.ydb.OperationProtos.ForgetOperationRequest.class,
+      responseType = tech.ydb.OperationProtos.ForgetOperationResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.OperationProtos.ForgetOperationRequest,
+      tech.ydb.OperationProtos.ForgetOperationResponse> getForgetOperationMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.OperationProtos.ForgetOperationRequest, tech.ydb.OperationProtos.ForgetOperationResponse> getForgetOperationMethod;
+    if ((getForgetOperationMethod = OperationServiceGrpc.getForgetOperationMethod) == null) {
+      synchronized (OperationServiceGrpc.class) {
+        if ((getForgetOperationMethod = OperationServiceGrpc.getForgetOperationMethod) == null) {
+          OperationServiceGrpc.getForgetOperationMethod = getForgetOperationMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.OperationProtos.ForgetOperationRequest, tech.ydb.OperationProtos.ForgetOperationResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ForgetOperation"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.OperationProtos.ForgetOperationRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.OperationProtos.ForgetOperationResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new OperationServiceMethodDescriptorSupplier("ForgetOperation"))
+              .build();
+        }
+      }
+    }
+    return getForgetOperationMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.OperationProtos.ListOperationsRequest,
+      tech.ydb.OperationProtos.ListOperationsResponse> getListOperationsMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ListOperations",
+      requestType = tech.ydb.OperationProtos.ListOperationsRequest.class,
+      responseType = tech.ydb.OperationProtos.ListOperationsResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.OperationProtos.ListOperationsRequest,
+      tech.ydb.OperationProtos.ListOperationsResponse> getListOperationsMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.OperationProtos.ListOperationsRequest, tech.ydb.OperationProtos.ListOperationsResponse> getListOperationsMethod;
+    if ((getListOperationsMethod = OperationServiceGrpc.getListOperationsMethod) == null) {
+      synchronized (OperationServiceGrpc.class) {
+        if ((getListOperationsMethod = OperationServiceGrpc.getListOperationsMethod) == null) {
+          OperationServiceGrpc.getListOperationsMethod = getListOperationsMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.OperationProtos.ListOperationsRequest, tech.ydb.OperationProtos.ListOperationsResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ListOperations"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.OperationProtos.ListOperationsRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.OperationProtos.ListOperationsResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new OperationServiceMethodDescriptorSupplier("ListOperations"))
+              .build();
+        }
+      }
+    }
+    return getListOperationsMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static OperationServiceStub newStub(io.grpc.Channel channel) {
-    return new OperationServiceStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<OperationServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<OperationServiceStub>() {
+        @java.lang.Override
+        public OperationServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new OperationServiceStub(channel, callOptions);
+        }
+      };
+    return OperationServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -76,15 +170,29 @@ public final class OperationServiceGrpc {
    */
   public static OperationServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new OperationServiceBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<OperationServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<OperationServiceBlockingStub>() {
+        @java.lang.Override
+        public OperationServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new OperationServiceBlockingStub(channel, callOptions);
+        }
+      };
+    return OperationServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new ListenableFuture-style stub that supports unary and streaming output calls on the service
+   * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
   public static OperationServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new OperationServiceFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<OperationServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<OperationServiceFutureStub>() {
+        @java.lang.Override
+        public OperationServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new OperationServiceFutureStub(channel, callOptions);
+        }
+      };
+    return OperationServiceFutureStub.newStub(factory, channel);
   }
 
   /**
@@ -98,7 +206,7 @@ public final class OperationServiceGrpc {
      */
     public void getOperation(tech.ydb.OperationProtos.GetOperationRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.GetOperationResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_GET_OPERATION, responseObserver);
+      asyncUnimplementedUnaryCall(getGetOperationMethod(), responseObserver);
     }
 
     /**
@@ -110,7 +218,7 @@ public final class OperationServiceGrpc {
      */
     public void cancelOperation(tech.ydb.OperationProtos.CancelOperationRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.CancelOperationResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_CANCEL_OPERATION, responseObserver);
+      asyncUnimplementedUnaryCall(getCancelOperationMethod(), responseObserver);
     }
 
     /**
@@ -121,7 +229,7 @@ public final class OperationServiceGrpc {
      */
     public void forgetOperation(tech.ydb.OperationProtos.ForgetOperationRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.ForgetOperationResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_FORGET_OPERATION, responseObserver);
+      asyncUnimplementedUnaryCall(getForgetOperationMethod(), responseObserver);
     }
 
     /**
@@ -131,34 +239,34 @@ public final class OperationServiceGrpc {
      */
     public void listOperations(tech.ydb.OperationProtos.ListOperationsRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.ListOperationsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_LIST_OPERATIONS, responseObserver);
+      asyncUnimplementedUnaryCall(getListOperationsMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            METHOD_GET_OPERATION,
+            getGetOperationMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.OperationProtos.GetOperationRequest,
                 tech.ydb.OperationProtos.GetOperationResponse>(
                   this, METHODID_GET_OPERATION)))
           .addMethod(
-            METHOD_CANCEL_OPERATION,
+            getCancelOperationMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.OperationProtos.CancelOperationRequest,
                 tech.ydb.OperationProtos.CancelOperationResponse>(
                   this, METHODID_CANCEL_OPERATION)))
           .addMethod(
-            METHOD_FORGET_OPERATION,
+            getForgetOperationMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.OperationProtos.ForgetOperationRequest,
                 tech.ydb.OperationProtos.ForgetOperationResponse>(
                   this, METHODID_FORGET_OPERATION)))
           .addMethod(
-            METHOD_LIST_OPERATIONS,
+            getListOperationsMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.OperationProtos.ListOperationsRequest,
@@ -170,19 +278,15 @@ public final class OperationServiceGrpc {
 
   /**
    */
-  public static final class OperationServiceStub extends io.grpc.stub.AbstractStub<OperationServiceStub> {
-    private OperationServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private OperationServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class OperationServiceStub extends io.grpc.stub.AbstractAsyncStub<OperationServiceStub> {
+    private OperationServiceStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected OperationServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected OperationServiceStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new OperationServiceStub(channel, callOptions);
     }
 
@@ -194,7 +298,7 @@ public final class OperationServiceGrpc {
     public void getOperation(tech.ydb.OperationProtos.GetOperationRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.GetOperationResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_GET_OPERATION, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getGetOperationMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -207,7 +311,7 @@ public final class OperationServiceGrpc {
     public void cancelOperation(tech.ydb.OperationProtos.CancelOperationRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.CancelOperationResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_CANCEL_OPERATION, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCancelOperationMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -219,7 +323,7 @@ public final class OperationServiceGrpc {
     public void forgetOperation(tech.ydb.OperationProtos.ForgetOperationRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.ForgetOperationResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_FORGET_OPERATION, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getForgetOperationMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -230,25 +334,21 @@ public final class OperationServiceGrpc {
     public void listOperations(tech.ydb.OperationProtos.ListOperationsRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.OperationProtos.ListOperationsResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_LIST_OPERATIONS, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getListOperationsMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
   /**
    */
-  public static final class OperationServiceBlockingStub extends io.grpc.stub.AbstractStub<OperationServiceBlockingStub> {
-    private OperationServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private OperationServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class OperationServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<OperationServiceBlockingStub> {
+    private OperationServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected OperationServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected OperationServiceBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new OperationServiceBlockingStub(channel, callOptions);
     }
 
@@ -259,7 +359,7 @@ public final class OperationServiceGrpc {
      */
     public tech.ydb.OperationProtos.GetOperationResponse getOperation(tech.ydb.OperationProtos.GetOperationRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_GET_OPERATION, getCallOptions(), request);
+          getChannel(), getGetOperationMethod(), getCallOptions(), request);
     }
 
     /**
@@ -271,7 +371,7 @@ public final class OperationServiceGrpc {
      */
     public tech.ydb.OperationProtos.CancelOperationResponse cancelOperation(tech.ydb.OperationProtos.CancelOperationRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_CANCEL_OPERATION, getCallOptions(), request);
+          getChannel(), getCancelOperationMethod(), getCallOptions(), request);
     }
 
     /**
@@ -282,7 +382,7 @@ public final class OperationServiceGrpc {
      */
     public tech.ydb.OperationProtos.ForgetOperationResponse forgetOperation(tech.ydb.OperationProtos.ForgetOperationRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_FORGET_OPERATION, getCallOptions(), request);
+          getChannel(), getForgetOperationMethod(), getCallOptions(), request);
     }
 
     /**
@@ -292,25 +392,21 @@ public final class OperationServiceGrpc {
      */
     public tech.ydb.OperationProtos.ListOperationsResponse listOperations(tech.ydb.OperationProtos.ListOperationsRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_LIST_OPERATIONS, getCallOptions(), request);
+          getChannel(), getListOperationsMethod(), getCallOptions(), request);
     }
   }
 
   /**
    */
-  public static final class OperationServiceFutureStub extends io.grpc.stub.AbstractStub<OperationServiceFutureStub> {
-    private OperationServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private OperationServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class OperationServiceFutureStub extends io.grpc.stub.AbstractFutureStub<OperationServiceFutureStub> {
+    private OperationServiceFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected OperationServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected OperationServiceFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new OperationServiceFutureStub(channel, callOptions);
     }
 
@@ -322,7 +418,7 @@ public final class OperationServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.OperationProtos.GetOperationResponse> getOperation(
         tech.ydb.OperationProtos.GetOperationRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_GET_OPERATION, getCallOptions()), request);
+          getChannel().newCall(getGetOperationMethod(), getCallOptions()), request);
     }
 
     /**
@@ -335,7 +431,7 @@ public final class OperationServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.OperationProtos.CancelOperationResponse> cancelOperation(
         tech.ydb.OperationProtos.CancelOperationRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_CANCEL_OPERATION, getCallOptions()), request);
+          getChannel().newCall(getCancelOperationMethod(), getCallOptions()), request);
     }
 
     /**
@@ -347,7 +443,7 @@ public final class OperationServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.OperationProtos.ForgetOperationResponse> forgetOperation(
         tech.ydb.OperationProtos.ForgetOperationRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_FORGET_OPERATION, getCallOptions()), request);
+          getChannel().newCall(getForgetOperationMethod(), getCallOptions()), request);
     }
 
     /**
@@ -358,7 +454,7 @@ public final class OperationServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.OperationProtos.ListOperationsResponse> listOperations(
         tech.ydb.OperationProtos.ListOperationsRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_LIST_OPERATIONS, getCallOptions()), request);
+          getChannel().newCall(getListOperationsMethod(), getCallOptions()), request);
     }
   }
 
@@ -416,10 +512,38 @@ public final class OperationServiceGrpc {
     }
   }
 
-  private static final class OperationServiceDescriptorSupplier implements io.grpc.protobuf.ProtoFileDescriptorSupplier {
+  private static abstract class OperationServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
+    OperationServiceBaseDescriptorSupplier() {}
+
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
       return tech.ydb.operation.v1.YdbOperationV1.getDescriptor();
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
+      return getFileDescriptor().findServiceByName("OperationService");
+    }
+  }
+
+  private static final class OperationServiceFileDescriptorSupplier
+      extends OperationServiceBaseDescriptorSupplier {
+    OperationServiceFileDescriptorSupplier() {}
+  }
+
+  private static final class OperationServiceMethodDescriptorSupplier
+      extends OperationServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
+    private final String methodName;
+
+    OperationServiceMethodDescriptorSupplier(String methodName) {
+      this.methodName = methodName;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.MethodDescriptor getMethodDescriptor() {
+      return getServiceDescriptor().findMethodByName(methodName);
     }
   }
 
@@ -432,11 +556,11 @@ public final class OperationServiceGrpc {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new OperationServiceDescriptorSupplier())
-              .addMethod(METHOD_GET_OPERATION)
-              .addMethod(METHOD_CANCEL_OPERATION)
-              .addMethod(METHOD_FORGET_OPERATION)
-              .addMethod(METHOD_LIST_OPERATIONS)
+              .setSchemaDescriptor(new OperationServiceFileDescriptorSupplier())
+              .addMethod(getGetOperationMethod())
+              .addMethod(getCancelOperationMethod())
+              .addMethod(getForgetOperationMethod())
+              .addMethod(getListOperationsMethod())
               .build();
         }
       }

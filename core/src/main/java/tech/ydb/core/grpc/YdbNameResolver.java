@@ -209,7 +209,7 @@ final class YdbNameResolver extends NameResolver {
         ListEndpointsRequest request = ListEndpointsRequest.newBuilder()
             .setDatabase(database)
             .build();
-        transport.unaryCall(DiscoveryServiceGrpc.METHOD_LIST_ENDPOINTS, request, consumer, 0);
+        transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), request, consumer, 0);
     }
 
     static Factory newFactory(AuthProvider authProvider, @Nullable byte[] cert) {

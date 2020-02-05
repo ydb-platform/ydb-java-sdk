@@ -109,7 +109,7 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
 
         logger.log(Level.CONFIG, String.format("handle resolved address groups attr - %s",  attributes.toString()));
 
-        Map<String, Object> serviceConfig =
+        Map<String, ?> serviceConfig =
                 attributes.get(GrpcAttributes.NAME_RESOLVER_SERVICE_CONFIG);
         if (serviceConfig != null) {
             String stickinessMetadataKey =

@@ -1,19 +1,19 @@
 package tech.ydb.table.v1;
 
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncUnaryCall;
+import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
+import static io.grpc.stub.ClientCalls.blockingUnaryCall;
+import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  */
@@ -27,183 +27,607 @@ public final class TableServiceGrpc {
   public static final String SERVICE_NAME = "Ydb.Table.V1.TableService";
 
   // Static method descriptors that strictly reflect the proto.
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CreateSessionRequest,
-      tech.ydb.table.YdbTable.CreateSessionResponse> METHOD_CREATE_SESSION =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "CreateSession"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.CreateSessionRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.CreateSessionResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DeleteSessionRequest,
-      tech.ydb.table.YdbTable.DeleteSessionResponse> METHOD_DELETE_SESSION =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "DeleteSession"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.DeleteSessionRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.DeleteSessionResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.KeepAliveRequest,
-      tech.ydb.table.YdbTable.KeepAliveResponse> METHOD_KEEP_ALIVE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "KeepAlive"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.KeepAliveRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.KeepAliveResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CreateTableRequest,
-      tech.ydb.table.YdbTable.CreateTableResponse> METHOD_CREATE_TABLE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "CreateTable"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.CreateTableRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.CreateTableResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DropTableRequest,
-      tech.ydb.table.YdbTable.DropTableResponse> METHOD_DROP_TABLE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "DropTable"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.DropTableRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.DropTableResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.AlterTableRequest,
-      tech.ydb.table.YdbTable.AlterTableResponse> METHOD_ALTER_TABLE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "AlterTable"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.AlterTableRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.AlterTableResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CopyTableRequest,
-      tech.ydb.table.YdbTable.CopyTableResponse> METHOD_COPY_TABLE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "CopyTable"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.CopyTableRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.CopyTableResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CopyTablesRequest,
-      tech.ydb.table.YdbTable.CopyTablesResponse> METHOD_COPY_TABLES =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "CopyTables"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.CopyTablesRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.CopyTablesResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DescribeTableRequest,
-      tech.ydb.table.YdbTable.DescribeTableResponse> METHOD_DESCRIBE_TABLE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "DescribeTable"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.DescribeTableRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.DescribeTableResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExplainDataQueryRequest,
-      tech.ydb.table.YdbTable.ExplainDataQueryResponse> METHOD_EXPLAIN_DATA_QUERY =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "ExplainDataQuery"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.ExplainDataQueryRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.ExplainDataQueryResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.PrepareDataQueryRequest,
-      tech.ydb.table.YdbTable.PrepareDataQueryResponse> METHOD_PREPARE_DATA_QUERY =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "PrepareDataQuery"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.PrepareDataQueryRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.PrepareDataQueryResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExecuteDataQueryRequest,
-      tech.ydb.table.YdbTable.ExecuteDataQueryResponse> METHOD_EXECUTE_DATA_QUERY =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "ExecuteDataQuery"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.ExecuteDataQueryRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.ExecuteDataQueryResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest,
-      tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse> METHOD_EXECUTE_SCHEME_QUERY =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "ExecuteSchemeQuery"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.BeginTransactionRequest,
-      tech.ydb.table.YdbTable.BeginTransactionResponse> METHOD_BEGIN_TRANSACTION =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "BeginTransaction"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.BeginTransactionRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.BeginTransactionResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CommitTransactionRequest,
-      tech.ydb.table.YdbTable.CommitTransactionResponse> METHOD_COMMIT_TRANSACTION =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "CommitTransaction"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.CommitTransactionRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.CommitTransactionResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.RollbackTransactionRequest,
-      tech.ydb.table.YdbTable.RollbackTransactionResponse> METHOD_ROLLBACK_TRANSACTION =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "RollbackTransaction"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.RollbackTransactionRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.RollbackTransactionResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DescribeTableOptionsRequest,
-      tech.ydb.table.YdbTable.DescribeTableOptionsResponse> METHOD_DESCRIBE_TABLE_OPTIONS =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "DescribeTableOptions"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.DescribeTableOptionsRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.DescribeTableOptionsResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ReadTableRequest,
-      tech.ydb.table.YdbTable.ReadTableResponse> METHOD_STREAM_READ_TABLE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "StreamReadTable"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.ReadTableRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.ReadTableResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.BulkUpsertRequest,
-      tech.ydb.table.YdbTable.BulkUpsertResponse> METHOD_BULK_UPSERT =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Table.V1.TableService", "BulkUpsert"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.BulkUpsertRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.table.YdbTable.BulkUpsertResponse.getDefaultInstance()));
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CreateSessionRequest,
+      tech.ydb.table.YdbTable.CreateSessionResponse> getCreateSessionMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CreateSession",
+      requestType = tech.ydb.table.YdbTable.CreateSessionRequest.class,
+      responseType = tech.ydb.table.YdbTable.CreateSessionResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CreateSessionRequest,
+      tech.ydb.table.YdbTable.CreateSessionResponse> getCreateSessionMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CreateSessionRequest, tech.ydb.table.YdbTable.CreateSessionResponse> getCreateSessionMethod;
+    if ((getCreateSessionMethod = TableServiceGrpc.getCreateSessionMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getCreateSessionMethod = TableServiceGrpc.getCreateSessionMethod) == null) {
+          TableServiceGrpc.getCreateSessionMethod = getCreateSessionMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.CreateSessionRequest, tech.ydb.table.YdbTable.CreateSessionResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateSession"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.CreateSessionRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.CreateSessionResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("CreateSession"))
+              .build();
+        }
+      }
+    }
+    return getCreateSessionMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DeleteSessionRequest,
+      tech.ydb.table.YdbTable.DeleteSessionResponse> getDeleteSessionMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DeleteSession",
+      requestType = tech.ydb.table.YdbTable.DeleteSessionRequest.class,
+      responseType = tech.ydb.table.YdbTable.DeleteSessionResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DeleteSessionRequest,
+      tech.ydb.table.YdbTable.DeleteSessionResponse> getDeleteSessionMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DeleteSessionRequest, tech.ydb.table.YdbTable.DeleteSessionResponse> getDeleteSessionMethod;
+    if ((getDeleteSessionMethod = TableServiceGrpc.getDeleteSessionMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getDeleteSessionMethod = TableServiceGrpc.getDeleteSessionMethod) == null) {
+          TableServiceGrpc.getDeleteSessionMethod = getDeleteSessionMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.DeleteSessionRequest, tech.ydb.table.YdbTable.DeleteSessionResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DeleteSession"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.DeleteSessionRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.DeleteSessionResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("DeleteSession"))
+              .build();
+        }
+      }
+    }
+    return getDeleteSessionMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.KeepAliveRequest,
+      tech.ydb.table.YdbTable.KeepAliveResponse> getKeepAliveMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "KeepAlive",
+      requestType = tech.ydb.table.YdbTable.KeepAliveRequest.class,
+      responseType = tech.ydb.table.YdbTable.KeepAliveResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.KeepAliveRequest,
+      tech.ydb.table.YdbTable.KeepAliveResponse> getKeepAliveMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.KeepAliveRequest, tech.ydb.table.YdbTable.KeepAliveResponse> getKeepAliveMethod;
+    if ((getKeepAliveMethod = TableServiceGrpc.getKeepAliveMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getKeepAliveMethod = TableServiceGrpc.getKeepAliveMethod) == null) {
+          TableServiceGrpc.getKeepAliveMethod = getKeepAliveMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.KeepAliveRequest, tech.ydb.table.YdbTable.KeepAliveResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "KeepAlive"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.KeepAliveRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.KeepAliveResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("KeepAlive"))
+              .build();
+        }
+      }
+    }
+    return getKeepAliveMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CreateTableRequest,
+      tech.ydb.table.YdbTable.CreateTableResponse> getCreateTableMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CreateTable",
+      requestType = tech.ydb.table.YdbTable.CreateTableRequest.class,
+      responseType = tech.ydb.table.YdbTable.CreateTableResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CreateTableRequest,
+      tech.ydb.table.YdbTable.CreateTableResponse> getCreateTableMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CreateTableRequest, tech.ydb.table.YdbTable.CreateTableResponse> getCreateTableMethod;
+    if ((getCreateTableMethod = TableServiceGrpc.getCreateTableMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getCreateTableMethod = TableServiceGrpc.getCreateTableMethod) == null) {
+          TableServiceGrpc.getCreateTableMethod = getCreateTableMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.CreateTableRequest, tech.ydb.table.YdbTable.CreateTableResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateTable"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.CreateTableRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.CreateTableResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("CreateTable"))
+              .build();
+        }
+      }
+    }
+    return getCreateTableMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DropTableRequest,
+      tech.ydb.table.YdbTable.DropTableResponse> getDropTableMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DropTable",
+      requestType = tech.ydb.table.YdbTable.DropTableRequest.class,
+      responseType = tech.ydb.table.YdbTable.DropTableResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DropTableRequest,
+      tech.ydb.table.YdbTable.DropTableResponse> getDropTableMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DropTableRequest, tech.ydb.table.YdbTable.DropTableResponse> getDropTableMethod;
+    if ((getDropTableMethod = TableServiceGrpc.getDropTableMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getDropTableMethod = TableServiceGrpc.getDropTableMethod) == null) {
+          TableServiceGrpc.getDropTableMethod = getDropTableMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.DropTableRequest, tech.ydb.table.YdbTable.DropTableResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DropTable"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.DropTableRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.DropTableResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("DropTable"))
+              .build();
+        }
+      }
+    }
+    return getDropTableMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.AlterTableRequest,
+      tech.ydb.table.YdbTable.AlterTableResponse> getAlterTableMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "AlterTable",
+      requestType = tech.ydb.table.YdbTable.AlterTableRequest.class,
+      responseType = tech.ydb.table.YdbTable.AlterTableResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.AlterTableRequest,
+      tech.ydb.table.YdbTable.AlterTableResponse> getAlterTableMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.AlterTableRequest, tech.ydb.table.YdbTable.AlterTableResponse> getAlterTableMethod;
+    if ((getAlterTableMethod = TableServiceGrpc.getAlterTableMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getAlterTableMethod = TableServiceGrpc.getAlterTableMethod) == null) {
+          TableServiceGrpc.getAlterTableMethod = getAlterTableMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.AlterTableRequest, tech.ydb.table.YdbTable.AlterTableResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "AlterTable"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.AlterTableRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.AlterTableResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("AlterTable"))
+              .build();
+        }
+      }
+    }
+    return getAlterTableMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CopyTableRequest,
+      tech.ydb.table.YdbTable.CopyTableResponse> getCopyTableMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CopyTable",
+      requestType = tech.ydb.table.YdbTable.CopyTableRequest.class,
+      responseType = tech.ydb.table.YdbTable.CopyTableResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CopyTableRequest,
+      tech.ydb.table.YdbTable.CopyTableResponse> getCopyTableMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CopyTableRequest, tech.ydb.table.YdbTable.CopyTableResponse> getCopyTableMethod;
+    if ((getCopyTableMethod = TableServiceGrpc.getCopyTableMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getCopyTableMethod = TableServiceGrpc.getCopyTableMethod) == null) {
+          TableServiceGrpc.getCopyTableMethod = getCopyTableMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.CopyTableRequest, tech.ydb.table.YdbTable.CopyTableResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CopyTable"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.CopyTableRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.CopyTableResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("CopyTable"))
+              .build();
+        }
+      }
+    }
+    return getCopyTableMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CopyTablesRequest,
+      tech.ydb.table.YdbTable.CopyTablesResponse> getCopyTablesMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CopyTables",
+      requestType = tech.ydb.table.YdbTable.CopyTablesRequest.class,
+      responseType = tech.ydb.table.YdbTable.CopyTablesResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CopyTablesRequest,
+      tech.ydb.table.YdbTable.CopyTablesResponse> getCopyTablesMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CopyTablesRequest, tech.ydb.table.YdbTable.CopyTablesResponse> getCopyTablesMethod;
+    if ((getCopyTablesMethod = TableServiceGrpc.getCopyTablesMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getCopyTablesMethod = TableServiceGrpc.getCopyTablesMethod) == null) {
+          TableServiceGrpc.getCopyTablesMethod = getCopyTablesMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.CopyTablesRequest, tech.ydb.table.YdbTable.CopyTablesResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CopyTables"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.CopyTablesRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.CopyTablesResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("CopyTables"))
+              .build();
+        }
+      }
+    }
+    return getCopyTablesMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DescribeTableRequest,
+      tech.ydb.table.YdbTable.DescribeTableResponse> getDescribeTableMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DescribeTable",
+      requestType = tech.ydb.table.YdbTable.DescribeTableRequest.class,
+      responseType = tech.ydb.table.YdbTable.DescribeTableResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DescribeTableRequest,
+      tech.ydb.table.YdbTable.DescribeTableResponse> getDescribeTableMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DescribeTableRequest, tech.ydb.table.YdbTable.DescribeTableResponse> getDescribeTableMethod;
+    if ((getDescribeTableMethod = TableServiceGrpc.getDescribeTableMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getDescribeTableMethod = TableServiceGrpc.getDescribeTableMethod) == null) {
+          TableServiceGrpc.getDescribeTableMethod = getDescribeTableMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.DescribeTableRequest, tech.ydb.table.YdbTable.DescribeTableResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DescribeTable"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.DescribeTableRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.DescribeTableResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("DescribeTable"))
+              .build();
+        }
+      }
+    }
+    return getDescribeTableMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExplainDataQueryRequest,
+      tech.ydb.table.YdbTable.ExplainDataQueryResponse> getExplainDataQueryMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ExplainDataQuery",
+      requestType = tech.ydb.table.YdbTable.ExplainDataQueryRequest.class,
+      responseType = tech.ydb.table.YdbTable.ExplainDataQueryResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExplainDataQueryRequest,
+      tech.ydb.table.YdbTable.ExplainDataQueryResponse> getExplainDataQueryMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExplainDataQueryRequest, tech.ydb.table.YdbTable.ExplainDataQueryResponse> getExplainDataQueryMethod;
+    if ((getExplainDataQueryMethod = TableServiceGrpc.getExplainDataQueryMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getExplainDataQueryMethod = TableServiceGrpc.getExplainDataQueryMethod) == null) {
+          TableServiceGrpc.getExplainDataQueryMethod = getExplainDataQueryMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.ExplainDataQueryRequest, tech.ydb.table.YdbTable.ExplainDataQueryResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ExplainDataQuery"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.ExplainDataQueryRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.ExplainDataQueryResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("ExplainDataQuery"))
+              .build();
+        }
+      }
+    }
+    return getExplainDataQueryMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.PrepareDataQueryRequest,
+      tech.ydb.table.YdbTable.PrepareDataQueryResponse> getPrepareDataQueryMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "PrepareDataQuery",
+      requestType = tech.ydb.table.YdbTable.PrepareDataQueryRequest.class,
+      responseType = tech.ydb.table.YdbTable.PrepareDataQueryResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.PrepareDataQueryRequest,
+      tech.ydb.table.YdbTable.PrepareDataQueryResponse> getPrepareDataQueryMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.PrepareDataQueryRequest, tech.ydb.table.YdbTable.PrepareDataQueryResponse> getPrepareDataQueryMethod;
+    if ((getPrepareDataQueryMethod = TableServiceGrpc.getPrepareDataQueryMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getPrepareDataQueryMethod = TableServiceGrpc.getPrepareDataQueryMethod) == null) {
+          TableServiceGrpc.getPrepareDataQueryMethod = getPrepareDataQueryMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.PrepareDataQueryRequest, tech.ydb.table.YdbTable.PrepareDataQueryResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "PrepareDataQuery"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.PrepareDataQueryRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.PrepareDataQueryResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("PrepareDataQuery"))
+              .build();
+        }
+      }
+    }
+    return getPrepareDataQueryMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExecuteDataQueryRequest,
+      tech.ydb.table.YdbTable.ExecuteDataQueryResponse> getExecuteDataQueryMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ExecuteDataQuery",
+      requestType = tech.ydb.table.YdbTable.ExecuteDataQueryRequest.class,
+      responseType = tech.ydb.table.YdbTable.ExecuteDataQueryResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExecuteDataQueryRequest,
+      tech.ydb.table.YdbTable.ExecuteDataQueryResponse> getExecuteDataQueryMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExecuteDataQueryRequest, tech.ydb.table.YdbTable.ExecuteDataQueryResponse> getExecuteDataQueryMethod;
+    if ((getExecuteDataQueryMethod = TableServiceGrpc.getExecuteDataQueryMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getExecuteDataQueryMethod = TableServiceGrpc.getExecuteDataQueryMethod) == null) {
+          TableServiceGrpc.getExecuteDataQueryMethod = getExecuteDataQueryMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.ExecuteDataQueryRequest, tech.ydb.table.YdbTable.ExecuteDataQueryResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ExecuteDataQuery"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.ExecuteDataQueryRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.ExecuteDataQueryResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("ExecuteDataQuery"))
+              .build();
+        }
+      }
+    }
+    return getExecuteDataQueryMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest,
+      tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse> getExecuteSchemeQueryMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ExecuteSchemeQuery",
+      requestType = tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest.class,
+      responseType = tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest,
+      tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse> getExecuteSchemeQueryMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest, tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse> getExecuteSchemeQueryMethod;
+    if ((getExecuteSchemeQueryMethod = TableServiceGrpc.getExecuteSchemeQueryMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getExecuteSchemeQueryMethod = TableServiceGrpc.getExecuteSchemeQueryMethod) == null) {
+          TableServiceGrpc.getExecuteSchemeQueryMethod = getExecuteSchemeQueryMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest, tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ExecuteSchemeQuery"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("ExecuteSchemeQuery"))
+              .build();
+        }
+      }
+    }
+    return getExecuteSchemeQueryMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.BeginTransactionRequest,
+      tech.ydb.table.YdbTable.BeginTransactionResponse> getBeginTransactionMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "BeginTransaction",
+      requestType = tech.ydb.table.YdbTable.BeginTransactionRequest.class,
+      responseType = tech.ydb.table.YdbTable.BeginTransactionResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.BeginTransactionRequest,
+      tech.ydb.table.YdbTable.BeginTransactionResponse> getBeginTransactionMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.BeginTransactionRequest, tech.ydb.table.YdbTable.BeginTransactionResponse> getBeginTransactionMethod;
+    if ((getBeginTransactionMethod = TableServiceGrpc.getBeginTransactionMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getBeginTransactionMethod = TableServiceGrpc.getBeginTransactionMethod) == null) {
+          TableServiceGrpc.getBeginTransactionMethod = getBeginTransactionMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.BeginTransactionRequest, tech.ydb.table.YdbTable.BeginTransactionResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "BeginTransaction"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.BeginTransactionRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.BeginTransactionResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("BeginTransaction"))
+              .build();
+        }
+      }
+    }
+    return getBeginTransactionMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CommitTransactionRequest,
+      tech.ydb.table.YdbTable.CommitTransactionResponse> getCommitTransactionMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CommitTransaction",
+      requestType = tech.ydb.table.YdbTable.CommitTransactionRequest.class,
+      responseType = tech.ydb.table.YdbTable.CommitTransactionResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CommitTransactionRequest,
+      tech.ydb.table.YdbTable.CommitTransactionResponse> getCommitTransactionMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.CommitTransactionRequest, tech.ydb.table.YdbTable.CommitTransactionResponse> getCommitTransactionMethod;
+    if ((getCommitTransactionMethod = TableServiceGrpc.getCommitTransactionMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getCommitTransactionMethod = TableServiceGrpc.getCommitTransactionMethod) == null) {
+          TableServiceGrpc.getCommitTransactionMethod = getCommitTransactionMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.CommitTransactionRequest, tech.ydb.table.YdbTable.CommitTransactionResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CommitTransaction"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.CommitTransactionRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.CommitTransactionResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("CommitTransaction"))
+              .build();
+        }
+      }
+    }
+    return getCommitTransactionMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.RollbackTransactionRequest,
+      tech.ydb.table.YdbTable.RollbackTransactionResponse> getRollbackTransactionMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "RollbackTransaction",
+      requestType = tech.ydb.table.YdbTable.RollbackTransactionRequest.class,
+      responseType = tech.ydb.table.YdbTable.RollbackTransactionResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.RollbackTransactionRequest,
+      tech.ydb.table.YdbTable.RollbackTransactionResponse> getRollbackTransactionMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.RollbackTransactionRequest, tech.ydb.table.YdbTable.RollbackTransactionResponse> getRollbackTransactionMethod;
+    if ((getRollbackTransactionMethod = TableServiceGrpc.getRollbackTransactionMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getRollbackTransactionMethod = TableServiceGrpc.getRollbackTransactionMethod) == null) {
+          TableServiceGrpc.getRollbackTransactionMethod = getRollbackTransactionMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.RollbackTransactionRequest, tech.ydb.table.YdbTable.RollbackTransactionResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "RollbackTransaction"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.RollbackTransactionRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.RollbackTransactionResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("RollbackTransaction"))
+              .build();
+        }
+      }
+    }
+    return getRollbackTransactionMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DescribeTableOptionsRequest,
+      tech.ydb.table.YdbTable.DescribeTableOptionsResponse> getDescribeTableOptionsMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DescribeTableOptions",
+      requestType = tech.ydb.table.YdbTable.DescribeTableOptionsRequest.class,
+      responseType = tech.ydb.table.YdbTable.DescribeTableOptionsResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DescribeTableOptionsRequest,
+      tech.ydb.table.YdbTable.DescribeTableOptionsResponse> getDescribeTableOptionsMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DescribeTableOptionsRequest, tech.ydb.table.YdbTable.DescribeTableOptionsResponse> getDescribeTableOptionsMethod;
+    if ((getDescribeTableOptionsMethod = TableServiceGrpc.getDescribeTableOptionsMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getDescribeTableOptionsMethod = TableServiceGrpc.getDescribeTableOptionsMethod) == null) {
+          TableServiceGrpc.getDescribeTableOptionsMethod = getDescribeTableOptionsMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.DescribeTableOptionsRequest, tech.ydb.table.YdbTable.DescribeTableOptionsResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DescribeTableOptions"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.DescribeTableOptionsRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.DescribeTableOptionsResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("DescribeTableOptions"))
+              .build();
+        }
+      }
+    }
+    return getDescribeTableOptionsMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ReadTableRequest,
+      tech.ydb.table.YdbTable.ReadTableResponse> getStreamReadTableMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "StreamReadTable",
+      requestType = tech.ydb.table.YdbTable.ReadTableRequest.class,
+      responseType = tech.ydb.table.YdbTable.ReadTableResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ReadTableRequest,
+      tech.ydb.table.YdbTable.ReadTableResponse> getStreamReadTableMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ReadTableRequest, tech.ydb.table.YdbTable.ReadTableResponse> getStreamReadTableMethod;
+    if ((getStreamReadTableMethod = TableServiceGrpc.getStreamReadTableMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getStreamReadTableMethod = TableServiceGrpc.getStreamReadTableMethod) == null) {
+          TableServiceGrpc.getStreamReadTableMethod = getStreamReadTableMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.ReadTableRequest, tech.ydb.table.YdbTable.ReadTableResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "StreamReadTable"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.ReadTableRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.ReadTableResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("StreamReadTable"))
+              .build();
+        }
+      }
+    }
+    return getStreamReadTableMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.BulkUpsertRequest,
+      tech.ydb.table.YdbTable.BulkUpsertResponse> getBulkUpsertMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "BulkUpsert",
+      requestType = tech.ydb.table.YdbTable.BulkUpsertRequest.class,
+      responseType = tech.ydb.table.YdbTable.BulkUpsertResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.BulkUpsertRequest,
+      tech.ydb.table.YdbTable.BulkUpsertResponse> getBulkUpsertMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.BulkUpsertRequest, tech.ydb.table.YdbTable.BulkUpsertResponse> getBulkUpsertMethod;
+    if ((getBulkUpsertMethod = TableServiceGrpc.getBulkUpsertMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getBulkUpsertMethod = TableServiceGrpc.getBulkUpsertMethod) == null) {
+          TableServiceGrpc.getBulkUpsertMethod = getBulkUpsertMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.BulkUpsertRequest, tech.ydb.table.YdbTable.BulkUpsertResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "BulkUpsert"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.BulkUpsertRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.BulkUpsertResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("BulkUpsert"))
+              .build();
+        }
+      }
+    }
+    return getBulkUpsertMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static TableServiceStub newStub(io.grpc.Channel channel) {
-    return new TableServiceStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<TableServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<TableServiceStub>() {
+        @java.lang.Override
+        public TableServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new TableServiceStub(channel, callOptions);
+        }
+      };
+    return TableServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -211,15 +635,29 @@ public final class TableServiceGrpc {
    */
   public static TableServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new TableServiceBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<TableServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<TableServiceBlockingStub>() {
+        @java.lang.Override
+        public TableServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new TableServiceBlockingStub(channel, callOptions);
+        }
+      };
+    return TableServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new ListenableFuture-style stub that supports unary and streaming output calls on the service
+   * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
   public static TableServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new TableServiceFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<TableServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<TableServiceFutureStub>() {
+        @java.lang.Override
+        public TableServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new TableServiceFutureStub(channel, callOptions);
+        }
+      };
+    return TableServiceFutureStub.newStub(factory, channel);
   }
 
   /**
@@ -239,7 +677,7 @@ public final class TableServiceGrpc {
      */
     public void createSession(tech.ydb.table.YdbTable.CreateSessionRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.CreateSessionResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_CREATE_SESSION, responseObserver);
+      asyncUnimplementedUnaryCall(getCreateSessionMethod(), responseObserver);
     }
 
     /**
@@ -249,7 +687,7 @@ public final class TableServiceGrpc {
      */
     public void deleteSession(tech.ydb.table.YdbTable.DeleteSessionRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.DeleteSessionResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_DELETE_SESSION, responseObserver);
+      asyncUnimplementedUnaryCall(getDeleteSessionMethod(), responseObserver);
     }
 
     /**
@@ -259,7 +697,7 @@ public final class TableServiceGrpc {
      */
     public void keepAlive(tech.ydb.table.YdbTable.KeepAliveRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.KeepAliveResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_KEEP_ALIVE, responseObserver);
+      asyncUnimplementedUnaryCall(getKeepAliveMethod(), responseObserver);
     }
 
     /**
@@ -269,7 +707,7 @@ public final class TableServiceGrpc {
      */
     public void createTable(tech.ydb.table.YdbTable.CreateTableRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.CreateTableResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_CREATE_TABLE, responseObserver);
+      asyncUnimplementedUnaryCall(getCreateTableMethod(), responseObserver);
     }
 
     /**
@@ -279,7 +717,7 @@ public final class TableServiceGrpc {
      */
     public void dropTable(tech.ydb.table.YdbTable.DropTableRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.DropTableResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_DROP_TABLE, responseObserver);
+      asyncUnimplementedUnaryCall(getDropTableMethod(), responseObserver);
     }
 
     /**
@@ -289,7 +727,7 @@ public final class TableServiceGrpc {
      */
     public void alterTable(tech.ydb.table.YdbTable.AlterTableRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.AlterTableResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_ALTER_TABLE, responseObserver);
+      asyncUnimplementedUnaryCall(getAlterTableMethod(), responseObserver);
     }
 
     /**
@@ -299,7 +737,7 @@ public final class TableServiceGrpc {
      */
     public void copyTable(tech.ydb.table.YdbTable.CopyTableRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.CopyTableResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_COPY_TABLE, responseObserver);
+      asyncUnimplementedUnaryCall(getCopyTableMethod(), responseObserver);
     }
 
     /**
@@ -309,7 +747,7 @@ public final class TableServiceGrpc {
      */
     public void copyTables(tech.ydb.table.YdbTable.CopyTablesRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.CopyTablesResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_COPY_TABLES, responseObserver);
+      asyncUnimplementedUnaryCall(getCopyTablesMethod(), responseObserver);
     }
 
     /**
@@ -319,7 +757,7 @@ public final class TableServiceGrpc {
      */
     public void describeTable(tech.ydb.table.YdbTable.DescribeTableRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.DescribeTableResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_DESCRIBE_TABLE, responseObserver);
+      asyncUnimplementedUnaryCall(getDescribeTableMethod(), responseObserver);
     }
 
     /**
@@ -330,7 +768,7 @@ public final class TableServiceGrpc {
      */
     public void explainDataQuery(tech.ydb.table.YdbTable.ExplainDataQueryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ExplainDataQueryResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_EXPLAIN_DATA_QUERY, responseObserver);
+      asyncUnimplementedUnaryCall(getExplainDataQueryMethod(), responseObserver);
     }
 
     /**
@@ -341,7 +779,7 @@ public final class TableServiceGrpc {
      */
     public void prepareDataQuery(tech.ydb.table.YdbTable.PrepareDataQueryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.PrepareDataQueryResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_PREPARE_DATA_QUERY, responseObserver);
+      asyncUnimplementedUnaryCall(getPrepareDataQueryMethod(), responseObserver);
     }
 
     /**
@@ -352,7 +790,7 @@ public final class TableServiceGrpc {
      */
     public void executeDataQuery(tech.ydb.table.YdbTable.ExecuteDataQueryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ExecuteDataQueryResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_EXECUTE_DATA_QUERY, responseObserver);
+      asyncUnimplementedUnaryCall(getExecuteDataQueryMethod(), responseObserver);
     }
 
     /**
@@ -363,7 +801,7 @@ public final class TableServiceGrpc {
      */
     public void executeSchemeQuery(tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_EXECUTE_SCHEME_QUERY, responseObserver);
+      asyncUnimplementedUnaryCall(getExecuteSchemeQueryMethod(), responseObserver);
     }
 
     /**
@@ -373,7 +811,7 @@ public final class TableServiceGrpc {
      */
     public void beginTransaction(tech.ydb.table.YdbTable.BeginTransactionRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.BeginTransactionResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_BEGIN_TRANSACTION, responseObserver);
+      asyncUnimplementedUnaryCall(getBeginTransactionMethod(), responseObserver);
     }
 
     /**
@@ -383,7 +821,7 @@ public final class TableServiceGrpc {
      */
     public void commitTransaction(tech.ydb.table.YdbTable.CommitTransactionRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.CommitTransactionResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_COMMIT_TRANSACTION, responseObserver);
+      asyncUnimplementedUnaryCall(getCommitTransactionMethod(), responseObserver);
     }
 
     /**
@@ -393,7 +831,7 @@ public final class TableServiceGrpc {
      */
     public void rollbackTransaction(tech.ydb.table.YdbTable.RollbackTransactionRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.RollbackTransactionResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_ROLLBACK_TRANSACTION, responseObserver);
+      asyncUnimplementedUnaryCall(getRollbackTransactionMethod(), responseObserver);
     }
 
     /**
@@ -403,7 +841,7 @@ public final class TableServiceGrpc {
      */
     public void describeTableOptions(tech.ydb.table.YdbTable.DescribeTableOptionsRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.DescribeTableOptionsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_DESCRIBE_TABLE_OPTIONS, responseObserver);
+      asyncUnimplementedUnaryCall(getDescribeTableOptionsMethod(), responseObserver);
     }
 
     /**
@@ -413,7 +851,7 @@ public final class TableServiceGrpc {
      */
     public void streamReadTable(tech.ydb.table.YdbTable.ReadTableRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ReadTableResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_STREAM_READ_TABLE, responseObserver);
+      asyncUnimplementedUnaryCall(getStreamReadTableMethod(), responseObserver);
     }
 
     /**
@@ -425,139 +863,139 @@ public final class TableServiceGrpc {
      */
     public void bulkUpsert(tech.ydb.table.YdbTable.BulkUpsertRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.BulkUpsertResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_BULK_UPSERT, responseObserver);
+      asyncUnimplementedUnaryCall(getBulkUpsertMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            METHOD_CREATE_SESSION,
+            getCreateSessionMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.CreateSessionRequest,
                 tech.ydb.table.YdbTable.CreateSessionResponse>(
                   this, METHODID_CREATE_SESSION)))
           .addMethod(
-            METHOD_DELETE_SESSION,
+            getDeleteSessionMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.DeleteSessionRequest,
                 tech.ydb.table.YdbTable.DeleteSessionResponse>(
                   this, METHODID_DELETE_SESSION)))
           .addMethod(
-            METHOD_KEEP_ALIVE,
+            getKeepAliveMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.KeepAliveRequest,
                 tech.ydb.table.YdbTable.KeepAliveResponse>(
                   this, METHODID_KEEP_ALIVE)))
           .addMethod(
-            METHOD_CREATE_TABLE,
+            getCreateTableMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.CreateTableRequest,
                 tech.ydb.table.YdbTable.CreateTableResponse>(
                   this, METHODID_CREATE_TABLE)))
           .addMethod(
-            METHOD_DROP_TABLE,
+            getDropTableMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.DropTableRequest,
                 tech.ydb.table.YdbTable.DropTableResponse>(
                   this, METHODID_DROP_TABLE)))
           .addMethod(
-            METHOD_ALTER_TABLE,
+            getAlterTableMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.AlterTableRequest,
                 tech.ydb.table.YdbTable.AlterTableResponse>(
                   this, METHODID_ALTER_TABLE)))
           .addMethod(
-            METHOD_COPY_TABLE,
+            getCopyTableMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.CopyTableRequest,
                 tech.ydb.table.YdbTable.CopyTableResponse>(
                   this, METHODID_COPY_TABLE)))
           .addMethod(
-            METHOD_COPY_TABLES,
+            getCopyTablesMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.CopyTablesRequest,
                 tech.ydb.table.YdbTable.CopyTablesResponse>(
                   this, METHODID_COPY_TABLES)))
           .addMethod(
-            METHOD_DESCRIBE_TABLE,
+            getDescribeTableMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.DescribeTableRequest,
                 tech.ydb.table.YdbTable.DescribeTableResponse>(
                   this, METHODID_DESCRIBE_TABLE)))
           .addMethod(
-            METHOD_EXPLAIN_DATA_QUERY,
+            getExplainDataQueryMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.ExplainDataQueryRequest,
                 tech.ydb.table.YdbTable.ExplainDataQueryResponse>(
                   this, METHODID_EXPLAIN_DATA_QUERY)))
           .addMethod(
-            METHOD_PREPARE_DATA_QUERY,
+            getPrepareDataQueryMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.PrepareDataQueryRequest,
                 tech.ydb.table.YdbTable.PrepareDataQueryResponse>(
                   this, METHODID_PREPARE_DATA_QUERY)))
           .addMethod(
-            METHOD_EXECUTE_DATA_QUERY,
+            getExecuteDataQueryMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.ExecuteDataQueryRequest,
                 tech.ydb.table.YdbTable.ExecuteDataQueryResponse>(
                   this, METHODID_EXECUTE_DATA_QUERY)))
           .addMethod(
-            METHOD_EXECUTE_SCHEME_QUERY,
+            getExecuteSchemeQueryMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest,
                 tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse>(
                   this, METHODID_EXECUTE_SCHEME_QUERY)))
           .addMethod(
-            METHOD_BEGIN_TRANSACTION,
+            getBeginTransactionMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.BeginTransactionRequest,
                 tech.ydb.table.YdbTable.BeginTransactionResponse>(
                   this, METHODID_BEGIN_TRANSACTION)))
           .addMethod(
-            METHOD_COMMIT_TRANSACTION,
+            getCommitTransactionMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.CommitTransactionRequest,
                 tech.ydb.table.YdbTable.CommitTransactionResponse>(
                   this, METHODID_COMMIT_TRANSACTION)))
           .addMethod(
-            METHOD_ROLLBACK_TRANSACTION,
+            getRollbackTransactionMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.RollbackTransactionRequest,
                 tech.ydb.table.YdbTable.RollbackTransactionResponse>(
                   this, METHODID_ROLLBACK_TRANSACTION)))
           .addMethod(
-            METHOD_DESCRIBE_TABLE_OPTIONS,
+            getDescribeTableOptionsMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.DescribeTableOptionsRequest,
                 tech.ydb.table.YdbTable.DescribeTableOptionsResponse>(
                   this, METHODID_DESCRIBE_TABLE_OPTIONS)))
           .addMethod(
-            METHOD_STREAM_READ_TABLE,
+            getStreamReadTableMethod(),
             asyncServerStreamingCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.ReadTableRequest,
                 tech.ydb.table.YdbTable.ReadTableResponse>(
                   this, METHODID_STREAM_READ_TABLE)))
           .addMethod(
-            METHOD_BULK_UPSERT,
+            getBulkUpsertMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.table.YdbTable.BulkUpsertRequest,
@@ -569,19 +1007,15 @@ public final class TableServiceGrpc {
 
   /**
    */
-  public static final class TableServiceStub extends io.grpc.stub.AbstractStub<TableServiceStub> {
-    private TableServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private TableServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class TableServiceStub extends io.grpc.stub.AbstractAsyncStub<TableServiceStub> {
+    private TableServiceStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected TableServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected TableServiceStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new TableServiceStub(channel, callOptions);
     }
 
@@ -599,7 +1033,7 @@ public final class TableServiceGrpc {
     public void createSession(tech.ydb.table.YdbTable.CreateSessionRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.CreateSessionResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_CREATE_SESSION, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCreateSessionMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -610,7 +1044,7 @@ public final class TableServiceGrpc {
     public void deleteSession(tech.ydb.table.YdbTable.DeleteSessionRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.DeleteSessionResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_DELETE_SESSION, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getDeleteSessionMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -621,7 +1055,7 @@ public final class TableServiceGrpc {
     public void keepAlive(tech.ydb.table.YdbTable.KeepAliveRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.KeepAliveResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_KEEP_ALIVE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getKeepAliveMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -632,7 +1066,7 @@ public final class TableServiceGrpc {
     public void createTable(tech.ydb.table.YdbTable.CreateTableRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.CreateTableResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_CREATE_TABLE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCreateTableMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -643,7 +1077,7 @@ public final class TableServiceGrpc {
     public void dropTable(tech.ydb.table.YdbTable.DropTableRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.DropTableResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_DROP_TABLE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getDropTableMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -654,7 +1088,7 @@ public final class TableServiceGrpc {
     public void alterTable(tech.ydb.table.YdbTable.AlterTableRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.AlterTableResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_ALTER_TABLE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getAlterTableMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -665,7 +1099,7 @@ public final class TableServiceGrpc {
     public void copyTable(tech.ydb.table.YdbTable.CopyTableRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.CopyTableResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_COPY_TABLE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCopyTableMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -676,7 +1110,7 @@ public final class TableServiceGrpc {
     public void copyTables(tech.ydb.table.YdbTable.CopyTablesRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.CopyTablesResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_COPY_TABLES, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCopyTablesMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -687,7 +1121,7 @@ public final class TableServiceGrpc {
     public void describeTable(tech.ydb.table.YdbTable.DescribeTableRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.DescribeTableResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_DESCRIBE_TABLE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getDescribeTableMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -699,7 +1133,7 @@ public final class TableServiceGrpc {
     public void explainDataQuery(tech.ydb.table.YdbTable.ExplainDataQueryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ExplainDataQueryResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_EXPLAIN_DATA_QUERY, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getExplainDataQueryMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -711,7 +1145,7 @@ public final class TableServiceGrpc {
     public void prepareDataQuery(tech.ydb.table.YdbTable.PrepareDataQueryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.PrepareDataQueryResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_PREPARE_DATA_QUERY, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getPrepareDataQueryMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -723,7 +1157,7 @@ public final class TableServiceGrpc {
     public void executeDataQuery(tech.ydb.table.YdbTable.ExecuteDataQueryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ExecuteDataQueryResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_EXECUTE_DATA_QUERY, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getExecuteDataQueryMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -735,7 +1169,7 @@ public final class TableServiceGrpc {
     public void executeSchemeQuery(tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_EXECUTE_SCHEME_QUERY, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getExecuteSchemeQueryMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -746,7 +1180,7 @@ public final class TableServiceGrpc {
     public void beginTransaction(tech.ydb.table.YdbTable.BeginTransactionRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.BeginTransactionResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_BEGIN_TRANSACTION, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getBeginTransactionMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -757,7 +1191,7 @@ public final class TableServiceGrpc {
     public void commitTransaction(tech.ydb.table.YdbTable.CommitTransactionRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.CommitTransactionResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_COMMIT_TRANSACTION, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCommitTransactionMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -768,7 +1202,7 @@ public final class TableServiceGrpc {
     public void rollbackTransaction(tech.ydb.table.YdbTable.RollbackTransactionRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.RollbackTransactionResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_ROLLBACK_TRANSACTION, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getRollbackTransactionMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -779,7 +1213,7 @@ public final class TableServiceGrpc {
     public void describeTableOptions(tech.ydb.table.YdbTable.DescribeTableOptionsRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.DescribeTableOptionsResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_DESCRIBE_TABLE_OPTIONS, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getDescribeTableOptionsMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -790,7 +1224,7 @@ public final class TableServiceGrpc {
     public void streamReadTable(tech.ydb.table.YdbTable.ReadTableRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ReadTableResponse> responseObserver) {
       asyncServerStreamingCall(
-          getChannel().newCall(METHOD_STREAM_READ_TABLE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getStreamReadTableMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -803,25 +1237,21 @@ public final class TableServiceGrpc {
     public void bulkUpsert(tech.ydb.table.YdbTable.BulkUpsertRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.BulkUpsertResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_BULK_UPSERT, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getBulkUpsertMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
   /**
    */
-  public static final class TableServiceBlockingStub extends io.grpc.stub.AbstractStub<TableServiceBlockingStub> {
-    private TableServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private TableServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class TableServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<TableServiceBlockingStub> {
+    private TableServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected TableServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected TableServiceBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new TableServiceBlockingStub(channel, callOptions);
     }
 
@@ -838,7 +1268,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.CreateSessionResponse createSession(tech.ydb.table.YdbTable.CreateSessionRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_CREATE_SESSION, getCallOptions(), request);
+          getChannel(), getCreateSessionMethod(), getCallOptions(), request);
     }
 
     /**
@@ -848,7 +1278,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.DeleteSessionResponse deleteSession(tech.ydb.table.YdbTable.DeleteSessionRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_DELETE_SESSION, getCallOptions(), request);
+          getChannel(), getDeleteSessionMethod(), getCallOptions(), request);
     }
 
     /**
@@ -858,7 +1288,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.KeepAliveResponse keepAlive(tech.ydb.table.YdbTable.KeepAliveRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_KEEP_ALIVE, getCallOptions(), request);
+          getChannel(), getKeepAliveMethod(), getCallOptions(), request);
     }
 
     /**
@@ -868,7 +1298,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.CreateTableResponse createTable(tech.ydb.table.YdbTable.CreateTableRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_CREATE_TABLE, getCallOptions(), request);
+          getChannel(), getCreateTableMethod(), getCallOptions(), request);
     }
 
     /**
@@ -878,7 +1308,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.DropTableResponse dropTable(tech.ydb.table.YdbTable.DropTableRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_DROP_TABLE, getCallOptions(), request);
+          getChannel(), getDropTableMethod(), getCallOptions(), request);
     }
 
     /**
@@ -888,7 +1318,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.AlterTableResponse alterTable(tech.ydb.table.YdbTable.AlterTableRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_ALTER_TABLE, getCallOptions(), request);
+          getChannel(), getAlterTableMethod(), getCallOptions(), request);
     }
 
     /**
@@ -898,7 +1328,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.CopyTableResponse copyTable(tech.ydb.table.YdbTable.CopyTableRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_COPY_TABLE, getCallOptions(), request);
+          getChannel(), getCopyTableMethod(), getCallOptions(), request);
     }
 
     /**
@@ -908,7 +1338,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.CopyTablesResponse copyTables(tech.ydb.table.YdbTable.CopyTablesRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_COPY_TABLES, getCallOptions(), request);
+          getChannel(), getCopyTablesMethod(), getCallOptions(), request);
     }
 
     /**
@@ -918,7 +1348,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.DescribeTableResponse describeTable(tech.ydb.table.YdbTable.DescribeTableRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_DESCRIBE_TABLE, getCallOptions(), request);
+          getChannel(), getDescribeTableMethod(), getCallOptions(), request);
     }
 
     /**
@@ -929,7 +1359,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.ExplainDataQueryResponse explainDataQuery(tech.ydb.table.YdbTable.ExplainDataQueryRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_EXPLAIN_DATA_QUERY, getCallOptions(), request);
+          getChannel(), getExplainDataQueryMethod(), getCallOptions(), request);
     }
 
     /**
@@ -940,7 +1370,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.PrepareDataQueryResponse prepareDataQuery(tech.ydb.table.YdbTable.PrepareDataQueryRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_PREPARE_DATA_QUERY, getCallOptions(), request);
+          getChannel(), getPrepareDataQueryMethod(), getCallOptions(), request);
     }
 
     /**
@@ -951,7 +1381,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.ExecuteDataQueryResponse executeDataQuery(tech.ydb.table.YdbTable.ExecuteDataQueryRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_EXECUTE_DATA_QUERY, getCallOptions(), request);
+          getChannel(), getExecuteDataQueryMethod(), getCallOptions(), request);
     }
 
     /**
@@ -962,7 +1392,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse executeSchemeQuery(tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_EXECUTE_SCHEME_QUERY, getCallOptions(), request);
+          getChannel(), getExecuteSchemeQueryMethod(), getCallOptions(), request);
     }
 
     /**
@@ -972,7 +1402,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.BeginTransactionResponse beginTransaction(tech.ydb.table.YdbTable.BeginTransactionRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_BEGIN_TRANSACTION, getCallOptions(), request);
+          getChannel(), getBeginTransactionMethod(), getCallOptions(), request);
     }
 
     /**
@@ -982,7 +1412,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.CommitTransactionResponse commitTransaction(tech.ydb.table.YdbTable.CommitTransactionRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_COMMIT_TRANSACTION, getCallOptions(), request);
+          getChannel(), getCommitTransactionMethod(), getCallOptions(), request);
     }
 
     /**
@@ -992,7 +1422,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.RollbackTransactionResponse rollbackTransaction(tech.ydb.table.YdbTable.RollbackTransactionRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_ROLLBACK_TRANSACTION, getCallOptions(), request);
+          getChannel(), getRollbackTransactionMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1002,7 +1432,7 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.DescribeTableOptionsResponse describeTableOptions(tech.ydb.table.YdbTable.DescribeTableOptionsRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_DESCRIBE_TABLE_OPTIONS, getCallOptions(), request);
+          getChannel(), getDescribeTableOptionsMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1013,7 +1443,7 @@ public final class TableServiceGrpc {
     public java.util.Iterator<tech.ydb.table.YdbTable.ReadTableResponse> streamReadTable(
         tech.ydb.table.YdbTable.ReadTableRequest request) {
       return blockingServerStreamingCall(
-          getChannel(), METHOD_STREAM_READ_TABLE, getCallOptions(), request);
+          getChannel(), getStreamReadTableMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1025,25 +1455,21 @@ public final class TableServiceGrpc {
      */
     public tech.ydb.table.YdbTable.BulkUpsertResponse bulkUpsert(tech.ydb.table.YdbTable.BulkUpsertRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_BULK_UPSERT, getCallOptions(), request);
+          getChannel(), getBulkUpsertMethod(), getCallOptions(), request);
     }
   }
 
   /**
    */
-  public static final class TableServiceFutureStub extends io.grpc.stub.AbstractStub<TableServiceFutureStub> {
-    private TableServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private TableServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class TableServiceFutureStub extends io.grpc.stub.AbstractFutureStub<TableServiceFutureStub> {
+    private TableServiceFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected TableServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected TableServiceFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new TableServiceFutureStub(channel, callOptions);
     }
 
@@ -1061,7 +1487,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.CreateSessionResponse> createSession(
         tech.ydb.table.YdbTable.CreateSessionRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_CREATE_SESSION, getCallOptions()), request);
+          getChannel().newCall(getCreateSessionMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1072,7 +1498,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.DeleteSessionResponse> deleteSession(
         tech.ydb.table.YdbTable.DeleteSessionRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_DELETE_SESSION, getCallOptions()), request);
+          getChannel().newCall(getDeleteSessionMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1083,7 +1509,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.KeepAliveResponse> keepAlive(
         tech.ydb.table.YdbTable.KeepAliveRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_KEEP_ALIVE, getCallOptions()), request);
+          getChannel().newCall(getKeepAliveMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1094,7 +1520,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.CreateTableResponse> createTable(
         tech.ydb.table.YdbTable.CreateTableRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_CREATE_TABLE, getCallOptions()), request);
+          getChannel().newCall(getCreateTableMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1105,7 +1531,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.DropTableResponse> dropTable(
         tech.ydb.table.YdbTable.DropTableRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_DROP_TABLE, getCallOptions()), request);
+          getChannel().newCall(getDropTableMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1116,7 +1542,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.AlterTableResponse> alterTable(
         tech.ydb.table.YdbTable.AlterTableRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_ALTER_TABLE, getCallOptions()), request);
+          getChannel().newCall(getAlterTableMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1127,7 +1553,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.CopyTableResponse> copyTable(
         tech.ydb.table.YdbTable.CopyTableRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_COPY_TABLE, getCallOptions()), request);
+          getChannel().newCall(getCopyTableMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1138,7 +1564,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.CopyTablesResponse> copyTables(
         tech.ydb.table.YdbTable.CopyTablesRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_COPY_TABLES, getCallOptions()), request);
+          getChannel().newCall(getCopyTablesMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1149,7 +1575,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.DescribeTableResponse> describeTable(
         tech.ydb.table.YdbTable.DescribeTableRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_DESCRIBE_TABLE, getCallOptions()), request);
+          getChannel().newCall(getDescribeTableMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1161,7 +1587,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.ExplainDataQueryResponse> explainDataQuery(
         tech.ydb.table.YdbTable.ExplainDataQueryRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_EXPLAIN_DATA_QUERY, getCallOptions()), request);
+          getChannel().newCall(getExplainDataQueryMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1173,7 +1599,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.PrepareDataQueryResponse> prepareDataQuery(
         tech.ydb.table.YdbTable.PrepareDataQueryRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_PREPARE_DATA_QUERY, getCallOptions()), request);
+          getChannel().newCall(getPrepareDataQueryMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1185,7 +1611,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.ExecuteDataQueryResponse> executeDataQuery(
         tech.ydb.table.YdbTable.ExecuteDataQueryRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_EXECUTE_DATA_QUERY, getCallOptions()), request);
+          getChannel().newCall(getExecuteDataQueryMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1197,7 +1623,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse> executeSchemeQuery(
         tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_EXECUTE_SCHEME_QUERY, getCallOptions()), request);
+          getChannel().newCall(getExecuteSchemeQueryMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1208,7 +1634,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.BeginTransactionResponse> beginTransaction(
         tech.ydb.table.YdbTable.BeginTransactionRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_BEGIN_TRANSACTION, getCallOptions()), request);
+          getChannel().newCall(getBeginTransactionMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1219,7 +1645,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.CommitTransactionResponse> commitTransaction(
         tech.ydb.table.YdbTable.CommitTransactionRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_COMMIT_TRANSACTION, getCallOptions()), request);
+          getChannel().newCall(getCommitTransactionMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1230,7 +1656,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.RollbackTransactionResponse> rollbackTransaction(
         tech.ydb.table.YdbTable.RollbackTransactionRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_ROLLBACK_TRANSACTION, getCallOptions()), request);
+          getChannel().newCall(getRollbackTransactionMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1241,7 +1667,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.DescribeTableOptionsResponse> describeTableOptions(
         tech.ydb.table.YdbTable.DescribeTableOptionsRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_DESCRIBE_TABLE_OPTIONS, getCallOptions()), request);
+          getChannel().newCall(getDescribeTableOptionsMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1254,7 +1680,7 @@ public final class TableServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.BulkUpsertResponse> bulkUpsert(
         tech.ydb.table.YdbTable.BulkUpsertRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_BULK_UPSERT, getCallOptions()), request);
+          getChannel().newCall(getBulkUpsertMethod(), getCallOptions()), request);
     }
   }
 
@@ -1387,10 +1813,38 @@ public final class TableServiceGrpc {
     }
   }
 
-  private static final class TableServiceDescriptorSupplier implements io.grpc.protobuf.ProtoFileDescriptorSupplier {
+  private static abstract class TableServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
+    TableServiceBaseDescriptorSupplier() {}
+
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
       return tech.ydb.table.v1.YdbTableV1.getDescriptor();
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
+      return getFileDescriptor().findServiceByName("TableService");
+    }
+  }
+
+  private static final class TableServiceFileDescriptorSupplier
+      extends TableServiceBaseDescriptorSupplier {
+    TableServiceFileDescriptorSupplier() {}
+  }
+
+  private static final class TableServiceMethodDescriptorSupplier
+      extends TableServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
+    private final String methodName;
+
+    TableServiceMethodDescriptorSupplier(String methodName) {
+      this.methodName = methodName;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.MethodDescriptor getMethodDescriptor() {
+      return getServiceDescriptor().findMethodByName(methodName);
     }
   }
 
@@ -1403,26 +1857,26 @@ public final class TableServiceGrpc {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new TableServiceDescriptorSupplier())
-              .addMethod(METHOD_CREATE_SESSION)
-              .addMethod(METHOD_DELETE_SESSION)
-              .addMethod(METHOD_KEEP_ALIVE)
-              .addMethod(METHOD_CREATE_TABLE)
-              .addMethod(METHOD_DROP_TABLE)
-              .addMethod(METHOD_ALTER_TABLE)
-              .addMethod(METHOD_COPY_TABLE)
-              .addMethod(METHOD_COPY_TABLES)
-              .addMethod(METHOD_DESCRIBE_TABLE)
-              .addMethod(METHOD_EXPLAIN_DATA_QUERY)
-              .addMethod(METHOD_PREPARE_DATA_QUERY)
-              .addMethod(METHOD_EXECUTE_DATA_QUERY)
-              .addMethod(METHOD_EXECUTE_SCHEME_QUERY)
-              .addMethod(METHOD_BEGIN_TRANSACTION)
-              .addMethod(METHOD_COMMIT_TRANSACTION)
-              .addMethod(METHOD_ROLLBACK_TRANSACTION)
-              .addMethod(METHOD_DESCRIBE_TABLE_OPTIONS)
-              .addMethod(METHOD_STREAM_READ_TABLE)
-              .addMethod(METHOD_BULK_UPSERT)
+              .setSchemaDescriptor(new TableServiceFileDescriptorSupplier())
+              .addMethod(getCreateSessionMethod())
+              .addMethod(getDeleteSessionMethod())
+              .addMethod(getKeepAliveMethod())
+              .addMethod(getCreateTableMethod())
+              .addMethod(getDropTableMethod())
+              .addMethod(getAlterTableMethod())
+              .addMethod(getCopyTableMethod())
+              .addMethod(getCopyTablesMethod())
+              .addMethod(getDescribeTableMethod())
+              .addMethod(getExplainDataQueryMethod())
+              .addMethod(getPrepareDataQueryMethod())
+              .addMethod(getExecuteDataQueryMethod())
+              .addMethod(getExecuteSchemeQueryMethod())
+              .addMethod(getBeginTransactionMethod())
+              .addMethod(getCommitTransactionMethod())
+              .addMethod(getRollbackTransactionMethod())
+              .addMethod(getDescribeTableOptionsMethod())
+              .addMethod(getStreamReadTableMethod())
+              .addMethod(getBulkUpsertMethod())
               .build();
         }
       }

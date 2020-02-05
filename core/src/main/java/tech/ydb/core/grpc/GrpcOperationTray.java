@@ -87,7 +87,7 @@ final class GrpcOperationTray implements OperationTray {
     }
 
     private CompletableFuture<Result<GetOperationResponse>> callGetOperation(GetOperationRequest request, long deadlineAfter) {
-        return transport.unaryCall(OperationServiceGrpc.METHOD_GET_OPERATION, request, deadlineAfter);
+        return transport.unaryCall(OperationServiceGrpc.getGetOperationMethod(), request, deadlineAfter);
     }
 
     @Override

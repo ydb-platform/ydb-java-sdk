@@ -1,19 +1,19 @@
 package tech.ydb.scheme.v1;
 
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncUnaryCall;
+import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
+import static io.grpc.stub.ClientCalls.blockingUnaryCall;
+import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  */
@@ -27,57 +27,173 @@ public final class SchemeServiceGrpc {
   public static final String SERVICE_NAME = "Ydb.Scheme.V1.SchemeService";
 
   // Static method descriptors that strictly reflect the proto.
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest,
-      tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse> METHOD_MAKE_DIRECTORY =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Scheme.V1.SchemeService", "MakeDirectory"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest,
-      tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse> METHOD_REMOVE_DIRECTORY =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Scheme.V1.SchemeService", "RemoveDirectory"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest,
-      tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse> METHOD_LIST_DIRECTORY =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Scheme.V1.SchemeService", "ListDirectory"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest,
-      tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse> METHOD_DESCRIBE_PATH =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Scheme.V1.SchemeService", "DescribePath"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest,
-      tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse> METHOD_MODIFY_PERMISSIONS =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Scheme.V1.SchemeService", "ModifyPermissions"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse.getDefaultInstance()));
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest,
+      tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse> getMakeDirectoryMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "MakeDirectory",
+      requestType = tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest.class,
+      responseType = tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest,
+      tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse> getMakeDirectoryMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest, tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse> getMakeDirectoryMethod;
+    if ((getMakeDirectoryMethod = SchemeServiceGrpc.getMakeDirectoryMethod) == null) {
+      synchronized (SchemeServiceGrpc.class) {
+        if ((getMakeDirectoryMethod = SchemeServiceGrpc.getMakeDirectoryMethod) == null) {
+          SchemeServiceGrpc.getMakeDirectoryMethod = getMakeDirectoryMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest, tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "MakeDirectory"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new SchemeServiceMethodDescriptorSupplier("MakeDirectory"))
+              .build();
+        }
+      }
+    }
+    return getMakeDirectoryMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest,
+      tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse> getRemoveDirectoryMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "RemoveDirectory",
+      requestType = tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest.class,
+      responseType = tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest,
+      tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse> getRemoveDirectoryMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest, tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse> getRemoveDirectoryMethod;
+    if ((getRemoveDirectoryMethod = SchemeServiceGrpc.getRemoveDirectoryMethod) == null) {
+      synchronized (SchemeServiceGrpc.class) {
+        if ((getRemoveDirectoryMethod = SchemeServiceGrpc.getRemoveDirectoryMethod) == null) {
+          SchemeServiceGrpc.getRemoveDirectoryMethod = getRemoveDirectoryMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest, tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "RemoveDirectory"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new SchemeServiceMethodDescriptorSupplier("RemoveDirectory"))
+              .build();
+        }
+      }
+    }
+    return getRemoveDirectoryMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest,
+      tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse> getListDirectoryMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ListDirectory",
+      requestType = tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest.class,
+      responseType = tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest,
+      tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse> getListDirectoryMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest, tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse> getListDirectoryMethod;
+    if ((getListDirectoryMethod = SchemeServiceGrpc.getListDirectoryMethod) == null) {
+      synchronized (SchemeServiceGrpc.class) {
+        if ((getListDirectoryMethod = SchemeServiceGrpc.getListDirectoryMethod) == null) {
+          SchemeServiceGrpc.getListDirectoryMethod = getListDirectoryMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest, tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ListDirectory"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new SchemeServiceMethodDescriptorSupplier("ListDirectory"))
+              .build();
+        }
+      }
+    }
+    return getListDirectoryMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest,
+      tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse> getDescribePathMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DescribePath",
+      requestType = tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest.class,
+      responseType = tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest,
+      tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse> getDescribePathMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest, tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse> getDescribePathMethod;
+    if ((getDescribePathMethod = SchemeServiceGrpc.getDescribePathMethod) == null) {
+      synchronized (SchemeServiceGrpc.class) {
+        if ((getDescribePathMethod = SchemeServiceGrpc.getDescribePathMethod) == null) {
+          SchemeServiceGrpc.getDescribePathMethod = getDescribePathMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest, tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DescribePath"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new SchemeServiceMethodDescriptorSupplier("DescribePath"))
+              .build();
+        }
+      }
+    }
+    return getDescribePathMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest,
+      tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse> getModifyPermissionsMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ModifyPermissions",
+      requestType = tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest.class,
+      responseType = tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest,
+      tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse> getModifyPermissionsMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest, tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse> getModifyPermissionsMethod;
+    if ((getModifyPermissionsMethod = SchemeServiceGrpc.getModifyPermissionsMethod) == null) {
+      synchronized (SchemeServiceGrpc.class) {
+        if ((getModifyPermissionsMethod = SchemeServiceGrpc.getModifyPermissionsMethod) == null) {
+          SchemeServiceGrpc.getModifyPermissionsMethod = getModifyPermissionsMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest, tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ModifyPermissions"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new SchemeServiceMethodDescriptorSupplier("ModifyPermissions"))
+              .build();
+        }
+      }
+    }
+    return getModifyPermissionsMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static SchemeServiceStub newStub(io.grpc.Channel channel) {
-    return new SchemeServiceStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<SchemeServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<SchemeServiceStub>() {
+        @java.lang.Override
+        public SchemeServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new SchemeServiceStub(channel, callOptions);
+        }
+      };
+    return SchemeServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -85,15 +201,29 @@ public final class SchemeServiceGrpc {
    */
   public static SchemeServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new SchemeServiceBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<SchemeServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<SchemeServiceBlockingStub>() {
+        @java.lang.Override
+        public SchemeServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new SchemeServiceBlockingStub(channel, callOptions);
+        }
+      };
+    return SchemeServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new ListenableFuture-style stub that supports unary and streaming output calls on the service
+   * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
   public static SchemeServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new SchemeServiceFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<SchemeServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<SchemeServiceFutureStub>() {
+        @java.lang.Override
+        public SchemeServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new SchemeServiceFutureStub(channel, callOptions);
+        }
+      };
+    return SchemeServiceFutureStub.newStub(factory, channel);
   }
 
   /**
@@ -107,7 +237,7 @@ public final class SchemeServiceGrpc {
      */
     public void makeDirectory(tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_MAKE_DIRECTORY, responseObserver);
+      asyncUnimplementedUnaryCall(getMakeDirectoryMethod(), responseObserver);
     }
 
     /**
@@ -117,7 +247,7 @@ public final class SchemeServiceGrpc {
      */
     public void removeDirectory(tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_REMOVE_DIRECTORY, responseObserver);
+      asyncUnimplementedUnaryCall(getRemoveDirectoryMethod(), responseObserver);
     }
 
     /**
@@ -127,7 +257,7 @@ public final class SchemeServiceGrpc {
      */
     public void listDirectory(tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_LIST_DIRECTORY, responseObserver);
+      asyncUnimplementedUnaryCall(getListDirectoryMethod(), responseObserver);
     }
 
     /**
@@ -137,7 +267,7 @@ public final class SchemeServiceGrpc {
      */
     public void describePath(tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_DESCRIBE_PATH, responseObserver);
+      asyncUnimplementedUnaryCall(getDescribePathMethod(), responseObserver);
     }
 
     /**
@@ -147,41 +277,41 @@ public final class SchemeServiceGrpc {
      */
     public void modifyPermissions(tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_MODIFY_PERMISSIONS, responseObserver);
+      asyncUnimplementedUnaryCall(getModifyPermissionsMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            METHOD_MAKE_DIRECTORY,
+            getMakeDirectoryMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest,
                 tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse>(
                   this, METHODID_MAKE_DIRECTORY)))
           .addMethod(
-            METHOD_REMOVE_DIRECTORY,
+            getRemoveDirectoryMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest,
                 tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse>(
                   this, METHODID_REMOVE_DIRECTORY)))
           .addMethod(
-            METHOD_LIST_DIRECTORY,
+            getListDirectoryMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest,
                 tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse>(
                   this, METHODID_LIST_DIRECTORY)))
           .addMethod(
-            METHOD_DESCRIBE_PATH,
+            getDescribePathMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest,
                 tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse>(
                   this, METHODID_DESCRIBE_PATH)))
           .addMethod(
-            METHOD_MODIFY_PERMISSIONS,
+            getModifyPermissionsMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest,
@@ -193,19 +323,15 @@ public final class SchemeServiceGrpc {
 
   /**
    */
-  public static final class SchemeServiceStub extends io.grpc.stub.AbstractStub<SchemeServiceStub> {
-    private SchemeServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private SchemeServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class SchemeServiceStub extends io.grpc.stub.AbstractAsyncStub<SchemeServiceStub> {
+    private SchemeServiceStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected SchemeServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected SchemeServiceStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new SchemeServiceStub(channel, callOptions);
     }
 
@@ -217,7 +343,7 @@ public final class SchemeServiceGrpc {
     public void makeDirectory(tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_MAKE_DIRECTORY, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getMakeDirectoryMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -228,7 +354,7 @@ public final class SchemeServiceGrpc {
     public void removeDirectory(tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_REMOVE_DIRECTORY, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getRemoveDirectoryMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -239,7 +365,7 @@ public final class SchemeServiceGrpc {
     public void listDirectory(tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_LIST_DIRECTORY, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getListDirectoryMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -250,7 +376,7 @@ public final class SchemeServiceGrpc {
     public void describePath(tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_DESCRIBE_PATH, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getDescribePathMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -261,25 +387,21 @@ public final class SchemeServiceGrpc {
     public void modifyPermissions(tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_MODIFY_PERMISSIONS, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getModifyPermissionsMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
   /**
    */
-  public static final class SchemeServiceBlockingStub extends io.grpc.stub.AbstractStub<SchemeServiceBlockingStub> {
-    private SchemeServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private SchemeServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class SchemeServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<SchemeServiceBlockingStub> {
+    private SchemeServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected SchemeServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected SchemeServiceBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new SchemeServiceBlockingStub(channel, callOptions);
     }
 
@@ -290,7 +412,7 @@ public final class SchemeServiceGrpc {
      */
     public tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse makeDirectory(tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_MAKE_DIRECTORY, getCallOptions(), request);
+          getChannel(), getMakeDirectoryMethod(), getCallOptions(), request);
     }
 
     /**
@@ -300,7 +422,7 @@ public final class SchemeServiceGrpc {
      */
     public tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse removeDirectory(tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_REMOVE_DIRECTORY, getCallOptions(), request);
+          getChannel(), getRemoveDirectoryMethod(), getCallOptions(), request);
     }
 
     /**
@@ -310,7 +432,7 @@ public final class SchemeServiceGrpc {
      */
     public tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse listDirectory(tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_LIST_DIRECTORY, getCallOptions(), request);
+          getChannel(), getListDirectoryMethod(), getCallOptions(), request);
     }
 
     /**
@@ -320,7 +442,7 @@ public final class SchemeServiceGrpc {
      */
     public tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse describePath(tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_DESCRIBE_PATH, getCallOptions(), request);
+          getChannel(), getDescribePathMethod(), getCallOptions(), request);
     }
 
     /**
@@ -330,25 +452,21 @@ public final class SchemeServiceGrpc {
      */
     public tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse modifyPermissions(tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_MODIFY_PERMISSIONS, getCallOptions(), request);
+          getChannel(), getModifyPermissionsMethod(), getCallOptions(), request);
     }
   }
 
   /**
    */
-  public static final class SchemeServiceFutureStub extends io.grpc.stub.AbstractStub<SchemeServiceFutureStub> {
-    private SchemeServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private SchemeServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class SchemeServiceFutureStub extends io.grpc.stub.AbstractFutureStub<SchemeServiceFutureStub> {
+    private SchemeServiceFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected SchemeServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected SchemeServiceFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new SchemeServiceFutureStub(channel, callOptions);
     }
 
@@ -360,7 +478,7 @@ public final class SchemeServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse> makeDirectory(
         tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_MAKE_DIRECTORY, getCallOptions()), request);
+          getChannel().newCall(getMakeDirectoryMethod(), getCallOptions()), request);
     }
 
     /**
@@ -371,7 +489,7 @@ public final class SchemeServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse> removeDirectory(
         tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_REMOVE_DIRECTORY, getCallOptions()), request);
+          getChannel().newCall(getRemoveDirectoryMethod(), getCallOptions()), request);
     }
 
     /**
@@ -382,7 +500,7 @@ public final class SchemeServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse> listDirectory(
         tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_LIST_DIRECTORY, getCallOptions()), request);
+          getChannel().newCall(getListDirectoryMethod(), getCallOptions()), request);
     }
 
     /**
@@ -393,7 +511,7 @@ public final class SchemeServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse> describePath(
         tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_DESCRIBE_PATH, getCallOptions()), request);
+          getChannel().newCall(getDescribePathMethod(), getCallOptions()), request);
     }
 
     /**
@@ -404,7 +522,7 @@ public final class SchemeServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse> modifyPermissions(
         tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_MODIFY_PERMISSIONS, getCallOptions()), request);
+          getChannel().newCall(getModifyPermissionsMethod(), getCallOptions()), request);
     }
   }
 
@@ -467,10 +585,38 @@ public final class SchemeServiceGrpc {
     }
   }
 
-  private static final class SchemeServiceDescriptorSupplier implements io.grpc.protobuf.ProtoFileDescriptorSupplier {
+  private static abstract class SchemeServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
+    SchemeServiceBaseDescriptorSupplier() {}
+
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
       return tech.ydb.scheme.v1.YdbSchemeV1.getDescriptor();
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
+      return getFileDescriptor().findServiceByName("SchemeService");
+    }
+  }
+
+  private static final class SchemeServiceFileDescriptorSupplier
+      extends SchemeServiceBaseDescriptorSupplier {
+    SchemeServiceFileDescriptorSupplier() {}
+  }
+
+  private static final class SchemeServiceMethodDescriptorSupplier
+      extends SchemeServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
+    private final String methodName;
+
+    SchemeServiceMethodDescriptorSupplier(String methodName) {
+      this.methodName = methodName;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.MethodDescriptor getMethodDescriptor() {
+      return getServiceDescriptor().findMethodByName(methodName);
     }
   }
 
@@ -483,12 +629,12 @@ public final class SchemeServiceGrpc {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new SchemeServiceDescriptorSupplier())
-              .addMethod(METHOD_MAKE_DIRECTORY)
-              .addMethod(METHOD_REMOVE_DIRECTORY)
-              .addMethod(METHOD_LIST_DIRECTORY)
-              .addMethod(METHOD_DESCRIBE_PATH)
-              .addMethod(METHOD_MODIFY_PERMISSIONS)
+              .setSchemaDescriptor(new SchemeServiceFileDescriptorSupplier())
+              .addMethod(getMakeDirectoryMethod())
+              .addMethod(getRemoveDirectoryMethod())
+              .addMethod(getListDirectoryMethod())
+              .addMethod(getDescribePathMethod())
+              .addMethod(getModifyPermissionsMethod())
               .build();
         }
       }

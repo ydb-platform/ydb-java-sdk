@@ -1,19 +1,19 @@
 package tech.ydb.rate_limiter.v1;
 
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncUnaryCall;
+import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
+import static io.grpc.stub.ClientCalls.blockingUnaryCall;
+import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  * <pre>
@@ -30,57 +30,173 @@ public final class RateLimiterServiceGrpc {
   public static final String SERVICE_NAME = "Ydb.RateLimiter.V1.RateLimiterService";
 
   // Static method descriptors that strictly reflect the proto.
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.rate_limiter.CreateResourceRequest,
-      tech.ydb.rate_limiter.CreateResourceResponse> METHOD_CREATE_RESOURCE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.RateLimiter.V1.RateLimiterService", "CreateResource"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.rate_limiter.CreateResourceRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.rate_limiter.CreateResourceResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.rate_limiter.AlterResourceRequest,
-      tech.ydb.rate_limiter.AlterResourceResponse> METHOD_ALTER_RESOURCE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.RateLimiter.V1.RateLimiterService", "AlterResource"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.rate_limiter.AlterResourceRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.rate_limiter.AlterResourceResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.rate_limiter.DropResourceRequest,
-      tech.ydb.rate_limiter.DropResourceResponse> METHOD_DROP_RESOURCE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.RateLimiter.V1.RateLimiterService", "DropResource"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.rate_limiter.DropResourceRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.rate_limiter.DropResourceResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.rate_limiter.ListResourcesRequest,
-      tech.ydb.rate_limiter.ListResourcesResponse> METHOD_LIST_RESOURCES =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.RateLimiter.V1.RateLimiterService", "ListResources"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.rate_limiter.ListResourcesRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.rate_limiter.ListResourcesResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.rate_limiter.DescribeResourceRequest,
-      tech.ydb.rate_limiter.DescribeResourceResponse> METHOD_DESCRIBE_RESOURCE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.RateLimiter.V1.RateLimiterService", "DescribeResource"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.rate_limiter.DescribeResourceRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.rate_limiter.DescribeResourceResponse.getDefaultInstance()));
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.rate_limiter.CreateResourceRequest,
+      tech.ydb.rate_limiter.CreateResourceResponse> getCreateResourceMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CreateResource",
+      requestType = tech.ydb.rate_limiter.CreateResourceRequest.class,
+      responseType = tech.ydb.rate_limiter.CreateResourceResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.rate_limiter.CreateResourceRequest,
+      tech.ydb.rate_limiter.CreateResourceResponse> getCreateResourceMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.rate_limiter.CreateResourceRequest, tech.ydb.rate_limiter.CreateResourceResponse> getCreateResourceMethod;
+    if ((getCreateResourceMethod = RateLimiterServiceGrpc.getCreateResourceMethod) == null) {
+      synchronized (RateLimiterServiceGrpc.class) {
+        if ((getCreateResourceMethod = RateLimiterServiceGrpc.getCreateResourceMethod) == null) {
+          RateLimiterServiceGrpc.getCreateResourceMethod = getCreateResourceMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.rate_limiter.CreateResourceRequest, tech.ydb.rate_limiter.CreateResourceResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateResource"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.rate_limiter.CreateResourceRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.rate_limiter.CreateResourceResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new RateLimiterServiceMethodDescriptorSupplier("CreateResource"))
+              .build();
+        }
+      }
+    }
+    return getCreateResourceMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.rate_limiter.AlterResourceRequest,
+      tech.ydb.rate_limiter.AlterResourceResponse> getAlterResourceMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "AlterResource",
+      requestType = tech.ydb.rate_limiter.AlterResourceRequest.class,
+      responseType = tech.ydb.rate_limiter.AlterResourceResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.rate_limiter.AlterResourceRequest,
+      tech.ydb.rate_limiter.AlterResourceResponse> getAlterResourceMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.rate_limiter.AlterResourceRequest, tech.ydb.rate_limiter.AlterResourceResponse> getAlterResourceMethod;
+    if ((getAlterResourceMethod = RateLimiterServiceGrpc.getAlterResourceMethod) == null) {
+      synchronized (RateLimiterServiceGrpc.class) {
+        if ((getAlterResourceMethod = RateLimiterServiceGrpc.getAlterResourceMethod) == null) {
+          RateLimiterServiceGrpc.getAlterResourceMethod = getAlterResourceMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.rate_limiter.AlterResourceRequest, tech.ydb.rate_limiter.AlterResourceResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "AlterResource"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.rate_limiter.AlterResourceRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.rate_limiter.AlterResourceResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new RateLimiterServiceMethodDescriptorSupplier("AlterResource"))
+              .build();
+        }
+      }
+    }
+    return getAlterResourceMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.rate_limiter.DropResourceRequest,
+      tech.ydb.rate_limiter.DropResourceResponse> getDropResourceMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DropResource",
+      requestType = tech.ydb.rate_limiter.DropResourceRequest.class,
+      responseType = tech.ydb.rate_limiter.DropResourceResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.rate_limiter.DropResourceRequest,
+      tech.ydb.rate_limiter.DropResourceResponse> getDropResourceMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.rate_limiter.DropResourceRequest, tech.ydb.rate_limiter.DropResourceResponse> getDropResourceMethod;
+    if ((getDropResourceMethod = RateLimiterServiceGrpc.getDropResourceMethod) == null) {
+      synchronized (RateLimiterServiceGrpc.class) {
+        if ((getDropResourceMethod = RateLimiterServiceGrpc.getDropResourceMethod) == null) {
+          RateLimiterServiceGrpc.getDropResourceMethod = getDropResourceMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.rate_limiter.DropResourceRequest, tech.ydb.rate_limiter.DropResourceResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DropResource"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.rate_limiter.DropResourceRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.rate_limiter.DropResourceResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new RateLimiterServiceMethodDescriptorSupplier("DropResource"))
+              .build();
+        }
+      }
+    }
+    return getDropResourceMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.rate_limiter.ListResourcesRequest,
+      tech.ydb.rate_limiter.ListResourcesResponse> getListResourcesMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ListResources",
+      requestType = tech.ydb.rate_limiter.ListResourcesRequest.class,
+      responseType = tech.ydb.rate_limiter.ListResourcesResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.rate_limiter.ListResourcesRequest,
+      tech.ydb.rate_limiter.ListResourcesResponse> getListResourcesMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.rate_limiter.ListResourcesRequest, tech.ydb.rate_limiter.ListResourcesResponse> getListResourcesMethod;
+    if ((getListResourcesMethod = RateLimiterServiceGrpc.getListResourcesMethod) == null) {
+      synchronized (RateLimiterServiceGrpc.class) {
+        if ((getListResourcesMethod = RateLimiterServiceGrpc.getListResourcesMethod) == null) {
+          RateLimiterServiceGrpc.getListResourcesMethod = getListResourcesMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.rate_limiter.ListResourcesRequest, tech.ydb.rate_limiter.ListResourcesResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ListResources"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.rate_limiter.ListResourcesRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.rate_limiter.ListResourcesResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new RateLimiterServiceMethodDescriptorSupplier("ListResources"))
+              .build();
+        }
+      }
+    }
+    return getListResourcesMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.rate_limiter.DescribeResourceRequest,
+      tech.ydb.rate_limiter.DescribeResourceResponse> getDescribeResourceMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DescribeResource",
+      requestType = tech.ydb.rate_limiter.DescribeResourceRequest.class,
+      responseType = tech.ydb.rate_limiter.DescribeResourceResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.rate_limiter.DescribeResourceRequest,
+      tech.ydb.rate_limiter.DescribeResourceResponse> getDescribeResourceMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.rate_limiter.DescribeResourceRequest, tech.ydb.rate_limiter.DescribeResourceResponse> getDescribeResourceMethod;
+    if ((getDescribeResourceMethod = RateLimiterServiceGrpc.getDescribeResourceMethod) == null) {
+      synchronized (RateLimiterServiceGrpc.class) {
+        if ((getDescribeResourceMethod = RateLimiterServiceGrpc.getDescribeResourceMethod) == null) {
+          RateLimiterServiceGrpc.getDescribeResourceMethod = getDescribeResourceMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.rate_limiter.DescribeResourceRequest, tech.ydb.rate_limiter.DescribeResourceResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DescribeResource"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.rate_limiter.DescribeResourceRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.rate_limiter.DescribeResourceResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new RateLimiterServiceMethodDescriptorSupplier("DescribeResource"))
+              .build();
+        }
+      }
+    }
+    return getDescribeResourceMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static RateLimiterServiceStub newStub(io.grpc.Channel channel) {
-    return new RateLimiterServiceStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<RateLimiterServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<RateLimiterServiceStub>() {
+        @java.lang.Override
+        public RateLimiterServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new RateLimiterServiceStub(channel, callOptions);
+        }
+      };
+    return RateLimiterServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -88,15 +204,29 @@ public final class RateLimiterServiceGrpc {
    */
   public static RateLimiterServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new RateLimiterServiceBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<RateLimiterServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<RateLimiterServiceBlockingStub>() {
+        @java.lang.Override
+        public RateLimiterServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new RateLimiterServiceBlockingStub(channel, callOptions);
+        }
+      };
+    return RateLimiterServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new ListenableFuture-style stub that supports unary and streaming output calls on the service
+   * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
   public static RateLimiterServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new RateLimiterServiceFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<RateLimiterServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<RateLimiterServiceFutureStub>() {
+        @java.lang.Override
+        public RateLimiterServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new RateLimiterServiceFutureStub(channel, callOptions);
+        }
+      };
+    return RateLimiterServiceFutureStub.newStub(factory, channel);
   }
 
   /**
@@ -113,7 +243,7 @@ public final class RateLimiterServiceGrpc {
      */
     public void createResource(tech.ydb.rate_limiter.CreateResourceRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.rate_limiter.CreateResourceResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_CREATE_RESOURCE, responseObserver);
+      asyncUnimplementedUnaryCall(getCreateResourceMethod(), responseObserver);
     }
 
     /**
@@ -123,7 +253,7 @@ public final class RateLimiterServiceGrpc {
      */
     public void alterResource(tech.ydb.rate_limiter.AlterResourceRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.rate_limiter.AlterResourceResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_ALTER_RESOURCE, responseObserver);
+      asyncUnimplementedUnaryCall(getAlterResourceMethod(), responseObserver);
     }
 
     /**
@@ -133,7 +263,7 @@ public final class RateLimiterServiceGrpc {
      */
     public void dropResource(tech.ydb.rate_limiter.DropResourceRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.rate_limiter.DropResourceResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_DROP_RESOURCE, responseObserver);
+      asyncUnimplementedUnaryCall(getDropResourceMethod(), responseObserver);
     }
 
     /**
@@ -143,7 +273,7 @@ public final class RateLimiterServiceGrpc {
      */
     public void listResources(tech.ydb.rate_limiter.ListResourcesRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.rate_limiter.ListResourcesResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_LIST_RESOURCES, responseObserver);
+      asyncUnimplementedUnaryCall(getListResourcesMethod(), responseObserver);
     }
 
     /**
@@ -153,41 +283,41 @@ public final class RateLimiterServiceGrpc {
      */
     public void describeResource(tech.ydb.rate_limiter.DescribeResourceRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.rate_limiter.DescribeResourceResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_DESCRIBE_RESOURCE, responseObserver);
+      asyncUnimplementedUnaryCall(getDescribeResourceMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            METHOD_CREATE_RESOURCE,
+            getCreateResourceMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.rate_limiter.CreateResourceRequest,
                 tech.ydb.rate_limiter.CreateResourceResponse>(
                   this, METHODID_CREATE_RESOURCE)))
           .addMethod(
-            METHOD_ALTER_RESOURCE,
+            getAlterResourceMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.rate_limiter.AlterResourceRequest,
                 tech.ydb.rate_limiter.AlterResourceResponse>(
                   this, METHODID_ALTER_RESOURCE)))
           .addMethod(
-            METHOD_DROP_RESOURCE,
+            getDropResourceMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.rate_limiter.DropResourceRequest,
                 tech.ydb.rate_limiter.DropResourceResponse>(
                   this, METHODID_DROP_RESOURCE)))
           .addMethod(
-            METHOD_LIST_RESOURCES,
+            getListResourcesMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.rate_limiter.ListResourcesRequest,
                 tech.ydb.rate_limiter.ListResourcesResponse>(
                   this, METHODID_LIST_RESOURCES)))
           .addMethod(
-            METHOD_DESCRIBE_RESOURCE,
+            getDescribeResourceMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.rate_limiter.DescribeResourceRequest,
@@ -202,19 +332,15 @@ public final class RateLimiterServiceGrpc {
    * Control plane API
    * </pre>
    */
-  public static final class RateLimiterServiceStub extends io.grpc.stub.AbstractStub<RateLimiterServiceStub> {
-    private RateLimiterServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private RateLimiterServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class RateLimiterServiceStub extends io.grpc.stub.AbstractAsyncStub<RateLimiterServiceStub> {
+    private RateLimiterServiceStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected RateLimiterServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected RateLimiterServiceStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new RateLimiterServiceStub(channel, callOptions);
     }
 
@@ -226,7 +352,7 @@ public final class RateLimiterServiceGrpc {
     public void createResource(tech.ydb.rate_limiter.CreateResourceRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.rate_limiter.CreateResourceResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_CREATE_RESOURCE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCreateResourceMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -237,7 +363,7 @@ public final class RateLimiterServiceGrpc {
     public void alterResource(tech.ydb.rate_limiter.AlterResourceRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.rate_limiter.AlterResourceResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_ALTER_RESOURCE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getAlterResourceMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -248,7 +374,7 @@ public final class RateLimiterServiceGrpc {
     public void dropResource(tech.ydb.rate_limiter.DropResourceRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.rate_limiter.DropResourceResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_DROP_RESOURCE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getDropResourceMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -259,7 +385,7 @@ public final class RateLimiterServiceGrpc {
     public void listResources(tech.ydb.rate_limiter.ListResourcesRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.rate_limiter.ListResourcesResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_LIST_RESOURCES, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getListResourcesMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -270,7 +396,7 @@ public final class RateLimiterServiceGrpc {
     public void describeResource(tech.ydb.rate_limiter.DescribeResourceRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.rate_limiter.DescribeResourceResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_DESCRIBE_RESOURCE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getDescribeResourceMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -279,19 +405,15 @@ public final class RateLimiterServiceGrpc {
    * Control plane API
    * </pre>
    */
-  public static final class RateLimiterServiceBlockingStub extends io.grpc.stub.AbstractStub<RateLimiterServiceBlockingStub> {
-    private RateLimiterServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private RateLimiterServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class RateLimiterServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<RateLimiterServiceBlockingStub> {
+    private RateLimiterServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected RateLimiterServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected RateLimiterServiceBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new RateLimiterServiceBlockingStub(channel, callOptions);
     }
 
@@ -302,7 +424,7 @@ public final class RateLimiterServiceGrpc {
      */
     public tech.ydb.rate_limiter.CreateResourceResponse createResource(tech.ydb.rate_limiter.CreateResourceRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_CREATE_RESOURCE, getCallOptions(), request);
+          getChannel(), getCreateResourceMethod(), getCallOptions(), request);
     }
 
     /**
@@ -312,7 +434,7 @@ public final class RateLimiterServiceGrpc {
      */
     public tech.ydb.rate_limiter.AlterResourceResponse alterResource(tech.ydb.rate_limiter.AlterResourceRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_ALTER_RESOURCE, getCallOptions(), request);
+          getChannel(), getAlterResourceMethod(), getCallOptions(), request);
     }
 
     /**
@@ -322,7 +444,7 @@ public final class RateLimiterServiceGrpc {
      */
     public tech.ydb.rate_limiter.DropResourceResponse dropResource(tech.ydb.rate_limiter.DropResourceRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_DROP_RESOURCE, getCallOptions(), request);
+          getChannel(), getDropResourceMethod(), getCallOptions(), request);
     }
 
     /**
@@ -332,7 +454,7 @@ public final class RateLimiterServiceGrpc {
      */
     public tech.ydb.rate_limiter.ListResourcesResponse listResources(tech.ydb.rate_limiter.ListResourcesRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_LIST_RESOURCES, getCallOptions(), request);
+          getChannel(), getListResourcesMethod(), getCallOptions(), request);
     }
 
     /**
@@ -342,7 +464,7 @@ public final class RateLimiterServiceGrpc {
      */
     public tech.ydb.rate_limiter.DescribeResourceResponse describeResource(tech.ydb.rate_limiter.DescribeResourceRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_DESCRIBE_RESOURCE, getCallOptions(), request);
+          getChannel(), getDescribeResourceMethod(), getCallOptions(), request);
     }
   }
 
@@ -351,19 +473,15 @@ public final class RateLimiterServiceGrpc {
    * Control plane API
    * </pre>
    */
-  public static final class RateLimiterServiceFutureStub extends io.grpc.stub.AbstractStub<RateLimiterServiceFutureStub> {
-    private RateLimiterServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private RateLimiterServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class RateLimiterServiceFutureStub extends io.grpc.stub.AbstractFutureStub<RateLimiterServiceFutureStub> {
+    private RateLimiterServiceFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected RateLimiterServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected RateLimiterServiceFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new RateLimiterServiceFutureStub(channel, callOptions);
     }
 
@@ -375,7 +493,7 @@ public final class RateLimiterServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.rate_limiter.CreateResourceResponse> createResource(
         tech.ydb.rate_limiter.CreateResourceRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_CREATE_RESOURCE, getCallOptions()), request);
+          getChannel().newCall(getCreateResourceMethod(), getCallOptions()), request);
     }
 
     /**
@@ -386,7 +504,7 @@ public final class RateLimiterServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.rate_limiter.AlterResourceResponse> alterResource(
         tech.ydb.rate_limiter.AlterResourceRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_ALTER_RESOURCE, getCallOptions()), request);
+          getChannel().newCall(getAlterResourceMethod(), getCallOptions()), request);
     }
 
     /**
@@ -397,7 +515,7 @@ public final class RateLimiterServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.rate_limiter.DropResourceResponse> dropResource(
         tech.ydb.rate_limiter.DropResourceRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_DROP_RESOURCE, getCallOptions()), request);
+          getChannel().newCall(getDropResourceMethod(), getCallOptions()), request);
     }
 
     /**
@@ -408,7 +526,7 @@ public final class RateLimiterServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.rate_limiter.ListResourcesResponse> listResources(
         tech.ydb.rate_limiter.ListResourcesRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_LIST_RESOURCES, getCallOptions()), request);
+          getChannel().newCall(getListResourcesMethod(), getCallOptions()), request);
     }
 
     /**
@@ -419,7 +537,7 @@ public final class RateLimiterServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.rate_limiter.DescribeResourceResponse> describeResource(
         tech.ydb.rate_limiter.DescribeResourceRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_DESCRIBE_RESOURCE, getCallOptions()), request);
+          getChannel().newCall(getDescribeResourceMethod(), getCallOptions()), request);
     }
   }
 
@@ -482,10 +600,38 @@ public final class RateLimiterServiceGrpc {
     }
   }
 
-  private static final class RateLimiterServiceDescriptorSupplier implements io.grpc.protobuf.ProtoFileDescriptorSupplier {
+  private static abstract class RateLimiterServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
+    RateLimiterServiceBaseDescriptorSupplier() {}
+
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
       return tech.ydb.rate_limiter.v1.RateLimiterGrpc.getDescriptor();
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
+      return getFileDescriptor().findServiceByName("RateLimiterService");
+    }
+  }
+
+  private static final class RateLimiterServiceFileDescriptorSupplier
+      extends RateLimiterServiceBaseDescriptorSupplier {
+    RateLimiterServiceFileDescriptorSupplier() {}
+  }
+
+  private static final class RateLimiterServiceMethodDescriptorSupplier
+      extends RateLimiterServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
+    private final String methodName;
+
+    RateLimiterServiceMethodDescriptorSupplier(String methodName) {
+      this.methodName = methodName;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.MethodDescriptor getMethodDescriptor() {
+      return getServiceDescriptor().findMethodByName(methodName);
     }
   }
 
@@ -498,12 +644,12 @@ public final class RateLimiterServiceGrpc {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new RateLimiterServiceDescriptorSupplier())
-              .addMethod(METHOD_CREATE_RESOURCE)
-              .addMethod(METHOD_ALTER_RESOURCE)
-              .addMethod(METHOD_DROP_RESOURCE)
-              .addMethod(METHOD_LIST_RESOURCES)
-              .addMethod(METHOD_DESCRIBE_RESOURCE)
+              .setSchemaDescriptor(new RateLimiterServiceFileDescriptorSupplier())
+              .addMethod(getCreateResourceMethod())
+              .addMethod(getAlterResourceMethod())
+              .addMethod(getDropResourceMethod())
+              .addMethod(getListResourcesMethod())
+              .addMethod(getDescribeResourceMethod())
               .build();
         }
       }

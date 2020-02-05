@@ -1,19 +1,19 @@
 package tech.ydb.export.v1;
 
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncUnaryCall;
+import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
+import static io.grpc.stub.ClientCalls.blockingUnaryCall;
+import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  */
@@ -27,21 +27,49 @@ public final class ExportServiceGrpc {
   public static final String SERVICE_NAME = "Ydb.Export.V1.ExportService";
 
   // Static method descriptors that strictly reflect the proto.
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.export.YdbExport.ExportToYtRequest,
-      tech.ydb.export.YdbExport.ExportToYtResponse> METHOD_EXPORT_TO_YT =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Export.V1.ExportService", "ExportToYt"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.export.YdbExport.ExportToYtRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.export.YdbExport.ExportToYtResponse.getDefaultInstance()));
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.export.YdbExport.ExportToYtRequest,
+      tech.ydb.export.YdbExport.ExportToYtResponse> getExportToYtMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ExportToYt",
+      requestType = tech.ydb.export.YdbExport.ExportToYtRequest.class,
+      responseType = tech.ydb.export.YdbExport.ExportToYtResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.export.YdbExport.ExportToYtRequest,
+      tech.ydb.export.YdbExport.ExportToYtResponse> getExportToYtMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.export.YdbExport.ExportToYtRequest, tech.ydb.export.YdbExport.ExportToYtResponse> getExportToYtMethod;
+    if ((getExportToYtMethod = ExportServiceGrpc.getExportToYtMethod) == null) {
+      synchronized (ExportServiceGrpc.class) {
+        if ((getExportToYtMethod = ExportServiceGrpc.getExportToYtMethod) == null) {
+          ExportServiceGrpc.getExportToYtMethod = getExportToYtMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.export.YdbExport.ExportToYtRequest, tech.ydb.export.YdbExport.ExportToYtResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ExportToYt"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.export.YdbExport.ExportToYtRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.export.YdbExport.ExportToYtResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ExportServiceMethodDescriptorSupplier("ExportToYt"))
+              .build();
+        }
+      }
+    }
+    return getExportToYtMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static ExportServiceStub newStub(io.grpc.Channel channel) {
-    return new ExportServiceStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<ExportServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ExportServiceStub>() {
+        @java.lang.Override
+        public ExportServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ExportServiceStub(channel, callOptions);
+        }
+      };
+    return ExportServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -49,15 +77,29 @@ public final class ExportServiceGrpc {
    */
   public static ExportServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new ExportServiceBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<ExportServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ExportServiceBlockingStub>() {
+        @java.lang.Override
+        public ExportServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ExportServiceBlockingStub(channel, callOptions);
+        }
+      };
+    return ExportServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new ListenableFuture-style stub that supports unary and streaming output calls on the service
+   * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
   public static ExportServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new ExportServiceFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<ExportServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ExportServiceFutureStub>() {
+        @java.lang.Override
+        public ExportServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ExportServiceFutureStub(channel, callOptions);
+        }
+      };
+    return ExportServiceFutureStub.newStub(factory, channel);
   }
 
   /**
@@ -72,13 +114,13 @@ public final class ExportServiceGrpc {
      */
     public void exportToYt(tech.ydb.export.YdbExport.ExportToYtRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.export.YdbExport.ExportToYtResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_EXPORT_TO_YT, responseObserver);
+      asyncUnimplementedUnaryCall(getExportToYtMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            METHOD_EXPORT_TO_YT,
+            getExportToYtMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.export.YdbExport.ExportToYtRequest,
@@ -90,19 +132,15 @@ public final class ExportServiceGrpc {
 
   /**
    */
-  public static final class ExportServiceStub extends io.grpc.stub.AbstractStub<ExportServiceStub> {
-    private ExportServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private ExportServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class ExportServiceStub extends io.grpc.stub.AbstractAsyncStub<ExportServiceStub> {
+    private ExportServiceStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected ExportServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected ExportServiceStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new ExportServiceStub(channel, callOptions);
     }
 
@@ -115,25 +153,21 @@ public final class ExportServiceGrpc {
     public void exportToYt(tech.ydb.export.YdbExport.ExportToYtRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.export.YdbExport.ExportToYtResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_EXPORT_TO_YT, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getExportToYtMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
   /**
    */
-  public static final class ExportServiceBlockingStub extends io.grpc.stub.AbstractStub<ExportServiceBlockingStub> {
-    private ExportServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private ExportServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class ExportServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<ExportServiceBlockingStub> {
+    private ExportServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected ExportServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected ExportServiceBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new ExportServiceBlockingStub(channel, callOptions);
     }
 
@@ -145,25 +179,21 @@ public final class ExportServiceGrpc {
      */
     public tech.ydb.export.YdbExport.ExportToYtResponse exportToYt(tech.ydb.export.YdbExport.ExportToYtRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_EXPORT_TO_YT, getCallOptions(), request);
+          getChannel(), getExportToYtMethod(), getCallOptions(), request);
     }
   }
 
   /**
    */
-  public static final class ExportServiceFutureStub extends io.grpc.stub.AbstractStub<ExportServiceFutureStub> {
-    private ExportServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private ExportServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class ExportServiceFutureStub extends io.grpc.stub.AbstractFutureStub<ExportServiceFutureStub> {
+    private ExportServiceFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected ExportServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected ExportServiceFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new ExportServiceFutureStub(channel, callOptions);
     }
 
@@ -176,7 +206,7 @@ public final class ExportServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.export.YdbExport.ExportToYtResponse> exportToYt(
         tech.ydb.export.YdbExport.ExportToYtRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_EXPORT_TO_YT, getCallOptions()), request);
+          getChannel().newCall(getExportToYtMethod(), getCallOptions()), request);
     }
   }
 
@@ -219,10 +249,38 @@ public final class ExportServiceGrpc {
     }
   }
 
-  private static final class ExportServiceDescriptorSupplier implements io.grpc.protobuf.ProtoFileDescriptorSupplier {
+  private static abstract class ExportServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
+    ExportServiceBaseDescriptorSupplier() {}
+
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
       return tech.ydb.export.v1.YdbExportV1.getDescriptor();
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
+      return getFileDescriptor().findServiceByName("ExportService");
+    }
+  }
+
+  private static final class ExportServiceFileDescriptorSupplier
+      extends ExportServiceBaseDescriptorSupplier {
+    ExportServiceFileDescriptorSupplier() {}
+  }
+
+  private static final class ExportServiceMethodDescriptorSupplier
+      extends ExportServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
+    private final String methodName;
+
+    ExportServiceMethodDescriptorSupplier(String methodName) {
+      this.methodName = methodName;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.MethodDescriptor getMethodDescriptor() {
+      return getServiceDescriptor().findMethodByName(methodName);
     }
   }
 
@@ -235,8 +293,8 @@ public final class ExportServiceGrpc {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new ExportServiceDescriptorSupplier())
-              .addMethod(METHOD_EXPORT_TO_YT)
+              .setSchemaDescriptor(new ExportServiceFileDescriptorSupplier())
+              .addMethod(getExportToYtMethod())
               .build();
         }
       }

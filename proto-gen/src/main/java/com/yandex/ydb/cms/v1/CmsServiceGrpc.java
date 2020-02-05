@@ -1,19 +1,19 @@
 package tech.ydb.cms.v1;
 
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncUnaryCall;
+import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
+import static io.grpc.stub.ClientCalls.blockingUnaryCall;
+import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  */
@@ -27,66 +27,204 @@ public final class CmsServiceGrpc {
   public static final String SERVICE_NAME = "Ydb.Cms.V1.CmsService";
 
   // Static method descriptors that strictly reflect the proto.
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.CreateDatabaseRequest,
-      tech.ydb.cms.YdbCms.CreateDatabaseResponse> METHOD_CREATE_DATABASE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Cms.V1.CmsService", "CreateDatabase"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.cms.YdbCms.CreateDatabaseRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.cms.YdbCms.CreateDatabaseResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.GetDatabaseStatusRequest,
-      tech.ydb.cms.YdbCms.GetDatabaseStatusResponse> METHOD_GET_DATABASE_STATUS =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Cms.V1.CmsService", "GetDatabaseStatus"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.cms.YdbCms.GetDatabaseStatusRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.cms.YdbCms.GetDatabaseStatusResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.AlterDatabaseRequest,
-      tech.ydb.cms.YdbCms.AlterDatabaseResponse> METHOD_ALTER_DATABASE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Cms.V1.CmsService", "AlterDatabase"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.cms.YdbCms.AlterDatabaseRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.cms.YdbCms.AlterDatabaseResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.ListDatabasesRequest,
-      tech.ydb.cms.YdbCms.ListDatabasesResponse> METHOD_LIST_DATABASES =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Cms.V1.CmsService", "ListDatabases"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.cms.YdbCms.ListDatabasesRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.cms.YdbCms.ListDatabasesResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.RemoveDatabaseRequest,
-      tech.ydb.cms.YdbCms.RemoveDatabaseResponse> METHOD_REMOVE_DATABASE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Cms.V1.CmsService", "RemoveDatabase"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.cms.YdbCms.RemoveDatabaseRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.cms.YdbCms.RemoveDatabaseResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest,
-      tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse> METHOD_DESCRIBE_DATABASE_OPTIONS =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Cms.V1.CmsService", "DescribeDatabaseOptions"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse.getDefaultInstance()));
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.CreateDatabaseRequest,
+      tech.ydb.cms.YdbCms.CreateDatabaseResponse> getCreateDatabaseMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CreateDatabase",
+      requestType = tech.ydb.cms.YdbCms.CreateDatabaseRequest.class,
+      responseType = tech.ydb.cms.YdbCms.CreateDatabaseResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.CreateDatabaseRequest,
+      tech.ydb.cms.YdbCms.CreateDatabaseResponse> getCreateDatabaseMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.CreateDatabaseRequest, tech.ydb.cms.YdbCms.CreateDatabaseResponse> getCreateDatabaseMethod;
+    if ((getCreateDatabaseMethod = CmsServiceGrpc.getCreateDatabaseMethod) == null) {
+      synchronized (CmsServiceGrpc.class) {
+        if ((getCreateDatabaseMethod = CmsServiceGrpc.getCreateDatabaseMethod) == null) {
+          CmsServiceGrpc.getCreateDatabaseMethod = getCreateDatabaseMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.cms.YdbCms.CreateDatabaseRequest, tech.ydb.cms.YdbCms.CreateDatabaseResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateDatabase"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.cms.YdbCms.CreateDatabaseRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.cms.YdbCms.CreateDatabaseResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CmsServiceMethodDescriptorSupplier("CreateDatabase"))
+              .build();
+        }
+      }
+    }
+    return getCreateDatabaseMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.GetDatabaseStatusRequest,
+      tech.ydb.cms.YdbCms.GetDatabaseStatusResponse> getGetDatabaseStatusMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetDatabaseStatus",
+      requestType = tech.ydb.cms.YdbCms.GetDatabaseStatusRequest.class,
+      responseType = tech.ydb.cms.YdbCms.GetDatabaseStatusResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.GetDatabaseStatusRequest,
+      tech.ydb.cms.YdbCms.GetDatabaseStatusResponse> getGetDatabaseStatusMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.GetDatabaseStatusRequest, tech.ydb.cms.YdbCms.GetDatabaseStatusResponse> getGetDatabaseStatusMethod;
+    if ((getGetDatabaseStatusMethod = CmsServiceGrpc.getGetDatabaseStatusMethod) == null) {
+      synchronized (CmsServiceGrpc.class) {
+        if ((getGetDatabaseStatusMethod = CmsServiceGrpc.getGetDatabaseStatusMethod) == null) {
+          CmsServiceGrpc.getGetDatabaseStatusMethod = getGetDatabaseStatusMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.cms.YdbCms.GetDatabaseStatusRequest, tech.ydb.cms.YdbCms.GetDatabaseStatusResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetDatabaseStatus"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.cms.YdbCms.GetDatabaseStatusRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.cms.YdbCms.GetDatabaseStatusResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CmsServiceMethodDescriptorSupplier("GetDatabaseStatus"))
+              .build();
+        }
+      }
+    }
+    return getGetDatabaseStatusMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.AlterDatabaseRequest,
+      tech.ydb.cms.YdbCms.AlterDatabaseResponse> getAlterDatabaseMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "AlterDatabase",
+      requestType = tech.ydb.cms.YdbCms.AlterDatabaseRequest.class,
+      responseType = tech.ydb.cms.YdbCms.AlterDatabaseResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.AlterDatabaseRequest,
+      tech.ydb.cms.YdbCms.AlterDatabaseResponse> getAlterDatabaseMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.AlterDatabaseRequest, tech.ydb.cms.YdbCms.AlterDatabaseResponse> getAlterDatabaseMethod;
+    if ((getAlterDatabaseMethod = CmsServiceGrpc.getAlterDatabaseMethod) == null) {
+      synchronized (CmsServiceGrpc.class) {
+        if ((getAlterDatabaseMethod = CmsServiceGrpc.getAlterDatabaseMethod) == null) {
+          CmsServiceGrpc.getAlterDatabaseMethod = getAlterDatabaseMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.cms.YdbCms.AlterDatabaseRequest, tech.ydb.cms.YdbCms.AlterDatabaseResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "AlterDatabase"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.cms.YdbCms.AlterDatabaseRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.cms.YdbCms.AlterDatabaseResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CmsServiceMethodDescriptorSupplier("AlterDatabase"))
+              .build();
+        }
+      }
+    }
+    return getAlterDatabaseMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.ListDatabasesRequest,
+      tech.ydb.cms.YdbCms.ListDatabasesResponse> getListDatabasesMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ListDatabases",
+      requestType = tech.ydb.cms.YdbCms.ListDatabasesRequest.class,
+      responseType = tech.ydb.cms.YdbCms.ListDatabasesResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.ListDatabasesRequest,
+      tech.ydb.cms.YdbCms.ListDatabasesResponse> getListDatabasesMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.ListDatabasesRequest, tech.ydb.cms.YdbCms.ListDatabasesResponse> getListDatabasesMethod;
+    if ((getListDatabasesMethod = CmsServiceGrpc.getListDatabasesMethod) == null) {
+      synchronized (CmsServiceGrpc.class) {
+        if ((getListDatabasesMethod = CmsServiceGrpc.getListDatabasesMethod) == null) {
+          CmsServiceGrpc.getListDatabasesMethod = getListDatabasesMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.cms.YdbCms.ListDatabasesRequest, tech.ydb.cms.YdbCms.ListDatabasesResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ListDatabases"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.cms.YdbCms.ListDatabasesRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.cms.YdbCms.ListDatabasesResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CmsServiceMethodDescriptorSupplier("ListDatabases"))
+              .build();
+        }
+      }
+    }
+    return getListDatabasesMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.RemoveDatabaseRequest,
+      tech.ydb.cms.YdbCms.RemoveDatabaseResponse> getRemoveDatabaseMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "RemoveDatabase",
+      requestType = tech.ydb.cms.YdbCms.RemoveDatabaseRequest.class,
+      responseType = tech.ydb.cms.YdbCms.RemoveDatabaseResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.RemoveDatabaseRequest,
+      tech.ydb.cms.YdbCms.RemoveDatabaseResponse> getRemoveDatabaseMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.RemoveDatabaseRequest, tech.ydb.cms.YdbCms.RemoveDatabaseResponse> getRemoveDatabaseMethod;
+    if ((getRemoveDatabaseMethod = CmsServiceGrpc.getRemoveDatabaseMethod) == null) {
+      synchronized (CmsServiceGrpc.class) {
+        if ((getRemoveDatabaseMethod = CmsServiceGrpc.getRemoveDatabaseMethod) == null) {
+          CmsServiceGrpc.getRemoveDatabaseMethod = getRemoveDatabaseMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.cms.YdbCms.RemoveDatabaseRequest, tech.ydb.cms.YdbCms.RemoveDatabaseResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "RemoveDatabase"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.cms.YdbCms.RemoveDatabaseRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.cms.YdbCms.RemoveDatabaseResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CmsServiceMethodDescriptorSupplier("RemoveDatabase"))
+              .build();
+        }
+      }
+    }
+    return getRemoveDatabaseMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest,
+      tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse> getDescribeDatabaseOptionsMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DescribeDatabaseOptions",
+      requestType = tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest.class,
+      responseType = tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest,
+      tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse> getDescribeDatabaseOptionsMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest, tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse> getDescribeDatabaseOptionsMethod;
+    if ((getDescribeDatabaseOptionsMethod = CmsServiceGrpc.getDescribeDatabaseOptionsMethod) == null) {
+      synchronized (CmsServiceGrpc.class) {
+        if ((getDescribeDatabaseOptionsMethod = CmsServiceGrpc.getDescribeDatabaseOptionsMethod) == null) {
+          CmsServiceGrpc.getDescribeDatabaseOptionsMethod = getDescribeDatabaseOptionsMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest, tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DescribeDatabaseOptions"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new CmsServiceMethodDescriptorSupplier("DescribeDatabaseOptions"))
+              .build();
+        }
+      }
+    }
+    return getDescribeDatabaseOptionsMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static CmsServiceStub newStub(io.grpc.Channel channel) {
-    return new CmsServiceStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<CmsServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<CmsServiceStub>() {
+        @java.lang.Override
+        public CmsServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new CmsServiceStub(channel, callOptions);
+        }
+      };
+    return CmsServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -94,15 +232,29 @@ public final class CmsServiceGrpc {
    */
   public static CmsServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new CmsServiceBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<CmsServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<CmsServiceBlockingStub>() {
+        @java.lang.Override
+        public CmsServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new CmsServiceBlockingStub(channel, callOptions);
+        }
+      };
+    return CmsServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new ListenableFuture-style stub that supports unary and streaming output calls on the service
+   * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
   public static CmsServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new CmsServiceFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<CmsServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<CmsServiceFutureStub>() {
+        @java.lang.Override
+        public CmsServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new CmsServiceFutureStub(channel, callOptions);
+        }
+      };
+    return CmsServiceFutureStub.newStub(factory, channel);
   }
 
   /**
@@ -116,7 +268,7 @@ public final class CmsServiceGrpc {
      */
     public void createDatabase(tech.ydb.cms.YdbCms.CreateDatabaseRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.cms.YdbCms.CreateDatabaseResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_CREATE_DATABASE, responseObserver);
+      asyncUnimplementedUnaryCall(getCreateDatabaseMethod(), responseObserver);
     }
 
     /**
@@ -126,7 +278,7 @@ public final class CmsServiceGrpc {
      */
     public void getDatabaseStatus(tech.ydb.cms.YdbCms.GetDatabaseStatusRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.cms.YdbCms.GetDatabaseStatusResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_GET_DATABASE_STATUS, responseObserver);
+      asyncUnimplementedUnaryCall(getGetDatabaseStatusMethod(), responseObserver);
     }
 
     /**
@@ -136,7 +288,7 @@ public final class CmsServiceGrpc {
      */
     public void alterDatabase(tech.ydb.cms.YdbCms.AlterDatabaseRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.cms.YdbCms.AlterDatabaseResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_ALTER_DATABASE, responseObserver);
+      asyncUnimplementedUnaryCall(getAlterDatabaseMethod(), responseObserver);
     }
 
     /**
@@ -146,7 +298,7 @@ public final class CmsServiceGrpc {
      */
     public void listDatabases(tech.ydb.cms.YdbCms.ListDatabasesRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.cms.YdbCms.ListDatabasesResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_LIST_DATABASES, responseObserver);
+      asyncUnimplementedUnaryCall(getListDatabasesMethod(), responseObserver);
     }
 
     /**
@@ -156,7 +308,7 @@ public final class CmsServiceGrpc {
      */
     public void removeDatabase(tech.ydb.cms.YdbCms.RemoveDatabaseRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.cms.YdbCms.RemoveDatabaseResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_REMOVE_DATABASE, responseObserver);
+      asyncUnimplementedUnaryCall(getRemoveDatabaseMethod(), responseObserver);
     }
 
     /**
@@ -166,48 +318,48 @@ public final class CmsServiceGrpc {
      */
     public void describeDatabaseOptions(tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_DESCRIBE_DATABASE_OPTIONS, responseObserver);
+      asyncUnimplementedUnaryCall(getDescribeDatabaseOptionsMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            METHOD_CREATE_DATABASE,
+            getCreateDatabaseMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.cms.YdbCms.CreateDatabaseRequest,
                 tech.ydb.cms.YdbCms.CreateDatabaseResponse>(
                   this, METHODID_CREATE_DATABASE)))
           .addMethod(
-            METHOD_GET_DATABASE_STATUS,
+            getGetDatabaseStatusMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.cms.YdbCms.GetDatabaseStatusRequest,
                 tech.ydb.cms.YdbCms.GetDatabaseStatusResponse>(
                   this, METHODID_GET_DATABASE_STATUS)))
           .addMethod(
-            METHOD_ALTER_DATABASE,
+            getAlterDatabaseMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.cms.YdbCms.AlterDatabaseRequest,
                 tech.ydb.cms.YdbCms.AlterDatabaseResponse>(
                   this, METHODID_ALTER_DATABASE)))
           .addMethod(
-            METHOD_LIST_DATABASES,
+            getListDatabasesMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.cms.YdbCms.ListDatabasesRequest,
                 tech.ydb.cms.YdbCms.ListDatabasesResponse>(
                   this, METHODID_LIST_DATABASES)))
           .addMethod(
-            METHOD_REMOVE_DATABASE,
+            getRemoveDatabaseMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.cms.YdbCms.RemoveDatabaseRequest,
                 tech.ydb.cms.YdbCms.RemoveDatabaseResponse>(
                   this, METHODID_REMOVE_DATABASE)))
           .addMethod(
-            METHOD_DESCRIBE_DATABASE_OPTIONS,
+            getDescribeDatabaseOptionsMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest,
@@ -219,19 +371,15 @@ public final class CmsServiceGrpc {
 
   /**
    */
-  public static final class CmsServiceStub extends io.grpc.stub.AbstractStub<CmsServiceStub> {
-    private CmsServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private CmsServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class CmsServiceStub extends io.grpc.stub.AbstractAsyncStub<CmsServiceStub> {
+    private CmsServiceStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected CmsServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected CmsServiceStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new CmsServiceStub(channel, callOptions);
     }
 
@@ -243,7 +391,7 @@ public final class CmsServiceGrpc {
     public void createDatabase(tech.ydb.cms.YdbCms.CreateDatabaseRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.cms.YdbCms.CreateDatabaseResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_CREATE_DATABASE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCreateDatabaseMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -254,7 +402,7 @@ public final class CmsServiceGrpc {
     public void getDatabaseStatus(tech.ydb.cms.YdbCms.GetDatabaseStatusRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.cms.YdbCms.GetDatabaseStatusResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_GET_DATABASE_STATUS, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getGetDatabaseStatusMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -265,7 +413,7 @@ public final class CmsServiceGrpc {
     public void alterDatabase(tech.ydb.cms.YdbCms.AlterDatabaseRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.cms.YdbCms.AlterDatabaseResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_ALTER_DATABASE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getAlterDatabaseMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -276,7 +424,7 @@ public final class CmsServiceGrpc {
     public void listDatabases(tech.ydb.cms.YdbCms.ListDatabasesRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.cms.YdbCms.ListDatabasesResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_LIST_DATABASES, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getListDatabasesMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -287,7 +435,7 @@ public final class CmsServiceGrpc {
     public void removeDatabase(tech.ydb.cms.YdbCms.RemoveDatabaseRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.cms.YdbCms.RemoveDatabaseResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_REMOVE_DATABASE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getRemoveDatabaseMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -298,25 +446,21 @@ public final class CmsServiceGrpc {
     public void describeDatabaseOptions(tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_DESCRIBE_DATABASE_OPTIONS, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getDescribeDatabaseOptionsMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
   /**
    */
-  public static final class CmsServiceBlockingStub extends io.grpc.stub.AbstractStub<CmsServiceBlockingStub> {
-    private CmsServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private CmsServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class CmsServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<CmsServiceBlockingStub> {
+    private CmsServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected CmsServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected CmsServiceBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new CmsServiceBlockingStub(channel, callOptions);
     }
 
@@ -327,7 +471,7 @@ public final class CmsServiceGrpc {
      */
     public tech.ydb.cms.YdbCms.CreateDatabaseResponse createDatabase(tech.ydb.cms.YdbCms.CreateDatabaseRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_CREATE_DATABASE, getCallOptions(), request);
+          getChannel(), getCreateDatabaseMethod(), getCallOptions(), request);
     }
 
     /**
@@ -337,7 +481,7 @@ public final class CmsServiceGrpc {
      */
     public tech.ydb.cms.YdbCms.GetDatabaseStatusResponse getDatabaseStatus(tech.ydb.cms.YdbCms.GetDatabaseStatusRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_GET_DATABASE_STATUS, getCallOptions(), request);
+          getChannel(), getGetDatabaseStatusMethod(), getCallOptions(), request);
     }
 
     /**
@@ -347,7 +491,7 @@ public final class CmsServiceGrpc {
      */
     public tech.ydb.cms.YdbCms.AlterDatabaseResponse alterDatabase(tech.ydb.cms.YdbCms.AlterDatabaseRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_ALTER_DATABASE, getCallOptions(), request);
+          getChannel(), getAlterDatabaseMethod(), getCallOptions(), request);
     }
 
     /**
@@ -357,7 +501,7 @@ public final class CmsServiceGrpc {
      */
     public tech.ydb.cms.YdbCms.ListDatabasesResponse listDatabases(tech.ydb.cms.YdbCms.ListDatabasesRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_LIST_DATABASES, getCallOptions(), request);
+          getChannel(), getListDatabasesMethod(), getCallOptions(), request);
     }
 
     /**
@@ -367,7 +511,7 @@ public final class CmsServiceGrpc {
      */
     public tech.ydb.cms.YdbCms.RemoveDatabaseResponse removeDatabase(tech.ydb.cms.YdbCms.RemoveDatabaseRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_REMOVE_DATABASE, getCallOptions(), request);
+          getChannel(), getRemoveDatabaseMethod(), getCallOptions(), request);
     }
 
     /**
@@ -377,25 +521,21 @@ public final class CmsServiceGrpc {
      */
     public tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse describeDatabaseOptions(tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_DESCRIBE_DATABASE_OPTIONS, getCallOptions(), request);
+          getChannel(), getDescribeDatabaseOptionsMethod(), getCallOptions(), request);
     }
   }
 
   /**
    */
-  public static final class CmsServiceFutureStub extends io.grpc.stub.AbstractStub<CmsServiceFutureStub> {
-    private CmsServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private CmsServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class CmsServiceFutureStub extends io.grpc.stub.AbstractFutureStub<CmsServiceFutureStub> {
+    private CmsServiceFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected CmsServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected CmsServiceFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new CmsServiceFutureStub(channel, callOptions);
     }
 
@@ -407,7 +547,7 @@ public final class CmsServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.cms.YdbCms.CreateDatabaseResponse> createDatabase(
         tech.ydb.cms.YdbCms.CreateDatabaseRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_CREATE_DATABASE, getCallOptions()), request);
+          getChannel().newCall(getCreateDatabaseMethod(), getCallOptions()), request);
     }
 
     /**
@@ -418,7 +558,7 @@ public final class CmsServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.cms.YdbCms.GetDatabaseStatusResponse> getDatabaseStatus(
         tech.ydb.cms.YdbCms.GetDatabaseStatusRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_GET_DATABASE_STATUS, getCallOptions()), request);
+          getChannel().newCall(getGetDatabaseStatusMethod(), getCallOptions()), request);
     }
 
     /**
@@ -429,7 +569,7 @@ public final class CmsServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.cms.YdbCms.AlterDatabaseResponse> alterDatabase(
         tech.ydb.cms.YdbCms.AlterDatabaseRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_ALTER_DATABASE, getCallOptions()), request);
+          getChannel().newCall(getAlterDatabaseMethod(), getCallOptions()), request);
     }
 
     /**
@@ -440,7 +580,7 @@ public final class CmsServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.cms.YdbCms.ListDatabasesResponse> listDatabases(
         tech.ydb.cms.YdbCms.ListDatabasesRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_LIST_DATABASES, getCallOptions()), request);
+          getChannel().newCall(getListDatabasesMethod(), getCallOptions()), request);
     }
 
     /**
@@ -451,7 +591,7 @@ public final class CmsServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.cms.YdbCms.RemoveDatabaseResponse> removeDatabase(
         tech.ydb.cms.YdbCms.RemoveDatabaseRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_REMOVE_DATABASE, getCallOptions()), request);
+          getChannel().newCall(getRemoveDatabaseMethod(), getCallOptions()), request);
     }
 
     /**
@@ -462,7 +602,7 @@ public final class CmsServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse> describeDatabaseOptions(
         tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_DESCRIBE_DATABASE_OPTIONS, getCallOptions()), request);
+          getChannel().newCall(getDescribeDatabaseOptionsMethod(), getCallOptions()), request);
     }
   }
 
@@ -530,10 +670,38 @@ public final class CmsServiceGrpc {
     }
   }
 
-  private static final class CmsServiceDescriptorSupplier implements io.grpc.protobuf.ProtoFileDescriptorSupplier {
+  private static abstract class CmsServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
+    CmsServiceBaseDescriptorSupplier() {}
+
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
       return tech.ydb.cms.v1.YdbCmsV1.getDescriptor();
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
+      return getFileDescriptor().findServiceByName("CmsService");
+    }
+  }
+
+  private static final class CmsServiceFileDescriptorSupplier
+      extends CmsServiceBaseDescriptorSupplier {
+    CmsServiceFileDescriptorSupplier() {}
+  }
+
+  private static final class CmsServiceMethodDescriptorSupplier
+      extends CmsServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
+    private final String methodName;
+
+    CmsServiceMethodDescriptorSupplier(String methodName) {
+      this.methodName = methodName;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.MethodDescriptor getMethodDescriptor() {
+      return getServiceDescriptor().findMethodByName(methodName);
     }
   }
 
@@ -546,13 +714,13 @@ public final class CmsServiceGrpc {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new CmsServiceDescriptorSupplier())
-              .addMethod(METHOD_CREATE_DATABASE)
-              .addMethod(METHOD_GET_DATABASE_STATUS)
-              .addMethod(METHOD_ALTER_DATABASE)
-              .addMethod(METHOD_LIST_DATABASES)
-              .addMethod(METHOD_REMOVE_DATABASE)
-              .addMethod(METHOD_DESCRIBE_DATABASE_OPTIONS)
+              .setSchemaDescriptor(new CmsServiceFileDescriptorSupplier())
+              .addMethod(getCreateDatabaseMethod())
+              .addMethod(getGetDatabaseStatusMethod())
+              .addMethod(getAlterDatabaseMethod())
+              .addMethod(getListDatabasesMethod())
+              .addMethod(getRemoveDatabaseMethod())
+              .addMethod(getDescribeDatabaseOptionsMethod())
               .build();
         }
       }

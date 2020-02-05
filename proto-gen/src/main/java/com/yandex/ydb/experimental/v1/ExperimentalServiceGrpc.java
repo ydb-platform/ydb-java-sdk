@@ -1,19 +1,19 @@
 package tech.ydb.experimental.v1;
 
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncUnaryCall;
+import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
+import static io.grpc.stub.ClientCalls.blockingUnaryCall;
+import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  */
@@ -27,30 +27,80 @@ public final class ExperimentalServiceGrpc {
   public static final String SERVICE_NAME = "Ydb.Experimental.V1.ExperimentalService";
 
   // Static method descriptors that strictly reflect the proto.
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.experimental.ExperimentalProtos.UploadRowsRequest,
-      tech.ydb.experimental.ExperimentalProtos.UploadRowsResponse> METHOD_UPLOAD_ROWS =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Experimental.V1.ExperimentalService", "UploadRows"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.experimental.ExperimentalProtos.UploadRowsRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.experimental.ExperimentalProtos.UploadRowsResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest,
-      tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse> METHOD_EXECUTE_STREAM_QUERY =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING,
-          generateFullMethodName(
-              "Ydb.Experimental.V1.ExperimentalService", "ExecuteStreamQuery"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse.getDefaultInstance()));
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.experimental.ExperimentalProtos.UploadRowsRequest,
+      tech.ydb.experimental.ExperimentalProtos.UploadRowsResponse> getUploadRowsMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "UploadRows",
+      requestType = tech.ydb.experimental.ExperimentalProtos.UploadRowsRequest.class,
+      responseType = tech.ydb.experimental.ExperimentalProtos.UploadRowsResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.experimental.ExperimentalProtos.UploadRowsRequest,
+      tech.ydb.experimental.ExperimentalProtos.UploadRowsResponse> getUploadRowsMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.experimental.ExperimentalProtos.UploadRowsRequest, tech.ydb.experimental.ExperimentalProtos.UploadRowsResponse> getUploadRowsMethod;
+    if ((getUploadRowsMethod = ExperimentalServiceGrpc.getUploadRowsMethod) == null) {
+      synchronized (ExperimentalServiceGrpc.class) {
+        if ((getUploadRowsMethod = ExperimentalServiceGrpc.getUploadRowsMethod) == null) {
+          ExperimentalServiceGrpc.getUploadRowsMethod = getUploadRowsMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.experimental.ExperimentalProtos.UploadRowsRequest, tech.ydb.experimental.ExperimentalProtos.UploadRowsResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "UploadRows"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.experimental.ExperimentalProtos.UploadRowsRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.experimental.ExperimentalProtos.UploadRowsResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ExperimentalServiceMethodDescriptorSupplier("UploadRows"))
+              .build();
+        }
+      }
+    }
+    return getUploadRowsMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest,
+      tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse> getExecuteStreamQueryMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ExecuteStreamQuery",
+      requestType = tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.class,
+      responseType = tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+  public static io.grpc.MethodDescriptor<tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest,
+      tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse> getExecuteStreamQueryMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest, tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse> getExecuteStreamQueryMethod;
+    if ((getExecuteStreamQueryMethod = ExperimentalServiceGrpc.getExecuteStreamQueryMethod) == null) {
+      synchronized (ExperimentalServiceGrpc.class) {
+        if ((getExecuteStreamQueryMethod = ExperimentalServiceGrpc.getExecuteStreamQueryMethod) == null) {
+          ExperimentalServiceGrpc.getExecuteStreamQueryMethod = getExecuteStreamQueryMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest, tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ExecuteStreamQuery"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ExperimentalServiceMethodDescriptorSupplier("ExecuteStreamQuery"))
+              .build();
+        }
+      }
+    }
+    return getExecuteStreamQueryMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static ExperimentalServiceStub newStub(io.grpc.Channel channel) {
-    return new ExperimentalServiceStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<ExperimentalServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ExperimentalServiceStub>() {
+        @java.lang.Override
+        public ExperimentalServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ExperimentalServiceStub(channel, callOptions);
+        }
+      };
+    return ExperimentalServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -58,15 +108,29 @@ public final class ExperimentalServiceGrpc {
    */
   public static ExperimentalServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new ExperimentalServiceBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<ExperimentalServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ExperimentalServiceBlockingStub>() {
+        @java.lang.Override
+        public ExperimentalServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ExperimentalServiceBlockingStub(channel, callOptions);
+        }
+      };
+    return ExperimentalServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new ListenableFuture-style stub that supports unary and streaming output calls on the service
+   * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
   public static ExperimentalServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new ExperimentalServiceFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<ExperimentalServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ExperimentalServiceFutureStub>() {
+        @java.lang.Override
+        public ExperimentalServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ExperimentalServiceFutureStub(channel, callOptions);
+        }
+      };
+    return ExperimentalServiceFutureStub.newStub(factory, channel);
   }
 
   /**
@@ -80,27 +144,27 @@ public final class ExperimentalServiceGrpc {
      */
     public void uploadRows(tech.ydb.experimental.ExperimentalProtos.UploadRowsRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.experimental.ExperimentalProtos.UploadRowsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_UPLOAD_ROWS, responseObserver);
+      asyncUnimplementedUnaryCall(getUploadRowsMethod(), responseObserver);
     }
 
     /**
      */
     public void executeStreamQuery(tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_EXECUTE_STREAM_QUERY, responseObserver);
+      asyncUnimplementedUnaryCall(getExecuteStreamQueryMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            METHOD_UPLOAD_ROWS,
+            getUploadRowsMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.experimental.ExperimentalProtos.UploadRowsRequest,
                 tech.ydb.experimental.ExperimentalProtos.UploadRowsResponse>(
                   this, METHODID_UPLOAD_ROWS)))
           .addMethod(
-            METHOD_EXECUTE_STREAM_QUERY,
+            getExecuteStreamQueryMethod(),
             asyncServerStreamingCall(
               new MethodHandlers<
                 tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest,
@@ -112,19 +176,15 @@ public final class ExperimentalServiceGrpc {
 
   /**
    */
-  public static final class ExperimentalServiceStub extends io.grpc.stub.AbstractStub<ExperimentalServiceStub> {
-    private ExperimentalServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private ExperimentalServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class ExperimentalServiceStub extends io.grpc.stub.AbstractAsyncStub<ExperimentalServiceStub> {
+    private ExperimentalServiceStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected ExperimentalServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected ExperimentalServiceStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new ExperimentalServiceStub(channel, callOptions);
     }
 
@@ -136,7 +196,7 @@ public final class ExperimentalServiceGrpc {
     public void uploadRows(tech.ydb.experimental.ExperimentalProtos.UploadRowsRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.experimental.ExperimentalProtos.UploadRowsResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_UPLOAD_ROWS, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getUploadRowsMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -144,25 +204,21 @@ public final class ExperimentalServiceGrpc {
     public void executeStreamQuery(tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse> responseObserver) {
       asyncServerStreamingCall(
-          getChannel().newCall(METHOD_EXECUTE_STREAM_QUERY, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getExecuteStreamQueryMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
   /**
    */
-  public static final class ExperimentalServiceBlockingStub extends io.grpc.stub.AbstractStub<ExperimentalServiceBlockingStub> {
-    private ExperimentalServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private ExperimentalServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class ExperimentalServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<ExperimentalServiceBlockingStub> {
+    private ExperimentalServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected ExperimentalServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected ExperimentalServiceBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new ExperimentalServiceBlockingStub(channel, callOptions);
     }
 
@@ -173,7 +229,7 @@ public final class ExperimentalServiceGrpc {
      */
     public tech.ydb.experimental.ExperimentalProtos.UploadRowsResponse uploadRows(tech.ydb.experimental.ExperimentalProtos.UploadRowsRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_UPLOAD_ROWS, getCallOptions(), request);
+          getChannel(), getUploadRowsMethod(), getCallOptions(), request);
     }
 
     /**
@@ -181,25 +237,21 @@ public final class ExperimentalServiceGrpc {
     public java.util.Iterator<tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse> executeStreamQuery(
         tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest request) {
       return blockingServerStreamingCall(
-          getChannel(), METHOD_EXECUTE_STREAM_QUERY, getCallOptions(), request);
+          getChannel(), getExecuteStreamQueryMethod(), getCallOptions(), request);
     }
   }
 
   /**
    */
-  public static final class ExperimentalServiceFutureStub extends io.grpc.stub.AbstractStub<ExperimentalServiceFutureStub> {
-    private ExperimentalServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private ExperimentalServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class ExperimentalServiceFutureStub extends io.grpc.stub.AbstractFutureStub<ExperimentalServiceFutureStub> {
+    private ExperimentalServiceFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected ExperimentalServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected ExperimentalServiceFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new ExperimentalServiceFutureStub(channel, callOptions);
     }
 
@@ -211,7 +263,7 @@ public final class ExperimentalServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.experimental.ExperimentalProtos.UploadRowsResponse> uploadRows(
         tech.ydb.experimental.ExperimentalProtos.UploadRowsRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_UPLOAD_ROWS, getCallOptions()), request);
+          getChannel().newCall(getUploadRowsMethod(), getCallOptions()), request);
     }
   }
 
@@ -259,10 +311,38 @@ public final class ExperimentalServiceGrpc {
     }
   }
 
-  private static final class ExperimentalServiceDescriptorSupplier implements io.grpc.protobuf.ProtoFileDescriptorSupplier {
+  private static abstract class ExperimentalServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
+    ExperimentalServiceBaseDescriptorSupplier() {}
+
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
       return tech.ydb.experimental.v1.YdbExperimentalV1.getDescriptor();
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
+      return getFileDescriptor().findServiceByName("ExperimentalService");
+    }
+  }
+
+  private static final class ExperimentalServiceFileDescriptorSupplier
+      extends ExperimentalServiceBaseDescriptorSupplier {
+    ExperimentalServiceFileDescriptorSupplier() {}
+  }
+
+  private static final class ExperimentalServiceMethodDescriptorSupplier
+      extends ExperimentalServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
+    private final String methodName;
+
+    ExperimentalServiceMethodDescriptorSupplier(String methodName) {
+      this.methodName = methodName;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.MethodDescriptor getMethodDescriptor() {
+      return getServiceDescriptor().findMethodByName(methodName);
     }
   }
 
@@ -275,9 +355,9 @@ public final class ExperimentalServiceGrpc {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new ExperimentalServiceDescriptorSupplier())
-              .addMethod(METHOD_UPLOAD_ROWS)
-              .addMethod(METHOD_EXECUTE_STREAM_QUERY)
+              .setSchemaDescriptor(new ExperimentalServiceFileDescriptorSupplier())
+              .addMethod(getUploadRowsMethod())
+              .addMethod(getExecuteStreamQueryMethod())
               .build();
         }
       }

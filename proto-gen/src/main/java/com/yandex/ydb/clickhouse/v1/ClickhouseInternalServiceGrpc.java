@@ -1,19 +1,19 @@
 package tech.ydb.clickhouse.v1;
 
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncUnaryCall;
+import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
+import static io.grpc.stub.ClientCalls.blockingUnaryCall;
+import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  */
@@ -27,66 +27,204 @@ public final class ClickhouseInternalServiceGrpc {
   public static final String SERVICE_NAME = "Ydb.ClickhouseInternal.V1.ClickhouseInternalService";
 
   // Static method descriptors that strictly reflect the proto.
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest,
-      tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse> METHOD_SCAN =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.ClickhouseInternal.V1.ClickhouseInternalService", "Scan"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest,
-      tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse> METHOD_GET_SHARD_LOCATIONS =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.ClickhouseInternal.V1.ClickhouseInternalService", "GetShardLocations"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest,
-      tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse> METHOD_DESCRIBE_TABLE =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.ClickhouseInternal.V1.ClickhouseInternalService", "DescribeTable"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest,
-      tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse> METHOD_CREATE_SNAPSHOT =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.ClickhouseInternal.V1.ClickhouseInternalService", "CreateSnapshot"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest,
-      tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse> METHOD_REFRESH_SNAPSHOT =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.ClickhouseInternal.V1.ClickhouseInternalService", "RefreshSnapshot"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest,
-      tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse> METHOD_DISCARD_SNAPSHOT =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.ClickhouseInternal.V1.ClickhouseInternalService", "DiscardSnapshot"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse.getDefaultInstance()));
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse> getScanMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "Scan",
+      requestType = tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest.class,
+      responseType = tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse> getScanMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest, tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse> getScanMethod;
+    if ((getScanMethod = ClickhouseInternalServiceGrpc.getScanMethod) == null) {
+      synchronized (ClickhouseInternalServiceGrpc.class) {
+        if ((getScanMethod = ClickhouseInternalServiceGrpc.getScanMethod) == null) {
+          ClickhouseInternalServiceGrpc.getScanMethod = getScanMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest, tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Scan"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ClickhouseInternalServiceMethodDescriptorSupplier("Scan"))
+              .build();
+        }
+      }
+    }
+    return getScanMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse> getGetShardLocationsMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetShardLocations",
+      requestType = tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest.class,
+      responseType = tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse> getGetShardLocationsMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest, tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse> getGetShardLocationsMethod;
+    if ((getGetShardLocationsMethod = ClickhouseInternalServiceGrpc.getGetShardLocationsMethod) == null) {
+      synchronized (ClickhouseInternalServiceGrpc.class) {
+        if ((getGetShardLocationsMethod = ClickhouseInternalServiceGrpc.getGetShardLocationsMethod) == null) {
+          ClickhouseInternalServiceGrpc.getGetShardLocationsMethod = getGetShardLocationsMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest, tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetShardLocations"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ClickhouseInternalServiceMethodDescriptorSupplier("GetShardLocations"))
+              .build();
+        }
+      }
+    }
+    return getGetShardLocationsMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse> getDescribeTableMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DescribeTable",
+      requestType = tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest.class,
+      responseType = tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse> getDescribeTableMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest, tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse> getDescribeTableMethod;
+    if ((getDescribeTableMethod = ClickhouseInternalServiceGrpc.getDescribeTableMethod) == null) {
+      synchronized (ClickhouseInternalServiceGrpc.class) {
+        if ((getDescribeTableMethod = ClickhouseInternalServiceGrpc.getDescribeTableMethod) == null) {
+          ClickhouseInternalServiceGrpc.getDescribeTableMethod = getDescribeTableMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest, tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DescribeTable"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ClickhouseInternalServiceMethodDescriptorSupplier("DescribeTable"))
+              .build();
+        }
+      }
+    }
+    return getDescribeTableMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse> getCreateSnapshotMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CreateSnapshot",
+      requestType = tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest.class,
+      responseType = tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse> getCreateSnapshotMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest, tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse> getCreateSnapshotMethod;
+    if ((getCreateSnapshotMethod = ClickhouseInternalServiceGrpc.getCreateSnapshotMethod) == null) {
+      synchronized (ClickhouseInternalServiceGrpc.class) {
+        if ((getCreateSnapshotMethod = ClickhouseInternalServiceGrpc.getCreateSnapshotMethod) == null) {
+          ClickhouseInternalServiceGrpc.getCreateSnapshotMethod = getCreateSnapshotMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest, tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateSnapshot"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ClickhouseInternalServiceMethodDescriptorSupplier("CreateSnapshot"))
+              .build();
+        }
+      }
+    }
+    return getCreateSnapshotMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse> getRefreshSnapshotMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "RefreshSnapshot",
+      requestType = tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest.class,
+      responseType = tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse> getRefreshSnapshotMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest, tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse> getRefreshSnapshotMethod;
+    if ((getRefreshSnapshotMethod = ClickhouseInternalServiceGrpc.getRefreshSnapshotMethod) == null) {
+      synchronized (ClickhouseInternalServiceGrpc.class) {
+        if ((getRefreshSnapshotMethod = ClickhouseInternalServiceGrpc.getRefreshSnapshotMethod) == null) {
+          ClickhouseInternalServiceGrpc.getRefreshSnapshotMethod = getRefreshSnapshotMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest, tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "RefreshSnapshot"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ClickhouseInternalServiceMethodDescriptorSupplier("RefreshSnapshot"))
+              .build();
+        }
+      }
+    }
+    return getRefreshSnapshotMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse> getDiscardSnapshotMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DiscardSnapshot",
+      requestType = tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest.class,
+      responseType = tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest,
+      tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse> getDiscardSnapshotMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest, tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse> getDiscardSnapshotMethod;
+    if ((getDiscardSnapshotMethod = ClickhouseInternalServiceGrpc.getDiscardSnapshotMethod) == null) {
+      synchronized (ClickhouseInternalServiceGrpc.class) {
+        if ((getDiscardSnapshotMethod = ClickhouseInternalServiceGrpc.getDiscardSnapshotMethod) == null) {
+          ClickhouseInternalServiceGrpc.getDiscardSnapshotMethod = getDiscardSnapshotMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest, tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DiscardSnapshot"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ClickhouseInternalServiceMethodDescriptorSupplier("DiscardSnapshot"))
+              .build();
+        }
+      }
+    }
+    return getDiscardSnapshotMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static ClickhouseInternalServiceStub newStub(io.grpc.Channel channel) {
-    return new ClickhouseInternalServiceStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<ClickhouseInternalServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ClickhouseInternalServiceStub>() {
+        @java.lang.Override
+        public ClickhouseInternalServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ClickhouseInternalServiceStub(channel, callOptions);
+        }
+      };
+    return ClickhouseInternalServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -94,15 +232,29 @@ public final class ClickhouseInternalServiceGrpc {
    */
   public static ClickhouseInternalServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new ClickhouseInternalServiceBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<ClickhouseInternalServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ClickhouseInternalServiceBlockingStub>() {
+        @java.lang.Override
+        public ClickhouseInternalServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ClickhouseInternalServiceBlockingStub(channel, callOptions);
+        }
+      };
+    return ClickhouseInternalServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new ListenableFuture-style stub that supports unary and streaming output calls on the service
+   * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
   public static ClickhouseInternalServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new ClickhouseInternalServiceFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<ClickhouseInternalServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ClickhouseInternalServiceFutureStub>() {
+        @java.lang.Override
+        public ClickhouseInternalServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ClickhouseInternalServiceFutureStub(channel, callOptions);
+        }
+      };
+    return ClickhouseInternalServiceFutureStub.newStub(factory, channel);
   }
 
   /**
@@ -113,21 +265,21 @@ public final class ClickhouseInternalServiceGrpc {
      */
     public void scan(tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_SCAN, responseObserver);
+      asyncUnimplementedUnaryCall(getScanMethod(), responseObserver);
     }
 
     /**
      */
     public void getShardLocations(tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_GET_SHARD_LOCATIONS, responseObserver);
+      asyncUnimplementedUnaryCall(getGetShardLocationsMethod(), responseObserver);
     }
 
     /**
      */
     public void describeTable(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_DESCRIBE_TABLE, responseObserver);
+      asyncUnimplementedUnaryCall(getDescribeTableMethod(), responseObserver);
     }
 
     /**
@@ -141,7 +293,7 @@ public final class ClickhouseInternalServiceGrpc {
      */
     public void createSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_CREATE_SNAPSHOT, responseObserver);
+      asyncUnimplementedUnaryCall(getCreateSnapshotMethod(), responseObserver);
     }
 
     /**
@@ -153,7 +305,7 @@ public final class ClickhouseInternalServiceGrpc {
      */
     public void refreshSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_REFRESH_SNAPSHOT, responseObserver);
+      asyncUnimplementedUnaryCall(getRefreshSnapshotMethod(), responseObserver);
     }
 
     /**
@@ -165,48 +317,48 @@ public final class ClickhouseInternalServiceGrpc {
      */
     public void discardSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_DISCARD_SNAPSHOT, responseObserver);
+      asyncUnimplementedUnaryCall(getDiscardSnapshotMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            METHOD_SCAN,
+            getScanMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest,
                 tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse>(
                   this, METHODID_SCAN)))
           .addMethod(
-            METHOD_GET_SHARD_LOCATIONS,
+            getGetShardLocationsMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest,
                 tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse>(
                   this, METHODID_GET_SHARD_LOCATIONS)))
           .addMethod(
-            METHOD_DESCRIBE_TABLE,
+            getDescribeTableMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest,
                 tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse>(
                   this, METHODID_DESCRIBE_TABLE)))
           .addMethod(
-            METHOD_CREATE_SNAPSHOT,
+            getCreateSnapshotMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest,
                 tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse>(
                   this, METHODID_CREATE_SNAPSHOT)))
           .addMethod(
-            METHOD_REFRESH_SNAPSHOT,
+            getRefreshSnapshotMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest,
                 tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse>(
                   this, METHODID_REFRESH_SNAPSHOT)))
           .addMethod(
-            METHOD_DISCARD_SNAPSHOT,
+            getDiscardSnapshotMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest,
@@ -218,19 +370,15 @@ public final class ClickhouseInternalServiceGrpc {
 
   /**
    */
-  public static final class ClickhouseInternalServiceStub extends io.grpc.stub.AbstractStub<ClickhouseInternalServiceStub> {
-    private ClickhouseInternalServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private ClickhouseInternalServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class ClickhouseInternalServiceStub extends io.grpc.stub.AbstractAsyncStub<ClickhouseInternalServiceStub> {
+    private ClickhouseInternalServiceStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected ClickhouseInternalServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected ClickhouseInternalServiceStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new ClickhouseInternalServiceStub(channel, callOptions);
     }
 
@@ -239,7 +387,7 @@ public final class ClickhouseInternalServiceGrpc {
     public void scan(tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_SCAN, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getScanMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -247,7 +395,7 @@ public final class ClickhouseInternalServiceGrpc {
     public void getShardLocations(tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_GET_SHARD_LOCATIONS, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getGetShardLocationsMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -255,7 +403,7 @@ public final class ClickhouseInternalServiceGrpc {
     public void describeTable(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_DESCRIBE_TABLE, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getDescribeTableMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -270,7 +418,7 @@ public final class ClickhouseInternalServiceGrpc {
     public void createSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_CREATE_SNAPSHOT, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCreateSnapshotMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -283,7 +431,7 @@ public final class ClickhouseInternalServiceGrpc {
     public void refreshSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_REFRESH_SNAPSHOT, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getRefreshSnapshotMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -296,25 +444,21 @@ public final class ClickhouseInternalServiceGrpc {
     public void discardSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_DISCARD_SNAPSHOT, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getDiscardSnapshotMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
   /**
    */
-  public static final class ClickhouseInternalServiceBlockingStub extends io.grpc.stub.AbstractStub<ClickhouseInternalServiceBlockingStub> {
-    private ClickhouseInternalServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private ClickhouseInternalServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class ClickhouseInternalServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<ClickhouseInternalServiceBlockingStub> {
+    private ClickhouseInternalServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected ClickhouseInternalServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected ClickhouseInternalServiceBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new ClickhouseInternalServiceBlockingStub(channel, callOptions);
     }
 
@@ -322,21 +466,21 @@ public final class ClickhouseInternalServiceGrpc {
      */
     public tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse scan(tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_SCAN, getCallOptions(), request);
+          getChannel(), getScanMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse getShardLocations(tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_GET_SHARD_LOCATIONS, getCallOptions(), request);
+          getChannel(), getGetShardLocationsMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse describeTable(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_DESCRIBE_TABLE, getCallOptions(), request);
+          getChannel(), getDescribeTableMethod(), getCallOptions(), request);
     }
 
     /**
@@ -350,7 +494,7 @@ public final class ClickhouseInternalServiceGrpc {
      */
     public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse createSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_CREATE_SNAPSHOT, getCallOptions(), request);
+          getChannel(), getCreateSnapshotMethod(), getCallOptions(), request);
     }
 
     /**
@@ -362,7 +506,7 @@ public final class ClickhouseInternalServiceGrpc {
      */
     public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse refreshSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_REFRESH_SNAPSHOT, getCallOptions(), request);
+          getChannel(), getRefreshSnapshotMethod(), getCallOptions(), request);
     }
 
     /**
@@ -374,25 +518,21 @@ public final class ClickhouseInternalServiceGrpc {
      */
     public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse discardSnapshot(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_DISCARD_SNAPSHOT, getCallOptions(), request);
+          getChannel(), getDiscardSnapshotMethod(), getCallOptions(), request);
     }
   }
 
   /**
    */
-  public static final class ClickhouseInternalServiceFutureStub extends io.grpc.stub.AbstractStub<ClickhouseInternalServiceFutureStub> {
-    private ClickhouseInternalServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private ClickhouseInternalServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class ClickhouseInternalServiceFutureStub extends io.grpc.stub.AbstractFutureStub<ClickhouseInternalServiceFutureStub> {
+    private ClickhouseInternalServiceFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected ClickhouseInternalServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected ClickhouseInternalServiceFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new ClickhouseInternalServiceFutureStub(channel, callOptions);
     }
 
@@ -401,7 +541,7 @@ public final class ClickhouseInternalServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse> scan(
         tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_SCAN, getCallOptions()), request);
+          getChannel().newCall(getScanMethod(), getCallOptions()), request);
     }
 
     /**
@@ -409,7 +549,7 @@ public final class ClickhouseInternalServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse> getShardLocations(
         tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_GET_SHARD_LOCATIONS, getCallOptions()), request);
+          getChannel().newCall(getGetShardLocationsMethod(), getCallOptions()), request);
     }
 
     /**
@@ -417,7 +557,7 @@ public final class ClickhouseInternalServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse> describeTable(
         tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_DESCRIBE_TABLE, getCallOptions()), request);
+          getChannel().newCall(getDescribeTableMethod(), getCallOptions()), request);
     }
 
     /**
@@ -432,7 +572,7 @@ public final class ClickhouseInternalServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse> createSnapshot(
         tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_CREATE_SNAPSHOT, getCallOptions()), request);
+          getChannel().newCall(getCreateSnapshotMethod(), getCallOptions()), request);
     }
 
     /**
@@ -445,7 +585,7 @@ public final class ClickhouseInternalServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse> refreshSnapshot(
         tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_REFRESH_SNAPSHOT, getCallOptions()), request);
+          getChannel().newCall(getRefreshSnapshotMethod(), getCallOptions()), request);
     }
 
     /**
@@ -458,7 +598,7 @@ public final class ClickhouseInternalServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse> discardSnapshot(
         tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_DISCARD_SNAPSHOT, getCallOptions()), request);
+          getChannel().newCall(getDiscardSnapshotMethod(), getCallOptions()), request);
     }
   }
 
@@ -526,10 +666,38 @@ public final class ClickhouseInternalServiceGrpc {
     }
   }
 
-  private static final class ClickhouseInternalServiceDescriptorSupplier implements io.grpc.protobuf.ProtoFileDescriptorSupplier {
+  private static abstract class ClickhouseInternalServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
+    ClickhouseInternalServiceBaseDescriptorSupplier() {}
+
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
       return tech.ydb.clickhouse.v1.YdbClickhouseInternalV1.getDescriptor();
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
+      return getFileDescriptor().findServiceByName("ClickhouseInternalService");
+    }
+  }
+
+  private static final class ClickhouseInternalServiceFileDescriptorSupplier
+      extends ClickhouseInternalServiceBaseDescriptorSupplier {
+    ClickhouseInternalServiceFileDescriptorSupplier() {}
+  }
+
+  private static final class ClickhouseInternalServiceMethodDescriptorSupplier
+      extends ClickhouseInternalServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
+    private final String methodName;
+
+    ClickhouseInternalServiceMethodDescriptorSupplier(String methodName) {
+      this.methodName = methodName;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.MethodDescriptor getMethodDescriptor() {
+      return getServiceDescriptor().findMethodByName(methodName);
     }
   }
 
@@ -542,13 +710,13 @@ public final class ClickhouseInternalServiceGrpc {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new ClickhouseInternalServiceDescriptorSupplier())
-              .addMethod(METHOD_SCAN)
-              .addMethod(METHOD_GET_SHARD_LOCATIONS)
-              .addMethod(METHOD_DESCRIBE_TABLE)
-              .addMethod(METHOD_CREATE_SNAPSHOT)
-              .addMethod(METHOD_REFRESH_SNAPSHOT)
-              .addMethod(METHOD_DISCARD_SNAPSHOT)
+              .setSchemaDescriptor(new ClickhouseInternalServiceFileDescriptorSupplier())
+              .addMethod(getScanMethod())
+              .addMethod(getGetShardLocationsMethod())
+              .addMethod(getDescribeTableMethod())
+              .addMethod(getCreateSnapshotMethod())
+              .addMethod(getRefreshSnapshotMethod())
+              .addMethod(getDiscardSnapshotMethod())
               .build();
         }
       }

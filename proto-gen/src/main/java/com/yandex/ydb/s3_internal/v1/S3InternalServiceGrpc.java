@@ -1,19 +1,19 @@
 package tech.ydb.s3_internal.v1;
 
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncUnaryCall;
+import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
+import static io.grpc.stub.ClientCalls.blockingUnaryCall;
+import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  */
@@ -27,21 +27,49 @@ public final class S3InternalServiceGrpc {
   public static final String SERVICE_NAME = "Ydb.S3Internal.V1.S3InternalService";
 
   // Static method descriptors that strictly reflect the proto.
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest,
-      tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse> METHOD_S3LISTING =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.S3Internal.V1.S3InternalService", "S3Listing"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse.getDefaultInstance()));
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest,
+      tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse> getS3ListingMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "S3Listing",
+      requestType = tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest.class,
+      responseType = tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest,
+      tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse> getS3ListingMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest, tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse> getS3ListingMethod;
+    if ((getS3ListingMethod = S3InternalServiceGrpc.getS3ListingMethod) == null) {
+      synchronized (S3InternalServiceGrpc.class) {
+        if ((getS3ListingMethod = S3InternalServiceGrpc.getS3ListingMethod) == null) {
+          S3InternalServiceGrpc.getS3ListingMethod = getS3ListingMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest, tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "S3Listing"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new S3InternalServiceMethodDescriptorSupplier("S3Listing"))
+              .build();
+        }
+      }
+    }
+    return getS3ListingMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static S3InternalServiceStub newStub(io.grpc.Channel channel) {
-    return new S3InternalServiceStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<S3InternalServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<S3InternalServiceStub>() {
+        @java.lang.Override
+        public S3InternalServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new S3InternalServiceStub(channel, callOptions);
+        }
+      };
+    return S3InternalServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -49,15 +77,29 @@ public final class S3InternalServiceGrpc {
    */
   public static S3InternalServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new S3InternalServiceBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<S3InternalServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<S3InternalServiceBlockingStub>() {
+        @java.lang.Override
+        public S3InternalServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new S3InternalServiceBlockingStub(channel, callOptions);
+        }
+      };
+    return S3InternalServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new ListenableFuture-style stub that supports unary and streaming output calls on the service
+   * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
   public static S3InternalServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new S3InternalServiceFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<S3InternalServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<S3InternalServiceFutureStub>() {
+        @java.lang.Override
+        public S3InternalServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new S3InternalServiceFutureStub(channel, callOptions);
+        }
+      };
+    return S3InternalServiceFutureStub.newStub(factory, channel);
   }
 
   /**
@@ -68,13 +110,13 @@ public final class S3InternalServiceGrpc {
      */
     public void s3Listing(tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_S3LISTING, responseObserver);
+      asyncUnimplementedUnaryCall(getS3ListingMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            METHOD_S3LISTING,
+            getS3ListingMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest,
@@ -86,19 +128,15 @@ public final class S3InternalServiceGrpc {
 
   /**
    */
-  public static final class S3InternalServiceStub extends io.grpc.stub.AbstractStub<S3InternalServiceStub> {
-    private S3InternalServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private S3InternalServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class S3InternalServiceStub extends io.grpc.stub.AbstractAsyncStub<S3InternalServiceStub> {
+    private S3InternalServiceStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected S3InternalServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected S3InternalServiceStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new S3InternalServiceStub(channel, callOptions);
     }
 
@@ -107,25 +145,21 @@ public final class S3InternalServiceGrpc {
     public void s3Listing(tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_S3LISTING, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getS3ListingMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
   /**
    */
-  public static final class S3InternalServiceBlockingStub extends io.grpc.stub.AbstractStub<S3InternalServiceBlockingStub> {
-    private S3InternalServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private S3InternalServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class S3InternalServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<S3InternalServiceBlockingStub> {
+    private S3InternalServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected S3InternalServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected S3InternalServiceBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new S3InternalServiceBlockingStub(channel, callOptions);
     }
 
@@ -133,25 +167,21 @@ public final class S3InternalServiceGrpc {
      */
     public tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse s3Listing(tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_S3LISTING, getCallOptions(), request);
+          getChannel(), getS3ListingMethod(), getCallOptions(), request);
     }
   }
 
   /**
    */
-  public static final class S3InternalServiceFutureStub extends io.grpc.stub.AbstractStub<S3InternalServiceFutureStub> {
-    private S3InternalServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private S3InternalServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class S3InternalServiceFutureStub extends io.grpc.stub.AbstractFutureStub<S3InternalServiceFutureStub> {
+    private S3InternalServiceFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected S3InternalServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected S3InternalServiceFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new S3InternalServiceFutureStub(channel, callOptions);
     }
 
@@ -160,7 +190,7 @@ public final class S3InternalServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse> s3Listing(
         tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_S3LISTING, getCallOptions()), request);
+          getChannel().newCall(getS3ListingMethod(), getCallOptions()), request);
     }
   }
 
@@ -203,10 +233,38 @@ public final class S3InternalServiceGrpc {
     }
   }
 
-  private static final class S3InternalServiceDescriptorSupplier implements io.grpc.protobuf.ProtoFileDescriptorSupplier {
+  private static abstract class S3InternalServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
+    S3InternalServiceBaseDescriptorSupplier() {}
+
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
       return tech.ydb.s3_internal.v1.YdbS3InternalV1.getDescriptor();
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
+      return getFileDescriptor().findServiceByName("S3InternalService");
+    }
+  }
+
+  private static final class S3InternalServiceFileDescriptorSupplier
+      extends S3InternalServiceBaseDescriptorSupplier {
+    S3InternalServiceFileDescriptorSupplier() {}
+  }
+
+  private static final class S3InternalServiceMethodDescriptorSupplier
+      extends S3InternalServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
+    private final String methodName;
+
+    S3InternalServiceMethodDescriptorSupplier(String methodName) {
+      this.methodName = methodName;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.MethodDescriptor getMethodDescriptor() {
+      return getServiceDescriptor().findMethodByName(methodName);
     }
   }
 
@@ -219,8 +277,8 @@ public final class S3InternalServiceGrpc {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new S3InternalServiceDescriptorSupplier())
-              .addMethod(METHOD_S3LISTING)
+              .setSchemaDescriptor(new S3InternalServiceFileDescriptorSupplier())
+              .addMethod(getS3ListingMethod())
               .build();
         }
       }

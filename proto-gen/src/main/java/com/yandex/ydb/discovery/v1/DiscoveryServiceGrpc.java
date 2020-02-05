@@ -1,19 +1,19 @@
 package tech.ydb.discovery.v1;
 
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncUnaryCall;
+import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
+import static io.grpc.stub.ClientCalls.blockingUnaryCall;
+import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  */
@@ -27,30 +27,80 @@ public final class DiscoveryServiceGrpc {
   public static final String SERVICE_NAME = "Ydb.Discovery.V1.DiscoveryService";
 
   // Static method descriptors that strictly reflect the proto.
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest,
-      tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse> METHOD_LIST_ENDPOINTS =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Discovery.V1.DiscoveryService", "ListEndpoints"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest,
-      tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse> METHOD_WHO_AM_I =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Discovery.V1.DiscoveryService", "WhoAmI"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse.getDefaultInstance()));
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest,
+      tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse> getListEndpointsMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ListEndpoints",
+      requestType = tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest.class,
+      responseType = tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest,
+      tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse> getListEndpointsMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest, tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse> getListEndpointsMethod;
+    if ((getListEndpointsMethod = DiscoveryServiceGrpc.getListEndpointsMethod) == null) {
+      synchronized (DiscoveryServiceGrpc.class) {
+        if ((getListEndpointsMethod = DiscoveryServiceGrpc.getListEndpointsMethod) == null) {
+          DiscoveryServiceGrpc.getListEndpointsMethod = getListEndpointsMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest, tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ListEndpoints"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new DiscoveryServiceMethodDescriptorSupplier("ListEndpoints"))
+              .build();
+        }
+      }
+    }
+    return getListEndpointsMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest,
+      tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse> getWhoAmIMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "WhoAmI",
+      requestType = tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest.class,
+      responseType = tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest,
+      tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse> getWhoAmIMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest, tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse> getWhoAmIMethod;
+    if ((getWhoAmIMethod = DiscoveryServiceGrpc.getWhoAmIMethod) == null) {
+      synchronized (DiscoveryServiceGrpc.class) {
+        if ((getWhoAmIMethod = DiscoveryServiceGrpc.getWhoAmIMethod) == null) {
+          DiscoveryServiceGrpc.getWhoAmIMethod = getWhoAmIMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest, tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "WhoAmI"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new DiscoveryServiceMethodDescriptorSupplier("WhoAmI"))
+              .build();
+        }
+      }
+    }
+    return getWhoAmIMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static DiscoveryServiceStub newStub(io.grpc.Channel channel) {
-    return new DiscoveryServiceStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<DiscoveryServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<DiscoveryServiceStub>() {
+        @java.lang.Override
+        public DiscoveryServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new DiscoveryServiceStub(channel, callOptions);
+        }
+      };
+    return DiscoveryServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -58,15 +108,29 @@ public final class DiscoveryServiceGrpc {
    */
   public static DiscoveryServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new DiscoveryServiceBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<DiscoveryServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<DiscoveryServiceBlockingStub>() {
+        @java.lang.Override
+        public DiscoveryServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new DiscoveryServiceBlockingStub(channel, callOptions);
+        }
+      };
+    return DiscoveryServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new ListenableFuture-style stub that supports unary and streaming output calls on the service
+   * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
   public static DiscoveryServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new DiscoveryServiceFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<DiscoveryServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<DiscoveryServiceFutureStub>() {
+        @java.lang.Override
+        public DiscoveryServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new DiscoveryServiceFutureStub(channel, callOptions);
+        }
+      };
+    return DiscoveryServiceFutureStub.newStub(factory, channel);
   }
 
   /**
@@ -77,27 +141,27 @@ public final class DiscoveryServiceGrpc {
      */
     public void listEndpoints(tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_LIST_ENDPOINTS, responseObserver);
+      asyncUnimplementedUnaryCall(getListEndpointsMethod(), responseObserver);
     }
 
     /**
      */
     public void whoAmI(tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_WHO_AM_I, responseObserver);
+      asyncUnimplementedUnaryCall(getWhoAmIMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            METHOD_LIST_ENDPOINTS,
+            getListEndpointsMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest,
                 tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse>(
                   this, METHODID_LIST_ENDPOINTS)))
           .addMethod(
-            METHOD_WHO_AM_I,
+            getWhoAmIMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest,
@@ -109,19 +173,15 @@ public final class DiscoveryServiceGrpc {
 
   /**
    */
-  public static final class DiscoveryServiceStub extends io.grpc.stub.AbstractStub<DiscoveryServiceStub> {
-    private DiscoveryServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private DiscoveryServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class DiscoveryServiceStub extends io.grpc.stub.AbstractAsyncStub<DiscoveryServiceStub> {
+    private DiscoveryServiceStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected DiscoveryServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected DiscoveryServiceStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new DiscoveryServiceStub(channel, callOptions);
     }
 
@@ -130,7 +190,7 @@ public final class DiscoveryServiceGrpc {
     public void listEndpoints(tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_LIST_ENDPOINTS, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getListEndpointsMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -138,25 +198,21 @@ public final class DiscoveryServiceGrpc {
     public void whoAmI(tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_WHO_AM_I, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getWhoAmIMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
   /**
    */
-  public static final class DiscoveryServiceBlockingStub extends io.grpc.stub.AbstractStub<DiscoveryServiceBlockingStub> {
-    private DiscoveryServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private DiscoveryServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class DiscoveryServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<DiscoveryServiceBlockingStub> {
+    private DiscoveryServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected DiscoveryServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected DiscoveryServiceBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new DiscoveryServiceBlockingStub(channel, callOptions);
     }
 
@@ -164,32 +220,28 @@ public final class DiscoveryServiceGrpc {
      */
     public tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse listEndpoints(tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_LIST_ENDPOINTS, getCallOptions(), request);
+          getChannel(), getListEndpointsMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse whoAmI(tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_WHO_AM_I, getCallOptions(), request);
+          getChannel(), getWhoAmIMethod(), getCallOptions(), request);
     }
   }
 
   /**
    */
-  public static final class DiscoveryServiceFutureStub extends io.grpc.stub.AbstractStub<DiscoveryServiceFutureStub> {
-    private DiscoveryServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private DiscoveryServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class DiscoveryServiceFutureStub extends io.grpc.stub.AbstractFutureStub<DiscoveryServiceFutureStub> {
+    private DiscoveryServiceFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected DiscoveryServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected DiscoveryServiceFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new DiscoveryServiceFutureStub(channel, callOptions);
     }
 
@@ -198,7 +250,7 @@ public final class DiscoveryServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse> listEndpoints(
         tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_LIST_ENDPOINTS, getCallOptions()), request);
+          getChannel().newCall(getListEndpointsMethod(), getCallOptions()), request);
     }
 
     /**
@@ -206,7 +258,7 @@ public final class DiscoveryServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse> whoAmI(
         tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_WHO_AM_I, getCallOptions()), request);
+          getChannel().newCall(getWhoAmIMethod(), getCallOptions()), request);
     }
   }
 
@@ -254,10 +306,38 @@ public final class DiscoveryServiceGrpc {
     }
   }
 
-  private static final class DiscoveryServiceDescriptorSupplier implements io.grpc.protobuf.ProtoFileDescriptorSupplier {
+  private static abstract class DiscoveryServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
+    DiscoveryServiceBaseDescriptorSupplier() {}
+
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
       return tech.ydb.discovery.v1.YdbDiscoveryV1.getDescriptor();
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
+      return getFileDescriptor().findServiceByName("DiscoveryService");
+    }
+  }
+
+  private static final class DiscoveryServiceFileDescriptorSupplier
+      extends DiscoveryServiceBaseDescriptorSupplier {
+    DiscoveryServiceFileDescriptorSupplier() {}
+  }
+
+  private static final class DiscoveryServiceMethodDescriptorSupplier
+      extends DiscoveryServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
+    private final String methodName;
+
+    DiscoveryServiceMethodDescriptorSupplier(String methodName) {
+      this.methodName = methodName;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.MethodDescriptor getMethodDescriptor() {
+      return getServiceDescriptor().findMethodByName(methodName);
     }
   }
 
@@ -270,9 +350,9 @@ public final class DiscoveryServiceGrpc {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new DiscoveryServiceDescriptorSupplier())
-              .addMethod(METHOD_LIST_ENDPOINTS)
-              .addMethod(METHOD_WHO_AM_I)
+              .setSchemaDescriptor(new DiscoveryServiceFileDescriptorSupplier())
+              .addMethod(getListEndpointsMethod())
+              .addMethod(getWhoAmIMethod())
               .build();
         }
       }

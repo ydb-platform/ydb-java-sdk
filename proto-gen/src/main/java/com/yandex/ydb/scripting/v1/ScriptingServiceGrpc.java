@@ -1,19 +1,19 @@
 package tech.ydb.scripting.v1;
 
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ClientCalls.asyncUnaryCall;
+import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
+import static io.grpc.stub.ClientCalls.blockingUnaryCall;
+import static io.grpc.stub.ClientCalls.futureUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
+import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  */
@@ -27,21 +27,49 @@ public final class ScriptingServiceGrpc {
   public static final String SERVICE_NAME = "Ydb.Scripting.V1.ScriptingService";
 
   // Static method descriptors that strictly reflect the proto.
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static final io.grpc.MethodDescriptor<tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest,
-      tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse> METHOD_EXECUTE_YQL =
-      io.grpc.MethodDescriptor.create(
-          io.grpc.MethodDescriptor.MethodType.UNARY,
-          generateFullMethodName(
-              "Ydb.Scripting.V1.ScriptingService", "ExecuteYql"),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest.getDefaultInstance()),
-          io.grpc.protobuf.ProtoUtils.marshaller(tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse.getDefaultInstance()));
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest,
+      tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse> getExecuteYqlMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ExecuteYql",
+      requestType = tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest.class,
+      responseType = tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest,
+      tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse> getExecuteYqlMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest, tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse> getExecuteYqlMethod;
+    if ((getExecuteYqlMethod = ScriptingServiceGrpc.getExecuteYqlMethod) == null) {
+      synchronized (ScriptingServiceGrpc.class) {
+        if ((getExecuteYqlMethod = ScriptingServiceGrpc.getExecuteYqlMethod) == null) {
+          ScriptingServiceGrpc.getExecuteYqlMethod = getExecuteYqlMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest, tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ExecuteYql"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ScriptingServiceMethodDescriptorSupplier("ExecuteYql"))
+              .build();
+        }
+      }
+    }
+    return getExecuteYqlMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static ScriptingServiceStub newStub(io.grpc.Channel channel) {
-    return new ScriptingServiceStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<ScriptingServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ScriptingServiceStub>() {
+        @java.lang.Override
+        public ScriptingServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ScriptingServiceStub(channel, callOptions);
+        }
+      };
+    return ScriptingServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -49,15 +77,29 @@ public final class ScriptingServiceGrpc {
    */
   public static ScriptingServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new ScriptingServiceBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<ScriptingServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ScriptingServiceBlockingStub>() {
+        @java.lang.Override
+        public ScriptingServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ScriptingServiceBlockingStub(channel, callOptions);
+        }
+      };
+    return ScriptingServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
-   * Creates a new ListenableFuture-style stub that supports unary and streaming output calls on the service
+   * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
   public static ScriptingServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new ScriptingServiceFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<ScriptingServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<ScriptingServiceFutureStub>() {
+        @java.lang.Override
+        public ScriptingServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new ScriptingServiceFutureStub(channel, callOptions);
+        }
+      };
+    return ScriptingServiceFutureStub.newStub(factory, channel);
   }
 
   /**
@@ -68,13 +110,13 @@ public final class ScriptingServiceGrpc {
      */
     public void executeYql(tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(METHOD_EXECUTE_YQL, responseObserver);
+      asyncUnimplementedUnaryCall(getExecuteYqlMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            METHOD_EXECUTE_YQL,
+            getExecuteYqlMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest,
@@ -86,19 +128,15 @@ public final class ScriptingServiceGrpc {
 
   /**
    */
-  public static final class ScriptingServiceStub extends io.grpc.stub.AbstractStub<ScriptingServiceStub> {
-    private ScriptingServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private ScriptingServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class ScriptingServiceStub extends io.grpc.stub.AbstractAsyncStub<ScriptingServiceStub> {
+    private ScriptingServiceStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected ScriptingServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected ScriptingServiceStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new ScriptingServiceStub(channel, callOptions);
     }
 
@@ -107,25 +145,21 @@ public final class ScriptingServiceGrpc {
     public void executeYql(tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest request,
         io.grpc.stub.StreamObserver<tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(METHOD_EXECUTE_YQL, getCallOptions()), request, responseObserver);
+          getChannel().newCall(getExecuteYqlMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
   /**
    */
-  public static final class ScriptingServiceBlockingStub extends io.grpc.stub.AbstractStub<ScriptingServiceBlockingStub> {
-    private ScriptingServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private ScriptingServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class ScriptingServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<ScriptingServiceBlockingStub> {
+    private ScriptingServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected ScriptingServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected ScriptingServiceBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new ScriptingServiceBlockingStub(channel, callOptions);
     }
 
@@ -133,25 +167,21 @@ public final class ScriptingServiceGrpc {
      */
     public tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse executeYql(tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest request) {
       return blockingUnaryCall(
-          getChannel(), METHOD_EXECUTE_YQL, getCallOptions(), request);
+          getChannel(), getExecuteYqlMethod(), getCallOptions(), request);
     }
   }
 
   /**
    */
-  public static final class ScriptingServiceFutureStub extends io.grpc.stub.AbstractStub<ScriptingServiceFutureStub> {
-    private ScriptingServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private ScriptingServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class ScriptingServiceFutureStub extends io.grpc.stub.AbstractFutureStub<ScriptingServiceFutureStub> {
+    private ScriptingServiceFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected ScriptingServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected ScriptingServiceFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new ScriptingServiceFutureStub(channel, callOptions);
     }
 
@@ -160,7 +190,7 @@ public final class ScriptingServiceGrpc {
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse> executeYql(
         tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(METHOD_EXECUTE_YQL, getCallOptions()), request);
+          getChannel().newCall(getExecuteYqlMethod(), getCallOptions()), request);
     }
   }
 
@@ -203,10 +233,38 @@ public final class ScriptingServiceGrpc {
     }
   }
 
-  private static final class ScriptingServiceDescriptorSupplier implements io.grpc.protobuf.ProtoFileDescriptorSupplier {
+  private static abstract class ScriptingServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
+    ScriptingServiceBaseDescriptorSupplier() {}
+
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
       return tech.ydb.scripting.v1.YdbScriptingV1.getDescriptor();
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
+      return getFileDescriptor().findServiceByName("ScriptingService");
+    }
+  }
+
+  private static final class ScriptingServiceFileDescriptorSupplier
+      extends ScriptingServiceBaseDescriptorSupplier {
+    ScriptingServiceFileDescriptorSupplier() {}
+  }
+
+  private static final class ScriptingServiceMethodDescriptorSupplier
+      extends ScriptingServiceBaseDescriptorSupplier
+      implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
+    private final String methodName;
+
+    ScriptingServiceMethodDescriptorSupplier(String methodName) {
+      this.methodName = methodName;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.MethodDescriptor getMethodDescriptor() {
+      return getServiceDescriptor().findMethodByName(methodName);
     }
   }
 
@@ -219,8 +277,8 @@ public final class ScriptingServiceGrpc {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new ScriptingServiceDescriptorSupplier())
-              .addMethod(METHOD_EXECUTE_YQL)
+              .setSchemaDescriptor(new ScriptingServiceFileDescriptorSupplier())
+              .addMethod(getExecuteYqlMethod())
               .build();
         }
       }
