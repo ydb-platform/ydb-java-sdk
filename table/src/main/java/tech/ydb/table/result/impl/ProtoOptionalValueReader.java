@@ -24,6 +24,11 @@ final class ProtoOptionalValueReader extends AbstractValueReader {
     }
 
     @Override
+    protected ValueProtos.Value getValue() {
+        return itemReader.getValue();
+    }
+
+    @Override
     protected void setValue(ValueProtos.Value value) {
         switch (value.getValueCase()) {
             case NESTED_VALUE:

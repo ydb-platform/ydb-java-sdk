@@ -1,6 +1,7 @@
 package tech.ydb.table.result;
 
 import tech.ydb.table.values.Type;
+import tech.ydb.table.values.Value;
 
 /**
  * @author Sergey Polovko
@@ -16,6 +17,8 @@ public interface ValueReader extends
 {
 
     void toString(StringBuilder sb);
+
+    Value<?> getGenericValue();
 
     Type getValueType();
 

@@ -11,7 +11,9 @@ import tech.ydb.ValueProtos;
 import tech.ydb.table.result.ValueReader;
 import tech.ydb.table.values.DecimalValue;
 import tech.ydb.table.values.Type;
+import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
+import tech.ydb.table.values.proto.ProtoValue;
 
 
 /**
@@ -20,6 +22,8 @@ import tech.ydb.table.values.proto.ProtoType;
 abstract class AbstractValueReader implements ValueReader {
 
     protected abstract ValueProtos.Type getType();
+    protected abstract ValueProtos.Value getValue();
+
     protected abstract void setValue(ValueProtos.Value value);
 
     private RuntimeException error(String methodName) {
@@ -29,6 +33,11 @@ abstract class AbstractValueReader implements ValueReader {
     @Override
     public Type getValueType() {
         return ProtoType.fromPb(getType());
+    }
+
+    @Override
+    public Value<?> getGenericValue() {
+        return ProtoValue.fromPb(getValueType(), getValue());
     }
 
     @Override

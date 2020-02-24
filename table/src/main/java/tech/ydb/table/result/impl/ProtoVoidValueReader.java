@@ -2,6 +2,7 @@ package tech.ydb.table.result.impl;
 
 import tech.ydb.ValueProtos;
 import tech.ydb.table.values.proto.ProtoType;
+import tech.ydb.table.values.proto.ProtoValue;
 
 
 /**
@@ -15,6 +16,11 @@ final class ProtoVoidValueReader extends AbstractValueReader {
     @Override
     protected ValueProtos.Type getType() {
         return ProtoType.voidType();
+    }
+
+    @Override
+    protected ValueProtos.Value getValue() {
+        return ProtoValue.voidValue();
     }
 
     @Override

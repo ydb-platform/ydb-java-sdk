@@ -37,6 +37,7 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
         return type;
     }
 
+    @Override
     protected ValueProtos.Value getValue() {
         return value;
     }
@@ -276,11 +277,6 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
         @Override
         public Type getValueType() {
             return ProtoType.fromPb(optionalType);
-        }
-
-        @Override
-        protected ValueProtos.Value getValue() {
-            return super.getValue();
         }
 
         @Override

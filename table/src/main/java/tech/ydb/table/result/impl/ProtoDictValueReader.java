@@ -26,6 +26,11 @@ final class ProtoDictValueReader extends AbstractValueReader {
     }
 
     @Override
+    protected ValueProtos.Value getValue() {
+        return value;
+    }
+
+    @Override
     protected void setValue(ValueProtos.Value value) {
         this.value = value;
     }
