@@ -96,7 +96,7 @@ final class ProtoResultSetReader implements ResultSetReader {
             throw new IllegalStateException("empty result set or next() was never called");
         }
         AbstractValueReader reader = columnReaders[index];
-        reader.setValue(currentRow.getItems(index));
+        reader.setProtoValue(currentRow.getItems(index));
         return reader;
     }
 

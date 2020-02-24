@@ -19,17 +19,17 @@ final class ProtoTupleValueReader extends AbstractValueReader {
     }
 
     @Override
-    protected ValueProtos.Type getType() {
+    protected ValueProtos.Type getProtoType() {
         return type;
     }
 
     @Override
-    protected ValueProtos.Value getValue() {
+    protected ValueProtos.Value getProtoValue() {
         return value;
     }
 
     @Override
-    protected void setValue(ValueProtos.Value value) {
+    protected void setProtoValue(ValueProtos.Value value) {
         this.value = value;
     }
 
@@ -41,7 +41,7 @@ final class ProtoTupleValueReader extends AbstractValueReader {
     @Override
     public ValueReader getTupleElement(int index) {
         AbstractValueReader elementReader = elementReaders[index];
-        elementReader.setValue(value.getItems(index));
+        elementReader.setProtoValue(value.getItems(index));
         return elementReader;
     }
 

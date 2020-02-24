@@ -14,17 +14,17 @@ final class ProtoVoidValueReader extends AbstractValueReader {
     static final ProtoVoidValueReader INSTANCE = new ProtoVoidValueReader();
 
     @Override
-    protected ValueProtos.Type getType() {
+    protected ValueProtos.Type getProtoType() {
         return ProtoType.voidType();
     }
 
     @Override
-    protected ValueProtos.Value getValue() {
+    protected ValueProtos.Value getProtoValue() {
         return ProtoValue.voidValue();
     }
 
     @Override
-    protected void setValue(ValueProtos.Value value) {
+    protected void setProtoValue(ValueProtos.Value value) {
         // skip
     }
 

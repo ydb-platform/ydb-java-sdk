@@ -19,29 +19,29 @@ final class ProtoOptionalValueReader extends AbstractValueReader {
     }
 
     @Override
-    protected ValueProtos.Type getType() {
+    protected ValueProtos.Type getProtoType() {
         return type;
     }
 
     @Override
-    protected ValueProtos.Value getValue() {
-        return itemReader.getValue();
+    protected ValueProtos.Value getProtoValue() {
+        return itemReader.getProtoValue();
     }
 
     @Override
-    protected void setValue(ValueProtos.Value value) {
+    protected void setProtoValue(ValueProtos.Value value) {
         switch (value.getValueCase()) {
             case NESTED_VALUE:
                 present = true;
-                itemReader.setValue(value.getNestedValue());
+                itemReader.setProtoValue(value.getNestedValue());
                 break;
             case NULL_FLAG_VALUE:
                 present = false;
-                itemReader.setValue(ValueProtos.Value.getDefaultInstance()); // for cleanup
+                itemReader.setProtoValue(ValueProtos.Value.getDefaultInstance()); // for cleanup
                 break;
             default:
                 present = true;
-                itemReader.setValue(value);
+                itemReader.setProtoValue(value);
                 break;
         }
     }

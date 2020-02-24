@@ -33,17 +33,17 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     }
 
     @Override
-    protected ValueProtos.Type getType() {
+    protected ValueProtos.Type getProtoType() {
         return type;
     }
 
     @Override
-    protected ValueProtos.Value getValue() {
+    protected ValueProtos.Value getProtoValue() {
         return value;
     }
 
     @Override
-    protected void setValue(ValueProtos.Value value) {
+    protected void setProtoValue(ValueProtos.Value value) {
         this.value = value;
     }
 
@@ -190,7 +190,7 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
         if (type.getTypeCase() != ValueProtos.Type.TypeCase.DECIMAL_TYPE) {
             throw new IllegalStateException(
                 "types mismatch, expected Decimal" +
-                    ", but was " + ProtoType.toString(getType()));
+                    ", but was " + ProtoType.toString(getProtoType()));
         }
         return ProtoValue.toDecimal(type, value);
     }
@@ -199,7 +199,7 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
         if (primitiveTypeId != expected) {
             throw new IllegalStateException(
                 "types mismatch, expected " + expected +
-                ", but was " + ProtoType.toString(getType()));
+                ", but was " + ProtoType.toString(getProtoType()));
         }
     }
 
@@ -275,7 +275,7 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
         }
 
         @Override
-        public Type getValueType() {
+        public Type getType() {
             return ProtoType.fromPb(optionalType);
         }
 
@@ -290,14 +290,14 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
         }
 
         @Override
-        protected void setValue(ValueProtos.Value value) {
+        protected void setProtoValue(ValueProtos.Value value) {
             if (value.getValueCase() == ValueProtos.Value.ValueCase.NULL_FLAG_VALUE) {
                 present = false;
                 value = ValueProtos.Value.getDefaultInstance(); // for cleanup
             } else {
                 present = true;
             }
-            super.setValue(value);
+            super.setProtoValue(value);
         }
 
         @Override

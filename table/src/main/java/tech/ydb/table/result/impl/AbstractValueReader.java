@@ -21,23 +21,24 @@ import tech.ydb.table.values.proto.ProtoValue;
  */
 abstract class AbstractValueReader implements ValueReader {
 
-    protected abstract ValueProtos.Type getType();
-    protected abstract ValueProtos.Value getValue();
+    protected abstract ValueProtos.Type getProtoType();
 
-    protected abstract void setValue(ValueProtos.Value value);
+    protected abstract ValueProtos.Value getProtoValue();
+    protected abstract void setProtoValue(ValueProtos.Value value);
 
     private RuntimeException error(String methodName) {
-        throw new IllegalStateException("cannot call " + methodName + ", actual type: " + ProtoType.toString(getType()));
+        throw new IllegalStateException("cannot call " + methodName + ", actual type: " + ProtoType.toString(
+            getProtoType()));
     }
 
     @Override
-    public Type getValueType() {
-        return ProtoType.fromPb(getType());
+    public Type getType() {
+        return ProtoType.fromPb(getProtoType());
     }
 
     @Override
-    public Value<?> getGenericValue() {
-        return ProtoValue.fromPb(getValueType(), getValue());
+    public Value<?> getValue() {
+        return ProtoValue.fromPb(getType(), getProtoValue());
     }
 
     @Override

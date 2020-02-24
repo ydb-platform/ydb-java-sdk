@@ -32,17 +32,17 @@ final class ProtoStructValueReader extends AbstractValueReader {
     }
 
     @Override
-    protected ValueProtos.Type getType() {
+    protected ValueProtos.Type getProtoType() {
         return type;
     }
 
     @Override
-    protected ValueProtos.Value getValue() {
+    protected ValueProtos.Value getProtoValue() {
         return value;
     }
 
     @Override
-    protected void setValue(ValueProtos.Value value) {
+    protected void setProtoValue(ValueProtos.Value value) {
         this.value = value;
     }
 
@@ -59,7 +59,7 @@ final class ProtoStructValueReader extends AbstractValueReader {
     @Override
     public ValueReader getStructMember(int index) {
         AbstractValueReader memberReader = memberReaders[index];
-        memberReader.setValue(value.getItems(index));
+        memberReader.setProtoValue(value.getItems(index));
         return memberReader;
     }
 

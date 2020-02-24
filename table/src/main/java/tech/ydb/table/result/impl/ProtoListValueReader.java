@@ -19,17 +19,17 @@ final class ProtoListValueReader extends AbstractValueReader {
     }
 
     @Override
-    protected ValueProtos.Type getType() {
+    protected ValueProtos.Type getProtoType() {
         return type;
     }
 
     @Override
-    protected ValueProtos.Value getValue() {
+    protected ValueProtos.Value getProtoValue() {
         return value;
     }
 
     @Override
-    protected void setValue(ValueProtos.Value value) {
+    protected void setProtoValue(ValueProtos.Value value) {
         this.value = value;
     }
 
@@ -40,7 +40,7 @@ final class ProtoListValueReader extends AbstractValueReader {
 
     @Override
     public ValueReader getListItem(int index) {
-        itemReader.setValue(value.getItems(index));
+        itemReader.setProtoValue(value.getItems(index));
         return itemReader;
     }
 

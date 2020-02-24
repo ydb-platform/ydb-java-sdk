@@ -19,7 +19,7 @@ public class TupleReaderTest {
         ValueProtos.Value value = ProtoValue.tuple();
 
         AbstractValueReader reader = ProtoValueReaders.forTypeImpl(type);
-        reader.setValue(value);
+        reader.setProtoValue(value);
 
         Assert.assertTrue(reader instanceof ProtoTupleValueReader);
         Assert.assertEquals(0, reader.getTupleElementsCount());
@@ -38,7 +38,7 @@ public class TupleReaderTest {
             ProtoValue.float64(3.14159));
 
         AbstractValueReader reader = ProtoValueReaders.forTypeImpl(type);
-        reader.setValue(value);
+        reader.setProtoValue(value);
 
         Assert.assertTrue(reader instanceof ProtoTupleValueReader);
         Assert.assertEquals(3, reader.getTupleElementsCount());
@@ -59,7 +59,7 @@ public class TupleReaderTest {
             ProtoValue.tuple(ProtoValue.uint32(37), ProtoValue.utf8("bye")));
 
         AbstractValueReader reader = ProtoValueReaders.forTypeImpl(type);
-        reader.setValue(value);
+        reader.setProtoValue(value);
 
         Assert.assertTrue(reader instanceof ProtoTupleValueReader);
         Assert.assertEquals(2, reader.getTupleElementsCount());

@@ -21,17 +21,17 @@ final class ProtoDictValueReader extends AbstractValueReader {
     }
 
     @Override
-    protected ValueProtos.Type getType() {
+    protected ValueProtos.Type getProtoType() {
         return type;
     }
 
     @Override
-    protected ValueProtos.Value getValue() {
+    protected ValueProtos.Value getProtoValue() {
         return value;
     }
 
     @Override
-    protected void setValue(ValueProtos.Value value) {
+    protected void setProtoValue(ValueProtos.Value value) {
         this.value = value;
     }
 
@@ -43,14 +43,14 @@ final class ProtoDictValueReader extends AbstractValueReader {
     @Override
     public ValueReader getDictKey(int index) {
         ValueProtos.ValuePair pair = value.getPairs(index);
-        keyReader.setValue(pair.getKey());
+        keyReader.setProtoValue(pair.getKey());
         return keyReader;
     }
 
     @Override
     public ValueReader getDictValue(int index) {
         ValueProtos.ValuePair pair = value.getPairs(index);
-        valueReader.setValue(pair.getPayload());
+        valueReader.setProtoValue(pair.getPayload());
         return valueReader;
     }
 
