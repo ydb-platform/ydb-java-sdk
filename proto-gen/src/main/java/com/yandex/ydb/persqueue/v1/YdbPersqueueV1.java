@@ -27,14 +27,15 @@ public final class YdbPersqueueV1 {
       "ueue_v1.proto\022\020Ydb.PersQueue.V1\032>kikimr/" +
       "public/api/protos/ydb_persqueue_cluster_" +
       "discovery.proto\032/kikimr/public/api/proto" +
-      "s/ydb_persqueue_v1.proto2\255\002\n\020PersQueueSe" +
-      "rvice\022a\n\022CreateWriteSession\022\".Ydb.PersQu" +
-      "eue.WriteSessionRequest\032#.Ydb.PersQueue." +
-      "WriteSessionResponse(\0010\001\022^\n\021CreateReadSe" +
-      "ssion\022!.Ydb.PersQueue.ReadSessionRequest" +
-      "\032\".Ydb.PersQueue.ReadSessionResponse(\0010\001",
-      "\022V\n\023GetReadSessionsInfo\022\036.Ydb.PersQueue." +
-      "ReadInfoRequest\032\037.Ydb.PersQueue.ReadInfo" +
+      "s/ydb_persqueue_v1.proto2\325\002\n\020PersQueueSe" +
+      "rvice\022r\n\016StreamingWrite\022-.Ydb.PersQueue." +
+      "V1.StreamingWriteClientMessage\032-.Ydb.Per" +
+      "sQueue.V1.StreamingWriteServerMessage(\0010" +
+      "\001\022o\n\rStreamingRead\022,.Ydb.PersQueue.V1.St" +
+      "reamingReadClientMessage\032,.Ydb.PersQueue",
+      ".V1.StreamingReadServerMessage(\0010\001\022\\\n\023Ge" +
+      "tReadSessionsInfo\022!.Ydb.PersQueue.V1.Rea" +
+      "dInfoRequest\032\".Ydb.PersQueue.V1.ReadInfo" +
       "Response2\241\001\n\027ClusterDiscoveryService\022\205\001\n" +
       "\020DiscoverClusters\0227.Ydb.PersQueue.Cluste" +
       "rDiscovery.DiscoverClustersRequest\0328.Ydb" +

@@ -8874,6 +8874,11 @@ public final class ClickhouseInternalProtos {
      */
     com.google.protobuf.ByteString
         getPathBytes(int index);
+
+    /**
+     * <code>bool ignore_system_views = 3;</code>
+     */
+    boolean getIgnoreSystemViews();
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.CreateSnapshotRequest}
@@ -8889,6 +8894,7 @@ public final class ClickhouseInternalProtos {
     }
     private CreateSnapshotRequest() {
       path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      ignoreSystemViews_ = false;
     }
 
     @java.lang.Override
@@ -8939,6 +8945,11 @@ public final class ClickhouseInternalProtos {
                 mutable_bitField0_ |= 0x00000002;
               }
               path_.add(s);
+              break;
+            }
+            case 24: {
+
+              ignoreSystemViews_ = input.readBool();
               break;
             }
           }
@@ -9019,6 +9030,15 @@ public final class ClickhouseInternalProtos {
       return path_.getByteString(index);
     }
 
+    public static final int IGNORE_SYSTEM_VIEWS_FIELD_NUMBER = 3;
+    private boolean ignoreSystemViews_;
+    /**
+     * <code>bool ignore_system_views = 3;</code>
+     */
+    public boolean getIgnoreSystemViews() {
+      return ignoreSystemViews_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -9036,6 +9056,9 @@ public final class ClickhouseInternalProtos {
       }
       for (int i = 0; i < path_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, path_.getRaw(i));
+      }
+      if (ignoreSystemViews_ != false) {
+        output.writeBool(3, ignoreSystemViews_);
       }
       unknownFields.writeTo(output);
     }
@@ -9056,6 +9079,10 @@ public final class ClickhouseInternalProtos {
         }
         size += dataSize;
         size += 1 * getPathList().size();
+      }
+      if (ignoreSystemViews_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, ignoreSystemViews_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -9080,6 +9107,8 @@ public final class ClickhouseInternalProtos {
       }
       result = result && getPathList()
           .equals(other.getPathList());
+      result = result && (getIgnoreSystemViews()
+          == other.getIgnoreSystemViews());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -9099,6 +9128,9 @@ public final class ClickhouseInternalProtos {
         hash = (37 * hash) + PATH_FIELD_NUMBER;
         hash = (53 * hash) + getPathList().hashCode();
       }
+      hash = (37 * hash) + IGNORE_SYSTEM_VIEWS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIgnoreSystemViews());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -9236,6 +9268,8 @@ public final class ClickhouseInternalProtos {
         }
         path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
+        ignoreSystemViews_ = false;
+
         return this;
       }
 
@@ -9270,6 +9304,7 @@ public final class ClickhouseInternalProtos {
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.path_ = path_;
+        result.ignoreSystemViews_ = ignoreSystemViews_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -9324,6 +9359,9 @@ public final class ClickhouseInternalProtos {
             path_.addAll(other.path_);
           }
           onChanged();
+        }
+        if (other.getIgnoreSystemViews() != false) {
+          setIgnoreSystemViews(other.getIgnoreSystemViews());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -9560,6 +9598,32 @@ public final class ClickhouseInternalProtos {
   checkByteStringIsUtf8(value);
         ensurePathIsMutable();
         path_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private boolean ignoreSystemViews_ ;
+      /**
+       * <code>bool ignore_system_views = 3;</code>
+       */
+      public boolean getIgnoreSystemViews() {
+        return ignoreSystemViews_;
+      }
+      /**
+       * <code>bool ignore_system_views = 3;</code>
+       */
+      public Builder setIgnoreSystemViews(boolean value) {
+        
+        ignoreSystemViews_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool ignore_system_views = 3;</code>
+       */
+      public Builder clearIgnoreSystemViews() {
+        
+        ignoreSystemViews_ = false;
         onChanged();
         return this;
       }
@@ -10822,6 +10886,11 @@ public final class ClickhouseInternalProtos {
      */
     com.google.protobuf.ByteString
         getSnapshotIdBytes();
+
+    /**
+     * <code>bool ignore_system_views = 4;</code>
+     */
+    boolean getIgnoreSystemViews();
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.RefreshSnapshotRequest}
@@ -10838,6 +10907,7 @@ public final class ClickhouseInternalProtos {
     private RefreshSnapshotRequest() {
       path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       snapshotId_ = "";
+      ignoreSystemViews_ = false;
     }
 
     @java.lang.Override
@@ -10894,6 +10964,11 @@ public final class ClickhouseInternalProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               snapshotId_ = s;
+              break;
+            }
+            case 32: {
+
+              ignoreSystemViews_ = input.readBool();
               break;
             }
           }
@@ -11008,6 +11083,15 @@ public final class ClickhouseInternalProtos {
       }
     }
 
+    public static final int IGNORE_SYSTEM_VIEWS_FIELD_NUMBER = 4;
+    private boolean ignoreSystemViews_;
+    /**
+     * <code>bool ignore_system_views = 4;</code>
+     */
+    public boolean getIgnoreSystemViews() {
+      return ignoreSystemViews_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -11028,6 +11112,9 @@ public final class ClickhouseInternalProtos {
       }
       if (!getSnapshotIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, snapshotId_);
+      }
+      if (ignoreSystemViews_ != false) {
+        output.writeBool(4, ignoreSystemViews_);
       }
       unknownFields.writeTo(output);
     }
@@ -11051,6 +11138,10 @@ public final class ClickhouseInternalProtos {
       }
       if (!getSnapshotIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, snapshotId_);
+      }
+      if (ignoreSystemViews_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, ignoreSystemViews_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -11077,6 +11168,8 @@ public final class ClickhouseInternalProtos {
           .equals(other.getPathList());
       result = result && getSnapshotId()
           .equals(other.getSnapshotId());
+      result = result && (getIgnoreSystemViews()
+          == other.getIgnoreSystemViews());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -11098,6 +11191,9 @@ public final class ClickhouseInternalProtos {
       }
       hash = (37 * hash) + SNAPSHOT_ID_FIELD_NUMBER;
       hash = (53 * hash) + getSnapshotId().hashCode();
+      hash = (37 * hash) + IGNORE_SYSTEM_VIEWS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIgnoreSystemViews());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -11237,6 +11333,8 @@ public final class ClickhouseInternalProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         snapshotId_ = "";
 
+        ignoreSystemViews_ = false;
+
         return this;
       }
 
@@ -11272,6 +11370,7 @@ public final class ClickhouseInternalProtos {
         }
         result.path_ = path_;
         result.snapshotId_ = snapshotId_;
+        result.ignoreSystemViews_ = ignoreSystemViews_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -11330,6 +11429,9 @@ public final class ClickhouseInternalProtos {
         if (!other.getSnapshotId().isEmpty()) {
           snapshotId_ = other.snapshotId_;
           onChanged();
+        }
+        if (other.getIgnoreSystemViews() != false) {
+          setIgnoreSystemViews(other.getIgnoreSystemViews());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -11635,6 +11737,32 @@ public final class ClickhouseInternalProtos {
   checkByteStringIsUtf8(value);
         
         snapshotId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean ignoreSystemViews_ ;
+      /**
+       * <code>bool ignore_system_views = 4;</code>
+       */
+      public boolean getIgnoreSystemViews() {
+        return ignoreSystemViews_;
+      }
+      /**
+       * <code>bool ignore_system_views = 4;</code>
+       */
+      public Builder setIgnoreSystemViews(boolean value) {
+        
+        ignoreSystemViews_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool ignore_system_views = 4;</code>
+       */
+      public Builder clearIgnoreSystemViews() {
+        
+        ignoreSystemViews_ = false;
         onChanged();
         return this;
       }
@@ -12833,6 +12961,11 @@ public final class ClickhouseInternalProtos {
      */
     com.google.protobuf.ByteString
         getSnapshotIdBytes();
+
+    /**
+     * <code>bool ignore_system_views = 4;</code>
+     */
+    boolean getIgnoreSystemViews();
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.DiscardSnapshotRequest}
@@ -12849,6 +12982,7 @@ public final class ClickhouseInternalProtos {
     private DiscardSnapshotRequest() {
       path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       snapshotId_ = "";
+      ignoreSystemViews_ = false;
     }
 
     @java.lang.Override
@@ -12905,6 +13039,11 @@ public final class ClickhouseInternalProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               snapshotId_ = s;
+              break;
+            }
+            case 32: {
+
+              ignoreSystemViews_ = input.readBool();
               break;
             }
           }
@@ -13019,6 +13158,15 @@ public final class ClickhouseInternalProtos {
       }
     }
 
+    public static final int IGNORE_SYSTEM_VIEWS_FIELD_NUMBER = 4;
+    private boolean ignoreSystemViews_;
+    /**
+     * <code>bool ignore_system_views = 4;</code>
+     */
+    public boolean getIgnoreSystemViews() {
+      return ignoreSystemViews_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -13039,6 +13187,9 @@ public final class ClickhouseInternalProtos {
       }
       if (!getSnapshotIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, snapshotId_);
+      }
+      if (ignoreSystemViews_ != false) {
+        output.writeBool(4, ignoreSystemViews_);
       }
       unknownFields.writeTo(output);
     }
@@ -13062,6 +13213,10 @@ public final class ClickhouseInternalProtos {
       }
       if (!getSnapshotIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, snapshotId_);
+      }
+      if (ignoreSystemViews_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, ignoreSystemViews_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -13088,6 +13243,8 @@ public final class ClickhouseInternalProtos {
           .equals(other.getPathList());
       result = result && getSnapshotId()
           .equals(other.getSnapshotId());
+      result = result && (getIgnoreSystemViews()
+          == other.getIgnoreSystemViews());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -13109,6 +13266,9 @@ public final class ClickhouseInternalProtos {
       }
       hash = (37 * hash) + SNAPSHOT_ID_FIELD_NUMBER;
       hash = (53 * hash) + getSnapshotId().hashCode();
+      hash = (37 * hash) + IGNORE_SYSTEM_VIEWS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIgnoreSystemViews());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -13248,6 +13408,8 @@ public final class ClickhouseInternalProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         snapshotId_ = "";
 
+        ignoreSystemViews_ = false;
+
         return this;
       }
 
@@ -13283,6 +13445,7 @@ public final class ClickhouseInternalProtos {
         }
         result.path_ = path_;
         result.snapshotId_ = snapshotId_;
+        result.ignoreSystemViews_ = ignoreSystemViews_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -13341,6 +13504,9 @@ public final class ClickhouseInternalProtos {
         if (!other.getSnapshotId().isEmpty()) {
           snapshotId_ = other.snapshotId_;
           onChanged();
+        }
+        if (other.getIgnoreSystemViews() != false) {
+          setIgnoreSystemViews(other.getIgnoreSystemViews());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -13646,6 +13812,32 @@ public final class ClickhouseInternalProtos {
   checkByteStringIsUtf8(value);
         
         snapshotId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean ignoreSystemViews_ ;
+      /**
+       * <code>bool ignore_system_views = 4;</code>
+       */
+      public boolean getIgnoreSystemViews() {
+        return ignoreSystemViews_;
+      }
+      /**
+       * <code>bool ignore_system_views = 4;</code>
+       */
+      public Builder setIgnoreSystemViews(boolean value) {
+        
+        ignoreSystemViews_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool ignore_system_views = 4;</code>
+       */
+      public Builder clearIgnoreSystemViews() {
+        
+        ignoreSystemViews_ = false;
         onChanged();
         return this;
       }
@@ -14941,26 +15133,29 @@ public final class ClickhouseInternalProtos {
       "tions\030\004 \003(\0132%.Ydb.ClickhouseInternal.Par" +
       "titionInfo\022\022\n\nis_virtual\030\005 \001(\010\"E\n\025Descri" +
       "beTableResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
-      ".Operations.Operation\"`\n\025CreateSnapshotR" +
+      ".Operations.Operation\"}\n\025CreateSnapshotR" +
       "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
-      "perations.OperationParams\022\014\n\004path\030\002 \003(\t\"" +
-      "?\n\024CreateSnapshotResult\022\023\n\013snapshot_id\030\001" +
-      " \001(\t\022\022\n\ntimeout_ms\030\002 \001(\004\"F\n\026CreateSnapsh" +
-      "otResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
-      "ations.Operation\"v\n\026RefreshSnapshotReque",
-      "st\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Opera" +
-      "tions.OperationParams\022\014\n\004path\030\002 \003(\t\022\023\n\013s" +
-      "napshot_id\030\003 \001(\t\",\n\025RefreshSnapshotResul" +
-      "t\022\023\n\013snapshot_id\030\001 \001(\t\"G\n\027RefreshSnapsho" +
-      "tResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
-      "tions.Operation\"v\n\026DiscardSnapshotReques" +
-      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\022\014\n\004path\030\002 \003(\t\022\023\n\013sn" +
-      "apshot_id\030\003 \001(\t\",\n\025DiscardSnapshotResult" +
-      "\022\023\n\013snapshot_id\030\001 \001(\t\"G\n\027DiscardSnapshot",
-      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
-      "ions.OperationB8\n\031tech.ydb.clickho" +
-      "useB\030ClickhouseInternalProtos\370\001\001b\006proto3"
+      "perations.OperationParams\022\014\n\004path\030\002 \003(\t\022" +
+      "\033\n\023ignore_system_views\030\003 \001(\010\"?\n\024CreateSn" +
+      "apshotResult\022\023\n\013snapshot_id\030\001 \001(\t\022\022\n\ntim" +
+      "eout_ms\030\002 \001(\004\"F\n\026CreateSnapshotResponse\022" +
+      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper",
+      "ation\"\223\001\n\026RefreshSnapshotRequest\0229\n\020oper" +
+      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
+      "ationParams\022\014\n\004path\030\002 \003(\t\022\023\n\013snapshot_id" +
+      "\030\003 \001(\t\022\033\n\023ignore_system_views\030\004 \001(\010\",\n\025R" +
+      "efreshSnapshotResult\022\023\n\013snapshot_id\030\001 \001(" +
+      "\t\"G\n\027RefreshSnapshotResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\223\001\n\026D" +
+      "iscardSnapshotRequest\0229\n\020operation_param" +
+      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
+      "\022\014\n\004path\030\002 \003(\t\022\023\n\013snapshot_id\030\003 \001(\t\022\033\n\023i",
+      "gnore_system_views\030\004 \001(\010\",\n\025DiscardSnaps" +
+      "hotResult\022\023\n\013snapshot_id\030\001 \001(\t\"G\n\027Discar" +
+      "dSnapshotResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
+      "db.Operations.OperationB8\n\031com.yandex.yd" +
+      "b.clickhouseB\030ClickhouseInternalProtos\370\001" +
+      "\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -15047,7 +15242,7 @@ public final class ClickhouseInternalProtos {
     internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Path", });
+        new java.lang.String[] { "OperationParams", "Path", "IgnoreSystemViews", });
     internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_descriptor =
       getDescriptor().getMessageTypes().get(12);
     internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_fieldAccessorTable = new
@@ -15065,7 +15260,7 @@ public final class ClickhouseInternalProtos {
     internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Path", "SnapshotId", });
+        new java.lang.String[] { "OperationParams", "Path", "SnapshotId", "IgnoreSystemViews", });
     internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_descriptor =
       getDescriptor().getMessageTypes().get(15);
     internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_fieldAccessorTable = new
@@ -15083,7 +15278,7 @@ public final class ClickhouseInternalProtos {
     internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Path", "SnapshotId", });
+        new java.lang.String[] { "OperationParams", "Path", "SnapshotId", "IgnoreSystemViews", });
     internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_descriptor =
       getDescriptor().getMessageTypes().get(18);
     internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_fieldAccessorTable = new

@@ -19,6 +19,10 @@ public final class YdbExport {
       com.google.protobuf.MessageOrBuilder {
   }
   /**
+   * <pre>
+   *&#47; Common
+   * </pre>
+   *
    * Protobuf type {@code Ydb.Export.ExportProgress}
    */
   public  static final class ExportProgress extends
@@ -359,6 +363,10 @@ public final class YdbExport {
       return builder;
     }
     /**
+     * <pre>
+     *&#47; Common
+     * </pre>
+     *
      * Protobuf type {@code Ydb.Export.ExportProgress}
      */
     public static final class Builder extends
@@ -599,8 +607,17 @@ public final class YdbExport {
      * <code>uint32 number_of_retries = 6;</code>
      */
     int getNumberOfRetries();
+
+    /**
+     * <code>bool use_type_v3 = 7;</code>
+     */
+    boolean getUseTypeV3();
   }
   /**
+   * <pre>
+   *&#47; YT
+   * </pre>
+   *
    * Protobuf type {@code Ydb.Export.ExportToYtSettings}
    */
   public  static final class ExportToYtSettings extends
@@ -619,6 +636,7 @@ public final class YdbExport {
       items_ = java.util.Collections.emptyList();
       description_ = "";
       numberOfRetries_ = 0;
+      useTypeV3_ = false;
     }
 
     @java.lang.Override
@@ -686,6 +704,11 @@ public final class YdbExport {
               numberOfRetries_ = input.readUInt32();
               break;
             }
+            case 56: {
+
+              useTypeV3_ = input.readBool();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -719,7 +742,7 @@ public final class YdbExport {
 
       /**
        * <pre>
-       * Database path to a directory or a table to be exported
+       * Database path to a table to be exported
        * </pre>
        *
        * <code>string source_path = 1 [(.Ydb.required) = true];</code>
@@ -727,7 +750,7 @@ public final class YdbExport {
       java.lang.String getSourcePath();
       /**
        * <pre>
-       * Database path to a directory or a table to be exported
+       * Database path to a table to be exported
        * </pre>
        *
        * <code>string source_path = 1 [(.Ydb.required) = true];</code>
@@ -830,7 +853,7 @@ public final class YdbExport {
       private volatile java.lang.Object sourcePath_;
       /**
        * <pre>
-       * Database path to a directory or a table to be exported
+       * Database path to a table to be exported
        * </pre>
        *
        * <code>string source_path = 1 [(.Ydb.required) = true];</code>
@@ -849,7 +872,7 @@ public final class YdbExport {
       }
       /**
        * <pre>
-       * Database path to a directory or a table to be exported
+       * Database path to a table to be exported
        * </pre>
        *
        * <code>string source_path = 1 [(.Ydb.required) = true];</code>
@@ -1205,7 +1228,7 @@ public final class YdbExport {
         private java.lang.Object sourcePath_ = "";
         /**
          * <pre>
-         * Database path to a directory or a table to be exported
+         * Database path to a table to be exported
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
@@ -1224,7 +1247,7 @@ public final class YdbExport {
         }
         /**
          * <pre>
-         * Database path to a directory or a table to be exported
+         * Database path to a table to be exported
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
@@ -1244,7 +1267,7 @@ public final class YdbExport {
         }
         /**
          * <pre>
-         * Database path to a directory or a table to be exported
+         * Database path to a table to be exported
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
@@ -1261,7 +1284,7 @@ public final class YdbExport {
         }
         /**
          * <pre>
-         * Database path to a directory or a table to be exported
+         * Database path to a table to be exported
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
@@ -1274,7 +1297,7 @@ public final class YdbExport {
         }
         /**
          * <pre>
-         * Database path to a directory or a table to be exported
+         * Database path to a table to be exported
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
@@ -1564,6 +1587,15 @@ public final class YdbExport {
       return numberOfRetries_;
     }
 
+    public static final int USE_TYPE_V3_FIELD_NUMBER = 7;
+    private boolean useTypeV3_;
+    /**
+     * <code>bool use_type_v3 = 7;</code>
+     */
+    public boolean getUseTypeV3() {
+      return useTypeV3_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1594,6 +1626,9 @@ public final class YdbExport {
       if (numberOfRetries_ != 0) {
         output.writeUInt32(6, numberOfRetries_);
       }
+      if (useTypeV3_ != false) {
+        output.writeBool(7, useTypeV3_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1623,6 +1658,10 @@ public final class YdbExport {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(6, numberOfRetries_);
       }
+      if (useTypeV3_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(7, useTypeV3_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -1651,6 +1690,8 @@ public final class YdbExport {
           .equals(other.getDescription());
       result = result && (getNumberOfRetries()
           == other.getNumberOfRetries());
+      result = result && (getUseTypeV3()
+          == other.getUseTypeV3());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1676,6 +1717,9 @@ public final class YdbExport {
       hash = (53 * hash) + getDescription().hashCode();
       hash = (37 * hash) + NUMBER_OF_RETRIES_FIELD_NUMBER;
       hash = (53 * hash) + getNumberOfRetries();
+      hash = (37 * hash) + USE_TYPE_V3_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getUseTypeV3());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1770,6 +1814,10 @@ public final class YdbExport {
       return builder;
     }
     /**
+     * <pre>
+     *&#47; YT
+     * </pre>
+     *
      * Protobuf type {@code Ydb.Export.ExportToYtSettings}
      */
     public static final class Builder extends
@@ -1822,6 +1870,8 @@ public final class YdbExport {
 
         numberOfRetries_ = 0;
 
+        useTypeV3_ = false;
+
         return this;
       }
 
@@ -1860,6 +1910,7 @@ public final class YdbExport {
         }
         result.description_ = description_;
         result.numberOfRetries_ = numberOfRetries_;
+        result.useTypeV3_ = useTypeV3_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1945,6 +1996,9 @@ public final class YdbExport {
         }
         if (other.getNumberOfRetries() != 0) {
           setNumberOfRetries(other.getNumberOfRetries());
+        }
+        if (other.getUseTypeV3() != false) {
+          setUseTypeV3(other.getUseTypeV3());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2469,6 +2523,32 @@ public final class YdbExport {
       public Builder clearNumberOfRetries() {
         
         numberOfRetries_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean useTypeV3_ ;
+      /**
+       * <code>bool use_type_v3 = 7;</code>
+       */
+      public boolean getUseTypeV3() {
+        return useTypeV3_;
+      }
+      /**
+       * <code>bool use_type_v3 = 7;</code>
+       */
+      public Builder setUseTypeV3(boolean value) {
+        
+        useTypeV3_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool use_type_v3 = 7;</code>
+       */
+      public Builder clearUseTypeV3() {
+        
+        useTypeV3_ = false;
         onChanged();
         return this;
       }
@@ -5003,6 +5083,4994 @@ public final class YdbExport {
 
   }
 
+  public interface ExportToS3SettingsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Export.ExportToS3Settings)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+     */
+    java.lang.String getEndpoint();
+    /**
+     * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+     */
+    com.google.protobuf.ByteString
+        getEndpointBytes();
+
+    /**
+     * <pre>
+     * HTTPS if not specified
+     * </pre>
+     *
+     * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+     */
+    int getSchemeValue();
+    /**
+     * <pre>
+     * HTTPS if not specified
+     * </pre>
+     *
+     * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+     */
+    tech.ydb.export.YdbExport.ExportToS3Settings.Scheme getScheme();
+
+    /**
+     * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+     */
+    java.lang.String getBucket();
+    /**
+     * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+     */
+    com.google.protobuf.ByteString
+        getBucketBytes();
+
+    /**
+     * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+     */
+    java.lang.String getAccessKey();
+    /**
+     * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+     */
+    com.google.protobuf.ByteString
+        getAccessKeyBytes();
+
+    /**
+     * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+     */
+    java.lang.String getSecretKey();
+    /**
+     * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+     */
+    com.google.protobuf.ByteString
+        getSecretKeyBytes();
+
+    /**
+     * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+     */
+    java.util.List<tech.ydb.export.YdbExport.ExportToS3Settings.Item> 
+        getItemsList();
+    /**
+     * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+     */
+    tech.ydb.export.YdbExport.ExportToS3Settings.Item getItems(int index);
+    /**
+     * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+     */
+    int getItemsCount();
+    /**
+     * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+     */
+    java.util.List<? extends tech.ydb.export.YdbExport.ExportToS3Settings.ItemOrBuilder> 
+        getItemsOrBuilderList();
+    /**
+     * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+     */
+    tech.ydb.export.YdbExport.ExportToS3Settings.ItemOrBuilder getItemsOrBuilder(
+        int index);
+
+    /**
+     * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+     */
+    java.lang.String getDescription();
+    /**
+     * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+     */
+    com.google.protobuf.ByteString
+        getDescriptionBytes();
+
+    /**
+     * <code>uint32 number_of_retries = 8;</code>
+     */
+    int getNumberOfRetries();
+  }
+  /**
+   * <pre>
+   *&#47; S3
+   * </pre>
+   *
+   * Protobuf type {@code Ydb.Export.ExportToS3Settings}
+   */
+  public  static final class ExportToS3Settings extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToS3Settings)
+      ExportToS3SettingsOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ExportToS3Settings.newBuilder() to construct.
+    private ExportToS3Settings(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ExportToS3Settings() {
+      endpoint_ = "";
+      scheme_ = 0;
+      bucket_ = "";
+      accessKey_ = "";
+      secretKey_ = "";
+      items_ = java.util.Collections.emptyList();
+      description_ = "";
+      numberOfRetries_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ExportToS3Settings(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              endpoint_ = s;
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+
+              scheme_ = rawValue;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              bucket_ = s;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              accessKey_ = s;
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              secretKey_ = s;
+              break;
+            }
+            case 50: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                items_ = new java.util.ArrayList<tech.ydb.export.YdbExport.ExportToS3Settings.Item>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              items_.add(
+                  input.readMessage(tech.ydb.export.YdbExport.ExportToS3Settings.Item.parser(), extensionRegistry));
+              break;
+            }
+            case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              description_ = s;
+              break;
+            }
+            case 64: {
+
+              numberOfRetries_ = input.readUInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+          items_ = java.util.Collections.unmodifiableList(items_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.export.YdbExport.ExportToS3Settings.class, tech.ydb.export.YdbExport.ExportToS3Settings.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code Ydb.Export.ExportToS3Settings.Scheme}
+     */
+    public enum Scheme
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>UNSPECIFIED = 0;</code>
+       */
+      UNSPECIFIED(0),
+      /**
+       * <code>HTTP = 1;</code>
+       */
+      HTTP(1),
+      /**
+       * <code>HTTPS = 2;</code>
+       */
+      HTTPS(2),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>UNSPECIFIED = 0;</code>
+       */
+      public static final int UNSPECIFIED_VALUE = 0;
+      /**
+       * <code>HTTP = 1;</code>
+       */
+      public static final int HTTP_VALUE = 1;
+      /**
+       * <code>HTTPS = 2;</code>
+       */
+      public static final int HTTPS_VALUE = 2;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static Scheme valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static Scheme forNumber(int value) {
+        switch (value) {
+          case 0: return UNSPECIFIED;
+          case 1: return HTTP;
+          case 2: return HTTPS;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Scheme>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          Scheme> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Scheme>() {
+              public Scheme findValueByNumber(int number) {
+                return Scheme.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return tech.ydb.export.YdbExport.ExportToS3Settings.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final Scheme[] VALUES = values();
+
+      public static Scheme valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private Scheme(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:Ydb.Export.ExportToS3Settings.Scheme)
+    }
+
+    public interface ItemOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Ydb.Export.ExportToS3Settings.Item)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <pre>
+       * Database path to a table to be exported
+       * </pre>
+       *
+       * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+       */
+      java.lang.String getSourcePath();
+      /**
+       * <pre>
+       * Database path to a table to be exported
+       * </pre>
+       *
+       * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+       */
+      com.google.protobuf.ByteString
+          getSourcePathBytes();
+
+      /**
+       * <pre>
+       * Tables are exported to one or more S3 objects.
+       *The object name begins with 'destination_prefix'.
+       *This prefix will be followed by '/data_PartNumber', where 'PartNumber'
+       *represents the index of the part, starting at zero.
+       * </pre>
+       *
+       * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+       */
+      java.lang.String getDestinationPrefix();
+      /**
+       * <pre>
+       * Tables are exported to one or more S3 objects.
+       *The object name begins with 'destination_prefix'.
+       *This prefix will be followed by '/data_PartNumber', where 'PartNumber'
+       *represents the index of the part, starting at zero.
+       * </pre>
+       *
+       * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+       */
+      com.google.protobuf.ByteString
+          getDestinationPrefixBytes();
+    }
+    /**
+     * Protobuf type {@code Ydb.Export.ExportToS3Settings.Item}
+     */
+    public  static final class Item extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToS3Settings.Item)
+        ItemOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use Item.newBuilder() to construct.
+      private Item(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private Item() {
+        sourcePath_ = "";
+        destinationPrefix_ = "";
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Item(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownFieldProto3(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 10: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                sourcePath_ = s;
+                break;
+              }
+              case 18: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                destinationPrefix_ = s;
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_Item_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_Item_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.export.YdbExport.ExportToS3Settings.Item.class, tech.ydb.export.YdbExport.ExportToS3Settings.Item.Builder.class);
+      }
+
+      public static final int SOURCE_PATH_FIELD_NUMBER = 1;
+      private volatile java.lang.Object sourcePath_;
+      /**
+       * <pre>
+       * Database path to a table to be exported
+       * </pre>
+       *
+       * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+       */
+      public java.lang.String getSourcePath() {
+        java.lang.Object ref = sourcePath_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sourcePath_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * Database path to a table to be exported
+       * </pre>
+       *
+       * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+       */
+      public com.google.protobuf.ByteString
+          getSourcePathBytes() {
+        java.lang.Object ref = sourcePath_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sourcePath_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int DESTINATION_PREFIX_FIELD_NUMBER = 2;
+      private volatile java.lang.Object destinationPrefix_;
+      /**
+       * <pre>
+       * Tables are exported to one or more S3 objects.
+       *The object name begins with 'destination_prefix'.
+       *This prefix will be followed by '/data_PartNumber', where 'PartNumber'
+       *represents the index of the part, starting at zero.
+       * </pre>
+       *
+       * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+       */
+      public java.lang.String getDestinationPrefix() {
+        java.lang.Object ref = destinationPrefix_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          destinationPrefix_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * Tables are exported to one or more S3 objects.
+       *The object name begins with 'destination_prefix'.
+       *This prefix will be followed by '/data_PartNumber', where 'PartNumber'
+       *represents the index of the part, starting at zero.
+       * </pre>
+       *
+       * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+       */
+      public com.google.protobuf.ByteString
+          getDestinationPrefixBytes() {
+        java.lang.Object ref = destinationPrefix_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          destinationPrefix_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (!getSourcePathBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sourcePath_);
+        }
+        if (!getDestinationPrefixBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, destinationPrefix_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (!getSourcePathBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, sourcePath_);
+        }
+        if (!getDestinationPrefixBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, destinationPrefix_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof tech.ydb.export.YdbExport.ExportToS3Settings.Item)) {
+          return super.equals(obj);
+        }
+        tech.ydb.export.YdbExport.ExportToS3Settings.Item other = (tech.ydb.export.YdbExport.ExportToS3Settings.Item) obj;
+
+        boolean result = true;
+        result = result && getSourcePath()
+            .equals(other.getSourcePath());
+        result = result && getDestinationPrefix()
+            .equals(other.getDestinationPrefix());
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + SOURCE_PATH_FIELD_NUMBER;
+        hash = (53 * hash) + getSourcePath().hashCode();
+        hash = (37 * hash) + DESTINATION_PREFIX_FIELD_NUMBER;
+        hash = (53 * hash) + getDestinationPrefix().hashCode();
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static tech.ydb.export.YdbExport.ExportToS3Settings.Item parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.export.YdbExport.ExportToS3Settings.Item parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.export.YdbExport.ExportToS3Settings.Item parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.export.YdbExport.ExportToS3Settings.Item parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.export.YdbExport.ExportToS3Settings.Item parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.export.YdbExport.ExportToS3Settings.Item parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.export.YdbExport.ExportToS3Settings.Item parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static tech.ydb.export.YdbExport.ExportToS3Settings.Item parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static tech.ydb.export.YdbExport.ExportToS3Settings.Item parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static tech.ydb.export.YdbExport.ExportToS3Settings.Item parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static tech.ydb.export.YdbExport.ExportToS3Settings.Item parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static tech.ydb.export.YdbExport.ExportToS3Settings.Item parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToS3Settings.Item prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code Ydb.Export.ExportToS3Settings.Item}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:Ydb.Export.ExportToS3Settings.Item)
+          tech.ydb.export.YdbExport.ExportToS3Settings.ItemOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_Item_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_Item_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  tech.ydb.export.YdbExport.ExportToS3Settings.Item.class, tech.ydb.export.YdbExport.ExportToS3Settings.Item.Builder.class);
+        }
+
+        // Construct using tech.ydb.export.YdbExport.ExportToS3Settings.Item.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        public Builder clear() {
+          super.clear();
+          sourcePath_ = "";
+
+          destinationPrefix_ = "";
+
+          return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_Item_descriptor;
+        }
+
+        public tech.ydb.export.YdbExport.ExportToS3Settings.Item getDefaultInstanceForType() {
+          return tech.ydb.export.YdbExport.ExportToS3Settings.Item.getDefaultInstance();
+        }
+
+        public tech.ydb.export.YdbExport.ExportToS3Settings.Item build() {
+          tech.ydb.export.YdbExport.ExportToS3Settings.Item result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public tech.ydb.export.YdbExport.ExportToS3Settings.Item buildPartial() {
+          tech.ydb.export.YdbExport.ExportToS3Settings.Item result = new tech.ydb.export.YdbExport.ExportToS3Settings.Item(this);
+          result.sourcePath_ = sourcePath_;
+          result.destinationPrefix_ = destinationPrefix_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof tech.ydb.export.YdbExport.ExportToS3Settings.Item) {
+            return mergeFrom((tech.ydb.export.YdbExport.ExportToS3Settings.Item)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(tech.ydb.export.YdbExport.ExportToS3Settings.Item other) {
+          if (other == tech.ydb.export.YdbExport.ExportToS3Settings.Item.getDefaultInstance()) return this;
+          if (!other.getSourcePath().isEmpty()) {
+            sourcePath_ = other.sourcePath_;
+            onChanged();
+          }
+          if (!other.getDestinationPrefix().isEmpty()) {
+            destinationPrefix_ = other.destinationPrefix_;
+            onChanged();
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          tech.ydb.export.YdbExport.ExportToS3Settings.Item parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (tech.ydb.export.YdbExport.ExportToS3Settings.Item) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private java.lang.Object sourcePath_ = "";
+        /**
+         * <pre>
+         * Database path to a table to be exported
+         * </pre>
+         *
+         * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         */
+        public java.lang.String getSourcePath() {
+          java.lang.Object ref = sourcePath_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            sourcePath_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * Database path to a table to be exported
+         * </pre>
+         *
+         * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         */
+        public com.google.protobuf.ByteString
+            getSourcePathBytes() {
+          java.lang.Object ref = sourcePath_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            sourcePath_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * Database path to a table to be exported
+         * </pre>
+         *
+         * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         */
+        public Builder setSourcePath(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          sourcePath_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Database path to a table to be exported
+         * </pre>
+         *
+         * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         */
+        public Builder clearSourcePath() {
+          
+          sourcePath_ = getDefaultInstance().getSourcePath();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Database path to a table to be exported
+         * </pre>
+         *
+         * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         */
+        public Builder setSourcePathBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          sourcePath_ = value;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object destinationPrefix_ = "";
+        /**
+         * <pre>
+         * Tables are exported to one or more S3 objects.
+         *The object name begins with 'destination_prefix'.
+         *This prefix will be followed by '/data_PartNumber', where 'PartNumber'
+         *represents the index of the part, starting at zero.
+         * </pre>
+         *
+         * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+         */
+        public java.lang.String getDestinationPrefix() {
+          java.lang.Object ref = destinationPrefix_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            destinationPrefix_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * Tables are exported to one or more S3 objects.
+         *The object name begins with 'destination_prefix'.
+         *This prefix will be followed by '/data_PartNumber', where 'PartNumber'
+         *represents the index of the part, starting at zero.
+         * </pre>
+         *
+         * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+         */
+        public com.google.protobuf.ByteString
+            getDestinationPrefixBytes() {
+          java.lang.Object ref = destinationPrefix_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            destinationPrefix_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * Tables are exported to one or more S3 objects.
+         *The object name begins with 'destination_prefix'.
+         *This prefix will be followed by '/data_PartNumber', where 'PartNumber'
+         *represents the index of the part, starting at zero.
+         * </pre>
+         *
+         * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+         */
+        public Builder setDestinationPrefix(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          destinationPrefix_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Tables are exported to one or more S3 objects.
+         *The object name begins with 'destination_prefix'.
+         *This prefix will be followed by '/data_PartNumber', where 'PartNumber'
+         *represents the index of the part, starting at zero.
+         * </pre>
+         *
+         * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+         */
+        public Builder clearDestinationPrefix() {
+          
+          destinationPrefix_ = getDefaultInstance().getDestinationPrefix();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Tables are exported to one or more S3 objects.
+         *The object name begins with 'destination_prefix'.
+         *This prefix will be followed by '/data_PartNumber', where 'PartNumber'
+         *represents the index of the part, starting at zero.
+         * </pre>
+         *
+         * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+         */
+        public Builder setDestinationPrefixBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          destinationPrefix_ = value;
+          onChanged();
+          return this;
+        }
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFieldsProto3(unknownFields);
+        }
+
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:Ydb.Export.ExportToS3Settings.Item)
+      }
+
+      // @@protoc_insertion_point(class_scope:Ydb.Export.ExportToS3Settings.Item)
+      private static final tech.ydb.export.YdbExport.ExportToS3Settings.Item DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new tech.ydb.export.YdbExport.ExportToS3Settings.Item();
+      }
+
+      public static tech.ydb.export.YdbExport.ExportToS3Settings.Item getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<Item>
+          PARSER = new com.google.protobuf.AbstractParser<Item>() {
+        public Item parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+            return new Item(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<Item> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Item> getParserForType() {
+        return PARSER;
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Settings.Item getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    private int bitField0_;
+    public static final int ENDPOINT_FIELD_NUMBER = 1;
+    private volatile java.lang.Object endpoint_;
+    /**
+     * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+     */
+    public java.lang.String getEndpoint() {
+      java.lang.Object ref = endpoint_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        endpoint_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+     */
+    public com.google.protobuf.ByteString
+        getEndpointBytes() {
+      java.lang.Object ref = endpoint_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        endpoint_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SCHEME_FIELD_NUMBER = 2;
+    private int scheme_;
+    /**
+     * <pre>
+     * HTTPS if not specified
+     * </pre>
+     *
+     * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+     */
+    public int getSchemeValue() {
+      return scheme_;
+    }
+    /**
+     * <pre>
+     * HTTPS if not specified
+     * </pre>
+     *
+     * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+     */
+    public tech.ydb.export.YdbExport.ExportToS3Settings.Scheme getScheme() {
+      tech.ydb.export.YdbExport.ExportToS3Settings.Scheme result = tech.ydb.export.YdbExport.ExportToS3Settings.Scheme.valueOf(scheme_);
+      return result == null ? tech.ydb.export.YdbExport.ExportToS3Settings.Scheme.UNRECOGNIZED : result;
+    }
+
+    public static final int BUCKET_FIELD_NUMBER = 3;
+    private volatile java.lang.Object bucket_;
+    /**
+     * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+     */
+    public java.lang.String getBucket() {
+      java.lang.Object ref = bucket_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        bucket_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+     */
+    public com.google.protobuf.ByteString
+        getBucketBytes() {
+      java.lang.Object ref = bucket_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        bucket_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ACCESS_KEY_FIELD_NUMBER = 4;
+    private volatile java.lang.Object accessKey_;
+    /**
+     * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+     */
+    public java.lang.String getAccessKey() {
+      java.lang.Object ref = accessKey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        accessKey_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+     */
+    public com.google.protobuf.ByteString
+        getAccessKeyBytes() {
+      java.lang.Object ref = accessKey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        accessKey_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SECRET_KEY_FIELD_NUMBER = 5;
+    private volatile java.lang.Object secretKey_;
+    /**
+     * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+     */
+    public java.lang.String getSecretKey() {
+      java.lang.Object ref = secretKey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        secretKey_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+     */
+    public com.google.protobuf.ByteString
+        getSecretKeyBytes() {
+      java.lang.Object ref = secretKey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        secretKey_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ITEMS_FIELD_NUMBER = 6;
+    private java.util.List<tech.ydb.export.YdbExport.ExportToS3Settings.Item> items_;
+    /**
+     * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+     */
+    public java.util.List<tech.ydb.export.YdbExport.ExportToS3Settings.Item> getItemsList() {
+      return items_;
+    }
+    /**
+     * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+     */
+    public java.util.List<? extends tech.ydb.export.YdbExport.ExportToS3Settings.ItemOrBuilder> 
+        getItemsOrBuilderList() {
+      return items_;
+    }
+    /**
+     * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+     */
+    public int getItemsCount() {
+      return items_.size();
+    }
+    /**
+     * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+     */
+    public tech.ydb.export.YdbExport.ExportToS3Settings.Item getItems(int index) {
+      return items_.get(index);
+    }
+    /**
+     * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+     */
+    public tech.ydb.export.YdbExport.ExportToS3Settings.ItemOrBuilder getItemsOrBuilder(
+        int index) {
+      return items_.get(index);
+    }
+
+    public static final int DESCRIPTION_FIELD_NUMBER = 7;
+    private volatile java.lang.Object description_;
+    /**
+     * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+     */
+    public java.lang.String getDescription() {
+      java.lang.Object ref = description_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        description_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+     */
+    public com.google.protobuf.ByteString
+        getDescriptionBytes() {
+      java.lang.Object ref = description_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        description_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int NUMBER_OF_RETRIES_FIELD_NUMBER = 8;
+    private int numberOfRetries_;
+    /**
+     * <code>uint32 number_of_retries = 8;</code>
+     */
+    public int getNumberOfRetries() {
+      return numberOfRetries_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getEndpointBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, endpoint_);
+      }
+      if (scheme_ != tech.ydb.export.YdbExport.ExportToS3Settings.Scheme.UNSPECIFIED.getNumber()) {
+        output.writeEnum(2, scheme_);
+      }
+      if (!getBucketBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, bucket_);
+      }
+      if (!getAccessKeyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, accessKey_);
+      }
+      if (!getSecretKeyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, secretKey_);
+      }
+      for (int i = 0; i < items_.size(); i++) {
+        output.writeMessage(6, items_.get(i));
+      }
+      if (!getDescriptionBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, description_);
+      }
+      if (numberOfRetries_ != 0) {
+        output.writeUInt32(8, numberOfRetries_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getEndpointBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, endpoint_);
+      }
+      if (scheme_ != tech.ydb.export.YdbExport.ExportToS3Settings.Scheme.UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, scheme_);
+      }
+      if (!getBucketBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, bucket_);
+      }
+      if (!getAccessKeyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, accessKey_);
+      }
+      if (!getSecretKeyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, secretKey_);
+      }
+      for (int i = 0; i < items_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, items_.get(i));
+      }
+      if (!getDescriptionBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, description_);
+      }
+      if (numberOfRetries_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(8, numberOfRetries_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.export.YdbExport.ExportToS3Settings)) {
+        return super.equals(obj);
+      }
+      tech.ydb.export.YdbExport.ExportToS3Settings other = (tech.ydb.export.YdbExport.ExportToS3Settings) obj;
+
+      boolean result = true;
+      result = result && getEndpoint()
+          .equals(other.getEndpoint());
+      result = result && scheme_ == other.scheme_;
+      result = result && getBucket()
+          .equals(other.getBucket());
+      result = result && getAccessKey()
+          .equals(other.getAccessKey());
+      result = result && getSecretKey()
+          .equals(other.getSecretKey());
+      result = result && getItemsList()
+          .equals(other.getItemsList());
+      result = result && getDescription()
+          .equals(other.getDescription());
+      result = result && (getNumberOfRetries()
+          == other.getNumberOfRetries());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ENDPOINT_FIELD_NUMBER;
+      hash = (53 * hash) + getEndpoint().hashCode();
+      hash = (37 * hash) + SCHEME_FIELD_NUMBER;
+      hash = (53 * hash) + scheme_;
+      hash = (37 * hash) + BUCKET_FIELD_NUMBER;
+      hash = (53 * hash) + getBucket().hashCode();
+      hash = (37 * hash) + ACCESS_KEY_FIELD_NUMBER;
+      hash = (53 * hash) + getAccessKey().hashCode();
+      hash = (37 * hash) + SECRET_KEY_FIELD_NUMBER;
+      hash = (53 * hash) + getSecretKey().hashCode();
+      if (getItemsCount() > 0) {
+        hash = (37 * hash) + ITEMS_FIELD_NUMBER;
+        hash = (53 * hash) + getItemsList().hashCode();
+      }
+      hash = (37 * hash) + DESCRIPTION_FIELD_NUMBER;
+      hash = (53 * hash) + getDescription().hashCode();
+      hash = (37 * hash) + NUMBER_OF_RETRIES_FIELD_NUMBER;
+      hash = (53 * hash) + getNumberOfRetries();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.export.YdbExport.ExportToS3Settings parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Settings parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Settings parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Settings parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Settings parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Settings parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Settings parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Settings parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Settings parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Settings parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Settings parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Settings parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToS3Settings prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     *&#47; S3
+     * </pre>
+     *
+     * Protobuf type {@code Ydb.Export.ExportToS3Settings}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Export.ExportToS3Settings)
+        tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.export.YdbExport.ExportToS3Settings.class, tech.ydb.export.YdbExport.ExportToS3Settings.Builder.class);
+      }
+
+      // Construct using tech.ydb.export.YdbExport.ExportToS3Settings.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getItemsFieldBuilder();
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        endpoint_ = "";
+
+        scheme_ = 0;
+
+        bucket_ = "";
+
+        accessKey_ = "";
+
+        secretKey_ = "";
+
+        if (itemsBuilder_ == null) {
+          items_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+        } else {
+          itemsBuilder_.clear();
+        }
+        description_ = "";
+
+        numberOfRetries_ = 0;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_descriptor;
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Settings getDefaultInstanceForType() {
+        return tech.ydb.export.YdbExport.ExportToS3Settings.getDefaultInstance();
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Settings build() {
+        tech.ydb.export.YdbExport.ExportToS3Settings result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Settings buildPartial() {
+        tech.ydb.export.YdbExport.ExportToS3Settings result = new tech.ydb.export.YdbExport.ExportToS3Settings(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        result.endpoint_ = endpoint_;
+        result.scheme_ = scheme_;
+        result.bucket_ = bucket_;
+        result.accessKey_ = accessKey_;
+        result.secretKey_ = secretKey_;
+        if (itemsBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+            items_ = java.util.Collections.unmodifiableList(items_);
+            bitField0_ = (bitField0_ & ~0x00000020);
+          }
+          result.items_ = items_;
+        } else {
+          result.items_ = itemsBuilder_.build();
+        }
+        result.description_ = description_;
+        result.numberOfRetries_ = numberOfRetries_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.export.YdbExport.ExportToS3Settings) {
+          return mergeFrom((tech.ydb.export.YdbExport.ExportToS3Settings)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.export.YdbExport.ExportToS3Settings other) {
+        if (other == tech.ydb.export.YdbExport.ExportToS3Settings.getDefaultInstance()) return this;
+        if (!other.getEndpoint().isEmpty()) {
+          endpoint_ = other.endpoint_;
+          onChanged();
+        }
+        if (other.scheme_ != 0) {
+          setSchemeValue(other.getSchemeValue());
+        }
+        if (!other.getBucket().isEmpty()) {
+          bucket_ = other.bucket_;
+          onChanged();
+        }
+        if (!other.getAccessKey().isEmpty()) {
+          accessKey_ = other.accessKey_;
+          onChanged();
+        }
+        if (!other.getSecretKey().isEmpty()) {
+          secretKey_ = other.secretKey_;
+          onChanged();
+        }
+        if (itemsBuilder_ == null) {
+          if (!other.items_.isEmpty()) {
+            if (items_.isEmpty()) {
+              items_ = other.items_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+            } else {
+              ensureItemsIsMutable();
+              items_.addAll(other.items_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.items_.isEmpty()) {
+            if (itemsBuilder_.isEmpty()) {
+              itemsBuilder_.dispose();
+              itemsBuilder_ = null;
+              items_ = other.items_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+              itemsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getItemsFieldBuilder() : null;
+            } else {
+              itemsBuilder_.addAllMessages(other.items_);
+            }
+          }
+        }
+        if (!other.getDescription().isEmpty()) {
+          description_ = other.description_;
+          onChanged();
+        }
+        if (other.getNumberOfRetries() != 0) {
+          setNumberOfRetries(other.getNumberOfRetries());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.export.YdbExport.ExportToS3Settings parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.export.YdbExport.ExportToS3Settings) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object endpoint_ = "";
+      /**
+       * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+       */
+      public java.lang.String getEndpoint() {
+        java.lang.Object ref = endpoint_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          endpoint_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+       */
+      public com.google.protobuf.ByteString
+          getEndpointBytes() {
+        java.lang.Object ref = endpoint_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          endpoint_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+       */
+      public Builder setEndpoint(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        endpoint_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+       */
+      public Builder clearEndpoint() {
+        
+        endpoint_ = getDefaultInstance().getEndpoint();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+       */
+      public Builder setEndpointBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        endpoint_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int scheme_ = 0;
+      /**
+       * <pre>
+       * HTTPS if not specified
+       * </pre>
+       *
+       * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+       */
+      public int getSchemeValue() {
+        return scheme_;
+      }
+      /**
+       * <pre>
+       * HTTPS if not specified
+       * </pre>
+       *
+       * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+       */
+      public Builder setSchemeValue(int value) {
+        scheme_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * HTTPS if not specified
+       * </pre>
+       *
+       * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportToS3Settings.Scheme getScheme() {
+        tech.ydb.export.YdbExport.ExportToS3Settings.Scheme result = tech.ydb.export.YdbExport.ExportToS3Settings.Scheme.valueOf(scheme_);
+        return result == null ? tech.ydb.export.YdbExport.ExportToS3Settings.Scheme.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * HTTPS if not specified
+       * </pre>
+       *
+       * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+       */
+      public Builder setScheme(tech.ydb.export.YdbExport.ExportToS3Settings.Scheme value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        scheme_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * HTTPS if not specified
+       * </pre>
+       *
+       * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+       */
+      public Builder clearScheme() {
+        
+        scheme_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object bucket_ = "";
+      /**
+       * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+       */
+      public java.lang.String getBucket() {
+        java.lang.Object ref = bucket_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          bucket_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+       */
+      public com.google.protobuf.ByteString
+          getBucketBytes() {
+        java.lang.Object ref = bucket_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          bucket_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+       */
+      public Builder setBucket(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        bucket_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+       */
+      public Builder clearBucket() {
+        
+        bucket_ = getDefaultInstance().getBucket();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+       */
+      public Builder setBucketBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        bucket_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object accessKey_ = "";
+      /**
+       * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+       */
+      public java.lang.String getAccessKey() {
+        java.lang.Object ref = accessKey_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          accessKey_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+       */
+      public com.google.protobuf.ByteString
+          getAccessKeyBytes() {
+        java.lang.Object ref = accessKey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          accessKey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+       */
+      public Builder setAccessKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        accessKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+       */
+      public Builder clearAccessKey() {
+        
+        accessKey_ = getDefaultInstance().getAccessKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+       */
+      public Builder setAccessKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        accessKey_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object secretKey_ = "";
+      /**
+       * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+       */
+      public java.lang.String getSecretKey() {
+        java.lang.Object ref = secretKey_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          secretKey_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+       */
+      public com.google.protobuf.ByteString
+          getSecretKeyBytes() {
+        java.lang.Object ref = secretKey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          secretKey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+       */
+      public Builder setSecretKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        secretKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+       */
+      public Builder clearSecretKey() {
+        
+        secretKey_ = getDefaultInstance().getSecretKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+       */
+      public Builder setSecretKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        secretKey_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<tech.ydb.export.YdbExport.ExportToS3Settings.Item> items_ =
+        java.util.Collections.emptyList();
+      private void ensureItemsIsMutable() {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+          items_ = new java.util.ArrayList<tech.ydb.export.YdbExport.ExportToS3Settings.Item>(items_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.export.YdbExport.ExportToS3Settings.Item, tech.ydb.export.YdbExport.ExportToS3Settings.Item.Builder, tech.ydb.export.YdbExport.ExportToS3Settings.ItemOrBuilder> itemsBuilder_;
+
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public java.util.List<tech.ydb.export.YdbExport.ExportToS3Settings.Item> getItemsList() {
+        if (itemsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(items_);
+        } else {
+          return itemsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public int getItemsCount() {
+        if (itemsBuilder_ == null) {
+          return items_.size();
+        } else {
+          return itemsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public tech.ydb.export.YdbExport.ExportToS3Settings.Item getItems(int index) {
+        if (itemsBuilder_ == null) {
+          return items_.get(index);
+        } else {
+          return itemsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public Builder setItems(
+          int index, tech.ydb.export.YdbExport.ExportToS3Settings.Item value) {
+        if (itemsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsIsMutable();
+          items_.set(index, value);
+          onChanged();
+        } else {
+          itemsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public Builder setItems(
+          int index, tech.ydb.export.YdbExport.ExportToS3Settings.Item.Builder builderForValue) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public Builder addItems(tech.ydb.export.YdbExport.ExportToS3Settings.Item value) {
+        if (itemsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsIsMutable();
+          items_.add(value);
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public Builder addItems(
+          int index, tech.ydb.export.YdbExport.ExportToS3Settings.Item value) {
+        if (itemsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsIsMutable();
+          items_.add(index, value);
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public Builder addItems(
+          tech.ydb.export.YdbExport.ExportToS3Settings.Item.Builder builderForValue) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.add(builderForValue.build());
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public Builder addItems(
+          int index, tech.ydb.export.YdbExport.ExportToS3Settings.Item.Builder builderForValue) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public Builder addAllItems(
+          java.lang.Iterable<? extends tech.ydb.export.YdbExport.ExportToS3Settings.Item> values) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, items_);
+          onChanged();
+        } else {
+          itemsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public Builder clearItems() {
+        if (itemsBuilder_ == null) {
+          items_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+          onChanged();
+        } else {
+          itemsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public Builder removeItems(int index) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.remove(index);
+          onChanged();
+        } else {
+          itemsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public tech.ydb.export.YdbExport.ExportToS3Settings.Item.Builder getItemsBuilder(
+          int index) {
+        return getItemsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public tech.ydb.export.YdbExport.ExportToS3Settings.ItemOrBuilder getItemsOrBuilder(
+          int index) {
+        if (itemsBuilder_ == null) {
+          return items_.get(index);  } else {
+          return itemsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public java.util.List<? extends tech.ydb.export.YdbExport.ExportToS3Settings.ItemOrBuilder> 
+           getItemsOrBuilderList() {
+        if (itemsBuilder_ != null) {
+          return itemsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(items_);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public tech.ydb.export.YdbExport.ExportToS3Settings.Item.Builder addItemsBuilder() {
+        return getItemsFieldBuilder().addBuilder(
+            tech.ydb.export.YdbExport.ExportToS3Settings.Item.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public tech.ydb.export.YdbExport.ExportToS3Settings.Item.Builder addItemsBuilder(
+          int index) {
+        return getItemsFieldBuilder().addBuilder(
+            index, tech.ydb.export.YdbExport.ExportToS3Settings.Item.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
+       */
+      public java.util.List<tech.ydb.export.YdbExport.ExportToS3Settings.Item.Builder> 
+           getItemsBuilderList() {
+        return getItemsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.export.YdbExport.ExportToS3Settings.Item, tech.ydb.export.YdbExport.ExportToS3Settings.Item.Builder, tech.ydb.export.YdbExport.ExportToS3Settings.ItemOrBuilder> 
+          getItemsFieldBuilder() {
+        if (itemsBuilder_ == null) {
+          itemsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              tech.ydb.export.YdbExport.ExportToS3Settings.Item, tech.ydb.export.YdbExport.ExportToS3Settings.Item.Builder, tech.ydb.export.YdbExport.ExportToS3Settings.ItemOrBuilder>(
+                  items_,
+                  ((bitField0_ & 0x00000020) == 0x00000020),
+                  getParentForChildren(),
+                  isClean());
+          items_ = null;
+        }
+        return itemsBuilder_;
+      }
+
+      private java.lang.Object description_ = "";
+      /**
+       * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+       */
+      public java.lang.String getDescription() {
+        java.lang.Object ref = description_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          description_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+       */
+      public com.google.protobuf.ByteString
+          getDescriptionBytes() {
+        java.lang.Object ref = description_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          description_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+       */
+      public Builder setDescription(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        description_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+       */
+      public Builder clearDescription() {
+        
+        description_ = getDefaultInstance().getDescription();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+       */
+      public Builder setDescriptionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        description_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int numberOfRetries_ ;
+      /**
+       * <code>uint32 number_of_retries = 8;</code>
+       */
+      public int getNumberOfRetries() {
+        return numberOfRetries_;
+      }
+      /**
+       * <code>uint32 number_of_retries = 8;</code>
+       */
+      public Builder setNumberOfRetries(int value) {
+        
+        numberOfRetries_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 number_of_retries = 8;</code>
+       */
+      public Builder clearNumberOfRetries() {
+        
+        numberOfRetries_ = 0;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Export.ExportToS3Settings)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Export.ExportToS3Settings)
+    private static final tech.ydb.export.YdbExport.ExportToS3Settings DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.export.YdbExport.ExportToS3Settings();
+    }
+
+    public static tech.ydb.export.YdbExport.ExportToS3Settings getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ExportToS3Settings>
+        PARSER = new com.google.protobuf.AbstractParser<ExportToS3Settings>() {
+      public ExportToS3Settings parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ExportToS3Settings(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ExportToS3Settings> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ExportToS3Settings> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.export.YdbExport.ExportToS3Settings getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ExportToS3ResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Export.ExportToS3Result)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code Ydb.Export.ExportToS3Result}
+   */
+  public  static final class ExportToS3Result extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToS3Result)
+      ExportToS3ResultOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ExportToS3Result.newBuilder() to construct.
+    private ExportToS3Result(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ExportToS3Result() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ExportToS3Result(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Result_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Result_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.export.YdbExport.ExportToS3Result.class, tech.ydb.export.YdbExport.ExportToS3Result.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.export.YdbExport.ExportToS3Result)) {
+        return super.equals(obj);
+      }
+      tech.ydb.export.YdbExport.ExportToS3Result other = (tech.ydb.export.YdbExport.ExportToS3Result) obj;
+
+      boolean result = true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.export.YdbExport.ExportToS3Result parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Result parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Result parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Result parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Result parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Result parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Result parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Result parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Result parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Result parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Result parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Result parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToS3Result prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Export.ExportToS3Result}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Export.ExportToS3Result)
+        tech.ydb.export.YdbExport.ExportToS3ResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Result_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Result_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.export.YdbExport.ExportToS3Result.class, tech.ydb.export.YdbExport.ExportToS3Result.Builder.class);
+      }
+
+      // Construct using tech.ydb.export.YdbExport.ExportToS3Result.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Result_descriptor;
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Result getDefaultInstanceForType() {
+        return tech.ydb.export.YdbExport.ExportToS3Result.getDefaultInstance();
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Result build() {
+        tech.ydb.export.YdbExport.ExportToS3Result result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Result buildPartial() {
+        tech.ydb.export.YdbExport.ExportToS3Result result = new tech.ydb.export.YdbExport.ExportToS3Result(this);
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.export.YdbExport.ExportToS3Result) {
+          return mergeFrom((tech.ydb.export.YdbExport.ExportToS3Result)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.export.YdbExport.ExportToS3Result other) {
+        if (other == tech.ydb.export.YdbExport.ExportToS3Result.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.export.YdbExport.ExportToS3Result parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.export.YdbExport.ExportToS3Result) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Export.ExportToS3Result)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Export.ExportToS3Result)
+    private static final tech.ydb.export.YdbExport.ExportToS3Result DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.export.YdbExport.ExportToS3Result();
+    }
+
+    public static tech.ydb.export.YdbExport.ExportToS3Result getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ExportToS3Result>
+        PARSER = new com.google.protobuf.AbstractParser<ExportToS3Result>() {
+      public ExportToS3Result parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ExportToS3Result(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ExportToS3Result> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ExportToS3Result> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.export.YdbExport.ExportToS3Result getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ExportToS3MetadataOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Export.ExportToS3Metadata)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+     */
+    boolean hasSettings();
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+     */
+    tech.ydb.export.YdbExport.ExportToS3Settings getSettings();
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+     */
+    tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder getSettingsOrBuilder();
+
+    /**
+     * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+     */
+    int getProgressValue();
+    /**
+     * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+     */
+    tech.ydb.export.YdbExport.ExportProgress.Progress getProgress();
+  }
+  /**
+   * Protobuf type {@code Ydb.Export.ExportToS3Metadata}
+   */
+  public  static final class ExportToS3Metadata extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToS3Metadata)
+      ExportToS3MetadataOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ExportToS3Metadata.newBuilder() to construct.
+    private ExportToS3Metadata(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ExportToS3Metadata() {
+      progress_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ExportToS3Metadata(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.export.YdbExport.ExportToS3Settings.Builder subBuilder = null;
+              if (settings_ != null) {
+                subBuilder = settings_.toBuilder();
+              }
+              settings_ = input.readMessage(tech.ydb.export.YdbExport.ExportToS3Settings.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(settings_);
+                settings_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+
+              progress_ = rawValue;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Metadata_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Metadata_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.export.YdbExport.ExportToS3Metadata.class, tech.ydb.export.YdbExport.ExportToS3Metadata.Builder.class);
+    }
+
+    public static final int SETTINGS_FIELD_NUMBER = 1;
+    private tech.ydb.export.YdbExport.ExportToS3Settings settings_;
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+     */
+    public boolean hasSettings() {
+      return settings_ != null;
+    }
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+     */
+    public tech.ydb.export.YdbExport.ExportToS3Settings getSettings() {
+      return settings_ == null ? tech.ydb.export.YdbExport.ExportToS3Settings.getDefaultInstance() : settings_;
+    }
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+     */
+    public tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder getSettingsOrBuilder() {
+      return getSettings();
+    }
+
+    public static final int PROGRESS_FIELD_NUMBER = 2;
+    private int progress_;
+    /**
+     * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+     */
+    public int getProgressValue() {
+      return progress_;
+    }
+    /**
+     * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+     */
+    public tech.ydb.export.YdbExport.ExportProgress.Progress getProgress() {
+      tech.ydb.export.YdbExport.ExportProgress.Progress result = tech.ydb.export.YdbExport.ExportProgress.Progress.valueOf(progress_);
+      return result == null ? tech.ydb.export.YdbExport.ExportProgress.Progress.UNRECOGNIZED : result;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (settings_ != null) {
+        output.writeMessage(1, getSettings());
+      }
+      if (progress_ != tech.ydb.export.YdbExport.ExportProgress.Progress.PROGRESS_UNSPECIFIED.getNumber()) {
+        output.writeEnum(2, progress_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (settings_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getSettings());
+      }
+      if (progress_ != tech.ydb.export.YdbExport.ExportProgress.Progress.PROGRESS_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, progress_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.export.YdbExport.ExportToS3Metadata)) {
+        return super.equals(obj);
+      }
+      tech.ydb.export.YdbExport.ExportToS3Metadata other = (tech.ydb.export.YdbExport.ExportToS3Metadata) obj;
+
+      boolean result = true;
+      result = result && (hasSettings() == other.hasSettings());
+      if (hasSettings()) {
+        result = result && getSettings()
+            .equals(other.getSettings());
+      }
+      result = result && progress_ == other.progress_;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasSettings()) {
+        hash = (37 * hash) + SETTINGS_FIELD_NUMBER;
+        hash = (53 * hash) + getSettings().hashCode();
+      }
+      hash = (37 * hash) + PROGRESS_FIELD_NUMBER;
+      hash = (53 * hash) + progress_;
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.export.YdbExport.ExportToS3Metadata parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Metadata parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Metadata parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Metadata parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Metadata parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Metadata parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Metadata parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Metadata parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Metadata parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Metadata parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Metadata parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Metadata parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToS3Metadata prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Export.ExportToS3Metadata}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Export.ExportToS3Metadata)
+        tech.ydb.export.YdbExport.ExportToS3MetadataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Metadata_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Metadata_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.export.YdbExport.ExportToS3Metadata.class, tech.ydb.export.YdbExport.ExportToS3Metadata.Builder.class);
+      }
+
+      // Construct using tech.ydb.export.YdbExport.ExportToS3Metadata.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (settingsBuilder_ == null) {
+          settings_ = null;
+        } else {
+          settings_ = null;
+          settingsBuilder_ = null;
+        }
+        progress_ = 0;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Metadata_descriptor;
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Metadata getDefaultInstanceForType() {
+        return tech.ydb.export.YdbExport.ExportToS3Metadata.getDefaultInstance();
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Metadata build() {
+        tech.ydb.export.YdbExport.ExportToS3Metadata result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Metadata buildPartial() {
+        tech.ydb.export.YdbExport.ExportToS3Metadata result = new tech.ydb.export.YdbExport.ExportToS3Metadata(this);
+        if (settingsBuilder_ == null) {
+          result.settings_ = settings_;
+        } else {
+          result.settings_ = settingsBuilder_.build();
+        }
+        result.progress_ = progress_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.export.YdbExport.ExportToS3Metadata) {
+          return mergeFrom((tech.ydb.export.YdbExport.ExportToS3Metadata)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.export.YdbExport.ExportToS3Metadata other) {
+        if (other == tech.ydb.export.YdbExport.ExportToS3Metadata.getDefaultInstance()) return this;
+        if (other.hasSettings()) {
+          mergeSettings(other.getSettings());
+        }
+        if (other.progress_ != 0) {
+          setProgressValue(other.getProgressValue());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.export.YdbExport.ExportToS3Metadata parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.export.YdbExport.ExportToS3Metadata) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.export.YdbExport.ExportToS3Settings settings_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.export.YdbExport.ExportToS3Settings, tech.ydb.export.YdbExport.ExportToS3Settings.Builder, tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder> settingsBuilder_;
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+       */
+      public boolean hasSettings() {
+        return settingsBuilder_ != null || settings_ != null;
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportToS3Settings getSettings() {
+        if (settingsBuilder_ == null) {
+          return settings_ == null ? tech.ydb.export.YdbExport.ExportToS3Settings.getDefaultInstance() : settings_;
+        } else {
+          return settingsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+       */
+      public Builder setSettings(tech.ydb.export.YdbExport.ExportToS3Settings value) {
+        if (settingsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          settings_ = value;
+          onChanged();
+        } else {
+          settingsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+       */
+      public Builder setSettings(
+          tech.ydb.export.YdbExport.ExportToS3Settings.Builder builderForValue) {
+        if (settingsBuilder_ == null) {
+          settings_ = builderForValue.build();
+          onChanged();
+        } else {
+          settingsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+       */
+      public Builder mergeSettings(tech.ydb.export.YdbExport.ExportToS3Settings value) {
+        if (settingsBuilder_ == null) {
+          if (settings_ != null) {
+            settings_ =
+              tech.ydb.export.YdbExport.ExportToS3Settings.newBuilder(settings_).mergeFrom(value).buildPartial();
+          } else {
+            settings_ = value;
+          }
+          onChanged();
+        } else {
+          settingsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+       */
+      public Builder clearSettings() {
+        if (settingsBuilder_ == null) {
+          settings_ = null;
+          onChanged();
+        } else {
+          settings_ = null;
+          settingsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportToS3Settings.Builder getSettingsBuilder() {
+        
+        onChanged();
+        return getSettingsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder getSettingsOrBuilder() {
+        if (settingsBuilder_ != null) {
+          return settingsBuilder_.getMessageOrBuilder();
+        } else {
+          return settings_ == null ?
+              tech.ydb.export.YdbExport.ExportToS3Settings.getDefaultInstance() : settings_;
+        }
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.export.YdbExport.ExportToS3Settings, tech.ydb.export.YdbExport.ExportToS3Settings.Builder, tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder> 
+          getSettingsFieldBuilder() {
+        if (settingsBuilder_ == null) {
+          settingsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.export.YdbExport.ExportToS3Settings, tech.ydb.export.YdbExport.ExportToS3Settings.Builder, tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder>(
+                  getSettings(),
+                  getParentForChildren(),
+                  isClean());
+          settings_ = null;
+        }
+        return settingsBuilder_;
+      }
+
+      private int progress_ = 0;
+      /**
+       * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       */
+      public int getProgressValue() {
+        return progress_;
+      }
+      /**
+       * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       */
+      public Builder setProgressValue(int value) {
+        progress_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportProgress.Progress getProgress() {
+        tech.ydb.export.YdbExport.ExportProgress.Progress result = tech.ydb.export.YdbExport.ExportProgress.Progress.valueOf(progress_);
+        return result == null ? tech.ydb.export.YdbExport.ExportProgress.Progress.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       */
+      public Builder setProgress(tech.ydb.export.YdbExport.ExportProgress.Progress value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        progress_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       */
+      public Builder clearProgress() {
+        
+        progress_ = 0;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Export.ExportToS3Metadata)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Export.ExportToS3Metadata)
+    private static final tech.ydb.export.YdbExport.ExportToS3Metadata DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.export.YdbExport.ExportToS3Metadata();
+    }
+
+    public static tech.ydb.export.YdbExport.ExportToS3Metadata getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ExportToS3Metadata>
+        PARSER = new com.google.protobuf.AbstractParser<ExportToS3Metadata>() {
+      public ExportToS3Metadata parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ExportToS3Metadata(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ExportToS3Metadata> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ExportToS3Metadata> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.export.YdbExport.ExportToS3Metadata getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ExportToS3RequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Export.ExportToS3Request)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+     */
+    boolean hasSettings();
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+     */
+    tech.ydb.export.YdbExport.ExportToS3Settings getSettings();
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+     */
+    tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder getSettingsOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.Export.ExportToS3Request}
+   */
+  public  static final class ExportToS3Request extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToS3Request)
+      ExportToS3RequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ExportToS3Request.newBuilder() to construct.
+    private ExportToS3Request(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ExportToS3Request() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ExportToS3Request(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              tech.ydb.export.YdbExport.ExportToS3Settings.Builder subBuilder = null;
+              if (settings_ != null) {
+                subBuilder = settings_.toBuilder();
+              }
+              settings_ = input.readMessage(tech.ydb.export.YdbExport.ExportToS3Settings.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(settings_);
+                settings_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Request_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Request_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.export.YdbExport.ExportToS3Request.class, tech.ydb.export.YdbExport.ExportToS3Request.Builder.class);
+    }
+
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int SETTINGS_FIELD_NUMBER = 2;
+    private tech.ydb.export.YdbExport.ExportToS3Settings settings_;
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+     */
+    public boolean hasSettings() {
+      return settings_ != null;
+    }
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+     */
+    public tech.ydb.export.YdbExport.ExportToS3Settings getSettings() {
+      return settings_ == null ? tech.ydb.export.YdbExport.ExportToS3Settings.getDefaultInstance() : settings_;
+    }
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+     */
+    public tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder getSettingsOrBuilder() {
+      return getSettings();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operationParams_ != null) {
+        output.writeMessage(1, getOperationParams());
+      }
+      if (settings_ != null) {
+        output.writeMessage(2, getSettings());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperationParams());
+      }
+      if (settings_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getSettings());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.export.YdbExport.ExportToS3Request)) {
+        return super.equals(obj);
+      }
+      tech.ydb.export.YdbExport.ExportToS3Request other = (tech.ydb.export.YdbExport.ExportToS3Request) obj;
+
+      boolean result = true;
+      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams()) {
+        result = result && getOperationParams()
+            .equals(other.getOperationParams());
+      }
+      result = result && (hasSettings() == other.hasSettings());
+      if (hasSettings()) {
+        result = result && getSettings()
+            .equals(other.getSettings());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      if (hasSettings()) {
+        hash = (37 * hash) + SETTINGS_FIELD_NUMBER;
+        hash = (53 * hash) + getSettings().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.export.YdbExport.ExportToS3Request parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Request parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Request parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Request parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Request parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Request parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Request parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Request parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Request parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Request parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Request parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Request parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToS3Request prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Export.ExportToS3Request}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Export.ExportToS3Request)
+        tech.ydb.export.YdbExport.ExportToS3RequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Request_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Request_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.export.YdbExport.ExportToS3Request.class, tech.ydb.export.YdbExport.ExportToS3Request.Builder.class);
+      }
+
+      // Construct using tech.ydb.export.YdbExport.ExportToS3Request.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        if (settingsBuilder_ == null) {
+          settings_ = null;
+        } else {
+          settings_ = null;
+          settingsBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Request_descriptor;
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Request getDefaultInstanceForType() {
+        return tech.ydb.export.YdbExport.ExportToS3Request.getDefaultInstance();
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Request build() {
+        tech.ydb.export.YdbExport.ExportToS3Request result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Request buildPartial() {
+        tech.ydb.export.YdbExport.ExportToS3Request result = new tech.ydb.export.YdbExport.ExportToS3Request(this);
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        if (settingsBuilder_ == null) {
+          result.settings_ = settings_;
+        } else {
+          result.settings_ = settingsBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.export.YdbExport.ExportToS3Request) {
+          return mergeFrom((tech.ydb.export.YdbExport.ExportToS3Request)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.export.YdbExport.ExportToS3Request other) {
+        if (other == tech.ydb.export.YdbExport.ExportToS3Request.getDefaultInstance()) return this;
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        if (other.hasSettings()) {
+          mergeSettings(other.getSettings());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.export.YdbExport.ExportToS3Request parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.export.YdbExport.ExportToS3Request) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
+      private tech.ydb.export.YdbExport.ExportToS3Settings settings_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.export.YdbExport.ExportToS3Settings, tech.ydb.export.YdbExport.ExportToS3Settings.Builder, tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder> settingsBuilder_;
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+       */
+      public boolean hasSettings() {
+        return settingsBuilder_ != null || settings_ != null;
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+       */
+      public tech.ydb.export.YdbExport.ExportToS3Settings getSettings() {
+        if (settingsBuilder_ == null) {
+          return settings_ == null ? tech.ydb.export.YdbExport.ExportToS3Settings.getDefaultInstance() : settings_;
+        } else {
+          return settingsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+       */
+      public Builder setSettings(tech.ydb.export.YdbExport.ExportToS3Settings value) {
+        if (settingsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          settings_ = value;
+          onChanged();
+        } else {
+          settingsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+       */
+      public Builder setSettings(
+          tech.ydb.export.YdbExport.ExportToS3Settings.Builder builderForValue) {
+        if (settingsBuilder_ == null) {
+          settings_ = builderForValue.build();
+          onChanged();
+        } else {
+          settingsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+       */
+      public Builder mergeSettings(tech.ydb.export.YdbExport.ExportToS3Settings value) {
+        if (settingsBuilder_ == null) {
+          if (settings_ != null) {
+            settings_ =
+              tech.ydb.export.YdbExport.ExportToS3Settings.newBuilder(settings_).mergeFrom(value).buildPartial();
+          } else {
+            settings_ = value;
+          }
+          onChanged();
+        } else {
+          settingsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+       */
+      public Builder clearSettings() {
+        if (settingsBuilder_ == null) {
+          settings_ = null;
+          onChanged();
+        } else {
+          settings_ = null;
+          settingsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+       */
+      public tech.ydb.export.YdbExport.ExportToS3Settings.Builder getSettingsBuilder() {
+        
+        onChanged();
+        return getSettingsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+       */
+      public tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder getSettingsOrBuilder() {
+        if (settingsBuilder_ != null) {
+          return settingsBuilder_.getMessageOrBuilder();
+        } else {
+          return settings_ == null ?
+              tech.ydb.export.YdbExport.ExportToS3Settings.getDefaultInstance() : settings_;
+        }
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.export.YdbExport.ExportToS3Settings, tech.ydb.export.YdbExport.ExportToS3Settings.Builder, tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder> 
+          getSettingsFieldBuilder() {
+        if (settingsBuilder_ == null) {
+          settingsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.export.YdbExport.ExportToS3Settings, tech.ydb.export.YdbExport.ExportToS3Settings.Builder, tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder>(
+                  getSettings(),
+                  getParentForChildren(),
+                  isClean());
+          settings_ = null;
+        }
+        return settingsBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Export.ExportToS3Request)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Export.ExportToS3Request)
+    private static final tech.ydb.export.YdbExport.ExportToS3Request DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.export.YdbExport.ExportToS3Request();
+    }
+
+    public static tech.ydb.export.YdbExport.ExportToS3Request getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ExportToS3Request>
+        PARSER = new com.google.protobuf.AbstractParser<ExportToS3Request>() {
+      public ExportToS3Request parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ExportToS3Request(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ExportToS3Request> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ExportToS3Request> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.export.YdbExport.ExportToS3Request getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ExportToS3ResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Export.ExportToS3Response)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * operation.result = ExportToS3Result
+     * operation.metadata = ExportToS3Metadata
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    boolean hasOperation();
+    /**
+     * <pre>
+     * operation.result = ExportToS3Result
+     * operation.metadata = ExportToS3Metadata
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <pre>
+     * operation.result = ExportToS3Result
+     * operation.metadata = ExportToS3Metadata
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.Export.ExportToS3Response}
+   */
+  public  static final class ExportToS3Response extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToS3Response)
+      ExportToS3ResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ExportToS3Response.newBuilder() to construct.
+    private ExportToS3Response(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ExportToS3Response() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ExportToS3Response(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Response_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Response_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.export.YdbExport.ExportToS3Response.class, tech.ydb.export.YdbExport.ExportToS3Response.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <pre>
+     * operation.result = ExportToS3Result
+     * operation.metadata = ExportToS3Metadata
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <pre>
+     * operation.result = ExportToS3Result
+     * operation.metadata = ExportToS3Metadata
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <pre>
+     * operation.result = ExportToS3Result
+     * operation.metadata = ExportToS3Metadata
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.export.YdbExport.ExportToS3Response)) {
+        return super.equals(obj);
+      }
+      tech.ydb.export.YdbExport.ExportToS3Response other = (tech.ydb.export.YdbExport.ExportToS3Response) obj;
+
+      boolean result = true;
+      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation()) {
+        result = result && getOperation()
+            .equals(other.getOperation());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.export.YdbExport.ExportToS3Response parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Response parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Response parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Response parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Response parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Response parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Response parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Response parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Response parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Response parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Response parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportToS3Response parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToS3Response prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Export.ExportToS3Response}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Export.ExportToS3Response)
+        tech.ydb.export.YdbExport.ExportToS3ResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Response_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Response_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.export.YdbExport.ExportToS3Response.class, tech.ydb.export.YdbExport.ExportToS3Response.Builder.class);
+      }
+
+      // Construct using tech.ydb.export.YdbExport.ExportToS3Response.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Response_descriptor;
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Response getDefaultInstanceForType() {
+        return tech.ydb.export.YdbExport.ExportToS3Response.getDefaultInstance();
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Response build() {
+        tech.ydb.export.YdbExport.ExportToS3Response result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.export.YdbExport.ExportToS3Response buildPartial() {
+        tech.ydb.export.YdbExport.ExportToS3Response result = new tech.ydb.export.YdbExport.ExportToS3Response(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.export.YdbExport.ExportToS3Response) {
+          return mergeFrom((tech.ydb.export.YdbExport.ExportToS3Response)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.export.YdbExport.ExportToS3Response other) {
+        if (other == tech.ydb.export.YdbExport.ExportToS3Response.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.export.YdbExport.ExportToS3Response parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.export.YdbExport.ExportToS3Response) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <pre>
+       * operation.result = ExportToS3Result
+       * operation.metadata = ExportToS3Metadata
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <pre>
+       * operation.result = ExportToS3Result
+       * operation.metadata = ExportToS3Metadata
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * operation.result = ExportToS3Result
+       * operation.metadata = ExportToS3Metadata
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * operation.result = ExportToS3Result
+       * operation.metadata = ExportToS3Metadata
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * operation.result = ExportToS3Result
+       * operation.metadata = ExportToS3Metadata
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * operation.result = ExportToS3Result
+       * operation.metadata = ExportToS3Metadata
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * operation.result = ExportToS3Result
+       * operation.metadata = ExportToS3Metadata
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * operation.result = ExportToS3Result
+       * operation.metadata = ExportToS3Metadata
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <pre>
+       * operation.result = ExportToS3Result
+       * operation.metadata = ExportToS3Metadata
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Export.ExportToS3Response)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Export.ExportToS3Response)
+    private static final tech.ydb.export.YdbExport.ExportToS3Response DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.export.YdbExport.ExportToS3Response();
+    }
+
+    public static tech.ydb.export.YdbExport.ExportToS3Response getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ExportToS3Response>
+        PARSER = new com.google.protobuf.AbstractParser<ExportToS3Response>() {
+      public ExportToS3Response parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ExportToS3Response(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ExportToS3Response> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ExportToS3Response> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.export.YdbExport.ExportToS3Response getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Export_ExportProgress_descriptor;
   private static final 
@@ -5038,6 +10106,36 @@ public final class YdbExport {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Export_ExportToYtResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Export_ExportToS3Settings_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Export_ExportToS3Settings_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Export_ExportToS3Settings_Item_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Export_ExportToS3Settings_Item_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Export_ExportToS3Result_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Export_ExportToS3Result_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Export_ExportToS3Metadata_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Export_ExportToS3Metadata_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Export_ExportToS3Request_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Export_ExportToS3Request_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Export_ExportToS3Response_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Export_ExportToS3Response_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -5055,23 +10153,43 @@ public final class YdbExport {
       "UNSPECIFIED\020\000\022\026\n\022PROGRESS_PREPARING\020\001\022\032\n" +
       "\026PROGRESS_TRANSFER_DATA\020\002\022\021\n\rPROGRESS_DO" +
       "NE\020\003\022\031\n\025PROGRESS_CANCELLATION\020\004\022\026\n\022PROGR" +
-      "ESS_CANCELLED\020\005\"\203\002\n\022ExportToYtSettings\022\022" +
+      "ESS_CANCELLED\020\005\"\230\002\n\022ExportToYtSettings\022\022" +
       "\n\004host\030\001 \001(\tB\004\220\346*\001\022\014\n\004port\030\002 \001(\r\022\023\n\005toke",
       "n\030\003 \001(\tB\004\220\346*\001\022:\n\005items\030\004 \003(\0132#.Ydb.Expor" +
       "t.ExportToYtSettings.ItemB\006\232\346*\002(\001\022\034\n\013des" +
       "cription\030\005 \001(\tB\007\242\346*\003\030\200\001\022\031\n\021number_of_ret" +
-      "ries\030\006 \001(\r\032A\n\004Item\022\031\n\013source_path\030\001 \001(\tB" +
-      "\004\220\346*\001\022\036\n\020destination_path\030\002 \001(\tB\004\220\346*\001\"\022\n" +
-      "\020ExportToYtResult\"}\n\022ExportToYtMetadata\022" +
-      "0\n\010settings\030\001 \001(\0132\036.Ydb.Export.ExportToY" +
-      "tSettings\0225\n\010progress\030\002 \001(\0162#.Ydb.Export" +
-      ".ExportProgress.Progress\"\206\001\n\021ExportToYtR" +
-      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O",
-      "perations.OperationParams\0226\n\010settings\030\002 " +
-      "\001(\0132\036.Ydb.Export.ExportToYtSettingsB\004\220\346*" +
-      "\001\"B\n\022ExportToYtResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.OperationB\032\n\025com.yan" +
-      "dex.ydb.export\370\001\001b\006proto3"
+      "ries\030\006 \001(\r\022\023\n\013use_type_v3\030\007 \001(\010\032A\n\004Item\022" +
+      "\031\n\013source_path\030\001 \001(\tB\004\220\346*\001\022\036\n\020destinatio" +
+      "n_path\030\002 \001(\tB\004\220\346*\001\"\022\n\020ExportToYtResult\"}" +
+      "\n\022ExportToYtMetadata\0220\n\010settings\030\001 \001(\0132\036" +
+      ".Ydb.Export.ExportToYtSettings\0225\n\010progre" +
+      "ss\030\002 \001(\0162#.Ydb.Export.ExportProgress.Pro" +
+      "gress\"\206\001\n\021ExportToYtRequest\0229\n\020operation",
+      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\0226\n\010settings\030\002 \001(\0132\036.Ydb.Export.Ex" +
+      "portToYtSettingsB\004\220\346*\001\"B\n\022ExportToYtResp" +
+      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
+      ".Operation\"\227\003\n\022ExportToS3Settings\022\026\n\010end" +
+      "point\030\001 \001(\tB\004\220\346*\001\0225\n\006scheme\030\002 \001(\0162%.Ydb." +
+      "Export.ExportToS3Settings.Scheme\022\024\n\006buck" +
+      "et\030\003 \001(\tB\004\220\346*\001\022\030\n\naccess_key\030\004 \001(\tB\004\220\346*\001" +
+      "\022\030\n\nsecret_key\030\005 \001(\tB\004\220\346*\001\022:\n\005items\030\006 \003(" +
+      "\0132#.Ydb.Export.ExportToS3Settings.ItemB\006",
+      "\232\346*\002(\001\022\034\n\013description\030\007 \001(\tB\007\242\346*\003\030\200\001\022\031\n\021" +
+      "number_of_retries\030\010 \001(\r\032C\n\004Item\022\031\n\013sourc" +
+      "e_path\030\001 \001(\tB\004\220\346*\001\022 \n\022destination_prefix" +
+      "\030\002 \001(\tB\004\220\346*\001\".\n\006Scheme\022\017\n\013UNSPECIFIED\020\000\022" +
+      "\010\n\004HTTP\020\001\022\t\n\005HTTPS\020\002\"\022\n\020ExportToS3Result" +
+      "\"}\n\022ExportToS3Metadata\0220\n\010settings\030\001 \001(\013" +
+      "2\036.Ydb.Export.ExportToS3Settings\0225\n\010prog" +
+      "ress\030\002 \001(\0162#.Ydb.Export.ExportProgress.P" +
+      "rogress\"\206\001\n\021ExportToS3Request\0229\n\020operati" +
+      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati",
+      "onParams\0226\n\010settings\030\002 \001(\0132\036.Ydb.Export." +
+      "ExportToS3SettingsB\004\220\346*\001\"B\n\022ExportToS3Re" +
+      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
+      "ns.OperationB\032\n\025tech.ydb.export\370\001\001" +
+      "b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5098,7 +10216,7 @@ public final class YdbExport {
     internal_static_Ydb_Export_ExportToYtSettings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToYtSettings_descriptor,
-        new java.lang.String[] { "Host", "Port", "Token", "Items", "Description", "NumberOfRetries", });
+        new java.lang.String[] { "Host", "Port", "Token", "Items", "Description", "NumberOfRetries", "UseTypeV3", });
     internal_static_Ydb_Export_ExportToYtSettings_Item_descriptor =
       internal_static_Ydb_Export_ExportToYtSettings_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_Export_ExportToYtSettings_Item_fieldAccessorTable = new
@@ -5128,6 +10246,42 @@ public final class YdbExport {
     internal_static_Ydb_Export_ExportToYtResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToYtResponse_descriptor,
+        new java.lang.String[] { "Operation", });
+    internal_static_Ydb_Export_ExportToS3Settings_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_Ydb_Export_ExportToS3Settings_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Export_ExportToS3Settings_descriptor,
+        new java.lang.String[] { "Endpoint", "Scheme", "Bucket", "AccessKey", "SecretKey", "Items", "Description", "NumberOfRetries", });
+    internal_static_Ydb_Export_ExportToS3Settings_Item_descriptor =
+      internal_static_Ydb_Export_ExportToS3Settings_descriptor.getNestedTypes().get(0);
+    internal_static_Ydb_Export_ExportToS3Settings_Item_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Export_ExportToS3Settings_Item_descriptor,
+        new java.lang.String[] { "SourcePath", "DestinationPrefix", });
+    internal_static_Ydb_Export_ExportToS3Result_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_Ydb_Export_ExportToS3Result_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Export_ExportToS3Result_descriptor,
+        new java.lang.String[] { });
+    internal_static_Ydb_Export_ExportToS3Metadata_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_Ydb_Export_ExportToS3Metadata_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Export_ExportToS3Metadata_descriptor,
+        new java.lang.String[] { "Settings", "Progress", });
+    internal_static_Ydb_Export_ExportToS3Request_descriptor =
+      getDescriptor().getMessageTypes().get(9);
+    internal_static_Ydb_Export_ExportToS3Request_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Export_ExportToS3Request_descriptor,
+        new java.lang.String[] { "OperationParams", "Settings", });
+    internal_static_Ydb_Export_ExportToS3Response_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_Ydb_Export_ExportToS3Response_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Export_ExportToS3Response_descriptor,
         new java.lang.String[] { "Operation", });
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();

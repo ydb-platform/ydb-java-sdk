@@ -25,10 +25,12 @@ public final class YdbExportV1 {
     java.lang.String[] descriptorData = {
       "\n*kikimr/public/api/grpc/ydb_export_v1.p" +
       "roto\022\rYdb.Export.V1\032)kikimr/public/api/p" +
-      "rotos/ydb_export.proto2\\\n\rExportService\022" +
-      "K\n\nExportToYt\022\035.Ydb.Export.ExportToYtReq" +
-      "uest\032\036.Ydb.Export.ExportToYtResponseB\032\n\030" +
-      "tech.ydb.export.v1b\006proto3"
+      "rotos/ydb_export.proto2\251\001\n\rExportService" +
+      "\022K\n\nExportToYt\022\035.Ydb.Export.ExportToYtRe" +
+      "quest\032\036.Ydb.Export.ExportToYtResponse\022K\n" +
+      "\nExportToS3\022\035.Ydb.Export.ExportToS3Reque" +
+      "st\032\036.Ydb.Export.ExportToS3ResponseB\032\n\030co" +
+      "m.yandex.ydb.export.v1b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

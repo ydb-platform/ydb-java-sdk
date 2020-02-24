@@ -27,66 +27,66 @@ public final class PersQueueServiceGrpc {
   public static final String SERVICE_NAME = "Ydb.PersQueue.V1.PersQueueService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.WriteSessionRequest,
-      tech.ydb.persqueue.YdbPersqueueV1.WriteSessionResponse> getCreateWriteSessionMethod;
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage,
+      tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage> getStreamingWriteMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "CreateWriteSession",
-      requestType = tech.ydb.persqueue.YdbPersqueueV1.WriteSessionRequest.class,
-      responseType = tech.ydb.persqueue.YdbPersqueueV1.WriteSessionResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "StreamingWrite",
+      requestType = tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.class,
+      responseType = tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.class,
       methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
-  public static io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.WriteSessionRequest,
-      tech.ydb.persqueue.YdbPersqueueV1.WriteSessionResponse> getCreateWriteSessionMethod() {
-    io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.WriteSessionRequest, tech.ydb.persqueue.YdbPersqueueV1.WriteSessionResponse> getCreateWriteSessionMethod;
-    if ((getCreateWriteSessionMethod = PersQueueServiceGrpc.getCreateWriteSessionMethod) == null) {
+  public static io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage,
+      tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage> getStreamingWriteMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage> getStreamingWriteMethod;
+    if ((getStreamingWriteMethod = PersQueueServiceGrpc.getStreamingWriteMethod) == null) {
       synchronized (PersQueueServiceGrpc.class) {
-        if ((getCreateWriteSessionMethod = PersQueueServiceGrpc.getCreateWriteSessionMethod) == null) {
-          PersQueueServiceGrpc.getCreateWriteSessionMethod = getCreateWriteSessionMethod =
-              io.grpc.MethodDescriptor.<tech.ydb.persqueue.YdbPersqueueV1.WriteSessionRequest, tech.ydb.persqueue.YdbPersqueueV1.WriteSessionResponse>newBuilder()
+        if ((getStreamingWriteMethod = PersQueueServiceGrpc.getStreamingWriteMethod) == null) {
+          PersQueueServiceGrpc.getStreamingWriteMethod = getStreamingWriteMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateWriteSession"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "StreamingWrite"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  tech.ydb.persqueue.YdbPersqueueV1.WriteSessionRequest.getDefaultInstance()))
+                  tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  tech.ydb.persqueue.YdbPersqueueV1.WriteSessionResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new PersQueueServiceMethodDescriptorSupplier("CreateWriteSession"))
+                  tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.getDefaultInstance()))
+              .setSchemaDescriptor(new PersQueueServiceMethodDescriptorSupplier("StreamingWrite"))
               .build();
         }
       }
     }
-    return getCreateWriteSessionMethod;
+    return getStreamingWriteMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.ReadSessionRequest,
-      tech.ydb.persqueue.YdbPersqueueV1.ReadSessionResponse> getCreateReadSessionMethod;
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage,
+      tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage> getStreamingReadMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "CreateReadSession",
-      requestType = tech.ydb.persqueue.YdbPersqueueV1.ReadSessionRequest.class,
-      responseType = tech.ydb.persqueue.YdbPersqueueV1.ReadSessionResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "StreamingRead",
+      requestType = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage.class,
+      responseType = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage.class,
       methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
-  public static io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.ReadSessionRequest,
-      tech.ydb.persqueue.YdbPersqueueV1.ReadSessionResponse> getCreateReadSessionMethod() {
-    io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.ReadSessionRequest, tech.ydb.persqueue.YdbPersqueueV1.ReadSessionResponse> getCreateReadSessionMethod;
-    if ((getCreateReadSessionMethod = PersQueueServiceGrpc.getCreateReadSessionMethod) == null) {
+  public static io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage,
+      tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage> getStreamingReadMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage> getStreamingReadMethod;
+    if ((getStreamingReadMethod = PersQueueServiceGrpc.getStreamingReadMethod) == null) {
       synchronized (PersQueueServiceGrpc.class) {
-        if ((getCreateReadSessionMethod = PersQueueServiceGrpc.getCreateReadSessionMethod) == null) {
-          PersQueueServiceGrpc.getCreateReadSessionMethod = getCreateReadSessionMethod =
-              io.grpc.MethodDescriptor.<tech.ydb.persqueue.YdbPersqueueV1.ReadSessionRequest, tech.ydb.persqueue.YdbPersqueueV1.ReadSessionResponse>newBuilder()
+        if ((getStreamingReadMethod = PersQueueServiceGrpc.getStreamingReadMethod) == null) {
+          PersQueueServiceGrpc.getStreamingReadMethod = getStreamingReadMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateReadSession"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "StreamingRead"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  tech.ydb.persqueue.YdbPersqueueV1.ReadSessionRequest.getDefaultInstance()))
+                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  tech.ydb.persqueue.YdbPersqueueV1.ReadSessionResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new PersQueueServiceMethodDescriptorSupplier("CreateReadSession"))
+                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage.getDefaultInstance()))
+              .setSchemaDescriptor(new PersQueueServiceMethodDescriptorSupplier("StreamingRead"))
               .build();
         }
       }
     }
-    return getCreateReadSessionMethod;
+    return getStreamingReadMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.ReadInfoRequest,
@@ -170,16 +170,50 @@ public final class PersQueueServiceGrpc {
 
     /**
      */
-    public io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.WriteSessionRequest> createWriteSession(
-        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.WriteSessionResponse> responseObserver) {
-      return asyncUnimplementedStreamingCall(getCreateWriteSessionMethod(), responseObserver);
+    public io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage> streamingWrite(
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage> responseObserver) {
+      return asyncUnimplementedStreamingCall(getStreamingWriteMethod(), responseObserver);
     }
 
     /**
+     * <pre>
+     **
+     * Creates Read Session
+     * Pipeline:
+     * client                  server
+     *         Init(Topics, ClientId, ...)
+     *        ----------------&gt;
+     *         Init(SessionId)
+     *        &lt;----------------
+     *         read1
+     *        ----------------&gt;
+     *         read2
+     *        ----------------&gt;
+     *         assign(Topic1, Cluster, Partition1, ...) - assigns and releases are optional
+     *        &lt;----------------
+     *         assign(Topic2, Clutster, Partition2, ...)
+     *        &lt;----------------
+     *         start_read(Topic1, Partition1, ...) - client must respond to assign request with this message. Only after this client will start recieving messages from this partition
+     *        ----------------&gt;
+     *         release(Topic1, Partition1, ...)
+     *        &lt;----------------
+     *         released(Topic1, Partition1, ...) - only after released server will give this parittion to other session.
+     *        ----------------&gt;
+     *         start_read(Topic2, Partition2, ...) - client must respond to assign request with this message. Only after this client will start recieving messages from this partition
+     *        ----------------&gt;
+     *         read data(data, ...)
+     *        &lt;----------------
+     *         commit(cookie1)
+     *        ----------------&gt;
+     *         committed(cookie1)
+     *        &lt;----------------
+     *         issue(description, ...)
+     *        &lt;----------------
+     * </pre>
      */
-    public io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.ReadSessionRequest> createReadSession(
-        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.ReadSessionResponse> responseObserver) {
-      return asyncUnimplementedStreamingCall(getCreateReadSessionMethod(), responseObserver);
+    public io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage> streamingRead(
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage> responseObserver) {
+      return asyncUnimplementedStreamingCall(getStreamingReadMethod(), responseObserver);
     }
 
     /**
@@ -195,19 +229,19 @@ public final class PersQueueServiceGrpc {
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            getCreateWriteSessionMethod(),
+            getStreamingWriteMethod(),
             asyncBidiStreamingCall(
               new MethodHandlers<
-                tech.ydb.persqueue.YdbPersqueueV1.WriteSessionRequest,
-                tech.ydb.persqueue.YdbPersqueueV1.WriteSessionResponse>(
-                  this, METHODID_CREATE_WRITE_SESSION)))
+                tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage,
+                tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage>(
+                  this, METHODID_STREAMING_WRITE)))
           .addMethod(
-            getCreateReadSessionMethod(),
+            getStreamingReadMethod(),
             asyncBidiStreamingCall(
               new MethodHandlers<
-                tech.ydb.persqueue.YdbPersqueueV1.ReadSessionRequest,
-                tech.ydb.persqueue.YdbPersqueueV1.ReadSessionResponse>(
-                  this, METHODID_CREATE_READ_SESSION)))
+                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage,
+                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage>(
+                  this, METHODID_STREAMING_READ)))
           .addMethod(
             getGetReadSessionsInfoMethod(),
             asyncUnaryCall(
@@ -235,18 +269,52 @@ public final class PersQueueServiceGrpc {
 
     /**
      */
-    public io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.WriteSessionRequest> createWriteSession(
-        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.WriteSessionResponse> responseObserver) {
+    public io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage> streamingWrite(
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage> responseObserver) {
       return asyncBidiStreamingCall(
-          getChannel().newCall(getCreateWriteSessionMethod(), getCallOptions()), responseObserver);
+          getChannel().newCall(getStreamingWriteMethod(), getCallOptions()), responseObserver);
     }
 
     /**
+     * <pre>
+     **
+     * Creates Read Session
+     * Pipeline:
+     * client                  server
+     *         Init(Topics, ClientId, ...)
+     *        ----------------&gt;
+     *         Init(SessionId)
+     *        &lt;----------------
+     *         read1
+     *        ----------------&gt;
+     *         read2
+     *        ----------------&gt;
+     *         assign(Topic1, Cluster, Partition1, ...) - assigns and releases are optional
+     *        &lt;----------------
+     *         assign(Topic2, Clutster, Partition2, ...)
+     *        &lt;----------------
+     *         start_read(Topic1, Partition1, ...) - client must respond to assign request with this message. Only after this client will start recieving messages from this partition
+     *        ----------------&gt;
+     *         release(Topic1, Partition1, ...)
+     *        &lt;----------------
+     *         released(Topic1, Partition1, ...) - only after released server will give this parittion to other session.
+     *        ----------------&gt;
+     *         start_read(Topic2, Partition2, ...) - client must respond to assign request with this message. Only after this client will start recieving messages from this partition
+     *        ----------------&gt;
+     *         read data(data, ...)
+     *        &lt;----------------
+     *         commit(cookie1)
+     *        ----------------&gt;
+     *         committed(cookie1)
+     *        &lt;----------------
+     *         issue(description, ...)
+     *        &lt;----------------
+     * </pre>
      */
-    public io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.ReadSessionRequest> createReadSession(
-        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.ReadSessionResponse> responseObserver) {
+    public io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage> streamingRead(
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage> responseObserver) {
       return asyncBidiStreamingCall(
-          getChannel().newCall(getCreateReadSessionMethod(), getCallOptions()), responseObserver);
+          getChannel().newCall(getStreamingReadMethod(), getCallOptions()), responseObserver);
     }
 
     /**
@@ -313,8 +381,8 @@ public final class PersQueueServiceGrpc {
   }
 
   private static final int METHODID_GET_READ_SESSIONS_INFO = 0;
-  private static final int METHODID_CREATE_WRITE_SESSION = 1;
-  private static final int METHODID_CREATE_READ_SESSION = 2;
+  private static final int METHODID_STREAMING_WRITE = 1;
+  private static final int METHODID_STREAMING_READ = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -347,12 +415,12 @@ public final class PersQueueServiceGrpc {
     public io.grpc.stub.StreamObserver<Req> invoke(
         io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_CREATE_WRITE_SESSION:
-          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.createWriteSession(
-              (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.WriteSessionResponse>) responseObserver);
-        case METHODID_CREATE_READ_SESSION:
-          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.createReadSession(
-              (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.ReadSessionResponse>) responseObserver);
+        case METHODID_STREAMING_WRITE:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.streamingWrite(
+              (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage>) responseObserver);
+        case METHODID_STREAMING_READ:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.streamingRead(
+              (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -404,8 +472,8 @@ public final class PersQueueServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new PersQueueServiceFileDescriptorSupplier())
-              .addMethod(getCreateWriteSessionMethod())
-              .addMethod(getCreateReadSessionMethod())
+              .addMethod(getStreamingWriteMethod())
+              .addMethod(getStreamingReadMethod())
               .addMethod(getGetReadSessionsInfoMethod())
               .build();
         }

@@ -58,6 +58,37 @@ public final class ExportServiceGrpc {
     return getExportToYtMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.export.YdbExport.ExportToS3Request,
+      tech.ydb.export.YdbExport.ExportToS3Response> getExportToS3Method;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ExportToS3",
+      requestType = tech.ydb.export.YdbExport.ExportToS3Request.class,
+      responseType = tech.ydb.export.YdbExport.ExportToS3Response.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.export.YdbExport.ExportToS3Request,
+      tech.ydb.export.YdbExport.ExportToS3Response> getExportToS3Method() {
+    io.grpc.MethodDescriptor<tech.ydb.export.YdbExport.ExportToS3Request, tech.ydb.export.YdbExport.ExportToS3Response> getExportToS3Method;
+    if ((getExportToS3Method = ExportServiceGrpc.getExportToS3Method) == null) {
+      synchronized (ExportServiceGrpc.class) {
+        if ((getExportToS3Method = ExportServiceGrpc.getExportToS3Method) == null) {
+          ExportServiceGrpc.getExportToS3Method = getExportToS3Method =
+              io.grpc.MethodDescriptor.<tech.ydb.export.YdbExport.ExportToS3Request, tech.ydb.export.YdbExport.ExportToS3Response>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ExportToS3"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.export.YdbExport.ExportToS3Request.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.export.YdbExport.ExportToS3Response.getDefaultInstance()))
+              .setSchemaDescriptor(new ExportServiceMethodDescriptorSupplier("ExportToS3"))
+              .build();
+        }
+      }
+    }
+    return getExportToS3Method;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -117,6 +148,17 @@ public final class ExportServiceGrpc {
       asyncUnimplementedUnaryCall(getExportToYtMethod(), responseObserver);
     }
 
+    /**
+     * <pre>
+     * Exports data to S3.
+     * Method starts an asynchronous operation that can be cancelled while it is in progress.
+     * </pre>
+     */
+    public void exportToS3(tech.ydb.export.YdbExport.ExportToS3Request request,
+        io.grpc.stub.StreamObserver<tech.ydb.export.YdbExport.ExportToS3Response> responseObserver) {
+      asyncUnimplementedUnaryCall(getExportToS3Method(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -126,6 +168,13 @@ public final class ExportServiceGrpc {
                 tech.ydb.export.YdbExport.ExportToYtRequest,
                 tech.ydb.export.YdbExport.ExportToYtResponse>(
                   this, METHODID_EXPORT_TO_YT)))
+          .addMethod(
+            getExportToS3Method(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.export.YdbExport.ExportToS3Request,
+                tech.ydb.export.YdbExport.ExportToS3Response>(
+                  this, METHODID_EXPORT_TO_S3)))
           .build();
     }
   }
@@ -155,6 +204,18 @@ public final class ExportServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getExportToYtMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     * Exports data to S3.
+     * Method starts an asynchronous operation that can be cancelled while it is in progress.
+     * </pre>
+     */
+    public void exportToS3(tech.ydb.export.YdbExport.ExportToS3Request request,
+        io.grpc.stub.StreamObserver<tech.ydb.export.YdbExport.ExportToS3Response> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getExportToS3Method(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -180,6 +241,17 @@ public final class ExportServiceGrpc {
     public tech.ydb.export.YdbExport.ExportToYtResponse exportToYt(tech.ydb.export.YdbExport.ExportToYtRequest request) {
       return blockingUnaryCall(
           getChannel(), getExportToYtMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Exports data to S3.
+     * Method starts an asynchronous operation that can be cancelled while it is in progress.
+     * </pre>
+     */
+    public tech.ydb.export.YdbExport.ExportToS3Response exportToS3(tech.ydb.export.YdbExport.ExportToS3Request request) {
+      return blockingUnaryCall(
+          getChannel(), getExportToS3Method(), getCallOptions(), request);
     }
   }
 
@@ -208,9 +280,22 @@ public final class ExportServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getExportToYtMethod(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     * Exports data to S3.
+     * Method starts an asynchronous operation that can be cancelled while it is in progress.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.export.YdbExport.ExportToS3Response> exportToS3(
+        tech.ydb.export.YdbExport.ExportToS3Request request) {
+      return futureUnaryCall(
+          getChannel().newCall(getExportToS3Method(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_EXPORT_TO_YT = 0;
+  private static final int METHODID_EXPORT_TO_S3 = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -232,6 +317,10 @@ public final class ExportServiceGrpc {
         case METHODID_EXPORT_TO_YT:
           serviceImpl.exportToYt((tech.ydb.export.YdbExport.ExportToYtRequest) request,
               (io.grpc.stub.StreamObserver<tech.ydb.export.YdbExport.ExportToYtResponse>) responseObserver);
+          break;
+        case METHODID_EXPORT_TO_S3:
+          serviceImpl.exportToS3((tech.ydb.export.YdbExport.ExportToS3Request) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.export.YdbExport.ExportToS3Response>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -295,6 +384,7 @@ public final class ExportServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new ExportServiceFileDescriptorSupplier())
               .addMethod(getExportToYtMethod())
+              .addMethod(getExportToS3Method())
               .build();
         }
       }

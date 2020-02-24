@@ -3714,6 +3714,15 @@ public final class YdbCms {
      * <code>bool disable_tx_service = 1;</code>
      */
     boolean getDisableTxService();
+
+    /**
+     * <pre>
+     * Old-style database, do not create external schemeshard for database
+     * </pre>
+     *
+     * <code>bool disable_external_subdomain = 2;</code>
+     */
+    boolean getDisableExternalSubdomain();
   }
   /**
    * Protobuf type {@code Ydb.Cms.DatabaseOptions}
@@ -3729,6 +3738,7 @@ public final class YdbCms {
     }
     private DatabaseOptions() {
       disableTxService_ = false;
+      disableExternalSubdomain_ = false;
     }
 
     @java.lang.Override
@@ -3762,6 +3772,11 @@ public final class YdbCms {
             case 8: {
 
               disableTxService_ = input.readBool();
+              break;
+            }
+            case 16: {
+
+              disableExternalSubdomain_ = input.readBool();
               break;
             }
           }
@@ -3801,6 +3816,19 @@ public final class YdbCms {
       return disableTxService_;
     }
 
+    public static final int DISABLE_EXTERNAL_SUBDOMAIN_FIELD_NUMBER = 2;
+    private boolean disableExternalSubdomain_;
+    /**
+     * <pre>
+     * Old-style database, do not create external schemeshard for database
+     * </pre>
+     *
+     * <code>bool disable_external_subdomain = 2;</code>
+     */
+    public boolean getDisableExternalSubdomain() {
+      return disableExternalSubdomain_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -3816,6 +3844,9 @@ public final class YdbCms {
       if (disableTxService_ != false) {
         output.writeBool(1, disableTxService_);
       }
+      if (disableExternalSubdomain_ != false) {
+        output.writeBool(2, disableExternalSubdomain_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -3827,6 +3858,10 @@ public final class YdbCms {
       if (disableTxService_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(1, disableTxService_);
+      }
+      if (disableExternalSubdomain_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, disableExternalSubdomain_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3846,6 +3881,8 @@ public final class YdbCms {
       boolean result = true;
       result = result && (getDisableTxService()
           == other.getDisableTxService());
+      result = result && (getDisableExternalSubdomain()
+          == other.getDisableExternalSubdomain());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -3860,6 +3897,9 @@ public final class YdbCms {
       hash = (37 * hash) + DISABLE_TX_SERVICE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getDisableTxService());
+      hash = (37 * hash) + DISABLE_EXTERNAL_SUBDOMAIN_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getDisableExternalSubdomain());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3991,6 +4031,8 @@ public final class YdbCms {
         super.clear();
         disableTxService_ = false;
 
+        disableExternalSubdomain_ = false;
+
         return this;
       }
 
@@ -4014,6 +4056,7 @@ public final class YdbCms {
       public tech.ydb.cms.YdbCms.DatabaseOptions buildPartial() {
         tech.ydb.cms.YdbCms.DatabaseOptions result = new tech.ydb.cms.YdbCms.DatabaseOptions(this);
         result.disableTxService_ = disableTxService_;
+        result.disableExternalSubdomain_ = disableExternalSubdomain_;
         onBuilt();
         return result;
       }
@@ -4057,6 +4100,9 @@ public final class YdbCms {
         if (other == tech.ydb.cms.YdbCms.DatabaseOptions.getDefaultInstance()) return this;
         if (other.getDisableTxService() != false) {
           setDisableTxService(other.getDisableTxService());
+        }
+        if (other.getDisableExternalSubdomain() != false) {
+          setDisableExternalSubdomain(other.getDisableExternalSubdomain());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -4119,6 +4165,44 @@ public final class YdbCms {
       public Builder clearDisableTxService() {
         
         disableTxService_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean disableExternalSubdomain_ ;
+      /**
+       * <pre>
+       * Old-style database, do not create external schemeshard for database
+       * </pre>
+       *
+       * <code>bool disable_external_subdomain = 2;</code>
+       */
+      public boolean getDisableExternalSubdomain() {
+        return disableExternalSubdomain_;
+      }
+      /**
+       * <pre>
+       * Old-style database, do not create external schemeshard for database
+       * </pre>
+       *
+       * <code>bool disable_external_subdomain = 2;</code>
+       */
+      public Builder setDisableExternalSubdomain(boolean value) {
+        
+        disableExternalSubdomain_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Old-style database, do not create external schemeshard for database
+       * </pre>
+       *
+       * <code>bool disable_external_subdomain = 2;</code>
+       */
+      public Builder clearDisableExternalSubdomain() {
+        
+        disableExternalSubdomain_ = false;
         onChanged();
         return this;
       }
@@ -23208,76 +23292,77 @@ public final class YdbCms {
       "\030\002 \001(\r\022\021\n\tunit_kind\030\003 \001(\t\"s\n\tResources\022," +
       "\n\rstorage_units\030\001 \003(\0132\025.Ydb.Cms.StorageU" +
       "nits\0228\n\023computational_units\030\002 \003(\0132\033.Ydb.",
-      "Cms.ComputationalUnits\"-\n\017DatabaseOption" +
-      "s\022\032\n\022disable_tx_service\030\001 \001(\010\"(\n\tAttribu" +
-      "te\022\014\n\004name\030\001 \001(\t\022\r\n\005value\030\002 \001(\t\"\332\001\n\025Crea" +
-      "teDatabaseRequest\0229\n\020operation_params\030\001 " +
-      "\001(\0132\037.Ydb.Operations.OperationParams\022\014\n\004" +
-      "path\030\002 \001(\t\022%\n\tresources\030\003 \001(\0132\022.Ydb.Cms." +
-      "Resources\022)\n\007options\030\004 \001(\0132\030.Ydb.Cms.Dat" +
-      "abaseOptions\022&\n\nattributes\030\005 \003(\0132\022.Ydb.C" +
-      "ms.Attribute\"F\n\026CreateDatabaseResponse\022," +
-      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera",
-      "tion\"c\n\030GetDatabaseStatusRequest\022\014\n\004path" +
-      "\030\001 \001(\t\0229\n\020operation_params\030\002 \001(\0132\037.Ydb.O" +
-      "perations.OperationParams\"I\n\031GetDatabase" +
-      "StatusResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
-      "Operations.Operation\"\366\002\n\027GetDatabaseStat" +
-      "usResult\022\014\n\004path\030\001 \001(\t\0225\n\005state\030\002 \001(\0162&." +
-      "Ydb.Cms.GetDatabaseStatusResult.State\022.\n" +
-      "\022required_resources\030\003 \001(\0132\022.Ydb.Cms.Reso" +
-      "urces\022/\n\023allocated_resources\030\004 \001(\0132\022.Ydb" +
-      ".Cms.Resources\022A\n\024registered_resources\030\005",
-      " \003(\0132#.Ydb.Cms.AllocatedComputationalUni" +
-      "t\022\022\n\ngeneration\030\006 \001(\004\"^\n\005State\022\025\n\021STATE_" +
-      "UNSPECIFIED\020\000\022\014\n\010CREATING\020\001\022\013\n\007RUNNING\020\002" +
-      "\022\014\n\010REMOVING\020\003\022\025\n\021PENDING_RESOURCES\020\004\"\313\003" +
-      "\n\024AlterDatabaseRequest\022\014\n\004path\030\001 \001(\t\022?\n\032" +
-      "computational_units_to_add\030\002 \003(\0132\033.Ydb.C" +
-      "ms.ComputationalUnits\022B\n\035computational_u" +
-      "nits_to_remove\030\003 \003(\0132\033.Ydb.Cms.Computati" +
-      "onalUnits\0223\n\024storage_units_to_add\030\004 \003(\0132" +
-      "\025.Ydb.Cms.StorageUnits\022L\n\037computational_",
-      "units_to_register\030\005 \003(\0132#.Ydb.Cms.Alloca" +
-      "tedComputationalUnit\022N\n!computational_un" +
-      "its_to_deregister\030\006 \003(\0132#.Ydb.Cms.Alloca" +
-      "tedComputationalUnit\0229\n\020operation_params" +
-      "\030\007 \001(\0132\037.Ydb.Operations.OperationParams\022" +
-      "\022\n\ngeneration\030\010 \001(\004\"E\n\025AlterDatabaseResp" +
-      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
-      ".Operation\"Q\n\024ListDatabasesRequest\0229\n\020op" +
-      "eration_params\030\001 \001(\0132\037.Ydb.Operations.Op" +
-      "erationParams\"E\n\025ListDatabasesResponse\022,",
-      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
-      "tion\"$\n\023ListDatabasesResult\022\r\n\005paths\030\001 \003" +
-      "(\t\"`\n\025RemoveDatabaseRequest\022\014\n\004path\030\001 \001(" +
-      "\t\0229\n\020operation_params\030\002 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\"F\n\026RemoveDatabaseRe" +
-      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
-      "ns.Operation\"\222\001\n\026StorageUnitDescription\022" +
-      "\014\n\004kind\030\001 \001(\t\022;\n\006labels\030\002 \003(\0132+.Ydb.Cms." +
-      "StorageUnitDescription.LabelsEntry\032-\n\013La" +
-      "belsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028",
-      "\001\"\234\001\n\033AvailabilityZoneDescription\022\014\n\004nam" +
-      "e\030\001 \001(\t\022@\n\006labels\030\002 \003(\01320.Ydb.Cms.Availa" +
-      "bilityZoneDescription.LabelsEntry\032-\n\013Lab" +
-      "elsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001" +
-      "\"\302\001\n\034ComputationalUnitDescription\022\014\n\004kin" +
-      "d\030\001 \001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.Cms.Comput" +
-      "ationalUnitDescription.LabelsEntry\022\"\n\032al" +
-      "lowed_availability_zones\030\003 \003(\t\032-\n\013Labels" +
-      "Entry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"[\n" +
-      "\036DescribeDatabaseOptionsRequest\0229\n\020opera",
-      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
-      "tionParams\"O\n\037DescribeDatabaseOptionsRes" +
-      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
-      "s.Operation\"\335\001\n\035DescribeDatabaseOptionsR" +
-      "esult\0226\n\rstorage_units\030\001 \003(\0132\037.Ydb.Cms.S" +
-      "torageUnitDescription\022@\n\022availability_zo" +
-      "nes\030\002 \003(\0132$.Ydb.Cms.AvailabilityZoneDesc" +
-      "ription\022B\n\023computational_units\030\003 \003(\0132%.Y" +
-      "db.Cms.ComputationalUnitDescriptionB\027\n\022c" +
-      "om.yandex.ydb.cms\370\001\001b\006proto3"
+      "Cms.ComputationalUnits\"Q\n\017DatabaseOption" +
+      "s\022\032\n\022disable_tx_service\030\001 \001(\010\022\"\n\032disable" +
+      "_external_subdomain\030\002 \001(\010\"(\n\tAttribute\022\014" +
+      "\n\004name\030\001 \001(\t\022\r\n\005value\030\002 \001(\t\"\332\001\n\025CreateDa" +
+      "tabaseRequest\0229\n\020operation_params\030\001 \001(\0132" +
+      "\037.Ydb.Operations.OperationParams\022\014\n\004path" +
+      "\030\002 \001(\t\022%\n\tresources\030\003 \001(\0132\022.Ydb.Cms.Reso" +
+      "urces\022)\n\007options\030\004 \001(\0132\030.Ydb.Cms.Databas" +
+      "eOptions\022&\n\nattributes\030\005 \003(\0132\022.Ydb.Cms.A" +
+      "ttribute\"F\n\026CreateDatabaseResponse\022,\n\top",
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "\"c\n\030GetDatabaseStatusRequest\022\014\n\004path\030\001 \001" +
+      "(\t\0229\n\020operation_params\030\002 \001(\0132\037.Ydb.Opera" +
+      "tions.OperationParams\"I\n\031GetDatabaseStat" +
+      "usResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.Operation\"\366\002\n\027GetDatabaseStatusRe" +
+      "sult\022\014\n\004path\030\001 \001(\t\0225\n\005state\030\002 \001(\0162&.Ydb." +
+      "Cms.GetDatabaseStatusResult.State\022.\n\022req" +
+      "uired_resources\030\003 \001(\0132\022.Ydb.Cms.Resource" +
+      "s\022/\n\023allocated_resources\030\004 \001(\0132\022.Ydb.Cms",
+      ".Resources\022A\n\024registered_resources\030\005 \003(\013" +
+      "2#.Ydb.Cms.AllocatedComputationalUnit\022\022\n" +
+      "\ngeneration\030\006 \001(\004\"^\n\005State\022\025\n\021STATE_UNSP" +
+      "ECIFIED\020\000\022\014\n\010CREATING\020\001\022\013\n\007RUNNING\020\002\022\014\n\010" +
+      "REMOVING\020\003\022\025\n\021PENDING_RESOURCES\020\004\"\313\003\n\024Al" +
+      "terDatabaseRequest\022\014\n\004path\030\001 \001(\t\022?\n\032comp" +
+      "utational_units_to_add\030\002 \003(\0132\033.Ydb.Cms.C" +
+      "omputationalUnits\022B\n\035computational_units" +
+      "_to_remove\030\003 \003(\0132\033.Ydb.Cms.Computational" +
+      "Units\0223\n\024storage_units_to_add\030\004 \003(\0132\025.Yd",
+      "b.Cms.StorageUnits\022L\n\037computational_unit" +
+      "s_to_register\030\005 \003(\0132#.Ydb.Cms.AllocatedC" +
+      "omputationalUnit\022N\n!computational_units_" +
+      "to_deregister\030\006 \003(\0132#.Ydb.Cms.AllocatedC" +
+      "omputationalUnit\0229\n\020operation_params\030\007 \001" +
+      "(\0132\037.Ydb.Operations.OperationParams\022\022\n\ng" +
+      "eneration\030\010 \001(\004\"E\n\025AlterDatabaseResponse" +
+      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
+      "ration\"Q\n\024ListDatabasesRequest\0229\n\020operat" +
+      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat",
+      "ionParams\"E\n\025ListDatabasesResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "\"$\n\023ListDatabasesResult\022\r\n\005paths\030\001 \003(\t\"`" +
+      "\n\025RemoveDatabaseRequest\022\014\n\004path\030\001 \001(\t\0229\n" +
+      "\020operation_params\030\002 \001(\0132\037.Ydb.Operations" +
+      ".OperationParams\"F\n\026RemoveDatabaseRespon" +
+      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
+      "peration\"\222\001\n\026StorageUnitDescription\022\014\n\004k" +
+      "ind\030\001 \001(\t\022;\n\006labels\030\002 \003(\0132+.Ydb.Cms.Stor" +
+      "ageUnitDescription.LabelsEntry\032-\n\013Labels",
+      "Entry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001" +
+      "\n\033AvailabilityZoneDescription\022\014\n\004name\030\001 " +
+      "\001(\t\022@\n\006labels\030\002 \003(\01320.Ydb.Cms.Availabili" +
+      "tyZoneDescription.LabelsEntry\032-\n\013LabelsE" +
+      "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\302\001\n" +
+      "\034ComputationalUnitDescription\022\014\n\004kind\030\001 " +
+      "\001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.Cms.Computatio" +
+      "nalUnitDescription.LabelsEntry\022\"\n\032allowe" +
+      "d_availability_zones\030\003 \003(\t\032-\n\013LabelsEntr" +
+      "y\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"[\n\036Des",
+      "cribeDatabaseOptionsRequest\0229\n\020operation" +
+      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\"O\n\037DescribeDatabaseOptionsRespons" +
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
+      "eration\"\335\001\n\035DescribeDatabaseOptionsResul" +
+      "t\0226\n\rstorage_units\030\001 \003(\0132\037.Ydb.Cms.Stora" +
+      "geUnitDescription\022@\n\022availability_zones\030" +
+      "\002 \003(\0132$.Ydb.Cms.AvailabilityZoneDescript" +
+      "ion\022B\n\023computational_units\030\003 \003(\0132%.Ydb.C" +
+      "ms.ComputationalUnitDescriptionB\027\n\022com.y",
+      "andex.ydb.cms\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -23321,7 +23406,7 @@ public final class YdbCms {
     internal_static_Ydb_Cms_DatabaseOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DatabaseOptions_descriptor,
-        new java.lang.String[] { "DisableTxService", });
+        new java.lang.String[] { "DisableTxService", "DisableExternalSubdomain", });
     internal_static_Ydb_Cms_Attribute_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_Ydb_Cms_Attribute_fieldAccessorTable = new
