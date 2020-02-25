@@ -136,8 +136,12 @@ public final class PrimitiveType implements Type {
     }
 
     @Override
-    public java.lang.String toString() {
-        return id.name();
+    public String toString() {
+        switch (id) {
+            case Float32: return "Float";
+            case Float64: return "Double";
+            default: return id.name();
+        }
     }
 
     @Override
