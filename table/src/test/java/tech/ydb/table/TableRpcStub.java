@@ -138,6 +138,11 @@ public class TableRpcStub implements TableRpc {
     }
 
     @Override
+    public String getDatabase() {
+        return "";
+    }
+
+    @Override
     public OperationTray getOperationTray() {
         return new ImmediateOperationTray();
     }

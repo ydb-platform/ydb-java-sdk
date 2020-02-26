@@ -17,6 +17,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.net.ssl.SSLException;
 
+import com.google.common.base.Strings;
 import com.google.common.net.HostAndPort;
 import com.google.common.util.concurrent.MoreExecutors;
 import tech.ydb.core.Issue;
@@ -69,6 +70,7 @@ public class GrpcTransport implements RpcTransport {
     private final ManagedChannel realChannel;
     private final Channel channel;
     private final CallOptions callOptions;
+    private final String database;
     private final GrpcOperationTray operationTray;
     private final long defautlReadTimeoutMillis;
 
@@ -77,6 +79,7 @@ public class GrpcTransport implements RpcTransport {
         this.channel = interceptChannel(realChannel, builder);
         this.callOptions = createCallOptions(builder);
         this.defautlReadTimeoutMillis = builder.getReadTimeoutMillis();
+        this.database = Strings.nullToEmpty(builder.database);
         this.operationTray = new GrpcOperationTray(this);
     }
 
@@ -208,6 +211,11 @@ public class GrpcTransport implements RpcTransport {
             }
             listener.onClose(Status.INTERNAL.withCause(t), null);
         }
+    }
+
+    @Override
+    public String getDatabase() {
+        return database;
     }
 
     @Override

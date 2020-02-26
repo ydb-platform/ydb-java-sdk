@@ -41,13 +41,18 @@ final class SchemeClientImpl implements SchemeClient {
             return mkdir(path);
         }
 
+        String database = schemeRpc.getDatabase();
+        if (!database.isEmpty() && path.startsWith(database)) {
+            path = path.substring(database.length());
+        }
+
         Iterator<String> it = Splitter.on('/')
             .omitEmptyStrings()
             .split(path)
             .iterator();
 
         CompletableFuture<Status> future = new CompletableFuture<>();
-        mkdirs("", it, future);
+        mkdirs(database, it, future);
         return future;
     }
 

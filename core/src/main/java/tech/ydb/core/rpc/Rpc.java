@@ -5,6 +5,8 @@ package tech.ydb.core.rpc;
  */
 public interface Rpc extends AutoCloseable {
 
+    String getDatabase();
+
     OperationTray getOperationTray();
 
     @Override

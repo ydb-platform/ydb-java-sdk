@@ -160,6 +160,11 @@ public final class GrpcTableRpc implements TableRpc {
     }
 
     @Override
+    public String getDatabase() {
+        return transport.getDatabase();
+    }
+
+    @Override
     public OperationTray getOperationTray() {
         return transport.getOperationTray();
     }

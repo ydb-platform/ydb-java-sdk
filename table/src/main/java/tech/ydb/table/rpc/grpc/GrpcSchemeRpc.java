@@ -75,6 +75,11 @@ public final class GrpcSchemeRpc implements SchemeRpc {
     }
 
     @Override
+    public String getDatabase() {
+        return transport.getDatabase();
+    }
+
+    @Override
     public OperationTray getOperationTray() {
         return transport.getOperationTray();
     }
