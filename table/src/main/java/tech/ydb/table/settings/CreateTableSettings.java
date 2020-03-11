@@ -19,7 +19,8 @@ public class CreateTableSettings extends RequestSettings<CreateTableSettings> {
     private PartitioningPolicy partitioningPolicy;
     @Nullable
     private StoragePolicy storagePolicy;
-
+    @Nullable
+    private ReplicationPolicy replicationPolicy;
 
     @Nullable
     public String getPresetName() {
@@ -70,4 +71,15 @@ public class CreateTableSettings extends RequestSettings<CreateTableSettings> {
         this.storagePolicy = storagePolicy;
         return this;
     }
+
+    @Nullable
+    public ReplicationPolicy getReplicationPolicy() {
+        return replicationPolicy;
+    }
+
+    public CreateTableSettings setReplicationPolicy(@Nullable ReplicationPolicy replicationPolicy) {
+        this.replicationPolicy = replicationPolicy;
+        return this;
+    }
+
 }

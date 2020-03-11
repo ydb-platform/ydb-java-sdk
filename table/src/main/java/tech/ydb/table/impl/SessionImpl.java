@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 
 import tech.ydb.StatusCodesProtos.StatusIds;
 import tech.ydb.ValueProtos;
+import tech.ydb.common.CommonProtos;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -46,6 +47,7 @@ import tech.ydb.table.settings.KeepAliveSessionSettings;
 import tech.ydb.table.settings.PartitioningPolicy;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
 import tech.ydb.table.settings.ReadTableSettings;
+import tech.ydb.table.settings.ReplicationPolicy;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.settings.StoragePolicy;
 import tech.ydb.table.transaction.Transaction;
@@ -195,6 +197,22 @@ class SessionImpl implements Session {
                 if (policy.getExternal() != null) {
                     policyProto.getExternalBuilder().setStorageKind(policy.getExternal());
                 }
+            }
+        }
+
+        {
+            ReplicationPolicy policy = settings.getReplicationPolicy();
+            if (policy != null) {
+                YdbTable.ReplicationPolicy.Builder replicationPolicyProto =
+                    request.getProfileBuilder().getReplicationPolicyBuilder();
+                if (policy.getPresetName() != null) {
+                    replicationPolicyProto.setPresetName(policy.getPresetName());
+                }
+                replicationPolicyProto.setReplicasCount(policy.getReplicasCount());
+                replicationPolicyProto.setCreatePerAvailabilityZone(policy.isCreatePerAvailabilityZone() ?
+                    CommonProtos.FeatureFlag.Status.ENABLED : CommonProtos.FeatureFlag.Status.DISABLED);
+                replicationPolicyProto.setAllowPromotion(policy.isAllowPromotion() ?
+                    CommonProtos.FeatureFlag.Status.ENABLED : CommonProtos.FeatureFlag.Status.DISABLED);
             }
         }
 
