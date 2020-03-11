@@ -11,18 +11,23 @@ import io.netty.util.HashedWheelTimer;
 import io.netty.util.Timeout;
 import io.netty.util.Timer;
 import io.netty.util.TimerTask;
+import io.netty.util.internal.SystemPropertyUtil;
 
 
 /**
  * @author Sergey Polovko
  */
 public class Async {
-    private Async() {}
+    private Async() {
+    }
+
+    private static final boolean DEFAULT_TIMER_THREAD_DAEMON =
+        SystemPropertyUtil.getBoolean("tech.ydb.table.async.daemon", true);
 
     private static final Timer DEFAULT_TIMER = new HashedWheelTimer(
         r -> {
             Thread t = new Thread(r);
-            t.setDaemon(true);
+            t.setDaemon(DEFAULT_TIMER_THREAD_DAEMON);
             t.setName("YdbAsyncTimer");
             return t;
         },

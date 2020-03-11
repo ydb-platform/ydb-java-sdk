@@ -12,9 +12,6 @@ import tech.ydb.table.impl.pool.PooledObjectHandler;
 import tech.ydb.table.impl.pool.SettlersPool;
 import tech.ydb.table.settings.CreateSessionSettings;
 import tech.ydb.table.stats.SessionPoolStats;
-import io.netty.util.HashedWheelTimer;
-import io.netty.util.Timer;
-import io.netty.util.concurrent.DefaultThreadFactory;
 
 
 /**
@@ -35,7 +32,6 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
      */
     private final SettlersPool<SessionImpl> settlersPool;
 
-    private final Timer timer;
     private final int minSize;
     private final int maxSize;
 
@@ -43,16 +39,14 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
         this.tableClient = tableClient;
         this.minSize = options.getMinSize();
         this.maxSize = options.getMaxSize();
-        this.timer = new HashedWheelTimer(new DefaultThreadFactory("SessionPoolTimer"));
         this.idlePool = new FixedAsyncPool<>(
             this,
-            timer,
             minSize,
             maxSize,
             maxSize * 2,
             options.getKeepAliveTimeMillis(),
             options.getMaxIdleTimeMillis());
-        this.settlersPool = new SettlersPool<>(this, idlePool, timer, 10, 5_000);
+        this.settlersPool = new SettlersPool<>(this, idlePool, 10, 5_000);
     }
 
     @Override
@@ -105,12 +99,8 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
     }
 
     void close() {
-        try {
-            idlePool.close();
-            settlersPool.close();
-        } finally {
-            timer.stop();
-        }
+        idlePool.close();
+        settlersPool.close();
     }
 
     public SessionPoolStats getStats() {

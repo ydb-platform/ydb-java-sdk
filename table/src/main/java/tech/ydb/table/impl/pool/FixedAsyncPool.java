@@ -17,8 +17,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import tech.ydb.table.utils.Async;
 import io.netty.util.Timeout;
-import io.netty.util.Timer;
 import io.netty.util.TimerTask;
 
 import static java.util.concurrent.CompletableFuture.allOf;
@@ -36,7 +36,6 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
     private final Queue<PendingAcquireTask> pendingAcquireTasks = new ConcurrentLinkedQueue<>();
     private final AtomicInteger pendingAcquireCount = new AtomicInteger(0);
     private final PooledObjectHandler<T> handler;
-    private final Timer timer;
     private final KeepAliveTask keepAliveTask;
 
     private final int minSize;
@@ -47,15 +46,12 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
 
     public FixedAsyncPool(
         PooledObjectHandler<T> handler,
-        Timer timer,
         int minSize,
         int maxSize,
         int waitQueueMaxSize,
         long keepAliveTimeMillis,
-        long maxIdleTimeMillis)
-    {
+        long maxIdleTimeMillis) {
         this.handler = handler;
-        this.timer = timer;
         this.minSize = minSize;
         this.maxSize = maxSize;
         this.waitQueueMaxSize = waitQueueMaxSize;
@@ -63,7 +59,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         // start keep alive task
         int keepAliveBatchSize = Math.max(2, maxSize / 10);
         this.keepAliveTask = new KeepAliveTask(keepAliveTimeMillis, maxIdleTimeMillis, keepAliveBatchSize);
-        this.keepAliveTask.scheduleNext(this.timer);
+        this.keepAliveTask.scheduleNext();
     }
 
     public int getMinSize() {
@@ -114,7 +110,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                 promise.completeExceptionally(new IllegalStateException("too many acquired objects"));
             } else {
                 if (pendingAcquireCount.getAndIncrement() < waitQueueMaxSize) {
-                    pendingAcquireTasks.offer(new PendingAcquireTask(promise, timer, timeoutNanos, deadlineAfter));
+                    pendingAcquireTasks.offer(new PendingAcquireTask(promise, timeoutNanos, deadlineAfter));
                     runPendingAcquireTasks();
                 } else {
                     pendingAcquireCount.decrementAndGet();
@@ -343,11 +339,11 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         final long deadlineAfter;
         final Timeout timeout;
 
-        PendingAcquireTask(CompletableFuture<T> promise, Timer timer, long timeoutNanos, long deadlineAfter) {
+        PendingAcquireTask(CompletableFuture<T> promise, long timeoutNanos, long deadlineAfter) {
             this.promise = promise;
             this.timeoutNanos = timeoutNanos;
             this.deadlineAfter = deadlineAfter;
-            this.timeout = timer.newTimeout(this, timeoutNanos, TimeUnit.NANOSECONDS);
+            this.timeout = Async.runAfter(this, timeoutNanos, TimeUnit.NANOSECONDS);
         }
 
         @Override
@@ -412,7 +408,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             allOf(destroy, keepAlive)
                 .whenComplete((aVoid, throwable) -> {
                     if (!stoped) {
-                        scheduleNext(timeout.timer());
+                        scheduleNext();
                     }
                 });
         }
@@ -451,9 +447,9 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             return allOf(futures);
         }
 
-        void scheduleNext(Timer timer) {
+        void scheduleNext() {
             long delayMillis = Math.min(1_000, keepAliveTimeMillis / 2);
-            timer.newTimeout(this, delayMillis, TimeUnit.MILLISECONDS);
+            Async.runAfter(this, delayMillis, TimeUnit.MILLISECONDS);
         }
 
         void stop() {

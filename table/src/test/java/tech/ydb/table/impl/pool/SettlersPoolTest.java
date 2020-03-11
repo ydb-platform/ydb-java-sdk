@@ -25,10 +25,10 @@ public class SettlersPoolTest {
 
     @Before
     public void setUp() {
-        mainPool = new FixedAsyncPool<>(handler, timer, 0, 2, 100, keepAliveTimeMillis, 30_000);
+        mainPool = new FixedAsyncPool<>(handler, 0, 2, 100, keepAliveTimeMillis, 30_000);
         assertEquals(0, mainPool.getAcquiredCount());
 
-        settlersPool = new SettlersPool<>(handler, mainPool, timer, 1, keepAliveTimeMillis);
+        settlersPool = new SettlersPool<>(handler, mainPool, 1, keepAliveTimeMillis);
         assertEquals(0, settlersPool.size());
     }
 

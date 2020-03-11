@@ -8,8 +8,8 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import tech.ydb.table.utils.Async;
 import io.netty.util.Timeout;
-import io.netty.util.Timer;
 import io.netty.util.TimerTask;
 
 /**
@@ -20,7 +20,6 @@ public class SettlersPool<T> {
 
     private final PooledObjectHandler<T> handler;
     private final FixedAsyncPool<T> mainPool;
-    private final Timer timer;
     private final int maxKeepAliveCount;
     private final long keepAliveTimeMillis;
 
@@ -31,18 +30,15 @@ public class SettlersPool<T> {
     public SettlersPool(
         PooledObjectHandler<T> handler,
         FixedAsyncPool<T> mainPool,
-        Timer timer,
         int maxKeepAliveCount,
-        int keepAliveTimeMillis)
-    {
+        int keepAliveTimeMillis) {
         this.handler = handler;
         this.mainPool = mainPool;
-        this.timer = timer;
         this.maxKeepAliveCount = maxKeepAliveCount;
         this.keepAliveTimeMillis = keepAliveTimeMillis;
 
         // delay first run
-        this.timer.newTimeout(keepAliveTask, keepAliveTimeMillis, TimeUnit.MILLISECONDS);
+        Async.runAfter(keepAliveTask, keepAliveTimeMillis, TimeUnit.MILLISECONDS);
     }
 
     public boolean offerIfHaveSpace(T object) {
@@ -109,7 +105,7 @@ public class SettlersPool<T> {
             }
 
             if (!it.hasNext()) {
-                timer.newTimeout(this, keepAliveTimeMillis, TimeUnit.MILLISECONDS);
+                Async.runAfter(keepAliveTask, keepAliveTimeMillis, TimeUnit.MILLISECONDS);
                 return;
             }
 
@@ -124,7 +120,8 @@ public class SettlersPool<T> {
                             new Object[]{po.object, po.keepAliveCount, maxKeepAliveCount});
                     }
                     handler.destroy(po.object); // do not await object to be destroyed
-                } catch (Exception ignore) {}
+                } catch (Exception ignore) {
+                }
                 checkNextObject(it);
                 return;
             }
@@ -140,7 +137,8 @@ public class SettlersPool<T> {
                             size.decrementAndGet();
                             mainPool.offerOrDestroy(po.object);
                         }
-                    } catch (Exception ignore) {}
+                    } catch (Exception ignore) {
+                    }
 
                     checkNextObject(it);
                 });

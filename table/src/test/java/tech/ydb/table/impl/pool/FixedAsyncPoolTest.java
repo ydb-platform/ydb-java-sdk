@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.netty.util.HashedWheelTimer;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -31,7 +30,6 @@ public class FixedAsyncPoolTest {
         Duration timeout = Duration.ofSeconds(1);
         FixedAsyncPool<Resource> pool = new FixedAsyncPool<>(
             new ResourceHandler(),
-            new HashedWheelTimer(),
             0, 2, 2, 10_000, 10_000);
 
         {
@@ -80,7 +78,6 @@ public class FixedAsyncPoolTest {
     public void acquireRelease() {
         FixedAsyncPool<Resource> pool = new FixedAsyncPool<>(
             new ResourceHandler(),
-            new HashedWheelTimer(),
             0, 2, 2, 10_000, 10_000);
 
         Resource r1 = pool.acquire(Duration.ZERO)
@@ -122,7 +119,6 @@ public class FixedAsyncPoolTest {
     public void delayedAcquire() {
         FixedAsyncPool<Resource> pool = new FixedAsyncPool<>(
             new ResourceHandler(),
-            new HashedWheelTimer(),
             0, 2, 2, 10_000, 10_000);
 
         Resource r1 = pool.acquire(Duration.ZERO)
@@ -147,7 +143,6 @@ public class FixedAsyncPoolTest {
     public void close() {
         FixedAsyncPool<Resource> pool = new FixedAsyncPool<>(
             new ResourceHandler(),
-            new HashedWheelTimer(),
             0, 2, 2, 10_000, 10_000);
 
         Resource r = pool.acquire(Duration.ZERO).join();
@@ -183,7 +178,6 @@ public class FixedAsyncPoolTest {
         // TODO: inject special clock for manual control time
         FixedAsyncPool<Resource> pool = new FixedAsyncPool<>(
             new ResourceHandler(),
-            new HashedWheelTimer(),
             1, 10, 10, 500, 2_000);
 
         Resource r1 = pool.acquire(Duration.ZERO).join();
@@ -217,10 +211,8 @@ public class FixedAsyncPoolTest {
 
     @Test
     public void concurrentAcquireRelease() throws Exception {
-        HashedWheelTimer timer = new HashedWheelTimer();
         FixedAsyncPool<Resource> pool = new FixedAsyncPool<>(
             new ResourceHandler(),
-            timer,
             0, 1, Integer.MAX_VALUE,
             10_000, 10_000);
 
@@ -268,7 +260,6 @@ public class FixedAsyncPoolTest {
             executor.awaitTermination(1, TimeUnit.SECONDS);
 
             pool.close();
-            timer.stop();
         }
     }
 
