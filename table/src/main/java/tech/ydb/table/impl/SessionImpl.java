@@ -583,7 +583,7 @@ class SessionImpl implements Session {
         return promise;
     }
 
-    CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings) {
+    public CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings) {
         YdbTable.CommitTransactionRequest request = YdbTable.CommitTransactionRequest.newBuilder()
             .setSessionId(id)
             .setTxId(txId)
@@ -600,7 +600,7 @@ class SessionImpl implements Session {
             }));
     }
 
-    CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings) {
+    public CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings) {
         YdbTable.RollbackTransactionRequest request = YdbTable.RollbackTransactionRequest.newBuilder()
             .setSessionId(id)
             .setTxId(txId)

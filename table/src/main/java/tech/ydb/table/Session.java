@@ -14,6 +14,7 @@ import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.BeginTxSettings;
 import tech.ydb.table.settings.CloseSessionSettings;
+import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
 import tech.ydb.table.settings.CreateTableSettings;
 import tech.ydb.table.settings.DescribeTableSettings;
@@ -24,6 +25,7 @@ import tech.ydb.table.settings.ExplainDataQuerySettings;
 import tech.ydb.table.settings.KeepAliveSessionSettings;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
 import tech.ydb.table.settings.ReadTableSettings;
+import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TransactionMode;
 import tech.ydb.table.transaction.TxControl;
@@ -103,6 +105,10 @@ public interface Session {
     default CompletableFuture<Result<Transaction>> beginTransaction(TransactionMode transactionMode) {
         return beginTransaction(transactionMode, new BeginTxSettings());
     }
+
+    CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings);
+
+    CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings);
 
     CompletableFuture<Status> readTable(String tablePath, ReadTableSettings settings, Consumer<ResultSetReader> fn);
 

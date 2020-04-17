@@ -15,6 +15,7 @@ import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.BeginTxSettings;
 import tech.ydb.table.settings.CloseSessionSettings;
+import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
 import tech.ydb.table.settings.CreateTableSettings;
 import tech.ydb.table.settings.DescribeTableSettings;
@@ -25,6 +26,7 @@ import tech.ydb.table.settings.ExplainDataQuerySettings;
 import tech.ydb.table.settings.KeepAliveSessionSettings;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
 import tech.ydb.table.settings.ReadTableSettings;
+import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TransactionMode;
 import tech.ydb.table.transaction.TxControl;
@@ -112,6 +114,16 @@ public class SessionStub implements Session {
     @Override
     public CompletableFuture<Status> readTable(String tablePath, ReadTableSettings settings, Consumer<ResultSetReader> fn) {
         return notImplemented("readTable()");
+    }
+
+    @Override
+    public CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings) {
+        return notImplemented("commitTransaction()");
+    }
+
+    @Override
+    public CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings) {
+        return notImplemented("rollbackTransaction()");
     }
 
     @Override
