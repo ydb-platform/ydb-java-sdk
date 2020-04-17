@@ -1261,24 +1261,17 @@ public final class YdbPersqueueV1 {
     tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.WriteRequestOrBuilder getWriteRequestOrBuilder();
 
     /**
-     * <pre>
-     * User credentials if update is needed.
-     * Client can send only token if no data is available but credentials are changed.
-     * </pre>
-     *
-     * <code>string token = 20;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
      */
-    java.lang.String getToken();
+    boolean hasUpdateTokenRequest();
     /**
-     * <pre>
-     * User credentials if update is needed.
-     * Client can send only token if no data is available but credentials are changed.
-     * </pre>
-     *
-     * <code>string token = 20;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
      */
-    com.google.protobuf.ByteString
-        getTokenBytes();
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest getUpdateTokenRequest();
+    /**
+     * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
+     */
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequestOrBuilder getUpdateTokenRequestOrBuilder();
 
     public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.ClientMessageCase getClientMessageCase();
   }
@@ -1288,6 +1281,7 @@ public final class YdbPersqueueV1 {
    * Request for write session. Contains one of:
    *      InitRequest - handshake request.
    *      WriteRequest - portion of data to be written.
+   *      UpdateTokenRequest - user credentials if update is needed.
    * </pre>
    *
    * Protobuf type {@code Ydb.PersQueue.V1.StreamingWriteClientMessage}
@@ -1302,7 +1296,6 @@ public final class YdbPersqueueV1 {
       super(builder);
     }
     private StreamingWriteClientMessage() {
-      token_ = "";
     }
 
     @java.lang.Override
@@ -1361,10 +1354,18 @@ public final class YdbPersqueueV1 {
               clientMessageCase_ = 2;
               break;
             }
-            case 162: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              token_ = s;
+            case 26: {
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.Builder subBuilder = null;
+              if (clientMessageCase_ == 3) {
+                subBuilder = ((tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest) clientMessage_).toBuilder();
+              }
+              clientMessage_ =
+                  input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest) clientMessage_);
+                clientMessage_ = subBuilder.buildPartial();
+              }
+              clientMessageCase_ = 3;
               break;
             }
           }
@@ -1530,6 +1531,24 @@ public final class YdbPersqueueV1 {
 
       /**
        * <pre>
+       * Optinal preferred cluster name. Sever will close session If preferred cluster is not server cluster and preferred cluster is enabled after delay TPQConfig::CloseClientSessionWithEnabledRemotePreferredClusterDelaySec
+       * </pre>
+       *
+       * <code>string preferred_cluster = 103;</code>
+       */
+      java.lang.String getPreferredCluster();
+      /**
+       * <pre>
+       * Optinal preferred cluster name. Sever will close session If preferred cluster is not server cluster and preferred cluster is enabled after delay TPQConfig::CloseClientSessionWithEnabledRemotePreferredClusterDelaySec
+       * </pre>
+       *
+       * <code>string preferred_cluster = 103;</code>
+       */
+      com.google.protobuf.ByteString
+          getPreferredClusterBytes();
+
+      /**
+       * <pre>
        * Sanity check option. When no writing activity is done in idle_timeout_sec seconds, then session will be destroyed. Zero means infinity.
        * </pre>
        *
@@ -1561,6 +1580,7 @@ public final class YdbPersqueueV1 {
         sessionId_ = "";
         connectionAttempt_ = 0L;
         connectionMeta_ = com.google.protobuf.ByteString.EMPTY;
+        preferredCluster_ = "";
         idleTimeoutMs_ = 0L;
       }
 
@@ -1641,6 +1661,12 @@ public final class YdbPersqueueV1 {
               case 818: {
 
                 connectionMeta_ = input.readBytes();
+                break;
+              }
+              case 826: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                preferredCluster_ = s;
                 break;
               }
               case 1600: {
@@ -1943,6 +1969,48 @@ public final class YdbPersqueueV1 {
         return connectionMeta_;
       }
 
+      public static final int PREFERRED_CLUSTER_FIELD_NUMBER = 103;
+      private volatile java.lang.Object preferredCluster_;
+      /**
+       * <pre>
+       * Optinal preferred cluster name. Sever will close session If preferred cluster is not server cluster and preferred cluster is enabled after delay TPQConfig::CloseClientSessionWithEnabledRemotePreferredClusterDelaySec
+       * </pre>
+       *
+       * <code>string preferred_cluster = 103;</code>
+       */
+      public java.lang.String getPreferredCluster() {
+        java.lang.Object ref = preferredCluster_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          preferredCluster_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * Optinal preferred cluster name. Sever will close session If preferred cluster is not server cluster and preferred cluster is enabled after delay TPQConfig::CloseClientSessionWithEnabledRemotePreferredClusterDelaySec
+       * </pre>
+       *
+       * <code>string preferred_cluster = 103;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPreferredClusterBytes() {
+        java.lang.Object ref = preferredCluster_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          preferredCluster_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
       public static final int IDLE_TIMEOUT_MS_FIELD_NUMBER = 200;
       private long idleTimeoutMs_;
       /**
@@ -1995,6 +2063,9 @@ public final class YdbPersqueueV1 {
         if (!connectionMeta_.isEmpty()) {
           output.writeBytes(102, connectionMeta_);
         }
+        if (!getPreferredClusterBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 103, preferredCluster_);
+        }
         if (idleTimeoutMs_ != 0L) {
           output.writeInt64(200, idleTimeoutMs_);
         }
@@ -2041,6 +2112,9 @@ public final class YdbPersqueueV1 {
           size += com.google.protobuf.CodedOutputStream
             .computeBytesSize(102, connectionMeta_);
         }
+        if (!getPreferredClusterBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(103, preferredCluster_);
+        }
         if (idleTimeoutMs_ != 0L) {
           size += com.google.protobuf.CodedOutputStream
             .computeInt64Size(200, idleTimeoutMs_);
@@ -2077,6 +2151,8 @@ public final class YdbPersqueueV1 {
             == other.getConnectionAttempt());
         result = result && getConnectionMeta()
             .equals(other.getConnectionMeta());
+        result = result && getPreferredCluster()
+            .equals(other.getPreferredCluster());
         result = result && (getIdleTimeoutMs()
             == other.getIdleTimeoutMs());
         result = result && unknownFields.equals(other.unknownFields);
@@ -2111,6 +2187,8 @@ public final class YdbPersqueueV1 {
             getConnectionAttempt());
         hash = (37 * hash) + CONNECTION_META_FIELD_NUMBER;
         hash = (53 * hash) + getConnectionMeta().hashCode();
+        hash = (37 * hash) + PREFERRED_CLUSTER_FIELD_NUMBER;
+        hash = (53 * hash) + getPreferredCluster().hashCode();
         hash = (37 * hash) + IDLE_TIMEOUT_MS_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
             getIdleTimeoutMs());
@@ -2284,6 +2362,8 @@ public final class YdbPersqueueV1 {
 
           connectionMeta_ = com.google.protobuf.ByteString.EMPTY;
 
+          preferredCluster_ = "";
+
           idleTimeoutMs_ = 0L;
 
           return this;
@@ -2319,6 +2399,7 @@ public final class YdbPersqueueV1 {
           result.sessionId_ = sessionId_;
           result.connectionAttempt_ = connectionAttempt_;
           result.connectionMeta_ = connectionMeta_;
+          result.preferredCluster_ = preferredCluster_;
           result.idleTimeoutMs_ = idleTimeoutMs_;
           result.bitField0_ = to_bitField0_;
           onBuilt();
@@ -2387,6 +2468,10 @@ public final class YdbPersqueueV1 {
           }
           if (other.getConnectionMeta() != com.google.protobuf.ByteString.EMPTY) {
             setConnectionMeta(other.getConnectionMeta());
+          }
+          if (!other.getPreferredCluster().isEmpty()) {
+            preferredCluster_ = other.preferredCluster_;
+            onChanged();
           }
           if (other.getIdleTimeoutMs() != 0L) {
             setIdleTimeoutMs(other.getIdleTimeoutMs());
@@ -2963,6 +3048,95 @@ public final class YdbPersqueueV1 {
           return this;
         }
 
+        private java.lang.Object preferredCluster_ = "";
+        /**
+         * <pre>
+         * Optinal preferred cluster name. Sever will close session If preferred cluster is not server cluster and preferred cluster is enabled after delay TPQConfig::CloseClientSessionWithEnabledRemotePreferredClusterDelaySec
+         * </pre>
+         *
+         * <code>string preferred_cluster = 103;</code>
+         */
+        public java.lang.String getPreferredCluster() {
+          java.lang.Object ref = preferredCluster_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            preferredCluster_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * Optinal preferred cluster name. Sever will close session If preferred cluster is not server cluster and preferred cluster is enabled after delay TPQConfig::CloseClientSessionWithEnabledRemotePreferredClusterDelaySec
+         * </pre>
+         *
+         * <code>string preferred_cluster = 103;</code>
+         */
+        public com.google.protobuf.ByteString
+            getPreferredClusterBytes() {
+          java.lang.Object ref = preferredCluster_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            preferredCluster_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * Optinal preferred cluster name. Sever will close session If preferred cluster is not server cluster and preferred cluster is enabled after delay TPQConfig::CloseClientSessionWithEnabledRemotePreferredClusterDelaySec
+         * </pre>
+         *
+         * <code>string preferred_cluster = 103;</code>
+         */
+        public Builder setPreferredCluster(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          preferredCluster_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Optinal preferred cluster name. Sever will close session If preferred cluster is not server cluster and preferred cluster is enabled after delay TPQConfig::CloseClientSessionWithEnabledRemotePreferredClusterDelaySec
+         * </pre>
+         *
+         * <code>string preferred_cluster = 103;</code>
+         */
+        public Builder clearPreferredCluster() {
+          
+          preferredCluster_ = getDefaultInstance().getPreferredCluster();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Optinal preferred cluster name. Sever will close session If preferred cluster is not server cluster and preferred cluster is enabled after delay TPQConfig::CloseClientSessionWithEnabledRemotePreferredClusterDelaySec
+         * </pre>
+         *
+         * <code>string preferred_cluster = 103;</code>
+         */
+        public Builder setPreferredClusterBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          preferredCluster_ = value;
+          onChanged();
+          return this;
+        }
+
         private long idleTimeoutMs_ ;
         /**
          * <pre>
@@ -3193,7 +3367,7 @@ public final class YdbPersqueueV1 {
        * How many complete messages and imcomplete messages end parts (one at most) this block contains
        * </pre>
        *
-       * <code>repeated int64 blocks_message_counts = 15;</code>
+       * <code>repeated int64 blocks_message_counts = 8;</code>
        */
       java.util.List<java.lang.Long> getBlocksMessageCountsList();
       /**
@@ -3201,7 +3375,7 @@ public final class YdbPersqueueV1 {
        * How many complete messages and imcomplete messages end parts (one at most) this block contains
        * </pre>
        *
-       * <code>repeated int64 blocks_message_counts = 15;</code>
+       * <code>repeated int64 blocks_message_counts = 8;</code>
        */
       int getBlocksMessageCountsCount();
       /**
@@ -3209,7 +3383,7 @@ public final class YdbPersqueueV1 {
        * How many complete messages and imcomplete messages end parts (one at most) this block contains
        * </pre>
        *
-       * <code>repeated int64 blocks_message_counts = 15;</code>
+       * <code>repeated int64 blocks_message_counts = 8;</code>
        */
       long getBlocksMessageCounts(int index);
 
@@ -3227,15 +3401,40 @@ public final class YdbPersqueueV1 {
       long getBlocksUncompressedSizes(int index);
 
       /**
-       * <code>repeated bytes blocks_data = 10;</code>
+       * <pre>
+       * In block format version 0 each byte contains only block codec identifier
+       * </pre>
+       *
+       * <code>repeated bytes blocks_headers = 10;</code>
+       */
+      java.util.List<com.google.protobuf.ByteString> getBlocksHeadersList();
+      /**
+       * <pre>
+       * In block format version 0 each byte contains only block codec identifier
+       * </pre>
+       *
+       * <code>repeated bytes blocks_headers = 10;</code>
+       */
+      int getBlocksHeadersCount();
+      /**
+       * <pre>
+       * In block format version 0 each byte contains only block codec identifier
+       * </pre>
+       *
+       * <code>repeated bytes blocks_headers = 10;</code>
+       */
+      com.google.protobuf.ByteString getBlocksHeaders(int index);
+
+      /**
+       * <code>repeated bytes blocks_data = 11;</code>
        */
       java.util.List<com.google.protobuf.ByteString> getBlocksDataList();
       /**
-       * <code>repeated bytes blocks_data = 10;</code>
+       * <code>repeated bytes blocks_data = 11;</code>
        */
       int getBlocksDataCount();
       /**
-       * <code>repeated bytes blocks_data = 10;</code>
+       * <code>repeated bytes blocks_data = 11;</code>
        */
       com.google.protobuf.ByteString getBlocksData(int index);
     }
@@ -3264,6 +3463,7 @@ public final class YdbPersqueueV1 {
         blocksPartNumbers_ = java.util.Collections.emptyList();
         blocksMessageCounts_ = java.util.Collections.emptyList();
         blocksUncompressedSizes_ = java.util.Collections.emptyList();
+        blocksHeaders_ = java.util.Collections.emptyList();
         blocksData_ = java.util.Collections.emptyList();
       }
 
@@ -3421,6 +3621,27 @@ public final class YdbPersqueueV1 {
                 input.popLimit(limit);
                 break;
               }
+              case 64: {
+                if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                  blocksMessageCounts_ = new java.util.ArrayList<java.lang.Long>();
+                  mutable_bitField0_ |= 0x00000040;
+                }
+                blocksMessageCounts_.add(input.readInt64());
+                break;
+              }
+              case 66: {
+                int length = input.readRawVarint32();
+                int limit = input.pushLimit(length);
+                if (!((mutable_bitField0_ & 0x00000040) == 0x00000040) && input.getBytesUntilLimit() > 0) {
+                  blocksMessageCounts_ = new java.util.ArrayList<java.lang.Long>();
+                  mutable_bitField0_ |= 0x00000040;
+                }
+                while (input.getBytesUntilLimit() > 0) {
+                  blocksMessageCounts_.add(input.readInt64());
+                }
+                input.popLimit(limit);
+                break;
+              }
               case 72: {
                 if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
                   blocksUncompressedSizes_ = new java.util.ArrayList<java.lang.Long>();
@@ -3444,31 +3665,18 @@ public final class YdbPersqueueV1 {
               }
               case 82: {
                 if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
-                  blocksData_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                  blocksHeaders_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
                   mutable_bitField0_ |= 0x00000100;
                 }
+                blocksHeaders_.add(input.readBytes());
+                break;
+              }
+              case 90: {
+                if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+                  blocksData_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                  mutable_bitField0_ |= 0x00000200;
+                }
                 blocksData_.add(input.readBytes());
-                break;
-              }
-              case 120: {
-                if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
-                  blocksMessageCounts_ = new java.util.ArrayList<java.lang.Long>();
-                  mutable_bitField0_ |= 0x00000040;
-                }
-                blocksMessageCounts_.add(input.readInt64());
-                break;
-              }
-              case 122: {
-                int length = input.readRawVarint32();
-                int limit = input.pushLimit(length);
-                if (!((mutable_bitField0_ & 0x00000040) == 0x00000040) && input.getBytesUntilLimit() > 0) {
-                  blocksMessageCounts_ = new java.util.ArrayList<java.lang.Long>();
-                  mutable_bitField0_ |= 0x00000040;
-                }
-                while (input.getBytesUntilLimit() > 0) {
-                  blocksMessageCounts_.add(input.readInt64());
-                }
-                input.popLimit(limit);
                 break;
               }
             }
@@ -3497,14 +3705,17 @@ public final class YdbPersqueueV1 {
           if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
             blocksPartNumbers_ = java.util.Collections.unmodifiableList(blocksPartNumbers_);
           }
+          if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+            blocksMessageCounts_ = java.util.Collections.unmodifiableList(blocksMessageCounts_);
+          }
           if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
             blocksUncompressedSizes_ = java.util.Collections.unmodifiableList(blocksUncompressedSizes_);
           }
           if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
-            blocksData_ = java.util.Collections.unmodifiableList(blocksData_);
+            blocksHeaders_ = java.util.Collections.unmodifiableList(blocksHeaders_);
           }
-          if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
-            blocksMessageCounts_ = java.util.Collections.unmodifiableList(blocksMessageCounts_);
+          if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+            blocksData_ = java.util.Collections.unmodifiableList(blocksData_);
           }
           this.unknownFields = unknownFields.build();
           makeExtensionsImmutable();
@@ -3717,14 +3928,14 @@ public final class YdbPersqueueV1 {
       }
       private int blocksPartNumbersMemoizedSerializedSize = -1;
 
-      public static final int BLOCKS_MESSAGE_COUNTS_FIELD_NUMBER = 15;
+      public static final int BLOCKS_MESSAGE_COUNTS_FIELD_NUMBER = 8;
       private java.util.List<java.lang.Long> blocksMessageCounts_;
       /**
        * <pre>
        * How many complete messages and imcomplete messages end parts (one at most) this block contains
        * </pre>
        *
-       * <code>repeated int64 blocks_message_counts = 15;</code>
+       * <code>repeated int64 blocks_message_counts = 8;</code>
        */
       public java.util.List<java.lang.Long>
           getBlocksMessageCountsList() {
@@ -3735,7 +3946,7 @@ public final class YdbPersqueueV1 {
        * How many complete messages and imcomplete messages end parts (one at most) this block contains
        * </pre>
        *
-       * <code>repeated int64 blocks_message_counts = 15;</code>
+       * <code>repeated int64 blocks_message_counts = 8;</code>
        */
       public int getBlocksMessageCountsCount() {
         return blocksMessageCounts_.size();
@@ -3745,7 +3956,7 @@ public final class YdbPersqueueV1 {
        * How many complete messages and imcomplete messages end parts (one at most) this block contains
        * </pre>
        *
-       * <code>repeated int64 blocks_message_counts = 15;</code>
+       * <code>repeated int64 blocks_message_counts = 8;</code>
        */
       public long getBlocksMessageCounts(int index) {
         return blocksMessageCounts_.get(index);
@@ -3775,23 +3986,57 @@ public final class YdbPersqueueV1 {
       }
       private int blocksUncompressedSizesMemoizedSerializedSize = -1;
 
-      public static final int BLOCKS_DATA_FIELD_NUMBER = 10;
+      public static final int BLOCKS_HEADERS_FIELD_NUMBER = 10;
+      private java.util.List<com.google.protobuf.ByteString> blocksHeaders_;
+      /**
+       * <pre>
+       * In block format version 0 each byte contains only block codec identifier
+       * </pre>
+       *
+       * <code>repeated bytes blocks_headers = 10;</code>
+       */
+      public java.util.List<com.google.protobuf.ByteString>
+          getBlocksHeadersList() {
+        return blocksHeaders_;
+      }
+      /**
+       * <pre>
+       * In block format version 0 each byte contains only block codec identifier
+       * </pre>
+       *
+       * <code>repeated bytes blocks_headers = 10;</code>
+       */
+      public int getBlocksHeadersCount() {
+        return blocksHeaders_.size();
+      }
+      /**
+       * <pre>
+       * In block format version 0 each byte contains only block codec identifier
+       * </pre>
+       *
+       * <code>repeated bytes blocks_headers = 10;</code>
+       */
+      public com.google.protobuf.ByteString getBlocksHeaders(int index) {
+        return blocksHeaders_.get(index);
+      }
+
+      public static final int BLOCKS_DATA_FIELD_NUMBER = 11;
       private java.util.List<com.google.protobuf.ByteString> blocksData_;
       /**
-       * <code>repeated bytes blocks_data = 10;</code>
+       * <code>repeated bytes blocks_data = 11;</code>
        */
       public java.util.List<com.google.protobuf.ByteString>
           getBlocksDataList() {
         return blocksData_;
       }
       /**
-       * <code>repeated bytes blocks_data = 10;</code>
+       * <code>repeated bytes blocks_data = 11;</code>
        */
       public int getBlocksDataCount() {
         return blocksData_.size();
       }
       /**
-       * <code>repeated bytes blocks_data = 10;</code>
+       * <code>repeated bytes blocks_data = 11;</code>
        */
       public com.google.protobuf.ByteString getBlocksData(int index) {
         return blocksData_.get(index);
@@ -3852,6 +4097,13 @@ public final class YdbPersqueueV1 {
         for (int i = 0; i < blocksPartNumbers_.size(); i++) {
           output.writeInt64NoTag(blocksPartNumbers_.get(i));
         }
+        if (getBlocksMessageCountsList().size() > 0) {
+          output.writeUInt32NoTag(66);
+          output.writeUInt32NoTag(blocksMessageCountsMemoizedSerializedSize);
+        }
+        for (int i = 0; i < blocksMessageCounts_.size(); i++) {
+          output.writeInt64NoTag(blocksMessageCounts_.get(i));
+        }
         if (getBlocksUncompressedSizesList().size() > 0) {
           output.writeUInt32NoTag(74);
           output.writeUInt32NoTag(blocksUncompressedSizesMemoizedSerializedSize);
@@ -3859,15 +4111,11 @@ public final class YdbPersqueueV1 {
         for (int i = 0; i < blocksUncompressedSizes_.size(); i++) {
           output.writeInt64NoTag(blocksUncompressedSizes_.get(i));
         }
+        for (int i = 0; i < blocksHeaders_.size(); i++) {
+          output.writeBytes(10, blocksHeaders_.get(i));
+        }
         for (int i = 0; i < blocksData_.size(); i++) {
-          output.writeBytes(10, blocksData_.get(i));
-        }
-        if (getBlocksMessageCountsList().size() > 0) {
-          output.writeUInt32NoTag(122);
-          output.writeUInt32NoTag(blocksMessageCountsMemoizedSerializedSize);
-        }
-        for (int i = 0; i < blocksMessageCounts_.size(); i++) {
-          output.writeInt64NoTag(blocksMessageCounts_.get(i));
+          output.writeBytes(11, blocksData_.get(i));
         }
         unknownFields.writeTo(output);
       }
@@ -3963,6 +4211,20 @@ public final class YdbPersqueueV1 {
         }
         {
           int dataSize = 0;
+          for (int i = 0; i < blocksMessageCounts_.size(); i++) {
+            dataSize += com.google.protobuf.CodedOutputStream
+              .computeInt64SizeNoTag(blocksMessageCounts_.get(i));
+          }
+          size += dataSize;
+          if (!getBlocksMessageCountsList().isEmpty()) {
+            size += 1;
+            size += com.google.protobuf.CodedOutputStream
+                .computeInt32SizeNoTag(dataSize);
+          }
+          blocksMessageCountsMemoizedSerializedSize = dataSize;
+        }
+        {
+          int dataSize = 0;
           for (int i = 0; i < blocksUncompressedSizes_.size(); i++) {
             dataSize += com.google.protobuf.CodedOutputStream
               .computeInt64SizeNoTag(blocksUncompressedSizes_.get(i));
@@ -3977,26 +4239,21 @@ public final class YdbPersqueueV1 {
         }
         {
           int dataSize = 0;
+          for (int i = 0; i < blocksHeaders_.size(); i++) {
+            dataSize += com.google.protobuf.CodedOutputStream
+              .computeBytesSizeNoTag(blocksHeaders_.get(i));
+          }
+          size += dataSize;
+          size += 1 * getBlocksHeadersList().size();
+        }
+        {
+          int dataSize = 0;
           for (int i = 0; i < blocksData_.size(); i++) {
             dataSize += com.google.protobuf.CodedOutputStream
               .computeBytesSizeNoTag(blocksData_.get(i));
           }
           size += dataSize;
           size += 1 * getBlocksDataList().size();
-        }
-        {
-          int dataSize = 0;
-          for (int i = 0; i < blocksMessageCounts_.size(); i++) {
-            dataSize += com.google.protobuf.CodedOutputStream
-              .computeInt64SizeNoTag(blocksMessageCounts_.get(i));
-          }
-          size += dataSize;
-          if (!getBlocksMessageCountsList().isEmpty()) {
-            size += 1;
-            size += com.google.protobuf.CodedOutputStream
-                .computeInt32SizeNoTag(dataSize);
-          }
-          blocksMessageCountsMemoizedSerializedSize = dataSize;
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -4030,6 +4287,8 @@ public final class YdbPersqueueV1 {
             .equals(other.getBlocksMessageCountsList());
         result = result && getBlocksUncompressedSizesList()
             .equals(other.getBlocksUncompressedSizesList());
+        result = result && getBlocksHeadersList()
+            .equals(other.getBlocksHeadersList());
         result = result && getBlocksDataList()
             .equals(other.getBlocksDataList());
         result = result && unknownFields.equals(other.unknownFields);
@@ -4074,6 +4333,10 @@ public final class YdbPersqueueV1 {
         if (getBlocksUncompressedSizesCount() > 0) {
           hash = (37 * hash) + BLOCKS_UNCOMPRESSED_SIZES_FIELD_NUMBER;
           hash = (53 * hash) + getBlocksUncompressedSizesList().hashCode();
+        }
+        if (getBlocksHeadersCount() > 0) {
+          hash = (37 * hash) + BLOCKS_HEADERS_FIELD_NUMBER;
+          hash = (53 * hash) + getBlocksHeadersList().hashCode();
         }
         if (getBlocksDataCount() > 0) {
           hash = (37 * hash) + BLOCKS_DATA_FIELD_NUMBER;
@@ -4228,8 +4491,10 @@ public final class YdbPersqueueV1 {
           bitField0_ = (bitField0_ & ~0x00000040);
           blocksUncompressedSizes_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000080);
-          blocksData_ = java.util.Collections.emptyList();
+          blocksHeaders_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000100);
+          blocksData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000200);
           return this;
         }
 
@@ -4294,8 +4559,13 @@ public final class YdbPersqueueV1 {
           }
           result.blocksUncompressedSizes_ = blocksUncompressedSizes_;
           if (((bitField0_ & 0x00000100) == 0x00000100)) {
-            blocksData_ = java.util.Collections.unmodifiableList(blocksData_);
+            blocksHeaders_ = java.util.Collections.unmodifiableList(blocksHeaders_);
             bitField0_ = (bitField0_ & ~0x00000100);
+          }
+          result.blocksHeaders_ = blocksHeaders_;
+          if (((bitField0_ & 0x00000200) == 0x00000200)) {
+            blocksData_ = java.util.Collections.unmodifiableList(blocksData_);
+            bitField0_ = (bitField0_ & ~0x00000200);
           }
           result.blocksData_ = blocksData_;
           onBuilt();
@@ -4419,10 +4689,20 @@ public final class YdbPersqueueV1 {
             }
             onChanged();
           }
+          if (!other.blocksHeaders_.isEmpty()) {
+            if (blocksHeaders_.isEmpty()) {
+              blocksHeaders_ = other.blocksHeaders_;
+              bitField0_ = (bitField0_ & ~0x00000100);
+            } else {
+              ensureBlocksHeadersIsMutable();
+              blocksHeaders_.addAll(other.blocksHeaders_);
+            }
+            onChanged();
+          }
           if (!other.blocksData_.isEmpty()) {
             if (blocksData_.isEmpty()) {
               blocksData_ = other.blocksData_;
-              bitField0_ = (bitField0_ & ~0x00000100);
+              bitField0_ = (bitField0_ & ~0x00000200);
             } else {
               ensureBlocksDataIsMutable();
               blocksData_.addAll(other.blocksData_);
@@ -4998,7 +5278,7 @@ public final class YdbPersqueueV1 {
          * How many complete messages and imcomplete messages end parts (one at most) this block contains
          * </pre>
          *
-         * <code>repeated int64 blocks_message_counts = 15;</code>
+         * <code>repeated int64 blocks_message_counts = 8;</code>
          */
         public java.util.List<java.lang.Long>
             getBlocksMessageCountsList() {
@@ -5009,7 +5289,7 @@ public final class YdbPersqueueV1 {
          * How many complete messages and imcomplete messages end parts (one at most) this block contains
          * </pre>
          *
-         * <code>repeated int64 blocks_message_counts = 15;</code>
+         * <code>repeated int64 blocks_message_counts = 8;</code>
          */
         public int getBlocksMessageCountsCount() {
           return blocksMessageCounts_.size();
@@ -5019,7 +5299,7 @@ public final class YdbPersqueueV1 {
          * How many complete messages and imcomplete messages end parts (one at most) this block contains
          * </pre>
          *
-         * <code>repeated int64 blocks_message_counts = 15;</code>
+         * <code>repeated int64 blocks_message_counts = 8;</code>
          */
         public long getBlocksMessageCounts(int index) {
           return blocksMessageCounts_.get(index);
@@ -5029,7 +5309,7 @@ public final class YdbPersqueueV1 {
          * How many complete messages and imcomplete messages end parts (one at most) this block contains
          * </pre>
          *
-         * <code>repeated int64 blocks_message_counts = 15;</code>
+         * <code>repeated int64 blocks_message_counts = 8;</code>
          */
         public Builder setBlocksMessageCounts(
             int index, long value) {
@@ -5043,7 +5323,7 @@ public final class YdbPersqueueV1 {
          * How many complete messages and imcomplete messages end parts (one at most) this block contains
          * </pre>
          *
-         * <code>repeated int64 blocks_message_counts = 15;</code>
+         * <code>repeated int64 blocks_message_counts = 8;</code>
          */
         public Builder addBlocksMessageCounts(long value) {
           ensureBlocksMessageCountsIsMutable();
@@ -5056,7 +5336,7 @@ public final class YdbPersqueueV1 {
          * How many complete messages and imcomplete messages end parts (one at most) this block contains
          * </pre>
          *
-         * <code>repeated int64 blocks_message_counts = 15;</code>
+         * <code>repeated int64 blocks_message_counts = 8;</code>
          */
         public Builder addAllBlocksMessageCounts(
             java.lang.Iterable<? extends java.lang.Long> values) {
@@ -5071,7 +5351,7 @@ public final class YdbPersqueueV1 {
          * How many complete messages and imcomplete messages end parts (one at most) this block contains
          * </pre>
          *
-         * <code>repeated int64 blocks_message_counts = 15;</code>
+         * <code>repeated int64 blocks_message_counts = 8;</code>
          */
         public Builder clearBlocksMessageCounts() {
           blocksMessageCounts_ = java.util.Collections.emptyList();
@@ -5146,34 +5426,134 @@ public final class YdbPersqueueV1 {
           return this;
         }
 
-        private java.util.List<com.google.protobuf.ByteString> blocksData_ = java.util.Collections.emptyList();
-        private void ensureBlocksDataIsMutable() {
+        private java.util.List<com.google.protobuf.ByteString> blocksHeaders_ = java.util.Collections.emptyList();
+        private void ensureBlocksHeadersIsMutable() {
           if (!((bitField0_ & 0x00000100) == 0x00000100)) {
-            blocksData_ = new java.util.ArrayList<com.google.protobuf.ByteString>(blocksData_);
+            blocksHeaders_ = new java.util.ArrayList<com.google.protobuf.ByteString>(blocksHeaders_);
             bitField0_ |= 0x00000100;
            }
         }
         /**
-         * <code>repeated bytes blocks_data = 10;</code>
+         * <pre>
+         * In block format version 0 each byte contains only block codec identifier
+         * </pre>
+         *
+         * <code>repeated bytes blocks_headers = 10;</code>
+         */
+        public java.util.List<com.google.protobuf.ByteString>
+            getBlocksHeadersList() {
+          return java.util.Collections.unmodifiableList(blocksHeaders_);
+        }
+        /**
+         * <pre>
+         * In block format version 0 each byte contains only block codec identifier
+         * </pre>
+         *
+         * <code>repeated bytes blocks_headers = 10;</code>
+         */
+        public int getBlocksHeadersCount() {
+          return blocksHeaders_.size();
+        }
+        /**
+         * <pre>
+         * In block format version 0 each byte contains only block codec identifier
+         * </pre>
+         *
+         * <code>repeated bytes blocks_headers = 10;</code>
+         */
+        public com.google.protobuf.ByteString getBlocksHeaders(int index) {
+          return blocksHeaders_.get(index);
+        }
+        /**
+         * <pre>
+         * In block format version 0 each byte contains only block codec identifier
+         * </pre>
+         *
+         * <code>repeated bytes blocks_headers = 10;</code>
+         */
+        public Builder setBlocksHeaders(
+            int index, com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureBlocksHeadersIsMutable();
+          blocksHeaders_.set(index, value);
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * In block format version 0 each byte contains only block codec identifier
+         * </pre>
+         *
+         * <code>repeated bytes blocks_headers = 10;</code>
+         */
+        public Builder addBlocksHeaders(com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureBlocksHeadersIsMutable();
+          blocksHeaders_.add(value);
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * In block format version 0 each byte contains only block codec identifier
+         * </pre>
+         *
+         * <code>repeated bytes blocks_headers = 10;</code>
+         */
+        public Builder addAllBlocksHeaders(
+            java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+          ensureBlocksHeadersIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, blocksHeaders_);
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * In block format version 0 each byte contains only block codec identifier
+         * </pre>
+         *
+         * <code>repeated bytes blocks_headers = 10;</code>
+         */
+        public Builder clearBlocksHeaders() {
+          blocksHeaders_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000100);
+          onChanged();
+          return this;
+        }
+
+        private java.util.List<com.google.protobuf.ByteString> blocksData_ = java.util.Collections.emptyList();
+        private void ensureBlocksDataIsMutable() {
+          if (!((bitField0_ & 0x00000200) == 0x00000200)) {
+            blocksData_ = new java.util.ArrayList<com.google.protobuf.ByteString>(blocksData_);
+            bitField0_ |= 0x00000200;
+           }
+        }
+        /**
+         * <code>repeated bytes blocks_data = 11;</code>
          */
         public java.util.List<com.google.protobuf.ByteString>
             getBlocksDataList() {
           return java.util.Collections.unmodifiableList(blocksData_);
         }
         /**
-         * <code>repeated bytes blocks_data = 10;</code>
+         * <code>repeated bytes blocks_data = 11;</code>
          */
         public int getBlocksDataCount() {
           return blocksData_.size();
         }
         /**
-         * <code>repeated bytes blocks_data = 10;</code>
+         * <code>repeated bytes blocks_data = 11;</code>
          */
         public com.google.protobuf.ByteString getBlocksData(int index) {
           return blocksData_.get(index);
         }
         /**
-         * <code>repeated bytes blocks_data = 10;</code>
+         * <code>repeated bytes blocks_data = 11;</code>
          */
         public Builder setBlocksData(
             int index, com.google.protobuf.ByteString value) {
@@ -5186,7 +5566,7 @@ public final class YdbPersqueueV1 {
           return this;
         }
         /**
-         * <code>repeated bytes blocks_data = 10;</code>
+         * <code>repeated bytes blocks_data = 11;</code>
          */
         public Builder addBlocksData(com.google.protobuf.ByteString value) {
           if (value == null) {
@@ -5198,7 +5578,7 @@ public final class YdbPersqueueV1 {
           return this;
         }
         /**
-         * <code>repeated bytes blocks_data = 10;</code>
+         * <code>repeated bytes blocks_data = 11;</code>
          */
         public Builder addAllBlocksData(
             java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
@@ -5209,11 +5589,11 @@ public final class YdbPersqueueV1 {
           return this;
         }
         /**
-         * <code>repeated bytes blocks_data = 10;</code>
+         * <code>repeated bytes blocks_data = 11;</code>
          */
         public Builder clearBlocksData() {
           blocksData_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000100);
+          bitField0_ = (bitField0_ & ~0x00000200);
           onChanged();
           return this;
         }
@@ -5266,12 +5646,543 @@ public final class YdbPersqueueV1 {
 
     }
 
+    public interface UpdateTokenRequestOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>string token = 1;</code>
+       */
+      java.lang.String getToken();
+      /**
+       * <code>string token = 1;</code>
+       */
+      com.google.protobuf.ByteString
+          getTokenBytes();
+    }
+    /**
+     * <pre>
+     * In-session reauthentication and reauthorization, lets user increase session lifetime. You should wait for 'update_token_response' before sending next 'update_token_request'.
+     * </pre>
+     *
+     * Protobuf type {@code Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest}
+     */
+    public  static final class UpdateTokenRequest extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest)
+        UpdateTokenRequestOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use UpdateTokenRequest.newBuilder() to construct.
+      private UpdateTokenRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private UpdateTokenRequest() {
+        token_ = "";
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private UpdateTokenRequest(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownFieldProto3(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 10: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                token_ = s;
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_UpdateTokenRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_UpdateTokenRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.Builder.class);
+      }
+
+      public static final int TOKEN_FIELD_NUMBER = 1;
+      private volatile java.lang.Object token_;
+      /**
+       * <code>string token = 1;</code>
+       */
+      public java.lang.String getToken() {
+        java.lang.Object ref = token_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          token_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string token = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTokenBytes() {
+        java.lang.Object ref = token_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          token_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (!getTokenBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 1, token_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (!getTokenBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, token_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest)) {
+          return super.equals(obj);
+        }
+        tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest) obj;
+
+        boolean result = true;
+        result = result && getToken()
+            .equals(other.getToken());
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + TOKEN_FIELD_NUMBER;
+        hash = (53 * hash) + getToken().hashCode();
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * <pre>
+       * In-session reauthentication and reauthorization, lets user increase session lifetime. You should wait for 'update_token_response' before sending next 'update_token_request'.
+       * </pre>
+       *
+       * Protobuf type {@code Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest)
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequestOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_UpdateTokenRequest_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_UpdateTokenRequest_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.Builder.class);
+        }
+
+        // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        public Builder clear() {
+          super.clear();
+          token_ = "";
+
+          return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_UpdateTokenRequest_descriptor;
+        }
+
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest getDefaultInstanceForType() {
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.getDefaultInstance();
+        }
+
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest build() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest buildPartial() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest(this);
+          result.token_ = token_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest) {
+            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest other) {
+          if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.getDefaultInstance()) return this;
+          if (!other.getToken().isEmpty()) {
+            token_ = other.token_;
+            onChanged();
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private java.lang.Object token_ = "";
+        /**
+         * <code>string token = 1;</code>
+         */
+        public java.lang.String getToken() {
+          java.lang.Object ref = token_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            token_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string token = 1;</code>
+         */
+        public com.google.protobuf.ByteString
+            getTokenBytes() {
+          java.lang.Object ref = token_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            token_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string token = 1;</code>
+         */
+        public Builder setToken(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          token_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string token = 1;</code>
+         */
+        public Builder clearToken() {
+          
+          token_ = getDefaultInstance().getToken();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string token = 1;</code>
+         */
+        public Builder setTokenBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          token_ = value;
+          onChanged();
+          return this;
+        }
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFieldsProto3(unknownFields);
+        }
+
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest)
+      }
+
+      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest)
+      private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest();
+      }
+
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<UpdateTokenRequest>
+          PARSER = new com.google.protobuf.AbstractParser<UpdateTokenRequest>() {
+        public UpdateTokenRequest parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+            return new UpdateTokenRequest(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<UpdateTokenRequest> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<UpdateTokenRequest> getParserForType() {
+        return PARSER;
+      }
+
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     private int clientMessageCase_ = 0;
     private java.lang.Object clientMessage_;
     public enum ClientMessageCase
         implements com.google.protobuf.Internal.EnumLite {
       INIT_REQUEST(1),
       WRITE_REQUEST(2),
+      UPDATE_TOKEN_REQUEST(3),
       CLIENTMESSAGE_NOT_SET(0);
       private final int value;
       private ClientMessageCase(int value) {
@@ -5289,6 +6200,7 @@ public final class YdbPersqueueV1 {
         switch (value) {
           case 1: return INIT_REQUEST;
           case 2: return WRITE_REQUEST;
+          case 3: return UPDATE_TOKEN_REQUEST;
           case 0: return CLIENTMESSAGE_NOT_SET;
           default: return null;
         }
@@ -5356,48 +6268,30 @@ public final class YdbPersqueueV1 {
       return tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.WriteRequest.getDefaultInstance();
     }
 
-    public static final int TOKEN_FIELD_NUMBER = 20;
-    private volatile java.lang.Object token_;
+    public static final int UPDATE_TOKEN_REQUEST_FIELD_NUMBER = 3;
     /**
-     * <pre>
-     * User credentials if update is needed.
-     * Client can send only token if no data is available but credentials are changed.
-     * </pre>
-     *
-     * <code>string token = 20;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
      */
-    public java.lang.String getToken() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        token_ = s;
-        return s;
-      }
+    public boolean hasUpdateTokenRequest() {
+      return clientMessageCase_ == 3;
     }
     /**
-     * <pre>
-     * User credentials if update is needed.
-     * Client can send only token if no data is available but credentials are changed.
-     * </pre>
-     *
-     * <code>string token = 20;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
      */
-    public com.google.protobuf.ByteString
-        getTokenBytes() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        token_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest getUpdateTokenRequest() {
+      if (clientMessageCase_ == 3) {
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest) clientMessage_;
       }
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.getDefaultInstance();
+    }
+    /**
+     * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
+     */
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequestOrBuilder getUpdateTokenRequestOrBuilder() {
+      if (clientMessageCase_ == 3) {
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest) clientMessage_;
+      }
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.getDefaultInstance();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -5418,8 +6312,8 @@ public final class YdbPersqueueV1 {
       if (clientMessageCase_ == 2) {
         output.writeMessage(2, (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.WriteRequest) clientMessage_);
       }
-      if (!getTokenBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 20, token_);
+      if (clientMessageCase_ == 3) {
+        output.writeMessage(3, (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest) clientMessage_);
       }
       unknownFields.writeTo(output);
     }
@@ -5437,8 +6331,9 @@ public final class YdbPersqueueV1 {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.WriteRequest) clientMessage_);
       }
-      if (!getTokenBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(20, token_);
+      if (clientMessageCase_ == 3) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest) clientMessage_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -5456,8 +6351,6 @@ public final class YdbPersqueueV1 {
       tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage) obj;
 
       boolean result = true;
-      result = result && getToken()
-          .equals(other.getToken());
       result = result && getClientMessageCase().equals(
           other.getClientMessageCase());
       if (!result) return false;
@@ -5469,6 +6362,10 @@ public final class YdbPersqueueV1 {
         case 2:
           result = result && getWriteRequest()
               .equals(other.getWriteRequest());
+          break;
+        case 3:
+          result = result && getUpdateTokenRequest()
+              .equals(other.getUpdateTokenRequest());
           break;
         case 0:
         default:
@@ -5484,8 +6381,6 @@ public final class YdbPersqueueV1 {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
-      hash = (53 * hash) + getToken().hashCode();
       switch (clientMessageCase_) {
         case 1:
           hash = (37 * hash) + INIT_REQUEST_FIELD_NUMBER;
@@ -5494,6 +6389,10 @@ public final class YdbPersqueueV1 {
         case 2:
           hash = (37 * hash) + WRITE_REQUEST_FIELD_NUMBER;
           hash = (53 * hash) + getWriteRequest().hashCode();
+          break;
+        case 3:
+          hash = (37 * hash) + UPDATE_TOKEN_REQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getUpdateTokenRequest().hashCode();
           break;
         case 0:
         default:
@@ -5597,6 +6496,7 @@ public final class YdbPersqueueV1 {
      * Request for write session. Contains one of:
      *      InitRequest - handshake request.
      *      WriteRequest - portion of data to be written.
+     *      UpdateTokenRequest - user credentials if update is needed.
      * </pre>
      *
      * Protobuf type {@code Ydb.PersQueue.V1.StreamingWriteClientMessage}
@@ -5634,8 +6534,6 @@ public final class YdbPersqueueV1 {
       }
       public Builder clear() {
         super.clear();
-        token_ = "";
-
         clientMessageCase_ = 0;
         clientMessage_ = null;
         return this;
@@ -5674,7 +6572,13 @@ public final class YdbPersqueueV1 {
             result.clientMessage_ = writeRequestBuilder_.build();
           }
         }
-        result.token_ = token_;
+        if (clientMessageCase_ == 3) {
+          if (updateTokenRequestBuilder_ == null) {
+            result.clientMessage_ = clientMessage_;
+          } else {
+            result.clientMessage_ = updateTokenRequestBuilder_.build();
+          }
+        }
         result.clientMessageCase_ = clientMessageCase_;
         onBuilt();
         return result;
@@ -5717,10 +6621,6 @@ public final class YdbPersqueueV1 {
 
       public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage other) {
         if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.getDefaultInstance()) return this;
-        if (!other.getToken().isEmpty()) {
-          token_ = other.token_;
-          onChanged();
-        }
         switch (other.getClientMessageCase()) {
           case INIT_REQUEST: {
             mergeInitRequest(other.getInitRequest());
@@ -5728,6 +6628,10 @@ public final class YdbPersqueueV1 {
           }
           case WRITE_REQUEST: {
             mergeWriteRequest(other.getWriteRequest());
+            break;
+          }
+          case UPDATE_TOKEN_REQUEST: {
+            mergeUpdateTokenRequest(other.getUpdateTokenRequest());
             break;
           }
           case CLIENTMESSAGE_NOT_SET: {
@@ -6048,98 +6952,140 @@ public final class YdbPersqueueV1 {
         return writeRequestBuilder_;
       }
 
-      private java.lang.Object token_ = "";
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequestOrBuilder> updateTokenRequestBuilder_;
       /**
-       * <pre>
-       * User credentials if update is needed.
-       * Client can send only token if no data is available but credentials are changed.
-       * </pre>
-       *
-       * <code>string token = 20;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
        */
-      public java.lang.String getToken() {
-        java.lang.Object ref = token_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          token_ = s;
-          return s;
+      public boolean hasUpdateTokenRequest() {
+        return clientMessageCase_ == 3;
+      }
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
+       */
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest getUpdateTokenRequest() {
+        if (updateTokenRequestBuilder_ == null) {
+          if (clientMessageCase_ == 3) {
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest) clientMessage_;
+          }
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.getDefaultInstance();
         } else {
-          return (java.lang.String) ref;
+          if (clientMessageCase_ == 3) {
+            return updateTokenRequestBuilder_.getMessage();
+          }
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.getDefaultInstance();
         }
       }
       /**
-       * <pre>
-       * User credentials if update is needed.
-       * Client can send only token if no data is available but credentials are changed.
-       * </pre>
-       *
-       * <code>string token = 20;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
        */
-      public com.google.protobuf.ByteString
-          getTokenBytes() {
-        java.lang.Object ref = token_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          token_ = b;
-          return b;
+      public Builder setUpdateTokenRequest(tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest value) {
+        if (updateTokenRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          clientMessage_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          updateTokenRequestBuilder_.setMessage(value);
+        }
+        clientMessageCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
+       */
+      public Builder setUpdateTokenRequest(
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.Builder builderForValue) {
+        if (updateTokenRequestBuilder_ == null) {
+          clientMessage_ = builderForValue.build();
+          onChanged();
+        } else {
+          updateTokenRequestBuilder_.setMessage(builderForValue.build());
+        }
+        clientMessageCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
+       */
+      public Builder mergeUpdateTokenRequest(tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest value) {
+        if (updateTokenRequestBuilder_ == null) {
+          if (clientMessageCase_ == 3 &&
+              clientMessage_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.getDefaultInstance()) {
+            clientMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.newBuilder((tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest) clientMessage_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            clientMessage_ = value;
+          }
+          onChanged();
+        } else {
+          if (clientMessageCase_ == 3) {
+            updateTokenRequestBuilder_.mergeFrom(value);
+          }
+          updateTokenRequestBuilder_.setMessage(value);
+        }
+        clientMessageCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
+       */
+      public Builder clearUpdateTokenRequest() {
+        if (updateTokenRequestBuilder_ == null) {
+          if (clientMessageCase_ == 3) {
+            clientMessageCase_ = 0;
+            clientMessage_ = null;
+            onChanged();
+          }
+        } else {
+          if (clientMessageCase_ == 3) {
+            clientMessageCase_ = 0;
+            clientMessage_ = null;
+          }
+          updateTokenRequestBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
+       */
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.Builder getUpdateTokenRequestBuilder() {
+        return getUpdateTokenRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
+       */
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequestOrBuilder getUpdateTokenRequestOrBuilder() {
+        if ((clientMessageCase_ == 3) && (updateTokenRequestBuilder_ != null)) {
+          return updateTokenRequestBuilder_.getMessageOrBuilder();
+        } else {
+          if (clientMessageCase_ == 3) {
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest) clientMessage_;
+          }
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.getDefaultInstance();
         }
       }
       /**
-       * <pre>
-       * User credentials if update is needed.
-       * Client can send only token if no data is available but credentials are changed.
-       * </pre>
-       *
-       * <code>string token = 20;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingWriteClientMessage.UpdateTokenRequest update_token_request = 3;</code>
        */
-      public Builder setToken(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        token_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * User credentials if update is needed.
-       * Client can send only token if no data is available but credentials are changed.
-       * </pre>
-       *
-       * <code>string token = 20;</code>
-       */
-      public Builder clearToken() {
-        
-        token_ = getDefaultInstance().getToken();
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * User credentials if update is needed.
-       * Client can send only token if no data is available but credentials are changed.
-       * </pre>
-       *
-       * <code>string token = 20;</code>
-       */
-      public Builder setTokenBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        token_ = value;
-        onChanged();
-        return this;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequestOrBuilder> 
+          getUpdateTokenRequestFieldBuilder() {
+        if (updateTokenRequestBuilder_ == null) {
+          if (!(clientMessageCase_ == 3)) {
+            clientMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.getDefaultInstance();
+          }
+          updateTokenRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequestOrBuilder>(
+                  (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteClientMessage.UpdateTokenRequest) clientMessage_,
+                  getParentForChildren(),
+                  isClean());
+          clientMessage_ = null;
+        }
+        clientMessageCase_ = 3;
+        onChanged();;
+        return updateTokenRequestBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -6221,6 +7167,19 @@ public final class YdbPersqueueV1 {
     tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.BatchWriteResponseOrBuilder getBatchWriteResponseOrBuilder();
 
     /**
+     * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+     */
+    boolean hasUpdateTokenResponse();
+    /**
+     * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+     */
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse getUpdateTokenResponse();
+    /**
+     * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+     */
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponseOrBuilder getUpdateTokenResponseOrBuilder();
+
+    /**
      * <pre>
      * Server status of response.
      * </pre>
@@ -6289,6 +7248,7 @@ public final class YdbPersqueueV1 {
    * Response for write session. Contains one of:
    *      InitResponse - correct handshake response.
    *      BatchWriteResponse - acknowledgment of storing client messages.
+   *      UpdateTokenResponse - acknowledgment of reauthentication and reauthorization.
    * </pre>
    *
    * Protobuf type {@code Ydb.PersQueue.V1.StreamingWriteServerMessage}
@@ -6342,9 +7302,9 @@ public final class YdbPersqueueV1 {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
                 issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000010;
               }
               issues_.add(
                   input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
@@ -6378,6 +7338,20 @@ public final class YdbPersqueueV1 {
               serverMessageCase_ = 4;
               break;
             }
+            case 42: {
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.Builder subBuilder = null;
+              if (serverMessageCase_ == 5) {
+                subBuilder = ((tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse) serverMessage_).toBuilder();
+              }
+              serverMessage_ =
+                  input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse) serverMessage_);
+                serverMessage_ = subBuilder.buildPartial();
+              }
+              serverMessageCase_ = 5;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -6386,7 +7360,7 @@ public final class YdbPersqueueV1 {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           issues_ = java.util.Collections.unmodifiableList(issues_);
         }
         this.unknownFields = unknownFields.build();
@@ -9244,6 +10218,390 @@ public final class YdbPersqueueV1 {
 
     }
 
+    public interface UpdateTokenResponseOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse)
+        com.google.protobuf.MessageOrBuilder {
+    }
+    /**
+     * Protobuf type {@code Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse}
+     */
+    public  static final class UpdateTokenResponse extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse)
+        UpdateTokenResponseOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use UpdateTokenResponse.newBuilder() to construct.
+      private UpdateTokenResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private UpdateTokenResponse() {
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private UpdateTokenResponse(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownFieldProto3(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_UpdateTokenResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_UpdateTokenResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.Builder.class);
+      }
+
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        unknownFields.writeTo(output);
+      }
+
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse)) {
+          return super.equals(obj);
+        }
+        tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse) obj;
+
+        boolean result = true;
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse)
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponseOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_UpdateTokenResponse_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_UpdateTokenResponse_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.Builder.class);
+        }
+
+        // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        public Builder clear() {
+          super.clear();
+          return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_UpdateTokenResponse_descriptor;
+        }
+
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse getDefaultInstanceForType() {
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.getDefaultInstance();
+        }
+
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse build() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse buildPartial() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse(this);
+          onBuilt();
+          return result;
+        }
+
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse) {
+            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse other) {
+          if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.getDefaultInstance()) return this;
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFieldsProto3(unknownFields);
+        }
+
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse)
+      }
+
+      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse)
+      private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse();
+      }
+
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<UpdateTokenResponse>
+          PARSER = new com.google.protobuf.AbstractParser<UpdateTokenResponse>() {
+        public UpdateTokenResponse parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+            return new UpdateTokenResponse(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<UpdateTokenResponse> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<UpdateTokenResponse> getParserForType() {
+        return PARSER;
+      }
+
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     public interface WriteStatisticsOrBuilder extends
         // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingWriteServerMessage.WriteStatistics)
         com.google.protobuf.MessageOrBuilder {
@@ -9980,6 +11338,7 @@ public final class YdbPersqueueV1 {
         implements com.google.protobuf.Internal.EnumLite {
       INIT_RESPONSE(3),
       BATCH_WRITE_RESPONSE(4),
+      UPDATE_TOKEN_RESPONSE(5),
       SERVERMESSAGE_NOT_SET(0);
       private final int value;
       private ServerMessageCase(int value) {
@@ -9997,6 +11356,7 @@ public final class YdbPersqueueV1 {
         switch (value) {
           case 3: return INIT_RESPONSE;
           case 4: return BATCH_WRITE_RESPONSE;
+          case 5: return UPDATE_TOKEN_RESPONSE;
           case 0: return SERVERMESSAGE_NOT_SET;
           default: return null;
         }
@@ -10062,6 +11422,32 @@ public final class YdbPersqueueV1 {
          return (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.BatchWriteResponse) serverMessage_;
       }
       return tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.BatchWriteResponse.getDefaultInstance();
+    }
+
+    public static final int UPDATE_TOKEN_RESPONSE_FIELD_NUMBER = 5;
+    /**
+     * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+     */
+    public boolean hasUpdateTokenResponse() {
+      return serverMessageCase_ == 5;
+    }
+    /**
+     * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+     */
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse getUpdateTokenResponse() {
+      if (serverMessageCase_ == 5) {
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse) serverMessage_;
+      }
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+     */
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponseOrBuilder getUpdateTokenResponseOrBuilder() {
+      if (serverMessageCase_ == 5) {
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse) serverMessage_;
+      }
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.getDefaultInstance();
     }
 
     public static final int STATUS_FIELD_NUMBER = 1;
@@ -10167,6 +11553,9 @@ public final class YdbPersqueueV1 {
       if (serverMessageCase_ == 4) {
         output.writeMessage(4, (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.BatchWriteResponse) serverMessage_);
       }
+      if (serverMessageCase_ == 5) {
+        output.writeMessage(5, (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse) serverMessage_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -10190,6 +11579,10 @@ public final class YdbPersqueueV1 {
       if (serverMessageCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.BatchWriteResponse) serverMessage_);
+      }
+      if (serverMessageCase_ == 5) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse) serverMessage_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -10222,6 +11615,10 @@ public final class YdbPersqueueV1 {
           result = result && getBatchWriteResponse()
               .equals(other.getBatchWriteResponse());
           break;
+        case 5:
+          result = result && getUpdateTokenResponse()
+              .equals(other.getUpdateTokenResponse());
+          break;
         case 0:
         default:
       }
@@ -10250,6 +11647,10 @@ public final class YdbPersqueueV1 {
         case 4:
           hash = (37 * hash) + BATCH_WRITE_RESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getBatchWriteResponse().hashCode();
+          break;
+        case 5:
+          hash = (37 * hash) + UPDATE_TOKEN_RESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getUpdateTokenResponse().hashCode();
           break;
         case 0:
         default:
@@ -10353,6 +11754,7 @@ public final class YdbPersqueueV1 {
      * Response for write session. Contains one of:
      *      InitResponse - correct handshake response.
      *      BatchWriteResponse - acknowledgment of storing client messages.
+     *      UpdateTokenResponse - acknowledgment of reauthentication and reauthorization.
      * </pre>
      *
      * Protobuf type {@code Ydb.PersQueue.V1.StreamingWriteServerMessage}
@@ -10395,7 +11797,7 @@ public final class YdbPersqueueV1 {
 
         if (issuesBuilder_ == null) {
           issues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000010);
         } else {
           issuesBuilder_.clear();
         }
@@ -10439,11 +11841,18 @@ public final class YdbPersqueueV1 {
             result.serverMessage_ = batchWriteResponseBuilder_.build();
           }
         }
+        if (serverMessageCase_ == 5) {
+          if (updateTokenResponseBuilder_ == null) {
+            result.serverMessage_ = serverMessage_;
+          } else {
+            result.serverMessage_ = updateTokenResponseBuilder_.build();
+          }
+        }
         result.status_ = status_;
         if (issuesBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
             issues_ = java.util.Collections.unmodifiableList(issues_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000010);
           }
           result.issues_ = issues_;
         } else {
@@ -10499,7 +11908,7 @@ public final class YdbPersqueueV1 {
           if (!other.issues_.isEmpty()) {
             if (issues_.isEmpty()) {
               issues_ = other.issues_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000010);
             } else {
               ensureIssuesIsMutable();
               issues_.addAll(other.issues_);
@@ -10512,7 +11921,7 @@ public final class YdbPersqueueV1 {
               issuesBuilder_.dispose();
               issuesBuilder_ = null;
               issues_ = other.issues_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000010);
               issuesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getIssuesFieldBuilder() : null;
@@ -10528,6 +11937,10 @@ public final class YdbPersqueueV1 {
           }
           case BATCH_WRITE_RESPONSE: {
             mergeBatchWriteResponse(other.getBatchWriteResponse());
+            break;
+          }
+          case UPDATE_TOKEN_RESPONSE: {
+            mergeUpdateTokenResponse(other.getUpdateTokenResponse());
             break;
           }
           case SERVERMESSAGE_NOT_SET: {
@@ -10849,6 +12262,142 @@ public final class YdbPersqueueV1 {
         return batchWriteResponseBuilder_;
       }
 
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponseOrBuilder> updateTokenResponseBuilder_;
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+       */
+      public boolean hasUpdateTokenResponse() {
+        return serverMessageCase_ == 5;
+      }
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+       */
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse getUpdateTokenResponse() {
+        if (updateTokenResponseBuilder_ == null) {
+          if (serverMessageCase_ == 5) {
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse) serverMessage_;
+          }
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.getDefaultInstance();
+        } else {
+          if (serverMessageCase_ == 5) {
+            return updateTokenResponseBuilder_.getMessage();
+          }
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+       */
+      public Builder setUpdateTokenResponse(tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse value) {
+        if (updateTokenResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          serverMessage_ = value;
+          onChanged();
+        } else {
+          updateTokenResponseBuilder_.setMessage(value);
+        }
+        serverMessageCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+       */
+      public Builder setUpdateTokenResponse(
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.Builder builderForValue) {
+        if (updateTokenResponseBuilder_ == null) {
+          serverMessage_ = builderForValue.build();
+          onChanged();
+        } else {
+          updateTokenResponseBuilder_.setMessage(builderForValue.build());
+        }
+        serverMessageCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+       */
+      public Builder mergeUpdateTokenResponse(tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse value) {
+        if (updateTokenResponseBuilder_ == null) {
+          if (serverMessageCase_ == 5 &&
+              serverMessage_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.getDefaultInstance()) {
+            serverMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.newBuilder((tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse) serverMessage_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            serverMessage_ = value;
+          }
+          onChanged();
+        } else {
+          if (serverMessageCase_ == 5) {
+            updateTokenResponseBuilder_.mergeFrom(value);
+          }
+          updateTokenResponseBuilder_.setMessage(value);
+        }
+        serverMessageCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+       */
+      public Builder clearUpdateTokenResponse() {
+        if (updateTokenResponseBuilder_ == null) {
+          if (serverMessageCase_ == 5) {
+            serverMessageCase_ = 0;
+            serverMessage_ = null;
+            onChanged();
+          }
+        } else {
+          if (serverMessageCase_ == 5) {
+            serverMessageCase_ = 0;
+            serverMessage_ = null;
+          }
+          updateTokenResponseBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+       */
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.Builder getUpdateTokenResponseBuilder() {
+        return getUpdateTokenResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+       */
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponseOrBuilder getUpdateTokenResponseOrBuilder() {
+        if ((serverMessageCase_ == 5) && (updateTokenResponseBuilder_ != null)) {
+          return updateTokenResponseBuilder_.getMessageOrBuilder();
+        } else {
+          if (serverMessageCase_ == 5) {
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse) serverMessage_;
+          }
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.Ydb.PersQueue.V1.StreamingWriteServerMessage.UpdateTokenResponse update_token_response = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponseOrBuilder> 
+          getUpdateTokenResponseFieldBuilder() {
+        if (updateTokenResponseBuilder_ == null) {
+          if (!(serverMessageCase_ == 5)) {
+            serverMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.getDefaultInstance();
+          }
+          updateTokenResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponseOrBuilder>(
+                  (tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.UpdateTokenResponse) serverMessage_,
+                  getParentForChildren(),
+                  isClean());
+          serverMessage_ = null;
+        }
+        serverMessageCase_ = 5;
+        onChanged();;
+        return updateTokenResponseBuilder_;
+      }
+
       private int status_ = 0;
       /**
        * <pre>
@@ -10916,9 +12465,9 @@ public final class YdbPersqueueV1 {
       private java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> issues_ =
         java.util.Collections.emptyList();
       private void ensureIssuesIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
           issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>(issues_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000010;
          }
       }
 
@@ -11112,7 +12661,7 @@ public final class YdbPersqueueV1 {
       public Builder clearIssues() {
         if (issuesBuilder_ == null) {
           issues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000010);
           onChanged();
         } else {
           issuesBuilder_.clear();
@@ -11217,7 +12766,7 @@ public final class YdbPersqueueV1 {
           issuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder>(
                   issues_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  ((bitField0_ & 0x00000010) == 0x00000010),
                   getParentForChildren(),
                   isClean());
           issues_ = null;
@@ -33404,15 +34953,40 @@ public final class YdbPersqueueV1 {
         long getBlocksUncompressedSizes(int index);
 
         /**
-         * <code>repeated bytes blocks_data = 17;</code>
+         * <pre>
+         * In block format version 0 each byte contains only block codec identifier
+         * </pre>
+         *
+         * <code>repeated bytes blocks_headers = 17;</code>
+         */
+        java.util.List<com.google.protobuf.ByteString> getBlocksHeadersList();
+        /**
+         * <pre>
+         * In block format version 0 each byte contains only block codec identifier
+         * </pre>
+         *
+         * <code>repeated bytes blocks_headers = 17;</code>
+         */
+        int getBlocksHeadersCount();
+        /**
+         * <pre>
+         * In block format version 0 each byte contains only block codec identifier
+         * </pre>
+         *
+         * <code>repeated bytes blocks_headers = 17;</code>
+         */
+        com.google.protobuf.ByteString getBlocksHeaders(int index);
+
+        /**
+         * <code>repeated bytes blocks_data = 18;</code>
          */
         java.util.List<com.google.protobuf.ByteString> getBlocksDataList();
         /**
-         * <code>repeated bytes blocks_data = 17;</code>
+         * <code>repeated bytes blocks_data = 18;</code>
          */
         int getBlocksDataCount();
         /**
-         * <code>repeated bytes blocks_data = 17;</code>
+         * <code>repeated bytes blocks_data = 18;</code>
          */
         com.google.protobuf.ByteString getBlocksData(int index);
 
@@ -33472,6 +35046,7 @@ public final class YdbPersqueueV1 {
           blocksPartNumbers_ = java.util.Collections.emptyList();
           blocksMessageCounts_ = java.util.Collections.emptyList();
           blocksUncompressedSizes_ = java.util.Collections.emptyList();
+          blocksHeaders_ = java.util.Collections.emptyList();
           blocksData_ = java.util.Collections.emptyList();
           resumeCookie_ = 0L;
         }
@@ -33790,8 +35365,16 @@ public final class YdbPersqueueV1 {
                 }
                 case 138: {
                   if (!((mutable_bitField0_ & 0x00010000) == 0x00010000)) {
-                    blocksData_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                    blocksHeaders_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
                     mutable_bitField0_ |= 0x00010000;
+                  }
+                  blocksHeaders_.add(input.readBytes());
+                  break;
+                }
+                case 146: {
+                  if (!((mutable_bitField0_ & 0x00020000) == 0x00020000)) {
+                    blocksData_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                    mutable_bitField0_ |= 0x00020000;
                   }
                   blocksData_.add(input.readBytes());
                   break;
@@ -33868,6 +35451,9 @@ public final class YdbPersqueueV1 {
               blocksUncompressedSizes_ = java.util.Collections.unmodifiableList(blocksUncompressedSizes_);
             }
             if (((mutable_bitField0_ & 0x00010000) == 0x00010000)) {
+              blocksHeaders_ = java.util.Collections.unmodifiableList(blocksHeaders_);
+            }
+            if (((mutable_bitField0_ & 0x00020000) == 0x00020000)) {
               blocksData_ = java.util.Collections.unmodifiableList(blocksData_);
             }
             this.unknownFields = unknownFields.build();
@@ -35310,23 +36896,57 @@ public final class YdbPersqueueV1 {
         }
         private int blocksUncompressedSizesMemoizedSerializedSize = -1;
 
-        public static final int BLOCKS_DATA_FIELD_NUMBER = 17;
+        public static final int BLOCKS_HEADERS_FIELD_NUMBER = 17;
+        private java.util.List<com.google.protobuf.ByteString> blocksHeaders_;
+        /**
+         * <pre>
+         * In block format version 0 each byte contains only block codec identifier
+         * </pre>
+         *
+         * <code>repeated bytes blocks_headers = 17;</code>
+         */
+        public java.util.List<com.google.protobuf.ByteString>
+            getBlocksHeadersList() {
+          return blocksHeaders_;
+        }
+        /**
+         * <pre>
+         * In block format version 0 each byte contains only block codec identifier
+         * </pre>
+         *
+         * <code>repeated bytes blocks_headers = 17;</code>
+         */
+        public int getBlocksHeadersCount() {
+          return blocksHeaders_.size();
+        }
+        /**
+         * <pre>
+         * In block format version 0 each byte contains only block codec identifier
+         * </pre>
+         *
+         * <code>repeated bytes blocks_headers = 17;</code>
+         */
+        public com.google.protobuf.ByteString getBlocksHeaders(int index) {
+          return blocksHeaders_.get(index);
+        }
+
+        public static final int BLOCKS_DATA_FIELD_NUMBER = 18;
         private java.util.List<com.google.protobuf.ByteString> blocksData_;
         /**
-         * <code>repeated bytes blocks_data = 17;</code>
+         * <code>repeated bytes blocks_data = 18;</code>
          */
         public java.util.List<com.google.protobuf.ByteString>
             getBlocksDataList() {
           return blocksData_;
         }
         /**
-         * <code>repeated bytes blocks_data = 17;</code>
+         * <code>repeated bytes blocks_data = 18;</code>
          */
         public int getBlocksDataCount() {
           return blocksData_.size();
         }
         /**
-         * <code>repeated bytes blocks_data = 17;</code>
+         * <code>repeated bytes blocks_data = 18;</code>
          */
         public com.google.protobuf.ByteString getBlocksData(int index) {
           return blocksData_.get(index);
@@ -35475,8 +37095,11 @@ public final class YdbPersqueueV1 {
           for (int i = 0; i < blocksUncompressedSizes_.size(); i++) {
             output.writeInt64NoTag(blocksUncompressedSizes_.get(i));
           }
+          for (int i = 0; i < blocksHeaders_.size(); i++) {
+            output.writeBytes(17, blocksHeaders_.get(i));
+          }
           for (int i = 0; i < blocksData_.size(); i++) {
-            output.writeBytes(17, blocksData_.get(i));
+            output.writeBytes(18, blocksData_.get(i));
           }
           if (resumeCookie_ != 0L) {
             output.writeInt64(50, resumeCookie_);
@@ -35686,6 +37309,15 @@ public final class YdbPersqueueV1 {
           }
           {
             int dataSize = 0;
+            for (int i = 0; i < blocksHeaders_.size(); i++) {
+              dataSize += com.google.protobuf.CodedOutputStream
+                .computeBytesSizeNoTag(blocksHeaders_.get(i));
+            }
+            size += dataSize;
+            size += 2 * getBlocksHeadersList().size();
+          }
+          {
+            int dataSize = 0;
             for (int i = 0; i < blocksData_.size(); i++) {
               dataSize += com.google.protobuf.CodedOutputStream
                 .computeBytesSizeNoTag(blocksData_.get(i));
@@ -35749,6 +37381,8 @@ public final class YdbPersqueueV1 {
               .equals(other.getBlocksMessageCountsList());
           result = result && getBlocksUncompressedSizesList()
               .equals(other.getBlocksUncompressedSizesList());
+          result = result && getBlocksHeadersList()
+              .equals(other.getBlocksHeadersList());
           result = result && getBlocksDataList()
               .equals(other.getBlocksDataList());
           result = result && (getResumeCookie()
@@ -35831,6 +37465,10 @@ public final class YdbPersqueueV1 {
           if (getBlocksUncompressedSizesCount() > 0) {
             hash = (37 * hash) + BLOCKS_UNCOMPRESSED_SIZES_FIELD_NUMBER;
             hash = (53 * hash) + getBlocksUncompressedSizesList().hashCode();
+          }
+          if (getBlocksHeadersCount() > 0) {
+            hash = (37 * hash) + BLOCKS_HEADERS_FIELD_NUMBER;
+            hash = (53 * hash) + getBlocksHeadersList().hashCode();
           }
           if (getBlocksDataCount() > 0) {
             hash = (37 * hash) + BLOCKS_DATA_FIELD_NUMBER;
@@ -36014,8 +37652,10 @@ public final class YdbPersqueueV1 {
             bitField0_ = (bitField0_ & ~0x00004000);
             blocksUncompressedSizes_ = java.util.Collections.emptyList();
             bitField0_ = (bitField0_ & ~0x00008000);
-            blocksData_ = java.util.Collections.emptyList();
+            blocksHeaders_ = java.util.Collections.emptyList();
             bitField0_ = (bitField0_ & ~0x00010000);
+            blocksData_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00020000);
             resumeCookie_ = 0L;
 
             if (readStatisticsBuilder_ == null) {
@@ -36129,8 +37769,13 @@ public final class YdbPersqueueV1 {
             }
             result.blocksUncompressedSizes_ = blocksUncompressedSizes_;
             if (((bitField0_ & 0x00010000) == 0x00010000)) {
-              blocksData_ = java.util.Collections.unmodifiableList(blocksData_);
+              blocksHeaders_ = java.util.Collections.unmodifiableList(blocksHeaders_);
               bitField0_ = (bitField0_ & ~0x00010000);
+            }
+            result.blocksHeaders_ = blocksHeaders_;
+            if (((bitField0_ & 0x00020000) == 0x00020000)) {
+              blocksData_ = java.util.Collections.unmodifiableList(blocksData_);
+              bitField0_ = (bitField0_ & ~0x00020000);
             }
             result.blocksData_ = blocksData_;
             result.resumeCookie_ = resumeCookie_;
@@ -36350,10 +37995,20 @@ public final class YdbPersqueueV1 {
               }
               onChanged();
             }
+            if (!other.blocksHeaders_.isEmpty()) {
+              if (blocksHeaders_.isEmpty()) {
+                blocksHeaders_ = other.blocksHeaders_;
+                bitField0_ = (bitField0_ & ~0x00010000);
+              } else {
+                ensureBlocksHeadersIsMutable();
+                blocksHeaders_.addAll(other.blocksHeaders_);
+              }
+              onChanged();
+            }
             if (!other.blocksData_.isEmpty()) {
               if (blocksData_.isEmpty()) {
                 blocksData_ = other.blocksData_;
-                bitField0_ = (bitField0_ & ~0x00010000);
+                bitField0_ = (bitField0_ & ~0x00020000);
               } else {
                 ensureBlocksDataIsMutable();
                 blocksData_.addAll(other.blocksData_);
@@ -38309,34 +39964,134 @@ public final class YdbPersqueueV1 {
             return this;
           }
 
-          private java.util.List<com.google.protobuf.ByteString> blocksData_ = java.util.Collections.emptyList();
-          private void ensureBlocksDataIsMutable() {
+          private java.util.List<com.google.protobuf.ByteString> blocksHeaders_ = java.util.Collections.emptyList();
+          private void ensureBlocksHeadersIsMutable() {
             if (!((bitField0_ & 0x00010000) == 0x00010000)) {
-              blocksData_ = new java.util.ArrayList<com.google.protobuf.ByteString>(blocksData_);
+              blocksHeaders_ = new java.util.ArrayList<com.google.protobuf.ByteString>(blocksHeaders_);
               bitField0_ |= 0x00010000;
              }
           }
           /**
-           * <code>repeated bytes blocks_data = 17;</code>
+           * <pre>
+           * In block format version 0 each byte contains only block codec identifier
+           * </pre>
+           *
+           * <code>repeated bytes blocks_headers = 17;</code>
+           */
+          public java.util.List<com.google.protobuf.ByteString>
+              getBlocksHeadersList() {
+            return java.util.Collections.unmodifiableList(blocksHeaders_);
+          }
+          /**
+           * <pre>
+           * In block format version 0 each byte contains only block codec identifier
+           * </pre>
+           *
+           * <code>repeated bytes blocks_headers = 17;</code>
+           */
+          public int getBlocksHeadersCount() {
+            return blocksHeaders_.size();
+          }
+          /**
+           * <pre>
+           * In block format version 0 each byte contains only block codec identifier
+           * </pre>
+           *
+           * <code>repeated bytes blocks_headers = 17;</code>
+           */
+          public com.google.protobuf.ByteString getBlocksHeaders(int index) {
+            return blocksHeaders_.get(index);
+          }
+          /**
+           * <pre>
+           * In block format version 0 each byte contains only block codec identifier
+           * </pre>
+           *
+           * <code>repeated bytes blocks_headers = 17;</code>
+           */
+          public Builder setBlocksHeaders(
+              int index, com.google.protobuf.ByteString value) {
+            if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureBlocksHeadersIsMutable();
+            blocksHeaders_.set(index, value);
+            onChanged();
+            return this;
+          }
+          /**
+           * <pre>
+           * In block format version 0 each byte contains only block codec identifier
+           * </pre>
+           *
+           * <code>repeated bytes blocks_headers = 17;</code>
+           */
+          public Builder addBlocksHeaders(com.google.protobuf.ByteString value) {
+            if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureBlocksHeadersIsMutable();
+            blocksHeaders_.add(value);
+            onChanged();
+            return this;
+          }
+          /**
+           * <pre>
+           * In block format version 0 each byte contains only block codec identifier
+           * </pre>
+           *
+           * <code>repeated bytes blocks_headers = 17;</code>
+           */
+          public Builder addAllBlocksHeaders(
+              java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+            ensureBlocksHeadersIsMutable();
+            com.google.protobuf.AbstractMessageLite.Builder.addAll(
+                values, blocksHeaders_);
+            onChanged();
+            return this;
+          }
+          /**
+           * <pre>
+           * In block format version 0 each byte contains only block codec identifier
+           * </pre>
+           *
+           * <code>repeated bytes blocks_headers = 17;</code>
+           */
+          public Builder clearBlocksHeaders() {
+            blocksHeaders_ = java.util.Collections.emptyList();
+            bitField0_ = (bitField0_ & ~0x00010000);
+            onChanged();
+            return this;
+          }
+
+          private java.util.List<com.google.protobuf.ByteString> blocksData_ = java.util.Collections.emptyList();
+          private void ensureBlocksDataIsMutable() {
+            if (!((bitField0_ & 0x00020000) == 0x00020000)) {
+              blocksData_ = new java.util.ArrayList<com.google.protobuf.ByteString>(blocksData_);
+              bitField0_ |= 0x00020000;
+             }
+          }
+          /**
+           * <code>repeated bytes blocks_data = 18;</code>
            */
           public java.util.List<com.google.protobuf.ByteString>
               getBlocksDataList() {
             return java.util.Collections.unmodifiableList(blocksData_);
           }
           /**
-           * <code>repeated bytes blocks_data = 17;</code>
+           * <code>repeated bytes blocks_data = 18;</code>
            */
           public int getBlocksDataCount() {
             return blocksData_.size();
           }
           /**
-           * <code>repeated bytes blocks_data = 17;</code>
+           * <code>repeated bytes blocks_data = 18;</code>
            */
           public com.google.protobuf.ByteString getBlocksData(int index) {
             return blocksData_.get(index);
           }
           /**
-           * <code>repeated bytes blocks_data = 17;</code>
+           * <code>repeated bytes blocks_data = 18;</code>
            */
           public Builder setBlocksData(
               int index, com.google.protobuf.ByteString value) {
@@ -38349,7 +40104,7 @@ public final class YdbPersqueueV1 {
             return this;
           }
           /**
-           * <code>repeated bytes blocks_data = 17;</code>
+           * <code>repeated bytes blocks_data = 18;</code>
            */
           public Builder addBlocksData(com.google.protobuf.ByteString value) {
             if (value == null) {
@@ -38361,7 +40116,7 @@ public final class YdbPersqueueV1 {
             return this;
           }
           /**
-           * <code>repeated bytes blocks_data = 17;</code>
+           * <code>repeated bytes blocks_data = 18;</code>
            */
           public Builder addAllBlocksData(
               java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
@@ -38372,11 +40127,11 @@ public final class YdbPersqueueV1 {
             return this;
           }
           /**
-           * <code>repeated bytes blocks_data = 17;</code>
+           * <code>repeated bytes blocks_data = 18;</code>
            */
           public Builder clearBlocksData() {
             blocksData_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00010000);
+            bitField0_ = (bitField0_ & ~0x00020000);
             onChanged();
             return this;
           }
@@ -78967,6 +80722,11 @@ public final class YdbPersqueueV1 {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_WriteRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_UpdateTokenRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_UpdateTokenRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -78981,6 +80741,11 @@ public final class YdbPersqueueV1 {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_BatchWriteResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_UpdateTokenResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_UpdateTokenResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_WriteStatistics_descriptor;
   private static final 
@@ -79314,341 +81079,349 @@ public final class YdbPersqueueV1 {
       "e\030\001 \003(\0132-.Ydb.PersQueue.V1.SessionMetaVa" +
       "lue.ValueEntry\032,\n\nValueEntry\022\013\n\003key\030\001 \001(" +
       "\t\022\r\n\005value\030\002 \001(\t:\0028\001\"8\n\014OffsetsRange\022\024\n\014" +
-      "start_offset\030\001 \001(\003\022\022\n\nend_offset\030\002 \001(\003\"\331",
-      "\006\n\033StreamingWriteClientMessage\022Q\n\014init_r" +
+      "start_offset\030\001 \001(\003\022\022\n\nend_offset\030\002 \001(\003\"\204",
+      "\010\n\033StreamingWriteClientMessage\022Q\n\014init_r" +
       "equest\030\001 \001(\01329.Ydb.PersQueue.V1.Streamin" +
       "gWriteClientMessage.InitRequestH\000\022S\n\rwri" +
       "te_request\030\002 \001(\0132:.Ydb.PersQueue.V1.Stre" +
-      "amingWriteClientMessage.WriteRequestH\000\022\r" +
-      "\n\005token\030\024 \001(\t\032\367\002\n\013InitRequest\022\r\n\005topic\030\001" +
-      " \001(\t\022\030\n\020message_group_id\030\002 \001(\t\022`\n\014sessio" +
-      "n_meta\030\003 \003(\0132J.Ydb.PersQueue.V1.Streamin" +
-      "gWriteClientMessage.InitRequest.SessionM" +
-      "etaEntry\022\032\n\022partition_group_id\030\004 \001(\003\022*\n\"",
-      "max_supported_block_format_version\030\005 \001(\003" +
-      "\022\022\n\nsession_id\030d \001(\t\022\032\n\022connection_attem" +
-      "pt\030e \001(\003\022\027\n\017connection_meta\030f \001(\014\022\030\n\017idl" +
-      "e_timeout_ms\030\310\001 \001(\003\0322\n\020SessionMetaEntry\022" +
-      "\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\032\366\001\n\014Writ" +
-      "eRequest\022\030\n\020sequence_numbers\030\002 \003(\003\022\025\n\rcr" +
-      "eated_at_ms\030\003 \003(\003\022\022\n\nsent_at_ms\030\004 \003(\003\022\025\n" +
-      "\rmessage_sizes\030\005 \003(\003\022\026\n\016blocks_offsets\030\006" +
-      " \003(\003\022\033\n\023blocks_part_numbers\030\007 \003(\003\022\035\n\025blo" +
-      "cks_message_counts\030\017 \003(\003\022!\n\031blocks_uncom",
-      "pressed_sizes\030\t \003(\003\022\023\n\013blocks_data\030\n \003(\014" +
-      "B\020\n\016client_message\"\231\007\n\033StreamingWriteSer" +
-      "verMessage\022S\n\rinit_response\030\003 \001(\0132:.Ydb." +
-      "PersQueue.V1.StreamingWriteServerMessage" +
-      ".InitResponseH\000\022`\n\024batch_write_response\030" +
-      "\004 \001(\0132@.Ydb.PersQueue.V1.StreamingWriteS" +
-      "erverMessage.BatchWriteResponseH\000\022)\n\006sta" +
-      "tus\030\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006" +
-      "issues\030\002 \003(\0132\027.Ydb.Issue.IssueMessage\032\344\001" +
-      "\n\014InitResponse\022\034\n\024last_sequence_number\030\001",
-      " \001(\003\022\022\n\nsession_id\030\002 \001(\t\022\r\n\005topic\030\003 \001(\t\022" +
-      "\017\n\007cluster\030\004 \001(\t\022\024\n\014partition_id\030\005 \001(\003\022\034" +
-      "\n\024block_format_version\030\006 \001(\003\022\035\n\025max_flus" +
-      "h_window_size\030\007 \001(\003\022\026\n\016max_block_size\030\010 " +
-      "\001(\003\022\027\n\017connection_meta\030\t \001(\014\032\307\001\n\022BatchWr" +
-      "iteResponse\022\030\n\020sequence_numbers\030\001 \003(\003\022\017\n" +
-      "\007offsets\030\002 \003(\003\022\027\n\017already_written\030\003 \003(\010\022" +
-      "\024\n\014partition_id\030\004 \001(\003\022W\n\020write_statistic" +
-      "s\030\005 \001(\0132=.Ydb.PersQueue.V1.StreamingWrit" +
-      "eServerMessage.WriteStatistics\032\253\001\n\017Write",
-      "Statistics\022\033\n\023persist_duration_ms\030\001 \001(\003\022" +
-      "\'\n\037queued_in_partition_duration_ms\030\002 \001(\003" +
-      "\022*\n\"throttled_on_partition_duration_ms\030\003" +
-      " \001(\003\022&\n\036throttled_on_topic_duration_ms\030\004" +
-      " \001(\003B\020\n\016server_message\"\024\n\004Path\022\014\n\004path\030\001" +
-      " \001(\t\"&\n\010KeyValue\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002" +
-      " \001(\t\"D\n\nReadParams\022\037\n\027max_read_messages_" +
-      "count\030\001 \001(\r\022\025\n\rmax_read_size\030\002 \001(\r\";\n\014Co" +
-      "mmitCookie\022\021\n\tassign_id\030\001 \001(\004\022\030\n\020partiti" +
-      "on_cookie\030\002 \001(\004\"\204\026\n\035StreamingReadClientM",
-      "essageNew\022S\n\014init_request\030\001 \001(\0132;.Ydb.Pe" +
-      "rsQueue.V1.StreamingReadClientMessageNew" +
-      ".InitRequestH\000\022S\n\014read_request\030\002 \001(\0132;.Y" +
-      "db.PersQueue.V1.StreamingReadClientMessa" +
-      "geNew.ReadRequestH\000\022o\n\033create_read_strea" +
-      "m_response\030\003 \001(\0132H.Ydb.PersQueue.V1.Stre" +
-      "amingReadClientMessageNew.CreateReadStre" +
-      "amResponseH\000\022W\n\016commit_request\030\004 \001(\0132=.Y" +
-      "db.PersQueue.V1.StreamingReadClientMessa" +
-      "geNew.CommitRequestH\000\022q\n\034destroy_read_st",
-      "ream_response\030\005 \001(\0132I.Ydb.PersQueue.V1.S" +
-      "treamingReadClientMessageNew.DestroyRead" +
-      "StreamResponseH\000\022\\\n\021stop_read_request\030\006 " +
-      "\001(\0132?.Ydb.PersQueue.V1.StreamingReadClie" +
-      "ntMessageNew.StopReadRequestH\000\022`\n\023resume" +
-      "_read_request\030\007 \001(\0132A.Ydb.PersQueue.V1.S" +
-      "treamingReadClientMessageNew.ResumeReadR" +
-      "equestH\000\022m\n\032read_stream_status_request\030\010" +
-      " \001(\0132G.Ydb.PersQueue.V1.StreamingReadCli" +
-      "entMessageNew.ReadStreamStatusRequestH\000\022",
-      "\\\n\021add_topic_request\030\t \001(\0132?.Ydb.PersQue" +
-      "ue.V1.StreamingReadClientMessageNew.AddT" +
-      "opicRequestH\000\022b\n\024remove_topic_request\030\n " +
-      "\001(\0132B.Ydb.PersQueue.V1.StreamingReadClie" +
-      "ntMessageNew.RemoveTopicRequestH\000\022\r\n\005tok" +
-      "en\030\024 \001(\t\032\221\007\n\013InitRequest\022_\n\024topics_read_" +
-      "settings\030\001 \003(\0132A.Ydb.PersQueue.V1.Stream" +
-      "ingReadClientMessageNew.TopicReadSetting" +
-      "s\022\032\n\022read_only_original\030\002 \001(\010\022\020\n\010consume" +
-      "r\030\003 \001(\t\022\033\n\023max_lag_duration_ms\030\004 \001(\003\022 \n\030",
-      "start_from_written_at_ms\030\005 \001(\003\022*\n\"max_su" +
-      "pported_block_format_version\030\006 \001(\003\022\033\n\023ma" +
-      "x_meta_cache_size\030\n \001(\003\022\022\n\nsession_id\030d " +
-      "\001(\t\022\032\n\022connection_attempt\030e \001(\003\022P\n\005state" +
-      "\030f \001(\0132A.Ydb.PersQueue.V1.StreamingReadC" +
-      "lientMessageNew.InitRequest.State\022\030\n\017idl" +
-      "e_timeout_ms\030\310\001 \001(\003\032\316\003\n\005State\022n\n\023read_st" +
-      "reams_states\030\001 \003(\0132Q.Ydb.PersQueue.V1.St" +
-      "reamingReadClientMessageNew.InitRequest." +
-      "State.ReadStreamState\032\324\002\n\017ReadStreamStat",
-      "e\0221\n\013read_stream\030\001 \001(\0132\034.Ydb.PersQueue.V" +
-      "1.ReadStream\022\023\n\013read_offset\030\002 \001(\003\0225\n\roff" +
-      "set_ranges\030\003 \003(\0132\036.Ydb.PersQueue.V1.Offs" +
-      "etsRange\022h\n\006status\030\004 \001(\0162X.Ydb.PersQueue" +
-      ".V1.StreamingReadClientMessageNew.InitRe" +
-      "quest.State.ReadStreamState.Status\"X\n\006St" +
-      "atus\022\026\n\022STATUS_UNSPECIFIED\020\000\022\014\n\010CREATING" +
-      "\020\001\022\016\n\nDESTROYING\020\002\022\013\n\007READING\020\003\022\013\n\007STOPP" +
-      "ED\020\004\0320\n\013ReadRequest\022!\n\031request_uncompres" +
-      "sed_size\030\001 \001(\003\032z\n\030CreateReadStreamRespon",
-      "se\022\026\n\016read_stream_id\030\001 \001(\003\022\023\n\013read_offse" +
-      "t\030\002 \001(\003\022\025\n\rcommit_offset\030\003 \001(\003\022\032\n\022verify" +
-      "_read_offset\030\004 \001(\010\0323\n\031DestroyReadStreamR" +
-      "esponse\022\026\n\016read_stream_id\030\001 \001(\003\032*\n\017StopR" +
-      "eadRequest\022\027\n\017read_stream_ids\030\001 \003(\003\032Z\n\021R" +
-      "esumeReadRequest\022\027\n\017read_stream_ids\030\001 \003(" +
-      "\003\022\024\n\014read_offsets\030\002 \003(\003\022\026\n\016resume_cookie" +
-      "s\030\003 \003(\003\032a\n\rCommitRequest\022P\n\007commits\030\001 \003(" +
-      "\0132?.Ydb.PersQueue.V1.StreamingReadClient" +
-      "MessageNew.PartitionCommit\0321\n\027ReadStream",
-      "StatusRequest\022\026\n\016read_stream_id\030\001 \001(\003\032q\n" +
-      "\017AddTopicRequest\022^\n\023topic_read_settings\030" +
-      "\001 \001(\0132A.Ydb.PersQueue.V1.StreamingReadCl" +
-      "ientMessageNew.TopicReadSettings\032#\n\022Remo" +
-      "veTopicRequest\022\r\n\005topic\030\001 \001(\t\032a\n\021TopicRe" +
-      "adSettings\022\r\n\005topic\030\001 \001(\t\022\033\n\023partition_g" +
-      "roup_ids\030\002 \003(\003\022 \n\030start_from_written_at_" +
-      "ms\030\003 \001(\003\032Z\n\017PartitionCommit\022\026\n\016read_stre" +
-      "am_id\030\001 \001(\003\022/\n\007offsets\030\002 \003(\0132\036.Ydb.PersQ" +
-      "ueue.V1.OffsetsRangeB\020\n\016client_message\"\217",
-      "\031\n\035StreamingReadServerMessageNew\022U\n\rinit" +
-      "_response\030\003 \001(\0132<.Ydb.PersQueue.V1.Strea" +
-      "mingReadServerMessageNew.InitResponseH\000\022" +
-      "`\n\023batch_read_response\030\004 \001(\0132A.Ydb.PersQ" +
-      "ueue.V1.StreamingReadServerMessageNew.Ba" +
-      "tchReadResponseH\000\022m\n\032create_read_stream_" +
-      "request\030\005 \001(\0132G.Ydb.PersQueue.V1.Streami" +
-      "ngReadServerMessageNew.CreateReadStreamR" +
-      "equestH\000\022o\n\033destroy_read_stream_request\030" +
-      "\006 \001(\0132H.Ydb.PersQueue.V1.StreamingReadSe",
-      "rverMessageNew.DestroyReadStreamRequestH" +
-      "\000\022Y\n\017commit_response\030\007 \001(\0132>.Ydb.PersQue" +
-      "ue.V1.StreamingReadServerMessageNew.Comm" +
-      "itResponseH\000\022o\n\033read_stream_status_respo" +
-      "nse\030\010 \001(\0132H.Ydb.PersQueue.V1.StreamingRe" +
-      "adServerMessageNew.ReadStreamStatusRespo" +
-      "nseH\000\022^\n\022stop_read_response\030\t \001(\0132@.Ydb." +
-      "PersQueue.V1.StreamingReadServerMessageN" +
-      "ew.StopReadResponseH\000\022b\n\024resume_read_res" +
-      "ponse\030\n \001(\0132B.Ydb.PersQueue.V1.Streaming",
-      "ReadServerMessageNew.ResumeReadResponseH" +
-      "\000\022^\n\022add_topic_response\030\013 \001(\0132@.Ydb.Pers" +
-      "Queue.V1.StreamingReadServerMessageNew.A" +
-      "ddTopicResponseH\000\022d\n\025remove_topic_respon" +
-      "se\030\014 \001(\0132C.Ydb.PersQueue.V1.StreamingRea" +
-      "dServerMessageNew.RemoveTopicResponseH\000\022" +
-      ")\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.StatusCo" +
-      "de\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMess" +
-      "age\032\206\002\n\014InitResponse\022\022\n\nsession_id\030\001 \001(\t" +
-      "\022\202\001\n\035block_format_version_by_topic\030\002 \003(\013",
-      "2[.Ydb.PersQueue.V1.StreamingReadServerM" +
-      "essageNew.InitResponse.BlockFormatVersio" +
-      "nByTopicEntry\022\033\n\023max_meta_cache_size\030\n \001" +
-      "(\003\032@\n\036BlockFormatVersionByTopicEntry\022\013\n\003" +
-      "key\030\001 \001(\t\022\r\n\005value\030\002 \001(\003:\0028\001\032z\n\027CreateRe" +
-      "adStreamRequest\0221\n\013read_stream\030\001 \001(\0132\034.Y" +
-      "db.PersQueue.V1.ReadStream\022\030\n\020committed_" +
-      "offset\030\002 \001(\003\022\022\n\nend_offset\030\003 \001(\003\032^\n\030Dest" +
-      "royReadStreamRequest\022\026\n\016read_stream_id\030\001" +
-      " \001(\003\022\020\n\010graceful\030\002 \001(\010\022\030\n\020committed_offs",
-      "et\030\003 \001(\003\032\335\001\n\016CommitResponse\022}\n\034partition" +
-      "s_committed_offsets\030\001 \003(\0132W.Ydb.PersQueu" +
-      "e.V1.StreamingReadServerMessageNew.Commi" +
-      "tResponse.PartitionCommittedOffset\032L\n\030Pa" +
-      "rtitionCommittedOffset\022\026\n\016read_stream_id" +
-      "\030\001 \001(\003\022\030\n\020committed_offset\030\002 \001(\003\032\334\010\n\021Bat" +
-      "chReadResponse\022_\n\nskip_range\030\001 \003(\0132K.Ydb" +
-      ".PersQueue.V1.StreamingReadServerMessage" +
-      "New.BatchReadResponse.SkipRange\022c\n\nparti" +
-      "tions\030\002 \003(\0132O.Ydb.PersQueue.V1.Streaming",
-      "ReadServerMessageNew.BatchReadResponse.P" +
-      "artitionData\032\247\006\n\rPartitionData\022\026\n\016read_s" +
-      "tream_id\030\001 \001(\003\022\017\n\007offsets\030\002 \003(\003\022\030\n\020seque" +
-      "nce_numbers\030\003 \003(\003\022\025\n\rcreated_at_ms\030\004 \003(\003" +
-      "\022\025\n\rwritten_at_ms\030\005 \003(\003\022\031\n\021message_group" +
-      "_ids\030\006 \003(\t\022 \n\030message_group_id_indexes\030\007" +
-      " \003(\022\022\013\n\003ips\030\010 \003(\t\022\022\n\nip_indexes\030\t \003(\022\022@\n" +
-      "\024message_session_meta\030\n \003(\0132\".Ydb.PersQu" +
-      "eue.V1.SessionMetaValue\022$\n\034message_sessi" +
-      "on_meta_indexes\030\013 \003(\022\022\025\n\rmessage_sizes\030\014",
-      " \003(\003\022\026\n\016blocks_offsets\030\r \003(\003\022\033\n\023blocks_p" +
-      "art_numbers\030\016 \003(\003\022\035\n\025blocks_message_coun" +
-      "ts\030\017 \003(\003\022!\n\031blocks_uncompressed_sizes\030\020 " +
-      "\003(\003\022\023\n\013blocks_data\030\021 \003(\014\022\025\n\rresume_cooki" +
-      "e\0302 \001(\003\022w\n\017read_statistics\030d \001(\0132^.Ydb.P" +
-      "ersQueue.V1.StreamingReadServerMessageNe" +
-      "w.BatchReadResponse.PartitionData.ReadSt" +
-      "atistics\032\253\001\n\016ReadStatistics\022\030\n\020blobs_fro" +
-      "m_cache\030\001 \001(\003\022\027\n\017blobs_from_disk\030\002 \001(\003\022\027" +
-      "\n\017bytes_from_head\030\003 \001(\003\022\030\n\020bytes_from_ca",
-      "che\030\004 \001(\003\022\027\n\017bytes_from_disk\030\005 \001(\003\022\032\n\022re" +
-      "pack_duration_ms\030\006 \001(\003\032W\n\tSkipRange\022\026\n\016r" +
-      "ead_stream_id\030\001 \001(\003\0222\n\nskip_range\030\002 \001(\0132" +
-      "\036.Ydb.PersQueue.V1.OffsetsRange\032\201\001\n\030Read" +
-      "StreamStatusResponse\022\026\n\016read_stream_id\030\001" +
-      " \001(\003\022\030\n\020committed_offset\030\002 \001(\003\022\022\n\nend_of" +
-      "fset\030\003 \001(\003\022\037\n\027written_at_watermark_ms\030\004 " +
-      "\001(\003\032\022\n\020StopReadResponse\032\024\n\022ResumeReadRes" +
-      "ponse\0320\n\020AddTopicResponse\022\034\n\024block_forma" +
-      "t_version\030\001 \001(\003\032\025\n\023RemoveTopicResponseB\020",
-      "\n\016server_message\"\217\001\n\nReadStream\022\r\n\005topic" +
-      "\030\001 \001(\t\022\017\n\007cluster\030\002 \001(\t\022\024\n\014partition_id\030" +
-      "\003 \001(\003\022\032\n\022partition_group_id\030\004 \001(\003\022\026\n\016rea" +
-      "d_stream_id\030\006 \001(\003\022\027\n\017connection_meta\030\007 \001" +
-      "(\014\"\331\017\n\032StreamingReadClientMessage\022P\n\014ini" +
-      "t_request\030\001 \001(\01328.Ydb.PersQueue.V1.Strea" +
-      "mingReadClientMessage.InitRequestH\000\022A\n\004r" +
-      "ead\030\002 \001(\01321.Ydb.PersQueue.V1.StreamingRe" +
-      "adClientMessage.ReadH\000\022L\n\nstart_read\030\003 \001" +
-      "(\01326.Ydb.PersQueue.V1.StreamingReadClien",
-      "tMessage.StartReadH\000\022E\n\006commit\030\004 \001(\01323.Y" +
-      "db.PersQueue.V1.StreamingReadClientMessa" +
-      "ge.CommitH\000\022I\n\010released\030\005 \001(\01325.Ydb.Pers" +
-      "Queue.V1.StreamingReadClientMessage.Rele" +
-      "asedH\000\022E\n\006status\030\006 \001(\01323.Ydb.PersQueue.V" +
-      "1.StreamingReadClientMessage.StatusH\000\022\r\n" +
-      "\005token\030\024 \001(\014\032a\n\021TopicReadSettings\022\r\n\005top" +
-      "ic\030\001 \001(\t\022\033\n\023partition_group_ids\030\002 \003(\003\022 \n" +
-      "\030start_from_written_at_ms\030\003 \001(\003\032\270\007\n\013Init" +
-      "Request\022\\\n\024topics_read_settings\030\001 \003(\0132>.",
-      "Ydb.PersQueue.V1.StreamingReadClientMess" +
-      "age.TopicReadSettings\022\032\n\022read_only_origi" +
-      "nal\030\002 \001(\010\022\020\n\010consumer\030\003 \001(\t\022\033\n\023max_lag_d" +
-      "uration_ms\030\004 \001(\003\022 \n\030start_from_written_a" +
-      "t_ms\030\005 \001(\003\022*\n\"max_supported_block_format" +
-      "_version\030\006 \001(\003\022\033\n\023max_meta_cache_size\030\n " +
+      "amingWriteClientMessage.WriteRequestH\000\022`" +
+      "\n\024update_token_request\030\003 \001(\0132@.Ydb.PersQ" +
+      "ueue.V1.StreamingWriteClientMessage.Upda" +
+      "teTokenRequestH\000\032\222\003\n\013InitRequest\022\r\n\005topi" +
+      "c\030\001 \001(\t\022\030\n\020message_group_id\030\002 \001(\t\022`\n\014ses" +
+      "sion_meta\030\003 \003(\0132J.Ydb.PersQueue.V1.Strea",
+      "mingWriteClientMessage.InitRequest.Sessi" +
+      "onMetaEntry\022\032\n\022partition_group_id\030\004 \001(\003\022" +
+      "*\n\"max_supported_block_format_version\030\005 " +
       "\001(\003\022\022\n\nsession_id\030d \001(\t\022\032\n\022connection_at" +
-      "tempt\030e \001(\003\022M\n\005state\030f \001(\0132>.Ydb.PersQue" +
-      "ue.V1.StreamingReadClientMessage.InitReq" +
-      "uest.State\022\030\n\017idle_timeout_ms\030\310\001 \001(\003\0221\n\013",
-      "read_params\030* \001(\0132\034.Ydb.PersQueue.V1.Rea" +
-      "dParams\032\310\003\n\005State\022k\n\023read_streams_states" +
-      "\030\001 \003(\0132N.Ydb.PersQueue.V1.StreamingReadC" +
-      "lientMessage.InitRequest.State.ReadStrea" +
-      "mState\032\321\002\n\017ReadStreamState\0221\n\013read_strea" +
-      "m\030\001 \001(\0132\034.Ydb.PersQueue.V1.ReadStream\022\023\n" +
-      "\013read_offset\030\002 \001(\003\0225\n\roffset_ranges\030\003 \003(" +
-      "\0132\036.Ydb.PersQueue.V1.OffsetsRange\022e\n\006sta" +
-      "tus\030\004 \001(\0162U.Ydb.PersQueue.V1.StreamingRe" +
-      "adClientMessage.InitRequest.State.ReadSt",
-      "reamState.Status\"X\n\006Status\022\026\n\022STATUS_UNS" +
-      "PECIFIED\020\000\022\014\n\010CREATING\020\001\022\016\n\nDESTROYING\020\002" +
-      "\022\013\n\007READING\020\003\022\013\n\007STOPPED\020\004\032\006\n\004Read\032\261\001\n\tS" +
-      "tartRead\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue." +
-      "V1.Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003 " +
-      "\001(\004\022\021\n\tassign_id\030\005 \001(\004\022\023\n\013read_offset\030\006 " +
-      "\001(\004\022\025\n\rcommit_offset\030\007 \001(\004\022\032\n\022verify_rea" +
-      "d_offset\030\010 \001(\010\032h\n\010Released\022%\n\005topic\030\001 \001(" +
-      "\0132\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster\030\002 \001" +
-      "(\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004",
-      "\0329\n\006Commit\022/\n\007cookies\030\001 \003(\0132\036.Ydb.PersQu" +
-      "eue.V1.CommitCookie\032f\n\006Status\022%\n\005topic\030\001" +
-      " \001(\0132\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster\030" +
-      "\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 " +
-      "\001(\004B\t\n\007request\"\243\020\n\032StreamingReadServerMe" +
-      "ssage\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.St" +
-      "atusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.Iss" +
-      "ueMessage\022R\n\rinit_response\030\003 \001(\01329.Ydb.P" +
-      "ersQueue.V1.StreamingReadServerMessage.I" +
-      "nitResponseH\000\022L\n\ndata_batch\030\004 \001(\01326.Ydb.",
-      "PersQueue.V1.StreamingReadServerMessage." +
-      "DataBatchH\000\022I\n\010assigned\030\005 \001(\01325.Ydb.Pers" +
-      "Queue.V1.StreamingReadServerMessage.Assi" +
-      "gnedH\000\022G\n\007release\030\006 \001(\01324.Ydb.PersQueue." +
-      "V1.StreamingReadServerMessage.ReleaseH\000\022" +
-      "K\n\tcommitted\030\007 \001(\01326.Ydb.PersQueue.V1.St" +
-      "reamingReadServerMessage.CommittedH\000\022X\n\020" +
-      "partition_status\030\010 \001(\0132<.Ydb.PersQueue.V" +
-      "1.StreamingReadServerMessage.PartitionSt" +
-      "atusH\000\032\202\002\n\014InitResponse\022\022\n\nsession_id\030\001 ",
-      "\001(\t\022\177\n\035block_format_version_by_topic\030\002 \003" +
-      "(\0132X.Ydb.PersQueue.V1.StreamingReadServe" +
-      "rMessage.InitResponse.BlockFormatVersion" +
-      "ByTopicEntry\022\033\n\023max_meta_cache_size\030\n \001(" +
-      "\003\032@\n\036BlockFormatVersionByTopicEntry\022\013\n\003k" +
-      "ey\030\001 \001(\t\022\r\n\005value\030\002 \001(\003:\0028\001\032\221\001\n\010Assigned" +
-      "\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022" +
-      "\017\n\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\ta" +
-      "ssign_id\030\005 \001(\004\022\023\n\013read_offset\030\006 \001(\004\022\022\n\ne" +
-      "nd_offset\030\007 \001(\004\032\230\001\n\007Release\022%\n\005topic\030\001 \001",
+      "tempt\030e \001(\003\022\027\n\017connection_meta\030f \001(\014\022\031\n\021" +
+      "preferred_cluster\030g \001(\t\022\030\n\017idle_timeout_" +
+      "ms\030\310\001 \001(\003\0322\n\020SessionMetaEntry\022\013\n\003key\030\001 \001" +
+      "(\t\022\r\n\005value\030\002 \001(\t:\0028\001\032\216\002\n\014WriteRequest\022\030" +
+      "\n\020sequence_numbers\030\002 \003(\003\022\025\n\rcreated_at_m" +
+      "s\030\003 \003(\003\022\022\n\nsent_at_ms\030\004 \003(\003\022\025\n\rmessage_s",
+      "izes\030\005 \003(\003\022\026\n\016blocks_offsets\030\006 \003(\003\022\033\n\023bl" +
+      "ocks_part_numbers\030\007 \003(\003\022\035\n\025blocks_messag" +
+      "e_counts\030\010 \003(\003\022!\n\031blocks_uncompressed_si" +
+      "zes\030\t \003(\003\022\026\n\016blocks_headers\030\n \003(\014\022\023\n\013blo" +
+      "cks_data\030\013 \003(\014\032#\n\022UpdateTokenRequest\022\r\n\005" +
+      "token\030\001 \001(\tB\020\n\016client_message\"\224\010\n\033Stream" +
+      "ingWriteServerMessage\022S\n\rinit_response\030\003" +
+      " \001(\0132:.Ydb.PersQueue.V1.StreamingWriteSe" +
+      "rverMessage.InitResponseH\000\022`\n\024batch_writ" +
+      "e_response\030\004 \001(\0132@.Ydb.PersQueue.V1.Stre",
+      "amingWriteServerMessage.BatchWriteRespon" +
+      "seH\000\022b\n\025update_token_response\030\005 \001(\0132A.Yd" +
+      "b.PersQueue.V1.StreamingWriteServerMessa" +
+      "ge.UpdateTokenResponseH\000\022)\n\006status\030\001 \001(\016" +
+      "2\031.Ydb.StatusIds.StatusCode\022\'\n\006issues\030\002 " +
+      "\003(\0132\027.Ydb.Issue.IssueMessage\032\344\001\n\014InitRes" +
+      "ponse\022\034\n\024last_sequence_number\030\001 \001(\003\022\022\n\ns" +
+      "ession_id\030\002 \001(\t\022\r\n\005topic\030\003 \001(\t\022\017\n\007cluste" +
+      "r\030\004 \001(\t\022\024\n\014partition_id\030\005 \001(\003\022\034\n\024block_f" +
+      "ormat_version\030\006 \001(\003\022\035\n\025max_flush_window_",
+      "size\030\007 \001(\003\022\026\n\016max_block_size\030\010 \001(\003\022\027\n\017co" +
+      "nnection_meta\030\t \001(\014\032\307\001\n\022BatchWriteRespon" +
+      "se\022\030\n\020sequence_numbers\030\001 \003(\003\022\017\n\007offsets\030" +
+      "\002 \003(\003\022\027\n\017already_written\030\003 \003(\010\022\024\n\014partit" +
+      "ion_id\030\004 \001(\003\022W\n\020write_statistics\030\005 \001(\0132=" +
+      ".Ydb.PersQueue.V1.StreamingWriteServerMe" +
+      "ssage.WriteStatistics\032\025\n\023UpdateTokenResp" +
+      "onse\032\253\001\n\017WriteStatistics\022\033\n\023persist_dura" +
+      "tion_ms\030\001 \001(\003\022\'\n\037queued_in_partition_dur" +
+      "ation_ms\030\002 \001(\003\022*\n\"throttled_on_partition",
+      "_duration_ms\030\003 \001(\003\022&\n\036throttled_on_topic" +
+      "_duration_ms\030\004 \001(\003B\020\n\016server_message\"\024\n\004" +
+      "Path\022\014\n\004path\030\001 \001(\t\"&\n\010KeyValue\022\013\n\003key\030\001 " +
+      "\001(\t\022\r\n\005value\030\002 \001(\t\"D\n\nReadParams\022\037\n\027max_" +
+      "read_messages_count\030\001 \001(\r\022\025\n\rmax_read_si" +
+      "ze\030\002 \001(\r\";\n\014CommitCookie\022\021\n\tassign_id\030\001 " +
+      "\001(\004\022\030\n\020partition_cookie\030\002 \001(\004\"\204\026\n\035Stream" +
+      "ingReadClientMessageNew\022S\n\014init_request\030" +
+      "\001 \001(\0132;.Ydb.PersQueue.V1.StreamingReadCl" +
+      "ientMessageNew.InitRequestH\000\022S\n\014read_req",
+      "uest\030\002 \001(\0132;.Ydb.PersQueue.V1.StreamingR" +
+      "eadClientMessageNew.ReadRequestH\000\022o\n\033cre" +
+      "ate_read_stream_response\030\003 \001(\0132H.Ydb.Per" +
+      "sQueue.V1.StreamingReadClientMessageNew." +
+      "CreateReadStreamResponseH\000\022W\n\016commit_req" +
+      "uest\030\004 \001(\0132=.Ydb.PersQueue.V1.StreamingR" +
+      "eadClientMessageNew.CommitRequestH\000\022q\n\034d" +
+      "estroy_read_stream_response\030\005 \001(\0132I.Ydb." +
+      "PersQueue.V1.StreamingReadClientMessageN" +
+      "ew.DestroyReadStreamResponseH\000\022\\\n\021stop_r",
+      "ead_request\030\006 \001(\0132?.Ydb.PersQueue.V1.Str" +
+      "eamingReadClientMessageNew.StopReadReque" +
+      "stH\000\022`\n\023resume_read_request\030\007 \001(\0132A.Ydb." +
+      "PersQueue.V1.StreamingReadClientMessageN" +
+      "ew.ResumeReadRequestH\000\022m\n\032read_stream_st" +
+      "atus_request\030\010 \001(\0132G.Ydb.PersQueue.V1.St" +
+      "reamingReadClientMessageNew.ReadStreamSt" +
+      "atusRequestH\000\022\\\n\021add_topic_request\030\t \001(\013" +
+      "2?.Ydb.PersQueue.V1.StreamingReadClientM" +
+      "essageNew.AddTopicRequestH\000\022b\n\024remove_to",
+      "pic_request\030\n \001(\0132B.Ydb.PersQueue.V1.Str" +
+      "eamingReadClientMessageNew.RemoveTopicRe" +
+      "questH\000\022\r\n\005token\030\024 \001(\t\032\221\007\n\013InitRequest\022_" +
+      "\n\024topics_read_settings\030\001 \003(\0132A.Ydb.PersQ" +
+      "ueue.V1.StreamingReadClientMessageNew.To" +
+      "picReadSettings\022\032\n\022read_only_original\030\002 " +
+      "\001(\010\022\020\n\010consumer\030\003 \001(\t\022\033\n\023max_lag_duratio" +
+      "n_ms\030\004 \001(\003\022 \n\030start_from_written_at_ms\030\005" +
+      " \001(\003\022*\n\"max_supported_block_format_versi" +
+      "on\030\006 \001(\003\022\033\n\023max_meta_cache_size\030\n \001(\003\022\022\n",
+      "\nsession_id\030d \001(\t\022\032\n\022connection_attempt\030" +
+      "e \001(\003\022P\n\005state\030f \001(\0132A.Ydb.PersQueue.V1." +
+      "StreamingReadClientMessageNew.InitReques" +
+      "t.State\022\030\n\017idle_timeout_ms\030\310\001 \001(\003\032\316\003\n\005St" +
+      "ate\022n\n\023read_streams_states\030\001 \003(\0132Q.Ydb.P" +
+      "ersQueue.V1.StreamingReadClientMessageNe" +
+      "w.InitRequest.State.ReadStreamState\032\324\002\n\017" +
+      "ReadStreamState\0221\n\013read_stream\030\001 \001(\0132\034.Y" +
+      "db.PersQueue.V1.ReadStream\022\023\n\013read_offse" +
+      "t\030\002 \001(\003\0225\n\roffset_ranges\030\003 \003(\0132\036.Ydb.Per",
+      "sQueue.V1.OffsetsRange\022h\n\006status\030\004 \001(\0162X" +
+      ".Ydb.PersQueue.V1.StreamingReadClientMes" +
+      "sageNew.InitRequest.State.ReadStreamStat" +
+      "e.Status\"X\n\006Status\022\026\n\022STATUS_UNSPECIFIED" +
+      "\020\000\022\014\n\010CREATING\020\001\022\016\n\nDESTROYING\020\002\022\013\n\007READ" +
+      "ING\020\003\022\013\n\007STOPPED\020\004\0320\n\013ReadRequest\022!\n\031req" +
+      "uest_uncompressed_size\030\001 \001(\003\032z\n\030CreateRe" +
+      "adStreamResponse\022\026\n\016read_stream_id\030\001 \001(\003" +
+      "\022\023\n\013read_offset\030\002 \001(\003\022\025\n\rcommit_offset\030\003" +
+      " \001(\003\022\032\n\022verify_read_offset\030\004 \001(\010\0323\n\031Dest",
+      "royReadStreamResponse\022\026\n\016read_stream_id\030" +
+      "\001 \001(\003\032*\n\017StopReadRequest\022\027\n\017read_stream_" +
+      "ids\030\001 \003(\003\032Z\n\021ResumeReadRequest\022\027\n\017read_s" +
+      "tream_ids\030\001 \003(\003\022\024\n\014read_offsets\030\002 \003(\003\022\026\n" +
+      "\016resume_cookies\030\003 \003(\003\032a\n\rCommitRequest\022P" +
+      "\n\007commits\030\001 \003(\0132?.Ydb.PersQueue.V1.Strea" +
+      "mingReadClientMessageNew.PartitionCommit" +
+      "\0321\n\027ReadStreamStatusRequest\022\026\n\016read_stre" +
+      "am_id\030\001 \001(\003\032q\n\017AddTopicRequest\022^\n\023topic_" +
+      "read_settings\030\001 \001(\0132A.Ydb.PersQueue.V1.S",
+      "treamingReadClientMessageNew.TopicReadSe" +
+      "ttings\032#\n\022RemoveTopicRequest\022\r\n\005topic\030\001 " +
+      "\001(\t\032a\n\021TopicReadSettings\022\r\n\005topic\030\001 \001(\t\022" +
+      "\033\n\023partition_group_ids\030\002 \003(\003\022 \n\030start_fr" +
+      "om_written_at_ms\030\003 \001(\003\032Z\n\017PartitionCommi" +
+      "t\022\026\n\016read_stream_id\030\001 \001(\003\022/\n\007offsets\030\002 \003" +
+      "(\0132\036.Ydb.PersQueue.V1.OffsetsRangeB\020\n\016cl" +
+      "ient_message\"\247\031\n\035StreamingReadServerMess" +
+      "ageNew\022U\n\rinit_response\030\003 \001(\0132<.Ydb.Pers" +
+      "Queue.V1.StreamingReadServerMessageNew.I",
+      "nitResponseH\000\022`\n\023batch_read_response\030\004 \001" +
+      "(\0132A.Ydb.PersQueue.V1.StreamingReadServe" +
+      "rMessageNew.BatchReadResponseH\000\022m\n\032creat" +
+      "e_read_stream_request\030\005 \001(\0132G.Ydb.PersQu" +
+      "eue.V1.StreamingReadServerMessageNew.Cre" +
+      "ateReadStreamRequestH\000\022o\n\033destroy_read_s" +
+      "tream_request\030\006 \001(\0132H.Ydb.PersQueue.V1.S" +
+      "treamingReadServerMessageNew.DestroyRead" +
+      "StreamRequestH\000\022Y\n\017commit_response\030\007 \001(\013" +
+      "2>.Ydb.PersQueue.V1.StreamingReadServerM",
+      "essageNew.CommitResponseH\000\022o\n\033read_strea" +
+      "m_status_response\030\010 \001(\0132H.Ydb.PersQueue." +
+      "V1.StreamingReadServerMessageNew.ReadStr" +
+      "eamStatusResponseH\000\022^\n\022stop_read_respons" +
+      "e\030\t \001(\0132@.Ydb.PersQueue.V1.StreamingRead" +
+      "ServerMessageNew.StopReadResponseH\000\022b\n\024r" +
+      "esume_read_response\030\n \001(\0132B.Ydb.PersQueu" +
+      "e.V1.StreamingReadServerMessageNew.Resum" +
+      "eReadResponseH\000\022^\n\022add_topic_response\030\013 " +
+      "\001(\0132@.Ydb.PersQueue.V1.StreamingReadServ",
+      "erMessageNew.AddTopicResponseH\000\022d\n\025remov" +
+      "e_topic_response\030\014 \001(\0132C.Ydb.PersQueue.V" +
+      "1.StreamingReadServerMessageNew.RemoveTo" +
+      "picResponseH\000\022)\n\006status\030\001 \001(\0162\031.Ydb.Stat" +
+      "usIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.I" +
+      "ssue.IssueMessage\032\206\002\n\014InitResponse\022\022\n\nse" +
+      "ssion_id\030\001 \001(\t\022\202\001\n\035block_format_version_" +
+      "by_topic\030\002 \003(\0132[.Ydb.PersQueue.V1.Stream" +
+      "ingReadServerMessageNew.InitResponse.Blo" +
+      "ckFormatVersionByTopicEntry\022\033\n\023max_meta_",
+      "cache_size\030\n \001(\003\032@\n\036BlockFormatVersionBy" +
+      "TopicEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\003:\002" +
+      "8\001\032z\n\027CreateReadStreamRequest\0221\n\013read_st" +
+      "ream\030\001 \001(\0132\034.Ydb.PersQueue.V1.ReadStream" +
+      "\022\030\n\020committed_offset\030\002 \001(\003\022\022\n\nend_offset" +
+      "\030\003 \001(\003\032^\n\030DestroyReadStreamRequest\022\026\n\016re" +
+      "ad_stream_id\030\001 \001(\003\022\020\n\010graceful\030\002 \001(\010\022\030\n\020" +
+      "committed_offset\030\003 \001(\003\032\335\001\n\016CommitRespons" +
+      "e\022}\n\034partitions_committed_offsets\030\001 \003(\0132" +
+      "W.Ydb.PersQueue.V1.StreamingReadServerMe",
+      "ssageNew.CommitResponse.PartitionCommitt" +
+      "edOffset\032L\n\030PartitionCommittedOffset\022\026\n\016" +
+      "read_stream_id\030\001 \001(\003\022\030\n\020committed_offset" +
+      "\030\002 \001(\003\032\364\010\n\021BatchReadResponse\022_\n\nskip_ran" +
+      "ge\030\001 \003(\0132K.Ydb.PersQueue.V1.StreamingRea" +
+      "dServerMessageNew.BatchReadResponse.Skip" +
+      "Range\022c\n\npartitions\030\002 \003(\0132O.Ydb.PersQueu" +
+      "e.V1.StreamingReadServerMessageNew.Batch" +
+      "ReadResponse.PartitionData\032\277\006\n\rPartition" +
+      "Data\022\026\n\016read_stream_id\030\001 \001(\003\022\017\n\007offsets\030",
+      "\002 \003(\003\022\030\n\020sequence_numbers\030\003 \003(\003\022\025\n\rcreat" +
+      "ed_at_ms\030\004 \003(\003\022\025\n\rwritten_at_ms\030\005 \003(\003\022\031\n" +
+      "\021message_group_ids\030\006 \003(\t\022 \n\030message_grou" +
+      "p_id_indexes\030\007 \003(\022\022\013\n\003ips\030\010 \003(\t\022\022\n\nip_in" +
+      "dexes\030\t \003(\022\022@\n\024message_session_meta\030\n \003(" +
+      "\0132\".Ydb.PersQueue.V1.SessionMetaValue\022$\n" +
+      "\034message_session_meta_indexes\030\013 \003(\022\022\025\n\rm" +
+      "essage_sizes\030\014 \003(\003\022\026\n\016blocks_offsets\030\r \003" +
+      "(\003\022\033\n\023blocks_part_numbers\030\016 \003(\003\022\035\n\025block" +
+      "s_message_counts\030\017 \003(\003\022!\n\031blocks_uncompr",
+      "essed_sizes\030\020 \003(\003\022\026\n\016blocks_headers\030\021 \003(" +
+      "\014\022\023\n\013blocks_data\030\022 \003(\014\022\025\n\rresume_cookie\030" +
+      "2 \001(\003\022w\n\017read_statistics\030d \001(\0132^.Ydb.Per" +
+      "sQueue.V1.StreamingReadServerMessageNew." +
+      "BatchReadResponse.PartitionData.ReadStat" +
+      "istics\032\253\001\n\016ReadStatistics\022\030\n\020blobs_from_" +
+      "cache\030\001 \001(\003\022\027\n\017blobs_from_disk\030\002 \001(\003\022\027\n\017" +
+      "bytes_from_head\030\003 \001(\003\022\030\n\020bytes_from_cach" +
+      "e\030\004 \001(\003\022\027\n\017bytes_from_disk\030\005 \001(\003\022\032\n\022repa" +
+      "ck_duration_ms\030\006 \001(\003\032W\n\tSkipRange\022\026\n\016rea",
+      "d_stream_id\030\001 \001(\003\0222\n\nskip_range\030\002 \001(\0132\036." +
+      "Ydb.PersQueue.V1.OffsetsRange\032\201\001\n\030ReadSt" +
+      "reamStatusResponse\022\026\n\016read_stream_id\030\001 \001" +
+      "(\003\022\030\n\020committed_offset\030\002 \001(\003\022\022\n\nend_offs" +
+      "et\030\003 \001(\003\022\037\n\027written_at_watermark_ms\030\004 \001(" +
+      "\003\032\022\n\020StopReadResponse\032\024\n\022ResumeReadRespo" +
+      "nse\0320\n\020AddTopicResponse\022\034\n\024block_format_" +
+      "version\030\001 \001(\003\032\025\n\023RemoveTopicResponseB\020\n\016" +
+      "server_message\"\217\001\n\nReadStream\022\r\n\005topic\030\001" +
+      " \001(\t\022\017\n\007cluster\030\002 \001(\t\022\024\n\014partition_id\030\003 ",
+      "\001(\003\022\032\n\022partition_group_id\030\004 \001(\003\022\026\n\016read_" +
+      "stream_id\030\006 \001(\003\022\027\n\017connection_meta\030\007 \001(\014" +
+      "\"\331\017\n\032StreamingReadClientMessage\022P\n\014init_" +
+      "request\030\001 \001(\01328.Ydb.PersQueue.V1.Streami" +
+      "ngReadClientMessage.InitRequestH\000\022A\n\004rea" +
+      "d\030\002 \001(\01321.Ydb.PersQueue.V1.StreamingRead" +
+      "ClientMessage.ReadH\000\022L\n\nstart_read\030\003 \001(\013" +
+      "26.Ydb.PersQueue.V1.StreamingReadClientM" +
+      "essage.StartReadH\000\022E\n\006commit\030\004 \001(\01323.Ydb" +
+      ".PersQueue.V1.StreamingReadClientMessage",
+      ".CommitH\000\022I\n\010released\030\005 \001(\01325.Ydb.PersQu" +
+      "eue.V1.StreamingReadClientMessage.Releas" +
+      "edH\000\022E\n\006status\030\006 \001(\01323.Ydb.PersQueue.V1." +
+      "StreamingReadClientMessage.StatusH\000\022\r\n\005t" +
+      "oken\030\024 \001(\014\032a\n\021TopicReadSettings\022\r\n\005topic" +
+      "\030\001 \001(\t\022\033\n\023partition_group_ids\030\002 \003(\003\022 \n\030s" +
+      "tart_from_written_at_ms\030\003 \001(\003\032\270\007\n\013InitRe" +
+      "quest\022\\\n\024topics_read_settings\030\001 \003(\0132>.Yd" +
+      "b.PersQueue.V1.StreamingReadClientMessag" +
+      "e.TopicReadSettings\022\032\n\022read_only_origina",
+      "l\030\002 \001(\010\022\020\n\010consumer\030\003 \001(\t\022\033\n\023max_lag_dur" +
+      "ation_ms\030\004 \001(\003\022 \n\030start_from_written_at_" +
+      "ms\030\005 \001(\003\022*\n\"max_supported_block_format_v" +
+      "ersion\030\006 \001(\003\022\033\n\023max_meta_cache_size\030\n \001(" +
+      "\003\022\022\n\nsession_id\030d \001(\t\022\032\n\022connection_atte" +
+      "mpt\030e \001(\003\022M\n\005state\030f \001(\0132>.Ydb.PersQueue" +
+      ".V1.StreamingReadClientMessage.InitReque" +
+      "st.State\022\030\n\017idle_timeout_ms\030\310\001 \001(\003\0221\n\013re" +
+      "ad_params\030* \001(\0132\034.Ydb.PersQueue.V1.ReadP" +
+      "arams\032\310\003\n\005State\022k\n\023read_streams_states\030\001",
+      " \003(\0132N.Ydb.PersQueue.V1.StreamingReadCli" +
+      "entMessage.InitRequest.State.ReadStreamS" +
+      "tate\032\321\002\n\017ReadStreamState\0221\n\013read_stream\030" +
+      "\001 \001(\0132\034.Ydb.PersQueue.V1.ReadStream\022\023\n\013r" +
+      "ead_offset\030\002 \001(\003\0225\n\roffset_ranges\030\003 \003(\0132" +
+      "\036.Ydb.PersQueue.V1.OffsetsRange\022e\n\006statu" +
+      "s\030\004 \001(\0162U.Ydb.PersQueue.V1.StreamingRead" +
+      "ClientMessage.InitRequest.State.ReadStre" +
+      "amState.Status\"X\n\006Status\022\026\n\022STATUS_UNSPE" +
+      "CIFIED\020\000\022\014\n\010CREATING\020\001\022\016\n\nDESTROYING\020\002\022\013",
+      "\n\007READING\020\003\022\013\n\007STOPPED\020\004\032\006\n\004Read\032\261\001\n\tSta" +
+      "rtRead\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V1" +
+      ".Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003 \001(" +
+      "\004\022\021\n\tassign_id\030\005 \001(\004\022\023\n\013read_offset\030\006 \001(" +
+      "\004\022\025\n\rcommit_offset\030\007 \001(\004\022\032\n\022verify_read_" +
+      "offset\030\010 \001(\010\032h\n\010Released\022%\n\005topic\030\001 \001(\0132" +
+      "\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster\030\002 \001(\t" +
+      "\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004\0329" +
+      "\n\006Commit\022/\n\007cookies\030\001 \003(\0132\036.Ydb.PersQueu" +
+      "e.V1.CommitCookie\032f\n\006Status\022%\n\005topic\030\001 \001",
       "(\0132\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster\030\002 " +
       "\001(\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(" +
-      "\004\022\030\n\020forceful_release\030\006 \001(\010\022\025\n\rcommit_of" +
-      "fset\030\007 \001(\004\032<\n\tCommitted\022/\n\007cookies\030\001 \003(\013" +
-      "2\036.Ydb.PersQueue.V1.CommitCookie\032\231\005\n\tDat" +
-      "aBatch\022\\\n\016partition_data\030\001 \003(\0132D.Ydb.Per" +
-      "sQueue.V1.StreamingReadServerMessage.Dat" +
-      "aBatch.PartitionData\032g\n\013MessageData\022\016\n\006o" +
-      "ffset\030\001 \001(\004\022\016\n\006seq_no\030\002 \001(\004\022\033\n\023create_ti" +
-      "mestamp_ms\030\003 \001(\004\022\r\n\005codec\030\004 \001(\t\022\014\n\004data\030",
-      "\005 \001(\014\032\316\001\n\005Batch\022\021\n\tsource_id\030\002 \001(\014\0220\n\014ex" +
-      "tra_fields\030\003 \003(\0132\032.Ydb.PersQueue.V1.KeyV" +
-      "alue\022\032\n\022write_timestamp_ms\030\004 \001(\004\022\n\n\002ip\030\005" +
-      " \001(\t\022X\n\014message_data\030\001 \003(\0132B.Ydb.PersQue" +
-      "ue.V1.StreamingReadServerMessage.DataBat" +
-      "ch.MessageData\032\363\001\n\rPartitionData\022%\n\005topi" +
-      "c\030\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022\017\n\007clust" +
-      "er\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022M\n\007batches\030\004" +
-      " \003(\0132<.Ydb.PersQueue.V1.StreamingReadSer" +
-      "verMessage.DataBatch.Batch\022.\n\006cookie\030\005 \001",
-      "(\0132\036.Ydb.PersQueue.V1.CommitCookie\022\030\n\020de" +
-      "precated_topic\030\n \001(\t\032\271\001\n\017PartitionStatus" +
-      "\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022" +
-      "\017\n\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\ta" +
-      "ssign_id\030\005 \001(\004\022\030\n\020committed_offset\030\006 \001(\004" +
-      "\022\022\n\nend_offset\030\007 \001(\004\022\032\n\022write_watermark_" +
-      "ms\030\010 \001(\004B\n\n\010response\"\271\001\n\017ReadInfoRequest" +
-      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
-      "ons.OperationParams\022&\n\006topics\030\002 \003(\0132\026.Yd" +
-      "b.PersQueue.V1.Path\022\031\n\021get_only_original",
-      "\030\003 \001(\010\022(\n\010consumer\030\004 \001(\0132\026.Ydb.PersQueue" +
-      ".V1.Path\"@\n\020ReadInfoResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\241\006\n\016R" +
-      "eadInfoResult\022:\n\006topics\030\001 \003(\0132*.Ydb.Pers" +
-      "Queue.V1.ReadInfoResult.TopicInfo\032\322\005\n\tTo" +
-      "picInfo\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V" +
-      "1.Path\022\017\n\007cluster\030\002 \001(\t\022)\n\006status\030\003 \001(\0162" +
-      "\031.Ydb.StatusIds.StatusCode\022\'\n\006issues\030\004 \003" +
-      "(\0132\027.Ydb.Issue.IssueMessage\022L\n\npartition" +
-      "s\030\005 \003(\01328.Ydb.PersQueue.V1.ReadInfoResul",
-      "t.TopicInfo.PartitionInfo\032\352\003\n\rPartitionI" +
-      "nfo\022\021\n\tpartition\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031" +
-      ".Ydb.StatusIds.StatusCode\022\'\n\006issues\030\003 \003(" +
-      "\0132\027.Ydb.Issue.IssueMessage\022\024\n\014start_offs" +
-      "et\030\004 \001(\004\022\022\n\nend_offset\030\005 \001(\004\022\025\n\rcommit_o" +
-      "ffset\030\006 \001(\004\022\032\n\022commit_time_lag_ms\030\007 \001(\004\022" +
-      "\023\n\013read_offset\030\010 \001(\004\022\030\n\020read_time_lag_ms" +
-      "\030\t \001(\004\022\022\n\nsession_id\030\n \001(\t\022\023\n\013client_nod" +
-      "e\030\013 \001(\t\022\022\n\nproxy_node\030\014 \001(\t\022\023\n\013tablet_no" +
-      "de\030\r \001(\t\022\021\n\tassign_id\030\016 \001(\004\022\033\n\023assign_ti",
-      "mestamp_ms\030\017 \001(\004\022\030\n\020last_read_cookie\030\020 \001" +
-      "(\004\022\035\n\025committed_read_cookie\030\021 \001(\004\022+\n#out" +
-      "_of_order_read_cookies_to_commit\030\022 \003(\004B\035" +
-      "\n\030tech.ydb.persqueue\370\001\001b\006proto3"
+      "\004B\t\n\007request\"\243\020\n\032StreamingReadServerMess" +
+      "age\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.Stat" +
+      "usCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.Issue" +
+      "Message\022R\n\rinit_response\030\003 \001(\01329.Ydb.Per" +
+      "sQueue.V1.StreamingReadServerMessage.Ini" +
+      "tResponseH\000\022L\n\ndata_batch\030\004 \001(\01326.Ydb.Pe" +
+      "rsQueue.V1.StreamingReadServerMessage.Da" +
+      "taBatchH\000\022I\n\010assigned\030\005 \001(\01325.Ydb.PersQu",
+      "eue.V1.StreamingReadServerMessage.Assign" +
+      "edH\000\022G\n\007release\030\006 \001(\01324.Ydb.PersQueue.V1" +
+      ".StreamingReadServerMessage.ReleaseH\000\022K\n" +
+      "\tcommitted\030\007 \001(\01326.Ydb.PersQueue.V1.Stre" +
+      "amingReadServerMessage.CommittedH\000\022X\n\020pa" +
+      "rtition_status\030\010 \001(\0132<.Ydb.PersQueue.V1." +
+      "StreamingReadServerMessage.PartitionStat" +
+      "usH\000\032\202\002\n\014InitResponse\022\022\n\nsession_id\030\001 \001(" +
+      "\t\022\177\n\035block_format_version_by_topic\030\002 \003(\013" +
+      "2X.Ydb.PersQueue.V1.StreamingReadServerM",
+      "essage.InitResponse.BlockFormatVersionBy" +
+      "TopicEntry\022\033\n\023max_meta_cache_size\030\n \001(\003\032" +
+      "@\n\036BlockFormatVersionByTopicEntry\022\013\n\003key" +
+      "\030\001 \001(\t\022\r\n\005value\030\002 \001(\003:\0028\001\032\221\001\n\010Assigned\022%" +
+      "\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022\017\n" +
+      "\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tass" +
+      "ign_id\030\005 \001(\004\022\023\n\013read_offset\030\006 \001(\004\022\022\n\nend" +
+      "_offset\030\007 \001(\004\032\230\001\n\007Release\022%\n\005topic\030\001 \001(\013" +
+      "2\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster\030\002 \001(" +
+      "\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004\022",
+      "\030\n\020forceful_release\030\006 \001(\010\022\025\n\rcommit_offs" +
+      "et\030\007 \001(\004\032<\n\tCommitted\022/\n\007cookies\030\001 \003(\0132\036" +
+      ".Ydb.PersQueue.V1.CommitCookie\032\231\005\n\tDataB" +
+      "atch\022\\\n\016partition_data\030\001 \003(\0132D.Ydb.PersQ" +
+      "ueue.V1.StreamingReadServerMessage.DataB" +
+      "atch.PartitionData\032g\n\013MessageData\022\016\n\006off" +
+      "set\030\001 \001(\004\022\016\n\006seq_no\030\002 \001(\004\022\033\n\023create_time" +
+      "stamp_ms\030\003 \001(\004\022\r\n\005codec\030\004 \001(\t\022\014\n\004data\030\005 " +
+      "\001(\014\032\316\001\n\005Batch\022\021\n\tsource_id\030\002 \001(\014\0220\n\014extr" +
+      "a_fields\030\003 \003(\0132\032.Ydb.PersQueue.V1.KeyVal",
+      "ue\022\032\n\022write_timestamp_ms\030\004 \001(\004\022\n\n\002ip\030\005 \001" +
+      "(\t\022X\n\014message_data\030\001 \003(\0132B.Ydb.PersQueue" +
+      ".V1.StreamingReadServerMessage.DataBatch" +
+      ".MessageData\032\363\001\n\rPartitionData\022%\n\005topic\030" +
+      "\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster" +
+      "\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022M\n\007batches\030\004 \003" +
+      "(\0132<.Ydb.PersQueue.V1.StreamingReadServe" +
+      "rMessage.DataBatch.Batch\022.\n\006cookie\030\005 \001(\013" +
+      "2\036.Ydb.PersQueue.V1.CommitCookie\022\030\n\020depr" +
+      "ecated_topic\030\n \001(\t\032\271\001\n\017PartitionStatus\022%",
+      "\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022\017\n" +
+      "\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tass" +
+      "ign_id\030\005 \001(\004\022\030\n\020committed_offset\030\006 \001(\004\022\022" +
+      "\n\nend_offset\030\007 \001(\004\022\032\n\022write_watermark_ms" +
+      "\030\010 \001(\004B\n\n\010response\"\271\001\n\017ReadInfoRequest\0229" +
+      "\n\020operation_params\030\001 \001(\0132\037.Ydb.Operation" +
+      "s.OperationParams\022&\n\006topics\030\002 \003(\0132\026.Ydb." +
+      "PersQueue.V1.Path\022\031\n\021get_only_original\030\003" +
+      " \001(\010\022(\n\010consumer\030\004 \001(\0132\026.Ydb.PersQueue.V" +
+      "1.Path\"@\n\020ReadInfoResponse\022,\n\toperation\030",
+      "\001 \001(\0132\031.Ydb.Operations.Operation\"\241\006\n\016Rea" +
+      "dInfoResult\022:\n\006topics\030\001 \003(\0132*.Ydb.PersQu" +
+      "eue.V1.ReadInfoResult.TopicInfo\032\322\005\n\tTopi" +
+      "cInfo\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V1." +
+      "Path\022\017\n\007cluster\030\002 \001(\t\022)\n\006status\030\003 \001(\0162\031." +
+      "Ydb.StatusIds.StatusCode\022\'\n\006issues\030\004 \003(\013" +
+      "2\027.Ydb.Issue.IssueMessage\022L\n\npartitions\030" +
+      "\005 \003(\01328.Ydb.PersQueue.V1.ReadInfoResult." +
+      "TopicInfo.PartitionInfo\032\352\003\n\rPartitionInf" +
+      "o\022\021\n\tpartition\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031.Y",
+      "db.StatusIds.StatusCode\022\'\n\006issues\030\003 \003(\0132" +
+      "\027.Ydb.Issue.IssueMessage\022\024\n\014start_offset" +
+      "\030\004 \001(\004\022\022\n\nend_offset\030\005 \001(\004\022\025\n\rcommit_off" +
+      "set\030\006 \001(\004\022\032\n\022commit_time_lag_ms\030\007 \001(\004\022\023\n" +
+      "\013read_offset\030\010 \001(\004\022\030\n\020read_time_lag_ms\030\t" +
+      " \001(\004\022\022\n\nsession_id\030\n \001(\t\022\023\n\013client_node\030" +
+      "\013 \001(\t\022\022\n\nproxy_node\030\014 \001(\t\022\023\n\013tablet_node" +
+      "\030\r \001(\t\022\021\n\tassign_id\030\016 \001(\004\022\033\n\023assign_time" +
+      "stamp_ms\030\017 \001(\004\022\030\n\020last_read_cookie\030\020 \001(\004" +
+      "\022\035\n\025committed_read_cookie\030\021 \001(\004\022+\n#out_o",
+      "f_order_read_cookies_to_commit\030\022 \003(\004B\035\n\030" +
+      "tech.ydb.persqueue\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -79688,13 +81461,13 @@ public final class YdbPersqueueV1 {
     internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_descriptor,
-        new java.lang.String[] { "InitRequest", "WriteRequest", "Token", "ClientMessage", });
+        new java.lang.String[] { "InitRequest", "WriteRequest", "UpdateTokenRequest", "ClientMessage", });
     internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_InitRequest_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_InitRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_InitRequest_descriptor,
-        new java.lang.String[] { "Topic", "MessageGroupId", "SessionMeta", "PartitionGroupId", "MaxSupportedBlockFormatVersion", "SessionId", "ConnectionAttempt", "ConnectionMeta", "IdleTimeoutMs", });
+        new java.lang.String[] { "Topic", "MessageGroupId", "SessionMeta", "PartitionGroupId", "MaxSupportedBlockFormatVersion", "SessionId", "ConnectionAttempt", "ConnectionMeta", "PreferredCluster", "IdleTimeoutMs", });
     internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_InitRequest_SessionMetaEntry_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_InitRequest_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_InitRequest_SessionMetaEntry_fieldAccessorTable = new
@@ -79706,13 +81479,19 @@ public final class YdbPersqueueV1 {
     internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_WriteRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_WriteRequest_descriptor,
-        new java.lang.String[] { "SequenceNumbers", "CreatedAtMs", "SentAtMs", "MessageSizes", "BlocksOffsets", "BlocksPartNumbers", "BlocksMessageCounts", "BlocksUncompressedSizes", "BlocksData", });
+        new java.lang.String[] { "SequenceNumbers", "CreatedAtMs", "SentAtMs", "MessageSizes", "BlocksOffsets", "BlocksPartNumbers", "BlocksMessageCounts", "BlocksUncompressedSizes", "BlocksHeaders", "BlocksData", });
+    internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_UpdateTokenRequest_descriptor =
+      internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_descriptor.getNestedTypes().get(2);
+    internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_UpdateTokenRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_PersQueue_V1_StreamingWriteClientMessage_UpdateTokenRequest_descriptor,
+        new java.lang.String[] { "Token", });
     internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_descriptor,
-        new java.lang.String[] { "InitResponse", "BatchWriteResponse", "Status", "Issues", "ServerMessage", });
+        new java.lang.String[] { "InitResponse", "BatchWriteResponse", "UpdateTokenResponse", "Status", "Issues", "ServerMessage", });
     internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_InitResponse_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_InitResponse_fieldAccessorTable = new
@@ -79725,8 +81504,14 @@ public final class YdbPersqueueV1 {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_BatchWriteResponse_descriptor,
         new java.lang.String[] { "SequenceNumbers", "Offsets", "AlreadyWritten", "PartitionId", "WriteStatistics", });
-    internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_WriteStatistics_descriptor =
+    internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_UpdateTokenResponse_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_descriptor.getNestedTypes().get(2);
+    internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_UpdateTokenResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_UpdateTokenResponse_descriptor,
+        new java.lang.String[] { });
+    internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_WriteStatistics_descriptor =
+      internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_descriptor.getNestedTypes().get(3);
     internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_WriteStatistics_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_WriteStatistics_descriptor,
@@ -79898,7 +81683,7 @@ public final class YdbPersqueueV1 {
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_PartitionData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_PartitionData_descriptor,
-        new java.lang.String[] { "ReadStreamId", "Offsets", "SequenceNumbers", "CreatedAtMs", "WrittenAtMs", "MessageGroupIds", "MessageGroupIdIndexes", "Ips", "IpIndexes", "MessageSessionMeta", "MessageSessionMetaIndexes", "MessageSizes", "BlocksOffsets", "BlocksPartNumbers", "BlocksMessageCounts", "BlocksUncompressedSizes", "BlocksData", "ResumeCookie", "ReadStatistics", });
+        new java.lang.String[] { "ReadStreamId", "Offsets", "SequenceNumbers", "CreatedAtMs", "WrittenAtMs", "MessageGroupIds", "MessageGroupIdIndexes", "Ips", "IpIndexes", "MessageSessionMeta", "MessageSessionMetaIndexes", "MessageSizes", "BlocksOffsets", "BlocksPartNumbers", "BlocksMessageCounts", "BlocksUncompressedSizes", "BlocksHeaders", "BlocksData", "ResumeCookie", "ReadStatistics", });
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_PartitionData_ReadStatistics_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_PartitionData_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_PartitionData_ReadStatistics_fieldAccessorTable = new

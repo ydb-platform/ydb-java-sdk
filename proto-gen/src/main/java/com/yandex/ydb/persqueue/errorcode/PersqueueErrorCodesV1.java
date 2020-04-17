@@ -108,6 +108,10 @@ public final class PersqueueErrorCodesV1 {
      */
     WRONG_PARTITION_NUMBER(500021),
     /**
+     * <code>PREFERRED_CLUSTER_MISMATCHED = 500022;</code>
+     */
+    PREFERRED_CLUSTER_MISMATCHED(500022),
+    /**
      * <code>ERROR = 500100;</code>
      */
     ERROR(500100),
@@ -199,6 +203,10 @@ public final class PersqueueErrorCodesV1 {
      */
     public static final int WRONG_PARTITION_NUMBER_VALUE = 500021;
     /**
+     * <code>PREFERRED_CLUSTER_MISMATCHED = 500022;</code>
+     */
+    public static final int PREFERRED_CLUSTER_MISMATCHED_VALUE = 500022;
+    /**
      * <code>ERROR = 500100;</code>
      */
     public static final int ERROR_VALUE = 500100;
@@ -243,6 +251,7 @@ public final class PersqueueErrorCodesV1 {
         case 500018: return ACCESS_DENIED;
         case 500020: return CLUSTER_DISABLED;
         case 500021: return WRONG_PARTITION_NUMBER;
+        case 500022: return PREFERRED_CLUSTER_MISMATCHED;
         case 500100: return ERROR;
         default: return null;
       }
@@ -307,7 +316,7 @@ public final class PersqueueErrorCodesV1 {
     java.lang.String[] descriptorData = {
       "\n7kikimr/public/api/protos/persqueue_err" +
       "or_codes_v1.proto\022\027Ydb.PersQueue.ErrorCo" +
-      "de*\312\004\n\tErrorCode\022\006\n\002OK\020\000\022\022\n\014INITIALIZING" +
+      "de*\356\004\n\tErrorCode\022\006\n\002OK\020\000\022\022\n\014INITIALIZING" +
       "\020\241\302\036\022\016\n\010OVERLOAD\020\242\302\036\022\021\n\013BAD_REQUEST\020\243\302\036\022" +
       "\022\n\014WRONG_COOKIE\020\244\302\036\022#\n\035WRITE_ERROR_PARTI" +
       "TION_IS_FULL\020\245\302\036\022\036\n\030WRITE_ERROR_DISK_IS_" +
@@ -321,8 +330,9 @@ public final class PersqueueErrorCodesV1 {
       "TABLET_IS_DROPPED\020\256\302\036\022\023\n\rREAD_NOT_DONE\020\260" +
       "\302\036\022\023\n\rUNKNOWN_TOPIC\020\261\302\036\022\023\n\rACCESS_DENIED" +
       "\020\262\302\036\022\026\n\020CLUSTER_DISABLED\020\264\302\036\022\034\n\026WRONG_PA" +
-      "RTITION_NUMBER\020\265\302\036\022\013\n\005ERROR\020\204\303\036B$\n\"com.y" +
-      "andex.ydb.persqueue.errorcodeb\006proto3"
+      "RTITION_NUMBER\020\265\302\036\022\"\n\034PREFERRED_CLUSTER_" +
+      "MISMATCHED\020\266\302\036\022\013\n\005ERROR\020\204\303\036B$\n\"com.yande" +
+      "x.ydb.persqueue.errorcodeb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

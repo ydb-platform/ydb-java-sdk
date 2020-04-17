@@ -33,6 +33,10 @@ public final class Persqueue {
      */
     LZOP(2),
     /**
+     * <code>ZSTD = 3;</code>
+     */
+    ZSTD(3),
+    /**
      * <pre>
      * TODO: move to pqlib
      * </pre>
@@ -55,6 +59,10 @@ public final class Persqueue {
      * <code>LZOP = 2;</code>
      */
     public static final int LZOP_VALUE = 2;
+    /**
+     * <code>ZSTD = 3;</code>
+     */
+    public static final int ZSTD_VALUE = 3;
     /**
      * <pre>
      * TODO: move to pqlib
@@ -86,6 +94,7 @@ public final class Persqueue {
         case 0: return RAW;
         case 1: return GZIP;
         case 2: return LZOP;
+        case 3: return ZSTD;
         case 100: return DEFAULT;
         default: return null;
       }
@@ -32607,11 +32616,11 @@ public final class Persqueue {
       "\022\022\n\ngeneration\030\001 \001(\004\022\r\n\005topic\030\002 \001(\t\022\021\n\tp" +
       "artition\030\003 \001(\r\022\030\n\020committed_offset\030\004 \001(\004" +
       "\022\022\n\nend_offset\030\005 \001(\004\022\032\n\022write_watermark_" +
-      "ms\030\006 \001(\004B\n\n\010response*2\n\006ECodec\022\007\n\003RAW\020\000\022" +
-      "\010\n\004GZIP\020\001\022\010\n\004LZOP\020\002\022\013\n\007DEFAULT\020d:7\n\017Gene" +
-      "rateYaStyle\022\034.google.protobuf.FileOption" +
-      "s\030\365\210\004 \001(\010B\035\n\030tech.ydb.persqueue\370\001\001" +
-      "b\006proto3"
+      "ms\030\006 \001(\004B\n\n\010response*<\n\006ECodec\022\007\n\003RAW\020\000\022" +
+      "\010\n\004GZIP\020\001\022\010\n\004LZOP\020\002\022\010\n\004ZSTD\020\003\022\013\n\007DEFAULT" +
+      "\020d:7\n\017GenerateYaStyle\022\034.google.protobuf." +
+      "FileOptions\030\365\210\004 \001(\010B\035\n\030tech.ydb.pe" +
+      "rsqueue\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
