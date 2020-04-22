@@ -470,11 +470,7 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
             int size = nearestCount; //list.size();
             int i = indexUpdater.incrementAndGet(this);
             if (i >= size) {
-                int oldi = i;
                 i %= size;
-                boolean updated = indexUpdater.compareAndSet(this, oldi, i);
-                logger.log(Level.ALL, String.format("nextSubchannel updated %s, index - %d, a - %s",
-                        updated, i, list.get(i).getAddresses().toString()));
             }
             return list.get(i);
         }
