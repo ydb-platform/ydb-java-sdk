@@ -4038,408 +4038,9 @@ public final class ExperimentalProtos {
 
   }
 
-  public interface StreamQueryPingOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Experimental.StreamQueryPing)
-      com.google.protobuf.MessageOrBuilder {
-  }
-  /**
-   * Protobuf type {@code Ydb.Experimental.StreamQueryPing}
-   */
-  public  static final class StreamQueryPing extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Experimental.StreamQueryPing)
-      StreamQueryPingOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use StreamQueryPing.newBuilder() to construct.
-    private StreamQueryPing(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private StreamQueryPing() {
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private StreamQueryPing(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_StreamQueryPing_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_StreamQueryPing_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.class, tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.Builder.class);
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.experimental.ExperimentalProtos.StreamQueryPing)) {
-        return super.equals(obj);
-      }
-      tech.ydb.experimental.ExperimentalProtos.StreamQueryPing other = (tech.ydb.experimental.ExperimentalProtos.StreamQueryPing) obj;
-
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.experimental.ExperimentalProtos.StreamQueryPing parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.experimental.ExperimentalProtos.StreamQueryPing parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.experimental.ExperimentalProtos.StreamQueryPing parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.experimental.ExperimentalProtos.StreamQueryPing parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.experimental.ExperimentalProtos.StreamQueryPing parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.experimental.ExperimentalProtos.StreamQueryPing parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.experimental.ExperimentalProtos.StreamQueryPing parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.experimental.ExperimentalProtos.StreamQueryPing parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.experimental.ExperimentalProtos.StreamQueryPing parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.experimental.ExperimentalProtos.StreamQueryPing parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.experimental.ExperimentalProtos.StreamQueryPing parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.experimental.ExperimentalProtos.StreamQueryPing parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.experimental.ExperimentalProtos.StreamQueryPing prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code Ydb.Experimental.StreamQueryPing}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Experimental.StreamQueryPing)
-        tech.ydb.experimental.ExperimentalProtos.StreamQueryPingOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_StreamQueryPing_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_StreamQueryPing_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.class, tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.Builder.class);
-      }
-
-      // Construct using tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_StreamQueryPing_descriptor;
-      }
-
-      public tech.ydb.experimental.ExperimentalProtos.StreamQueryPing getDefaultInstanceForType() {
-        return tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.getDefaultInstance();
-      }
-
-      public tech.ydb.experimental.ExperimentalProtos.StreamQueryPing build() {
-        tech.ydb.experimental.ExperimentalProtos.StreamQueryPing result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public tech.ydb.experimental.ExperimentalProtos.StreamQueryPing buildPartial() {
-        tech.ydb.experimental.ExperimentalProtos.StreamQueryPing result = new tech.ydb.experimental.ExperimentalProtos.StreamQueryPing(this);
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.experimental.ExperimentalProtos.StreamQueryPing) {
-          return mergeFrom((tech.ydb.experimental.ExperimentalProtos.StreamQueryPing)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.experimental.ExperimentalProtos.StreamQueryPing other) {
-        if (other == tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.getDefaultInstance()) return this;
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.experimental.ExperimentalProtos.StreamQueryPing parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.experimental.ExperimentalProtos.StreamQueryPing) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.Experimental.StreamQueryPing)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.Experimental.StreamQueryPing)
-    private static final tech.ydb.experimental.ExperimentalProtos.StreamQueryPing DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.experimental.ExperimentalProtos.StreamQueryPing();
-    }
-
-    public static tech.ydb.experimental.ExperimentalProtos.StreamQueryPing getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<StreamQueryPing>
-        PARSER = new com.google.protobuf.AbstractParser<StreamQueryPing>() {
-      public StreamQueryPing parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StreamQueryPing(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<StreamQueryPing> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<StreamQueryPing> getParserForType() {
-      return PARSER;
-    }
-
-    public tech.ydb.experimental.ExperimentalProtos.StreamQueryPing getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface StreamQueryProgressOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.Experimental.StreamQueryProgress)
       com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-     */
-    boolean hasPing();
-    /**
-     * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-     */
-    tech.ydb.experimental.ExperimentalProtos.StreamQueryPing getPing();
-    /**
-     * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-     */
-    tech.ydb.experimental.ExperimentalProtos.StreamQueryPingOrBuilder getPingOrBuilder();
-
-    public tech.ydb.experimental.ExperimentalProtos.StreamQueryProgress.KindCase getKindCase();
   }
   /**
    * Protobuf type {@code Ydb.Experimental.StreamQueryProgress}
@@ -4466,7 +4067,6 @@ public final class ExperimentalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4482,20 +4082,6 @@ public final class ExperimentalProtos {
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
-              break;
-            }
-            case 10: {
-              tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.Builder subBuilder = null;
-              if (kindCase_ == 1) {
-                subBuilder = ((tech.ydb.experimental.ExperimentalProtos.StreamQueryPing) kind_).toBuilder();
-              }
-              kind_ =
-                  input.readMessage(tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((tech.ydb.experimental.ExperimentalProtos.StreamQueryPing) kind_);
-                kind_ = subBuilder.buildPartial();
-              }
-              kindCase_ = 1;
               break;
             }
           }
@@ -4522,68 +4108,6 @@ public final class ExperimentalProtos {
               tech.ydb.experimental.ExperimentalProtos.StreamQueryProgress.class, tech.ydb.experimental.ExperimentalProtos.StreamQueryProgress.Builder.class);
     }
 
-    private int kindCase_ = 0;
-    private java.lang.Object kind_;
-    public enum KindCase
-        implements com.google.protobuf.Internal.EnumLite {
-      PING(1),
-      KIND_NOT_SET(0);
-      private final int value;
-      private KindCase(int value) {
-        this.value = value;
-      }
-      /**
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static KindCase valueOf(int value) {
-        return forNumber(value);
-      }
-
-      public static KindCase forNumber(int value) {
-        switch (value) {
-          case 1: return PING;
-          case 0: return KIND_NOT_SET;
-          default: return null;
-        }
-      }
-      public int getNumber() {
-        return this.value;
-      }
-    };
-
-    public KindCase
-    getKindCase() {
-      return KindCase.forNumber(
-          kindCase_);
-    }
-
-    public static final int PING_FIELD_NUMBER = 1;
-    /**
-     * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-     */
-    public boolean hasPing() {
-      return kindCase_ == 1;
-    }
-    /**
-     * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-     */
-    public tech.ydb.experimental.ExperimentalProtos.StreamQueryPing getPing() {
-      if (kindCase_ == 1) {
-         return (tech.ydb.experimental.ExperimentalProtos.StreamQueryPing) kind_;
-      }
-      return tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.getDefaultInstance();
-    }
-    /**
-     * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-     */
-    public tech.ydb.experimental.ExperimentalProtos.StreamQueryPingOrBuilder getPingOrBuilder() {
-      if (kindCase_ == 1) {
-         return (tech.ydb.experimental.ExperimentalProtos.StreamQueryPing) kind_;
-      }
-      return tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.getDefaultInstance();
-    }
-
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -4596,9 +4120,6 @@ public final class ExperimentalProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (kindCase_ == 1) {
-        output.writeMessage(1, (tech.ydb.experimental.ExperimentalProtos.StreamQueryPing) kind_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -4607,10 +4128,6 @@ public final class ExperimentalProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (kindCase_ == 1) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, (tech.ydb.experimental.ExperimentalProtos.StreamQueryPing) kind_);
-      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4627,17 +4144,6 @@ public final class ExperimentalProtos {
       tech.ydb.experimental.ExperimentalProtos.StreamQueryProgress other = (tech.ydb.experimental.ExperimentalProtos.StreamQueryProgress) obj;
 
       boolean result = true;
-      result = result && getKindCase().equals(
-          other.getKindCase());
-      if (!result) return false;
-      switch (kindCase_) {
-        case 1:
-          result = result && getPing()
-              .equals(other.getPing());
-          break;
-        case 0:
-        default:
-      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -4649,14 +4155,6 @@ public final class ExperimentalProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      switch (kindCase_) {
-        case 1:
-          hash = (37 * hash) + PING_FIELD_NUMBER;
-          hash = (53 * hash) + getPing().hashCode();
-          break;
-        case 0:
-        default:
-      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4786,8 +4284,6 @@ public final class ExperimentalProtos {
       }
       public Builder clear() {
         super.clear();
-        kindCase_ = 0;
-        kind_ = null;
         return this;
       }
 
@@ -4810,14 +4306,6 @@ public final class ExperimentalProtos {
 
       public tech.ydb.experimental.ExperimentalProtos.StreamQueryProgress buildPartial() {
         tech.ydb.experimental.ExperimentalProtos.StreamQueryProgress result = new tech.ydb.experimental.ExperimentalProtos.StreamQueryProgress(this);
-        if (kindCase_ == 1) {
-          if (pingBuilder_ == null) {
-            result.kind_ = kind_;
-          } else {
-            result.kind_ = pingBuilder_.build();
-          }
-        }
-        result.kindCase_ = kindCase_;
         onBuilt();
         return result;
       }
@@ -4859,15 +4347,6 @@ public final class ExperimentalProtos {
 
       public Builder mergeFrom(tech.ydb.experimental.ExperimentalProtos.StreamQueryProgress other) {
         if (other == tech.ydb.experimental.ExperimentalProtos.StreamQueryProgress.getDefaultInstance()) return this;
-        switch (other.getKindCase()) {
-          case PING: {
-            mergePing(other.getPing());
-            break;
-          }
-          case KIND_NOT_SET: {
-            break;
-          }
-        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -4893,157 +4372,6 @@ public final class ExperimentalProtos {
           }
         }
         return this;
-      }
-      private int kindCase_ = 0;
-      private java.lang.Object kind_;
-      public KindCase
-          getKindCase() {
-        return KindCase.forNumber(
-            kindCase_);
-      }
-
-      public Builder clearKind() {
-        kindCase_ = 0;
-        kind_ = null;
-        onChanged();
-        return this;
-      }
-
-
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.experimental.ExperimentalProtos.StreamQueryPing, tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.Builder, tech.ydb.experimental.ExperimentalProtos.StreamQueryPingOrBuilder> pingBuilder_;
-      /**
-       * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-       */
-      public boolean hasPing() {
-        return kindCase_ == 1;
-      }
-      /**
-       * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-       */
-      public tech.ydb.experimental.ExperimentalProtos.StreamQueryPing getPing() {
-        if (pingBuilder_ == null) {
-          if (kindCase_ == 1) {
-            return (tech.ydb.experimental.ExperimentalProtos.StreamQueryPing) kind_;
-          }
-          return tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.getDefaultInstance();
-        } else {
-          if (kindCase_ == 1) {
-            return pingBuilder_.getMessage();
-          }
-          return tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-       */
-      public Builder setPing(tech.ydb.experimental.ExperimentalProtos.StreamQueryPing value) {
-        if (pingBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          kind_ = value;
-          onChanged();
-        } else {
-          pingBuilder_.setMessage(value);
-        }
-        kindCase_ = 1;
-        return this;
-      }
-      /**
-       * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-       */
-      public Builder setPing(
-          tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.Builder builderForValue) {
-        if (pingBuilder_ == null) {
-          kind_ = builderForValue.build();
-          onChanged();
-        } else {
-          pingBuilder_.setMessage(builderForValue.build());
-        }
-        kindCase_ = 1;
-        return this;
-      }
-      /**
-       * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-       */
-      public Builder mergePing(tech.ydb.experimental.ExperimentalProtos.StreamQueryPing value) {
-        if (pingBuilder_ == null) {
-          if (kindCase_ == 1 &&
-              kind_ != tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.getDefaultInstance()) {
-            kind_ = tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.newBuilder((tech.ydb.experimental.ExperimentalProtos.StreamQueryPing) kind_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            kind_ = value;
-          }
-          onChanged();
-        } else {
-          if (kindCase_ == 1) {
-            pingBuilder_.mergeFrom(value);
-          }
-          pingBuilder_.setMessage(value);
-        }
-        kindCase_ = 1;
-        return this;
-      }
-      /**
-       * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-       */
-      public Builder clearPing() {
-        if (pingBuilder_ == null) {
-          if (kindCase_ == 1) {
-            kindCase_ = 0;
-            kind_ = null;
-            onChanged();
-          }
-        } else {
-          if (kindCase_ == 1) {
-            kindCase_ = 0;
-            kind_ = null;
-          }
-          pingBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-       */
-      public tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.Builder getPingBuilder() {
-        return getPingFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-       */
-      public tech.ydb.experimental.ExperimentalProtos.StreamQueryPingOrBuilder getPingOrBuilder() {
-        if ((kindCase_ == 1) && (pingBuilder_ != null)) {
-          return pingBuilder_.getMessageOrBuilder();
-        } else {
-          if (kindCase_ == 1) {
-            return (tech.ydb.experimental.ExperimentalProtos.StreamQueryPing) kind_;
-          }
-          return tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.Ydb.Experimental.StreamQueryPing ping = 1;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.experimental.ExperimentalProtos.StreamQueryPing, tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.Builder, tech.ydb.experimental.ExperimentalProtos.StreamQueryPingOrBuilder> 
-          getPingFieldBuilder() {
-        if (pingBuilder_ == null) {
-          if (!(kindCase_ == 1)) {
-            kind_ = tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.getDefaultInstance();
-          }
-          pingBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.experimental.ExperimentalProtos.StreamQueryPing, tech.ydb.experimental.ExperimentalProtos.StreamQueryPing.Builder, tech.ydb.experimental.ExperimentalProtos.StreamQueryPingOrBuilder>(
-                  (tech.ydb.experimental.ExperimentalProtos.StreamQueryPing) kind_,
-                  getParentForChildren(),
-                  isClean());
-          kind_ = null;
-        }
-        kindCase_ = 1;
-        onChanged();;
-        return pingBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -6178,11 +5506,6 @@ public final class ExperimentalProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Experimental_ExecuteStreamQueryResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Experimental_StreamQueryPing_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Experimental_StreamQueryPing_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Experimental_StreamQueryProgress_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -6225,15 +5548,13 @@ public final class ExperimentalProtos {
       "e\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.Status" +
       "Code\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMe" +
       "ssage\022:\n\006result\030\003 \001(\0132*.Ydb.Experimental" +
-      ".ExecuteStreamQueryResult\"\021\n\017StreamQuery" +
-      "Ping\"P\n\023StreamQueryProgress\0221\n\004ping\030\001 \001(" +
-      "\0132!.Ydb.Experimental.StreamQueryPingH\000B\006" +
-      "\n\004kind\"\230\001\n\030ExecuteStreamQueryResult\022$\n\nr" +
-      "esult_set\030\001 \001(\0132\016.Ydb.ResultSetH\000\022\021\n\007pro" +
-      "file\030\002 \001(\tH\000\0229\n\010progress\030\003 \001(\0132%.Ydb.Exp",
-      "erimental.StreamQueryProgressH\000B\010\n\006resul" +
-      "tB4\n\033tech.ydb.experimentalB\022Experi" +
-      "mentalProtos\370\001\001b\006proto3"
+      ".ExecuteStreamQueryResult\"\025\n\023StreamQuery" +
+      "Progress\"\230\001\n\030ExecuteStreamQueryResult\022$\n" +
+      "\nresult_set\030\001 \001(\0132\016.Ydb.ResultSetH\000\022\021\n\007p" +
+      "rofile\030\002 \001(\tH\000\0229\n\010progress\030\003 \001(\0132%.Ydb.E" +
+      "xperimental.StreamQueryProgressH\000B\010\n\006res" +
+      "ultB4\n\033tech.ydb.experimentalB\022Expe",
+      "rimentalProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6287,20 +5608,14 @@ public final class ExperimentalProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Experimental_ExecuteStreamQueryResponse_descriptor,
         new java.lang.String[] { "Status", "Issues", "Result", });
-    internal_static_Ydb_Experimental_StreamQueryPing_descriptor =
-      getDescriptor().getMessageTypes().get(5);
-    internal_static_Ydb_Experimental_StreamQueryPing_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Experimental_StreamQueryPing_descriptor,
-        new java.lang.String[] { });
     internal_static_Ydb_Experimental_StreamQueryProgress_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_Ydb_Experimental_StreamQueryProgress_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Experimental_StreamQueryProgress_descriptor,
-        new java.lang.String[] { "Ping", "Kind", });
+        new java.lang.String[] { });
     internal_static_Ydb_Experimental_ExecuteStreamQueryResult_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_Ydb_Experimental_ExecuteStreamQueryResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Experimental_ExecuteStreamQueryResult_descriptor,
