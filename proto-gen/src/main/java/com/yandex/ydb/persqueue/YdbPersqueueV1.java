@@ -7466,6 +7466,41 @@ public final class YdbPersqueueV1 {
 
       /**
        * <pre>
+       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * </pre>
+       *
+       * <code>repeated string supported_codecs = 10;</code>
+       */
+      java.util.List<java.lang.String>
+          getSupportedCodecsList();
+      /**
+       * <pre>
+       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * </pre>
+       *
+       * <code>repeated string supported_codecs = 10;</code>
+       */
+      int getSupportedCodecsCount();
+      /**
+       * <pre>
+       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * </pre>
+       *
+       * <code>repeated string supported_codecs = 10;</code>
+       */
+      java.lang.String getSupportedCodecs(int index);
+      /**
+       * <pre>
+       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * </pre>
+       *
+       * <code>repeated string supported_codecs = 10;</code>
+       */
+      com.google.protobuf.ByteString
+          getSupportedCodecsBytes(int index);
+
+      /**
+       * <pre>
        * Maximal flush window size choosed by server. Size of uncompressed data not sended to server must not be bigger than flush window size.
        * In other words, this is maximal size of gap inside uncompressed data, which is not sended to server yet.
        * </pre>
@@ -7515,6 +7550,7 @@ public final class YdbPersqueueV1 {
         cluster_ = "";
         partitionId_ = 0L;
         blockFormatVersion_ = 0L;
+        supportedCodecs_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         maxFlushWindowSize_ = 0L;
         maxBlockSize_ = 0L;
         connectionMeta_ = com.google.protobuf.ByteString.EMPTY;
@@ -7596,6 +7632,15 @@ public final class YdbPersqueueV1 {
                 connectionMeta_ = input.readBytes();
                 break;
               }
+              case 82: {
+                java.lang.String s = input.readStringRequireUtf8();
+                if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                  supportedCodecs_ = new com.google.protobuf.LazyStringArrayList();
+                  mutable_bitField0_ |= 0x00000040;
+                }
+                supportedCodecs_.add(s);
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -7604,6 +7649,9 @@ public final class YdbPersqueueV1 {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e).setUnfinishedMessage(this);
         } finally {
+          if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+            supportedCodecs_ = supportedCodecs_.getUnmodifiableView();
+          }
           this.unknownFields = unknownFields.build();
           makeExtensionsImmutable();
         }
@@ -7620,6 +7668,7 @@ public final class YdbPersqueueV1 {
                 tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.InitResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.InitResponse.Builder.class);
       }
 
+      private int bitField0_;
       public static final int LAST_SEQUENCE_NUMBER_FIELD_NUMBER = 1;
       private long lastSequenceNumber_;
       /**
@@ -7785,6 +7834,51 @@ public final class YdbPersqueueV1 {
         return blockFormatVersion_;
       }
 
+      public static final int SUPPORTED_CODECS_FIELD_NUMBER = 10;
+      private com.google.protobuf.LazyStringList supportedCodecs_;
+      /**
+       * <pre>
+       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * </pre>
+       *
+       * <code>repeated string supported_codecs = 10;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getSupportedCodecsList() {
+        return supportedCodecs_;
+      }
+      /**
+       * <pre>
+       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * </pre>
+       *
+       * <code>repeated string supported_codecs = 10;</code>
+       */
+      public int getSupportedCodecsCount() {
+        return supportedCodecs_.size();
+      }
+      /**
+       * <pre>
+       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * </pre>
+       *
+       * <code>repeated string supported_codecs = 10;</code>
+       */
+      public java.lang.String getSupportedCodecs(int index) {
+        return supportedCodecs_.get(index);
+      }
+      /**
+       * <pre>
+       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * </pre>
+       *
+       * <code>repeated string supported_codecs = 10;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSupportedCodecsBytes(int index) {
+        return supportedCodecs_.getByteString(index);
+      }
+
       public static final int MAX_FLUSH_WINDOW_SIZE_FIELD_NUMBER = 7;
       private long maxFlushWindowSize_;
       /**
@@ -7864,6 +7958,9 @@ public final class YdbPersqueueV1 {
         if (!connectionMeta_.isEmpty()) {
           output.writeBytes(9, connectionMeta_);
         }
+        for (int i = 0; i < supportedCodecs_.size(); i++) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 10, supportedCodecs_.getRaw(i));
+        }
         unknownFields.writeTo(output);
       }
 
@@ -7905,6 +8002,14 @@ public final class YdbPersqueueV1 {
           size += com.google.protobuf.CodedOutputStream
             .computeBytesSize(9, connectionMeta_);
         }
+        {
+          int dataSize = 0;
+          for (int i = 0; i < supportedCodecs_.size(); i++) {
+            dataSize += computeStringSizeNoTag(supportedCodecs_.getRaw(i));
+          }
+          size += dataSize;
+          size += 1 * getSupportedCodecsList().size();
+        }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
         return size;
@@ -7933,6 +8038,8 @@ public final class YdbPersqueueV1 {
             == other.getPartitionId());
         result = result && (getBlockFormatVersion()
             == other.getBlockFormatVersion());
+        result = result && getSupportedCodecsList()
+            .equals(other.getSupportedCodecsList());
         result = result && (getMaxFlushWindowSize()
             == other.getMaxFlushWindowSize());
         result = result && (getMaxBlockSize()
@@ -7965,6 +8072,10 @@ public final class YdbPersqueueV1 {
         hash = (37 * hash) + BLOCK_FORMAT_VERSION_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
             getBlockFormatVersion());
+        if (getSupportedCodecsCount() > 0) {
+          hash = (37 * hash) + SUPPORTED_CODECS_FIELD_NUMBER;
+          hash = (53 * hash) + getSupportedCodecsList().hashCode();
+        }
         hash = (37 * hash) + MAX_FLUSH_WINDOW_SIZE_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
             getMaxFlushWindowSize());
@@ -8118,6 +8229,8 @@ public final class YdbPersqueueV1 {
 
           blockFormatVersion_ = 0L;
 
+          supportedCodecs_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+          bitField0_ = (bitField0_ & ~0x00000040);
           maxFlushWindowSize_ = 0L;
 
           maxBlockSize_ = 0L;
@@ -8146,15 +8259,23 @@ public final class YdbPersqueueV1 {
 
         public tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.InitResponse buildPartial() {
           tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.InitResponse result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage.InitResponse(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
           result.lastSequenceNumber_ = lastSequenceNumber_;
           result.sessionId_ = sessionId_;
           result.topic_ = topic_;
           result.cluster_ = cluster_;
           result.partitionId_ = partitionId_;
           result.blockFormatVersion_ = blockFormatVersion_;
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+            supportedCodecs_ = supportedCodecs_.getUnmodifiableView();
+            bitField0_ = (bitField0_ & ~0x00000040);
+          }
+          result.supportedCodecs_ = supportedCodecs_;
           result.maxFlushWindowSize_ = maxFlushWindowSize_;
           result.maxBlockSize_ = maxBlockSize_;
           result.connectionMeta_ = connectionMeta_;
+          result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
         }
@@ -8217,6 +8338,16 @@ public final class YdbPersqueueV1 {
           if (other.getBlockFormatVersion() != 0L) {
             setBlockFormatVersion(other.getBlockFormatVersion());
           }
+          if (!other.supportedCodecs_.isEmpty()) {
+            if (supportedCodecs_.isEmpty()) {
+              supportedCodecs_ = other.supportedCodecs_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+            } else {
+              ensureSupportedCodecsIsMutable();
+              supportedCodecs_.addAll(other.supportedCodecs_);
+            }
+            onChanged();
+          }
           if (other.getMaxFlushWindowSize() != 0L) {
             setMaxFlushWindowSize(other.getMaxFlushWindowSize());
           }
@@ -8252,6 +8383,7 @@ public final class YdbPersqueueV1 {
           }
           return this;
         }
+        private int bitField0_;
 
         private long lastSequenceNumber_ ;
         /**
@@ -8630,6 +8762,136 @@ public final class YdbPersqueueV1 {
         public Builder clearBlockFormatVersion() {
           
           blockFormatVersion_ = 0L;
+          onChanged();
+          return this;
+        }
+
+        private com.google.protobuf.LazyStringList supportedCodecs_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        private void ensureSupportedCodecsIsMutable() {
+          if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+            supportedCodecs_ = new com.google.protobuf.LazyStringArrayList(supportedCodecs_);
+            bitField0_ |= 0x00000040;
+           }
+        }
+        /**
+         * <pre>
+         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * </pre>
+         *
+         * <code>repeated string supported_codecs = 10;</code>
+         */
+        public com.google.protobuf.ProtocolStringList
+            getSupportedCodecsList() {
+          return supportedCodecs_.getUnmodifiableView();
+        }
+        /**
+         * <pre>
+         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * </pre>
+         *
+         * <code>repeated string supported_codecs = 10;</code>
+         */
+        public int getSupportedCodecsCount() {
+          return supportedCodecs_.size();
+        }
+        /**
+         * <pre>
+         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * </pre>
+         *
+         * <code>repeated string supported_codecs = 10;</code>
+         */
+        public java.lang.String getSupportedCodecs(int index) {
+          return supportedCodecs_.get(index);
+        }
+        /**
+         * <pre>
+         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * </pre>
+         *
+         * <code>repeated string supported_codecs = 10;</code>
+         */
+        public com.google.protobuf.ByteString
+            getSupportedCodecsBytes(int index) {
+          return supportedCodecs_.getByteString(index);
+        }
+        /**
+         * <pre>
+         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * </pre>
+         *
+         * <code>repeated string supported_codecs = 10;</code>
+         */
+        public Builder setSupportedCodecs(
+            int index, java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureSupportedCodecsIsMutable();
+          supportedCodecs_.set(index, value);
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * </pre>
+         *
+         * <code>repeated string supported_codecs = 10;</code>
+         */
+        public Builder addSupportedCodecs(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureSupportedCodecsIsMutable();
+          supportedCodecs_.add(value);
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * </pre>
+         *
+         * <code>repeated string supported_codecs = 10;</code>
+         */
+        public Builder addAllSupportedCodecs(
+            java.lang.Iterable<java.lang.String> values) {
+          ensureSupportedCodecsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, supportedCodecs_);
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * </pre>
+         *
+         * <code>repeated string supported_codecs = 10;</code>
+         */
+        public Builder clearSupportedCodecs() {
+          supportedCodecs_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+          bitField0_ = (bitField0_ & ~0x00000040);
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * </pre>
+         *
+         * <code>repeated string supported_codecs = 10;</code>
+         */
+        public Builder addSupportedCodecsBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          ensureSupportedCodecsIsMutable();
+          supportedCodecs_.add(value);
           onChanged();
           return this;
         }
@@ -81105,7 +81367,7 @@ public final class YdbPersqueueV1 {
       "e_counts\030\010 \003(\003\022!\n\031blocks_uncompressed_si" +
       "zes\030\t \003(\003\022\026\n\016blocks_headers\030\n \003(\014\022\023\n\013blo" +
       "cks_data\030\013 \003(\014\032#\n\022UpdateTokenRequest\022\r\n\005" +
-      "token\030\001 \001(\tB\020\n\016client_message\"\224\010\n\033Stream" +
+      "token\030\001 \001(\tB\020\n\016client_message\"\256\010\n\033Stream" +
       "ingWriteServerMessage\022S\n\rinit_response\030\003" +
       " \001(\0132:.Ydb.PersQueue.V1.StreamingWriteSe" +
       "rverMessage.InitResponseH\000\022`\n\024batch_writ" +
@@ -81115,313 +81377,314 @@ public final class YdbPersqueueV1 {
       "b.PersQueue.V1.StreamingWriteServerMessa" +
       "ge.UpdateTokenResponseH\000\022)\n\006status\030\001 \001(\016" +
       "2\031.Ydb.StatusIds.StatusCode\022\'\n\006issues\030\002 " +
-      "\003(\0132\027.Ydb.Issue.IssueMessage\032\344\001\n\014InitRes" +
+      "\003(\0132\027.Ydb.Issue.IssueMessage\032\376\001\n\014InitRes" +
       "ponse\022\034\n\024last_sequence_number\030\001 \001(\003\022\022\n\ns" +
       "ession_id\030\002 \001(\t\022\r\n\005topic\030\003 \001(\t\022\017\n\007cluste" +
       "r\030\004 \001(\t\022\024\n\014partition_id\030\005 \001(\003\022\034\n\024block_f" +
-      "ormat_version\030\006 \001(\003\022\035\n\025max_flush_window_",
-      "size\030\007 \001(\003\022\026\n\016max_block_size\030\010 \001(\003\022\027\n\017co" +
-      "nnection_meta\030\t \001(\014\032\307\001\n\022BatchWriteRespon" +
-      "se\022\030\n\020sequence_numbers\030\001 \003(\003\022\017\n\007offsets\030" +
-      "\002 \003(\003\022\027\n\017already_written\030\003 \003(\010\022\024\n\014partit" +
-      "ion_id\030\004 \001(\003\022W\n\020write_statistics\030\005 \001(\0132=" +
-      ".Ydb.PersQueue.V1.StreamingWriteServerMe" +
-      "ssage.WriteStatistics\032\025\n\023UpdateTokenResp" +
-      "onse\032\253\001\n\017WriteStatistics\022\033\n\023persist_dura" +
-      "tion_ms\030\001 \001(\003\022\'\n\037queued_in_partition_dur" +
-      "ation_ms\030\002 \001(\003\022*\n\"throttled_on_partition",
-      "_duration_ms\030\003 \001(\003\022&\n\036throttled_on_topic" +
-      "_duration_ms\030\004 \001(\003B\020\n\016server_message\"\024\n\004" +
-      "Path\022\014\n\004path\030\001 \001(\t\"&\n\010KeyValue\022\013\n\003key\030\001 " +
-      "\001(\t\022\r\n\005value\030\002 \001(\t\"D\n\nReadParams\022\037\n\027max_" +
-      "read_messages_count\030\001 \001(\r\022\025\n\rmax_read_si" +
-      "ze\030\002 \001(\r\";\n\014CommitCookie\022\021\n\tassign_id\030\001 " +
-      "\001(\004\022\030\n\020partition_cookie\030\002 \001(\004\"\204\026\n\035Stream" +
-      "ingReadClientMessageNew\022S\n\014init_request\030" +
-      "\001 \001(\0132;.Ydb.PersQueue.V1.StreamingReadCl" +
-      "ientMessageNew.InitRequestH\000\022S\n\014read_req",
-      "uest\030\002 \001(\0132;.Ydb.PersQueue.V1.StreamingR" +
-      "eadClientMessageNew.ReadRequestH\000\022o\n\033cre" +
-      "ate_read_stream_response\030\003 \001(\0132H.Ydb.Per" +
-      "sQueue.V1.StreamingReadClientMessageNew." +
-      "CreateReadStreamResponseH\000\022W\n\016commit_req" +
-      "uest\030\004 \001(\0132=.Ydb.PersQueue.V1.StreamingR" +
-      "eadClientMessageNew.CommitRequestH\000\022q\n\034d" +
-      "estroy_read_stream_response\030\005 \001(\0132I.Ydb." +
-      "PersQueue.V1.StreamingReadClientMessageN" +
-      "ew.DestroyReadStreamResponseH\000\022\\\n\021stop_r",
-      "ead_request\030\006 \001(\0132?.Ydb.PersQueue.V1.Str" +
-      "eamingReadClientMessageNew.StopReadReque" +
-      "stH\000\022`\n\023resume_read_request\030\007 \001(\0132A.Ydb." +
-      "PersQueue.V1.StreamingReadClientMessageN" +
-      "ew.ResumeReadRequestH\000\022m\n\032read_stream_st" +
-      "atus_request\030\010 \001(\0132G.Ydb.PersQueue.V1.St" +
-      "reamingReadClientMessageNew.ReadStreamSt" +
-      "atusRequestH\000\022\\\n\021add_topic_request\030\t \001(\013" +
-      "2?.Ydb.PersQueue.V1.StreamingReadClientM" +
-      "essageNew.AddTopicRequestH\000\022b\n\024remove_to",
-      "pic_request\030\n \001(\0132B.Ydb.PersQueue.V1.Str" +
-      "eamingReadClientMessageNew.RemoveTopicRe" +
-      "questH\000\022\r\n\005token\030\024 \001(\t\032\221\007\n\013InitRequest\022_" +
-      "\n\024topics_read_settings\030\001 \003(\0132A.Ydb.PersQ" +
-      "ueue.V1.StreamingReadClientMessageNew.To" +
-      "picReadSettings\022\032\n\022read_only_original\030\002 " +
-      "\001(\010\022\020\n\010consumer\030\003 \001(\t\022\033\n\023max_lag_duratio" +
-      "n_ms\030\004 \001(\003\022 \n\030start_from_written_at_ms\030\005" +
-      " \001(\003\022*\n\"max_supported_block_format_versi" +
-      "on\030\006 \001(\003\022\033\n\023max_meta_cache_size\030\n \001(\003\022\022\n",
-      "\nsession_id\030d \001(\t\022\032\n\022connection_attempt\030" +
-      "e \001(\003\022P\n\005state\030f \001(\0132A.Ydb.PersQueue.V1." +
-      "StreamingReadClientMessageNew.InitReques" +
-      "t.State\022\030\n\017idle_timeout_ms\030\310\001 \001(\003\032\316\003\n\005St" +
-      "ate\022n\n\023read_streams_states\030\001 \003(\0132Q.Ydb.P" +
-      "ersQueue.V1.StreamingReadClientMessageNe" +
-      "w.InitRequest.State.ReadStreamState\032\324\002\n\017" +
-      "ReadStreamState\0221\n\013read_stream\030\001 \001(\0132\034.Y" +
-      "db.PersQueue.V1.ReadStream\022\023\n\013read_offse" +
-      "t\030\002 \001(\003\0225\n\roffset_ranges\030\003 \003(\0132\036.Ydb.Per",
-      "sQueue.V1.OffsetsRange\022h\n\006status\030\004 \001(\0162X" +
-      ".Ydb.PersQueue.V1.StreamingReadClientMes" +
-      "sageNew.InitRequest.State.ReadStreamStat" +
-      "e.Status\"X\n\006Status\022\026\n\022STATUS_UNSPECIFIED" +
-      "\020\000\022\014\n\010CREATING\020\001\022\016\n\nDESTROYING\020\002\022\013\n\007READ" +
-      "ING\020\003\022\013\n\007STOPPED\020\004\0320\n\013ReadRequest\022!\n\031req" +
-      "uest_uncompressed_size\030\001 \001(\003\032z\n\030CreateRe" +
-      "adStreamResponse\022\026\n\016read_stream_id\030\001 \001(\003" +
-      "\022\023\n\013read_offset\030\002 \001(\003\022\025\n\rcommit_offset\030\003" +
-      " \001(\003\022\032\n\022verify_read_offset\030\004 \001(\010\0323\n\031Dest",
-      "royReadStreamResponse\022\026\n\016read_stream_id\030" +
-      "\001 \001(\003\032*\n\017StopReadRequest\022\027\n\017read_stream_" +
-      "ids\030\001 \003(\003\032Z\n\021ResumeReadRequest\022\027\n\017read_s" +
-      "tream_ids\030\001 \003(\003\022\024\n\014read_offsets\030\002 \003(\003\022\026\n" +
-      "\016resume_cookies\030\003 \003(\003\032a\n\rCommitRequest\022P" +
-      "\n\007commits\030\001 \003(\0132?.Ydb.PersQueue.V1.Strea" +
-      "mingReadClientMessageNew.PartitionCommit" +
-      "\0321\n\027ReadStreamStatusRequest\022\026\n\016read_stre" +
-      "am_id\030\001 \001(\003\032q\n\017AddTopicRequest\022^\n\023topic_" +
-      "read_settings\030\001 \001(\0132A.Ydb.PersQueue.V1.S",
-      "treamingReadClientMessageNew.TopicReadSe" +
-      "ttings\032#\n\022RemoveTopicRequest\022\r\n\005topic\030\001 " +
-      "\001(\t\032a\n\021TopicReadSettings\022\r\n\005topic\030\001 \001(\t\022" +
-      "\033\n\023partition_group_ids\030\002 \003(\003\022 \n\030start_fr" +
-      "om_written_at_ms\030\003 \001(\003\032Z\n\017PartitionCommi" +
-      "t\022\026\n\016read_stream_id\030\001 \001(\003\022/\n\007offsets\030\002 \003" +
-      "(\0132\036.Ydb.PersQueue.V1.OffsetsRangeB\020\n\016cl" +
-      "ient_message\"\247\031\n\035StreamingReadServerMess" +
-      "ageNew\022U\n\rinit_response\030\003 \001(\0132<.Ydb.Pers" +
-      "Queue.V1.StreamingReadServerMessageNew.I",
-      "nitResponseH\000\022`\n\023batch_read_response\030\004 \001" +
-      "(\0132A.Ydb.PersQueue.V1.StreamingReadServe" +
-      "rMessageNew.BatchReadResponseH\000\022m\n\032creat" +
-      "e_read_stream_request\030\005 \001(\0132G.Ydb.PersQu" +
-      "eue.V1.StreamingReadServerMessageNew.Cre" +
-      "ateReadStreamRequestH\000\022o\n\033destroy_read_s" +
-      "tream_request\030\006 \001(\0132H.Ydb.PersQueue.V1.S" +
-      "treamingReadServerMessageNew.DestroyRead" +
-      "StreamRequestH\000\022Y\n\017commit_response\030\007 \001(\013" +
-      "2>.Ydb.PersQueue.V1.StreamingReadServerM",
-      "essageNew.CommitResponseH\000\022o\n\033read_strea" +
-      "m_status_response\030\010 \001(\0132H.Ydb.PersQueue." +
-      "V1.StreamingReadServerMessageNew.ReadStr" +
-      "eamStatusResponseH\000\022^\n\022stop_read_respons" +
-      "e\030\t \001(\0132@.Ydb.PersQueue.V1.StreamingRead" +
-      "ServerMessageNew.StopReadResponseH\000\022b\n\024r" +
-      "esume_read_response\030\n \001(\0132B.Ydb.PersQueu" +
-      "e.V1.StreamingReadServerMessageNew.Resum" +
-      "eReadResponseH\000\022^\n\022add_topic_response\030\013 " +
-      "\001(\0132@.Ydb.PersQueue.V1.StreamingReadServ",
-      "erMessageNew.AddTopicResponseH\000\022d\n\025remov" +
-      "e_topic_response\030\014 \001(\0132C.Ydb.PersQueue.V" +
-      "1.StreamingReadServerMessageNew.RemoveTo" +
-      "picResponseH\000\022)\n\006status\030\001 \001(\0162\031.Ydb.Stat" +
-      "usIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.I" +
-      "ssue.IssueMessage\032\206\002\n\014InitResponse\022\022\n\nse" +
-      "ssion_id\030\001 \001(\t\022\202\001\n\035block_format_version_" +
-      "by_topic\030\002 \003(\0132[.Ydb.PersQueue.V1.Stream" +
-      "ingReadServerMessageNew.InitResponse.Blo" +
-      "ckFormatVersionByTopicEntry\022\033\n\023max_meta_",
-      "cache_size\030\n \001(\003\032@\n\036BlockFormatVersionBy" +
-      "TopicEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\003:\002" +
-      "8\001\032z\n\027CreateReadStreamRequest\0221\n\013read_st" +
-      "ream\030\001 \001(\0132\034.Ydb.PersQueue.V1.ReadStream" +
-      "\022\030\n\020committed_offset\030\002 \001(\003\022\022\n\nend_offset" +
-      "\030\003 \001(\003\032^\n\030DestroyReadStreamRequest\022\026\n\016re" +
-      "ad_stream_id\030\001 \001(\003\022\020\n\010graceful\030\002 \001(\010\022\030\n\020" +
-      "committed_offset\030\003 \001(\003\032\335\001\n\016CommitRespons" +
-      "e\022}\n\034partitions_committed_offsets\030\001 \003(\0132" +
-      "W.Ydb.PersQueue.V1.StreamingReadServerMe",
-      "ssageNew.CommitResponse.PartitionCommitt" +
-      "edOffset\032L\n\030PartitionCommittedOffset\022\026\n\016" +
-      "read_stream_id\030\001 \001(\003\022\030\n\020committed_offset" +
-      "\030\002 \001(\003\032\364\010\n\021BatchReadResponse\022_\n\nskip_ran" +
-      "ge\030\001 \003(\0132K.Ydb.PersQueue.V1.StreamingRea" +
-      "dServerMessageNew.BatchReadResponse.Skip" +
-      "Range\022c\n\npartitions\030\002 \003(\0132O.Ydb.PersQueu" +
-      "e.V1.StreamingReadServerMessageNew.Batch" +
-      "ReadResponse.PartitionData\032\277\006\n\rPartition" +
-      "Data\022\026\n\016read_stream_id\030\001 \001(\003\022\017\n\007offsets\030",
-      "\002 \003(\003\022\030\n\020sequence_numbers\030\003 \003(\003\022\025\n\rcreat" +
-      "ed_at_ms\030\004 \003(\003\022\025\n\rwritten_at_ms\030\005 \003(\003\022\031\n" +
-      "\021message_group_ids\030\006 \003(\t\022 \n\030message_grou" +
-      "p_id_indexes\030\007 \003(\022\022\013\n\003ips\030\010 \003(\t\022\022\n\nip_in" +
-      "dexes\030\t \003(\022\022@\n\024message_session_meta\030\n \003(" +
-      "\0132\".Ydb.PersQueue.V1.SessionMetaValue\022$\n" +
-      "\034message_session_meta_indexes\030\013 \003(\022\022\025\n\rm" +
-      "essage_sizes\030\014 \003(\003\022\026\n\016blocks_offsets\030\r \003" +
-      "(\003\022\033\n\023blocks_part_numbers\030\016 \003(\003\022\035\n\025block" +
-      "s_message_counts\030\017 \003(\003\022!\n\031blocks_uncompr",
-      "essed_sizes\030\020 \003(\003\022\026\n\016blocks_headers\030\021 \003(" +
-      "\014\022\023\n\013blocks_data\030\022 \003(\014\022\025\n\rresume_cookie\030" +
-      "2 \001(\003\022w\n\017read_statistics\030d \001(\0132^.Ydb.Per" +
-      "sQueue.V1.StreamingReadServerMessageNew." +
-      "BatchReadResponse.PartitionData.ReadStat" +
-      "istics\032\253\001\n\016ReadStatistics\022\030\n\020blobs_from_" +
-      "cache\030\001 \001(\003\022\027\n\017blobs_from_disk\030\002 \001(\003\022\027\n\017" +
-      "bytes_from_head\030\003 \001(\003\022\030\n\020bytes_from_cach" +
-      "e\030\004 \001(\003\022\027\n\017bytes_from_disk\030\005 \001(\003\022\032\n\022repa" +
-      "ck_duration_ms\030\006 \001(\003\032W\n\tSkipRange\022\026\n\016rea",
-      "d_stream_id\030\001 \001(\003\0222\n\nskip_range\030\002 \001(\0132\036." +
-      "Ydb.PersQueue.V1.OffsetsRange\032\201\001\n\030ReadSt" +
-      "reamStatusResponse\022\026\n\016read_stream_id\030\001 \001" +
-      "(\003\022\030\n\020committed_offset\030\002 \001(\003\022\022\n\nend_offs" +
-      "et\030\003 \001(\003\022\037\n\027written_at_watermark_ms\030\004 \001(" +
-      "\003\032\022\n\020StopReadResponse\032\024\n\022ResumeReadRespo" +
-      "nse\0320\n\020AddTopicResponse\022\034\n\024block_format_" +
-      "version\030\001 \001(\003\032\025\n\023RemoveTopicResponseB\020\n\016" +
-      "server_message\"\217\001\n\nReadStream\022\r\n\005topic\030\001" +
-      " \001(\t\022\017\n\007cluster\030\002 \001(\t\022\024\n\014partition_id\030\003 ",
-      "\001(\003\022\032\n\022partition_group_id\030\004 \001(\003\022\026\n\016read_" +
-      "stream_id\030\006 \001(\003\022\027\n\017connection_meta\030\007 \001(\014" +
-      "\"\331\017\n\032StreamingReadClientMessage\022P\n\014init_" +
-      "request\030\001 \001(\01328.Ydb.PersQueue.V1.Streami" +
-      "ngReadClientMessage.InitRequestH\000\022A\n\004rea" +
-      "d\030\002 \001(\01321.Ydb.PersQueue.V1.StreamingRead" +
-      "ClientMessage.ReadH\000\022L\n\nstart_read\030\003 \001(\013" +
-      "26.Ydb.PersQueue.V1.StreamingReadClientM" +
-      "essage.StartReadH\000\022E\n\006commit\030\004 \001(\01323.Ydb" +
-      ".PersQueue.V1.StreamingReadClientMessage",
-      ".CommitH\000\022I\n\010released\030\005 \001(\01325.Ydb.PersQu" +
-      "eue.V1.StreamingReadClientMessage.Releas" +
-      "edH\000\022E\n\006status\030\006 \001(\01323.Ydb.PersQueue.V1." +
-      "StreamingReadClientMessage.StatusH\000\022\r\n\005t" +
-      "oken\030\024 \001(\014\032a\n\021TopicReadSettings\022\r\n\005topic" +
-      "\030\001 \001(\t\022\033\n\023partition_group_ids\030\002 \003(\003\022 \n\030s" +
-      "tart_from_written_at_ms\030\003 \001(\003\032\270\007\n\013InitRe" +
-      "quest\022\\\n\024topics_read_settings\030\001 \003(\0132>.Yd" +
-      "b.PersQueue.V1.StreamingReadClientMessag" +
-      "e.TopicReadSettings\022\032\n\022read_only_origina",
-      "l\030\002 \001(\010\022\020\n\010consumer\030\003 \001(\t\022\033\n\023max_lag_dur" +
-      "ation_ms\030\004 \001(\003\022 \n\030start_from_written_at_" +
-      "ms\030\005 \001(\003\022*\n\"max_supported_block_format_v" +
-      "ersion\030\006 \001(\003\022\033\n\023max_meta_cache_size\030\n \001(" +
-      "\003\022\022\n\nsession_id\030d \001(\t\022\032\n\022connection_atte" +
-      "mpt\030e \001(\003\022M\n\005state\030f \001(\0132>.Ydb.PersQueue" +
-      ".V1.StreamingReadClientMessage.InitReque" +
-      "st.State\022\030\n\017idle_timeout_ms\030\310\001 \001(\003\0221\n\013re" +
-      "ad_params\030* \001(\0132\034.Ydb.PersQueue.V1.ReadP" +
-      "arams\032\310\003\n\005State\022k\n\023read_streams_states\030\001",
-      " \003(\0132N.Ydb.PersQueue.V1.StreamingReadCli" +
-      "entMessage.InitRequest.State.ReadStreamS" +
-      "tate\032\321\002\n\017ReadStreamState\0221\n\013read_stream\030" +
-      "\001 \001(\0132\034.Ydb.PersQueue.V1.ReadStream\022\023\n\013r" +
-      "ead_offset\030\002 \001(\003\0225\n\roffset_ranges\030\003 \003(\0132" +
-      "\036.Ydb.PersQueue.V1.OffsetsRange\022e\n\006statu" +
-      "s\030\004 \001(\0162U.Ydb.PersQueue.V1.StreamingRead" +
-      "ClientMessage.InitRequest.State.ReadStre" +
-      "amState.Status\"X\n\006Status\022\026\n\022STATUS_UNSPE" +
-      "CIFIED\020\000\022\014\n\010CREATING\020\001\022\016\n\nDESTROYING\020\002\022\013",
-      "\n\007READING\020\003\022\013\n\007STOPPED\020\004\032\006\n\004Read\032\261\001\n\tSta" +
-      "rtRead\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V1" +
-      ".Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003 \001(" +
-      "\004\022\021\n\tassign_id\030\005 \001(\004\022\023\n\013read_offset\030\006 \001(" +
-      "\004\022\025\n\rcommit_offset\030\007 \001(\004\022\032\n\022verify_read_" +
-      "offset\030\010 \001(\010\032h\n\010Released\022%\n\005topic\030\001 \001(\0132" +
+      "ormat_version\030\006 \001(\003\022\030\n\020supported_codecs\030",
+      "\n \003(\t\022\035\n\025max_flush_window_size\030\007 \001(\003\022\026\n\016" +
+      "max_block_size\030\010 \001(\003\022\027\n\017connection_meta\030" +
+      "\t \001(\014\032\307\001\n\022BatchWriteResponse\022\030\n\020sequence" +
+      "_numbers\030\001 \003(\003\022\017\n\007offsets\030\002 \003(\003\022\027\n\017alrea" +
+      "dy_written\030\003 \003(\010\022\024\n\014partition_id\030\004 \001(\003\022W" +
+      "\n\020write_statistics\030\005 \001(\0132=.Ydb.PersQueue" +
+      ".V1.StreamingWriteServerMessage.WriteSta" +
+      "tistics\032\025\n\023UpdateTokenResponse\032\253\001\n\017Write" +
+      "Statistics\022\033\n\023persist_duration_ms\030\001 \001(\003\022" +
+      "\'\n\037queued_in_partition_duration_ms\030\002 \001(\003",
+      "\022*\n\"throttled_on_partition_duration_ms\030\003" +
+      " \001(\003\022&\n\036throttled_on_topic_duration_ms\030\004" +
+      " \001(\003B\020\n\016server_message\"\024\n\004Path\022\014\n\004path\030\001" +
+      " \001(\t\"&\n\010KeyValue\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002" +
+      " \001(\t\"D\n\nReadParams\022\037\n\027max_read_messages_" +
+      "count\030\001 \001(\r\022\025\n\rmax_read_size\030\002 \001(\r\";\n\014Co" +
+      "mmitCookie\022\021\n\tassign_id\030\001 \001(\004\022\030\n\020partiti" +
+      "on_cookie\030\002 \001(\004\"\204\026\n\035StreamingReadClientM" +
+      "essageNew\022S\n\014init_request\030\001 \001(\0132;.Ydb.Pe" +
+      "rsQueue.V1.StreamingReadClientMessageNew",
+      ".InitRequestH\000\022S\n\014read_request\030\002 \001(\0132;.Y" +
+      "db.PersQueue.V1.StreamingReadClientMessa" +
+      "geNew.ReadRequestH\000\022o\n\033create_read_strea" +
+      "m_response\030\003 \001(\0132H.Ydb.PersQueue.V1.Stre" +
+      "amingReadClientMessageNew.CreateReadStre" +
+      "amResponseH\000\022W\n\016commit_request\030\004 \001(\0132=.Y" +
+      "db.PersQueue.V1.StreamingReadClientMessa" +
+      "geNew.CommitRequestH\000\022q\n\034destroy_read_st" +
+      "ream_response\030\005 \001(\0132I.Ydb.PersQueue.V1.S" +
+      "treamingReadClientMessageNew.DestroyRead",
+      "StreamResponseH\000\022\\\n\021stop_read_request\030\006 " +
+      "\001(\0132?.Ydb.PersQueue.V1.StreamingReadClie" +
+      "ntMessageNew.StopReadRequestH\000\022`\n\023resume" +
+      "_read_request\030\007 \001(\0132A.Ydb.PersQueue.V1.S" +
+      "treamingReadClientMessageNew.ResumeReadR" +
+      "equestH\000\022m\n\032read_stream_status_request\030\010" +
+      " \001(\0132G.Ydb.PersQueue.V1.StreamingReadCli" +
+      "entMessageNew.ReadStreamStatusRequestH\000\022" +
+      "\\\n\021add_topic_request\030\t \001(\0132?.Ydb.PersQue" +
+      "ue.V1.StreamingReadClientMessageNew.AddT",
+      "opicRequestH\000\022b\n\024remove_topic_request\030\n " +
+      "\001(\0132B.Ydb.PersQueue.V1.StreamingReadClie" +
+      "ntMessageNew.RemoveTopicRequestH\000\022\r\n\005tok" +
+      "en\030\024 \001(\t\032\221\007\n\013InitRequest\022_\n\024topics_read_" +
+      "settings\030\001 \003(\0132A.Ydb.PersQueue.V1.Stream" +
+      "ingReadClientMessageNew.TopicReadSetting" +
+      "s\022\032\n\022read_only_original\030\002 \001(\010\022\020\n\010consume" +
+      "r\030\003 \001(\t\022\033\n\023max_lag_duration_ms\030\004 \001(\003\022 \n\030" +
+      "start_from_written_at_ms\030\005 \001(\003\022*\n\"max_su" +
+      "pported_block_format_version\030\006 \001(\003\022\033\n\023ma",
+      "x_meta_cache_size\030\n \001(\003\022\022\n\nsession_id\030d " +
+      "\001(\t\022\032\n\022connection_attempt\030e \001(\003\022P\n\005state" +
+      "\030f \001(\0132A.Ydb.PersQueue.V1.StreamingReadC" +
+      "lientMessageNew.InitRequest.State\022\030\n\017idl" +
+      "e_timeout_ms\030\310\001 \001(\003\032\316\003\n\005State\022n\n\023read_st" +
+      "reams_states\030\001 \003(\0132Q.Ydb.PersQueue.V1.St" +
+      "reamingReadClientMessageNew.InitRequest." +
+      "State.ReadStreamState\032\324\002\n\017ReadStreamStat" +
+      "e\0221\n\013read_stream\030\001 \001(\0132\034.Ydb.PersQueue.V" +
+      "1.ReadStream\022\023\n\013read_offset\030\002 \001(\003\0225\n\roff",
+      "set_ranges\030\003 \003(\0132\036.Ydb.PersQueue.V1.Offs" +
+      "etsRange\022h\n\006status\030\004 \001(\0162X.Ydb.PersQueue" +
+      ".V1.StreamingReadClientMessageNew.InitRe" +
+      "quest.State.ReadStreamState.Status\"X\n\006St" +
+      "atus\022\026\n\022STATUS_UNSPECIFIED\020\000\022\014\n\010CREATING" +
+      "\020\001\022\016\n\nDESTROYING\020\002\022\013\n\007READING\020\003\022\013\n\007STOPP" +
+      "ED\020\004\0320\n\013ReadRequest\022!\n\031request_uncompres" +
+      "sed_size\030\001 \001(\003\032z\n\030CreateReadStreamRespon" +
+      "se\022\026\n\016read_stream_id\030\001 \001(\003\022\023\n\013read_offse" +
+      "t\030\002 \001(\003\022\025\n\rcommit_offset\030\003 \001(\003\022\032\n\022verify",
+      "_read_offset\030\004 \001(\010\0323\n\031DestroyReadStreamR" +
+      "esponse\022\026\n\016read_stream_id\030\001 \001(\003\032*\n\017StopR" +
+      "eadRequest\022\027\n\017read_stream_ids\030\001 \003(\003\032Z\n\021R" +
+      "esumeReadRequest\022\027\n\017read_stream_ids\030\001 \003(" +
+      "\003\022\024\n\014read_offsets\030\002 \003(\003\022\026\n\016resume_cookie" +
+      "s\030\003 \003(\003\032a\n\rCommitRequest\022P\n\007commits\030\001 \003(" +
+      "\0132?.Ydb.PersQueue.V1.StreamingReadClient" +
+      "MessageNew.PartitionCommit\0321\n\027ReadStream" +
+      "StatusRequest\022\026\n\016read_stream_id\030\001 \001(\003\032q\n" +
+      "\017AddTopicRequest\022^\n\023topic_read_settings\030",
+      "\001 \001(\0132A.Ydb.PersQueue.V1.StreamingReadCl" +
+      "ientMessageNew.TopicReadSettings\032#\n\022Remo" +
+      "veTopicRequest\022\r\n\005topic\030\001 \001(\t\032a\n\021TopicRe" +
+      "adSettings\022\r\n\005topic\030\001 \001(\t\022\033\n\023partition_g" +
+      "roup_ids\030\002 \003(\003\022 \n\030start_from_written_at_" +
+      "ms\030\003 \001(\003\032Z\n\017PartitionCommit\022\026\n\016read_stre" +
+      "am_id\030\001 \001(\003\022/\n\007offsets\030\002 \003(\0132\036.Ydb.PersQ" +
+      "ueue.V1.OffsetsRangeB\020\n\016client_message\"\247" +
+      "\031\n\035StreamingReadServerMessageNew\022U\n\rinit" +
+      "_response\030\003 \001(\0132<.Ydb.PersQueue.V1.Strea",
+      "mingReadServerMessageNew.InitResponseH\000\022" +
+      "`\n\023batch_read_response\030\004 \001(\0132A.Ydb.PersQ" +
+      "ueue.V1.StreamingReadServerMessageNew.Ba" +
+      "tchReadResponseH\000\022m\n\032create_read_stream_" +
+      "request\030\005 \001(\0132G.Ydb.PersQueue.V1.Streami" +
+      "ngReadServerMessageNew.CreateReadStreamR" +
+      "equestH\000\022o\n\033destroy_read_stream_request\030" +
+      "\006 \001(\0132H.Ydb.PersQueue.V1.StreamingReadSe" +
+      "rverMessageNew.DestroyReadStreamRequestH" +
+      "\000\022Y\n\017commit_response\030\007 \001(\0132>.Ydb.PersQue",
+      "ue.V1.StreamingReadServerMessageNew.Comm" +
+      "itResponseH\000\022o\n\033read_stream_status_respo" +
+      "nse\030\010 \001(\0132H.Ydb.PersQueue.V1.StreamingRe" +
+      "adServerMessageNew.ReadStreamStatusRespo" +
+      "nseH\000\022^\n\022stop_read_response\030\t \001(\0132@.Ydb." +
+      "PersQueue.V1.StreamingReadServerMessageN" +
+      "ew.StopReadResponseH\000\022b\n\024resume_read_res" +
+      "ponse\030\n \001(\0132B.Ydb.PersQueue.V1.Streaming" +
+      "ReadServerMessageNew.ResumeReadResponseH" +
+      "\000\022^\n\022add_topic_response\030\013 \001(\0132@.Ydb.Pers",
+      "Queue.V1.StreamingReadServerMessageNew.A" +
+      "ddTopicResponseH\000\022d\n\025remove_topic_respon" +
+      "se\030\014 \001(\0132C.Ydb.PersQueue.V1.StreamingRea" +
+      "dServerMessageNew.RemoveTopicResponseH\000\022" +
+      ")\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.StatusCo" +
+      "de\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMess" +
+      "age\032\206\002\n\014InitResponse\022\022\n\nsession_id\030\001 \001(\t" +
+      "\022\202\001\n\035block_format_version_by_topic\030\002 \003(\013" +
+      "2[.Ydb.PersQueue.V1.StreamingReadServerM" +
+      "essageNew.InitResponse.BlockFormatVersio",
+      "nByTopicEntry\022\033\n\023max_meta_cache_size\030\n \001" +
+      "(\003\032@\n\036BlockFormatVersionByTopicEntry\022\013\n\003" +
+      "key\030\001 \001(\t\022\r\n\005value\030\002 \001(\003:\0028\001\032z\n\027CreateRe" +
+      "adStreamRequest\0221\n\013read_stream\030\001 \001(\0132\034.Y" +
+      "db.PersQueue.V1.ReadStream\022\030\n\020committed_" +
+      "offset\030\002 \001(\003\022\022\n\nend_offset\030\003 \001(\003\032^\n\030Dest" +
+      "royReadStreamRequest\022\026\n\016read_stream_id\030\001" +
+      " \001(\003\022\020\n\010graceful\030\002 \001(\010\022\030\n\020committed_offs" +
+      "et\030\003 \001(\003\032\335\001\n\016CommitResponse\022}\n\034partition" +
+      "s_committed_offsets\030\001 \003(\0132W.Ydb.PersQueu",
+      "e.V1.StreamingReadServerMessageNew.Commi" +
+      "tResponse.PartitionCommittedOffset\032L\n\030Pa" +
+      "rtitionCommittedOffset\022\026\n\016read_stream_id" +
+      "\030\001 \001(\003\022\030\n\020committed_offset\030\002 \001(\003\032\364\010\n\021Bat" +
+      "chReadResponse\022_\n\nskip_range\030\001 \003(\0132K.Ydb" +
+      ".PersQueue.V1.StreamingReadServerMessage" +
+      "New.BatchReadResponse.SkipRange\022c\n\nparti" +
+      "tions\030\002 \003(\0132O.Ydb.PersQueue.V1.Streaming" +
+      "ReadServerMessageNew.BatchReadResponse.P" +
+      "artitionData\032\277\006\n\rPartitionData\022\026\n\016read_s",
+      "tream_id\030\001 \001(\003\022\017\n\007offsets\030\002 \003(\003\022\030\n\020seque" +
+      "nce_numbers\030\003 \003(\003\022\025\n\rcreated_at_ms\030\004 \003(\003" +
+      "\022\025\n\rwritten_at_ms\030\005 \003(\003\022\031\n\021message_group" +
+      "_ids\030\006 \003(\t\022 \n\030message_group_id_indexes\030\007" +
+      " \003(\022\022\013\n\003ips\030\010 \003(\t\022\022\n\nip_indexes\030\t \003(\022\022@\n" +
+      "\024message_session_meta\030\n \003(\0132\".Ydb.PersQu" +
+      "eue.V1.SessionMetaValue\022$\n\034message_sessi" +
+      "on_meta_indexes\030\013 \003(\022\022\025\n\rmessage_sizes\030\014" +
+      " \003(\003\022\026\n\016blocks_offsets\030\r \003(\003\022\033\n\023blocks_p" +
+      "art_numbers\030\016 \003(\003\022\035\n\025blocks_message_coun",
+      "ts\030\017 \003(\003\022!\n\031blocks_uncompressed_sizes\030\020 " +
+      "\003(\003\022\026\n\016blocks_headers\030\021 \003(\014\022\023\n\013blocks_da" +
+      "ta\030\022 \003(\014\022\025\n\rresume_cookie\0302 \001(\003\022w\n\017read_" +
+      "statistics\030d \001(\0132^.Ydb.PersQueue.V1.Stre" +
+      "amingReadServerMessageNew.BatchReadRespo" +
+      "nse.PartitionData.ReadStatistics\032\253\001\n\016Rea" +
+      "dStatistics\022\030\n\020blobs_from_cache\030\001 \001(\003\022\027\n" +
+      "\017blobs_from_disk\030\002 \001(\003\022\027\n\017bytes_from_hea" +
+      "d\030\003 \001(\003\022\030\n\020bytes_from_cache\030\004 \001(\003\022\027\n\017byt" +
+      "es_from_disk\030\005 \001(\003\022\032\n\022repack_duration_ms",
+      "\030\006 \001(\003\032W\n\tSkipRange\022\026\n\016read_stream_id\030\001 " +
+      "\001(\003\0222\n\nskip_range\030\002 \001(\0132\036.Ydb.PersQueue." +
+      "V1.OffsetsRange\032\201\001\n\030ReadStreamStatusResp" +
+      "onse\022\026\n\016read_stream_id\030\001 \001(\003\022\030\n\020committe" +
+      "d_offset\030\002 \001(\003\022\022\n\nend_offset\030\003 \001(\003\022\037\n\027wr" +
+      "itten_at_watermark_ms\030\004 \001(\003\032\022\n\020StopReadR" +
+      "esponse\032\024\n\022ResumeReadResponse\0320\n\020AddTopi" +
+      "cResponse\022\034\n\024block_format_version\030\001 \001(\003\032" +
+      "\025\n\023RemoveTopicResponseB\020\n\016server_message" +
+      "\"\217\001\n\nReadStream\022\r\n\005topic\030\001 \001(\t\022\017\n\007cluste",
+      "r\030\002 \001(\t\022\024\n\014partition_id\030\003 \001(\003\022\032\n\022partiti" +
+      "on_group_id\030\004 \001(\003\022\026\n\016read_stream_id\030\006 \001(" +
+      "\003\022\027\n\017connection_meta\030\007 \001(\014\"\331\017\n\032Streaming" +
+      "ReadClientMessage\022P\n\014init_request\030\001 \001(\0132" +
+      "8.Ydb.PersQueue.V1.StreamingReadClientMe" +
+      "ssage.InitRequestH\000\022A\n\004read\030\002 \001(\01321.Ydb." +
+      "PersQueue.V1.StreamingReadClientMessage." +
+      "ReadH\000\022L\n\nstart_read\030\003 \001(\01326.Ydb.PersQue" +
+      "ue.V1.StreamingReadClientMessage.StartRe" +
+      "adH\000\022E\n\006commit\030\004 \001(\01323.Ydb.PersQueue.V1.",
+      "StreamingReadClientMessage.CommitH\000\022I\n\010r" +
+      "eleased\030\005 \001(\01325.Ydb.PersQueue.V1.Streami" +
+      "ngReadClientMessage.ReleasedH\000\022E\n\006status" +
+      "\030\006 \001(\01323.Ydb.PersQueue.V1.StreamingReadC" +
+      "lientMessage.StatusH\000\022\r\n\005token\030\024 \001(\014\032a\n\021" +
+      "TopicReadSettings\022\r\n\005topic\030\001 \001(\t\022\033\n\023part" +
+      "ition_group_ids\030\002 \003(\003\022 \n\030start_from_writ" +
+      "ten_at_ms\030\003 \001(\003\032\270\007\n\013InitRequest\022\\\n\024topic" +
+      "s_read_settings\030\001 \003(\0132>.Ydb.PersQueue.V1" +
+      ".StreamingReadClientMessage.TopicReadSet",
+      "tings\022\032\n\022read_only_original\030\002 \001(\010\022\020\n\010con" +
+      "sumer\030\003 \001(\t\022\033\n\023max_lag_duration_ms\030\004 \001(\003" +
+      "\022 \n\030start_from_written_at_ms\030\005 \001(\003\022*\n\"ma" +
+      "x_supported_block_format_version\030\006 \001(\003\022\033" +
+      "\n\023max_meta_cache_size\030\n \001(\003\022\022\n\nsession_i" +
+      "d\030d \001(\t\022\032\n\022connection_attempt\030e \001(\003\022M\n\005s" +
+      "tate\030f \001(\0132>.Ydb.PersQueue.V1.StreamingR" +
+      "eadClientMessage.InitRequest.State\022\030\n\017id" +
+      "le_timeout_ms\030\310\001 \001(\003\0221\n\013read_params\030* \001(" +
+      "\0132\034.Ydb.PersQueue.V1.ReadParams\032\310\003\n\005Stat",
+      "e\022k\n\023read_streams_states\030\001 \003(\0132N.Ydb.Per" +
+      "sQueue.V1.StreamingReadClientMessage.Ini" +
+      "tRequest.State.ReadStreamState\032\321\002\n\017ReadS" +
+      "treamState\0221\n\013read_stream\030\001 \001(\0132\034.Ydb.Pe" +
+      "rsQueue.V1.ReadStream\022\023\n\013read_offset\030\002 \001" +
+      "(\003\0225\n\roffset_ranges\030\003 \003(\0132\036.Ydb.PersQueu" +
+      "e.V1.OffsetsRange\022e\n\006status\030\004 \001(\0162U.Ydb." +
+      "PersQueue.V1.StreamingReadClientMessage." +
+      "InitRequest.State.ReadStreamState.Status" +
+      "\"X\n\006Status\022\026\n\022STATUS_UNSPECIFIED\020\000\022\014\n\010CR",
+      "EATING\020\001\022\016\n\nDESTROYING\020\002\022\013\n\007READING\020\003\022\013\n" +
+      "\007STOPPED\020\004\032\006\n\004Read\032\261\001\n\tStartRead\022%\n\005topi" +
+      "c\030\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022\017\n\007clust" +
+      "er\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id" +
+      "\030\005 \001(\004\022\023\n\013read_offset\030\006 \001(\004\022\025\n\rcommit_of" +
+      "fset\030\007 \001(\004\022\032\n\022verify_read_offset\030\010 \001(\010\032h" +
+      "\n\010Released\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueu" +
+      "e.V1.Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tpartition\030" +
+      "\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004\0329\n\006Commit\022/\n\007co" +
+      "okies\030\001 \003(\0132\036.Ydb.PersQueue.V1.CommitCoo",
+      "kie\032f\n\006Status\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQ" +
+      "ueue.V1.Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tpartiti" +
+      "on\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004B\t\n\007request\"\243" +
+      "\020\n\032StreamingReadServerMessage\022)\n\006status\030" +
+      "\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006issu" +
+      "es\030\002 \003(\0132\027.Ydb.Issue.IssueMessage\022R\n\rini" +
+      "t_response\030\003 \001(\01329.Ydb.PersQueue.V1.Stre" +
+      "amingReadServerMessage.InitResponseH\000\022L\n" +
+      "\ndata_batch\030\004 \001(\01326.Ydb.PersQueue.V1.Str" +
+      "eamingReadServerMessage.DataBatchH\000\022I\n\010a",
+      "ssigned\030\005 \001(\01325.Ydb.PersQueue.V1.Streami" +
+      "ngReadServerMessage.AssignedH\000\022G\n\007releas" +
+      "e\030\006 \001(\01324.Ydb.PersQueue.V1.StreamingRead" +
+      "ServerMessage.ReleaseH\000\022K\n\tcommitted\030\007 \001" +
+      "(\01326.Ydb.PersQueue.V1.StreamingReadServe" +
+      "rMessage.CommittedH\000\022X\n\020partition_status" +
+      "\030\010 \001(\0132<.Ydb.PersQueue.V1.StreamingReadS" +
+      "erverMessage.PartitionStatusH\000\032\202\002\n\014InitR" +
+      "esponse\022\022\n\nsession_id\030\001 \001(\t\022\177\n\035block_for" +
+      "mat_version_by_topic\030\002 \003(\0132X.Ydb.PersQue",
+      "ue.V1.StreamingReadServerMessage.InitRes" +
+      "ponse.BlockFormatVersionByTopicEntry\022\033\n\023" +
+      "max_meta_cache_size\030\n \001(\003\032@\n\036BlockFormat" +
+      "VersionByTopicEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005valu" +
+      "e\030\002 \001(\003:\0028\001\032\221\001\n\010Assigned\022%\n\005topic\030\001 \001(\0132" +
       "\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster\030\002 \001(\t" +
-      "\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004\0329" +
-      "\n\006Commit\022/\n\007cookies\030\001 \003(\0132\036.Ydb.PersQueu" +
-      "e.V1.CommitCookie\032f\n\006Status\022%\n\005topic\030\001 \001",
-      "(\0132\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster\030\002 " +
-      "\001(\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(" +
-      "\004B\t\n\007request\"\243\020\n\032StreamingReadServerMess" +
-      "age\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.Stat" +
-      "usCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.Issue" +
-      "Message\022R\n\rinit_response\030\003 \001(\01329.Ydb.Per" +
-      "sQueue.V1.StreamingReadServerMessage.Ini" +
-      "tResponseH\000\022L\n\ndata_batch\030\004 \001(\01326.Ydb.Pe" +
-      "rsQueue.V1.StreamingReadServerMessage.Da" +
-      "taBatchH\000\022I\n\010assigned\030\005 \001(\01325.Ydb.PersQu",
-      "eue.V1.StreamingReadServerMessage.Assign" +
-      "edH\000\022G\n\007release\030\006 \001(\01324.Ydb.PersQueue.V1" +
-      ".StreamingReadServerMessage.ReleaseH\000\022K\n" +
-      "\tcommitted\030\007 \001(\01326.Ydb.PersQueue.V1.Stre" +
-      "amingReadServerMessage.CommittedH\000\022X\n\020pa" +
-      "rtition_status\030\010 \001(\0132<.Ydb.PersQueue.V1." +
-      "StreamingReadServerMessage.PartitionStat" +
-      "usH\000\032\202\002\n\014InitResponse\022\022\n\nsession_id\030\001 \001(" +
-      "\t\022\177\n\035block_format_version_by_topic\030\002 \003(\013" +
-      "2X.Ydb.PersQueue.V1.StreamingReadServerM",
-      "essage.InitResponse.BlockFormatVersionBy" +
-      "TopicEntry\022\033\n\023max_meta_cache_size\030\n \001(\003\032" +
-      "@\n\036BlockFormatVersionByTopicEntry\022\013\n\003key" +
-      "\030\001 \001(\t\022\r\n\005value\030\002 \001(\003:\0028\001\032\221\001\n\010Assigned\022%" +
-      "\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022\017\n" +
-      "\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tass" +
-      "ign_id\030\005 \001(\004\022\023\n\013read_offset\030\006 \001(\004\022\022\n\nend" +
-      "_offset\030\007 \001(\004\032\230\001\n\007Release\022%\n\005topic\030\001 \001(\013" +
-      "2\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster\030\002 \001(" +
-      "\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004\022",
-      "\030\n\020forceful_release\030\006 \001(\010\022\025\n\rcommit_offs" +
-      "et\030\007 \001(\004\032<\n\tCommitted\022/\n\007cookies\030\001 \003(\0132\036" +
-      ".Ydb.PersQueue.V1.CommitCookie\032\231\005\n\tDataB" +
-      "atch\022\\\n\016partition_data\030\001 \003(\0132D.Ydb.PersQ" +
+      "\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004\022\023" +
+      "\n\013read_offset\030\006 \001(\004\022\022\n\nend_offset\030\007 \001(\004\032" +
+      "\230\001\n\007Release\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQue" +
+      "ue.V1.Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tpartition",
+      "\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004\022\030\n\020forceful_re" +
+      "lease\030\006 \001(\010\022\025\n\rcommit_offset\030\007 \001(\004\032<\n\tCo" +
+      "mmitted\022/\n\007cookies\030\001 \003(\0132\036.Ydb.PersQueue" +
+      ".V1.CommitCookie\032\231\005\n\tDataBatch\022\\\n\016partit" +
+      "ion_data\030\001 \003(\0132D.Ydb.PersQueue.V1.Stream" +
+      "ingReadServerMessage.DataBatch.Partition" +
+      "Data\032g\n\013MessageData\022\016\n\006offset\030\001 \001(\004\022\016\n\006s" +
+      "eq_no\030\002 \001(\004\022\033\n\023create_timestamp_ms\030\003 \001(\004" +
+      "\022\r\n\005codec\030\004 \001(\t\022\014\n\004data\030\005 \001(\014\032\316\001\n\005Batch\022" +
+      "\021\n\tsource_id\030\002 \001(\014\0220\n\014extra_fields\030\003 \003(\013",
+      "2\032.Ydb.PersQueue.V1.KeyValue\022\032\n\022write_ti" +
+      "mestamp_ms\030\004 \001(\004\022\n\n\002ip\030\005 \001(\t\022X\n\014message_" +
+      "data\030\001 \003(\0132B.Ydb.PersQueue.V1.StreamingR" +
+      "eadServerMessage.DataBatch.MessageData\032\363" +
+      "\001\n\rPartitionData\022%\n\005topic\030\001 \001(\0132\026.Ydb.Pe" +
+      "rsQueue.V1.Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tpart" +
+      "ition\030\003 \001(\004\022M\n\007batches\030\004 \003(\0132<.Ydb.PersQ" +
       "ueue.V1.StreamingReadServerMessage.DataB" +
-      "atch.PartitionData\032g\n\013MessageData\022\016\n\006off" +
-      "set\030\001 \001(\004\022\016\n\006seq_no\030\002 \001(\004\022\033\n\023create_time" +
-      "stamp_ms\030\003 \001(\004\022\r\n\005codec\030\004 \001(\t\022\014\n\004data\030\005 " +
-      "\001(\014\032\316\001\n\005Batch\022\021\n\tsource_id\030\002 \001(\014\0220\n\014extr" +
-      "a_fields\030\003 \003(\0132\032.Ydb.PersQueue.V1.KeyVal",
-      "ue\022\032\n\022write_timestamp_ms\030\004 \001(\004\022\n\n\002ip\030\005 \001" +
-      "(\t\022X\n\014message_data\030\001 \003(\0132B.Ydb.PersQueue" +
-      ".V1.StreamingReadServerMessage.DataBatch" +
-      ".MessageData\032\363\001\n\rPartitionData\022%\n\005topic\030" +
-      "\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster" +
-      "\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022M\n\007batches\030\004 \003" +
-      "(\0132<.Ydb.PersQueue.V1.StreamingReadServe" +
-      "rMessage.DataBatch.Batch\022.\n\006cookie\030\005 \001(\013" +
-      "2\036.Ydb.PersQueue.V1.CommitCookie\022\030\n\020depr" +
-      "ecated_topic\030\n \001(\t\032\271\001\n\017PartitionStatus\022%",
-      "\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022\017\n" +
-      "\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tass" +
-      "ign_id\030\005 \001(\004\022\030\n\020committed_offset\030\006 \001(\004\022\022" +
-      "\n\nend_offset\030\007 \001(\004\022\032\n\022write_watermark_ms" +
-      "\030\010 \001(\004B\n\n\010response\"\271\001\n\017ReadInfoRequest\0229" +
-      "\n\020operation_params\030\001 \001(\0132\037.Ydb.Operation" +
-      "s.OperationParams\022&\n\006topics\030\002 \003(\0132\026.Ydb." +
-      "PersQueue.V1.Path\022\031\n\021get_only_original\030\003" +
-      " \001(\010\022(\n\010consumer\030\004 \001(\0132\026.Ydb.PersQueue.V" +
-      "1.Path\"@\n\020ReadInfoResponse\022,\n\toperation\030",
-      "\001 \001(\0132\031.Ydb.Operations.Operation\"\241\006\n\016Rea" +
-      "dInfoResult\022:\n\006topics\030\001 \003(\0132*.Ydb.PersQu" +
-      "eue.V1.ReadInfoResult.TopicInfo\032\322\005\n\tTopi" +
-      "cInfo\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V1." +
-      "Path\022\017\n\007cluster\030\002 \001(\t\022)\n\006status\030\003 \001(\0162\031." +
-      "Ydb.StatusIds.StatusCode\022\'\n\006issues\030\004 \003(\013" +
-      "2\027.Ydb.Issue.IssueMessage\022L\n\npartitions\030" +
-      "\005 \003(\01328.Ydb.PersQueue.V1.ReadInfoResult." +
-      "TopicInfo.PartitionInfo\032\352\003\n\rPartitionInf" +
-      "o\022\021\n\tpartition\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031.Y",
-      "db.StatusIds.StatusCode\022\'\n\006issues\030\003 \003(\0132" +
-      "\027.Ydb.Issue.IssueMessage\022\024\n\014start_offset" +
-      "\030\004 \001(\004\022\022\n\nend_offset\030\005 \001(\004\022\025\n\rcommit_off" +
-      "set\030\006 \001(\004\022\032\n\022commit_time_lag_ms\030\007 \001(\004\022\023\n" +
-      "\013read_offset\030\010 \001(\004\022\030\n\020read_time_lag_ms\030\t" +
-      " \001(\004\022\022\n\nsession_id\030\n \001(\t\022\023\n\013client_node\030" +
-      "\013 \001(\t\022\022\n\nproxy_node\030\014 \001(\t\022\023\n\013tablet_node" +
-      "\030\r \001(\t\022\021\n\tassign_id\030\016 \001(\004\022\033\n\023assign_time" +
-      "stamp_ms\030\017 \001(\004\022\030\n\020last_read_cookie\030\020 \001(\004" +
-      "\022\035\n\025committed_read_cookie\030\021 \001(\004\022+\n#out_o",
-      "f_order_read_cookies_to_commit\030\022 \003(\004B\035\n\030" +
-      "tech.ydb.persqueue\370\001\001b\006proto3"
+      "atch.Batch\022.\n\006cookie\030\005 \001(\0132\036.Ydb.PersQue" +
+      "ue.V1.CommitCookie\022\030\n\020deprecated_topic\030\n",
+      " \001(\t\032\271\001\n\017PartitionStatus\022%\n\005topic\030\001 \001(\0132" +
+      "\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster\030\002 \001(\t" +
+      "\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004\022\030" +
+      "\n\020committed_offset\030\006 \001(\004\022\022\n\nend_offset\030\007" +
+      " \001(\004\022\032\n\022write_watermark_ms\030\010 \001(\004B\n\n\010resp" +
+      "onse\"\271\001\n\017ReadInfoRequest\0229\n\020operation_pa" +
+      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
+      "ams\022&\n\006topics\030\002 \003(\0132\026.Ydb.PersQueue.V1.P" +
+      "ath\022\031\n\021get_only_original\030\003 \001(\010\022(\n\010consum" +
+      "er\030\004 \001(\0132\026.Ydb.PersQueue.V1.Path\"@\n\020Read",
+      "InfoResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
+      "erations.Operation\"\241\006\n\016ReadInfoResult\022:\n" +
+      "\006topics\030\001 \003(\0132*.Ydb.PersQueue.V1.ReadInf" +
+      "oResult.TopicInfo\032\322\005\n\tTopicInfo\022%\n\005topic" +
+      "\030\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022\017\n\007cluste" +
+      "r\030\002 \001(\t\022)\n\006status\030\003 \001(\0162\031.Ydb.StatusIds." +
+      "StatusCode\022\'\n\006issues\030\004 \003(\0132\027.Ydb.Issue.I" +
+      "ssueMessage\022L\n\npartitions\030\005 \003(\01328.Ydb.Pe" +
+      "rsQueue.V1.ReadInfoResult.TopicInfo.Part" +
+      "itionInfo\032\352\003\n\rPartitionInfo\022\021\n\tpartition",
+      "\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031.Ydb.StatusIds.S" +
+      "tatusCode\022\'\n\006issues\030\003 \003(\0132\027.Ydb.Issue.Is" +
+      "sueMessage\022\024\n\014start_offset\030\004 \001(\004\022\022\n\nend_" +
+      "offset\030\005 \001(\004\022\025\n\rcommit_offset\030\006 \001(\004\022\032\n\022c" +
+      "ommit_time_lag_ms\030\007 \001(\004\022\023\n\013read_offset\030\010" +
+      " \001(\004\022\030\n\020read_time_lag_ms\030\t \001(\004\022\022\n\nsessio" +
+      "n_id\030\n \001(\t\022\023\n\013client_node\030\013 \001(\t\022\022\n\nproxy" +
+      "_node\030\014 \001(\t\022\023\n\013tablet_node\030\r \001(\t\022\021\n\tassi" +
+      "gn_id\030\016 \001(\004\022\033\n\023assign_timestamp_ms\030\017 \001(\004" +
+      "\022\030\n\020last_read_cookie\030\020 \001(\004\022\035\n\025committed_",
+      "read_cookie\030\021 \001(\004\022+\n#out_of_order_read_c" +
+      "ookies_to_commit\030\022 \003(\004B\035\n\030tech.ydb" +
+      ".persqueue\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -81497,7 +81760,7 @@ public final class YdbPersqueueV1 {
     internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_InitResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_InitResponse_descriptor,
-        new java.lang.String[] { "LastSequenceNumber", "SessionId", "Topic", "Cluster", "PartitionId", "BlockFormatVersion", "MaxFlushWindowSize", "MaxBlockSize", "ConnectionMeta", });
+        new java.lang.String[] { "LastSequenceNumber", "SessionId", "Topic", "Cluster", "PartitionId", "BlockFormatVersion", "SupportedCodecs", "MaxFlushWindowSize", "MaxBlockSize", "ConnectionMeta", });
     internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_BatchWriteResponse_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_descriptor.getNestedTypes().get(1);
     internal_static_Ydb_PersQueue_V1_StreamingWriteServerMessage_BatchWriteResponse_fieldAccessorTable = new
