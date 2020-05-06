@@ -45,7 +45,9 @@ final class ParamsMutableMap implements Params {
 
     @Override
     public Map<String, ValueProtos.TypedValue> toPb() {
-        Map<String, ValueProtos.TypedValue> result = new HashMap<>(params.size());
+        Map<String, ValueProtos.TypedValue> result = new HashMap<>(
+                (int) ((((float) params.size()) / 0.75f) + 1.0f)
+        );
         for (Map.Entry<String, Value<?>> entry : params.entrySet()) {
             Value<?> value = entry.getValue();
             String name = entry.getKey();

@@ -98,7 +98,9 @@ final class ParamsImmutableMap implements Params {
 
     @Override
     public Map<String, TypedValue> toPb() {
-        Map<String, TypedValue> result = new HashMap<>(params.size());
+        Map<String, TypedValue> result = new HashMap<>(
+                (int) ((((float) params.size()) / 0.75f) + 1.0f)
+        );
         for (Map.Entry<String, Value<?>> entry : params.entrySet()) {
             result.put(entry.getKey(), toTypedValue(entry.getValue()));
         }
