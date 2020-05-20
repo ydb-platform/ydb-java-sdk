@@ -1,6 +1,7 @@
 package tech.ydb.table.impl;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +53,11 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
     @Override
     public CompletableFuture<SessionImpl> create(long deadlineAfter) {
         return tableClient.createSessionImpl(new CreateSessionSettings().setDeadlineAfter(deadlineAfter), this)
-            .thenApply(r -> (SessionImpl) r.expect("cannot create session"));
+            .thenApply(r -> {
+                SessionImpl session = (SessionImpl) r.expect("cannot create session");
+                session.setState(State.IDLE);
+                return session;
+            });
     }
 
     @Override
@@ -79,10 +84,18 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
     }
 
     CompletableFuture<SessionImpl> acquire(Duration timeout) {
+        final Instant startTime = Instant.now();
         return idlePool.acquire(timeout)
-            .thenApply(s -> {
-                s.setState(State.ACTIVE);
-                return s;
+            .thenCompose(s -> {
+                if (s.switchState(State.IDLE, State.ACTIVE)) {
+                    return CompletableFuture.completedFuture(s);
+                } else {
+                    release(s);
+                    Duration duration = Duration.between(startTime, Instant.now());
+                    return acquire(timeout.minus(Duration.ZERO.compareTo(duration) < 0
+                        ? duration
+                        : Duration.ZERO));
+                }
             });
     }
 
