@@ -1679,6 +1679,11 @@ public final class YdbQueryStats {
      */
     tech.ydb.YdbQueryStats.TableAccessStatsOrBuilder getTableAccessOrBuilder(
         int index);
+
+    /**
+     * <code>uint64 cpu_time_us = 3;</code>
+     */
+    long getCpuTimeUs();
   }
   /**
    * Protobuf type {@code Ydb.TableStats.QueryPhaseStats}
@@ -1695,6 +1700,7 @@ public final class YdbQueryStats {
     private QueryPhaseStats() {
       durationUs_ = 0L;
       tableAccess_ = java.util.Collections.emptyList();
+      cpuTimeUs_ = 0L;
     }
 
     @java.lang.Override
@@ -1737,6 +1743,11 @@ public final class YdbQueryStats {
               }
               tableAccess_.add(
                   input.readMessage(tech.ydb.YdbQueryStats.TableAccessStats.parser(), extensionRegistry));
+              break;
+            }
+            case 24: {
+
+              cpuTimeUs_ = input.readUInt64();
               break;
             }
           }
@@ -1811,6 +1822,15 @@ public final class YdbQueryStats {
       return tableAccess_.get(index);
     }
 
+    public static final int CPU_TIME_US_FIELD_NUMBER = 3;
+    private long cpuTimeUs_;
+    /**
+     * <code>uint64 cpu_time_us = 3;</code>
+     */
+    public long getCpuTimeUs() {
+      return cpuTimeUs_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1829,6 +1849,9 @@ public final class YdbQueryStats {
       for (int i = 0; i < tableAccess_.size(); i++) {
         output.writeMessage(2, tableAccess_.get(i));
       }
+      if (cpuTimeUs_ != 0L) {
+        output.writeUInt64(3, cpuTimeUs_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1844,6 +1867,10 @@ public final class YdbQueryStats {
       for (int i = 0; i < tableAccess_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, tableAccess_.get(i));
+      }
+      if (cpuTimeUs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(3, cpuTimeUs_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1865,6 +1892,8 @@ public final class YdbQueryStats {
           == other.getDurationUs());
       result = result && getTableAccessList()
           .equals(other.getTableAccessList());
+      result = result && (getCpuTimeUs()
+          == other.getCpuTimeUs());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1883,6 +1912,9 @@ public final class YdbQueryStats {
         hash = (37 * hash) + TABLE_ACCESS_FIELD_NUMBER;
         hash = (53 * hash) + getTableAccessList().hashCode();
       }
+      hash = (37 * hash) + CPU_TIME_US_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getCpuTimeUs());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2021,6 +2053,8 @@ public final class YdbQueryStats {
         } else {
           tableAccessBuilder_.clear();
         }
+        cpuTimeUs_ = 0L;
+
         return this;
       }
 
@@ -2055,6 +2089,7 @@ public final class YdbQueryStats {
         } else {
           result.tableAccess_ = tableAccessBuilder_.build();
         }
+        result.cpuTimeUs_ = cpuTimeUs_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2125,6 +2160,9 @@ public final class YdbQueryStats {
               tableAccessBuilder_.addAllMessages(other.tableAccess_);
             }
           }
+        }
+        if (other.getCpuTimeUs() != 0L) {
+          setCpuTimeUs(other.getCpuTimeUs());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2418,6 +2456,32 @@ public final class YdbQueryStats {
           tableAccess_ = null;
         }
         return tableAccessBuilder_;
+      }
+
+      private long cpuTimeUs_ ;
+      /**
+       * <code>uint64 cpu_time_us = 3;</code>
+       */
+      public long getCpuTimeUs() {
+        return cpuTimeUs_;
+      }
+      /**
+       * <code>uint64 cpu_time_us = 3;</code>
+       */
+      public Builder setCpuTimeUs(long value) {
+        
+        cpuTimeUs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 cpu_time_us = 3;</code>
+       */
+      public Builder clearCpuTimeUs() {
+        
+        cpuTimeUs_ = 0L;
+        onChanged();
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -3370,12 +3434,12 @@ public final class YdbQueryStats {
       "\0132\036.Ydb.TableStats.OperationStats\022/\n\007upd" +
       "ates\030\004 \001(\0132\036.Ydb.TableStats.OperationSta" +
       "ts\022/\n\007deletes\030\005 \001(\0132\036.Ydb.TableStats.Ope" +
-      "rationStatsJ\004\010\002\020\003\"^\n\017QueryPhaseStats\022\023\n\013" +
+      "rationStatsJ\004\010\002\020\003\"s\n\017QueryPhaseStats\022\023\n\013" +
       "duration_us\030\001 \001(\004\0226\n\014table_access\030\002 \003(\0132" +
-      " .Ydb.TableStats.TableAccessStats\"C\n\nQue",
-      "ryStats\0225\n\014query_phases\030\001 \003(\0132\037.Ydb.Tabl" +
-      "eStats.QueryPhaseStatsB\023\n\016tech.ydb" +
-      "\370\001\001b\006proto3"
+      " .Ydb.TableStats.TableAccessStats\022\023\n\013cpu",
+      "_time_us\030\003 \001(\004\"C\n\nQueryStats\0225\n\014query_ph" +
+      "ases\030\001 \003(\0132\037.Ydb.TableStats.QueryPhaseSt" +
+      "atsB\023\n\016tech.ydb\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3406,7 +3470,7 @@ public final class YdbQueryStats {
     internal_static_Ydb_TableStats_QueryPhaseStats_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_TableStats_QueryPhaseStats_descriptor,
-        new java.lang.String[] { "DurationUs", "TableAccess", });
+        new java.lang.String[] { "DurationUs", "TableAccess", "CpuTimeUs", });
     internal_static_Ydb_TableStats_QueryStats_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_Ydb_TableStats_QueryStats_fieldAccessorTable = new

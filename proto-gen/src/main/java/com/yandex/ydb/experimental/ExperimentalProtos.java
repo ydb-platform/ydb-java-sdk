@@ -2131,13 +2131,13 @@ public final class ExperimentalProtos {
        */
       NONE(1),
       /**
-       * <pre>
-       * tmp name
-       * </pre>
-       *
        * <code>BASIC = 2;</code>
        */
       BASIC(2),
+      /**
+       * <code>FULL = 3;</code>
+       */
+      FULL(3),
       UNRECOGNIZED(-1),
       ;
 
@@ -2150,13 +2150,13 @@ public final class ExperimentalProtos {
        */
       public static final int NONE_VALUE = 1;
       /**
-       * <pre>
-       * tmp name
-       * </pre>
-       *
        * <code>BASIC = 2;</code>
        */
       public static final int BASIC_VALUE = 2;
+      /**
+       * <code>FULL = 3;</code>
+       */
+      public static final int FULL_VALUE = 3;
 
 
       public final int getNumber() {
@@ -2180,6 +2180,7 @@ public final class ExperimentalProtos {
           case 0: return PROFILE_MODE_UNSPECIFIED;
           case 1: return NONE;
           case 2: return BASIC;
+          case 3: return FULL;
           default: return null;
         }
       }
@@ -5535,26 +5536,26 @@ public final class ExperimentalProtos {
       "e\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Operat" +
       "ions.OperationParams\"B\n\022UploadRowsRespon",
       "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
-      "peration\"\022\n\020UploadRowsResult\"\323\002\n\031Execute" +
+      "peration\"\022\n\020UploadRowsResult\"\335\002\n\031Execute" +
       "StreamQueryRequest\022\020\n\010yql_text\030\001 \001(\t\022O\n\n" +
       "parameters\030\002 \003(\0132;.Ydb.Experimental.Exec" +
       "uteStreamQueryRequest.ParametersEntry\022M\n" +
       "\014profile_mode\030\003 \001(\01627.Ydb.Experimental.E" +
       "xecuteStreamQueryRequest.ProfileMode\032B\n\017" +
       "ParametersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 " +
-      "\001(\0132\017.Ydb.TypedValue:\0028\001\"@\n\013ProfileMode\022" +
+      "\001(\0132\017.Ydb.TypedValue:\0028\001\"J\n\013ProfileMode\022" +
       "\034\n\030PROFILE_MODE_UNSPECIFIED\020\000\022\010\n\004NONE\020\001\022",
-      "\t\n\005BASIC\020\002\"\254\001\n\032ExecuteStreamQueryRespons" +
-      "e\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.Status" +
-      "Code\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMe" +
-      "ssage\022:\n\006result\030\003 \001(\0132*.Ydb.Experimental" +
-      ".ExecuteStreamQueryResult\"\025\n\023StreamQuery" +
-      "Progress\"\230\001\n\030ExecuteStreamQueryResult\022$\n" +
-      "\nresult_set\030\001 \001(\0132\016.Ydb.ResultSetH\000\022\021\n\007p" +
-      "rofile\030\002 \001(\tH\000\0229\n\010progress\030\003 \001(\0132%.Ydb.E" +
-      "xperimental.StreamQueryProgressH\000B\010\n\006res" +
-      "ultB4\n\033tech.ydb.experimentalB\022Expe",
-      "rimentalProtos\370\001\001b\006proto3"
+      "\t\n\005BASIC\020\002\022\010\n\004FULL\020\003\"\254\001\n\032ExecuteStreamQu" +
+      "eryResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.Status" +
+      "Ids.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Iss" +
+      "ue.IssueMessage\022:\n\006result\030\003 \001(\0132*.Ydb.Ex" +
+      "perimental.ExecuteStreamQueryResult\"\025\n\023S" +
+      "treamQueryProgress\"\230\001\n\030ExecuteStreamQuer" +
+      "yResult\022$\n\nresult_set\030\001 \001(\0132\016.Ydb.Result" +
+      "SetH\000\022\021\n\007profile\030\002 \001(\tH\000\0229\n\010progress\030\003 \001" +
+      "(\0132%.Ydb.Experimental.StreamQueryProgres" +
+      "sH\000B\010\n\006resultB4\n\033tech.ydb.experime",
+      "ntalB\022ExperimentalProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
