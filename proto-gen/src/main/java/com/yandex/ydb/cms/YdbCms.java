@@ -3702,6 +3702,564 @@ public final class YdbCms {
 
   }
 
+  public interface ServerlessResourcesOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Cms.ServerlessResources)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Full path to shared database's home dir whose resources will be used.
+     * </pre>
+     *
+     * <code>string shared_database_path = 1;</code>
+     */
+    java.lang.String getSharedDatabasePath();
+    /**
+     * <pre>
+     * Full path to shared database's home dir whose resources will be used.
+     * </pre>
+     *
+     * <code>string shared_database_path = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getSharedDatabasePathBytes();
+  }
+  /**
+   * Protobuf type {@code Ydb.Cms.ServerlessResources}
+   */
+  public  static final class ServerlessResources extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Cms.ServerlessResources)
+      ServerlessResourcesOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ServerlessResources.newBuilder() to construct.
+    private ServerlessResources(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ServerlessResources() {
+      sharedDatabasePath_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ServerlessResources(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              sharedDatabasePath_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ServerlessResources_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ServerlessResources_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.cms.YdbCms.ServerlessResources.class, tech.ydb.cms.YdbCms.ServerlessResources.Builder.class);
+    }
+
+    public static final int SHARED_DATABASE_PATH_FIELD_NUMBER = 1;
+    private volatile java.lang.Object sharedDatabasePath_;
+    /**
+     * <pre>
+     * Full path to shared database's home dir whose resources will be used.
+     * </pre>
+     *
+     * <code>string shared_database_path = 1;</code>
+     */
+    public java.lang.String getSharedDatabasePath() {
+      java.lang.Object ref = sharedDatabasePath_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sharedDatabasePath_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Full path to shared database's home dir whose resources will be used.
+     * </pre>
+     *
+     * <code>string shared_database_path = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSharedDatabasePathBytes() {
+      java.lang.Object ref = sharedDatabasePath_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sharedDatabasePath_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getSharedDatabasePathBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, sharedDatabasePath_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getSharedDatabasePathBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, sharedDatabasePath_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.cms.YdbCms.ServerlessResources)) {
+        return super.equals(obj);
+      }
+      tech.ydb.cms.YdbCms.ServerlessResources other = (tech.ydb.cms.YdbCms.ServerlessResources) obj;
+
+      boolean result = true;
+      result = result && getSharedDatabasePath()
+          .equals(other.getSharedDatabasePath());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SHARED_DATABASE_PATH_FIELD_NUMBER;
+      hash = (53 * hash) + getSharedDatabasePath().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.cms.YdbCms.ServerlessResources parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.cms.YdbCms.ServerlessResources parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.ServerlessResources parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.cms.YdbCms.ServerlessResources parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.ServerlessResources parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.cms.YdbCms.ServerlessResources parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.ServerlessResources parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.cms.YdbCms.ServerlessResources parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.ServerlessResources parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.cms.YdbCms.ServerlessResources parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.ServerlessResources parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.cms.YdbCms.ServerlessResources parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.cms.YdbCms.ServerlessResources prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Cms.ServerlessResources}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Cms.ServerlessResources)
+        tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ServerlessResources_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ServerlessResources_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.cms.YdbCms.ServerlessResources.class, tech.ydb.cms.YdbCms.ServerlessResources.Builder.class);
+      }
+
+      // Construct using tech.ydb.cms.YdbCms.ServerlessResources.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        sharedDatabasePath_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ServerlessResources_descriptor;
+      }
+
+      public tech.ydb.cms.YdbCms.ServerlessResources getDefaultInstanceForType() {
+        return tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance();
+      }
+
+      public tech.ydb.cms.YdbCms.ServerlessResources build() {
+        tech.ydb.cms.YdbCms.ServerlessResources result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.cms.YdbCms.ServerlessResources buildPartial() {
+        tech.ydb.cms.YdbCms.ServerlessResources result = new tech.ydb.cms.YdbCms.ServerlessResources(this);
+        result.sharedDatabasePath_ = sharedDatabasePath_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.cms.YdbCms.ServerlessResources) {
+          return mergeFrom((tech.ydb.cms.YdbCms.ServerlessResources)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.cms.YdbCms.ServerlessResources other) {
+        if (other == tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance()) return this;
+        if (!other.getSharedDatabasePath().isEmpty()) {
+          sharedDatabasePath_ = other.sharedDatabasePath_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.cms.YdbCms.ServerlessResources parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.cms.YdbCms.ServerlessResources) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object sharedDatabasePath_ = "";
+      /**
+       * <pre>
+       * Full path to shared database's home dir whose resources will be used.
+       * </pre>
+       *
+       * <code>string shared_database_path = 1;</code>
+       */
+      public java.lang.String getSharedDatabasePath() {
+        java.lang.Object ref = sharedDatabasePath_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sharedDatabasePath_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Full path to shared database's home dir whose resources will be used.
+       * </pre>
+       *
+       * <code>string shared_database_path = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSharedDatabasePathBytes() {
+        java.lang.Object ref = sharedDatabasePath_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sharedDatabasePath_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Full path to shared database's home dir whose resources will be used.
+       * </pre>
+       *
+       * <code>string shared_database_path = 1;</code>
+       */
+      public Builder setSharedDatabasePath(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        sharedDatabasePath_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Full path to shared database's home dir whose resources will be used.
+       * </pre>
+       *
+       * <code>string shared_database_path = 1;</code>
+       */
+      public Builder clearSharedDatabasePath() {
+        
+        sharedDatabasePath_ = getDefaultInstance().getSharedDatabasePath();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Full path to shared database's home dir whose resources will be used.
+       * </pre>
+       *
+       * <code>string shared_database_path = 1;</code>
+       */
+      public Builder setSharedDatabasePathBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        sharedDatabasePath_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Cms.ServerlessResources)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Cms.ServerlessResources)
+    private static final tech.ydb.cms.YdbCms.ServerlessResources DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.cms.YdbCms.ServerlessResources();
+    }
+
+    public static tech.ydb.cms.YdbCms.ServerlessResources getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ServerlessResources>
+        PARSER = new com.google.protobuf.AbstractParser<ServerlessResources>() {
+      public ServerlessResources parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ServerlessResources(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ServerlessResources> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ServerlessResources> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.cms.YdbCms.ServerlessResources getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface DatabaseOptionsOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.Cms.DatabaseOptions)
       com.google.protobuf.MessageOrBuilder {
@@ -4976,6 +5534,56 @@ public final class YdbCms {
 
     /**
      * <pre>
+     * Shared resources can be used by serverless databases.
+     * </pre>
+     *
+     * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+     */
+    boolean hasSharedResources();
+    /**
+     * <pre>
+     * Shared resources can be used by serverless databases.
+     * </pre>
+     *
+     * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+     */
+    tech.ydb.cms.YdbCms.Resources getSharedResources();
+    /**
+     * <pre>
+     * Shared resources can be used by serverless databases.
+     * </pre>
+     *
+     * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+     */
+    tech.ydb.cms.YdbCms.ResourcesOrBuilder getSharedResourcesOrBuilder();
+
+    /**
+     * <pre>
+     * If specified, the created database will be "serverless".
+     * </pre>
+     *
+     * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+     */
+    boolean hasServerlessResources();
+    /**
+     * <pre>
+     * If specified, the created database will be "serverless".
+     * </pre>
+     *
+     * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+     */
+    tech.ydb.cms.YdbCms.ServerlessResources getServerlessResources();
+    /**
+     * <pre>
+     * If specified, the created database will be "serverless".
+     * </pre>
+     *
+     * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+     */
+    tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder getServerlessResourcesOrBuilder();
+
+    /**
+     * <pre>
      * Additional database options.
      * </pre>
      *
@@ -5042,6 +5650,8 @@ public final class YdbCms {
      */
     tech.ydb.cms.YdbCms.AttributeOrBuilder getAttributesOrBuilder(
         int index);
+
+    public tech.ydb.cms.YdbCms.CreateDatabaseRequest.ResourcesKindCase getResourcesKindCase();
   }
   /**
    * <pre>
@@ -5115,15 +5725,16 @@ public final class YdbCms {
             }
             case 26: {
               tech.ydb.cms.YdbCms.Resources.Builder subBuilder = null;
-              if (resources_ != null) {
-                subBuilder = resources_.toBuilder();
+              if (resourcesKindCase_ == 3) {
+                subBuilder = ((tech.ydb.cms.YdbCms.Resources) resourcesKind_).toBuilder();
               }
-              resources_ = input.readMessage(tech.ydb.cms.YdbCms.Resources.parser(), extensionRegistry);
+              resourcesKind_ =
+                  input.readMessage(tech.ydb.cms.YdbCms.Resources.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(resources_);
-                resources_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom((tech.ydb.cms.YdbCms.Resources) resourcesKind_);
+                resourcesKind_ = subBuilder.buildPartial();
               }
-
+              resourcesKindCase_ = 3;
               break;
             }
             case 34: {
@@ -5140,12 +5751,40 @@ public final class YdbCms {
               break;
             }
             case 42: {
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
                 attributes_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.Attribute>();
-                mutable_bitField0_ |= 0x00000010;
+                mutable_bitField0_ |= 0x00000040;
               }
               attributes_.add(
                   input.readMessage(tech.ydb.cms.YdbCms.Attribute.parser(), extensionRegistry));
+              break;
+            }
+            case 50: {
+              tech.ydb.cms.YdbCms.Resources.Builder subBuilder = null;
+              if (resourcesKindCase_ == 6) {
+                subBuilder = ((tech.ydb.cms.YdbCms.Resources) resourcesKind_).toBuilder();
+              }
+              resourcesKind_ =
+                  input.readMessage(tech.ydb.cms.YdbCms.Resources.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((tech.ydb.cms.YdbCms.Resources) resourcesKind_);
+                resourcesKind_ = subBuilder.buildPartial();
+              }
+              resourcesKindCase_ = 6;
+              break;
+            }
+            case 58: {
+              tech.ydb.cms.YdbCms.ServerlessResources.Builder subBuilder = null;
+              if (resourcesKindCase_ == 7) {
+                subBuilder = ((tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_).toBuilder();
+              }
+              resourcesKind_ =
+                  input.readMessage(tech.ydb.cms.YdbCms.ServerlessResources.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_);
+                resourcesKind_ = subBuilder.buildPartial();
+              }
+              resourcesKindCase_ = 7;
               break;
             }
           }
@@ -5156,7 +5795,7 @@ public final class YdbCms {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           attributes_ = java.util.Collections.unmodifiableList(attributes_);
         }
         this.unknownFields = unknownFields.build();
@@ -5176,6 +5815,46 @@ public final class YdbCms {
     }
 
     private int bitField0_;
+    private int resourcesKindCase_ = 0;
+    private java.lang.Object resourcesKind_;
+    public enum ResourcesKindCase
+        implements com.google.protobuf.Internal.EnumLite {
+      RESOURCES(3),
+      SHARED_RESOURCES(6),
+      SERVERLESS_RESOURCES(7),
+      RESOURCESKIND_NOT_SET(0);
+      private final int value;
+      private ResourcesKindCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static ResourcesKindCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static ResourcesKindCase forNumber(int value) {
+        switch (value) {
+          case 3: return RESOURCES;
+          case 6: return SHARED_RESOURCES;
+          case 7: return SERVERLESS_RESOURCES;
+          case 0: return RESOURCESKIND_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public ResourcesKindCase
+    getResourcesKindCase() {
+      return ResourcesKindCase.forNumber(
+          resourcesKindCase_);
+    }
+
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
@@ -5240,7 +5919,6 @@ public final class YdbCms {
     }
 
     public static final int RESOURCES_FIELD_NUMBER = 3;
-    private tech.ydb.cms.YdbCms.Resources resources_;
     /**
      * <pre>
      * Resources to allocate for database by CMS.
@@ -5249,7 +5927,7 @@ public final class YdbCms {
      * <code>.Ydb.Cms.Resources resources = 3;</code>
      */
     public boolean hasResources() {
-      return resources_ != null;
+      return resourcesKindCase_ == 3;
     }
     /**
      * <pre>
@@ -5259,7 +5937,10 @@ public final class YdbCms {
      * <code>.Ydb.Cms.Resources resources = 3;</code>
      */
     public tech.ydb.cms.YdbCms.Resources getResources() {
-      return resources_ == null ? tech.ydb.cms.YdbCms.Resources.getDefaultInstance() : resources_;
+      if (resourcesKindCase_ == 3) {
+         return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+      }
+      return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
     }
     /**
      * <pre>
@@ -5269,7 +5950,86 @@ public final class YdbCms {
      * <code>.Ydb.Cms.Resources resources = 3;</code>
      */
     public tech.ydb.cms.YdbCms.ResourcesOrBuilder getResourcesOrBuilder() {
-      return getResources();
+      if (resourcesKindCase_ == 3) {
+         return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+      }
+      return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+    }
+
+    public static final int SHARED_RESOURCES_FIELD_NUMBER = 6;
+    /**
+     * <pre>
+     * Shared resources can be used by serverless databases.
+     * </pre>
+     *
+     * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+     */
+    public boolean hasSharedResources() {
+      return resourcesKindCase_ == 6;
+    }
+    /**
+     * <pre>
+     * Shared resources can be used by serverless databases.
+     * </pre>
+     *
+     * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+     */
+    public tech.ydb.cms.YdbCms.Resources getSharedResources() {
+      if (resourcesKindCase_ == 6) {
+         return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+      }
+      return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+    }
+    /**
+     * <pre>
+     * Shared resources can be used by serverless databases.
+     * </pre>
+     *
+     * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+     */
+    public tech.ydb.cms.YdbCms.ResourcesOrBuilder getSharedResourcesOrBuilder() {
+      if (resourcesKindCase_ == 6) {
+         return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+      }
+      return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+    }
+
+    public static final int SERVERLESS_RESOURCES_FIELD_NUMBER = 7;
+    /**
+     * <pre>
+     * If specified, the created database will be "serverless".
+     * </pre>
+     *
+     * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+     */
+    public boolean hasServerlessResources() {
+      return resourcesKindCase_ == 7;
+    }
+    /**
+     * <pre>
+     * If specified, the created database will be "serverless".
+     * </pre>
+     *
+     * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+     */
+    public tech.ydb.cms.YdbCms.ServerlessResources getServerlessResources() {
+      if (resourcesKindCase_ == 7) {
+         return (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_;
+      }
+      return tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance();
+    }
+    /**
+     * <pre>
+     * If specified, the created database will be "serverless".
+     * </pre>
+     *
+     * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+     */
+    public tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder getServerlessResourcesOrBuilder() {
+      if (resourcesKindCase_ == 7) {
+         return (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_;
+      }
+      return tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance();
     }
 
     public static final int OPTIONS_FIELD_NUMBER = 4;
@@ -5378,14 +6138,20 @@ public final class YdbCms {
       if (!getPathBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, path_);
       }
-      if (resources_ != null) {
-        output.writeMessage(3, getResources());
+      if (resourcesKindCase_ == 3) {
+        output.writeMessage(3, (tech.ydb.cms.YdbCms.Resources) resourcesKind_);
       }
       if (options_ != null) {
         output.writeMessage(4, getOptions());
       }
       for (int i = 0; i < attributes_.size(); i++) {
         output.writeMessage(5, attributes_.get(i));
+      }
+      if (resourcesKindCase_ == 6) {
+        output.writeMessage(6, (tech.ydb.cms.YdbCms.Resources) resourcesKind_);
+      }
+      if (resourcesKindCase_ == 7) {
+        output.writeMessage(7, (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_);
       }
       unknownFields.writeTo(output);
     }
@@ -5402,9 +6168,9 @@ public final class YdbCms {
       if (!getPathBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, path_);
       }
-      if (resources_ != null) {
+      if (resourcesKindCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getResources());
+          .computeMessageSize(3, (tech.ydb.cms.YdbCms.Resources) resourcesKind_);
       }
       if (options_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -5413,6 +6179,14 @@ public final class YdbCms {
       for (int i = 0; i < attributes_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, attributes_.get(i));
+      }
+      if (resourcesKindCase_ == 6) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, (tech.ydb.cms.YdbCms.Resources) resourcesKind_);
+      }
+      if (resourcesKindCase_ == 7) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -5437,11 +6211,6 @@ public final class YdbCms {
       }
       result = result && getPath()
           .equals(other.getPath());
-      result = result && (hasResources() == other.hasResources());
-      if (hasResources()) {
-        result = result && getResources()
-            .equals(other.getResources());
-      }
       result = result && (hasOptions() == other.hasOptions());
       if (hasOptions()) {
         result = result && getOptions()
@@ -5449,6 +6218,25 @@ public final class YdbCms {
       }
       result = result && getAttributesList()
           .equals(other.getAttributesList());
+      result = result && getResourcesKindCase().equals(
+          other.getResourcesKindCase());
+      if (!result) return false;
+      switch (resourcesKindCase_) {
+        case 3:
+          result = result && getResources()
+              .equals(other.getResources());
+          break;
+        case 6:
+          result = result && getSharedResources()
+              .equals(other.getSharedResources());
+          break;
+        case 7:
+          result = result && getServerlessResources()
+              .equals(other.getServerlessResources());
+          break;
+        case 0:
+        default:
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -5466,10 +6254,6 @@ public final class YdbCms {
       }
       hash = (37 * hash) + PATH_FIELD_NUMBER;
       hash = (53 * hash) + getPath().hashCode();
-      if (hasResources()) {
-        hash = (37 * hash) + RESOURCES_FIELD_NUMBER;
-        hash = (53 * hash) + getResources().hashCode();
-      }
       if (hasOptions()) {
         hash = (37 * hash) + OPTIONS_FIELD_NUMBER;
         hash = (53 * hash) + getOptions().hashCode();
@@ -5477,6 +6261,22 @@ public final class YdbCms {
       if (getAttributesCount() > 0) {
         hash = (37 * hash) + ATTRIBUTES_FIELD_NUMBER;
         hash = (53 * hash) + getAttributesList().hashCode();
+      }
+      switch (resourcesKindCase_) {
+        case 3:
+          hash = (37 * hash) + RESOURCES_FIELD_NUMBER;
+          hash = (53 * hash) + getResources().hashCode();
+          break;
+        case 6:
+          hash = (37 * hash) + SHARED_RESOURCES_FIELD_NUMBER;
+          hash = (53 * hash) + getSharedResources().hashCode();
+          break;
+        case 7:
+          hash = (37 * hash) + SERVERLESS_RESOURCES_FIELD_NUMBER;
+          hash = (53 * hash) + getServerlessResources().hashCode();
+          break;
+        case 0:
+        default:
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -5622,12 +6422,6 @@ public final class YdbCms {
         }
         path_ = "";
 
-        if (resourcesBuilder_ == null) {
-          resources_ = null;
-        } else {
-          resources_ = null;
-          resourcesBuilder_ = null;
-        }
         if (optionsBuilder_ == null) {
           options_ = null;
         } else {
@@ -5636,10 +6430,12 @@ public final class YdbCms {
         }
         if (attributesBuilder_ == null) {
           attributes_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000040);
         } else {
           attributesBuilder_.clear();
         }
+        resourcesKindCase_ = 0;
+        resourcesKind_ = null;
         return this;
       }
 
@@ -5670,10 +6466,26 @@ public final class YdbCms {
           result.operationParams_ = operationParamsBuilder_.build();
         }
         result.path_ = path_;
-        if (resourcesBuilder_ == null) {
-          result.resources_ = resources_;
-        } else {
-          result.resources_ = resourcesBuilder_.build();
+        if (resourcesKindCase_ == 3) {
+          if (resourcesBuilder_ == null) {
+            result.resourcesKind_ = resourcesKind_;
+          } else {
+            result.resourcesKind_ = resourcesBuilder_.build();
+          }
+        }
+        if (resourcesKindCase_ == 6) {
+          if (sharedResourcesBuilder_ == null) {
+            result.resourcesKind_ = resourcesKind_;
+          } else {
+            result.resourcesKind_ = sharedResourcesBuilder_.build();
+          }
+        }
+        if (resourcesKindCase_ == 7) {
+          if (serverlessResourcesBuilder_ == null) {
+            result.resourcesKind_ = resourcesKind_;
+          } else {
+            result.resourcesKind_ = serverlessResourcesBuilder_.build();
+          }
         }
         if (optionsBuilder_ == null) {
           result.options_ = options_;
@@ -5681,15 +6493,16 @@ public final class YdbCms {
           result.options_ = optionsBuilder_.build();
         }
         if (attributesBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
             attributes_ = java.util.Collections.unmodifiableList(attributes_);
-            bitField0_ = (bitField0_ & ~0x00000010);
+            bitField0_ = (bitField0_ & ~0x00000040);
           }
           result.attributes_ = attributes_;
         } else {
           result.attributes_ = attributesBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
+        result.resourcesKindCase_ = resourcesKindCase_;
         onBuilt();
         return result;
       }
@@ -5738,9 +6551,6 @@ public final class YdbCms {
           path_ = other.path_;
           onChanged();
         }
-        if (other.hasResources()) {
-          mergeResources(other.getResources());
-        }
         if (other.hasOptions()) {
           mergeOptions(other.getOptions());
         }
@@ -5748,7 +6558,7 @@ public final class YdbCms {
           if (!other.attributes_.isEmpty()) {
             if (attributes_.isEmpty()) {
               attributes_ = other.attributes_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000040);
             } else {
               ensureAttributesIsMutable();
               attributes_.addAll(other.attributes_);
@@ -5761,13 +6571,30 @@ public final class YdbCms {
               attributesBuilder_.dispose();
               attributesBuilder_ = null;
               attributes_ = other.attributes_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000040);
               attributesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getAttributesFieldBuilder() : null;
             } else {
               attributesBuilder_.addAllMessages(other.attributes_);
             }
+          }
+        }
+        switch (other.getResourcesKindCase()) {
+          case RESOURCES: {
+            mergeResources(other.getResources());
+            break;
+          }
+          case SHARED_RESOURCES: {
+            mergeSharedResources(other.getSharedResources());
+            break;
+          }
+          case SERVERLESS_RESOURCES: {
+            mergeServerlessResources(other.getServerlessResources());
+            break;
+          }
+          case RESOURCESKIND_NOT_SET: {
+            break;
           }
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -5796,6 +6623,21 @@ public final class YdbCms {
         }
         return this;
       }
+      private int resourcesKindCase_ = 0;
+      private java.lang.Object resourcesKind_;
+      public ResourcesKindCase
+          getResourcesKindCase() {
+        return ResourcesKindCase.forNumber(
+            resourcesKindCase_);
+      }
+
+      public Builder clearResourcesKind() {
+        resourcesKindCase_ = 0;
+        resourcesKind_ = null;
+        onChanged();
+        return this;
+      }
+
       private int bitField0_;
 
       private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
@@ -6004,7 +6846,6 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.cms.YdbCms.Resources resources_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.cms.YdbCms.Resources, tech.ydb.cms.YdbCms.Resources.Builder, tech.ydb.cms.YdbCms.ResourcesOrBuilder> resourcesBuilder_;
       /**
@@ -6015,7 +6856,7 @@ public final class YdbCms {
        * <code>.Ydb.Cms.Resources resources = 3;</code>
        */
       public boolean hasResources() {
-        return resourcesBuilder_ != null || resources_ != null;
+        return resourcesKindCase_ == 3;
       }
       /**
        * <pre>
@@ -6026,9 +6867,15 @@ public final class YdbCms {
        */
       public tech.ydb.cms.YdbCms.Resources getResources() {
         if (resourcesBuilder_ == null) {
-          return resources_ == null ? tech.ydb.cms.YdbCms.Resources.getDefaultInstance() : resources_;
+          if (resourcesKindCase_ == 3) {
+            return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+          }
+          return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
         } else {
-          return resourcesBuilder_.getMessage();
+          if (resourcesKindCase_ == 3) {
+            return resourcesBuilder_.getMessage();
+          }
+          return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
         }
       }
       /**
@@ -6043,12 +6890,12 @@ public final class YdbCms {
           if (value == null) {
             throw new NullPointerException();
           }
-          resources_ = value;
+          resourcesKind_ = value;
           onChanged();
         } else {
           resourcesBuilder_.setMessage(value);
         }
-
+        resourcesKindCase_ = 3;
         return this;
       }
       /**
@@ -6061,12 +6908,12 @@ public final class YdbCms {
       public Builder setResources(
           tech.ydb.cms.YdbCms.Resources.Builder builderForValue) {
         if (resourcesBuilder_ == null) {
-          resources_ = builderForValue.build();
+          resourcesKind_ = builderForValue.build();
           onChanged();
         } else {
           resourcesBuilder_.setMessage(builderForValue.build());
         }
-
+        resourcesKindCase_ = 3;
         return this;
       }
       /**
@@ -6078,17 +6925,21 @@ public final class YdbCms {
        */
       public Builder mergeResources(tech.ydb.cms.YdbCms.Resources value) {
         if (resourcesBuilder_ == null) {
-          if (resources_ != null) {
-            resources_ =
-              tech.ydb.cms.YdbCms.Resources.newBuilder(resources_).mergeFrom(value).buildPartial();
+          if (resourcesKindCase_ == 3 &&
+              resourcesKind_ != tech.ydb.cms.YdbCms.Resources.getDefaultInstance()) {
+            resourcesKind_ = tech.ydb.cms.YdbCms.Resources.newBuilder((tech.ydb.cms.YdbCms.Resources) resourcesKind_)
+                .mergeFrom(value).buildPartial();
           } else {
-            resources_ = value;
+            resourcesKind_ = value;
           }
           onChanged();
         } else {
-          resourcesBuilder_.mergeFrom(value);
+          if (resourcesKindCase_ == 3) {
+            resourcesBuilder_.mergeFrom(value);
+          }
+          resourcesBuilder_.setMessage(value);
         }
-
+        resourcesKindCase_ = 3;
         return this;
       }
       /**
@@ -6100,13 +6951,18 @@ public final class YdbCms {
        */
       public Builder clearResources() {
         if (resourcesBuilder_ == null) {
-          resources_ = null;
-          onChanged();
+          if (resourcesKindCase_ == 3) {
+            resourcesKindCase_ = 0;
+            resourcesKind_ = null;
+            onChanged();
+          }
         } else {
-          resources_ = null;
-          resourcesBuilder_ = null;
+          if (resourcesKindCase_ == 3) {
+            resourcesKindCase_ = 0;
+            resourcesKind_ = null;
+          }
+          resourcesBuilder_.clear();
         }
-
         return this;
       }
       /**
@@ -6117,8 +6973,6 @@ public final class YdbCms {
        * <code>.Ydb.Cms.Resources resources = 3;</code>
        */
       public tech.ydb.cms.YdbCms.Resources.Builder getResourcesBuilder() {
-        
-        onChanged();
         return getResourcesFieldBuilder().getBuilder();
       }
       /**
@@ -6129,11 +6983,13 @@ public final class YdbCms {
        * <code>.Ydb.Cms.Resources resources = 3;</code>
        */
       public tech.ydb.cms.YdbCms.ResourcesOrBuilder getResourcesOrBuilder() {
-        if (resourcesBuilder_ != null) {
+        if ((resourcesKindCase_ == 3) && (resourcesBuilder_ != null)) {
           return resourcesBuilder_.getMessageOrBuilder();
         } else {
-          return resources_ == null ?
-              tech.ydb.cms.YdbCms.Resources.getDefaultInstance() : resources_;
+          if (resourcesKindCase_ == 3) {
+            return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+          }
+          return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
         }
       }
       /**
@@ -6147,14 +7003,363 @@ public final class YdbCms {
           tech.ydb.cms.YdbCms.Resources, tech.ydb.cms.YdbCms.Resources.Builder, tech.ydb.cms.YdbCms.ResourcesOrBuilder> 
           getResourcesFieldBuilder() {
         if (resourcesBuilder_ == null) {
+          if (!(resourcesKindCase_ == 3)) {
+            resourcesKind_ = tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+          }
           resourcesBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               tech.ydb.cms.YdbCms.Resources, tech.ydb.cms.YdbCms.Resources.Builder, tech.ydb.cms.YdbCms.ResourcesOrBuilder>(
-                  getResources(),
+                  (tech.ydb.cms.YdbCms.Resources) resourcesKind_,
                   getParentForChildren(),
                   isClean());
-          resources_ = null;
+          resourcesKind_ = null;
         }
+        resourcesKindCase_ = 3;
+        onChanged();;
         return resourcesBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.Resources, tech.ydb.cms.YdbCms.Resources.Builder, tech.ydb.cms.YdbCms.ResourcesOrBuilder> sharedResourcesBuilder_;
+      /**
+       * <pre>
+       * Shared resources can be used by serverless databases.
+       * </pre>
+       *
+       * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+       */
+      public boolean hasSharedResources() {
+        return resourcesKindCase_ == 6;
+      }
+      /**
+       * <pre>
+       * Shared resources can be used by serverless databases.
+       * </pre>
+       *
+       * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+       */
+      public tech.ydb.cms.YdbCms.Resources getSharedResources() {
+        if (sharedResourcesBuilder_ == null) {
+          if (resourcesKindCase_ == 6) {
+            return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+          }
+          return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+        } else {
+          if (resourcesKindCase_ == 6) {
+            return sharedResourcesBuilder_.getMessage();
+          }
+          return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+        }
+      }
+      /**
+       * <pre>
+       * Shared resources can be used by serverless databases.
+       * </pre>
+       *
+       * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+       */
+      public Builder setSharedResources(tech.ydb.cms.YdbCms.Resources value) {
+        if (sharedResourcesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          resourcesKind_ = value;
+          onChanged();
+        } else {
+          sharedResourcesBuilder_.setMessage(value);
+        }
+        resourcesKindCase_ = 6;
+        return this;
+      }
+      /**
+       * <pre>
+       * Shared resources can be used by serverless databases.
+       * </pre>
+       *
+       * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+       */
+      public Builder setSharedResources(
+          tech.ydb.cms.YdbCms.Resources.Builder builderForValue) {
+        if (sharedResourcesBuilder_ == null) {
+          resourcesKind_ = builderForValue.build();
+          onChanged();
+        } else {
+          sharedResourcesBuilder_.setMessage(builderForValue.build());
+        }
+        resourcesKindCase_ = 6;
+        return this;
+      }
+      /**
+       * <pre>
+       * Shared resources can be used by serverless databases.
+       * </pre>
+       *
+       * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+       */
+      public Builder mergeSharedResources(tech.ydb.cms.YdbCms.Resources value) {
+        if (sharedResourcesBuilder_ == null) {
+          if (resourcesKindCase_ == 6 &&
+              resourcesKind_ != tech.ydb.cms.YdbCms.Resources.getDefaultInstance()) {
+            resourcesKind_ = tech.ydb.cms.YdbCms.Resources.newBuilder((tech.ydb.cms.YdbCms.Resources) resourcesKind_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            resourcesKind_ = value;
+          }
+          onChanged();
+        } else {
+          if (resourcesKindCase_ == 6) {
+            sharedResourcesBuilder_.mergeFrom(value);
+          }
+          sharedResourcesBuilder_.setMessage(value);
+        }
+        resourcesKindCase_ = 6;
+        return this;
+      }
+      /**
+       * <pre>
+       * Shared resources can be used by serverless databases.
+       * </pre>
+       *
+       * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+       */
+      public Builder clearSharedResources() {
+        if (sharedResourcesBuilder_ == null) {
+          if (resourcesKindCase_ == 6) {
+            resourcesKindCase_ = 0;
+            resourcesKind_ = null;
+            onChanged();
+          }
+        } else {
+          if (resourcesKindCase_ == 6) {
+            resourcesKindCase_ = 0;
+            resourcesKind_ = null;
+          }
+          sharedResourcesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Shared resources can be used by serverless databases.
+       * </pre>
+       *
+       * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+       */
+      public tech.ydb.cms.YdbCms.Resources.Builder getSharedResourcesBuilder() {
+        return getSharedResourcesFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Shared resources can be used by serverless databases.
+       * </pre>
+       *
+       * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+       */
+      public tech.ydb.cms.YdbCms.ResourcesOrBuilder getSharedResourcesOrBuilder() {
+        if ((resourcesKindCase_ == 6) && (sharedResourcesBuilder_ != null)) {
+          return sharedResourcesBuilder_.getMessageOrBuilder();
+        } else {
+          if (resourcesKindCase_ == 6) {
+            return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+          }
+          return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+        }
+      }
+      /**
+       * <pre>
+       * Shared resources can be used by serverless databases.
+       * </pre>
+       *
+       * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.Resources, tech.ydb.cms.YdbCms.Resources.Builder, tech.ydb.cms.YdbCms.ResourcesOrBuilder> 
+          getSharedResourcesFieldBuilder() {
+        if (sharedResourcesBuilder_ == null) {
+          if (!(resourcesKindCase_ == 6)) {
+            resourcesKind_ = tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+          }
+          sharedResourcesBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.cms.YdbCms.Resources, tech.ydb.cms.YdbCms.Resources.Builder, tech.ydb.cms.YdbCms.ResourcesOrBuilder>(
+                  (tech.ydb.cms.YdbCms.Resources) resourcesKind_,
+                  getParentForChildren(),
+                  isClean());
+          resourcesKind_ = null;
+        }
+        resourcesKindCase_ = 6;
+        onChanged();;
+        return sharedResourcesBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.ServerlessResources, tech.ydb.cms.YdbCms.ServerlessResources.Builder, tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder> serverlessResourcesBuilder_;
+      /**
+       * <pre>
+       * If specified, the created database will be "serverless".
+       * </pre>
+       *
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+       */
+      public boolean hasServerlessResources() {
+        return resourcesKindCase_ == 7;
+      }
+      /**
+       * <pre>
+       * If specified, the created database will be "serverless".
+       * </pre>
+       *
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+       */
+      public tech.ydb.cms.YdbCms.ServerlessResources getServerlessResources() {
+        if (serverlessResourcesBuilder_ == null) {
+          if (resourcesKindCase_ == 7) {
+            return (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_;
+          }
+          return tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance();
+        } else {
+          if (resourcesKindCase_ == 7) {
+            return serverlessResourcesBuilder_.getMessage();
+          }
+          return tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance();
+        }
+      }
+      /**
+       * <pre>
+       * If specified, the created database will be "serverless".
+       * </pre>
+       *
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+       */
+      public Builder setServerlessResources(tech.ydb.cms.YdbCms.ServerlessResources value) {
+        if (serverlessResourcesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          resourcesKind_ = value;
+          onChanged();
+        } else {
+          serverlessResourcesBuilder_.setMessage(value);
+        }
+        resourcesKindCase_ = 7;
+        return this;
+      }
+      /**
+       * <pre>
+       * If specified, the created database will be "serverless".
+       * </pre>
+       *
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+       */
+      public Builder setServerlessResources(
+          tech.ydb.cms.YdbCms.ServerlessResources.Builder builderForValue) {
+        if (serverlessResourcesBuilder_ == null) {
+          resourcesKind_ = builderForValue.build();
+          onChanged();
+        } else {
+          serverlessResourcesBuilder_.setMessage(builderForValue.build());
+        }
+        resourcesKindCase_ = 7;
+        return this;
+      }
+      /**
+       * <pre>
+       * If specified, the created database will be "serverless".
+       * </pre>
+       *
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+       */
+      public Builder mergeServerlessResources(tech.ydb.cms.YdbCms.ServerlessResources value) {
+        if (serverlessResourcesBuilder_ == null) {
+          if (resourcesKindCase_ == 7 &&
+              resourcesKind_ != tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance()) {
+            resourcesKind_ = tech.ydb.cms.YdbCms.ServerlessResources.newBuilder((tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            resourcesKind_ = value;
+          }
+          onChanged();
+        } else {
+          if (resourcesKindCase_ == 7) {
+            serverlessResourcesBuilder_.mergeFrom(value);
+          }
+          serverlessResourcesBuilder_.setMessage(value);
+        }
+        resourcesKindCase_ = 7;
+        return this;
+      }
+      /**
+       * <pre>
+       * If specified, the created database will be "serverless".
+       * </pre>
+       *
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+       */
+      public Builder clearServerlessResources() {
+        if (serverlessResourcesBuilder_ == null) {
+          if (resourcesKindCase_ == 7) {
+            resourcesKindCase_ = 0;
+            resourcesKind_ = null;
+            onChanged();
+          }
+        } else {
+          if (resourcesKindCase_ == 7) {
+            resourcesKindCase_ = 0;
+            resourcesKind_ = null;
+          }
+          serverlessResourcesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * If specified, the created database will be "serverless".
+       * </pre>
+       *
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+       */
+      public tech.ydb.cms.YdbCms.ServerlessResources.Builder getServerlessResourcesBuilder() {
+        return getServerlessResourcesFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * If specified, the created database will be "serverless".
+       * </pre>
+       *
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+       */
+      public tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder getServerlessResourcesOrBuilder() {
+        if ((resourcesKindCase_ == 7) && (serverlessResourcesBuilder_ != null)) {
+          return serverlessResourcesBuilder_.getMessageOrBuilder();
+        } else {
+          if (resourcesKindCase_ == 7) {
+            return (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_;
+          }
+          return tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance();
+        }
+      }
+      /**
+       * <pre>
+       * If specified, the created database will be "serverless".
+       * </pre>
+       *
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.ServerlessResources, tech.ydb.cms.YdbCms.ServerlessResources.Builder, tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder> 
+          getServerlessResourcesFieldBuilder() {
+        if (serverlessResourcesBuilder_ == null) {
+          if (!(resourcesKindCase_ == 7)) {
+            resourcesKind_ = tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance();
+          }
+          serverlessResourcesBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.cms.YdbCms.ServerlessResources, tech.ydb.cms.YdbCms.ServerlessResources.Builder, tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder>(
+                  (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_,
+                  getParentForChildren(),
+                  isClean());
+          resourcesKind_ = null;
+        }
+        resourcesKindCase_ = 7;
+        onChanged();;
+        return serverlessResourcesBuilder_;
       }
 
       private tech.ydb.cms.YdbCms.DatabaseOptions options_ = null;
@@ -6313,9 +7518,9 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.Attribute> attributes_ =
         java.util.Collections.emptyList();
       private void ensureAttributesIsMutable() {
-        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
           attributes_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.Attribute>(attributes_);
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000040;
          }
       }
 
@@ -6509,7 +7714,7 @@ public final class YdbCms {
       public Builder clearAttributes() {
         if (attributesBuilder_ == null) {
           attributes_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000040);
           onChanged();
         } else {
           attributesBuilder_.clear();
@@ -6614,7 +7819,7 @@ public final class YdbCms {
           attributesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.Attribute, tech.ydb.cms.YdbCms.Attribute.Builder, tech.ydb.cms.YdbCms.AttributeOrBuilder>(
                   attributes_,
-                  ((bitField0_ & 0x00000010) == 0x00000010),
+                  ((bitField0_ & 0x00000040) == 0x00000040),
                   getParentForChildren(),
                   isClean());
           attributes_ = null;
@@ -8773,6 +9978,32 @@ public final class YdbCms {
     tech.ydb.cms.YdbCms.ResourcesOrBuilder getRequiredResourcesOrBuilder();
 
     /**
+     * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+     */
+    boolean hasRequiredSharedResources();
+    /**
+     * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+     */
+    tech.ydb.cms.YdbCms.Resources getRequiredSharedResources();
+    /**
+     * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+     */
+    tech.ydb.cms.YdbCms.ResourcesOrBuilder getRequiredSharedResourcesOrBuilder();
+
+    /**
+     * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+     */
+    boolean hasServerlessResources();
+    /**
+     * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+     */
+    tech.ydb.cms.YdbCms.ServerlessResources getServerlessResources();
+    /**
+     * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+     */
+    tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder getServerlessResourcesOrBuilder();
+
+    /**
      * <pre>
      * Database resources allocated by CMS.
      * </pre>
@@ -8850,6 +10081,8 @@ public final class YdbCms {
      * <code>uint64 generation = 6;</code>
      */
     long getGeneration();
+
+    public tech.ydb.cms.YdbCms.GetDatabaseStatusResult.ResourcesKindCase getResourcesKindCase();
   }
   /**
    * Protobuf type {@code Ydb.Cms.GetDatabaseStatusResult}
@@ -8912,15 +10145,16 @@ public final class YdbCms {
             }
             case 26: {
               tech.ydb.cms.YdbCms.Resources.Builder subBuilder = null;
-              if (requiredResources_ != null) {
-                subBuilder = requiredResources_.toBuilder();
+              if (resourcesKindCase_ == 3) {
+                subBuilder = ((tech.ydb.cms.YdbCms.Resources) resourcesKind_).toBuilder();
               }
-              requiredResources_ = input.readMessage(tech.ydb.cms.YdbCms.Resources.parser(), extensionRegistry);
+              resourcesKind_ =
+                  input.readMessage(tech.ydb.cms.YdbCms.Resources.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(requiredResources_);
-                requiredResources_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom((tech.ydb.cms.YdbCms.Resources) resourcesKind_);
+                resourcesKind_ = subBuilder.buildPartial();
               }
-
+              resourcesKindCase_ = 3;
               break;
             }
             case 34: {
@@ -8937,9 +10171,9 @@ public final class YdbCms {
               break;
             }
             case 42: {
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
                 registeredResources_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.AllocatedComputationalUnit>();
-                mutable_bitField0_ |= 0x00000010;
+                mutable_bitField0_ |= 0x00000040;
               }
               registeredResources_.add(
                   input.readMessage(tech.ydb.cms.YdbCms.AllocatedComputationalUnit.parser(), extensionRegistry));
@@ -8950,6 +10184,34 @@ public final class YdbCms {
               generation_ = input.readUInt64();
               break;
             }
+            case 58: {
+              tech.ydb.cms.YdbCms.Resources.Builder subBuilder = null;
+              if (resourcesKindCase_ == 7) {
+                subBuilder = ((tech.ydb.cms.YdbCms.Resources) resourcesKind_).toBuilder();
+              }
+              resourcesKind_ =
+                  input.readMessage(tech.ydb.cms.YdbCms.Resources.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((tech.ydb.cms.YdbCms.Resources) resourcesKind_);
+                resourcesKind_ = subBuilder.buildPartial();
+              }
+              resourcesKindCase_ = 7;
+              break;
+            }
+            case 66: {
+              tech.ydb.cms.YdbCms.ServerlessResources.Builder subBuilder = null;
+              if (resourcesKindCase_ == 8) {
+                subBuilder = ((tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_).toBuilder();
+              }
+              resourcesKind_ =
+                  input.readMessage(tech.ydb.cms.YdbCms.ServerlessResources.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_);
+                resourcesKind_ = subBuilder.buildPartial();
+              }
+              resourcesKindCase_ = 8;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8958,7 +10220,7 @@ public final class YdbCms {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           registeredResources_ = java.util.Collections.unmodifiableList(registeredResources_);
         }
         this.unknownFields = unknownFields.build();
@@ -9103,6 +10365,46 @@ public final class YdbCms {
     }
 
     private int bitField0_;
+    private int resourcesKindCase_ = 0;
+    private java.lang.Object resourcesKind_;
+    public enum ResourcesKindCase
+        implements com.google.protobuf.Internal.EnumLite {
+      REQUIRED_RESOURCES(3),
+      REQUIRED_SHARED_RESOURCES(7),
+      SERVERLESS_RESOURCES(8),
+      RESOURCESKIND_NOT_SET(0);
+      private final int value;
+      private ResourcesKindCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static ResourcesKindCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static ResourcesKindCase forNumber(int value) {
+        switch (value) {
+          case 3: return REQUIRED_RESOURCES;
+          case 7: return REQUIRED_SHARED_RESOURCES;
+          case 8: return SERVERLESS_RESOURCES;
+          case 0: return RESOURCESKIND_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public ResourcesKindCase
+    getResourcesKindCase() {
+      return ResourcesKindCase.forNumber(
+          resourcesKindCase_);
+    }
+
     public static final int PATH_FIELD_NUMBER = 1;
     private volatile java.lang.Object path_;
     /**
@@ -9170,7 +10472,6 @@ public final class YdbCms {
     }
 
     public static final int REQUIRED_RESOURCES_FIELD_NUMBER = 3;
-    private tech.ydb.cms.YdbCms.Resources requiredResources_;
     /**
      * <pre>
      * Database resources requested for allocation.
@@ -9179,7 +10480,7 @@ public final class YdbCms {
      * <code>.Ydb.Cms.Resources required_resources = 3;</code>
      */
     public boolean hasRequiredResources() {
-      return requiredResources_ != null;
+      return resourcesKindCase_ == 3;
     }
     /**
      * <pre>
@@ -9189,7 +10490,10 @@ public final class YdbCms {
      * <code>.Ydb.Cms.Resources required_resources = 3;</code>
      */
     public tech.ydb.cms.YdbCms.Resources getRequiredResources() {
-      return requiredResources_ == null ? tech.ydb.cms.YdbCms.Resources.getDefaultInstance() : requiredResources_;
+      if (resourcesKindCase_ == 3) {
+         return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+      }
+      return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
     }
     /**
      * <pre>
@@ -9199,7 +10503,62 @@ public final class YdbCms {
      * <code>.Ydb.Cms.Resources required_resources = 3;</code>
      */
     public tech.ydb.cms.YdbCms.ResourcesOrBuilder getRequiredResourcesOrBuilder() {
-      return getRequiredResources();
+      if (resourcesKindCase_ == 3) {
+         return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+      }
+      return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+    }
+
+    public static final int REQUIRED_SHARED_RESOURCES_FIELD_NUMBER = 7;
+    /**
+     * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+     */
+    public boolean hasRequiredSharedResources() {
+      return resourcesKindCase_ == 7;
+    }
+    /**
+     * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+     */
+    public tech.ydb.cms.YdbCms.Resources getRequiredSharedResources() {
+      if (resourcesKindCase_ == 7) {
+         return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+      }
+      return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+    }
+    /**
+     * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+     */
+    public tech.ydb.cms.YdbCms.ResourcesOrBuilder getRequiredSharedResourcesOrBuilder() {
+      if (resourcesKindCase_ == 7) {
+         return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+      }
+      return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+    }
+
+    public static final int SERVERLESS_RESOURCES_FIELD_NUMBER = 8;
+    /**
+     * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+     */
+    public boolean hasServerlessResources() {
+      return resourcesKindCase_ == 8;
+    }
+    /**
+     * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+     */
+    public tech.ydb.cms.YdbCms.ServerlessResources getServerlessResources() {
+      if (resourcesKindCase_ == 8) {
+         return (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_;
+      }
+      return tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance();
+    }
+    /**
+     * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+     */
+    public tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder getServerlessResourcesOrBuilder() {
+      if (resourcesKindCase_ == 8) {
+         return (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_;
+      }
+      return tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance();
     }
 
     public static final int ALLOCATED_RESOURCES_FIELD_NUMBER = 4;
@@ -9322,8 +10681,8 @@ public final class YdbCms {
       if (state_ != tech.ydb.cms.YdbCms.GetDatabaseStatusResult.State.STATE_UNSPECIFIED.getNumber()) {
         output.writeEnum(2, state_);
       }
-      if (requiredResources_ != null) {
-        output.writeMessage(3, getRequiredResources());
+      if (resourcesKindCase_ == 3) {
+        output.writeMessage(3, (tech.ydb.cms.YdbCms.Resources) resourcesKind_);
       }
       if (allocatedResources_ != null) {
         output.writeMessage(4, getAllocatedResources());
@@ -9333,6 +10692,12 @@ public final class YdbCms {
       }
       if (generation_ != 0L) {
         output.writeUInt64(6, generation_);
+      }
+      if (resourcesKindCase_ == 7) {
+        output.writeMessage(7, (tech.ydb.cms.YdbCms.Resources) resourcesKind_);
+      }
+      if (resourcesKindCase_ == 8) {
+        output.writeMessage(8, (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_);
       }
       unknownFields.writeTo(output);
     }
@@ -9349,9 +10714,9 @@ public final class YdbCms {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, state_);
       }
-      if (requiredResources_ != null) {
+      if (resourcesKindCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getRequiredResources());
+          .computeMessageSize(3, (tech.ydb.cms.YdbCms.Resources) resourcesKind_);
       }
       if (allocatedResources_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -9364,6 +10729,14 @@ public final class YdbCms {
       if (generation_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(6, generation_);
+      }
+      if (resourcesKindCase_ == 7) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, (tech.ydb.cms.YdbCms.Resources) resourcesKind_);
+      }
+      if (resourcesKindCase_ == 8) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -9384,11 +10757,6 @@ public final class YdbCms {
       result = result && getPath()
           .equals(other.getPath());
       result = result && state_ == other.state_;
-      result = result && (hasRequiredResources() == other.hasRequiredResources());
-      if (hasRequiredResources()) {
-        result = result && getRequiredResources()
-            .equals(other.getRequiredResources());
-      }
       result = result && (hasAllocatedResources() == other.hasAllocatedResources());
       if (hasAllocatedResources()) {
         result = result && getAllocatedResources()
@@ -9398,6 +10766,25 @@ public final class YdbCms {
           .equals(other.getRegisteredResourcesList());
       result = result && (getGeneration()
           == other.getGeneration());
+      result = result && getResourcesKindCase().equals(
+          other.getResourcesKindCase());
+      if (!result) return false;
+      switch (resourcesKindCase_) {
+        case 3:
+          result = result && getRequiredResources()
+              .equals(other.getRequiredResources());
+          break;
+        case 7:
+          result = result && getRequiredSharedResources()
+              .equals(other.getRequiredSharedResources());
+          break;
+        case 8:
+          result = result && getServerlessResources()
+              .equals(other.getServerlessResources());
+          break;
+        case 0:
+        default:
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -9413,10 +10800,6 @@ public final class YdbCms {
       hash = (53 * hash) + getPath().hashCode();
       hash = (37 * hash) + STATE_FIELD_NUMBER;
       hash = (53 * hash) + state_;
-      if (hasRequiredResources()) {
-        hash = (37 * hash) + REQUIRED_RESOURCES_FIELD_NUMBER;
-        hash = (53 * hash) + getRequiredResources().hashCode();
-      }
       if (hasAllocatedResources()) {
         hash = (37 * hash) + ALLOCATED_RESOURCES_FIELD_NUMBER;
         hash = (53 * hash) + getAllocatedResources().hashCode();
@@ -9428,6 +10811,22 @@ public final class YdbCms {
       hash = (37 * hash) + GENERATION_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getGeneration());
+      switch (resourcesKindCase_) {
+        case 3:
+          hash = (37 * hash) + REQUIRED_RESOURCES_FIELD_NUMBER;
+          hash = (53 * hash) + getRequiredResources().hashCode();
+          break;
+        case 7:
+          hash = (37 * hash) + REQUIRED_SHARED_RESOURCES_FIELD_NUMBER;
+          hash = (53 * hash) + getRequiredSharedResources().hashCode();
+          break;
+        case 8:
+          hash = (37 * hash) + SERVERLESS_RESOURCES_FIELD_NUMBER;
+          hash = (53 * hash) + getServerlessResources().hashCode();
+          break;
+        case 0:
+        default:
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -9562,12 +10961,6 @@ public final class YdbCms {
 
         state_ = 0;
 
-        if (requiredResourcesBuilder_ == null) {
-          requiredResources_ = null;
-        } else {
-          requiredResources_ = null;
-          requiredResourcesBuilder_ = null;
-        }
         if (allocatedResourcesBuilder_ == null) {
           allocatedResources_ = null;
         } else {
@@ -9576,12 +10969,14 @@ public final class YdbCms {
         }
         if (registeredResourcesBuilder_ == null) {
           registeredResources_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000040);
         } else {
           registeredResourcesBuilder_.clear();
         }
         generation_ = 0L;
 
+        resourcesKindCase_ = 0;
+        resourcesKind_ = null;
         return this;
       }
 
@@ -9608,10 +11003,26 @@ public final class YdbCms {
         int to_bitField0_ = 0;
         result.path_ = path_;
         result.state_ = state_;
-        if (requiredResourcesBuilder_ == null) {
-          result.requiredResources_ = requiredResources_;
-        } else {
-          result.requiredResources_ = requiredResourcesBuilder_.build();
+        if (resourcesKindCase_ == 3) {
+          if (requiredResourcesBuilder_ == null) {
+            result.resourcesKind_ = resourcesKind_;
+          } else {
+            result.resourcesKind_ = requiredResourcesBuilder_.build();
+          }
+        }
+        if (resourcesKindCase_ == 7) {
+          if (requiredSharedResourcesBuilder_ == null) {
+            result.resourcesKind_ = resourcesKind_;
+          } else {
+            result.resourcesKind_ = requiredSharedResourcesBuilder_.build();
+          }
+        }
+        if (resourcesKindCase_ == 8) {
+          if (serverlessResourcesBuilder_ == null) {
+            result.resourcesKind_ = resourcesKind_;
+          } else {
+            result.resourcesKind_ = serverlessResourcesBuilder_.build();
+          }
         }
         if (allocatedResourcesBuilder_ == null) {
           result.allocatedResources_ = allocatedResources_;
@@ -9619,9 +11030,9 @@ public final class YdbCms {
           result.allocatedResources_ = allocatedResourcesBuilder_.build();
         }
         if (registeredResourcesBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
             registeredResources_ = java.util.Collections.unmodifiableList(registeredResources_);
-            bitField0_ = (bitField0_ & ~0x00000010);
+            bitField0_ = (bitField0_ & ~0x00000040);
           }
           result.registeredResources_ = registeredResources_;
         } else {
@@ -9629,6 +11040,7 @@ public final class YdbCms {
         }
         result.generation_ = generation_;
         result.bitField0_ = to_bitField0_;
+        result.resourcesKindCase_ = resourcesKindCase_;
         onBuilt();
         return result;
       }
@@ -9677,9 +11089,6 @@ public final class YdbCms {
         if (other.state_ != 0) {
           setStateValue(other.getStateValue());
         }
-        if (other.hasRequiredResources()) {
-          mergeRequiredResources(other.getRequiredResources());
-        }
         if (other.hasAllocatedResources()) {
           mergeAllocatedResources(other.getAllocatedResources());
         }
@@ -9687,7 +11096,7 @@ public final class YdbCms {
           if (!other.registeredResources_.isEmpty()) {
             if (registeredResources_.isEmpty()) {
               registeredResources_ = other.registeredResources_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000040);
             } else {
               ensureRegisteredResourcesIsMutable();
               registeredResources_.addAll(other.registeredResources_);
@@ -9700,7 +11109,7 @@ public final class YdbCms {
               registeredResourcesBuilder_.dispose();
               registeredResourcesBuilder_ = null;
               registeredResources_ = other.registeredResources_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000040);
               registeredResourcesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getRegisteredResourcesFieldBuilder() : null;
@@ -9711,6 +11120,23 @@ public final class YdbCms {
         }
         if (other.getGeneration() != 0L) {
           setGeneration(other.getGeneration());
+        }
+        switch (other.getResourcesKindCase()) {
+          case REQUIRED_RESOURCES: {
+            mergeRequiredResources(other.getRequiredResources());
+            break;
+          }
+          case REQUIRED_SHARED_RESOURCES: {
+            mergeRequiredSharedResources(other.getRequiredSharedResources());
+            break;
+          }
+          case SERVERLESS_RESOURCES: {
+            mergeServerlessResources(other.getServerlessResources());
+            break;
+          }
+          case RESOURCESKIND_NOT_SET: {
+            break;
+          }
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -9738,6 +11164,21 @@ public final class YdbCms {
         }
         return this;
       }
+      private int resourcesKindCase_ = 0;
+      private java.lang.Object resourcesKind_;
+      public ResourcesKindCase
+          getResourcesKindCase() {
+        return ResourcesKindCase.forNumber(
+            resourcesKindCase_);
+      }
+
+      public Builder clearResourcesKind() {
+        resourcesKindCase_ = 0;
+        resourcesKind_ = null;
+        onChanged();
+        return this;
+      }
+
       private int bitField0_;
 
       private java.lang.Object path_ = "";
@@ -9893,7 +11334,6 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.cms.YdbCms.Resources requiredResources_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.cms.YdbCms.Resources, tech.ydb.cms.YdbCms.Resources.Builder, tech.ydb.cms.YdbCms.ResourcesOrBuilder> requiredResourcesBuilder_;
       /**
@@ -9904,7 +11344,7 @@ public final class YdbCms {
        * <code>.Ydb.Cms.Resources required_resources = 3;</code>
        */
       public boolean hasRequiredResources() {
-        return requiredResourcesBuilder_ != null || requiredResources_ != null;
+        return resourcesKindCase_ == 3;
       }
       /**
        * <pre>
@@ -9915,9 +11355,15 @@ public final class YdbCms {
        */
       public tech.ydb.cms.YdbCms.Resources getRequiredResources() {
         if (requiredResourcesBuilder_ == null) {
-          return requiredResources_ == null ? tech.ydb.cms.YdbCms.Resources.getDefaultInstance() : requiredResources_;
+          if (resourcesKindCase_ == 3) {
+            return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+          }
+          return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
         } else {
-          return requiredResourcesBuilder_.getMessage();
+          if (resourcesKindCase_ == 3) {
+            return requiredResourcesBuilder_.getMessage();
+          }
+          return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
         }
       }
       /**
@@ -9932,12 +11378,12 @@ public final class YdbCms {
           if (value == null) {
             throw new NullPointerException();
           }
-          requiredResources_ = value;
+          resourcesKind_ = value;
           onChanged();
         } else {
           requiredResourcesBuilder_.setMessage(value);
         }
-
+        resourcesKindCase_ = 3;
         return this;
       }
       /**
@@ -9950,12 +11396,12 @@ public final class YdbCms {
       public Builder setRequiredResources(
           tech.ydb.cms.YdbCms.Resources.Builder builderForValue) {
         if (requiredResourcesBuilder_ == null) {
-          requiredResources_ = builderForValue.build();
+          resourcesKind_ = builderForValue.build();
           onChanged();
         } else {
           requiredResourcesBuilder_.setMessage(builderForValue.build());
         }
-
+        resourcesKindCase_ = 3;
         return this;
       }
       /**
@@ -9967,17 +11413,21 @@ public final class YdbCms {
        */
       public Builder mergeRequiredResources(tech.ydb.cms.YdbCms.Resources value) {
         if (requiredResourcesBuilder_ == null) {
-          if (requiredResources_ != null) {
-            requiredResources_ =
-              tech.ydb.cms.YdbCms.Resources.newBuilder(requiredResources_).mergeFrom(value).buildPartial();
+          if (resourcesKindCase_ == 3 &&
+              resourcesKind_ != tech.ydb.cms.YdbCms.Resources.getDefaultInstance()) {
+            resourcesKind_ = tech.ydb.cms.YdbCms.Resources.newBuilder((tech.ydb.cms.YdbCms.Resources) resourcesKind_)
+                .mergeFrom(value).buildPartial();
           } else {
-            requiredResources_ = value;
+            resourcesKind_ = value;
           }
           onChanged();
         } else {
-          requiredResourcesBuilder_.mergeFrom(value);
+          if (resourcesKindCase_ == 3) {
+            requiredResourcesBuilder_.mergeFrom(value);
+          }
+          requiredResourcesBuilder_.setMessage(value);
         }
-
+        resourcesKindCase_ = 3;
         return this;
       }
       /**
@@ -9989,13 +11439,18 @@ public final class YdbCms {
        */
       public Builder clearRequiredResources() {
         if (requiredResourcesBuilder_ == null) {
-          requiredResources_ = null;
-          onChanged();
+          if (resourcesKindCase_ == 3) {
+            resourcesKindCase_ = 0;
+            resourcesKind_ = null;
+            onChanged();
+          }
         } else {
-          requiredResources_ = null;
-          requiredResourcesBuilder_ = null;
+          if (resourcesKindCase_ == 3) {
+            resourcesKindCase_ = 0;
+            resourcesKind_ = null;
+          }
+          requiredResourcesBuilder_.clear();
         }
-
         return this;
       }
       /**
@@ -10006,8 +11461,6 @@ public final class YdbCms {
        * <code>.Ydb.Cms.Resources required_resources = 3;</code>
        */
       public tech.ydb.cms.YdbCms.Resources.Builder getRequiredResourcesBuilder() {
-        
-        onChanged();
         return getRequiredResourcesFieldBuilder().getBuilder();
       }
       /**
@@ -10018,11 +11471,13 @@ public final class YdbCms {
        * <code>.Ydb.Cms.Resources required_resources = 3;</code>
        */
       public tech.ydb.cms.YdbCms.ResourcesOrBuilder getRequiredResourcesOrBuilder() {
-        if (requiredResourcesBuilder_ != null) {
+        if ((resourcesKindCase_ == 3) && (requiredResourcesBuilder_ != null)) {
           return requiredResourcesBuilder_.getMessageOrBuilder();
         } else {
-          return requiredResources_ == null ?
-              tech.ydb.cms.YdbCms.Resources.getDefaultInstance() : requiredResources_;
+          if (resourcesKindCase_ == 3) {
+            return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+          }
+          return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
         }
       }
       /**
@@ -10036,14 +11491,291 @@ public final class YdbCms {
           tech.ydb.cms.YdbCms.Resources, tech.ydb.cms.YdbCms.Resources.Builder, tech.ydb.cms.YdbCms.ResourcesOrBuilder> 
           getRequiredResourcesFieldBuilder() {
         if (requiredResourcesBuilder_ == null) {
+          if (!(resourcesKindCase_ == 3)) {
+            resourcesKind_ = tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+          }
           requiredResourcesBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               tech.ydb.cms.YdbCms.Resources, tech.ydb.cms.YdbCms.Resources.Builder, tech.ydb.cms.YdbCms.ResourcesOrBuilder>(
-                  getRequiredResources(),
+                  (tech.ydb.cms.YdbCms.Resources) resourcesKind_,
                   getParentForChildren(),
                   isClean());
-          requiredResources_ = null;
+          resourcesKind_ = null;
         }
+        resourcesKindCase_ = 3;
+        onChanged();;
         return requiredResourcesBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.Resources, tech.ydb.cms.YdbCms.Resources.Builder, tech.ydb.cms.YdbCms.ResourcesOrBuilder> requiredSharedResourcesBuilder_;
+      /**
+       * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+       */
+      public boolean hasRequiredSharedResources() {
+        return resourcesKindCase_ == 7;
+      }
+      /**
+       * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+       */
+      public tech.ydb.cms.YdbCms.Resources getRequiredSharedResources() {
+        if (requiredSharedResourcesBuilder_ == null) {
+          if (resourcesKindCase_ == 7) {
+            return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+          }
+          return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+        } else {
+          if (resourcesKindCase_ == 7) {
+            return requiredSharedResourcesBuilder_.getMessage();
+          }
+          return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+       */
+      public Builder setRequiredSharedResources(tech.ydb.cms.YdbCms.Resources value) {
+        if (requiredSharedResourcesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          resourcesKind_ = value;
+          onChanged();
+        } else {
+          requiredSharedResourcesBuilder_.setMessage(value);
+        }
+        resourcesKindCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+       */
+      public Builder setRequiredSharedResources(
+          tech.ydb.cms.YdbCms.Resources.Builder builderForValue) {
+        if (requiredSharedResourcesBuilder_ == null) {
+          resourcesKind_ = builderForValue.build();
+          onChanged();
+        } else {
+          requiredSharedResourcesBuilder_.setMessage(builderForValue.build());
+        }
+        resourcesKindCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+       */
+      public Builder mergeRequiredSharedResources(tech.ydb.cms.YdbCms.Resources value) {
+        if (requiredSharedResourcesBuilder_ == null) {
+          if (resourcesKindCase_ == 7 &&
+              resourcesKind_ != tech.ydb.cms.YdbCms.Resources.getDefaultInstance()) {
+            resourcesKind_ = tech.ydb.cms.YdbCms.Resources.newBuilder((tech.ydb.cms.YdbCms.Resources) resourcesKind_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            resourcesKind_ = value;
+          }
+          onChanged();
+        } else {
+          if (resourcesKindCase_ == 7) {
+            requiredSharedResourcesBuilder_.mergeFrom(value);
+          }
+          requiredSharedResourcesBuilder_.setMessage(value);
+        }
+        resourcesKindCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+       */
+      public Builder clearRequiredSharedResources() {
+        if (requiredSharedResourcesBuilder_ == null) {
+          if (resourcesKindCase_ == 7) {
+            resourcesKindCase_ = 0;
+            resourcesKind_ = null;
+            onChanged();
+          }
+        } else {
+          if (resourcesKindCase_ == 7) {
+            resourcesKindCase_ = 0;
+            resourcesKind_ = null;
+          }
+          requiredSharedResourcesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+       */
+      public tech.ydb.cms.YdbCms.Resources.Builder getRequiredSharedResourcesBuilder() {
+        return getRequiredSharedResourcesFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+       */
+      public tech.ydb.cms.YdbCms.ResourcesOrBuilder getRequiredSharedResourcesOrBuilder() {
+        if ((resourcesKindCase_ == 7) && (requiredSharedResourcesBuilder_ != null)) {
+          return requiredSharedResourcesBuilder_.getMessageOrBuilder();
+        } else {
+          if (resourcesKindCase_ == 7) {
+            return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
+          }
+          return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.Resources, tech.ydb.cms.YdbCms.Resources.Builder, tech.ydb.cms.YdbCms.ResourcesOrBuilder> 
+          getRequiredSharedResourcesFieldBuilder() {
+        if (requiredSharedResourcesBuilder_ == null) {
+          if (!(resourcesKindCase_ == 7)) {
+            resourcesKind_ = tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
+          }
+          requiredSharedResourcesBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.cms.YdbCms.Resources, tech.ydb.cms.YdbCms.Resources.Builder, tech.ydb.cms.YdbCms.ResourcesOrBuilder>(
+                  (tech.ydb.cms.YdbCms.Resources) resourcesKind_,
+                  getParentForChildren(),
+                  isClean());
+          resourcesKind_ = null;
+        }
+        resourcesKindCase_ = 7;
+        onChanged();;
+        return requiredSharedResourcesBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.ServerlessResources, tech.ydb.cms.YdbCms.ServerlessResources.Builder, tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder> serverlessResourcesBuilder_;
+      /**
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+       */
+      public boolean hasServerlessResources() {
+        return resourcesKindCase_ == 8;
+      }
+      /**
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+       */
+      public tech.ydb.cms.YdbCms.ServerlessResources getServerlessResources() {
+        if (serverlessResourcesBuilder_ == null) {
+          if (resourcesKindCase_ == 8) {
+            return (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_;
+          }
+          return tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance();
+        } else {
+          if (resourcesKindCase_ == 8) {
+            return serverlessResourcesBuilder_.getMessage();
+          }
+          return tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+       */
+      public Builder setServerlessResources(tech.ydb.cms.YdbCms.ServerlessResources value) {
+        if (serverlessResourcesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          resourcesKind_ = value;
+          onChanged();
+        } else {
+          serverlessResourcesBuilder_.setMessage(value);
+        }
+        resourcesKindCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+       */
+      public Builder setServerlessResources(
+          tech.ydb.cms.YdbCms.ServerlessResources.Builder builderForValue) {
+        if (serverlessResourcesBuilder_ == null) {
+          resourcesKind_ = builderForValue.build();
+          onChanged();
+        } else {
+          serverlessResourcesBuilder_.setMessage(builderForValue.build());
+        }
+        resourcesKindCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+       */
+      public Builder mergeServerlessResources(tech.ydb.cms.YdbCms.ServerlessResources value) {
+        if (serverlessResourcesBuilder_ == null) {
+          if (resourcesKindCase_ == 8 &&
+              resourcesKind_ != tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance()) {
+            resourcesKind_ = tech.ydb.cms.YdbCms.ServerlessResources.newBuilder((tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            resourcesKind_ = value;
+          }
+          onChanged();
+        } else {
+          if (resourcesKindCase_ == 8) {
+            serverlessResourcesBuilder_.mergeFrom(value);
+          }
+          serverlessResourcesBuilder_.setMessage(value);
+        }
+        resourcesKindCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+       */
+      public Builder clearServerlessResources() {
+        if (serverlessResourcesBuilder_ == null) {
+          if (resourcesKindCase_ == 8) {
+            resourcesKindCase_ = 0;
+            resourcesKind_ = null;
+            onChanged();
+          }
+        } else {
+          if (resourcesKindCase_ == 8) {
+            resourcesKindCase_ = 0;
+            resourcesKind_ = null;
+          }
+          serverlessResourcesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+       */
+      public tech.ydb.cms.YdbCms.ServerlessResources.Builder getServerlessResourcesBuilder() {
+        return getServerlessResourcesFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+       */
+      public tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder getServerlessResourcesOrBuilder() {
+        if ((resourcesKindCase_ == 8) && (serverlessResourcesBuilder_ != null)) {
+          return serverlessResourcesBuilder_.getMessageOrBuilder();
+        } else {
+          if (resourcesKindCase_ == 8) {
+            return (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_;
+          }
+          return tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.ServerlessResources, tech.ydb.cms.YdbCms.ServerlessResources.Builder, tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder> 
+          getServerlessResourcesFieldBuilder() {
+        if (serverlessResourcesBuilder_ == null) {
+          if (!(resourcesKindCase_ == 8)) {
+            resourcesKind_ = tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance();
+          }
+          serverlessResourcesBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.cms.YdbCms.ServerlessResources, tech.ydb.cms.YdbCms.ServerlessResources.Builder, tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder>(
+                  (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_,
+                  getParentForChildren(),
+                  isClean());
+          resourcesKind_ = null;
+        }
+        resourcesKindCase_ = 8;
+        onChanged();;
+        return serverlessResourcesBuilder_;
       }
 
       private tech.ydb.cms.YdbCms.Resources allocatedResources_ = null;
@@ -10202,9 +11934,9 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.AllocatedComputationalUnit> registeredResources_ =
         java.util.Collections.emptyList();
       private void ensureRegisteredResourcesIsMutable() {
-        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
           registeredResources_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.AllocatedComputationalUnit>(registeredResources_);
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000040;
          }
       }
 
@@ -10398,7 +12130,7 @@ public final class YdbCms {
       public Builder clearRegisteredResources() {
         if (registeredResourcesBuilder_ == null) {
           registeredResources_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000040);
           onChanged();
         } else {
           registeredResourcesBuilder_.clear();
@@ -10503,7 +12235,7 @@ public final class YdbCms {
           registeredResourcesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.AllocatedComputationalUnit, tech.ydb.cms.YdbCms.AllocatedComputationalUnit.Builder, tech.ydb.cms.YdbCms.AllocatedComputationalUnitOrBuilder>(
                   registeredResources_,
-                  ((bitField0_ & 0x00000010) == 0x00000010),
+                  ((bitField0_ & 0x00000040) == 0x00000040),
                   getParentForChildren(),
                   isClean());
           registeredResources_ = null;
@@ -23159,6 +24891,11 @@ public final class YdbCms {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Cms_Resources_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Cms_ServerlessResources_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Cms_ServerlessResources_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Cms_DatabaseOptions_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -23292,77 +25029,85 @@ public final class YdbCms {
       "\030\002 \001(\r\022\021\n\tunit_kind\030\003 \001(\t\"s\n\tResources\022," +
       "\n\rstorage_units\030\001 \003(\0132\025.Ydb.Cms.StorageU" +
       "nits\0228\n\023computational_units\030\002 \003(\0132\033.Ydb.",
-      "Cms.ComputationalUnits\"Q\n\017DatabaseOption" +
-      "s\022\032\n\022disable_tx_service\030\001 \001(\010\022\"\n\032disable" +
-      "_external_subdomain\030\002 \001(\010\"(\n\tAttribute\022\014" +
-      "\n\004name\030\001 \001(\t\022\r\n\005value\030\002 \001(\t\"\332\001\n\025CreateDa" +
-      "tabaseRequest\0229\n\020operation_params\030\001 \001(\0132" +
-      "\037.Ydb.Operations.OperationParams\022\014\n\004path" +
-      "\030\002 \001(\t\022%\n\tresources\030\003 \001(\0132\022.Ydb.Cms.Reso" +
-      "urces\022)\n\007options\030\004 \001(\0132\030.Ydb.Cms.Databas" +
-      "eOptions\022&\n\nattributes\030\005 \003(\0132\022.Ydb.Cms.A" +
-      "ttribute\"F\n\026CreateDatabaseResponse\022,\n\top",
-      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
-      "\"c\n\030GetDatabaseStatusRequest\022\014\n\004path\030\001 \001" +
-      "(\t\0229\n\020operation_params\030\002 \001(\0132\037.Ydb.Opera" +
-      "tions.OperationParams\"I\n\031GetDatabaseStat" +
-      "usResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
-      "ations.Operation\"\366\002\n\027GetDatabaseStatusRe" +
-      "sult\022\014\n\004path\030\001 \001(\t\0225\n\005state\030\002 \001(\0162&.Ydb." +
-      "Cms.GetDatabaseStatusResult.State\022.\n\022req" +
-      "uired_resources\030\003 \001(\0132\022.Ydb.Cms.Resource" +
-      "s\022/\n\023allocated_resources\030\004 \001(\0132\022.Ydb.Cms",
-      ".Resources\022A\n\024registered_resources\030\005 \003(\013" +
-      "2#.Ydb.Cms.AllocatedComputationalUnit\022\022\n" +
-      "\ngeneration\030\006 \001(\004\"^\n\005State\022\025\n\021STATE_UNSP" +
-      "ECIFIED\020\000\022\014\n\010CREATING\020\001\022\013\n\007RUNNING\020\002\022\014\n\010" +
-      "REMOVING\020\003\022\025\n\021PENDING_RESOURCES\020\004\"\313\003\n\024Al" +
-      "terDatabaseRequest\022\014\n\004path\030\001 \001(\t\022?\n\032comp" +
-      "utational_units_to_add\030\002 \003(\0132\033.Ydb.Cms.C" +
-      "omputationalUnits\022B\n\035computational_units" +
-      "_to_remove\030\003 \003(\0132\033.Ydb.Cms.Computational" +
-      "Units\0223\n\024storage_units_to_add\030\004 \003(\0132\025.Yd",
-      "b.Cms.StorageUnits\022L\n\037computational_unit" +
-      "s_to_register\030\005 \003(\0132#.Ydb.Cms.AllocatedC" +
-      "omputationalUnit\022N\n!computational_units_" +
-      "to_deregister\030\006 \003(\0132#.Ydb.Cms.AllocatedC" +
-      "omputationalUnit\0229\n\020operation_params\030\007 \001" +
-      "(\0132\037.Ydb.Operations.OperationParams\022\022\n\ng" +
-      "eneration\030\010 \001(\004\"E\n\025AlterDatabaseResponse" +
-      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
-      "ration\"Q\n\024ListDatabasesRequest\0229\n\020operat" +
-      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat",
-      "ionParams\"E\n\025ListDatabasesResponse\022,\n\top" +
-      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
-      "\"$\n\023ListDatabasesResult\022\r\n\005paths\030\001 \003(\t\"`" +
-      "\n\025RemoveDatabaseRequest\022\014\n\004path\030\001 \001(\t\0229\n" +
-      "\020operation_params\030\002 \001(\0132\037.Ydb.Operations" +
-      ".OperationParams\"F\n\026RemoveDatabaseRespon" +
+      "Cms.ComputationalUnits\"3\n\023ServerlessReso" +
+      "urces\022\034\n\024shared_database_path\030\001 \001(\t\"Q\n\017D" +
+      "atabaseOptions\022\032\n\022disable_tx_service\030\001 \001" +
+      "(\010\022\"\n\032disable_external_subdomain\030\002 \001(\010\"(" +
+      "\n\tAttribute\022\014\n\004name\030\001 \001(\t\022\r\n\005value\030\002 \001(\t" +
+      "\"\334\002\n\025CreateDatabaseRequest\0229\n\020operation_" +
+      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\022\014\n\004path\030\002 \001(\t\022\'\n\tresources\030\003 \001(\0132\022" +
+      ".Ydb.Cms.ResourcesH\000\022.\n\020shared_resources" +
+      "\030\006 \001(\0132\022.Ydb.Cms.ResourcesH\000\022<\n\024serverle",
+      "ss_resources\030\007 \001(\0132\034.Ydb.Cms.ServerlessR" +
+      "esourcesH\000\022)\n\007options\030\004 \001(\0132\030.Ydb.Cms.Da" +
+      "tabaseOptions\022&\n\nattributes\030\005 \003(\0132\022.Ydb." +
+      "Cms.AttributeB\020\n\016resources_kind\"F\n\026Creat" +
+      "eDatabaseResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
+      "db.Operations.Operation\"c\n\030GetDatabaseSt" +
+      "atusRequest\022\014\n\004path\030\001 \001(\t\0229\n\020operation_p" +
+      "arams\030\002 \001(\0132\037.Ydb.Operations.OperationPa" +
+      "rams\"I\n\031GetDatabaseStatusResponse\022,\n\tope" +
+      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"",
+      "\201\004\n\027GetDatabaseStatusResult\022\014\n\004path\030\001 \001(" +
+      "\t\0225\n\005state\030\002 \001(\0162&.Ydb.Cms.GetDatabaseSt" +
+      "atusResult.State\0220\n\022required_resources\030\003" +
+      " \001(\0132\022.Ydb.Cms.ResourcesH\000\0227\n\031required_s" +
+      "hared_resources\030\007 \001(\0132\022.Ydb.Cms.Resource" +
+      "sH\000\022<\n\024serverless_resources\030\010 \001(\0132\034.Ydb." +
+      "Cms.ServerlessResourcesH\000\022/\n\023allocated_r" +
+      "esources\030\004 \001(\0132\022.Ydb.Cms.Resources\022A\n\024re" +
+      "gistered_resources\030\005 \003(\0132#.Ydb.Cms.Alloc" +
+      "atedComputationalUnit\022\022\n\ngeneration\030\006 \001(",
+      "\004\"^\n\005State\022\025\n\021STATE_UNSPECIFIED\020\000\022\014\n\010CRE" +
+      "ATING\020\001\022\013\n\007RUNNING\020\002\022\014\n\010REMOVING\020\003\022\025\n\021PE" +
+      "NDING_RESOURCES\020\004B\020\n\016resources_kind\"\313\003\n\024" +
+      "AlterDatabaseRequest\022\014\n\004path\030\001 \001(\t\022?\n\032co" +
+      "mputational_units_to_add\030\002 \003(\0132\033.Ydb.Cms" +
+      ".ComputationalUnits\022B\n\035computational_uni" +
+      "ts_to_remove\030\003 \003(\0132\033.Ydb.Cms.Computation" +
+      "alUnits\0223\n\024storage_units_to_add\030\004 \003(\0132\025." +
+      "Ydb.Cms.StorageUnits\022L\n\037computational_un" +
+      "its_to_register\030\005 \003(\0132#.Ydb.Cms.Allocate",
+      "dComputationalUnit\022N\n!computational_unit" +
+      "s_to_deregister\030\006 \003(\0132#.Ydb.Cms.Allocate" +
+      "dComputationalUnit\0229\n\020operation_params\030\007" +
+      " \001(\0132\037.Ydb.Operations.OperationParams\022\022\n" +
+      "\ngeneration\030\010 \001(\004\"E\n\025AlterDatabaseRespon" +
       "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
-      "peration\"\222\001\n\026StorageUnitDescription\022\014\n\004k" +
-      "ind\030\001 \001(\t\022;\n\006labels\030\002 \003(\0132+.Ydb.Cms.Stor" +
-      "ageUnitDescription.LabelsEntry\032-\n\013Labels",
-      "Entry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001" +
-      "\n\033AvailabilityZoneDescription\022\014\n\004name\030\001 " +
-      "\001(\t\022@\n\006labels\030\002 \003(\01320.Ydb.Cms.Availabili" +
-      "tyZoneDescription.LabelsEntry\032-\n\013LabelsE" +
-      "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\302\001\n" +
-      "\034ComputationalUnitDescription\022\014\n\004kind\030\001 " +
-      "\001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.Cms.Computatio" +
-      "nalUnitDescription.LabelsEntry\022\"\n\032allowe" +
-      "d_availability_zones\030\003 \003(\t\032-\n\013LabelsEntr" +
-      "y\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"[\n\036Des",
-      "cribeDatabaseOptionsRequest\0229\n\020operation" +
-      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\"O\n\037DescribeDatabaseOptionsRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"\335\001\n\035DescribeDatabaseOptionsResul" +
-      "t\0226\n\rstorage_units\030\001 \003(\0132\037.Ydb.Cms.Stora" +
-      "geUnitDescription\022@\n\022availability_zones\030" +
-      "\002 \003(\0132$.Ydb.Cms.AvailabilityZoneDescript" +
-      "ion\022B\n\023computational_units\030\003 \003(\0132%.Ydb.C" +
-      "ms.ComputationalUnitDescriptionB\027\n\022com.y",
-      "andex.ydb.cms\370\001\001b\006proto3"
+      "peration\"Q\n\024ListDatabasesRequest\0229\n\020oper" +
+      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
+      "ationParams\"E\n\025ListDatabasesResponse\022,\n\t" +
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati",
+      "on\"$\n\023ListDatabasesResult\022\r\n\005paths\030\001 \003(\t" +
+      "\"`\n\025RemoveDatabaseRequest\022\014\n\004path\030\001 \001(\t\022" +
+      "9\n\020operation_params\030\002 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\"F\n\026RemoveDatabaseResp" +
+      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
+      ".Operation\"\222\001\n\026StorageUnitDescription\022\014\n" +
+      "\004kind\030\001 \001(\t\022;\n\006labels\030\002 \003(\0132+.Ydb.Cms.St" +
+      "orageUnitDescription.LabelsEntry\032-\n\013Labe" +
+      "lsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"" +
+      "\234\001\n\033AvailabilityZoneDescription\022\014\n\004name\030",
+      "\001 \001(\t\022@\n\006labels\030\002 \003(\01320.Ydb.Cms.Availabi" +
+      "lityZoneDescription.LabelsEntry\032-\n\013Label" +
+      "sEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\302" +
+      "\001\n\034ComputationalUnitDescription\022\014\n\004kind\030" +
+      "\001 \001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.Cms.Computat" +
+      "ionalUnitDescription.LabelsEntry\022\"\n\032allo" +
+      "wed_availability_zones\030\003 \003(\t\032-\n\013LabelsEn" +
+      "try\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"[\n\036D" +
+      "escribeDatabaseOptionsRequest\0229\n\020operati" +
+      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati",
+      "onParams\"O\n\037DescribeDatabaseOptionsRespo" +
+      "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
+      "Operation\"\335\001\n\035DescribeDatabaseOptionsRes" +
+      "ult\0226\n\rstorage_units\030\001 \003(\0132\037.Ydb.Cms.Sto" +
+      "rageUnitDescription\022@\n\022availability_zone" +
+      "s\030\002 \003(\0132$.Ydb.Cms.AvailabilityZoneDescri" +
+      "ption\022B\n\023computational_units\030\003 \003(\0132%.Ydb" +
+      ".Cms.ComputationalUnitDescriptionB\027\n\022com" +
+      ".yandex.ydb.cms\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -23401,92 +25146,98 @@ public final class YdbCms {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_Resources_descriptor,
         new java.lang.String[] { "StorageUnits", "ComputationalUnits", });
-    internal_static_Ydb_Cms_DatabaseOptions_descriptor =
+    internal_static_Ydb_Cms_ServerlessResources_descriptor =
       getDescriptor().getMessageTypes().get(4);
+    internal_static_Ydb_Cms_ServerlessResources_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Cms_ServerlessResources_descriptor,
+        new java.lang.String[] { "SharedDatabasePath", });
+    internal_static_Ydb_Cms_DatabaseOptions_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_Ydb_Cms_DatabaseOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DatabaseOptions_descriptor,
         new java.lang.String[] { "DisableTxService", "DisableExternalSubdomain", });
     internal_static_Ydb_Cms_Attribute_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_Ydb_Cms_Attribute_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_Attribute_descriptor,
         new java.lang.String[] { "Name", "Value", });
     internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_Ydb_Cms_CreateDatabaseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Path", "Resources", "Options", "Attributes", });
+        new java.lang.String[] { "OperationParams", "Path", "Resources", "SharedResources", "ServerlessResources", "Options", "Attributes", "ResourcesKind", });
     internal_static_Ydb_Cms_CreateDatabaseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Ydb_Cms_CreateDatabaseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_CreateDatabaseResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_GetDatabaseStatusRequest_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Cms_GetDatabaseStatusRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_GetDatabaseStatusRequest_descriptor,
         new java.lang.String[] { "Path", "OperationParams", });
     internal_static_Ydb_Cms_GetDatabaseStatusResponse_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_Ydb_Cms_GetDatabaseStatusResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_GetDatabaseStatusResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_GetDatabaseStatusResult_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_Ydb_Cms_GetDatabaseStatusResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_GetDatabaseStatusResult_descriptor,
-        new java.lang.String[] { "Path", "State", "RequiredResources", "AllocatedResources", "RegisteredResources", "Generation", });
+        new java.lang.String[] { "Path", "State", "RequiredResources", "RequiredSharedResources", "ServerlessResources", "AllocatedResources", "RegisteredResources", "Generation", "ResourcesKind", });
     internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_Ydb_Cms_AlterDatabaseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor,
         new java.lang.String[] { "Path", "ComputationalUnitsToAdd", "ComputationalUnitsToRemove", "StorageUnitsToAdd", "ComputationalUnitsToRegister", "ComputationalUnitsToDeregister", "OperationParams", "Generation", });
     internal_static_Ydb_Cms_AlterDatabaseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_Ydb_Cms_AlterDatabaseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_AlterDatabaseResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_ListDatabasesRequest_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_Ydb_Cms_ListDatabasesRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ListDatabasesRequest_descriptor,
         new java.lang.String[] { "OperationParams", });
     internal_static_Ydb_Cms_ListDatabasesResponse_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_Ydb_Cms_ListDatabasesResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ListDatabasesResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_ListDatabasesResult_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_Ydb_Cms_ListDatabasesResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ListDatabasesResult_descriptor,
         new java.lang.String[] { "Paths", });
     internal_static_Ydb_Cms_RemoveDatabaseRequest_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_Ydb_Cms_RemoveDatabaseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_RemoveDatabaseRequest_descriptor,
         new java.lang.String[] { "Path", "OperationParams", });
     internal_static_Ydb_Cms_RemoveDatabaseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_Ydb_Cms_RemoveDatabaseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_RemoveDatabaseResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_StorageUnitDescription_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_Ydb_Cms_StorageUnitDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_StorageUnitDescription_descriptor,
@@ -23498,7 +25249,7 @@ public final class YdbCms {
         internal_static_Ydb_Cms_StorageUnitDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Cms_AvailabilityZoneDescription_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_Ydb_Cms_AvailabilityZoneDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_AvailabilityZoneDescription_descriptor,
@@ -23510,7 +25261,7 @@ public final class YdbCms {
         internal_static_Ydb_Cms_AvailabilityZoneDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Cms_ComputationalUnitDescription_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_Ydb_Cms_ComputationalUnitDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ComputationalUnitDescription_descriptor,
@@ -23522,19 +25273,19 @@ public final class YdbCms {
         internal_static_Ydb_Cms_ComputationalUnitDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_descriptor,
         new java.lang.String[] { "OperationParams", });
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_descriptor,
