@@ -2532,6 +2532,583 @@ public final class YdbQueryStats {
 
   }
 
+  public interface CompilationStatsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.TableStats.CompilationStats)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>bool from_cache = 1;</code>
+     */
+    boolean getFromCache();
+
+    /**
+     * <code>uint64 duration_us = 2;</code>
+     */
+    long getDurationUs();
+
+    /**
+     * <code>uint64 cpu_time_us = 3;</code>
+     */
+    long getCpuTimeUs();
+  }
+  /**
+   * Protobuf type {@code Ydb.TableStats.CompilationStats}
+   */
+  public  static final class CompilationStats extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.TableStats.CompilationStats)
+      CompilationStatsOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use CompilationStats.newBuilder() to construct.
+    private CompilationStats(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CompilationStats() {
+      fromCache_ = false;
+      durationUs_ = 0L;
+      cpuTimeUs_ = 0L;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CompilationStats(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+
+              fromCache_ = input.readBool();
+              break;
+            }
+            case 16: {
+
+              durationUs_ = input.readUInt64();
+              break;
+            }
+            case 24: {
+
+              cpuTimeUs_ = input.readUInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_CompilationStats_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_CompilationStats_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.YdbQueryStats.CompilationStats.class, tech.ydb.YdbQueryStats.CompilationStats.Builder.class);
+    }
+
+    public static final int FROM_CACHE_FIELD_NUMBER = 1;
+    private boolean fromCache_;
+    /**
+     * <code>bool from_cache = 1;</code>
+     */
+    public boolean getFromCache() {
+      return fromCache_;
+    }
+
+    public static final int DURATION_US_FIELD_NUMBER = 2;
+    private long durationUs_;
+    /**
+     * <code>uint64 duration_us = 2;</code>
+     */
+    public long getDurationUs() {
+      return durationUs_;
+    }
+
+    public static final int CPU_TIME_US_FIELD_NUMBER = 3;
+    private long cpuTimeUs_;
+    /**
+     * <code>uint64 cpu_time_us = 3;</code>
+     */
+    public long getCpuTimeUs() {
+      return cpuTimeUs_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (fromCache_ != false) {
+        output.writeBool(1, fromCache_);
+      }
+      if (durationUs_ != 0L) {
+        output.writeUInt64(2, durationUs_);
+      }
+      if (cpuTimeUs_ != 0L) {
+        output.writeUInt64(3, cpuTimeUs_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (fromCache_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, fromCache_);
+      }
+      if (durationUs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(2, durationUs_);
+      }
+      if (cpuTimeUs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(3, cpuTimeUs_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.YdbQueryStats.CompilationStats)) {
+        return super.equals(obj);
+      }
+      tech.ydb.YdbQueryStats.CompilationStats other = (tech.ydb.YdbQueryStats.CompilationStats) obj;
+
+      boolean result = true;
+      result = result && (getFromCache()
+          == other.getFromCache());
+      result = result && (getDurationUs()
+          == other.getDurationUs());
+      result = result && (getCpuTimeUs()
+          == other.getCpuTimeUs());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + FROM_CACHE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getFromCache());
+      hash = (37 * hash) + DURATION_US_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getDurationUs());
+      hash = (37 * hash) + CPU_TIME_US_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getCpuTimeUs());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.YdbQueryStats.CompilationStats parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.YdbQueryStats.CompilationStats parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.YdbQueryStats.CompilationStats parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.YdbQueryStats.CompilationStats parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.YdbQueryStats.CompilationStats parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.YdbQueryStats.CompilationStats parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.YdbQueryStats.CompilationStats parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.YdbQueryStats.CompilationStats parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.YdbQueryStats.CompilationStats parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.YdbQueryStats.CompilationStats parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.YdbQueryStats.CompilationStats parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.YdbQueryStats.CompilationStats parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.YdbQueryStats.CompilationStats prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.TableStats.CompilationStats}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.TableStats.CompilationStats)
+        tech.ydb.YdbQueryStats.CompilationStatsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_CompilationStats_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_CompilationStats_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.YdbQueryStats.CompilationStats.class, tech.ydb.YdbQueryStats.CompilationStats.Builder.class);
+      }
+
+      // Construct using tech.ydb.YdbQueryStats.CompilationStats.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        fromCache_ = false;
+
+        durationUs_ = 0L;
+
+        cpuTimeUs_ = 0L;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_CompilationStats_descriptor;
+      }
+
+      public tech.ydb.YdbQueryStats.CompilationStats getDefaultInstanceForType() {
+        return tech.ydb.YdbQueryStats.CompilationStats.getDefaultInstance();
+      }
+
+      public tech.ydb.YdbQueryStats.CompilationStats build() {
+        tech.ydb.YdbQueryStats.CompilationStats result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.YdbQueryStats.CompilationStats buildPartial() {
+        tech.ydb.YdbQueryStats.CompilationStats result = new tech.ydb.YdbQueryStats.CompilationStats(this);
+        result.fromCache_ = fromCache_;
+        result.durationUs_ = durationUs_;
+        result.cpuTimeUs_ = cpuTimeUs_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.YdbQueryStats.CompilationStats) {
+          return mergeFrom((tech.ydb.YdbQueryStats.CompilationStats)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.YdbQueryStats.CompilationStats other) {
+        if (other == tech.ydb.YdbQueryStats.CompilationStats.getDefaultInstance()) return this;
+        if (other.getFromCache() != false) {
+          setFromCache(other.getFromCache());
+        }
+        if (other.getDurationUs() != 0L) {
+          setDurationUs(other.getDurationUs());
+        }
+        if (other.getCpuTimeUs() != 0L) {
+          setCpuTimeUs(other.getCpuTimeUs());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.YdbQueryStats.CompilationStats parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.YdbQueryStats.CompilationStats) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private boolean fromCache_ ;
+      /**
+       * <code>bool from_cache = 1;</code>
+       */
+      public boolean getFromCache() {
+        return fromCache_;
+      }
+      /**
+       * <code>bool from_cache = 1;</code>
+       */
+      public Builder setFromCache(boolean value) {
+        
+        fromCache_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool from_cache = 1;</code>
+       */
+      public Builder clearFromCache() {
+        
+        fromCache_ = false;
+        onChanged();
+        return this;
+      }
+
+      private long durationUs_ ;
+      /**
+       * <code>uint64 duration_us = 2;</code>
+       */
+      public long getDurationUs() {
+        return durationUs_;
+      }
+      /**
+       * <code>uint64 duration_us = 2;</code>
+       */
+      public Builder setDurationUs(long value) {
+        
+        durationUs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 duration_us = 2;</code>
+       */
+      public Builder clearDurationUs() {
+        
+        durationUs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long cpuTimeUs_ ;
+      /**
+       * <code>uint64 cpu_time_us = 3;</code>
+       */
+      public long getCpuTimeUs() {
+        return cpuTimeUs_;
+      }
+      /**
+       * <code>uint64 cpu_time_us = 3;</code>
+       */
+      public Builder setCpuTimeUs(long value) {
+        
+        cpuTimeUs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 cpu_time_us = 3;</code>
+       */
+      public Builder clearCpuTimeUs() {
+        
+        cpuTimeUs_ = 0L;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.TableStats.CompilationStats)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.TableStats.CompilationStats)
+    private static final tech.ydb.YdbQueryStats.CompilationStats DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.YdbQueryStats.CompilationStats();
+    }
+
+    public static tech.ydb.YdbQueryStats.CompilationStats getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CompilationStats>
+        PARSER = new com.google.protobuf.AbstractParser<CompilationStats>() {
+      public CompilationStats parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new CompilationStats(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CompilationStats> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CompilationStats> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.YdbQueryStats.CompilationStats getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface QueryStatsOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.TableStats.QueryStats)
       com.google.protobuf.MessageOrBuilder {
@@ -2579,6 +3156,24 @@ public final class YdbQueryStats {
      */
     tech.ydb.YdbQueryStats.QueryPhaseStatsOrBuilder getQueryPhasesOrBuilder(
         int index);
+
+    /**
+     * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+     */
+    boolean hasCompilation();
+    /**
+     * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+     */
+    tech.ydb.YdbQueryStats.CompilationStats getCompilation();
+    /**
+     * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+     */
+    tech.ydb.YdbQueryStats.CompilationStatsOrBuilder getCompilationOrBuilder();
+
+    /**
+     * <code>uint64 process_cpu_time_us = 3;</code>
+     */
+    long getProcessCpuTimeUs();
   }
   /**
    * Protobuf type {@code Ydb.TableStats.QueryStats}
@@ -2594,6 +3189,7 @@ public final class YdbQueryStats {
     }
     private QueryStats() {
       queryPhases_ = java.util.Collections.emptyList();
+      processCpuTimeUs_ = 0L;
     }
 
     @java.lang.Override
@@ -2633,6 +3229,24 @@ public final class YdbQueryStats {
                   input.readMessage(tech.ydb.YdbQueryStats.QueryPhaseStats.parser(), extensionRegistry));
               break;
             }
+            case 18: {
+              tech.ydb.YdbQueryStats.CompilationStats.Builder subBuilder = null;
+              if (compilation_ != null) {
+                subBuilder = compilation_.toBuilder();
+              }
+              compilation_ = input.readMessage(tech.ydb.YdbQueryStats.CompilationStats.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(compilation_);
+                compilation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 24: {
+
+              processCpuTimeUs_ = input.readUInt64();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2660,6 +3274,7 @@ public final class YdbQueryStats {
               tech.ydb.YdbQueryStats.QueryStats.class, tech.ydb.YdbQueryStats.QueryStats.Builder.class);
     }
 
+    private int bitField0_;
     public static final int QUERY_PHASES_FIELD_NUMBER = 1;
     private java.util.List<tech.ydb.YdbQueryStats.QueryPhaseStats> queryPhases_;
     /**
@@ -2715,6 +3330,36 @@ public final class YdbQueryStats {
       return queryPhases_.get(index);
     }
 
+    public static final int COMPILATION_FIELD_NUMBER = 2;
+    private tech.ydb.YdbQueryStats.CompilationStats compilation_;
+    /**
+     * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+     */
+    public boolean hasCompilation() {
+      return compilation_ != null;
+    }
+    /**
+     * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+     */
+    public tech.ydb.YdbQueryStats.CompilationStats getCompilation() {
+      return compilation_ == null ? tech.ydb.YdbQueryStats.CompilationStats.getDefaultInstance() : compilation_;
+    }
+    /**
+     * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+     */
+    public tech.ydb.YdbQueryStats.CompilationStatsOrBuilder getCompilationOrBuilder() {
+      return getCompilation();
+    }
+
+    public static final int PROCESS_CPU_TIME_US_FIELD_NUMBER = 3;
+    private long processCpuTimeUs_;
+    /**
+     * <code>uint64 process_cpu_time_us = 3;</code>
+     */
+    public long getProcessCpuTimeUs() {
+      return processCpuTimeUs_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2730,6 +3375,12 @@ public final class YdbQueryStats {
       for (int i = 0; i < queryPhases_.size(); i++) {
         output.writeMessage(1, queryPhases_.get(i));
       }
+      if (compilation_ != null) {
+        output.writeMessage(2, getCompilation());
+      }
+      if (processCpuTimeUs_ != 0L) {
+        output.writeUInt64(3, processCpuTimeUs_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2741,6 +3392,14 @@ public final class YdbQueryStats {
       for (int i = 0; i < queryPhases_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, queryPhases_.get(i));
+      }
+      if (compilation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getCompilation());
+      }
+      if (processCpuTimeUs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(3, processCpuTimeUs_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2760,6 +3419,13 @@ public final class YdbQueryStats {
       boolean result = true;
       result = result && getQueryPhasesList()
           .equals(other.getQueryPhasesList());
+      result = result && (hasCompilation() == other.hasCompilation());
+      if (hasCompilation()) {
+        result = result && getCompilation()
+            .equals(other.getCompilation());
+      }
+      result = result && (getProcessCpuTimeUs()
+          == other.getProcessCpuTimeUs());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2775,6 +3441,13 @@ public final class YdbQueryStats {
         hash = (37 * hash) + QUERY_PHASES_FIELD_NUMBER;
         hash = (53 * hash) + getQueryPhasesList().hashCode();
       }
+      if (hasCompilation()) {
+        hash = (37 * hash) + COMPILATION_FIELD_NUMBER;
+        hash = (53 * hash) + getCompilation().hashCode();
+      }
+      hash = (37 * hash) + PROCESS_CPU_TIME_US_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getProcessCpuTimeUs());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2911,6 +3584,14 @@ public final class YdbQueryStats {
         } else {
           queryPhasesBuilder_.clear();
         }
+        if (compilationBuilder_ == null) {
+          compilation_ = null;
+        } else {
+          compilation_ = null;
+          compilationBuilder_ = null;
+        }
+        processCpuTimeUs_ = 0L;
+
         return this;
       }
 
@@ -2934,6 +3615,7 @@ public final class YdbQueryStats {
       public tech.ydb.YdbQueryStats.QueryStats buildPartial() {
         tech.ydb.YdbQueryStats.QueryStats result = new tech.ydb.YdbQueryStats.QueryStats(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (queryPhasesBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             queryPhases_ = java.util.Collections.unmodifiableList(queryPhases_);
@@ -2943,6 +3625,13 @@ public final class YdbQueryStats {
         } else {
           result.queryPhases_ = queryPhasesBuilder_.build();
         }
+        if (compilationBuilder_ == null) {
+          result.compilation_ = compilation_;
+        } else {
+          result.compilation_ = compilationBuilder_.build();
+        }
+        result.processCpuTimeUs_ = processCpuTimeUs_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -3009,6 +3698,12 @@ public final class YdbQueryStats {
               queryPhasesBuilder_.addAllMessages(other.queryPhases_);
             }
           }
+        }
+        if (other.hasCompilation()) {
+          mergeCompilation(other.getCompilation());
+        }
+        if (other.getProcessCpuTimeUs() != 0L) {
+          setProcessCpuTimeUs(other.getProcessCpuTimeUs());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -3349,6 +4044,149 @@ public final class YdbQueryStats {
         }
         return queryPhasesBuilder_;
       }
+
+      private tech.ydb.YdbQueryStats.CompilationStats compilation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.YdbQueryStats.CompilationStats, tech.ydb.YdbQueryStats.CompilationStats.Builder, tech.ydb.YdbQueryStats.CompilationStatsOrBuilder> compilationBuilder_;
+      /**
+       * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+       */
+      public boolean hasCompilation() {
+        return compilationBuilder_ != null || compilation_ != null;
+      }
+      /**
+       * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+       */
+      public tech.ydb.YdbQueryStats.CompilationStats getCompilation() {
+        if (compilationBuilder_ == null) {
+          return compilation_ == null ? tech.ydb.YdbQueryStats.CompilationStats.getDefaultInstance() : compilation_;
+        } else {
+          return compilationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+       */
+      public Builder setCompilation(tech.ydb.YdbQueryStats.CompilationStats value) {
+        if (compilationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          compilation_ = value;
+          onChanged();
+        } else {
+          compilationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+       */
+      public Builder setCompilation(
+          tech.ydb.YdbQueryStats.CompilationStats.Builder builderForValue) {
+        if (compilationBuilder_ == null) {
+          compilation_ = builderForValue.build();
+          onChanged();
+        } else {
+          compilationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+       */
+      public Builder mergeCompilation(tech.ydb.YdbQueryStats.CompilationStats value) {
+        if (compilationBuilder_ == null) {
+          if (compilation_ != null) {
+            compilation_ =
+              tech.ydb.YdbQueryStats.CompilationStats.newBuilder(compilation_).mergeFrom(value).buildPartial();
+          } else {
+            compilation_ = value;
+          }
+          onChanged();
+        } else {
+          compilationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+       */
+      public Builder clearCompilation() {
+        if (compilationBuilder_ == null) {
+          compilation_ = null;
+          onChanged();
+        } else {
+          compilation_ = null;
+          compilationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+       */
+      public tech.ydb.YdbQueryStats.CompilationStats.Builder getCompilationBuilder() {
+        
+        onChanged();
+        return getCompilationFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+       */
+      public tech.ydb.YdbQueryStats.CompilationStatsOrBuilder getCompilationOrBuilder() {
+        if (compilationBuilder_ != null) {
+          return compilationBuilder_.getMessageOrBuilder();
+        } else {
+          return compilation_ == null ?
+              tech.ydb.YdbQueryStats.CompilationStats.getDefaultInstance() : compilation_;
+        }
+      }
+      /**
+       * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.YdbQueryStats.CompilationStats, tech.ydb.YdbQueryStats.CompilationStats.Builder, tech.ydb.YdbQueryStats.CompilationStatsOrBuilder> 
+          getCompilationFieldBuilder() {
+        if (compilationBuilder_ == null) {
+          compilationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.YdbQueryStats.CompilationStats, tech.ydb.YdbQueryStats.CompilationStats.Builder, tech.ydb.YdbQueryStats.CompilationStatsOrBuilder>(
+                  getCompilation(),
+                  getParentForChildren(),
+                  isClean());
+          compilation_ = null;
+        }
+        return compilationBuilder_;
+      }
+
+      private long processCpuTimeUs_ ;
+      /**
+       * <code>uint64 process_cpu_time_us = 3;</code>
+       */
+      public long getProcessCpuTimeUs() {
+        return processCpuTimeUs_;
+      }
+      /**
+       * <code>uint64 process_cpu_time_us = 3;</code>
+       */
+      public Builder setProcessCpuTimeUs(long value) {
+        
+        processCpuTimeUs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 process_cpu_time_us = 3;</code>
+       */
+      public Builder clearProcessCpuTimeUs() {
+        
+        processCpuTimeUs_ = 0L;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -3414,6 +4252,11 @@ public final class YdbQueryStats {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_TableStats_QueryPhaseStats_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_TableStats_CompilationStats_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_TableStats_CompilationStats_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_TableStats_QueryStats_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -3437,9 +4280,13 @@ public final class YdbQueryStats {
       "rationStatsJ\004\010\002\020\003\"s\n\017QueryPhaseStats\022\023\n\013" +
       "duration_us\030\001 \001(\004\0226\n\014table_access\030\002 \003(\0132" +
       " .Ydb.TableStats.TableAccessStats\022\023\n\013cpu",
-      "_time_us\030\003 \001(\004\"C\n\nQueryStats\0225\n\014query_ph" +
-      "ases\030\001 \003(\0132\037.Ydb.TableStats.QueryPhaseSt" +
-      "atsB\023\n\016tech.ydb\370\001\001b\006proto3"
+      "_time_us\030\003 \001(\004\"P\n\020CompilationStats\022\022\n\nfr" +
+      "om_cache\030\001 \001(\010\022\023\n\013duration_us\030\002 \001(\004\022\023\n\013c" +
+      "pu_time_us\030\003 \001(\004\"\227\001\n\nQueryStats\0225\n\014query" +
+      "_phases\030\001 \003(\0132\037.Ydb.TableStats.QueryPhas" +
+      "eStats\0225\n\013compilation\030\002 \001(\0132 .Ydb.TableS" +
+      "tats.CompilationStats\022\033\n\023process_cpu_tim" +
+      "e_us\030\003 \001(\004B\023\n\016tech.ydb\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3471,12 +4318,18 @@ public final class YdbQueryStats {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_TableStats_QueryPhaseStats_descriptor,
         new java.lang.String[] { "DurationUs", "TableAccess", "CpuTimeUs", });
-    internal_static_Ydb_TableStats_QueryStats_descriptor =
+    internal_static_Ydb_TableStats_CompilationStats_descriptor =
       getDescriptor().getMessageTypes().get(3);
+    internal_static_Ydb_TableStats_CompilationStats_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_TableStats_CompilationStats_descriptor,
+        new java.lang.String[] { "FromCache", "DurationUs", "CpuTimeUs", });
+    internal_static_Ydb_TableStats_QueryStats_descriptor =
+      getDescriptor().getMessageTypes().get(4);
     internal_static_Ydb_TableStats_QueryStats_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_TableStats_QueryStats_descriptor,
-        new java.lang.String[] { "QueryPhases", });
+        new java.lang.String[] { "QueryPhases", "Compilation", "ProcessCpuTimeUs", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
