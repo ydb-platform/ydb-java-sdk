@@ -6574,34 +6574,34 @@ public final class YdbTable {
 
   }
 
-  public interface StorageSettingsOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Table.StorageSettings)
+  public interface StoragePoolOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Table.StoragePool)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string storage_kind = 1;</code>
+     * <code>string media = 1;</code>
      */
-    java.lang.String getStorageKind();
+    java.lang.String getMedia();
     /**
-     * <code>string storage_kind = 1;</code>
+     * <code>string media = 1;</code>
      */
     com.google.protobuf.ByteString
-        getStorageKindBytes();
+        getMediaBytes();
   }
   /**
-   * Protobuf type {@code Ydb.Table.StorageSettings}
+   * Protobuf type {@code Ydb.Table.StoragePool}
    */
-  public  static final class StorageSettings extends
+  public  static final class StoragePool extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Table.StorageSettings)
-      StorageSettingsOrBuilder {
+      // @@protoc_insertion_point(message_implements:Ydb.Table.StoragePool)
+      StoragePoolOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use StorageSettings.newBuilder() to construct.
-    private StorageSettings(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use StoragePool.newBuilder() to construct.
+    private StoragePool(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private StorageSettings() {
-      storageKind_ = "";
+    private StoragePool() {
+      media_ = "";
     }
 
     @java.lang.Override
@@ -6609,7 +6609,7 @@ public final class YdbTable {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private StorageSettings(
+    private StoragePool(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -6635,7 +6635,7 @@ public final class YdbTable {
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              storageKind_ = s;
+              media_ = s;
               break;
             }
           }
@@ -6652,44 +6652,44 @@ public final class YdbTable {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StorageSettings_descriptor;
+      return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StoragePool_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StorageSettings_fieldAccessorTable
+      return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StoragePool_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              tech.ydb.table.YdbTable.StorageSettings.class, tech.ydb.table.YdbTable.StorageSettings.Builder.class);
+              tech.ydb.table.YdbTable.StoragePool.class, tech.ydb.table.YdbTable.StoragePool.Builder.class);
     }
 
-    public static final int STORAGE_KIND_FIELD_NUMBER = 1;
-    private volatile java.lang.Object storageKind_;
+    public static final int MEDIA_FIELD_NUMBER = 1;
+    private volatile java.lang.Object media_;
     /**
-     * <code>string storage_kind = 1;</code>
+     * <code>string media = 1;</code>
      */
-    public java.lang.String getStorageKind() {
-      java.lang.Object ref = storageKind_;
+    public java.lang.String getMedia() {
+      java.lang.Object ref = media_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        storageKind_ = s;
+        media_ = s;
         return s;
       }
     }
     /**
-     * <code>string storage_kind = 1;</code>
+     * <code>string media = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getStorageKindBytes() {
-      java.lang.Object ref = storageKind_;
+        getMediaBytes() {
+      java.lang.Object ref = media_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        storageKind_ = b;
+        media_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -6708,8 +6708,8 @@ public final class YdbTable {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getStorageKindBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, storageKind_);
+      if (!getMediaBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, media_);
       }
       unknownFields.writeTo(output);
     }
@@ -6719,8 +6719,8 @@ public final class YdbTable {
       if (size != -1) return size;
 
       size = 0;
-      if (!getStorageKindBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, storageKind_);
+      if (!getMediaBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, media_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6732,14 +6732,14 @@ public final class YdbTable {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof tech.ydb.table.YdbTable.StorageSettings)) {
+      if (!(obj instanceof tech.ydb.table.YdbTable.StoragePool)) {
         return super.equals(obj);
       }
-      tech.ydb.table.YdbTable.StorageSettings other = (tech.ydb.table.YdbTable.StorageSettings) obj;
+      tech.ydb.table.YdbTable.StoragePool other = (tech.ydb.table.YdbTable.StoragePool) obj;
 
       boolean result = true;
-      result = result && getStorageKind()
-          .equals(other.getStorageKind());
+      result = result && getMedia()
+          .equals(other.getMedia());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -6751,76 +6751,76 @@ public final class YdbTable {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + STORAGE_KIND_FIELD_NUMBER;
-      hash = (53 * hash) + getStorageKind().hashCode();
+      hash = (37 * hash) + MEDIA_FIELD_NUMBER;
+      hash = (53 * hash) + getMedia().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
+    public static tech.ydb.table.YdbTable.StoragePool parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
+    public static tech.ydb.table.YdbTable.StoragePool parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
+    public static tech.ydb.table.YdbTable.StoragePool parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
+    public static tech.ydb.table.YdbTable.StoragePool parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(byte[] data)
+    public static tech.ydb.table.YdbTable.StoragePool parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
+    public static tech.ydb.table.YdbTable.StoragePool parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(java.io.InputStream input)
+    public static tech.ydb.table.YdbTable.StoragePool parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
+    public static tech.ydb.table.YdbTable.StoragePool parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.table.YdbTable.StorageSettings parseDelimitedFrom(java.io.InputStream input)
+    public static tech.ydb.table.YdbTable.StoragePool parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static tech.ydb.table.YdbTable.StorageSettings parseDelimitedFrom(
+    public static tech.ydb.table.YdbTable.StoragePool parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
+    public static tech.ydb.table.YdbTable.StoragePool parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
+    public static tech.ydb.table.YdbTable.StoragePool parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -6832,7 +6832,7 @@ public final class YdbTable {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(tech.ydb.table.YdbTable.StorageSettings prototype) {
+    public static Builder newBuilder(tech.ydb.table.YdbTable.StoragePool prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -6847,25 +6847,25 @@ public final class YdbTable {
       return builder;
     }
     /**
-     * Protobuf type {@code Ydb.Table.StorageSettings}
+     * Protobuf type {@code Ydb.Table.StoragePool}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Table.StorageSettings)
-        tech.ydb.table.YdbTable.StorageSettingsOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Ydb.Table.StoragePool)
+        tech.ydb.table.YdbTable.StoragePoolOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StorageSettings_descriptor;
+        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StoragePool_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StorageSettings_fieldAccessorTable
+        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StoragePool_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.table.YdbTable.StorageSettings.class, tech.ydb.table.YdbTable.StorageSettings.Builder.class);
+                tech.ydb.table.YdbTable.StoragePool.class, tech.ydb.table.YdbTable.StoragePool.Builder.class);
       }
 
-      // Construct using tech.ydb.table.YdbTable.StorageSettings.newBuilder()
+      // Construct using tech.ydb.table.YdbTable.StoragePool.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -6882,31 +6882,31 @@ public final class YdbTable {
       }
       public Builder clear() {
         super.clear();
-        storageKind_ = "";
+        media_ = "";
 
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StorageSettings_descriptor;
+        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StoragePool_descriptor;
       }
 
-      public tech.ydb.table.YdbTable.StorageSettings getDefaultInstanceForType() {
-        return tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance();
+      public tech.ydb.table.YdbTable.StoragePool getDefaultInstanceForType() {
+        return tech.ydb.table.YdbTable.StoragePool.getDefaultInstance();
       }
 
-      public tech.ydb.table.YdbTable.StorageSettings build() {
-        tech.ydb.table.YdbTable.StorageSettings result = buildPartial();
+      public tech.ydb.table.YdbTable.StoragePool build() {
+        tech.ydb.table.YdbTable.StoragePool result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public tech.ydb.table.YdbTable.StorageSettings buildPartial() {
-        tech.ydb.table.YdbTable.StorageSettings result = new tech.ydb.table.YdbTable.StorageSettings(this);
-        result.storageKind_ = storageKind_;
+      public tech.ydb.table.YdbTable.StoragePool buildPartial() {
+        tech.ydb.table.YdbTable.StoragePool result = new tech.ydb.table.YdbTable.StoragePool(this);
+        result.media_ = media_;
         onBuilt();
         return result;
       }
@@ -6938,18 +6938,18 @@ public final class YdbTable {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.table.YdbTable.StorageSettings) {
-          return mergeFrom((tech.ydb.table.YdbTable.StorageSettings)other);
+        if (other instanceof tech.ydb.table.YdbTable.StoragePool) {
+          return mergeFrom((tech.ydb.table.YdbTable.StoragePool)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(tech.ydb.table.YdbTable.StorageSettings other) {
-        if (other == tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance()) return this;
-        if (!other.getStorageKind().isEmpty()) {
-          storageKind_ = other.storageKind_;
+      public Builder mergeFrom(tech.ydb.table.YdbTable.StoragePool other) {
+        if (other == tech.ydb.table.YdbTable.StoragePool.getDefaultInstance()) return this;
+        if (!other.getMedia().isEmpty()) {
+          media_ = other.media_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -6965,11 +6965,11 @@ public final class YdbTable {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        tech.ydb.table.YdbTable.StorageSettings parsedMessage = null;
+        tech.ydb.table.YdbTable.StoragePool parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.table.YdbTable.StorageSettings) e.getUnfinishedMessage();
+          parsedMessage = (tech.ydb.table.YdbTable.StoragePool) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -6979,71 +6979,71 @@ public final class YdbTable {
         return this;
       }
 
-      private java.lang.Object storageKind_ = "";
+      private java.lang.Object media_ = "";
       /**
-       * <code>string storage_kind = 1;</code>
+       * <code>string media = 1;</code>
        */
-      public java.lang.String getStorageKind() {
-        java.lang.Object ref = storageKind_;
+      public java.lang.String getMedia() {
+        java.lang.Object ref = media_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          storageKind_ = s;
+          media_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string storage_kind = 1;</code>
+       * <code>string media = 1;</code>
        */
       public com.google.protobuf.ByteString
-          getStorageKindBytes() {
-        java.lang.Object ref = storageKind_;
+          getMediaBytes() {
+        java.lang.Object ref = media_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          storageKind_ = b;
+          media_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string storage_kind = 1;</code>
+       * <code>string media = 1;</code>
        */
-      public Builder setStorageKind(
+      public Builder setMedia(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        storageKind_ = value;
+        media_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string storage_kind = 1;</code>
+       * <code>string media = 1;</code>
        */
-      public Builder clearStorageKind() {
+      public Builder clearMedia() {
         
-        storageKind_ = getDefaultInstance().getStorageKind();
+        media_ = getDefaultInstance().getMedia();
         onChanged();
         return this;
       }
       /**
-       * <code>string storage_kind = 1;</code>
+       * <code>string media = 1;</code>
        */
-      public Builder setStorageKindBytes(
+      public Builder setMediaBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        storageKind_ = value;
+        media_ = value;
         onChanged();
         return this;
       }
@@ -7058,39 +7058,39 @@ public final class YdbTable {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Ydb.Table.StorageSettings)
+      // @@protoc_insertion_point(builder_scope:Ydb.Table.StoragePool)
     }
 
-    // @@protoc_insertion_point(class_scope:Ydb.Table.StorageSettings)
-    private static final tech.ydb.table.YdbTable.StorageSettings DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Ydb.Table.StoragePool)
+    private static final tech.ydb.table.YdbTable.StoragePool DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new tech.ydb.table.YdbTable.StorageSettings();
+      DEFAULT_INSTANCE = new tech.ydb.table.YdbTable.StoragePool();
     }
 
-    public static tech.ydb.table.YdbTable.StorageSettings getDefaultInstance() {
+    public static tech.ydb.table.YdbTable.StoragePool getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<StorageSettings>
-        PARSER = new com.google.protobuf.AbstractParser<StorageSettings>() {
-      public StorageSettings parsePartialFrom(
+    private static final com.google.protobuf.Parser<StoragePool>
+        PARSER = new com.google.protobuf.AbstractParser<StoragePool>() {
+      public StoragePool parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StorageSettings(input, extensionRegistry);
+          return new StoragePool(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<StorageSettings> parser() {
+    public static com.google.protobuf.Parser<StoragePool> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<StorageSettings> getParserForType() {
+    public com.google.protobuf.Parser<StoragePool> getParserForType() {
       return PARSER;
     }
 
-    public tech.ydb.table.YdbTable.StorageSettings getDefaultInstanceForType() {
+    public tech.ydb.table.YdbTable.StoragePool getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -7111,56 +7111,56 @@ public final class YdbTable {
         getPresetNameBytes();
 
     /**
-     * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+     * <code>.Ydb.Table.StoragePool syslog = 2;</code>
      */
     boolean hasSyslog();
     /**
-     * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+     * <code>.Ydb.Table.StoragePool syslog = 2;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettings getSyslog();
+    tech.ydb.table.YdbTable.StoragePool getSyslog();
     /**
-     * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+     * <code>.Ydb.Table.StoragePool syslog = 2;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getSyslogOrBuilder();
+    tech.ydb.table.YdbTable.StoragePoolOrBuilder getSyslogOrBuilder();
 
     /**
-     * <code>.Ydb.Table.StorageSettings log = 3;</code>
+     * <code>.Ydb.Table.StoragePool log = 3;</code>
      */
     boolean hasLog();
     /**
-     * <code>.Ydb.Table.StorageSettings log = 3;</code>
+     * <code>.Ydb.Table.StoragePool log = 3;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettings getLog();
+    tech.ydb.table.YdbTable.StoragePool getLog();
     /**
-     * <code>.Ydb.Table.StorageSettings log = 3;</code>
+     * <code>.Ydb.Table.StoragePool log = 3;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getLogOrBuilder();
+    tech.ydb.table.YdbTable.StoragePoolOrBuilder getLogOrBuilder();
 
     /**
-     * <code>.Ydb.Table.StorageSettings data = 4;</code>
+     * <code>.Ydb.Table.StoragePool data = 4;</code>
      */
     boolean hasData();
     /**
-     * <code>.Ydb.Table.StorageSettings data = 4;</code>
+     * <code>.Ydb.Table.StoragePool data = 4;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettings getData();
+    tech.ydb.table.YdbTable.StoragePool getData();
     /**
-     * <code>.Ydb.Table.StorageSettings data = 4;</code>
+     * <code>.Ydb.Table.StoragePool data = 4;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getDataOrBuilder();
+    tech.ydb.table.YdbTable.StoragePoolOrBuilder getDataOrBuilder();
 
     /**
-     * <code>.Ydb.Table.StorageSettings external = 5;</code>
+     * <code>.Ydb.Table.StoragePool external = 5;</code>
      */
     boolean hasExternal();
     /**
-     * <code>.Ydb.Table.StorageSettings external = 5;</code>
+     * <code>.Ydb.Table.StoragePool external = 5;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettings getExternal();
+    tech.ydb.table.YdbTable.StoragePool getExternal();
     /**
-     * <code>.Ydb.Table.StorageSettings external = 5;</code>
+     * <code>.Ydb.Table.StoragePool external = 5;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getExternalOrBuilder();
+    tech.ydb.table.YdbTable.StoragePoolOrBuilder getExternalOrBuilder();
 
     /**
      * <code>.Ydb.FeatureFlag.Status keep_in_memory = 6;</code>
@@ -7248,11 +7248,11 @@ public final class YdbTable {
               break;
             }
             case 18: {
-              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
+              tech.ydb.table.YdbTable.StoragePool.Builder subBuilder = null;
               if (syslog_ != null) {
                 subBuilder = syslog_.toBuilder();
               }
-              syslog_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
+              syslog_ = input.readMessage(tech.ydb.table.YdbTable.StoragePool.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(syslog_);
                 syslog_ = subBuilder.buildPartial();
@@ -7261,11 +7261,11 @@ public final class YdbTable {
               break;
             }
             case 26: {
-              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
+              tech.ydb.table.YdbTable.StoragePool.Builder subBuilder = null;
               if (log_ != null) {
                 subBuilder = log_.toBuilder();
               }
-              log_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
+              log_ = input.readMessage(tech.ydb.table.YdbTable.StoragePool.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(log_);
                 log_ = subBuilder.buildPartial();
@@ -7274,11 +7274,11 @@ public final class YdbTable {
               break;
             }
             case 34: {
-              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
+              tech.ydb.table.YdbTable.StoragePool.Builder subBuilder = null;
               if (data_ != null) {
                 subBuilder = data_.toBuilder();
               }
-              data_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
+              data_ = input.readMessage(tech.ydb.table.YdbTable.StoragePool.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(data_);
                 data_ = subBuilder.buildPartial();
@@ -7287,11 +7287,11 @@ public final class YdbTable {
               break;
             }
             case 42: {
-              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
+              tech.ydb.table.YdbTable.StoragePool.Builder subBuilder = null;
               if (external_ != null) {
                 subBuilder = external_.toBuilder();
               }
-              external_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
+              external_ = input.readMessage(tech.ydb.table.YdbTable.StoragePool.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(external_);
                 external_ = subBuilder.buildPartial();
@@ -7377,86 +7377,86 @@ public final class YdbTable {
     }
 
     public static final int SYSLOG_FIELD_NUMBER = 2;
-    private tech.ydb.table.YdbTable.StorageSettings syslog_;
+    private tech.ydb.table.YdbTable.StoragePool syslog_;
     /**
-     * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+     * <code>.Ydb.Table.StoragePool syslog = 2;</code>
      */
     public boolean hasSyslog() {
       return syslog_ != null;
     }
     /**
-     * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+     * <code>.Ydb.Table.StoragePool syslog = 2;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettings getSyslog() {
-      return syslog_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : syslog_;
+    public tech.ydb.table.YdbTable.StoragePool getSyslog() {
+      return syslog_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : syslog_;
     }
     /**
-     * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+     * <code>.Ydb.Table.StoragePool syslog = 2;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getSyslogOrBuilder() {
+    public tech.ydb.table.YdbTable.StoragePoolOrBuilder getSyslogOrBuilder() {
       return getSyslog();
     }
 
     public static final int LOG_FIELD_NUMBER = 3;
-    private tech.ydb.table.YdbTable.StorageSettings log_;
+    private tech.ydb.table.YdbTable.StoragePool log_;
     /**
-     * <code>.Ydb.Table.StorageSettings log = 3;</code>
+     * <code>.Ydb.Table.StoragePool log = 3;</code>
      */
     public boolean hasLog() {
       return log_ != null;
     }
     /**
-     * <code>.Ydb.Table.StorageSettings log = 3;</code>
+     * <code>.Ydb.Table.StoragePool log = 3;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettings getLog() {
-      return log_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : log_;
+    public tech.ydb.table.YdbTable.StoragePool getLog() {
+      return log_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : log_;
     }
     /**
-     * <code>.Ydb.Table.StorageSettings log = 3;</code>
+     * <code>.Ydb.Table.StoragePool log = 3;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getLogOrBuilder() {
+    public tech.ydb.table.YdbTable.StoragePoolOrBuilder getLogOrBuilder() {
       return getLog();
     }
 
     public static final int DATA_FIELD_NUMBER = 4;
-    private tech.ydb.table.YdbTable.StorageSettings data_;
+    private tech.ydb.table.YdbTable.StoragePool data_;
     /**
-     * <code>.Ydb.Table.StorageSettings data = 4;</code>
+     * <code>.Ydb.Table.StoragePool data = 4;</code>
      */
     public boolean hasData() {
       return data_ != null;
     }
     /**
-     * <code>.Ydb.Table.StorageSettings data = 4;</code>
+     * <code>.Ydb.Table.StoragePool data = 4;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettings getData() {
-      return data_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : data_;
+    public tech.ydb.table.YdbTable.StoragePool getData() {
+      return data_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : data_;
     }
     /**
-     * <code>.Ydb.Table.StorageSettings data = 4;</code>
+     * <code>.Ydb.Table.StoragePool data = 4;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getDataOrBuilder() {
+    public tech.ydb.table.YdbTable.StoragePoolOrBuilder getDataOrBuilder() {
       return getData();
     }
 
     public static final int EXTERNAL_FIELD_NUMBER = 5;
-    private tech.ydb.table.YdbTable.StorageSettings external_;
+    private tech.ydb.table.YdbTable.StoragePool external_;
     /**
-     * <code>.Ydb.Table.StorageSettings external = 5;</code>
+     * <code>.Ydb.Table.StoragePool external = 5;</code>
      */
     public boolean hasExternal() {
       return external_ != null;
     }
     /**
-     * <code>.Ydb.Table.StorageSettings external = 5;</code>
+     * <code>.Ydb.Table.StoragePool external = 5;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettings getExternal() {
-      return external_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : external_;
+    public tech.ydb.table.YdbTable.StoragePool getExternal() {
+      return external_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : external_;
     }
     /**
-     * <code>.Ydb.Table.StorageSettings external = 5;</code>
+     * <code>.Ydb.Table.StoragePool external = 5;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getExternalOrBuilder() {
+    public tech.ydb.table.YdbTable.StoragePoolOrBuilder getExternalOrBuilder() {
       return getExternal();
     }
 
@@ -8058,29 +8058,29 @@ public final class YdbTable {
         return this;
       }
 
-      private tech.ydb.table.YdbTable.StorageSettings syslog_ = null;
+      private tech.ydb.table.YdbTable.StoragePool syslog_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> syslogBuilder_;
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> syslogBuilder_;
       /**
-       * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+       * <code>.Ydb.Table.StoragePool syslog = 2;</code>
        */
       public boolean hasSyslog() {
         return syslogBuilder_ != null || syslog_ != null;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+       * <code>.Ydb.Table.StoragePool syslog = 2;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings getSyslog() {
+      public tech.ydb.table.YdbTable.StoragePool getSyslog() {
         if (syslogBuilder_ == null) {
-          return syslog_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : syslog_;
+          return syslog_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : syslog_;
         } else {
           return syslogBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+       * <code>.Ydb.Table.StoragePool syslog = 2;</code>
        */
-      public Builder setSyslog(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder setSyslog(tech.ydb.table.YdbTable.StoragePool value) {
         if (syslogBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -8094,10 +8094,10 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+       * <code>.Ydb.Table.StoragePool syslog = 2;</code>
        */
       public Builder setSyslog(
-          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
+          tech.ydb.table.YdbTable.StoragePool.Builder builderForValue) {
         if (syslogBuilder_ == null) {
           syslog_ = builderForValue.build();
           onChanged();
@@ -8108,13 +8108,13 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+       * <code>.Ydb.Table.StoragePool syslog = 2;</code>
        */
-      public Builder mergeSyslog(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder mergeSyslog(tech.ydb.table.YdbTable.StoragePool value) {
         if (syslogBuilder_ == null) {
           if (syslog_ != null) {
             syslog_ =
-              tech.ydb.table.YdbTable.StorageSettings.newBuilder(syslog_).mergeFrom(value).buildPartial();
+              tech.ydb.table.YdbTable.StoragePool.newBuilder(syslog_).mergeFrom(value).buildPartial();
           } else {
             syslog_ = value;
           }
@@ -8126,7 +8126,7 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+       * <code>.Ydb.Table.StoragePool syslog = 2;</code>
        */
       public Builder clearSyslog() {
         if (syslogBuilder_ == null) {
@@ -8140,33 +8140,33 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+       * <code>.Ydb.Table.StoragePool syslog = 2;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings.Builder getSyslogBuilder() {
+      public tech.ydb.table.YdbTable.StoragePool.Builder getSyslogBuilder() {
         
         onChanged();
         return getSyslogFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+       * <code>.Ydb.Table.StoragePool syslog = 2;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getSyslogOrBuilder() {
+      public tech.ydb.table.YdbTable.StoragePoolOrBuilder getSyslogOrBuilder() {
         if (syslogBuilder_ != null) {
           return syslogBuilder_.getMessageOrBuilder();
         } else {
           return syslog_ == null ?
-              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : syslog_;
+              tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : syslog_;
         }
       }
       /**
-       * <code>.Ydb.Table.StorageSettings syslog = 2;</code>
+       * <code>.Ydb.Table.StoragePool syslog = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> 
           getSyslogFieldBuilder() {
         if (syslogBuilder_ == null) {
           syslogBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
+              tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder>(
                   getSyslog(),
                   getParentForChildren(),
                   isClean());
@@ -8175,29 +8175,29 @@ public final class YdbTable {
         return syslogBuilder_;
       }
 
-      private tech.ydb.table.YdbTable.StorageSettings log_ = null;
+      private tech.ydb.table.YdbTable.StoragePool log_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> logBuilder_;
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> logBuilder_;
       /**
-       * <code>.Ydb.Table.StorageSettings log = 3;</code>
+       * <code>.Ydb.Table.StoragePool log = 3;</code>
        */
       public boolean hasLog() {
         return logBuilder_ != null || log_ != null;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings log = 3;</code>
+       * <code>.Ydb.Table.StoragePool log = 3;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings getLog() {
+      public tech.ydb.table.YdbTable.StoragePool getLog() {
         if (logBuilder_ == null) {
-          return log_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : log_;
+          return log_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : log_;
         } else {
           return logBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.Table.StorageSettings log = 3;</code>
+       * <code>.Ydb.Table.StoragePool log = 3;</code>
        */
-      public Builder setLog(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder setLog(tech.ydb.table.YdbTable.StoragePool value) {
         if (logBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -8211,10 +8211,10 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings log = 3;</code>
+       * <code>.Ydb.Table.StoragePool log = 3;</code>
        */
       public Builder setLog(
-          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
+          tech.ydb.table.YdbTable.StoragePool.Builder builderForValue) {
         if (logBuilder_ == null) {
           log_ = builderForValue.build();
           onChanged();
@@ -8225,13 +8225,13 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings log = 3;</code>
+       * <code>.Ydb.Table.StoragePool log = 3;</code>
        */
-      public Builder mergeLog(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder mergeLog(tech.ydb.table.YdbTable.StoragePool value) {
         if (logBuilder_ == null) {
           if (log_ != null) {
             log_ =
-              tech.ydb.table.YdbTable.StorageSettings.newBuilder(log_).mergeFrom(value).buildPartial();
+              tech.ydb.table.YdbTable.StoragePool.newBuilder(log_).mergeFrom(value).buildPartial();
           } else {
             log_ = value;
           }
@@ -8243,7 +8243,7 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings log = 3;</code>
+       * <code>.Ydb.Table.StoragePool log = 3;</code>
        */
       public Builder clearLog() {
         if (logBuilder_ == null) {
@@ -8257,33 +8257,33 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings log = 3;</code>
+       * <code>.Ydb.Table.StoragePool log = 3;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings.Builder getLogBuilder() {
+      public tech.ydb.table.YdbTable.StoragePool.Builder getLogBuilder() {
         
         onChanged();
         return getLogFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.Table.StorageSettings log = 3;</code>
+       * <code>.Ydb.Table.StoragePool log = 3;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getLogOrBuilder() {
+      public tech.ydb.table.YdbTable.StoragePoolOrBuilder getLogOrBuilder() {
         if (logBuilder_ != null) {
           return logBuilder_.getMessageOrBuilder();
         } else {
           return log_ == null ?
-              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : log_;
+              tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : log_;
         }
       }
       /**
-       * <code>.Ydb.Table.StorageSettings log = 3;</code>
+       * <code>.Ydb.Table.StoragePool log = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> 
           getLogFieldBuilder() {
         if (logBuilder_ == null) {
           logBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
+              tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder>(
                   getLog(),
                   getParentForChildren(),
                   isClean());
@@ -8292,29 +8292,29 @@ public final class YdbTable {
         return logBuilder_;
       }
 
-      private tech.ydb.table.YdbTable.StorageSettings data_ = null;
+      private tech.ydb.table.YdbTable.StoragePool data_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> dataBuilder_;
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> dataBuilder_;
       /**
-       * <code>.Ydb.Table.StorageSettings data = 4;</code>
+       * <code>.Ydb.Table.StoragePool data = 4;</code>
        */
       public boolean hasData() {
         return dataBuilder_ != null || data_ != null;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings data = 4;</code>
+       * <code>.Ydb.Table.StoragePool data = 4;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings getData() {
+      public tech.ydb.table.YdbTable.StoragePool getData() {
         if (dataBuilder_ == null) {
-          return data_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : data_;
+          return data_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : data_;
         } else {
           return dataBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.Table.StorageSettings data = 4;</code>
+       * <code>.Ydb.Table.StoragePool data = 4;</code>
        */
-      public Builder setData(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder setData(tech.ydb.table.YdbTable.StoragePool value) {
         if (dataBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -8328,10 +8328,10 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings data = 4;</code>
+       * <code>.Ydb.Table.StoragePool data = 4;</code>
        */
       public Builder setData(
-          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
+          tech.ydb.table.YdbTable.StoragePool.Builder builderForValue) {
         if (dataBuilder_ == null) {
           data_ = builderForValue.build();
           onChanged();
@@ -8342,13 +8342,13 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings data = 4;</code>
+       * <code>.Ydb.Table.StoragePool data = 4;</code>
        */
-      public Builder mergeData(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder mergeData(tech.ydb.table.YdbTable.StoragePool value) {
         if (dataBuilder_ == null) {
           if (data_ != null) {
             data_ =
-              tech.ydb.table.YdbTable.StorageSettings.newBuilder(data_).mergeFrom(value).buildPartial();
+              tech.ydb.table.YdbTable.StoragePool.newBuilder(data_).mergeFrom(value).buildPartial();
           } else {
             data_ = value;
           }
@@ -8360,7 +8360,7 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings data = 4;</code>
+       * <code>.Ydb.Table.StoragePool data = 4;</code>
        */
       public Builder clearData() {
         if (dataBuilder_ == null) {
@@ -8374,33 +8374,33 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings data = 4;</code>
+       * <code>.Ydb.Table.StoragePool data = 4;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings.Builder getDataBuilder() {
+      public tech.ydb.table.YdbTable.StoragePool.Builder getDataBuilder() {
         
         onChanged();
         return getDataFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.Table.StorageSettings data = 4;</code>
+       * <code>.Ydb.Table.StoragePool data = 4;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getDataOrBuilder() {
+      public tech.ydb.table.YdbTable.StoragePoolOrBuilder getDataOrBuilder() {
         if (dataBuilder_ != null) {
           return dataBuilder_.getMessageOrBuilder();
         } else {
           return data_ == null ?
-              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : data_;
+              tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : data_;
         }
       }
       /**
-       * <code>.Ydb.Table.StorageSettings data = 4;</code>
+       * <code>.Ydb.Table.StoragePool data = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> 
           getDataFieldBuilder() {
         if (dataBuilder_ == null) {
           dataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
+              tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder>(
                   getData(),
                   getParentForChildren(),
                   isClean());
@@ -8409,29 +8409,29 @@ public final class YdbTable {
         return dataBuilder_;
       }
 
-      private tech.ydb.table.YdbTable.StorageSettings external_ = null;
+      private tech.ydb.table.YdbTable.StoragePool external_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> externalBuilder_;
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> externalBuilder_;
       /**
-       * <code>.Ydb.Table.StorageSettings external = 5;</code>
+       * <code>.Ydb.Table.StoragePool external = 5;</code>
        */
       public boolean hasExternal() {
         return externalBuilder_ != null || external_ != null;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 5;</code>
+       * <code>.Ydb.Table.StoragePool external = 5;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings getExternal() {
+      public tech.ydb.table.YdbTable.StoragePool getExternal() {
         if (externalBuilder_ == null) {
-          return external_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : external_;
+          return external_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : external_;
         } else {
           return externalBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 5;</code>
+       * <code>.Ydb.Table.StoragePool external = 5;</code>
        */
-      public Builder setExternal(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder setExternal(tech.ydb.table.YdbTable.StoragePool value) {
         if (externalBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -8445,10 +8445,10 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 5;</code>
+       * <code>.Ydb.Table.StoragePool external = 5;</code>
        */
       public Builder setExternal(
-          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
+          tech.ydb.table.YdbTable.StoragePool.Builder builderForValue) {
         if (externalBuilder_ == null) {
           external_ = builderForValue.build();
           onChanged();
@@ -8459,13 +8459,13 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 5;</code>
+       * <code>.Ydb.Table.StoragePool external = 5;</code>
        */
-      public Builder mergeExternal(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder mergeExternal(tech.ydb.table.YdbTable.StoragePool value) {
         if (externalBuilder_ == null) {
           if (external_ != null) {
             external_ =
-              tech.ydb.table.YdbTable.StorageSettings.newBuilder(external_).mergeFrom(value).buildPartial();
+              tech.ydb.table.YdbTable.StoragePool.newBuilder(external_).mergeFrom(value).buildPartial();
           } else {
             external_ = value;
           }
@@ -8477,7 +8477,7 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 5;</code>
+       * <code>.Ydb.Table.StoragePool external = 5;</code>
        */
       public Builder clearExternal() {
         if (externalBuilder_ == null) {
@@ -8491,33 +8491,33 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 5;</code>
+       * <code>.Ydb.Table.StoragePool external = 5;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings.Builder getExternalBuilder() {
+      public tech.ydb.table.YdbTable.StoragePool.Builder getExternalBuilder() {
         
         onChanged();
         return getExternalFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 5;</code>
+       * <code>.Ydb.Table.StoragePool external = 5;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getExternalOrBuilder() {
+      public tech.ydb.table.YdbTable.StoragePoolOrBuilder getExternalOrBuilder() {
         if (externalBuilder_ != null) {
           return externalBuilder_.getMessageOrBuilder();
         } else {
           return external_ == null ?
-              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : external_;
+              tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : external_;
         }
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 5;</code>
+       * <code>.Ydb.Table.StoragePool external = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> 
           getExternalFieldBuilder() {
         if (externalBuilder_ == null) {
           externalBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
+              tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder>(
                   getExternal(),
                   getParentForChildren(),
                   isClean());
@@ -8887,7 +8887,7 @@ public final class YdbTable {
      * Storage settings for the column group (default to values in storage policy)
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     * <code>.Ydb.Table.StoragePool data = 2;</code>
      */
     boolean hasData();
     /**
@@ -8895,30 +8895,30 @@ public final class YdbTable {
      * Storage settings for the column group (default to values in storage policy)
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     * <code>.Ydb.Table.StoragePool data = 2;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettings getData();
+    tech.ydb.table.YdbTable.StoragePool getData();
     /**
      * <pre>
      * Storage settings for the column group (default to values in storage policy)
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     * <code>.Ydb.Table.StoragePool data = 2;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getDataOrBuilder();
+    tech.ydb.table.YdbTable.StoragePoolOrBuilder getDataOrBuilder();
 
     /**
-     * <code>.Ydb.Table.StorageSettings external = 3;</code>
+     * <code>.Ydb.Table.StoragePool external = 3;</code>
      */
     boolean hasExternal();
     /**
-     * <code>.Ydb.Table.StorageSettings external = 3;</code>
+     * <code>.Ydb.Table.StoragePool external = 3;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettings getExternal();
+    tech.ydb.table.YdbTable.StoragePool getExternal();
     /**
-     * <code>.Ydb.Table.StorageSettings external = 3;</code>
+     * <code>.Ydb.Table.StoragePool external = 3;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getExternalOrBuilder();
+    tech.ydb.table.YdbTable.StoragePoolOrBuilder getExternalOrBuilder();
 
     /**
      * <code>.Ydb.FeatureFlag.Status keep_in_memory = 4;</code>
@@ -8999,11 +8999,11 @@ public final class YdbTable {
               break;
             }
             case 18: {
-              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
+              tech.ydb.table.YdbTable.StoragePool.Builder subBuilder = null;
               if (data_ != null) {
                 subBuilder = data_.toBuilder();
               }
-              data_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
+              data_ = input.readMessage(tech.ydb.table.YdbTable.StoragePool.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(data_);
                 data_ = subBuilder.buildPartial();
@@ -9012,11 +9012,11 @@ public final class YdbTable {
               break;
             }
             case 26: {
-              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
+              tech.ydb.table.YdbTable.StoragePool.Builder subBuilder = null;
               if (external_ != null) {
                 subBuilder = external_.toBuilder();
               }
-              external_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
+              external_ = input.readMessage(tech.ydb.table.YdbTable.StoragePool.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(external_);
                 external_ = subBuilder.buildPartial();
@@ -9212,13 +9212,13 @@ public final class YdbTable {
     }
 
     public static final int DATA_FIELD_NUMBER = 2;
-    private tech.ydb.table.YdbTable.StorageSettings data_;
+    private tech.ydb.table.YdbTable.StoragePool data_;
     /**
      * <pre>
      * Storage settings for the column group (default to values in storage policy)
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     * <code>.Ydb.Table.StoragePool data = 2;</code>
      */
     public boolean hasData() {
       return data_ != null;
@@ -9228,40 +9228,40 @@ public final class YdbTable {
      * Storage settings for the column group (default to values in storage policy)
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     * <code>.Ydb.Table.StoragePool data = 2;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettings getData() {
-      return data_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : data_;
+    public tech.ydb.table.YdbTable.StoragePool getData() {
+      return data_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : data_;
     }
     /**
      * <pre>
      * Storage settings for the column group (default to values in storage policy)
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     * <code>.Ydb.Table.StoragePool data = 2;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getDataOrBuilder() {
+    public tech.ydb.table.YdbTable.StoragePoolOrBuilder getDataOrBuilder() {
       return getData();
     }
 
     public static final int EXTERNAL_FIELD_NUMBER = 3;
-    private tech.ydb.table.YdbTable.StorageSettings external_;
+    private tech.ydb.table.YdbTable.StoragePool external_;
     /**
-     * <code>.Ydb.Table.StorageSettings external = 3;</code>
+     * <code>.Ydb.Table.StoragePool external = 3;</code>
      */
     public boolean hasExternal() {
       return external_ != null;
     }
     /**
-     * <code>.Ydb.Table.StorageSettings external = 3;</code>
+     * <code>.Ydb.Table.StoragePool external = 3;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettings getExternal() {
-      return external_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : external_;
+    public tech.ydb.table.YdbTable.StoragePool getExternal() {
+      return external_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : external_;
     }
     /**
-     * <code>.Ydb.Table.StorageSettings external = 3;</code>
+     * <code>.Ydb.Table.StoragePool external = 3;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getExternalOrBuilder() {
+    public tech.ydb.table.YdbTable.StoragePoolOrBuilder getExternalOrBuilder() {
       return getExternal();
     }
 
@@ -9774,15 +9774,15 @@ public final class YdbTable {
         return this;
       }
 
-      private tech.ydb.table.YdbTable.StorageSettings data_ = null;
+      private tech.ydb.table.YdbTable.StoragePool data_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> dataBuilder_;
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> dataBuilder_;
       /**
        * <pre>
        * Storage settings for the column group (default to values in storage policy)
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
       public boolean hasData() {
         return dataBuilder_ != null || data_ != null;
@@ -9792,11 +9792,11 @@ public final class YdbTable {
        * Storage settings for the column group (default to values in storage policy)
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings getData() {
+      public tech.ydb.table.YdbTable.StoragePool getData() {
         if (dataBuilder_ == null) {
-          return data_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : data_;
+          return data_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : data_;
         } else {
           return dataBuilder_.getMessage();
         }
@@ -9806,9 +9806,9 @@ public final class YdbTable {
        * Storage settings for the column group (default to values in storage policy)
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
-      public Builder setData(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder setData(tech.ydb.table.YdbTable.StoragePool value) {
         if (dataBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -9826,10 +9826,10 @@ public final class YdbTable {
        * Storage settings for the column group (default to values in storage policy)
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
       public Builder setData(
-          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
+          tech.ydb.table.YdbTable.StoragePool.Builder builderForValue) {
         if (dataBuilder_ == null) {
           data_ = builderForValue.build();
           onChanged();
@@ -9844,13 +9844,13 @@ public final class YdbTable {
        * Storage settings for the column group (default to values in storage policy)
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
-      public Builder mergeData(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder mergeData(tech.ydb.table.YdbTable.StoragePool value) {
         if (dataBuilder_ == null) {
           if (data_ != null) {
             data_ =
-              tech.ydb.table.YdbTable.StorageSettings.newBuilder(data_).mergeFrom(value).buildPartial();
+              tech.ydb.table.YdbTable.StoragePool.newBuilder(data_).mergeFrom(value).buildPartial();
           } else {
             data_ = value;
           }
@@ -9866,7 +9866,7 @@ public final class YdbTable {
        * Storage settings for the column group (default to values in storage policy)
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
       public Builder clearData() {
         if (dataBuilder_ == null) {
@@ -9884,9 +9884,9 @@ public final class YdbTable {
        * Storage settings for the column group (default to values in storage policy)
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings.Builder getDataBuilder() {
+      public tech.ydb.table.YdbTable.StoragePool.Builder getDataBuilder() {
         
         onChanged();
         return getDataFieldBuilder().getBuilder();
@@ -9896,14 +9896,14 @@ public final class YdbTable {
        * Storage settings for the column group (default to values in storage policy)
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getDataOrBuilder() {
+      public tech.ydb.table.YdbTable.StoragePoolOrBuilder getDataOrBuilder() {
         if (dataBuilder_ != null) {
           return dataBuilder_.getMessageOrBuilder();
         } else {
           return data_ == null ?
-              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : data_;
+              tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : data_;
         }
       }
       /**
@@ -9911,14 +9911,14 @@ public final class YdbTable {
        * Storage settings for the column group (default to values in storage policy)
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> 
           getDataFieldBuilder() {
         if (dataBuilder_ == null) {
           dataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
+              tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder>(
                   getData(),
                   getParentForChildren(),
                   isClean());
@@ -9927,29 +9927,29 @@ public final class YdbTable {
         return dataBuilder_;
       }
 
-      private tech.ydb.table.YdbTable.StorageSettings external_ = null;
+      private tech.ydb.table.YdbTable.StoragePool external_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> externalBuilder_;
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> externalBuilder_;
       /**
-       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       * <code>.Ydb.Table.StoragePool external = 3;</code>
        */
       public boolean hasExternal() {
         return externalBuilder_ != null || external_ != null;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       * <code>.Ydb.Table.StoragePool external = 3;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings getExternal() {
+      public tech.ydb.table.YdbTable.StoragePool getExternal() {
         if (externalBuilder_ == null) {
-          return external_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : external_;
+          return external_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : external_;
         } else {
           return externalBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       * <code>.Ydb.Table.StoragePool external = 3;</code>
        */
-      public Builder setExternal(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder setExternal(tech.ydb.table.YdbTable.StoragePool value) {
         if (externalBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -9963,10 +9963,10 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       * <code>.Ydb.Table.StoragePool external = 3;</code>
        */
       public Builder setExternal(
-          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
+          tech.ydb.table.YdbTable.StoragePool.Builder builderForValue) {
         if (externalBuilder_ == null) {
           external_ = builderForValue.build();
           onChanged();
@@ -9977,13 +9977,13 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       * <code>.Ydb.Table.StoragePool external = 3;</code>
        */
-      public Builder mergeExternal(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder mergeExternal(tech.ydb.table.YdbTable.StoragePool value) {
         if (externalBuilder_ == null) {
           if (external_ != null) {
             external_ =
-              tech.ydb.table.YdbTable.StorageSettings.newBuilder(external_).mergeFrom(value).buildPartial();
+              tech.ydb.table.YdbTable.StoragePool.newBuilder(external_).mergeFrom(value).buildPartial();
           } else {
             external_ = value;
           }
@@ -9995,7 +9995,7 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       * <code>.Ydb.Table.StoragePool external = 3;</code>
        */
       public Builder clearExternal() {
         if (externalBuilder_ == null) {
@@ -10009,33 +10009,33 @@ public final class YdbTable {
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       * <code>.Ydb.Table.StoragePool external = 3;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings.Builder getExternalBuilder() {
+      public tech.ydb.table.YdbTable.StoragePool.Builder getExternalBuilder() {
         
         onChanged();
         return getExternalFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       * <code>.Ydb.Table.StoragePool external = 3;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getExternalOrBuilder() {
+      public tech.ydb.table.YdbTable.StoragePoolOrBuilder getExternalOrBuilder() {
         if (externalBuilder_ != null) {
           return externalBuilder_.getMessageOrBuilder();
         } else {
           return external_ == null ?
-              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : external_;
+              tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : external_;
         }
       }
       /**
-       * <code>.Ydb.Table.StorageSettings external = 3;</code>
+       * <code>.Ydb.Table.StoragePool external = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> 
           getExternalFieldBuilder() {
         if (externalBuilder_ == null) {
           externalBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
+              tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder>(
                   getExternal(),
                   getParentForChildren(),
                   isClean());
@@ -20988,72 +20988,90 @@ public final class YdbTable {
 
   }
 
-  public interface TableStorageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Table.TableStorage)
+  public interface StorageSettingsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Table.StorageSettings)
       com.google.protobuf.MessageOrBuilder {
 
     /**
      * <pre>
-     * These specify storage settings for internal table logs
+     * This specifies internal channel 0 commit log storage pool
+     * Fastest available storage recommended, negligible amounts of short-lived data
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+     * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
      */
-    boolean hasSyslog();
+    boolean hasTabletCommitLog0();
     /**
      * <pre>
-     * These specify storage settings for internal table logs
+     * This specifies internal channel 0 commit log storage pool
+     * Fastest available storage recommended, negligible amounts of short-lived data
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+     * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettings getSyslog();
+    tech.ydb.table.YdbTable.StoragePool getTabletCommitLog0();
     /**
      * <pre>
-     * These specify storage settings for internal table logs
+     * This specifies internal channel 0 commit log storage pool
+     * Fastest available storage recommended, negligible amounts of short-lived data
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+     * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getSyslogOrBuilder();
-
-    /**
-     * <code>.Ydb.Table.StorageSettings log = 2;</code>
-     */
-    boolean hasLog();
-    /**
-     * <code>.Ydb.Table.StorageSettings log = 2;</code>
-     */
-    tech.ydb.table.YdbTable.StorageSettings getLog();
-    /**
-     * <code>.Ydb.Table.StorageSettings log = 2;</code>
-     */
-    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getLogOrBuilder();
+    tech.ydb.table.YdbTable.StoragePoolOrBuilder getTabletCommitLog0OrBuilder();
 
     /**
      * <pre>
-     * This specifies external blobs storage settings
+     * This specifies internal channel 1 commit log storage pool
+     * Fastest available storage recommended, small amounts of short-lived data
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings external = 4;</code>
+     * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
+     */
+    boolean hasTabletCommitLog1();
+    /**
+     * <pre>
+     * This specifies internal channel 1 commit log storage pool
+     * Fastest available storage recommended, small amounts of short-lived data
+     * </pre>
+     *
+     * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
+     */
+    tech.ydb.table.YdbTable.StoragePool getTabletCommitLog1();
+    /**
+     * <pre>
+     * This specifies internal channel 1 commit log storage pool
+     * Fastest available storage recommended, small amounts of short-lived data
+     * </pre>
+     *
+     * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
+     */
+    tech.ydb.table.YdbTable.StoragePoolOrBuilder getTabletCommitLog1OrBuilder();
+
+    /**
+     * <pre>
+     * This specifies external blobs storage pool
+     * </pre>
+     *
+     * <code>.Ydb.Table.StoragePool external = 4;</code>
      */
     boolean hasExternal();
     /**
      * <pre>
-     * This specifies external blobs storage settings
+     * This specifies external blobs storage pool
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings external = 4;</code>
+     * <code>.Ydb.Table.StoragePool external = 4;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettings getExternal();
+    tech.ydb.table.YdbTable.StoragePool getExternal();
     /**
      * <pre>
-     * This specifies external blobs storage settings
+     * This specifies external blobs storage pool
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings external = 4;</code>
+     * <code>.Ydb.Table.StoragePool external = 4;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getExternalOrBuilder();
+    tech.ydb.table.YdbTable.StoragePoolOrBuilder getExternalOrBuilder();
 
     /**
      * <pre>
@@ -21081,18 +21099,18 @@ public final class YdbTable {
     tech.ydb.common.CommonProtos.FeatureFlag.Status getStoreExternalBlobs();
   }
   /**
-   * Protobuf type {@code Ydb.Table.TableStorage}
+   * Protobuf type {@code Ydb.Table.StorageSettings}
    */
-  public  static final class TableStorage extends
+  public  static final class StorageSettings extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Table.TableStorage)
-      TableStorageOrBuilder {
+      // @@protoc_insertion_point(message_implements:Ydb.Table.StorageSettings)
+      StorageSettingsOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use TableStorage.newBuilder() to construct.
-    private TableStorage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use StorageSettings.newBuilder() to construct.
+    private StorageSettings(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private TableStorage() {
+    private StorageSettings() {
       storeExternalBlobs_ = 0;
     }
 
@@ -21101,7 +21119,7 @@ public final class YdbTable {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private TableStorage(
+    private StorageSettings(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -21125,37 +21143,37 @@ public final class YdbTable {
               break;
             }
             case 10: {
-              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
-              if (syslog_ != null) {
-                subBuilder = syslog_.toBuilder();
+              tech.ydb.table.YdbTable.StoragePool.Builder subBuilder = null;
+              if (tabletCommitLog0_ != null) {
+                subBuilder = tabletCommitLog0_.toBuilder();
               }
-              syslog_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
+              tabletCommitLog0_ = input.readMessage(tech.ydb.table.YdbTable.StoragePool.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(syslog_);
-                syslog_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(tabletCommitLog0_);
+                tabletCommitLog0_ = subBuilder.buildPartial();
               }
 
               break;
             }
             case 18: {
-              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
-              if (log_ != null) {
-                subBuilder = log_.toBuilder();
+              tech.ydb.table.YdbTable.StoragePool.Builder subBuilder = null;
+              if (tabletCommitLog1_ != null) {
+                subBuilder = tabletCommitLog1_.toBuilder();
               }
-              log_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
+              tabletCommitLog1_ = input.readMessage(tech.ydb.table.YdbTable.StoragePool.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(log_);
-                log_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(tabletCommitLog1_);
+                tabletCommitLog1_ = subBuilder.buildPartial();
               }
 
               break;
             }
             case 34: {
-              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
+              tech.ydb.table.YdbTable.StoragePool.Builder subBuilder = null;
               if (external_ != null) {
                 subBuilder = external_.toBuilder();
               }
-              external_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
+              external_ = input.readMessage(tech.ydb.table.YdbTable.StoragePool.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(external_);
                 external_ = subBuilder.buildPartial();
@@ -21183,100 +21201,118 @@ public final class YdbTable {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return tech.ydb.table.YdbTable.internal_static_Ydb_Table_TableStorage_descriptor;
+      return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StorageSettings_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return tech.ydb.table.YdbTable.internal_static_Ydb_Table_TableStorage_fieldAccessorTable
+      return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StorageSettings_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              tech.ydb.table.YdbTable.TableStorage.class, tech.ydb.table.YdbTable.TableStorage.Builder.class);
+              tech.ydb.table.YdbTable.StorageSettings.class, tech.ydb.table.YdbTable.StorageSettings.Builder.class);
     }
 
-    public static final int SYSLOG_FIELD_NUMBER = 1;
-    private tech.ydb.table.YdbTable.StorageSettings syslog_;
+    public static final int TABLET_COMMIT_LOG0_FIELD_NUMBER = 1;
+    private tech.ydb.table.YdbTable.StoragePool tabletCommitLog0_;
     /**
      * <pre>
-     * These specify storage settings for internal table logs
+     * This specifies internal channel 0 commit log storage pool
+     * Fastest available storage recommended, negligible amounts of short-lived data
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+     * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
      */
-    public boolean hasSyslog() {
-      return syslog_ != null;
+    public boolean hasTabletCommitLog0() {
+      return tabletCommitLog0_ != null;
     }
     /**
      * <pre>
-     * These specify storage settings for internal table logs
+     * This specifies internal channel 0 commit log storage pool
+     * Fastest available storage recommended, negligible amounts of short-lived data
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+     * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettings getSyslog() {
-      return syslog_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : syslog_;
+    public tech.ydb.table.YdbTable.StoragePool getTabletCommitLog0() {
+      return tabletCommitLog0_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : tabletCommitLog0_;
     }
     /**
      * <pre>
-     * These specify storage settings for internal table logs
+     * This specifies internal channel 0 commit log storage pool
+     * Fastest available storage recommended, negligible amounts of short-lived data
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+     * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getSyslogOrBuilder() {
-      return getSyslog();
+    public tech.ydb.table.YdbTable.StoragePoolOrBuilder getTabletCommitLog0OrBuilder() {
+      return getTabletCommitLog0();
     }
 
-    public static final int LOG_FIELD_NUMBER = 2;
-    private tech.ydb.table.YdbTable.StorageSettings log_;
+    public static final int TABLET_COMMIT_LOG1_FIELD_NUMBER = 2;
+    private tech.ydb.table.YdbTable.StoragePool tabletCommitLog1_;
     /**
-     * <code>.Ydb.Table.StorageSettings log = 2;</code>
+     * <pre>
+     * This specifies internal channel 1 commit log storage pool
+     * Fastest available storage recommended, small amounts of short-lived data
+     * </pre>
+     *
+     * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
      */
-    public boolean hasLog() {
-      return log_ != null;
+    public boolean hasTabletCommitLog1() {
+      return tabletCommitLog1_ != null;
     }
     /**
-     * <code>.Ydb.Table.StorageSettings log = 2;</code>
+     * <pre>
+     * This specifies internal channel 1 commit log storage pool
+     * Fastest available storage recommended, small amounts of short-lived data
+     * </pre>
+     *
+     * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettings getLog() {
-      return log_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : log_;
+    public tech.ydb.table.YdbTable.StoragePool getTabletCommitLog1() {
+      return tabletCommitLog1_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : tabletCommitLog1_;
     }
     /**
-     * <code>.Ydb.Table.StorageSettings log = 2;</code>
+     * <pre>
+     * This specifies internal channel 1 commit log storage pool
+     * Fastest available storage recommended, small amounts of short-lived data
+     * </pre>
+     *
+     * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getLogOrBuilder() {
-      return getLog();
+    public tech.ydb.table.YdbTable.StoragePoolOrBuilder getTabletCommitLog1OrBuilder() {
+      return getTabletCommitLog1();
     }
 
     public static final int EXTERNAL_FIELD_NUMBER = 4;
-    private tech.ydb.table.YdbTable.StorageSettings external_;
+    private tech.ydb.table.YdbTable.StoragePool external_;
     /**
      * <pre>
-     * This specifies external blobs storage settings
+     * This specifies external blobs storage pool
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings external = 4;</code>
+     * <code>.Ydb.Table.StoragePool external = 4;</code>
      */
     public boolean hasExternal() {
       return external_ != null;
     }
     /**
      * <pre>
-     * This specifies external blobs storage settings
+     * This specifies external blobs storage pool
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings external = 4;</code>
+     * <code>.Ydb.Table.StoragePool external = 4;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettings getExternal() {
-      return external_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : external_;
+    public tech.ydb.table.YdbTable.StoragePool getExternal() {
+      return external_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : external_;
     }
     /**
      * <pre>
-     * This specifies external blobs storage settings
+     * This specifies external blobs storage pool
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings external = 4;</code>
+     * <code>.Ydb.Table.StoragePool external = 4;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getExternalOrBuilder() {
+    public tech.ydb.table.YdbTable.StoragePoolOrBuilder getExternalOrBuilder() {
       return getExternal();
     }
 
@@ -21324,11 +21360,11 @@ public final class YdbTable {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (syslog_ != null) {
-        output.writeMessage(1, getSyslog());
+      if (tabletCommitLog0_ != null) {
+        output.writeMessage(1, getTabletCommitLog0());
       }
-      if (log_ != null) {
-        output.writeMessage(2, getLog());
+      if (tabletCommitLog1_ != null) {
+        output.writeMessage(2, getTabletCommitLog1());
       }
       if (external_ != null) {
         output.writeMessage(4, getExternal());
@@ -21344,13 +21380,13 @@ public final class YdbTable {
       if (size != -1) return size;
 
       size = 0;
-      if (syslog_ != null) {
+      if (tabletCommitLog0_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getSyslog());
+          .computeMessageSize(1, getTabletCommitLog0());
       }
-      if (log_ != null) {
+      if (tabletCommitLog1_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getLog());
+          .computeMessageSize(2, getTabletCommitLog1());
       }
       if (external_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -21370,21 +21406,21 @@ public final class YdbTable {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof tech.ydb.table.YdbTable.TableStorage)) {
+      if (!(obj instanceof tech.ydb.table.YdbTable.StorageSettings)) {
         return super.equals(obj);
       }
-      tech.ydb.table.YdbTable.TableStorage other = (tech.ydb.table.YdbTable.TableStorage) obj;
+      tech.ydb.table.YdbTable.StorageSettings other = (tech.ydb.table.YdbTable.StorageSettings) obj;
 
       boolean result = true;
-      result = result && (hasSyslog() == other.hasSyslog());
-      if (hasSyslog()) {
-        result = result && getSyslog()
-            .equals(other.getSyslog());
+      result = result && (hasTabletCommitLog0() == other.hasTabletCommitLog0());
+      if (hasTabletCommitLog0()) {
+        result = result && getTabletCommitLog0()
+            .equals(other.getTabletCommitLog0());
       }
-      result = result && (hasLog() == other.hasLog());
-      if (hasLog()) {
-        result = result && getLog()
-            .equals(other.getLog());
+      result = result && (hasTabletCommitLog1() == other.hasTabletCommitLog1());
+      if (hasTabletCommitLog1()) {
+        result = result && getTabletCommitLog1()
+            .equals(other.getTabletCommitLog1());
       }
       result = result && (hasExternal() == other.hasExternal());
       if (hasExternal()) {
@@ -21403,13 +21439,13 @@ public final class YdbTable {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasSyslog()) {
-        hash = (37 * hash) + SYSLOG_FIELD_NUMBER;
-        hash = (53 * hash) + getSyslog().hashCode();
+      if (hasTabletCommitLog0()) {
+        hash = (37 * hash) + TABLET_COMMIT_LOG0_FIELD_NUMBER;
+        hash = (53 * hash) + getTabletCommitLog0().hashCode();
       }
-      if (hasLog()) {
-        hash = (37 * hash) + LOG_FIELD_NUMBER;
-        hash = (53 * hash) + getLog().hashCode();
+      if (hasTabletCommitLog1()) {
+        hash = (37 * hash) + TABLET_COMMIT_LOG1_FIELD_NUMBER;
+        hash = (53 * hash) + getTabletCommitLog1().hashCode();
       }
       if (hasExternal()) {
         hash = (37 * hash) + EXTERNAL_FIELD_NUMBER;
@@ -21422,69 +21458,69 @@ public final class YdbTable {
       return hash;
     }
 
-    public static tech.ydb.table.YdbTable.TableStorage parseFrom(
+    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.table.YdbTable.TableStorage parseFrom(
+    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.table.YdbTable.TableStorage parseFrom(
+    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.table.YdbTable.TableStorage parseFrom(
+    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.table.YdbTable.TableStorage parseFrom(byte[] data)
+    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.table.YdbTable.TableStorage parseFrom(
+    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.table.YdbTable.TableStorage parseFrom(java.io.InputStream input)
+    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.table.YdbTable.TableStorage parseFrom(
+    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.table.YdbTable.TableStorage parseDelimitedFrom(java.io.InputStream input)
+    public static tech.ydb.table.YdbTable.StorageSettings parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static tech.ydb.table.YdbTable.TableStorage parseDelimitedFrom(
+    public static tech.ydb.table.YdbTable.StorageSettings parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.table.YdbTable.TableStorage parseFrom(
+    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.table.YdbTable.TableStorage parseFrom(
+    public static tech.ydb.table.YdbTable.StorageSettings parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -21496,7 +21532,7 @@ public final class YdbTable {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(tech.ydb.table.YdbTable.TableStorage prototype) {
+    public static Builder newBuilder(tech.ydb.table.YdbTable.StorageSettings prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -21511,25 +21547,25 @@ public final class YdbTable {
       return builder;
     }
     /**
-     * Protobuf type {@code Ydb.Table.TableStorage}
+     * Protobuf type {@code Ydb.Table.StorageSettings}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Table.TableStorage)
-        tech.ydb.table.YdbTable.TableStorageOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Ydb.Table.StorageSettings)
+        tech.ydb.table.YdbTable.StorageSettingsOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_TableStorage_descriptor;
+        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StorageSettings_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_TableStorage_fieldAccessorTable
+        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StorageSettings_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.table.YdbTable.TableStorage.class, tech.ydb.table.YdbTable.TableStorage.Builder.class);
+                tech.ydb.table.YdbTable.StorageSettings.class, tech.ydb.table.YdbTable.StorageSettings.Builder.class);
       }
 
-      // Construct using tech.ydb.table.YdbTable.TableStorage.newBuilder()
+      // Construct using tech.ydb.table.YdbTable.StorageSettings.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -21546,17 +21582,17 @@ public final class YdbTable {
       }
       public Builder clear() {
         super.clear();
-        if (syslogBuilder_ == null) {
-          syslog_ = null;
+        if (tabletCommitLog0Builder_ == null) {
+          tabletCommitLog0_ = null;
         } else {
-          syslog_ = null;
-          syslogBuilder_ = null;
+          tabletCommitLog0_ = null;
+          tabletCommitLog0Builder_ = null;
         }
-        if (logBuilder_ == null) {
-          log_ = null;
+        if (tabletCommitLog1Builder_ == null) {
+          tabletCommitLog1_ = null;
         } else {
-          log_ = null;
-          logBuilder_ = null;
+          tabletCommitLog1_ = null;
+          tabletCommitLog1Builder_ = null;
         }
         if (externalBuilder_ == null) {
           external_ = null;
@@ -21571,32 +21607,32 @@ public final class YdbTable {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_TableStorage_descriptor;
+        return tech.ydb.table.YdbTable.internal_static_Ydb_Table_StorageSettings_descriptor;
       }
 
-      public tech.ydb.table.YdbTable.TableStorage getDefaultInstanceForType() {
-        return tech.ydb.table.YdbTable.TableStorage.getDefaultInstance();
+      public tech.ydb.table.YdbTable.StorageSettings getDefaultInstanceForType() {
+        return tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance();
       }
 
-      public tech.ydb.table.YdbTable.TableStorage build() {
-        tech.ydb.table.YdbTable.TableStorage result = buildPartial();
+      public tech.ydb.table.YdbTable.StorageSettings build() {
+        tech.ydb.table.YdbTable.StorageSettings result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public tech.ydb.table.YdbTable.TableStorage buildPartial() {
-        tech.ydb.table.YdbTable.TableStorage result = new tech.ydb.table.YdbTable.TableStorage(this);
-        if (syslogBuilder_ == null) {
-          result.syslog_ = syslog_;
+      public tech.ydb.table.YdbTable.StorageSettings buildPartial() {
+        tech.ydb.table.YdbTable.StorageSettings result = new tech.ydb.table.YdbTable.StorageSettings(this);
+        if (tabletCommitLog0Builder_ == null) {
+          result.tabletCommitLog0_ = tabletCommitLog0_;
         } else {
-          result.syslog_ = syslogBuilder_.build();
+          result.tabletCommitLog0_ = tabletCommitLog0Builder_.build();
         }
-        if (logBuilder_ == null) {
-          result.log_ = log_;
+        if (tabletCommitLog1Builder_ == null) {
+          result.tabletCommitLog1_ = tabletCommitLog1_;
         } else {
-          result.log_ = logBuilder_.build();
+          result.tabletCommitLog1_ = tabletCommitLog1Builder_.build();
         }
         if (externalBuilder_ == null) {
           result.external_ = external_;
@@ -21635,21 +21671,21 @@ public final class YdbTable {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.table.YdbTable.TableStorage) {
-          return mergeFrom((tech.ydb.table.YdbTable.TableStorage)other);
+        if (other instanceof tech.ydb.table.YdbTable.StorageSettings) {
+          return mergeFrom((tech.ydb.table.YdbTable.StorageSettings)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(tech.ydb.table.YdbTable.TableStorage other) {
-        if (other == tech.ydb.table.YdbTable.TableStorage.getDefaultInstance()) return this;
-        if (other.hasSyslog()) {
-          mergeSyslog(other.getSyslog());
+      public Builder mergeFrom(tech.ydb.table.YdbTable.StorageSettings other) {
+        if (other == tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance()) return this;
+        if (other.hasTabletCommitLog0()) {
+          mergeTabletCommitLog0(other.getTabletCommitLog0());
         }
-        if (other.hasLog()) {
-          mergeLog(other.getLog());
+        if (other.hasTabletCommitLog1()) {
+          mergeTabletCommitLog1(other.getTabletCommitLog1());
         }
         if (other.hasExternal()) {
           mergeExternal(other.getExternal());
@@ -21670,11 +21706,11 @@ public final class YdbTable {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        tech.ydb.table.YdbTable.TableStorage parsedMessage = null;
+        tech.ydb.table.YdbTable.StorageSettings parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.table.YdbTable.TableStorage) e.getUnfinishedMessage();
+          parsedMessage = (tech.ydb.table.YdbTable.StorageSettings) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -21684,311 +21720,365 @@ public final class YdbTable {
         return this;
       }
 
-      private tech.ydb.table.YdbTable.StorageSettings syslog_ = null;
+      private tech.ydb.table.YdbTable.StoragePool tabletCommitLog0_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> syslogBuilder_;
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> tabletCommitLog0Builder_;
       /**
        * <pre>
-       * These specify storage settings for internal table logs
+       * This specifies internal channel 0 commit log storage pool
+       * Fastest available storage recommended, negligible amounts of short-lived data
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+       * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
        */
-      public boolean hasSyslog() {
-        return syslogBuilder_ != null || syslog_ != null;
+      public boolean hasTabletCommitLog0() {
+        return tabletCommitLog0Builder_ != null || tabletCommitLog0_ != null;
       }
       /**
        * <pre>
-       * These specify storage settings for internal table logs
+       * This specifies internal channel 0 commit log storage pool
+       * Fastest available storage recommended, negligible amounts of short-lived data
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+       * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings getSyslog() {
-        if (syslogBuilder_ == null) {
-          return syslog_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : syslog_;
+      public tech.ydb.table.YdbTable.StoragePool getTabletCommitLog0() {
+        if (tabletCommitLog0Builder_ == null) {
+          return tabletCommitLog0_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : tabletCommitLog0_;
         } else {
-          return syslogBuilder_.getMessage();
+          return tabletCommitLog0Builder_.getMessage();
         }
       }
       /**
        * <pre>
-       * These specify storage settings for internal table logs
+       * This specifies internal channel 0 commit log storage pool
+       * Fastest available storage recommended, negligible amounts of short-lived data
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+       * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
        */
-      public Builder setSyslog(tech.ydb.table.YdbTable.StorageSettings value) {
-        if (syslogBuilder_ == null) {
+      public Builder setTabletCommitLog0(tech.ydb.table.YdbTable.StoragePool value) {
+        if (tabletCommitLog0Builder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          syslog_ = value;
+          tabletCommitLog0_ = value;
           onChanged();
         } else {
-          syslogBuilder_.setMessage(value);
+          tabletCommitLog0Builder_.setMessage(value);
         }
 
         return this;
       }
       /**
        * <pre>
-       * These specify storage settings for internal table logs
+       * This specifies internal channel 0 commit log storage pool
+       * Fastest available storage recommended, negligible amounts of short-lived data
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+       * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
        */
-      public Builder setSyslog(
-          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
-        if (syslogBuilder_ == null) {
-          syslog_ = builderForValue.build();
+      public Builder setTabletCommitLog0(
+          tech.ydb.table.YdbTable.StoragePool.Builder builderForValue) {
+        if (tabletCommitLog0Builder_ == null) {
+          tabletCommitLog0_ = builderForValue.build();
           onChanged();
         } else {
-          syslogBuilder_.setMessage(builderForValue.build());
+          tabletCommitLog0Builder_.setMessage(builderForValue.build());
         }
 
         return this;
       }
       /**
        * <pre>
-       * These specify storage settings for internal table logs
+       * This specifies internal channel 0 commit log storage pool
+       * Fastest available storage recommended, negligible amounts of short-lived data
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+       * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
        */
-      public Builder mergeSyslog(tech.ydb.table.YdbTable.StorageSettings value) {
-        if (syslogBuilder_ == null) {
-          if (syslog_ != null) {
-            syslog_ =
-              tech.ydb.table.YdbTable.StorageSettings.newBuilder(syslog_).mergeFrom(value).buildPartial();
+      public Builder mergeTabletCommitLog0(tech.ydb.table.YdbTable.StoragePool value) {
+        if (tabletCommitLog0Builder_ == null) {
+          if (tabletCommitLog0_ != null) {
+            tabletCommitLog0_ =
+              tech.ydb.table.YdbTable.StoragePool.newBuilder(tabletCommitLog0_).mergeFrom(value).buildPartial();
           } else {
-            syslog_ = value;
+            tabletCommitLog0_ = value;
           }
           onChanged();
         } else {
-          syslogBuilder_.mergeFrom(value);
+          tabletCommitLog0Builder_.mergeFrom(value);
         }
 
         return this;
       }
       /**
        * <pre>
-       * These specify storage settings for internal table logs
+       * This specifies internal channel 0 commit log storage pool
+       * Fastest available storage recommended, negligible amounts of short-lived data
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+       * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
        */
-      public Builder clearSyslog() {
-        if (syslogBuilder_ == null) {
-          syslog_ = null;
+      public Builder clearTabletCommitLog0() {
+        if (tabletCommitLog0Builder_ == null) {
+          tabletCommitLog0_ = null;
           onChanged();
         } else {
-          syslog_ = null;
-          syslogBuilder_ = null;
+          tabletCommitLog0_ = null;
+          tabletCommitLog0Builder_ = null;
         }
 
         return this;
       }
       /**
        * <pre>
-       * These specify storage settings for internal table logs
+       * This specifies internal channel 0 commit log storage pool
+       * Fastest available storage recommended, negligible amounts of short-lived data
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+       * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings.Builder getSyslogBuilder() {
+      public tech.ydb.table.YdbTable.StoragePool.Builder getTabletCommitLog0Builder() {
         
         onChanged();
-        return getSyslogFieldBuilder().getBuilder();
+        return getTabletCommitLog0FieldBuilder().getBuilder();
       }
       /**
        * <pre>
-       * These specify storage settings for internal table logs
+       * This specifies internal channel 0 commit log storage pool
+       * Fastest available storage recommended, negligible amounts of short-lived data
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+       * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getSyslogOrBuilder() {
-        if (syslogBuilder_ != null) {
-          return syslogBuilder_.getMessageOrBuilder();
+      public tech.ydb.table.YdbTable.StoragePoolOrBuilder getTabletCommitLog0OrBuilder() {
+        if (tabletCommitLog0Builder_ != null) {
+          return tabletCommitLog0Builder_.getMessageOrBuilder();
         } else {
-          return syslog_ == null ?
-              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : syslog_;
+          return tabletCommitLog0_ == null ?
+              tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : tabletCommitLog0_;
         }
       }
       /**
        * <pre>
-       * These specify storage settings for internal table logs
+       * This specifies internal channel 0 commit log storage pool
+       * Fastest available storage recommended, negligible amounts of short-lived data
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings syslog = 1;</code>
+       * <code>.Ydb.Table.StoragePool tablet_commit_log0 = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
-          getSyslogFieldBuilder() {
-        if (syslogBuilder_ == null) {
-          syslogBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
-                  getSyslog(),
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> 
+          getTabletCommitLog0FieldBuilder() {
+        if (tabletCommitLog0Builder_ == null) {
+          tabletCommitLog0Builder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder>(
+                  getTabletCommitLog0(),
                   getParentForChildren(),
                   isClean());
-          syslog_ = null;
+          tabletCommitLog0_ = null;
         }
-        return syslogBuilder_;
+        return tabletCommitLog0Builder_;
       }
 
-      private tech.ydb.table.YdbTable.StorageSettings log_ = null;
+      private tech.ydb.table.YdbTable.StoragePool tabletCommitLog1_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> logBuilder_;
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> tabletCommitLog1Builder_;
       /**
-       * <code>.Ydb.Table.StorageSettings log = 2;</code>
+       * <pre>
+       * This specifies internal channel 1 commit log storage pool
+       * Fastest available storage recommended, small amounts of short-lived data
+       * </pre>
+       *
+       * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
        */
-      public boolean hasLog() {
-        return logBuilder_ != null || log_ != null;
+      public boolean hasTabletCommitLog1() {
+        return tabletCommitLog1Builder_ != null || tabletCommitLog1_ != null;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings log = 2;</code>
+       * <pre>
+       * This specifies internal channel 1 commit log storage pool
+       * Fastest available storage recommended, small amounts of short-lived data
+       * </pre>
+       *
+       * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings getLog() {
-        if (logBuilder_ == null) {
-          return log_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : log_;
+      public tech.ydb.table.YdbTable.StoragePool getTabletCommitLog1() {
+        if (tabletCommitLog1Builder_ == null) {
+          return tabletCommitLog1_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : tabletCommitLog1_;
         } else {
-          return logBuilder_.getMessage();
+          return tabletCommitLog1Builder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.Table.StorageSettings log = 2;</code>
+       * <pre>
+       * This specifies internal channel 1 commit log storage pool
+       * Fastest available storage recommended, small amounts of short-lived data
+       * </pre>
+       *
+       * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
        */
-      public Builder setLog(tech.ydb.table.YdbTable.StorageSettings value) {
-        if (logBuilder_ == null) {
+      public Builder setTabletCommitLog1(tech.ydb.table.YdbTable.StoragePool value) {
+        if (tabletCommitLog1Builder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          log_ = value;
+          tabletCommitLog1_ = value;
           onChanged();
         } else {
-          logBuilder_.setMessage(value);
+          tabletCommitLog1Builder_.setMessage(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings log = 2;</code>
+       * <pre>
+       * This specifies internal channel 1 commit log storage pool
+       * Fastest available storage recommended, small amounts of short-lived data
+       * </pre>
+       *
+       * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
        */
-      public Builder setLog(
-          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
-        if (logBuilder_ == null) {
-          log_ = builderForValue.build();
+      public Builder setTabletCommitLog1(
+          tech.ydb.table.YdbTable.StoragePool.Builder builderForValue) {
+        if (tabletCommitLog1Builder_ == null) {
+          tabletCommitLog1_ = builderForValue.build();
           onChanged();
         } else {
-          logBuilder_.setMessage(builderForValue.build());
+          tabletCommitLog1Builder_.setMessage(builderForValue.build());
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.Table.StorageSettings log = 2;</code>
+       * <pre>
+       * This specifies internal channel 1 commit log storage pool
+       * Fastest available storage recommended, small amounts of short-lived data
+       * </pre>
+       *
+       * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
        */
-      public Builder mergeLog(tech.ydb.table.YdbTable.StorageSettings value) {
-        if (logBuilder_ == null) {
-          if (log_ != null) {
-            log_ =
-              tech.ydb.table.YdbTable.StorageSettings.newBuilder(log_).mergeFrom(value).buildPartial();
+      public Builder mergeTabletCommitLog1(tech.ydb.table.YdbTable.StoragePool value) {
+        if (tabletCommitLog1Builder_ == null) {
+          if (tabletCommitLog1_ != null) {
+            tabletCommitLog1_ =
+              tech.ydb.table.YdbTable.StoragePool.newBuilder(tabletCommitLog1_).mergeFrom(value).buildPartial();
           } else {
-            log_ = value;
+            tabletCommitLog1_ = value;
           }
           onChanged();
         } else {
-          logBuilder_.mergeFrom(value);
+          tabletCommitLog1Builder_.mergeFrom(value);
         }
 
         return this;
       }
-      /**
-       * <code>.Ydb.Table.StorageSettings log = 2;</code>
-       */
-      public Builder clearLog() {
-        if (logBuilder_ == null) {
-          log_ = null;
-          onChanged();
-        } else {
-          log_ = null;
-          logBuilder_ = null;
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.Table.StorageSettings log = 2;</code>
-       */
-      public tech.ydb.table.YdbTable.StorageSettings.Builder getLogBuilder() {
-        
-        onChanged();
-        return getLogFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.Ydb.Table.StorageSettings log = 2;</code>
-       */
-      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getLogOrBuilder() {
-        if (logBuilder_ != null) {
-          return logBuilder_.getMessageOrBuilder();
-        } else {
-          return log_ == null ?
-              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : log_;
-        }
-      }
-      /**
-       * <code>.Ydb.Table.StorageSettings log = 2;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
-          getLogFieldBuilder() {
-        if (logBuilder_ == null) {
-          logBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
-                  getLog(),
-                  getParentForChildren(),
-                  isClean());
-          log_ = null;
-        }
-        return logBuilder_;
-      }
-
-      private tech.ydb.table.YdbTable.StorageSettings external_ = null;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> externalBuilder_;
       /**
        * <pre>
-       * This specifies external blobs storage settings
+       * This specifies internal channel 1 commit log storage pool
+       * Fastest available storage recommended, small amounts of short-lived data
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings external = 4;</code>
+       * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
+       */
+      public Builder clearTabletCommitLog1() {
+        if (tabletCommitLog1Builder_ == null) {
+          tabletCommitLog1_ = null;
+          onChanged();
+        } else {
+          tabletCommitLog1_ = null;
+          tabletCommitLog1Builder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * This specifies internal channel 1 commit log storage pool
+       * Fastest available storage recommended, small amounts of short-lived data
+       * </pre>
+       *
+       * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
+       */
+      public tech.ydb.table.YdbTable.StoragePool.Builder getTabletCommitLog1Builder() {
+        
+        onChanged();
+        return getTabletCommitLog1FieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * This specifies internal channel 1 commit log storage pool
+       * Fastest available storage recommended, small amounts of short-lived data
+       * </pre>
+       *
+       * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
+       */
+      public tech.ydb.table.YdbTable.StoragePoolOrBuilder getTabletCommitLog1OrBuilder() {
+        if (tabletCommitLog1Builder_ != null) {
+          return tabletCommitLog1Builder_.getMessageOrBuilder();
+        } else {
+          return tabletCommitLog1_ == null ?
+              tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : tabletCommitLog1_;
+        }
+      }
+      /**
+       * <pre>
+       * This specifies internal channel 1 commit log storage pool
+       * Fastest available storage recommended, small amounts of short-lived data
+       * </pre>
+       *
+       * <code>.Ydb.Table.StoragePool tablet_commit_log1 = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> 
+          getTabletCommitLog1FieldBuilder() {
+        if (tabletCommitLog1Builder_ == null) {
+          tabletCommitLog1Builder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder>(
+                  getTabletCommitLog1(),
+                  getParentForChildren(),
+                  isClean());
+          tabletCommitLog1_ = null;
+        }
+        return tabletCommitLog1Builder_;
+      }
+
+      private tech.ydb.table.YdbTable.StoragePool external_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> externalBuilder_;
+      /**
+       * <pre>
+       * This specifies external blobs storage pool
+       * </pre>
+       *
+       * <code>.Ydb.Table.StoragePool external = 4;</code>
        */
       public boolean hasExternal() {
         return externalBuilder_ != null || external_ != null;
       }
       /**
        * <pre>
-       * This specifies external blobs storage settings
+       * This specifies external blobs storage pool
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings external = 4;</code>
+       * <code>.Ydb.Table.StoragePool external = 4;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings getExternal() {
+      public tech.ydb.table.YdbTable.StoragePool getExternal() {
         if (externalBuilder_ == null) {
-          return external_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : external_;
+          return external_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : external_;
         } else {
           return externalBuilder_.getMessage();
         }
       }
       /**
        * <pre>
-       * This specifies external blobs storage settings
+       * This specifies external blobs storage pool
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings external = 4;</code>
+       * <code>.Ydb.Table.StoragePool external = 4;</code>
        */
-      public Builder setExternal(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder setExternal(tech.ydb.table.YdbTable.StoragePool value) {
         if (externalBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -22003,13 +22093,13 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * This specifies external blobs storage settings
+       * This specifies external blobs storage pool
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings external = 4;</code>
+       * <code>.Ydb.Table.StoragePool external = 4;</code>
        */
       public Builder setExternal(
-          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
+          tech.ydb.table.YdbTable.StoragePool.Builder builderForValue) {
         if (externalBuilder_ == null) {
           external_ = builderForValue.build();
           onChanged();
@@ -22021,16 +22111,16 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * This specifies external blobs storage settings
+       * This specifies external blobs storage pool
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings external = 4;</code>
+       * <code>.Ydb.Table.StoragePool external = 4;</code>
        */
-      public Builder mergeExternal(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder mergeExternal(tech.ydb.table.YdbTable.StoragePool value) {
         if (externalBuilder_ == null) {
           if (external_ != null) {
             external_ =
-              tech.ydb.table.YdbTable.StorageSettings.newBuilder(external_).mergeFrom(value).buildPartial();
+              tech.ydb.table.YdbTable.StoragePool.newBuilder(external_).mergeFrom(value).buildPartial();
           } else {
             external_ = value;
           }
@@ -22043,10 +22133,10 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * This specifies external blobs storage settings
+       * This specifies external blobs storage pool
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings external = 4;</code>
+       * <code>.Ydb.Table.StoragePool external = 4;</code>
        */
       public Builder clearExternal() {
         if (externalBuilder_ == null) {
@@ -22061,44 +22151,44 @@ public final class YdbTable {
       }
       /**
        * <pre>
-       * This specifies external blobs storage settings
+       * This specifies external blobs storage pool
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings external = 4;</code>
+       * <code>.Ydb.Table.StoragePool external = 4;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings.Builder getExternalBuilder() {
+      public tech.ydb.table.YdbTable.StoragePool.Builder getExternalBuilder() {
         
         onChanged();
         return getExternalFieldBuilder().getBuilder();
       }
       /**
        * <pre>
-       * This specifies external blobs storage settings
+       * This specifies external blobs storage pool
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings external = 4;</code>
+       * <code>.Ydb.Table.StoragePool external = 4;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getExternalOrBuilder() {
+      public tech.ydb.table.YdbTable.StoragePoolOrBuilder getExternalOrBuilder() {
         if (externalBuilder_ != null) {
           return externalBuilder_.getMessageOrBuilder();
         } else {
           return external_ == null ?
-              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : external_;
+              tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : external_;
         }
       }
       /**
        * <pre>
-       * This specifies external blobs storage settings
+       * This specifies external blobs storage pool
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings external = 4;</code>
+       * <code>.Ydb.Table.StoragePool external = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> 
           getExternalFieldBuilder() {
         if (externalBuilder_ == null) {
           externalBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
+              tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder>(
                   getExternal(),
                   getParentForChildren(),
                   isClean());
@@ -22201,39 +22291,39 @@ public final class YdbTable {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Ydb.Table.TableStorage)
+      // @@protoc_insertion_point(builder_scope:Ydb.Table.StorageSettings)
     }
 
-    // @@protoc_insertion_point(class_scope:Ydb.Table.TableStorage)
-    private static final tech.ydb.table.YdbTable.TableStorage DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Ydb.Table.StorageSettings)
+    private static final tech.ydb.table.YdbTable.StorageSettings DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new tech.ydb.table.YdbTable.TableStorage();
+      DEFAULT_INSTANCE = new tech.ydb.table.YdbTable.StorageSettings();
     }
 
-    public static tech.ydb.table.YdbTable.TableStorage getDefaultInstance() {
+    public static tech.ydb.table.YdbTable.StorageSettings getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<TableStorage>
-        PARSER = new com.google.protobuf.AbstractParser<TableStorage>() {
-      public TableStorage parsePartialFrom(
+    private static final com.google.protobuf.Parser<StorageSettings>
+        PARSER = new com.google.protobuf.AbstractParser<StorageSettings>() {
+      public StorageSettings parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TableStorage(input, extensionRegistry);
+          return new StorageSettings(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<TableStorage> parser() {
+    public static com.google.protobuf.Parser<StorageSettings> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<TableStorage> getParserForType() {
+    public com.google.protobuf.Parser<StorageSettings> getParserForType() {
       return PARSER;
     }
 
-    public tech.ydb.table.YdbTable.TableStorage getDefaultInstanceForType() {
+    public tech.ydb.table.YdbTable.StorageSettings getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -22268,7 +22358,7 @@ public final class YdbTable {
      * This specifies data storage settings for column family
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     * <code>.Ydb.Table.StoragePool data = 2;</code>
      */
     boolean hasData();
     /**
@@ -22276,17 +22366,17 @@ public final class YdbTable {
      * This specifies data storage settings for column family
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     * <code>.Ydb.Table.StoragePool data = 2;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettings getData();
+    tech.ydb.table.YdbTable.StoragePool getData();
     /**
      * <pre>
      * This specifies data storage settings for column family
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     * <code>.Ydb.Table.StoragePool data = 2;</code>
      */
-    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getDataOrBuilder();
+    tech.ydb.table.YdbTable.StoragePoolOrBuilder getDataOrBuilder();
 
     /**
      * <pre>
@@ -22375,11 +22465,11 @@ public final class YdbTable {
               break;
             }
             case 18: {
-              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
+              tech.ydb.table.YdbTable.StoragePool.Builder subBuilder = null;
               if (data_ != null) {
                 subBuilder = data_.toBuilder();
               }
-              data_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
+              data_ = input.readMessage(tech.ydb.table.YdbTable.StoragePool.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(data_);
                 data_ = subBuilder.buildPartial();
@@ -22575,13 +22665,13 @@ public final class YdbTable {
     }
 
     public static final int DATA_FIELD_NUMBER = 2;
-    private tech.ydb.table.YdbTable.StorageSettings data_;
+    private tech.ydb.table.YdbTable.StoragePool data_;
     /**
      * <pre>
      * This specifies data storage settings for column family
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     * <code>.Ydb.Table.StoragePool data = 2;</code>
      */
     public boolean hasData() {
       return data_ != null;
@@ -22591,19 +22681,19 @@ public final class YdbTable {
      * This specifies data storage settings for column family
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     * <code>.Ydb.Table.StoragePool data = 2;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettings getData() {
-      return data_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : data_;
+    public tech.ydb.table.YdbTable.StoragePool getData() {
+      return data_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : data_;
     }
     /**
      * <pre>
      * This specifies data storage settings for column family
      * </pre>
      *
-     * <code>.Ydb.Table.StorageSettings data = 2;</code>
+     * <code>.Ydb.Table.StoragePool data = 2;</code>
      */
-    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getDataOrBuilder() {
+    public tech.ydb.table.YdbTable.StoragePoolOrBuilder getDataOrBuilder() {
       return getData();
     }
 
@@ -23094,15 +23184,15 @@ public final class YdbTable {
         return this;
       }
 
-      private tech.ydb.table.YdbTable.StorageSettings data_ = null;
+      private tech.ydb.table.YdbTable.StoragePool data_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> dataBuilder_;
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> dataBuilder_;
       /**
        * <pre>
        * This specifies data storage settings for column family
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
       public boolean hasData() {
         return dataBuilder_ != null || data_ != null;
@@ -23112,11 +23202,11 @@ public final class YdbTable {
        * This specifies data storage settings for column family
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings getData() {
+      public tech.ydb.table.YdbTable.StoragePool getData() {
         if (dataBuilder_ == null) {
-          return data_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : data_;
+          return data_ == null ? tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : data_;
         } else {
           return dataBuilder_.getMessage();
         }
@@ -23126,9 +23216,9 @@ public final class YdbTable {
        * This specifies data storage settings for column family
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
-      public Builder setData(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder setData(tech.ydb.table.YdbTable.StoragePool value) {
         if (dataBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -23146,10 +23236,10 @@ public final class YdbTable {
        * This specifies data storage settings for column family
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
       public Builder setData(
-          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
+          tech.ydb.table.YdbTable.StoragePool.Builder builderForValue) {
         if (dataBuilder_ == null) {
           data_ = builderForValue.build();
           onChanged();
@@ -23164,13 +23254,13 @@ public final class YdbTable {
        * This specifies data storage settings for column family
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
-      public Builder mergeData(tech.ydb.table.YdbTable.StorageSettings value) {
+      public Builder mergeData(tech.ydb.table.YdbTable.StoragePool value) {
         if (dataBuilder_ == null) {
           if (data_ != null) {
             data_ =
-              tech.ydb.table.YdbTable.StorageSettings.newBuilder(data_).mergeFrom(value).buildPartial();
+              tech.ydb.table.YdbTable.StoragePool.newBuilder(data_).mergeFrom(value).buildPartial();
           } else {
             data_ = value;
           }
@@ -23186,7 +23276,7 @@ public final class YdbTable {
        * This specifies data storage settings for column family
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
       public Builder clearData() {
         if (dataBuilder_ == null) {
@@ -23204,9 +23294,9 @@ public final class YdbTable {
        * This specifies data storage settings for column family
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettings.Builder getDataBuilder() {
+      public tech.ydb.table.YdbTable.StoragePool.Builder getDataBuilder() {
         
         onChanged();
         return getDataFieldBuilder().getBuilder();
@@ -23216,14 +23306,14 @@ public final class YdbTable {
        * This specifies data storage settings for column family
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
-      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getDataOrBuilder() {
+      public tech.ydb.table.YdbTable.StoragePoolOrBuilder getDataOrBuilder() {
         if (dataBuilder_ != null) {
           return dataBuilder_.getMessageOrBuilder();
         } else {
           return data_ == null ?
-              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : data_;
+              tech.ydb.table.YdbTable.StoragePool.getDefaultInstance() : data_;
         }
       }
       /**
@@ -23231,14 +23321,14 @@ public final class YdbTable {
        * This specifies data storage settings for column family
        * </pre>
        *
-       * <code>.Ydb.Table.StorageSettings data = 2;</code>
+       * <code>.Ydb.Table.StoragePool data = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
+          tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder> 
           getDataFieldBuilder() {
         if (dataBuilder_ == null) {
           dataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
+              tech.ydb.table.YdbTable.StoragePool, tech.ydb.table.YdbTable.StoragePool.Builder, tech.ydb.table.YdbTable.StoragePoolOrBuilder>(
                   getData(),
                   getParentForChildren(),
                   isClean());
@@ -23654,7 +23744,7 @@ public final class YdbTable {
      * Storage settings for table
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+     * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
      */
     boolean hasStorageSettings();
     /**
@@ -23662,17 +23752,17 @@ public final class YdbTable {
      * Storage settings for table
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+     * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
      */
-    tech.ydb.table.YdbTable.TableStorage getStorageSettings();
+    tech.ydb.table.YdbTable.StorageSettings getStorageSettings();
     /**
      * <pre>
      * Storage settings for table
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+     * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
      */
-    tech.ydb.table.YdbTable.TableStorageOrBuilder getStorageSettingsOrBuilder();
+    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getStorageSettingsOrBuilder();
 
     /**
      * <pre>
@@ -23846,11 +23936,11 @@ public final class YdbTable {
               break;
             }
             case 74: {
-              tech.ydb.table.YdbTable.TableStorage.Builder subBuilder = null;
+              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
               if (storageSettings_ != null) {
                 subBuilder = storageSettings_.toBuilder();
               }
-              storageSettings_ = input.readMessage(tech.ydb.table.YdbTable.TableStorage.parser(), extensionRegistry);
+              storageSettings_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(storageSettings_);
                 storageSettings_ = subBuilder.buildPartial();
@@ -24231,13 +24321,13 @@ public final class YdbTable {
     }
 
     public static final int STORAGE_SETTINGS_FIELD_NUMBER = 9;
-    private tech.ydb.table.YdbTable.TableStorage storageSettings_;
+    private tech.ydb.table.YdbTable.StorageSettings storageSettings_;
     /**
      * <pre>
      * Storage settings for table
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+     * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
      */
     public boolean hasStorageSettings() {
       return storageSettings_ != null;
@@ -24247,19 +24337,19 @@ public final class YdbTable {
      * Storage settings for table
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+     * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
      */
-    public tech.ydb.table.YdbTable.TableStorage getStorageSettings() {
-      return storageSettings_ == null ? tech.ydb.table.YdbTable.TableStorage.getDefaultInstance() : storageSettings_;
+    public tech.ydb.table.YdbTable.StorageSettings getStorageSettings() {
+      return storageSettings_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : storageSettings_;
     }
     /**
      * <pre>
      * Storage settings for table
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+     * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
      */
-    public tech.ydb.table.YdbTable.TableStorageOrBuilder getStorageSettingsOrBuilder() {
+    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getStorageSettingsOrBuilder() {
       return getStorageSettings();
     }
 
@@ -26296,15 +26386,15 @@ public final class YdbTable {
         return ttlSettingsBuilder_;
       }
 
-      private tech.ydb.table.YdbTable.TableStorage storageSettings_ = null;
+      private tech.ydb.table.YdbTable.StorageSettings storageSettings_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.TableStorage, tech.ydb.table.YdbTable.TableStorage.Builder, tech.ydb.table.YdbTable.TableStorageOrBuilder> storageSettingsBuilder_;
+          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> storageSettingsBuilder_;
       /**
        * <pre>
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
        */
       public boolean hasStorageSettings() {
         return storageSettingsBuilder_ != null || storageSettings_ != null;
@@ -26314,11 +26404,11 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
        */
-      public tech.ydb.table.YdbTable.TableStorage getStorageSettings() {
+      public tech.ydb.table.YdbTable.StorageSettings getStorageSettings() {
         if (storageSettingsBuilder_ == null) {
-          return storageSettings_ == null ? tech.ydb.table.YdbTable.TableStorage.getDefaultInstance() : storageSettings_;
+          return storageSettings_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : storageSettings_;
         } else {
           return storageSettingsBuilder_.getMessage();
         }
@@ -26328,9 +26418,9 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
        */
-      public Builder setStorageSettings(tech.ydb.table.YdbTable.TableStorage value) {
+      public Builder setStorageSettings(tech.ydb.table.YdbTable.StorageSettings value) {
         if (storageSettingsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -26348,10 +26438,10 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
        */
       public Builder setStorageSettings(
-          tech.ydb.table.YdbTable.TableStorage.Builder builderForValue) {
+          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
         if (storageSettingsBuilder_ == null) {
           storageSettings_ = builderForValue.build();
           onChanged();
@@ -26366,13 +26456,13 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
        */
-      public Builder mergeStorageSettings(tech.ydb.table.YdbTable.TableStorage value) {
+      public Builder mergeStorageSettings(tech.ydb.table.YdbTable.StorageSettings value) {
         if (storageSettingsBuilder_ == null) {
           if (storageSettings_ != null) {
             storageSettings_ =
-              tech.ydb.table.YdbTable.TableStorage.newBuilder(storageSettings_).mergeFrom(value).buildPartial();
+              tech.ydb.table.YdbTable.StorageSettings.newBuilder(storageSettings_).mergeFrom(value).buildPartial();
           } else {
             storageSettings_ = value;
           }
@@ -26388,7 +26478,7 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
        */
       public Builder clearStorageSettings() {
         if (storageSettingsBuilder_ == null) {
@@ -26406,9 +26496,9 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
        */
-      public tech.ydb.table.YdbTable.TableStorage.Builder getStorageSettingsBuilder() {
+      public tech.ydb.table.YdbTable.StorageSettings.Builder getStorageSettingsBuilder() {
         
         onChanged();
         return getStorageSettingsFieldBuilder().getBuilder();
@@ -26418,14 +26508,14 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
        */
-      public tech.ydb.table.YdbTable.TableStorageOrBuilder getStorageSettingsOrBuilder() {
+      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getStorageSettingsOrBuilder() {
         if (storageSettingsBuilder_ != null) {
           return storageSettingsBuilder_.getMessageOrBuilder();
         } else {
           return storageSettings_ == null ?
-              tech.ydb.table.YdbTable.TableStorage.getDefaultInstance() : storageSettings_;
+              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : storageSettings_;
         }
       }
       /**
@@ -26433,14 +26523,14 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 9;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 9;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.TableStorage, tech.ydb.table.YdbTable.TableStorage.Builder, tech.ydb.table.YdbTable.TableStorageOrBuilder> 
+          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
           getStorageSettingsFieldBuilder() {
         if (storageSettingsBuilder_ == null) {
           storageSettingsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.table.YdbTable.TableStorage, tech.ydb.table.YdbTable.TableStorage.Builder, tech.ydb.table.YdbTable.TableStorageOrBuilder>(
+              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
                   getStorageSettings(),
                   getParentForChildren(),
                   isClean());
@@ -29186,7 +29276,7 @@ public final class YdbTable {
      * Change table storage settings
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+     * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
      */
     boolean hasAlterStorageSettings();
     /**
@@ -29194,17 +29284,17 @@ public final class YdbTable {
      * Change table storage settings
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+     * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
      */
-    tech.ydb.table.YdbTable.TableStorage getAlterStorageSettings();
+    tech.ydb.table.YdbTable.StorageSettings getAlterStorageSettings();
     /**
      * <pre>
      * Change table storage settings
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+     * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
      */
-    tech.ydb.table.YdbTable.TableStorageOrBuilder getAlterStorageSettingsOrBuilder();
+    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getAlterStorageSettingsOrBuilder();
 
     /**
      * <pre>
@@ -29431,11 +29521,11 @@ public final class YdbTable {
               break;
             }
             case 90: {
-              tech.ydb.table.YdbTable.TableStorage.Builder subBuilder = null;
+              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
               if (alterStorageSettings_ != null) {
                 subBuilder = alterStorageSettings_.toBuilder();
               }
-              alterStorageSettings_ = input.readMessage(tech.ydb.table.YdbTable.TableStorage.parser(), extensionRegistry);
+              alterStorageSettings_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(alterStorageSettings_);
                 alterStorageSettings_ = subBuilder.buildPartial();
@@ -29958,13 +30048,13 @@ public final class YdbTable {
     }
 
     public static final int ALTER_STORAGE_SETTINGS_FIELD_NUMBER = 11;
-    private tech.ydb.table.YdbTable.TableStorage alterStorageSettings_;
+    private tech.ydb.table.YdbTable.StorageSettings alterStorageSettings_;
     /**
      * <pre>
      * Change table storage settings
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+     * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
      */
     public boolean hasAlterStorageSettings() {
       return alterStorageSettings_ != null;
@@ -29974,19 +30064,19 @@ public final class YdbTable {
      * Change table storage settings
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+     * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
      */
-    public tech.ydb.table.YdbTable.TableStorage getAlterStorageSettings() {
-      return alterStorageSettings_ == null ? tech.ydb.table.YdbTable.TableStorage.getDefaultInstance() : alterStorageSettings_;
+    public tech.ydb.table.YdbTable.StorageSettings getAlterStorageSettings() {
+      return alterStorageSettings_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : alterStorageSettings_;
     }
     /**
      * <pre>
      * Change table storage settings
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+     * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
      */
-    public tech.ydb.table.YdbTable.TableStorageOrBuilder getAlterStorageSettingsOrBuilder() {
+    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getAlterStorageSettingsOrBuilder() {
       return getAlterStorageSettings();
     }
 
@@ -32640,15 +32730,15 @@ public final class YdbTable {
         return this;
       }
 
-      private tech.ydb.table.YdbTable.TableStorage alterStorageSettings_ = null;
+      private tech.ydb.table.YdbTable.StorageSettings alterStorageSettings_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.TableStorage, tech.ydb.table.YdbTable.TableStorage.Builder, tech.ydb.table.YdbTable.TableStorageOrBuilder> alterStorageSettingsBuilder_;
+          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> alterStorageSettingsBuilder_;
       /**
        * <pre>
        * Change table storage settings
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+       * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
        */
       public boolean hasAlterStorageSettings() {
         return alterStorageSettingsBuilder_ != null || alterStorageSettings_ != null;
@@ -32658,11 +32748,11 @@ public final class YdbTable {
        * Change table storage settings
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+       * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
        */
-      public tech.ydb.table.YdbTable.TableStorage getAlterStorageSettings() {
+      public tech.ydb.table.YdbTable.StorageSettings getAlterStorageSettings() {
         if (alterStorageSettingsBuilder_ == null) {
-          return alterStorageSettings_ == null ? tech.ydb.table.YdbTable.TableStorage.getDefaultInstance() : alterStorageSettings_;
+          return alterStorageSettings_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : alterStorageSettings_;
         } else {
           return alterStorageSettingsBuilder_.getMessage();
         }
@@ -32672,9 +32762,9 @@ public final class YdbTable {
        * Change table storage settings
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+       * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
        */
-      public Builder setAlterStorageSettings(tech.ydb.table.YdbTable.TableStorage value) {
+      public Builder setAlterStorageSettings(tech.ydb.table.YdbTable.StorageSettings value) {
         if (alterStorageSettingsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -32692,10 +32782,10 @@ public final class YdbTable {
        * Change table storage settings
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+       * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
        */
       public Builder setAlterStorageSettings(
-          tech.ydb.table.YdbTable.TableStorage.Builder builderForValue) {
+          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
         if (alterStorageSettingsBuilder_ == null) {
           alterStorageSettings_ = builderForValue.build();
           onChanged();
@@ -32710,13 +32800,13 @@ public final class YdbTable {
        * Change table storage settings
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+       * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
        */
-      public Builder mergeAlterStorageSettings(tech.ydb.table.YdbTable.TableStorage value) {
+      public Builder mergeAlterStorageSettings(tech.ydb.table.YdbTable.StorageSettings value) {
         if (alterStorageSettingsBuilder_ == null) {
           if (alterStorageSettings_ != null) {
             alterStorageSettings_ =
-              tech.ydb.table.YdbTable.TableStorage.newBuilder(alterStorageSettings_).mergeFrom(value).buildPartial();
+              tech.ydb.table.YdbTable.StorageSettings.newBuilder(alterStorageSettings_).mergeFrom(value).buildPartial();
           } else {
             alterStorageSettings_ = value;
           }
@@ -32732,7 +32822,7 @@ public final class YdbTable {
        * Change table storage settings
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+       * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
        */
       public Builder clearAlterStorageSettings() {
         if (alterStorageSettingsBuilder_ == null) {
@@ -32750,9 +32840,9 @@ public final class YdbTable {
        * Change table storage settings
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+       * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
        */
-      public tech.ydb.table.YdbTable.TableStorage.Builder getAlterStorageSettingsBuilder() {
+      public tech.ydb.table.YdbTable.StorageSettings.Builder getAlterStorageSettingsBuilder() {
         
         onChanged();
         return getAlterStorageSettingsFieldBuilder().getBuilder();
@@ -32762,14 +32852,14 @@ public final class YdbTable {
        * Change table storage settings
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+       * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
        */
-      public tech.ydb.table.YdbTable.TableStorageOrBuilder getAlterStorageSettingsOrBuilder() {
+      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getAlterStorageSettingsOrBuilder() {
         if (alterStorageSettingsBuilder_ != null) {
           return alterStorageSettingsBuilder_.getMessageOrBuilder();
         } else {
           return alterStorageSettings_ == null ?
-              tech.ydb.table.YdbTable.TableStorage.getDefaultInstance() : alterStorageSettings_;
+              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : alterStorageSettings_;
         }
       }
       /**
@@ -32777,14 +32867,14 @@ public final class YdbTable {
        * Change table storage settings
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage alter_storage_settings = 11;</code>
+       * <code>.Ydb.Table.StorageSettings alter_storage_settings = 11;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.TableStorage, tech.ydb.table.YdbTable.TableStorage.Builder, tech.ydb.table.YdbTable.TableStorageOrBuilder> 
+          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
           getAlterStorageSettingsFieldBuilder() {
         if (alterStorageSettingsBuilder_ == null) {
           alterStorageSettingsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.table.YdbTable.TableStorage, tech.ydb.table.YdbTable.TableStorage.Builder, tech.ydb.table.YdbTable.TableStorageOrBuilder>(
+              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
                   getAlterStorageSettings(),
                   getParentForChildren(),
                   isClean());
@@ -40370,7 +40460,7 @@ public final class YdbTable {
      * Storage settings for table
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+     * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
      */
     boolean hasStorageSettings();
     /**
@@ -40378,17 +40468,17 @@ public final class YdbTable {
      * Storage settings for table
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+     * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
      */
-    tech.ydb.table.YdbTable.TableStorage getStorageSettings();
+    tech.ydb.table.YdbTable.StorageSettings getStorageSettings();
     /**
      * <pre>
      * Storage settings for table
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+     * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
      */
-    tech.ydb.table.YdbTable.TableStorageOrBuilder getStorageSettingsOrBuilder();
+    tech.ydb.table.YdbTable.StorageSettingsOrBuilder getStorageSettingsOrBuilder();
 
     /**
      * <pre>
@@ -40558,11 +40648,11 @@ public final class YdbTable {
               break;
             }
             case 66: {
-              tech.ydb.table.YdbTable.TableStorage.Builder subBuilder = null;
+              tech.ydb.table.YdbTable.StorageSettings.Builder subBuilder = null;
               if (storageSettings_ != null) {
                 subBuilder = storageSettings_.toBuilder();
               }
-              storageSettings_ = input.readMessage(tech.ydb.table.YdbTable.TableStorage.parser(), extensionRegistry);
+              storageSettings_ = input.readMessage(tech.ydb.table.YdbTable.StorageSettings.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(storageSettings_);
                 storageSettings_ = subBuilder.buildPartial();
@@ -40929,13 +41019,13 @@ public final class YdbTable {
     }
 
     public static final int STORAGE_SETTINGS_FIELD_NUMBER = 8;
-    private tech.ydb.table.YdbTable.TableStorage storageSettings_;
+    private tech.ydb.table.YdbTable.StorageSettings storageSettings_;
     /**
      * <pre>
      * Storage settings for table
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+     * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
      */
     public boolean hasStorageSettings() {
       return storageSettings_ != null;
@@ -40945,19 +41035,19 @@ public final class YdbTable {
      * Storage settings for table
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+     * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
      */
-    public tech.ydb.table.YdbTable.TableStorage getStorageSettings() {
-      return storageSettings_ == null ? tech.ydb.table.YdbTable.TableStorage.getDefaultInstance() : storageSettings_;
+    public tech.ydb.table.YdbTable.StorageSettings getStorageSettings() {
+      return storageSettings_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : storageSettings_;
     }
     /**
      * <pre>
      * Storage settings for table
      * </pre>
      *
-     * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+     * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
      */
-    public tech.ydb.table.YdbTable.TableStorageOrBuilder getStorageSettingsOrBuilder() {
+    public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getStorageSettingsOrBuilder() {
       return getStorageSettings();
     }
 
@@ -43185,15 +43275,15 @@ public final class YdbTable {
         return ttlSettingsBuilder_;
       }
 
-      private tech.ydb.table.YdbTable.TableStorage storageSettings_ = null;
+      private tech.ydb.table.YdbTable.StorageSettings storageSettings_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.TableStorage, tech.ydb.table.YdbTable.TableStorage.Builder, tech.ydb.table.YdbTable.TableStorageOrBuilder> storageSettingsBuilder_;
+          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> storageSettingsBuilder_;
       /**
        * <pre>
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
        */
       public boolean hasStorageSettings() {
         return storageSettingsBuilder_ != null || storageSettings_ != null;
@@ -43203,11 +43293,11 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
        */
-      public tech.ydb.table.YdbTable.TableStorage getStorageSettings() {
+      public tech.ydb.table.YdbTable.StorageSettings getStorageSettings() {
         if (storageSettingsBuilder_ == null) {
-          return storageSettings_ == null ? tech.ydb.table.YdbTable.TableStorage.getDefaultInstance() : storageSettings_;
+          return storageSettings_ == null ? tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : storageSettings_;
         } else {
           return storageSettingsBuilder_.getMessage();
         }
@@ -43217,9 +43307,9 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
        */
-      public Builder setStorageSettings(tech.ydb.table.YdbTable.TableStorage value) {
+      public Builder setStorageSettings(tech.ydb.table.YdbTable.StorageSettings value) {
         if (storageSettingsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -43237,10 +43327,10 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
        */
       public Builder setStorageSettings(
-          tech.ydb.table.YdbTable.TableStorage.Builder builderForValue) {
+          tech.ydb.table.YdbTable.StorageSettings.Builder builderForValue) {
         if (storageSettingsBuilder_ == null) {
           storageSettings_ = builderForValue.build();
           onChanged();
@@ -43255,13 +43345,13 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
        */
-      public Builder mergeStorageSettings(tech.ydb.table.YdbTable.TableStorage value) {
+      public Builder mergeStorageSettings(tech.ydb.table.YdbTable.StorageSettings value) {
         if (storageSettingsBuilder_ == null) {
           if (storageSettings_ != null) {
             storageSettings_ =
-              tech.ydb.table.YdbTable.TableStorage.newBuilder(storageSettings_).mergeFrom(value).buildPartial();
+              tech.ydb.table.YdbTable.StorageSettings.newBuilder(storageSettings_).mergeFrom(value).buildPartial();
           } else {
             storageSettings_ = value;
           }
@@ -43277,7 +43367,7 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
        */
       public Builder clearStorageSettings() {
         if (storageSettingsBuilder_ == null) {
@@ -43295,9 +43385,9 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
        */
-      public tech.ydb.table.YdbTable.TableStorage.Builder getStorageSettingsBuilder() {
+      public tech.ydb.table.YdbTable.StorageSettings.Builder getStorageSettingsBuilder() {
         
         onChanged();
         return getStorageSettingsFieldBuilder().getBuilder();
@@ -43307,14 +43397,14 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
        */
-      public tech.ydb.table.YdbTable.TableStorageOrBuilder getStorageSettingsOrBuilder() {
+      public tech.ydb.table.YdbTable.StorageSettingsOrBuilder getStorageSettingsOrBuilder() {
         if (storageSettingsBuilder_ != null) {
           return storageSettingsBuilder_.getMessageOrBuilder();
         } else {
           return storageSettings_ == null ?
-              tech.ydb.table.YdbTable.TableStorage.getDefaultInstance() : storageSettings_;
+              tech.ydb.table.YdbTable.StorageSettings.getDefaultInstance() : storageSettings_;
         }
       }
       /**
@@ -43322,14 +43412,14 @@ public final class YdbTable {
        * Storage settings for table
        * </pre>
        *
-       * <code>.Ydb.Table.TableStorage storage_settings = 8;</code>
+       * <code>.Ydb.Table.StorageSettings storage_settings = 8;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.table.YdbTable.TableStorage, tech.ydb.table.YdbTable.TableStorage.Builder, tech.ydb.table.YdbTable.TableStorageOrBuilder> 
+          tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder> 
           getStorageSettingsFieldBuilder() {
         if (storageSettingsBuilder_ == null) {
           storageSettingsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.table.YdbTable.TableStorage, tech.ydb.table.YdbTable.TableStorage.Builder, tech.ydb.table.YdbTable.TableStorageOrBuilder>(
+              tech.ydb.table.YdbTable.StorageSettings, tech.ydb.table.YdbTable.StorageSettings.Builder, tech.ydb.table.YdbTable.StorageSettingsOrBuilder>(
                   getStorageSettings(),
                   getParentForChildren(),
                   isClean());
@@ -89105,10 +89195,10 @@ public final class YdbTable {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Table_IndexBuildMetadata_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Table_StorageSettings_descriptor;
+    internal_static_Ydb_Table_StoragePool_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Table_StorageSettings_fieldAccessorTable;
+      internal_static_Ydb_Table_StoragePool_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Table_StoragePolicy_descriptor;
   private static final 
@@ -89180,10 +89270,10 @@ public final class YdbTable {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Table_TtlSettings_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Table_TableStorage_descriptor;
+    internal_static_Ydb_Table_StorageSettings_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Table_TableStorage_fieldAccessorTable;
+      internal_static_Ydb_Table_StorageSettings_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Table_ColumnFamily_descriptor;
   private static final 
@@ -89606,317 +89696,317 @@ public final class YdbTable {
       "Table.TableIndex\"\205\001\n\022IndexBuildMetadata\022" +
       "5\n\013description\030\001 \001(\0132 .Ydb.Table.IndexBu" +
       "ildDescription\0228\n\010progress\030\002 \001(\0162&.Ydb.T" +
-      "able.IndexBuildProgress.Progress\"\'\n\017Stor" +
-      "ageSettings\022\024\n\014storage_kind\030\001 \001(\t\"\272\002\n\rSt" +
-      "oragePolicy\022\023\n\013preset_name\030\001 \001(\t\022*\n\006sysl" +
-      "og\030\002 \001(\0132\032.Ydb.Table.StorageSettings\022\'\n\003" +
-      "log\030\003 \001(\0132\032.Ydb.Table.StorageSettings\022(\n" +
-      "\004data\030\004 \001(\0132\032.Ydb.Table.StorageSettings\022" +
-      ",\n\010external\030\005 \001(\0132\032.Ydb.Table.StorageSet",
-      "tings\022/\n\016keep_in_memory\030\006 \001(\0162\027.Ydb.Feat" +
-      "ureFlag.Status\0226\n\017column_families\030\007 \003(\0132" +
-      "\035.Ydb.Table.ColumnFamilyPolicy\"\271\002\n\022Colum" +
-      "nFamilyPolicy\022\014\n\004name\030\001 \001(\t\022(\n\004data\030\002 \001(" +
-      "\0132\032.Ydb.Table.StorageSettings\022,\n\010externa" +
-      "l\030\003 \001(\0132\032.Ydb.Table.StorageSettings\022/\n\016k" +
-      "eep_in_memory\030\004 \001(\0162\027.Ydb.FeatureFlag.St" +
-      "atus\022>\n\013compression\030\005 \001(\0162).Ydb.Table.Co" +
-      "lumnFamilyPolicy.Compression\"L\n\013Compress" +
-      "ion\022\033\n\027COMPRESSION_UNSPECIFIED\020\000\022\020\n\014UNCO",
-      "MPRESSED\020\001\022\016\n\nCOMPRESSED\020\002\"\'\n\020Compaction" +
-      "Policy\022\023\n\013preset_name\030\001 \001(\t\";\n\022ExplicitP" +
-      "artitions\022%\n\014split_points\030\001 \003(\0132\017.Ydb.Ty" +
-      "pedValue\";\n\016PartitionStats\022\025\n\rrows_estim" +
-      "ate\030\001 \001(\004\022\022\n\nstore_size\030\002 \001(\004\"\351\001\n\nTableS" +
-      "tats\0222\n\017partition_stats\030\001 \003(\0132\031.Ydb.Tabl" +
-      "e.PartitionStats\022\025\n\rrows_estimate\030\002 \001(\004\022" +
-      "\022\n\nstore_size\030\003 \001(\004\022\022\n\npartitions\030\004 \001(\004\022" +
-      "1\n\rcreation_time\030\005 \001(\0132\032.google.protobuf" +
-      ".Timestamp\0225\n\021modification_time\030\006 \001(\0132\032.",
-      "google.protobuf.Timestamp\"\334\002\n\022Partitioni" +
-      "ngPolicy\022\023\n\013preset_name\030\001 \001(\t\022O\n\021auto_pa" +
-      "rtitioning\030\002 \001(\01624.Ydb.Table.Partitionin" +
-      "gPolicy.AutoPartitioningPolicy\022\034\n\022unifor" +
-      "m_partitions\030\003 \001(\004H\000\022<\n\023explicit_partiti" +
-      "ons\030\004 \001(\0132\035.Ydb.Table.ExplicitPartitions" +
-      "H\000\"v\n\026AutoPartitioningPolicy\022(\n$AUTO_PAR" +
-      "TITIONING_POLICY_UNSPECIFIED\020\000\022\014\n\010DISABL" +
-      "ED\020\001\022\016\n\nAUTO_SPLIT\020\002\022\024\n\020AUTO_SPLIT_MERGE" +
-      "\020\003B\014\n\npartitions\"&\n\017ExecutionPolicy\022\023\n\013p",
-      "reset_name\030\001 \001(\t\"\261\001\n\021ReplicationPolicy\022\023" +
-      "\n\013preset_name\030\001 \001(\t\022\026\n\016replicas_count\030\002 " +
-      "\001(\r\022=\n\034create_per_availability_zone\030\003 \001(" +
-      "\0162\027.Ydb.FeatureFlag.Status\0220\n\017allow_prom" +
-      "otion\030\004 \001(\0162\027.Ydb.FeatureFlag.Status\"$\n\r" +
-      "CachingPolicy\022\023\n\013preset_name\030\001 \001(\t\"\353\002\n\014T" +
-      "ableProfile\022\023\n\013preset_name\030\001 \001(\t\0220\n\016stor" +
-      "age_policy\030\002 \001(\0132\030.Ydb.Table.StoragePoli" +
-      "cy\0226\n\021compaction_policy\030\003 \001(\0132\033.Ydb.Tabl" +
-      "e.CompactionPolicy\022:\n\023partitioning_polic",
-      "y\030\004 \001(\0132\035.Ydb.Table.PartitioningPolicy\0224" +
-      "\n\020execution_policy\030\005 \001(\0132\032.Ydb.Table.Exe" +
-      "cutionPolicy\0228\n\022replication_policy\030\006 \001(\013" +
-      "2\034.Ydb.Table.ReplicationPolicy\0220\n\016cachin" +
-      "g_policy\030\007 \001(\0132\030.Ydb.Table.CachingPolicy" +
-      "\"C\n\nColumnMeta\022\014\n\004name\030\001 \001(\t\022\027\n\004type\030\002 \001" +
-      "(\0132\t.Ydb.Type\022\016\n\006family\030\003 \001(\t\"O\n\032DateTyp" +
-      "eColumnModeSettings\022\023\n\013column_name\030\001 \001(\t" +
-      "\022\034\n\024expire_after_seconds\030\002 \001(\r\"X\n\013TtlSet" +
-      "tings\022A\n\020date_type_column\030\001 \001(\0132%.Ydb.Ta",
-      "ble.DateTypeColumnModeSettingsH\000B\006\n\004mode" +
-      "\"\316\001\n\014TableStorage\022*\n\006syslog\030\001 \001(\0132\032.Ydb." +
-      "Table.StorageSettings\022\'\n\003log\030\002 \001(\0132\032.Ydb" +
-      ".Table.StorageSettings\022,\n\010external\030\004 \001(\013" +
-      "2\032.Ydb.Table.StorageSettings\0225\n\024store_ex" +
-      "ternal_blobs\030\005 \001(\0162\027.Ydb.FeatureFlag.Sta" +
-      "tusJ\004\010\003\020\004\"\210\002\n\014ColumnFamily\022\014\n\004name\030\001 \001(\t" +
-      "\022(\n\004data\030\002 \001(\0132\032.Ydb.Table.StorageSettin" +
-      "gs\0228\n\013compression\030\003 \001(\0162#.Ydb.Table.Colu" +
-      "mnFamily.Compression\022/\n\016keep_in_memory\030\004",
-      " \001(\0162\027.Ydb.FeatureFlag.Status\"U\n\013Compres" +
-      "sion\022\033\n\027COMPRESSION_UNSPECIFIED\020\000\022\024\n\020COM" +
-      "PRESSION_NONE\020\001\022\023\n\017COMPRESSION_LZ4\020\002\"\223\003\n" +
-      "\022CreateTableRequest\022\022\n\nsession_id\030\001 \001(\t\022" +
-      "\014\n\004path\030\002 \001(\t\022&\n\007columns\030\003 \003(\0132\025.Ydb.Tab" +
-      "le.ColumnMeta\022\023\n\013primary_key\030\004 \003(\t\022(\n\007pr" +
-      "ofile\030\005 \001(\0132\027.Ydb.Table.TableProfile\0229\n\020" +
-      "operation_params\030\006 \001(\0132\037.Ydb.Operations." +
-      "OperationParams\022&\n\007indexes\030\007 \003(\0132\025.Ydb.T" +
-      "able.TableIndex\022,\n\014ttl_settings\030\010 \001(\0132\026.",
-      "Ydb.Table.TtlSettings\0221\n\020storage_setting" +
-      "s\030\t \001(\0132\027.Ydb.Table.TableStorage\0220\n\017colu" +
-      "mn_families\030\n \003(\0132\027.Ydb.Table.ColumnFami" +
-      "ly\"C\n\023CreateTableResponse\022,\n\toperation\030\001" +
-      " \001(\0132\031.Ydb.Operations.Operation\"u\n\020DropT" +
-      "ableRequest\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030" +
-      "\002 \001(\t\0229\n\020operation_params\030\004 \001(\0132\037.Ydb.Op" +
-      "erations.OperationParamsJ\004\010\003\020\004\"A\n\021DropTa" +
-      "bleResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"\300\004\n\021AlterTableRequest\022",
-      "\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022*\n\013add" +
-      "_columns\030\003 \003(\0132\025.Ydb.Table.ColumnMeta\022\024\n" +
-      "\014drop_columns\030\004 \003(\t\0229\n\020operation_params\030" +
-      "\005 \001(\0132\037.Ydb.Operations.OperationParams\022," +
-      "\n\ralter_columns\030\006 \003(\0132\025.Ydb.Table.Column" +
-      "Meta\0222\n\020set_ttl_settings\030\007 \001(\0132\026.Ydb.Tab" +
-      "le.TtlSettingsH\000\0223\n\021drop_ttl_settings\030\010 " +
-      "\001(\0132\026.google.protobuf.EmptyH\000\022*\n\013add_ind" +
-      "exes\030\t \003(\0132\025.Ydb.Table.TableIndex\022\024\n\014dro" +
-      "p_indexes\030\n \003(\t\0227\n\026alter_storage_setting",
-      "s\030\013 \001(\0132\027.Ydb.Table.TableStorage\0224\n\023add_" +
-      "column_families\030\014 \003(\0132\027.Ydb.Table.Column" +
-      "Family\0226\n\025alter_column_families\030\r \003(\0132\027." +
-      "Ydb.Table.ColumnFamilyB\014\n\nttl_action\"B\n\022" +
-      "AlterTableResponse\022,\n\toperation\030\001 \001(\0132\031." +
-      "Ydb.Operations.Operation\"\220\001\n\020CopyTableRe" +
-      "quest\022\022\n\nsession_id\030\001 \001(\t\022\023\n\013source_path" +
-      "\030\002 \001(\t\022\030\n\020destination_path\030\003 \001(\t\0229\n\020oper" +
-      "ation_params\030\004 \001(\0132\037.Ydb.Operations.Oper" +
-      "ationParams\"A\n\021CopyTableResponse\022,\n\toper",
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"T" +
-      "\n\rCopyTableItem\022\023\n\013source_path\030\001 \001(\t\022\030\n\020" +
-      "destination_path\030\002 \001(\t\022\024\n\014omit_indexes\030\003" +
-      " \001(\010\"\214\001\n\021CopyTablesRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\022\n\nsession_id\030\002 \001(\t\022(\n\006tables\030\003 \003(" +
-      "\0132\030.Ydb.Table.CopyTableItem\"B\n\022CopyTable" +
-      "sResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
-      "tions.Operation\"\323\001\n\024DescribeTableRequest" +
-      "\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\0229\n\020op",
-      "eration_params\030\004 \001(\0132\037.Ydb.Operations.Op" +
-      "erationParams\022 \n\030include_shard_key_bound" +
-      "s\030\005 \001(\010\022\033\n\023include_table_stats\030\006 \001(\010\022\037\n\027" +
-      "include_partition_stats\030\007 \001(\010\"E\n\025Describ" +
-      "eTableResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
-      "Operations.Operation\"\205\003\n\023DescribeTableRe" +
-      "sult\022\037\n\004self\030\001 \001(\0132\021.Ydb.Scheme.Entry\022&\n" +
-      "\007columns\030\002 \003(\0132\025.Ydb.Table.ColumnMeta\022\023\n" +
-      "\013primary_key\030\003 \003(\t\022)\n\020shard_key_bounds\030\004" +
-      " \003(\0132\017.Ydb.TypedValue\022&\n\007indexes\030\005 \003(\0132\025",
-      ".Ydb.Table.TableIndex\022*\n\013table_stats\030\006 \001" +
-      "(\0132\025.Ydb.Table.TableStats\022,\n\014ttl_setting" +
-      "s\030\007 \001(\0132\026.Ydb.Table.TtlSettings\0221\n\020stora" +
-      "ge_settings\030\010 \001(\0132\027.Ydb.Table.TableStora" +
-      "ge\0220\n\017column_families\030\t \003(\0132\027.Ydb.Table." +
-      "ColumnFamily\"2\n\005Query\022\022\n\010yql_text\030\001 \001(\tH" +
-      "\000\022\014\n\002id\030\002 \001(\tH\000B\007\n\005query\"\032\n\030Serializable" +
-      "ModeSettings\"6\n\022OnlineModeSettings\022 \n\030al" +
-      "low_inconsistent_reads\030\001 \001(\010\"\023\n\021StaleMod" +
-      "eSettings\"\334\001\n\023TransactionSettings\022F\n\027ser",
-      "ializable_read_write\030\001 \001(\0132#.Ydb.Table.S" +
-      "erializableModeSettingsH\000\0229\n\020online_read" +
-      "_only\030\002 \001(\0132\035.Ydb.Table.OnlineModeSettin" +
-      "gsH\000\0227\n\017stale_read_only\030\003 \001(\0132\034.Ydb.Tabl" +
-      "e.StaleModeSettingsH\000B\t\n\007tx_mode\"{\n\022Tran" +
-      "sactionControl\022\017\n\005tx_id\030\001 \001(\tH\000\0222\n\010begin" +
-      "_tx\030\002 \001(\0132\036.Ydb.Table.TransactionSetting" +
-      "sH\000\022\021\n\tcommit_tx\030\n \001(\010B\r\n\013tx_selector\")\n" +
-      "\020QueryCachePolicy\022\025\n\rkeep_in_cache\030\001 \001(\010" +
-      "\"\300\004\n\027ExecuteDataQueryRequest\022\022\n\nsession_",
-      "id\030\001 \001(\t\0221\n\ntx_control\030\002 \001(\0132\035.Ydb.Table" +
-      ".TransactionControl\022\037\n\005query\030\003 \001(\0132\020.Ydb" +
-      ".Table.Query\022F\n\nparameters\030\004 \003(\01322.Ydb.T" +
-      "able.ExecuteDataQueryRequest.ParametersE" +
-      "ntry\0227\n\022query_cache_policy\030\005 \001(\0132\033.Ydb.T" +
-      "able.QueryCachePolicy\0229\n\020operation_param" +
-      "s\030\006 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\022M\n\rcollect_stats\030\007 \001(\01626.Ydb.Table.Exec" +
-      "uteDataQueryRequest.StatsCollectionMode\032" +
-      "B\n\017ParametersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value",
-      "\030\002 \001(\0132\017.Ydb.TypedValue:\0028\001\"n\n\023StatsColl" +
-      "ectionMode\022 \n\034STATS_COLLECTION_UNSPECIFI" +
-      "ED\020\000\022\031\n\025STATS_COLLECTION_NONE\020\001\022\032\n\026STATS" +
-      "_COLLECTION_BASIC\020\002\"H\n\030ExecuteDataQueryR" +
-      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
-      "ons.Operation\"|\n\031ExecuteSchemeQueryReque" +
-      "st\022\022\n\nsession_id\030\001 \001(\t\022\020\n\010yql_text\030\002 \001(\t" +
-      "\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Operati" +
-      "ons.OperationParams\"J\n\032ExecuteSchemeQuer" +
-      "yResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera",
-      "tions.Operation\"\035\n\017TransactionMeta\022\n\n\002id" +
-      "\030\001 \001(\t\"\237\001\n\tQueryMeta\022\n\n\002id\030\001 \001(\t\022C\n\020para" +
-      "meters_types\030\002 \003(\0132).Ydb.Table.QueryMeta" +
-      ".ParametersTypesEntry\032A\n\024ParametersTypes" +
-      "Entry\022\013\n\003key\030\001 \001(\t\022\030\n\005value\030\002 \001(\0132\t.Ydb." +
-      "Type:\0028\001\"\301\001\n\022ExecuteQueryResult\022#\n\013resul" +
-      "t_sets\030\001 \003(\0132\016.Ydb.ResultSet\022+\n\007tx_meta\030" +
-      "\002 \001(\0132\032.Ydb.Table.TransactionMeta\022(\n\nque" +
-      "ry_meta\030\003 \001(\0132\024.Ydb.Table.QueryMeta\022/\n\013q" +
-      "uery_stats\030\004 \001(\0132\032.Ydb.TableStats.QueryS",
-      "tats\"z\n\027ExplainDataQueryRequest\022\022\n\nsessi" +
-      "on_id\030\001 \001(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020operati" +
+      "able.IndexBuildProgress.Progress\"\034\n\013Stor" +
+      "agePool\022\r\n\005media\030\001 \001(\t\"\252\002\n\rStoragePolicy" +
+      "\022\023\n\013preset_name\030\001 \001(\t\022&\n\006syslog\030\002 \001(\0132\026." +
+      "Ydb.Table.StoragePool\022#\n\003log\030\003 \001(\0132\026.Ydb" +
+      ".Table.StoragePool\022$\n\004data\030\004 \001(\0132\026.Ydb.T" +
+      "able.StoragePool\022(\n\010external\030\005 \001(\0132\026.Ydb" +
+      ".Table.StoragePool\022/\n\016keep_in_memory\030\006 \001",
+      "(\0162\027.Ydb.FeatureFlag.Status\0226\n\017column_fa" +
+      "milies\030\007 \003(\0132\035.Ydb.Table.ColumnFamilyPol" +
+      "icy\"\261\002\n\022ColumnFamilyPolicy\022\014\n\004name\030\001 \001(\t" +
+      "\022$\n\004data\030\002 \001(\0132\026.Ydb.Table.StoragePool\022(" +
+      "\n\010external\030\003 \001(\0132\026.Ydb.Table.StoragePool" +
+      "\022/\n\016keep_in_memory\030\004 \001(\0162\027.Ydb.FeatureFl" +
+      "ag.Status\022>\n\013compression\030\005 \001(\0162).Ydb.Tab" +
+      "le.ColumnFamilyPolicy.Compression\"L\n\013Com" +
+      "pression\022\033\n\027COMPRESSION_UNSPECIFIED\020\000\022\020\n" +
+      "\014UNCOMPRESSED\020\001\022\016\n\nCOMPRESSED\020\002\"\'\n\020Compa",
+      "ctionPolicy\022\023\n\013preset_name\030\001 \001(\t\";\n\022Expl" +
+      "icitPartitions\022%\n\014split_points\030\001 \003(\0132\017.Y" +
+      "db.TypedValue\";\n\016PartitionStats\022\025\n\rrows_" +
+      "estimate\030\001 \001(\004\022\022\n\nstore_size\030\002 \001(\004\"\351\001\n\nT" +
+      "ableStats\0222\n\017partition_stats\030\001 \003(\0132\031.Ydb" +
+      ".Table.PartitionStats\022\025\n\rrows_estimate\030\002" +
+      " \001(\004\022\022\n\nstore_size\030\003 \001(\004\022\022\n\npartitions\030\004" +
+      " \001(\004\0221\n\rcreation_time\030\005 \001(\0132\032.google.pro" +
+      "tobuf.Timestamp\0225\n\021modification_time\030\006 \001" +
+      "(\0132\032.google.protobuf.Timestamp\"\334\002\n\022Parti",
+      "tioningPolicy\022\023\n\013preset_name\030\001 \001(\t\022O\n\021au" +
+      "to_partitioning\030\002 \001(\01624.Ydb.Table.Partit" +
+      "ioningPolicy.AutoPartitioningPolicy\022\034\n\022u" +
+      "niform_partitions\030\003 \001(\004H\000\022<\n\023explicit_pa" +
+      "rtitions\030\004 \001(\0132\035.Ydb.Table.ExplicitParti" +
+      "tionsH\000\"v\n\026AutoPartitioningPolicy\022(\n$AUT" +
+      "O_PARTITIONING_POLICY_UNSPECIFIED\020\000\022\014\n\010D" +
+      "ISABLED\020\001\022\016\n\nAUTO_SPLIT\020\002\022\024\n\020AUTO_SPLIT_" +
+      "MERGE\020\003B\014\n\npartitions\"&\n\017ExecutionPolicy" +
+      "\022\023\n\013preset_name\030\001 \001(\t\"\261\001\n\021ReplicationPol",
+      "icy\022\023\n\013preset_name\030\001 \001(\t\022\026\n\016replicas_cou" +
+      "nt\030\002 \001(\r\022=\n\034create_per_availability_zone" +
+      "\030\003 \001(\0162\027.Ydb.FeatureFlag.Status\0220\n\017allow" +
+      "_promotion\030\004 \001(\0162\027.Ydb.FeatureFlag.Statu" +
+      "s\"$\n\rCachingPolicy\022\023\n\013preset_name\030\001 \001(\t\"" +
+      "\353\002\n\014TableProfile\022\023\n\013preset_name\030\001 \001(\t\0220\n" +
+      "\016storage_policy\030\002 \001(\0132\030.Ydb.Table.Storag" +
+      "ePolicy\0226\n\021compaction_policy\030\003 \001(\0132\033.Ydb" +
+      ".Table.CompactionPolicy\022:\n\023partitioning_" +
+      "policy\030\004 \001(\0132\035.Ydb.Table.PartitioningPol",
+      "icy\0224\n\020execution_policy\030\005 \001(\0132\032.Ydb.Tabl" +
+      "e.ExecutionPolicy\0228\n\022replication_policy\030" +
+      "\006 \001(\0132\034.Ydb.Table.ReplicationPolicy\0220\n\016c" +
+      "aching_policy\030\007 \001(\0132\030.Ydb.Table.CachingP" +
+      "olicy\"C\n\nColumnMeta\022\014\n\004name\030\001 \001(\t\022\027\n\004typ" +
+      "e\030\002 \001(\0132\t.Ydb.Type\022\016\n\006family\030\003 \001(\t\"O\n\032Da" +
+      "teTypeColumnModeSettings\022\023\n\013column_name\030" +
+      "\001 \001(\t\022\034\n\024expire_after_seconds\030\002 \001(\r\"X\n\013T" +
+      "tlSettings\022A\n\020date_type_column\030\001 \001(\0132%.Y" +
+      "db.Table.DateTypeColumnModeSettingsH\000B\006\n",
+      "\004mode\"\332\001\n\017StorageSettings\0222\n\022tablet_comm" +
+      "it_log0\030\001 \001(\0132\026.Ydb.Table.StoragePool\0222\n" +
+      "\022tablet_commit_log1\030\002 \001(\0132\026.Ydb.Table.St" +
+      "oragePool\022(\n\010external\030\004 \001(\0132\026.Ydb.Table." +
+      "StoragePool\0225\n\024store_external_blobs\030\005 \001(" +
+      "\0162\027.Ydb.FeatureFlag.Status\"\204\002\n\014ColumnFam" +
+      "ily\022\014\n\004name\030\001 \001(\t\022$\n\004data\030\002 \001(\0132\026.Ydb.Ta" +
+      "ble.StoragePool\0228\n\013compression\030\003 \001(\0162#.Y" +
+      "db.Table.ColumnFamily.Compression\022/\n\016kee" +
+      "p_in_memory\030\004 \001(\0162\027.Ydb.FeatureFlag.Stat",
+      "us\"U\n\013Compression\022\033\n\027COMPRESSION_UNSPECI" +
+      "FIED\020\000\022\024\n\020COMPRESSION_NONE\020\001\022\023\n\017COMPRESS" +
+      "ION_LZ4\020\002\"\226\003\n\022CreateTableRequest\022\022\n\nsess" +
+      "ion_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022&\n\007columns\030\003 " +
+      "\003(\0132\025.Ydb.Table.ColumnMeta\022\023\n\013primary_ke" +
+      "y\030\004 \003(\t\022(\n\007profile\030\005 \001(\0132\027.Ydb.Table.Tab" +
+      "leProfile\0229\n\020operation_params\030\006 \001(\0132\037.Yd" +
+      "b.Operations.OperationParams\022&\n\007indexes\030" +
+      "\007 \003(\0132\025.Ydb.Table.TableIndex\022,\n\014ttl_sett" +
+      "ings\030\010 \001(\0132\026.Ydb.Table.TtlSettings\0224\n\020st",
+      "orage_settings\030\t \001(\0132\032.Ydb.Table.Storage" +
+      "Settings\0220\n\017column_families\030\n \003(\0132\027.Ydb." +
+      "Table.ColumnFamily\"C\n\023CreateTableRespons" +
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
+      "eration\"u\n\020DropTableRequest\022\022\n\nsession_i" +
+      "d\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\0229\n\020operation_param" +
+      "s\030\004 \001(\0132\037.Ydb.Operations.OperationParams" +
+      "J\004\010\003\020\004\"A\n\021DropTableResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\303\004\n\021Al" +
+      "terTableRequest\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004p",
+      "ath\030\002 \001(\t\022*\n\013add_columns\030\003 \003(\0132\025.Ydb.Tab" +
+      "le.ColumnMeta\022\024\n\014drop_columns\030\004 \003(\t\0229\n\020o" +
+      "peration_params\030\005 \001(\0132\037.Ydb.Operations.O" +
+      "perationParams\022,\n\ralter_columns\030\006 \003(\0132\025." +
+      "Ydb.Table.ColumnMeta\0222\n\020set_ttl_settings" +
+      "\030\007 \001(\0132\026.Ydb.Table.TtlSettingsH\000\0223\n\021drop" +
+      "_ttl_settings\030\010 \001(\0132\026.google.protobuf.Em" +
+      "ptyH\000\022*\n\013add_indexes\030\t \003(\0132\025.Ydb.Table.T" +
+      "ableIndex\022\024\n\014drop_indexes\030\n \003(\t\022:\n\026alter" +
+      "_storage_settings\030\013 \001(\0132\032.Ydb.Table.Stor",
+      "ageSettings\0224\n\023add_column_families\030\014 \003(\013" +
+      "2\027.Ydb.Table.ColumnFamily\0226\n\025alter_colum" +
+      "n_families\030\r \003(\0132\027.Ydb.Table.ColumnFamil" +
+      "yB\014\n\nttl_action\"B\n\022AlterTableResponse\022,\n" +
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ion\"\220\001\n\020CopyTableRequest\022\022\n\nsession_id\030\001" +
+      " \001(\t\022\023\n\013source_path\030\002 \001(\t\022\030\n\020destination" +
+      "_path\030\003 \001(\t\0229\n\020operation_params\030\004 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\"A\n\021CopyTa" +
+      "bleResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope",
+      "rations.Operation\"T\n\rCopyTableItem\022\023\n\013so" +
+      "urce_path\030\001 \001(\t\022\030\n\020destination_path\030\002 \001(" +
+      "\t\022\024\n\014omit_indexes\030\003 \001(\010\"\214\001\n\021CopyTablesRe" +
+      "quest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Op" +
+      "erations.OperationParams\022\022\n\nsession_id\030\002" +
+      " \001(\t\022(\n\006tables\030\003 \003(\0132\030.Ydb.Table.CopyTab" +
+      "leItem\"B\n\022CopyTablesResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\323\001\n\024D" +
+      "escribeTableRequest\022\022\n\nsession_id\030\001 \001(\t\022" +
+      "\014\n\004path\030\002 \001(\t\0229\n\020operation_params\030\004 \001(\0132",
+      "\037.Ydb.Operations.OperationParams\022 \n\030incl" +
+      "ude_shard_key_bounds\030\005 \001(\010\022\033\n\023include_ta" +
+      "ble_stats\030\006 \001(\010\022\037\n\027include_partition_sta" +
+      "ts\030\007 \001(\010\"E\n\025DescribeTableResponse\022,\n\tope" +
+      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
+      "\210\003\n\023DescribeTableResult\022\037\n\004self\030\001 \001(\0132\021." +
+      "Ydb.Scheme.Entry\022&\n\007columns\030\002 \003(\0132\025.Ydb." +
+      "Table.ColumnMeta\022\023\n\013primary_key\030\003 \003(\t\022)\n" +
+      "\020shard_key_bounds\030\004 \003(\0132\017.Ydb.TypedValue" +
+      "\022&\n\007indexes\030\005 \003(\0132\025.Ydb.Table.TableIndex",
+      "\022*\n\013table_stats\030\006 \001(\0132\025.Ydb.Table.TableS" +
+      "tats\022,\n\014ttl_settings\030\007 \001(\0132\026.Ydb.Table.T" +
+      "tlSettings\0224\n\020storage_settings\030\010 \001(\0132\032.Y" +
+      "db.Table.StorageSettings\0220\n\017column_famil" +
+      "ies\030\t \003(\0132\027.Ydb.Table.ColumnFamily\"2\n\005Qu" +
+      "ery\022\022\n\010yql_text\030\001 \001(\tH\000\022\014\n\002id\030\002 \001(\tH\000B\007\n" +
+      "\005query\"\032\n\030SerializableModeSettings\"6\n\022On" +
+      "lineModeSettings\022 \n\030allow_inconsistent_r" +
+      "eads\030\001 \001(\010\"\023\n\021StaleModeSettings\"\334\001\n\023Tran" +
+      "sactionSettings\022F\n\027serializable_read_wri",
+      "te\030\001 \001(\0132#.Ydb.Table.SerializableModeSet" +
+      "tingsH\000\0229\n\020online_read_only\030\002 \001(\0132\035.Ydb." +
+      "Table.OnlineModeSettingsH\000\0227\n\017stale_read" +
+      "_only\030\003 \001(\0132\034.Ydb.Table.StaleModeSetting" +
+      "sH\000B\t\n\007tx_mode\"{\n\022TransactionControl\022\017\n\005" +
+      "tx_id\030\001 \001(\tH\000\0222\n\010begin_tx\030\002 \001(\0132\036.Ydb.Ta" +
+      "ble.TransactionSettingsH\000\022\021\n\tcommit_tx\030\n" +
+      " \001(\010B\r\n\013tx_selector\")\n\020QueryCachePolicy\022" +
+      "\025\n\rkeep_in_cache\030\001 \001(\010\"\300\004\n\027ExecuteDataQu" +
+      "eryRequest\022\022\n\nsession_id\030\001 \001(\t\0221\n\ntx_con",
+      "trol\030\002 \001(\0132\035.Ydb.Table.TransactionContro" +
+      "l\022\037\n\005query\030\003 \001(\0132\020.Ydb.Table.Query\022F\n\npa" +
+      "rameters\030\004 \003(\01322.Ydb.Table.ExecuteDataQu" +
+      "eryRequest.ParametersEntry\0227\n\022query_cach" +
+      "e_policy\030\005 \001(\0132\033.Ydb.Table.QueryCachePol" +
+      "icy\0229\n\020operation_params\030\006 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\022M\n\rcollect_stats\030" +
+      "\007 \001(\01626.Ydb.Table.ExecuteDataQueryReques" +
+      "t.StatsCollectionMode\032B\n\017ParametersEntry" +
+      "\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.Typed",
+      "Value:\0028\001\"n\n\023StatsCollectionMode\022 \n\034STAT" +
+      "S_COLLECTION_UNSPECIFIED\020\000\022\031\n\025STATS_COLL" +
+      "ECTION_NONE\020\001\022\032\n\026STATS_COLLECTION_BASIC\020" +
+      "\002\"H\n\030ExecuteDataQueryResponse\022,\n\toperati" +
+      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"|\n\031E" +
+      "xecuteSchemeQueryRequest\022\022\n\nsession_id\030\001" +
+      " \001(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020operation_para" +
+      "ms\030\003 \001(\0132\037.Ydb.Operations.OperationParam" +
+      "s\"J\n\032ExecuteSchemeQueryResponse\022,\n\topera" +
+      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\035\n",
+      "\017TransactionMeta\022\n\n\002id\030\001 \001(\t\"\237\001\n\tQueryMe" +
+      "ta\022\n\n\002id\030\001 \001(\t\022C\n\020parameters_types\030\002 \003(\013" +
+      "2).Ydb.Table.QueryMeta.ParametersTypesEn" +
+      "try\032A\n\024ParametersTypesEntry\022\013\n\003key\030\001 \001(\t" +
+      "\022\030\n\005value\030\002 \001(\0132\t.Ydb.Type:\0028\001\"\301\001\n\022Execu" +
+      "teQueryResult\022#\n\013result_sets\030\001 \003(\0132\016.Ydb" +
+      ".ResultSet\022+\n\007tx_meta\030\002 \001(\0132\032.Ydb.Table." +
+      "TransactionMeta\022(\n\nquery_meta\030\003 \001(\0132\024.Yd" +
+      "b.Table.QueryMeta\022/\n\013query_stats\030\004 \001(\0132\032" +
+      ".Ydb.TableStats.QueryStats\"z\n\027ExplainDat",
+      "aQueryRequest\022\022\n\nsession_id\030\001 \001(\t\022\020\n\010yql" +
+      "_text\030\002 \001(\t\0229\n\020operation_params\030\003 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\"H\n\030Explai" +
+      "nDataQueryResponse\022,\n\toperation\030\001 \001(\0132\031." +
+      "Ydb.Operations.Operation\";\n\022ExplainQuery" +
+      "Result\022\021\n\tquery_ast\030\001 \001(\t\022\022\n\nquery_plan\030" +
+      "\002 \001(\t\"z\n\027PrepareDataQueryRequest\022\022\n\nsess" +
+      "ion_id\030\001 \001(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020operat" +
+      "ion_params\030\003 \001(\0132\037.Ydb.Operations.Operat" +
+      "ionParams\"H\n\030PrepareDataQueryResponse\022,\n",
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ion\"\267\001\n\022PrepareQueryResult\022\020\n\010query_id\030\001" +
+      " \001(\t\022L\n\020parameters_types\030\002 \003(\01322.Ydb.Tab" +
+      "le.PrepareQueryResult.ParametersTypesEnt" +
+      "ry\032A\n\024ParametersTypesEntry\022\013\n\003key\030\001 \001(\t\022" +
+      "\030\n\005value\030\002 \001(\0132\t.Ydb.Type:\0028\001\"a\n\020KeepAli" +
+      "veRequest\022\022\n\nsession_id\030\001 \001(\t\0229\n\020operati" +
+      "on_params\030\002 \001(\0132\037.Ydb.Operations.Operati" +
+      "onParams\"A\n\021KeepAliveResponse\022,\n\toperati" +
+      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\267\001\n\017",
+      "KeepAliveResult\022@\n\016session_status\030\001 \001(\0162" +
+      "(.Ydb.Table.KeepAliveResult.SessionStatu" +
+      "s\"b\n\rSessionStatus\022\036\n\032SESSION_STATUS_UNS" +
+      "PECIFIED\020\000\022\030\n\024SESSION_STATUS_READY\020\001\022\027\n\023" +
+      "SESSION_STATUS_BUSY\020\002\"\235\001\n\027BeginTransacti" +
+      "onRequest\022\022\n\nsession_id\030\001 \001(\t\0223\n\013tx_sett" +
+      "ings\030\002 \001(\0132\036.Ydb.Table.TransactionSettin" +
+      "gs\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Opera" +
+      "tions.OperationParams\"H\n\030BeginTransactio" +
+      "nResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera",
+      "tions.Operation\"E\n\026BeginTransactionResul" +
+      "t\022+\n\007tx_meta\030\001 \001(\0132\032.Ydb.Table.Transacti" +
+      "onMeta\"x\n\030CommitTransactionRequest\022\022\n\nse" +
+      "ssion_id\030\001 \001(\t\022\r\n\005tx_id\030\002 \001(\t\0229\n\020operati" +
       "on_params\030\003 \001(\0132\037.Ydb.Operations.Operati" +
-      "onParams\"H\n\030ExplainDataQueryResponse\022,\n\t" +
-      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
-      "on\";\n\022ExplainQueryResult\022\021\n\tquery_ast\030\001 " +
-      "\001(\t\022\022\n\nquery_plan\030\002 \001(\t\"z\n\027PrepareDataQu" +
-      "eryRequest\022\022\n\nsession_id\030\001 \001(\t\022\020\n\010yql_te" +
-      "xt\030\002 \001(\t\0229\n\020operation_params\030\003 \001(\0132\037.Ydb" +
-      ".Operations.OperationParams\"H\n\030PrepareDa",
-      "taQueryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
-      ".Operations.Operation\"\267\001\n\022PrepareQueryRe" +
-      "sult\022\020\n\010query_id\030\001 \001(\t\022L\n\020parameters_typ" +
-      "es\030\002 \003(\01322.Ydb.Table.PrepareQueryResult." +
-      "ParametersTypesEntry\032A\n\024ParametersTypesE" +
-      "ntry\022\013\n\003key\030\001 \001(\t\022\030\n\005value\030\002 \001(\0132\t.Ydb.T" +
-      "ype:\0028\001\"a\n\020KeepAliveRequest\022\022\n\nsession_i" +
-      "d\030\001 \001(\t\0229\n\020operation_params\030\002 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\"A\n\021KeepAliveR" +
-      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati",
-      "ons.Operation\"\267\001\n\017KeepAliveResult\022@\n\016ses" +
-      "sion_status\030\001 \001(\0162(.Ydb.Table.KeepAliveR" +
-      "esult.SessionStatus\"b\n\rSessionStatus\022\036\n\032" +
-      "SESSION_STATUS_UNSPECIFIED\020\000\022\030\n\024SESSION_" +
-      "STATUS_READY\020\001\022\027\n\023SESSION_STATUS_BUSY\020\002\"" +
-      "\235\001\n\027BeginTransactionRequest\022\022\n\nsession_i" +
-      "d\030\001 \001(\t\0223\n\013tx_settings\030\002 \001(\0132\036.Ydb.Table" +
-      ".TransactionSettings\0229\n\020operation_params" +
-      "\030\003 \001(\0132\037.Ydb.Operations.OperationParams\"" +
-      "H\n\030BeginTransactionResponse\022,\n\toperation",
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"E\n\026Beg" +
-      "inTransactionResult\022+\n\007tx_meta\030\001 \001(\0132\032.Y" +
-      "db.Table.TransactionMeta\"x\n\030CommitTransa" +
-      "ctionRequest\022\022\n\nsession_id\030\001 \001(\t\022\r\n\005tx_i" +
-      "d\030\002 \001(\t\0229\n\020operation_params\030\003 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\"I\n\031CommitTran" +
-      "sactionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
-      ".Operations.Operation\"z\n\032RollbackTransac" +
-      "tionRequest\022\022\n\nsession_id\030\001 \001(\t\022\r\n\005tx_id" +
-      "\030\002 \001(\t\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.O",
-      "perations.OperationParams\"K\n\033RollbackTra" +
-      "nsactionResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
-      "b.Operations.Operation\"\230\001\n\030StoragePolicy" +
-      "Description\022\014\n\004name\030\001 \001(\t\022?\n\006labels\030\002 \003(" +
-      "\0132/.Ydb.Table.StoragePolicyDescription.L" +
-      "abelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r" +
-      "\n\005value\030\002 \001(\t:\0028\001\"\236\001\n\033CompactionPolicyDe" +
-      "scription\022\014\n\004name\030\001 \001(\t\022B\n\006labels\030\002 \003(\0132" +
-      "2.Ydb.Table.CompactionPolicyDescription." +
-      "LabelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022",
-      "\r\n\005value\030\002 \001(\t:\0028\001\"\242\001\n\035PartitioningPolic" +
-      "yDescription\022\014\n\004name\030\001 \001(\t\022D\n\006labels\030\002 \003" +
-      "(\01324.Ydb.Table.PartitioningPolicyDescrip" +
-      "tion.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001" +
-      " \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001\n\032ExecutionPol" +
-      "icyDescription\022\014\n\004name\030\001 \001(\t\022A\n\006labels\030\002" +
-      " \003(\01321.Ydb.Table.ExecutionPolicyDescript" +
-      "ion.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 " +
-      "\001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\240\001\n\034ReplicationPo" +
-      "licyDescription\022\014\n\004name\030\001 \001(\t\022C\n\006labels\030",
-      "\002 \003(\01323.Ydb.Table.ReplicationPolicyDescr" +
-      "iption.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003key" +
-      "\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\230\001\n\030CachingPol" +
-      "icyDescription\022\014\n\004name\030\001 \001(\t\022?\n\006labels\030\002" +
-      " \003(\0132/.Ydb.Table.CachingPolicyDescriptio" +
-      "n.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(" +
-      "\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\276\004\n\027TableProfileDes" +
-      "cription\022\014\n\004name\030\001 \001(\t\022>\n\006labels\030\002 \003(\0132." +
-      ".Ydb.Table.TableProfileDescription.Label" +
-      "sEntry\022\036\n\026default_storage_policy\030\003 \001(\t\022 ",
-      "\n\030allowed_storage_policies\030\004 \003(\t\022!\n\031defa" +
-      "ult_compaction_policy\030\005 \001(\t\022#\n\033allowed_c" +
-      "ompaction_policies\030\006 \003(\t\022#\n\033default_part" +
-      "itioning_policy\030\007 \001(\t\022%\n\035allowed_partiti" +
-      "oning_policies\030\010 \003(\t\022 \n\030default_executio" +
-      "n_policy\030\t \001(\t\022\"\n\032allowed_execution_poli" +
-      "cies\030\n \003(\t\022\"\n\032default_replication_policy" +
-      "\030\013 \001(\t\022$\n\034allowed_replication_policies\030\014" +
-      " \003(\t\022\036\n\026default_caching_policy\030\r \001(\t\022 \n\030" +
-      "allowed_caching_policies\030\016 \003(\t\032-\n\013Labels",
-      "Entry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"X\n" +
-      "\033DescribeTableOptionsRequest\0229\n\020operatio" +
-      "n_params\030\001 \001(\0132\037.Ydb.Operations.Operatio" +
-      "nParams\"L\n\034DescribeTableOptionsResponse\022" +
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\"\231\004\n\032DescribeTableOptionsResult\022A\n\025" +
-      "table_profile_presets\030\001 \003(\0132\".Ydb.Table." +
-      "TableProfileDescription\022C\n\026storage_polic" +
-      "y_presets\030\002 \003(\0132#.Ydb.Table.StoragePolic" +
-      "yDescription\022I\n\031compaction_policy_preset",
-      "s\030\003 \003(\0132&.Ydb.Table.CompactionPolicyDesc" +
-      "ription\022M\n\033partitioning_policy_presets\030\004" +
-      " \003(\0132(.Ydb.Table.PartitioningPolicyDescr" +
-      "iption\022G\n\030execution_policy_presets\030\005 \003(\013" +
-      "2%.Ydb.Table.ExecutionPolicyDescription\022" +
-      "K\n\032replication_policy_presets\030\006 \003(\0132\'.Yd" +
-      "b.Table.ReplicationPolicyDescription\022C\n\026" +
-      "caching_policy_presets\030\007 \003(\0132#.Ydb.Table" +
-      ".CachingPolicyDescription\"\300\001\n\010KeyRange\022\"" +
-      "\n\007greater\030\001 \001(\0132\017.Ydb.TypedValueH\000\022+\n\020gr",
-      "eater_or_equal\030\002 \001(\0132\017.Ydb.TypedValueH\000\022" +
-      "\037\n\004less\030\003 \001(\0132\017.Ydb.TypedValueH\001\022(\n\rless" +
-      "_or_equal\030\004 \001(\0132\017.Ydb.TypedValueH\001B\014\n\nfr" +
-      "om_boundB\n\n\010to_bound\"\300\001\n\020ReadTableReques" +
-      "t\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022&\n\tk" +
-      "ey_range\030\003 \001(\0132\023.Ydb.Table.KeyRange\022\017\n\007c" +
-      "olumns\030\004 \003(\t\022\017\n\007ordered\030\005 \001(\010\022\021\n\trow_lim" +
-      "it\030\006 \001(\004\022-\n\014use_snapshot\030\007 \001(\0162\027.Ydb.Fea" +
-      "tureFlag.Status\"\223\001\n\021ReadTableResponse\022)\n" +
-      "\006status\030\001 \001(\0162\031.Ydb.StatusIds.StatusCode",
-      "\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMessag" +
-      "e\022*\n\006result\030\003 \001(\0132\032.Ydb.Table.ReadTableR" +
-      "esult\"5\n\017ReadTableResult\022\"\n\nresult_set\030\001" +
-      " \001(\0132\016.Ydb.ResultSet\"|\n\021BulkUpsertReques" +
-      "t\022\r\n\005table\030\001 \001(\t\022\035\n\004rows\030\002 \001(\0132\017.Ydb.Typ" +
-      "edValue\0229\n\020operation_params\030\003 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\"B\n\022BulkUpsert" +
-      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
-      "ions.Operation\"\022\n\020BulkUpsertResult\"\266\002\n\031E" +
-      "xecuteStreamQueryRequest\0227\n\004mode\030\001 \001(\0162)",
-      ".Ydb.Table.ExecuteStreamQueryRequest.Mod" +
-      "e\022\037\n\005query\030\002 \001(\0132\020.Ydb.Table.Query\022H\n\npa" +
-      "rameters\030\003 \003(\01324.Ydb.Table.ExecuteStream" +
-      "QueryRequest.ParametersEntry\032B\n\017Paramete" +
-      "rsEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Yd" +
-      "b.TypedValue:\0028\001\"+\n\004Mode\022\024\n\020MODE_UNSPECI" +
-      "FIED\020\000\022\r\n\tMODE_EXEC\020\001J\004\010\004\020\005\"\245\001\n\032ExecuteS" +
-      "treamQueryResponse\022)\n\006status\030\001 \001(\0162\031.Ydb" +
-      ".StatusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027." +
-      "Ydb.Issue.IssueMessage\0223\n\006result\030\003 \001(\0132#",
-      ".Ydb.Table.ExecuteStreamQueryResult\"H\n\030E" +
-      "xecuteStreamQueryResult\022$\n\nresult_set\030\001 " +
-      "\001(\0132\016.Ydb.ResultSetH\000B\006\n\004typeB\031\n\024com.yan" +
-      "dex.ydb.table\370\001\001b\006proto3"
+      "onParams\"I\n\031CommitTransactionResponse\022,\n" +
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ion\"z\n\032RollbackTransactionRequest\022\022\n\nses" +
+      "sion_id\030\001 \001(\t\022\r\n\005tx_id\030\002 \001(\t\0229\n\020operatio" +
+      "n_params\030\003 \001(\0132\037.Ydb.Operations.Operatio",
+      "nParams\"K\n\033RollbackTransactionResponse\022," +
+      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
+      "tion\"\230\001\n\030StoragePolicyDescription\022\014\n\004nam" +
+      "e\030\001 \001(\t\022?\n\006labels\030\002 \003(\0132/.Ydb.Table.Stor" +
+      "agePolicyDescription.LabelsEntry\032-\n\013Labe" +
+      "lsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"" +
+      "\236\001\n\033CompactionPolicyDescription\022\014\n\004name\030" +
+      "\001 \001(\t\022B\n\006labels\030\002 \003(\01322.Ydb.Table.Compac" +
+      "tionPolicyDescription.LabelsEntry\032-\n\013Lab" +
+      "elsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001",
+      "\"\242\001\n\035PartitioningPolicyDescription\022\014\n\004na" +
+      "me\030\001 \001(\t\022D\n\006labels\030\002 \003(\01324.Ydb.Table.Par" +
+      "titioningPolicyDescription.LabelsEntry\032-" +
+      "\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(" +
+      "\t:\0028\001\"\234\001\n\032ExecutionPolicyDescription\022\014\n\004" +
+      "name\030\001 \001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.Table.E" +
+      "xecutionPolicyDescription.LabelsEntry\032-\n" +
+      "\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t" +
+      ":\0028\001\"\240\001\n\034ReplicationPolicyDescription\022\014\n" +
+      "\004name\030\001 \001(\t\022C\n\006labels\030\002 \003(\01323.Ydb.Table.",
+      "ReplicationPolicyDescription.LabelsEntry" +
+      "\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 " +
+      "\001(\t:\0028\001\"\230\001\n\030CachingPolicyDescription\022\014\n\004" +
+      "name\030\001 \001(\t\022?\n\006labels\030\002 \003(\0132/.Ydb.Table.C" +
+      "achingPolicyDescription.LabelsEntry\032-\n\013L" +
+      "abelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\002" +
+      "8\001\"\276\004\n\027TableProfileDescription\022\014\n\004name\030\001" +
+      " \001(\t\022>\n\006labels\030\002 \003(\0132..Ydb.Table.TablePr" +
+      "ofileDescription.LabelsEntry\022\036\n\026default_" +
+      "storage_policy\030\003 \001(\t\022 \n\030allowed_storage_",
+      "policies\030\004 \003(\t\022!\n\031default_compaction_pol" +
+      "icy\030\005 \001(\t\022#\n\033allowed_compaction_policies" +
+      "\030\006 \003(\t\022#\n\033default_partitioning_policy\030\007 " +
+      "\001(\t\022%\n\035allowed_partitioning_policies\030\010 \003" +
+      "(\t\022 \n\030default_execution_policy\030\t \001(\t\022\"\n\032" +
+      "allowed_execution_policies\030\n \003(\t\022\"\n\032defa" +
+      "ult_replication_policy\030\013 \001(\t\022$\n\034allowed_" +
+      "replication_policies\030\014 \003(\t\022\036\n\026default_ca" +
+      "ching_policy\030\r \001(\t\022 \n\030allowed_caching_po" +
+      "licies\030\016 \003(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t",
+      "\022\r\n\005value\030\002 \001(\t:\0028\001\"X\n\033DescribeTableOpti" +
+      "onsRequest\0229\n\020operation_params\030\001 \001(\0132\037.Y" +
+      "db.Operations.OperationParams\"L\n\034Describ" +
+      "eTableOptionsResponse\022,\n\toperation\030\001 \001(\013" +
+      "2\031.Ydb.Operations.Operation\"\231\004\n\032Describe" +
+      "TableOptionsResult\022A\n\025table_profile_pres" +
+      "ets\030\001 \003(\0132\".Ydb.Table.TableProfileDescri" +
+      "ption\022C\n\026storage_policy_presets\030\002 \003(\0132#." +
+      "Ydb.Table.StoragePolicyDescription\022I\n\031co" +
+      "mpaction_policy_presets\030\003 \003(\0132&.Ydb.Tabl",
+      "e.CompactionPolicyDescription\022M\n\033partiti" +
+      "oning_policy_presets\030\004 \003(\0132(.Ydb.Table.P" +
+      "artitioningPolicyDescription\022G\n\030executio" +
+      "n_policy_presets\030\005 \003(\0132%.Ydb.Table.Execu" +
+      "tionPolicyDescription\022K\n\032replication_pol" +
+      "icy_presets\030\006 \003(\0132\'.Ydb.Table.Replicatio" +
+      "nPolicyDescription\022C\n\026caching_policy_pre" +
+      "sets\030\007 \003(\0132#.Ydb.Table.CachingPolicyDesc" +
+      "ription\"\300\001\n\010KeyRange\022\"\n\007greater\030\001 \001(\0132\017." +
+      "Ydb.TypedValueH\000\022+\n\020greater_or_equal\030\002 \001",
+      "(\0132\017.Ydb.TypedValueH\000\022\037\n\004less\030\003 \001(\0132\017.Yd" +
+      "b.TypedValueH\001\022(\n\rless_or_equal\030\004 \001(\0132\017." +
+      "Ydb.TypedValueH\001B\014\n\nfrom_boundB\n\n\010to_bou" +
+      "nd\"\300\001\n\020ReadTableRequest\022\022\n\nsession_id\030\001 " +
+      "\001(\t\022\014\n\004path\030\002 \001(\t\022&\n\tkey_range\030\003 \001(\0132\023.Y" +
+      "db.Table.KeyRange\022\017\n\007columns\030\004 \003(\t\022\017\n\007or" +
+      "dered\030\005 \001(\010\022\021\n\trow_limit\030\006 \001(\004\022-\n\014use_sn" +
+      "apshot\030\007 \001(\0162\027.Ydb.FeatureFlag.Status\"\223\001" +
+      "\n\021ReadTableResponse\022)\n\006status\030\001 \001(\0162\031.Yd" +
+      "b.StatusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027",
+      ".Ydb.Issue.IssueMessage\022*\n\006result\030\003 \001(\0132" +
+      "\032.Ydb.Table.ReadTableResult\"5\n\017ReadTable" +
+      "Result\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultS" +
+      "et\"|\n\021BulkUpsertRequest\022\r\n\005table\030\001 \001(\t\022\035" +
+      "\n\004rows\030\002 \001(\0132\017.Ydb.TypedValue\0229\n\020operati" +
+      "on_params\030\003 \001(\0132\037.Ydb.Operations.Operati" +
+      "onParams\"B\n\022BulkUpsertResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\022\n\020" +
+      "BulkUpsertResult\"\266\002\n\031ExecuteStreamQueryR" +
+      "equest\0227\n\004mode\030\001 \001(\0162).Ydb.Table.Execute",
+      "StreamQueryRequest.Mode\022\037\n\005query\030\002 \001(\0132\020" +
+      ".Ydb.Table.Query\022H\n\nparameters\030\003 \003(\01324.Y" +
+      "db.Table.ExecuteStreamQueryRequest.Param" +
+      "etersEntry\032B\n\017ParametersEntry\022\013\n\003key\030\001 \001" +
+      "(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.TypedValue:\0028\001\"+" +
+      "\n\004Mode\022\024\n\020MODE_UNSPECIFIED\020\000\022\r\n\tMODE_EXE" +
+      "C\020\001J\004\010\004\020\005\"\245\001\n\032ExecuteStreamQueryResponse" +
+      "\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.StatusC" +
+      "ode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMes" +
+      "sage\0223\n\006result\030\003 \001(\0132#.Ydb.Table.Execute",
+      "StreamQueryResult\"H\n\030ExecuteStreamQueryR" +
+      "esult\022$\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultSe" +
+      "tH\000B\006\n\004typeB\031\n\024tech.ydb.table\370\001\001b\006" +
+      "proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -89999,12 +90089,12 @@ public final class YdbTable {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_IndexBuildMetadata_descriptor,
         new java.lang.String[] { "Description", "Progress", });
-    internal_static_Ydb_Table_StorageSettings_descriptor =
+    internal_static_Ydb_Table_StoragePool_descriptor =
       getDescriptor().getMessageTypes().get(10);
-    internal_static_Ydb_Table_StorageSettings_fieldAccessorTable = new
+    internal_static_Ydb_Table_StoragePool_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Table_StorageSettings_descriptor,
-        new java.lang.String[] { "StorageKind", });
+        internal_static_Ydb_Table_StoragePool_descriptor,
+        new java.lang.String[] { "Media", });
     internal_static_Ydb_Table_StoragePolicy_descriptor =
       getDescriptor().getMessageTypes().get(11);
     internal_static_Ydb_Table_StoragePolicy_fieldAccessorTable = new
@@ -90089,12 +90179,12 @@ public final class YdbTable {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_TtlSettings_descriptor,
         new java.lang.String[] { "DateTypeColumn", "Mode", });
-    internal_static_Ydb_Table_TableStorage_descriptor =
+    internal_static_Ydb_Table_StorageSettings_descriptor =
       getDescriptor().getMessageTypes().get(25);
-    internal_static_Ydb_Table_TableStorage_fieldAccessorTable = new
+    internal_static_Ydb_Table_StorageSettings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Table_TableStorage_descriptor,
-        new java.lang.String[] { "Syslog", "Log", "External", "StoreExternalBlobs", });
+        internal_static_Ydb_Table_StorageSettings_descriptor,
+        new java.lang.String[] { "TabletCommitLog0", "TabletCommitLog1", "External", "StoreExternalBlobs", });
     internal_static_Ydb_Table_ColumnFamily_descriptor =
       getDescriptor().getMessageTypes().get(26);
     internal_static_Ydb_Table_ColumnFamily_fieldAccessorTable = new

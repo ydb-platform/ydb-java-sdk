@@ -186,16 +186,16 @@ class SessionImpl implements Session {
                     policyProto.setPresetName(policy.getPresetName());
                 }
                 if (policy.getSysLog() != null) {
-                    policyProto.getSyslogBuilder().setStorageKind(policy.getSysLog());
+                    policyProto.getSyslogBuilder().setMedia(policy.getSysLog());
                 }
                 if (policy.getLog() != null) {
-                    policyProto.getLogBuilder().setStorageKind(policy.getLog());
+                    policyProto.getLogBuilder().setMedia(policy.getLog());
                 }
                 if (policy.getData() != null) {
-                    policyProto.getDataBuilder().setStorageKind(policy.getData());
+                    policyProto.getDataBuilder().setMedia(policy.getData());
                 }
                 if (policy.getExternal() != null) {
-                    policyProto.getExternalBuilder().setStorageKind(policy.getExternal());
+                    policyProto.getExternalBuilder().setMedia(policy.getExternal());
                 }
             }
         }
