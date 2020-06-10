@@ -120,6 +120,130 @@ public final class PersQueueServiceGrpc {
     return getGetReadSessionsInfoMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicRequest,
+      tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicResponse> getDescribeTopicMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DescribeTopic",
+      requestType = tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicRequest.class,
+      responseType = tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicRequest,
+      tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicResponse> getDescribeTopicMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicRequest, tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicResponse> getDescribeTopicMethod;
+    if ((getDescribeTopicMethod = PersQueueServiceGrpc.getDescribeTopicMethod) == null) {
+      synchronized (PersQueueServiceGrpc.class) {
+        if ((getDescribeTopicMethod = PersQueueServiceGrpc.getDescribeTopicMethod) == null) {
+          PersQueueServiceGrpc.getDescribeTopicMethod = getDescribeTopicMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicRequest, tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DescribeTopic"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new PersQueueServiceMethodDescriptorSupplier("DescribeTopic"))
+              .build();
+        }
+      }
+    }
+    return getDescribeTopicMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.DropTopicRequest,
+      tech.ydb.persqueue.YdbPersqueueV1.DropTopicResponse> getDropTopicMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DropTopic",
+      requestType = tech.ydb.persqueue.YdbPersqueueV1.DropTopicRequest.class,
+      responseType = tech.ydb.persqueue.YdbPersqueueV1.DropTopicResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.DropTopicRequest,
+      tech.ydb.persqueue.YdbPersqueueV1.DropTopicResponse> getDropTopicMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.DropTopicRequest, tech.ydb.persqueue.YdbPersqueueV1.DropTopicResponse> getDropTopicMethod;
+    if ((getDropTopicMethod = PersQueueServiceGrpc.getDropTopicMethod) == null) {
+      synchronized (PersQueueServiceGrpc.class) {
+        if ((getDropTopicMethod = PersQueueServiceGrpc.getDropTopicMethod) == null) {
+          PersQueueServiceGrpc.getDropTopicMethod = getDropTopicMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.persqueue.YdbPersqueueV1.DropTopicRequest, tech.ydb.persqueue.YdbPersqueueV1.DropTopicResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DropTopic"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.persqueue.YdbPersqueueV1.DropTopicRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.persqueue.YdbPersqueueV1.DropTopicResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new PersQueueServiceMethodDescriptorSupplier("DropTopic"))
+              .build();
+        }
+      }
+    }
+    return getDropTopicMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.CreateTopicRequest,
+      tech.ydb.persqueue.YdbPersqueueV1.CreateTopicResponse> getCreateTopicMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "CreateTopic",
+      requestType = tech.ydb.persqueue.YdbPersqueueV1.CreateTopicRequest.class,
+      responseType = tech.ydb.persqueue.YdbPersqueueV1.CreateTopicResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.CreateTopicRequest,
+      tech.ydb.persqueue.YdbPersqueueV1.CreateTopicResponse> getCreateTopicMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.CreateTopicRequest, tech.ydb.persqueue.YdbPersqueueV1.CreateTopicResponse> getCreateTopicMethod;
+    if ((getCreateTopicMethod = PersQueueServiceGrpc.getCreateTopicMethod) == null) {
+      synchronized (PersQueueServiceGrpc.class) {
+        if ((getCreateTopicMethod = PersQueueServiceGrpc.getCreateTopicMethod) == null) {
+          PersQueueServiceGrpc.getCreateTopicMethod = getCreateTopicMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.persqueue.YdbPersqueueV1.CreateTopicRequest, tech.ydb.persqueue.YdbPersqueueV1.CreateTopicResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateTopic"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.persqueue.YdbPersqueueV1.CreateTopicRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.persqueue.YdbPersqueueV1.CreateTopicResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new PersQueueServiceMethodDescriptorSupplier("CreateTopic"))
+              .build();
+        }
+      }
+    }
+    return getCreateTopicMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest,
+      tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse> getAlterTopicMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "AlterTopic",
+      requestType = tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest.class,
+      responseType = tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest,
+      tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse> getAlterTopicMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest, tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse> getAlterTopicMethod;
+    if ((getAlterTopicMethod = PersQueueServiceGrpc.getAlterTopicMethod) == null) {
+      synchronized (PersQueueServiceGrpc.class) {
+        if ((getAlterTopicMethod = PersQueueServiceGrpc.getAlterTopicMethod) == null) {
+          PersQueueServiceGrpc.getAlterTopicMethod = getAlterTopicMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest, tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "AlterTopic"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new PersQueueServiceMethodDescriptorSupplier("AlterTopic"))
+              .build();
+        }
+      }
+    }
+    return getAlterTopicMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -226,6 +350,46 @@ public final class PersQueueServiceGrpc {
       asyncUnimplementedUnaryCall(getGetReadSessionsInfoMethod(), responseObserver);
     }
 
+    /**
+     * <pre>
+     * Describe topic command.
+     * </pre>
+     */
+    public void describeTopic(tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getDescribeTopicMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Drop topic command.
+     * </pre>
+     */
+    public void dropTopic(tech.ydb.persqueue.YdbPersqueueV1.DropTopicRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.DropTopicResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getDropTopicMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Create topic command.
+     * </pre>
+     */
+    public void createTopic(tech.ydb.persqueue.YdbPersqueueV1.CreateTopicRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.CreateTopicResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getCreateTopicMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Alter topic command.
+     * </pre>
+     */
+    public void alterTopic(tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getAlterTopicMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -249,6 +413,34 @@ public final class PersQueueServiceGrpc {
                 tech.ydb.persqueue.YdbPersqueueV1.ReadInfoRequest,
                 tech.ydb.persqueue.YdbPersqueueV1.ReadInfoResponse>(
                   this, METHODID_GET_READ_SESSIONS_INFO)))
+          .addMethod(
+            getDescribeTopicMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicRequest,
+                tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicResponse>(
+                  this, METHODID_DESCRIBE_TOPIC)))
+          .addMethod(
+            getDropTopicMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.persqueue.YdbPersqueueV1.DropTopicRequest,
+                tech.ydb.persqueue.YdbPersqueueV1.DropTopicResponse>(
+                  this, METHODID_DROP_TOPIC)))
+          .addMethod(
+            getCreateTopicMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.persqueue.YdbPersqueueV1.CreateTopicRequest,
+                tech.ydb.persqueue.YdbPersqueueV1.CreateTopicResponse>(
+                  this, METHODID_CREATE_TOPIC)))
+          .addMethod(
+            getAlterTopicMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest,
+                tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse>(
+                  this, METHODID_ALTER_TOPIC)))
           .build();
     }
   }
@@ -327,6 +519,50 @@ public final class PersQueueServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getGetReadSessionsInfoMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     * Describe topic command.
+     * </pre>
+     */
+    public void describeTopic(tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getDescribeTopicMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Drop topic command.
+     * </pre>
+     */
+    public void dropTopic(tech.ydb.persqueue.YdbPersqueueV1.DropTopicRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.DropTopicResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getDropTopicMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Create topic command.
+     * </pre>
+     */
+    public void createTopic(tech.ydb.persqueue.YdbPersqueueV1.CreateTopicRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.CreateTopicResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getCreateTopicMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Alter topic command.
+     * </pre>
+     */
+    public void alterTopic(tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getAlterTopicMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -351,6 +587,46 @@ public final class PersQueueServiceGrpc {
     public tech.ydb.persqueue.YdbPersqueueV1.ReadInfoResponse getReadSessionsInfo(tech.ydb.persqueue.YdbPersqueueV1.ReadInfoRequest request) {
       return blockingUnaryCall(
           getChannel(), getGetReadSessionsInfoMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Describe topic command.
+     * </pre>
+     */
+    public tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicResponse describeTopic(tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getDescribeTopicMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Drop topic command.
+     * </pre>
+     */
+    public tech.ydb.persqueue.YdbPersqueueV1.DropTopicResponse dropTopic(tech.ydb.persqueue.YdbPersqueueV1.DropTopicRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getDropTopicMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Create topic command.
+     * </pre>
+     */
+    public tech.ydb.persqueue.YdbPersqueueV1.CreateTopicResponse createTopic(tech.ydb.persqueue.YdbPersqueueV1.CreateTopicRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getCreateTopicMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Alter topic command.
+     * </pre>
+     */
+    public tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse alterTopic(tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getAlterTopicMethod(), getCallOptions(), request);
     }
   }
 
@@ -378,11 +654,59 @@ public final class PersQueueServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getGetReadSessionsInfoMethod(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     * Describe topic command.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicResponse> describeTopic(
+        tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getDescribeTopicMethod(), getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
+     * Drop topic command.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.persqueue.YdbPersqueueV1.DropTopicResponse> dropTopic(
+        tech.ydb.persqueue.YdbPersqueueV1.DropTopicRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getDropTopicMethod(), getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
+     * Create topic command.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.persqueue.YdbPersqueueV1.CreateTopicResponse> createTopic(
+        tech.ydb.persqueue.YdbPersqueueV1.CreateTopicRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getCreateTopicMethod(), getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
+     * Alter topic command.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse> alterTopic(
+        tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getAlterTopicMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_READ_SESSIONS_INFO = 0;
-  private static final int METHODID_STREAMING_WRITE = 1;
-  private static final int METHODID_STREAMING_READ = 2;
+  private static final int METHODID_DESCRIBE_TOPIC = 1;
+  private static final int METHODID_DROP_TOPIC = 2;
+  private static final int METHODID_CREATE_TOPIC = 3;
+  private static final int METHODID_ALTER_TOPIC = 4;
+  private static final int METHODID_STREAMING_WRITE = 5;
+  private static final int METHODID_STREAMING_READ = 6;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -404,6 +728,22 @@ public final class PersQueueServiceGrpc {
         case METHODID_GET_READ_SESSIONS_INFO:
           serviceImpl.getReadSessionsInfo((tech.ydb.persqueue.YdbPersqueueV1.ReadInfoRequest) request,
               (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.ReadInfoResponse>) responseObserver);
+          break;
+        case METHODID_DESCRIBE_TOPIC:
+          serviceImpl.describeTopic((tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.DescribeTopicResponse>) responseObserver);
+          break;
+        case METHODID_DROP_TOPIC:
+          serviceImpl.dropTopic((tech.ydb.persqueue.YdbPersqueueV1.DropTopicRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.DropTopicResponse>) responseObserver);
+          break;
+        case METHODID_CREATE_TOPIC:
+          serviceImpl.createTopic((tech.ydb.persqueue.YdbPersqueueV1.CreateTopicRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.CreateTopicResponse>) responseObserver);
+          break;
+        case METHODID_ALTER_TOPIC:
+          serviceImpl.alterTopic((tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -475,6 +815,10 @@ public final class PersQueueServiceGrpc {
               .addMethod(getStreamingWriteMethod())
               .addMethod(getStreamingReadMethod())
               .addMethod(getGetReadSessionsInfoMethod())
+              .addMethod(getDescribeTopicMethod())
+              .addMethod(getDropTopicMethod())
+              .addMethod(getCreateTopicMethod())
+              .addMethod(getAlterTopicMethod())
               .build();
         }
       }

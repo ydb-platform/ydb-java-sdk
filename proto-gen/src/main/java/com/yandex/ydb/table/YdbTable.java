@@ -23807,6 +23807,60 @@ public final class YdbTable {
      */
     tech.ydb.table.YdbTable.ColumnFamilyOrBuilder getColumnFamiliesOrBuilder(
         int index);
+
+    /**
+     * <pre>
+     * Attributes. Total size is limited to 10 KB.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+     */
+    int getAttributesCount();
+    /**
+     * <pre>
+     * Attributes. Total size is limited to 10 KB.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+     */
+    boolean containsAttributes(
+        java.lang.String key);
+    /**
+     * Use {@link #getAttributesMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.String, java.lang.String>
+    getAttributes();
+    /**
+     * <pre>
+     * Attributes. Total size is limited to 10 KB.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+     */
+    java.util.Map<java.lang.String, java.lang.String>
+    getAttributesMap();
+    /**
+     * <pre>
+     * Attributes. Total size is limited to 10 KB.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+     */
+
+    java.lang.String getAttributesOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue);
+    /**
+     * <pre>
+     * Attributes. Total size is limited to 10 KB.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+     */
+
+    java.lang.String getAttributesOrThrow(
+        java.lang.String key);
   }
   /**
    * Protobuf type {@code Ydb.Table.CreateTableRequest}
@@ -23957,6 +24011,19 @@ public final class YdbTable {
                   input.readMessage(tech.ydb.table.YdbTable.ColumnFamily.parser(), extensionRegistry));
               break;
             }
+            case 90: {
+              if (!((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
+                attributes_ = com.google.protobuf.MapField.newMapField(
+                    AttributesDefaultEntryHolder.defaultEntry);
+                mutable_bitField0_ |= 0x00000400;
+              }
+              com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+              attributes__ = input.readMessage(
+                  AttributesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              attributes_.getMutableMap().put(
+                  attributes__.getKey(), attributes__.getValue());
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -23986,6 +24053,17 @@ public final class YdbTable {
       return tech.ydb.table.YdbTable.internal_static_Ydb_Table_CreateTableRequest_descriptor;
     }
 
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 11:
+          return internalGetAttributes();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.table.YdbTable.internal_static_Ydb_Table_CreateTableRequest_fieldAccessorTable
@@ -24408,6 +24486,98 @@ public final class YdbTable {
       return columnFamilies_.get(index);
     }
 
+    public static final int ATTRIBUTES_FIELD_NUMBER = 11;
+    private static final class AttributesDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.String, java.lang.String> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.String, java.lang.String>newDefaultInstance(
+                  tech.ydb.table.YdbTable.internal_static_Ydb_Table_CreateTableRequest_AttributesEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "",
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "");
+    }
+    private com.google.protobuf.MapField<
+        java.lang.String, java.lang.String> attributes_;
+    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+    internalGetAttributes() {
+      if (attributes_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            AttributesDefaultEntryHolder.defaultEntry);
+      }
+      return attributes_;
+    }
+
+    public int getAttributesCount() {
+      return internalGetAttributes().getMap().size();
+    }
+    /**
+     * <pre>
+     * Attributes. Total size is limited to 10 KB.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+     */
+
+    public boolean containsAttributes(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetAttributes().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getAttributesMap()} instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, java.lang.String> getAttributes() {
+      return getAttributesMap();
+    }
+    /**
+     * <pre>
+     * Attributes. Total size is limited to 10 KB.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+     */
+
+    public java.util.Map<java.lang.String, java.lang.String> getAttributesMap() {
+      return internalGetAttributes().getMap();
+    }
+    /**
+     * <pre>
+     * Attributes. Total size is limited to 10 KB.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+     */
+
+    public java.lang.String getAttributesOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetAttributes().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <pre>
+     * Attributes. Total size is limited to 10 KB.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+     */
+
+    public java.lang.String getAttributesOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetAttributes().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -24450,6 +24620,12 @@ public final class YdbTable {
       for (int i = 0; i < columnFamilies_.size(); i++) {
         output.writeMessage(10, columnFamilies_.get(i));
       }
+      com.google.protobuf.GeneratedMessageV3
+        .serializeStringMapTo(
+          output,
+          internalGetAttributes(),
+          AttributesDefaultEntryHolder.defaultEntry,
+          11);
       unknownFields.writeTo(output);
     }
 
@@ -24500,6 +24676,16 @@ public final class YdbTable {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, columnFamilies_.get(i));
       }
+      for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+           : internalGetAttributes().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+        attributes__ = AttributesDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(11, attributes__);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -24548,6 +24734,8 @@ public final class YdbTable {
       }
       result = result && getColumnFamiliesList()
           .equals(other.getColumnFamiliesList());
+      result = result && internalGetAttributes().equals(
+          other.internalGetAttributes());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -24594,6 +24782,10 @@ public final class YdbTable {
       if (getColumnFamiliesCount() > 0) {
         hash = (37 * hash) + COLUMN_FAMILIES_FIELD_NUMBER;
         hash = (53 * hash) + getColumnFamiliesList().hashCode();
+      }
+      if (!internalGetAttributes().getMap().isEmpty()) {
+        hash = (37 * hash) + ATTRIBUTES_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetAttributes().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -24700,6 +24892,28 @@ public final class YdbTable {
         return tech.ydb.table.YdbTable.internal_static_Ydb_Table_CreateTableRequest_descriptor;
       }
 
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMapField(
+          int number) {
+        switch (number) {
+          case 11:
+            return internalGetAttributes();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMutableMapField(
+          int number) {
+        switch (number) {
+          case 11:
+            return internalGetMutableAttributes();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.table.YdbTable.internal_static_Ydb_Table_CreateTableRequest_fieldAccessorTable
@@ -24775,6 +24989,7 @@ public final class YdbTable {
         } else {
           columnFamiliesBuilder_.clear();
         }
+        internalGetMutableAttributes().clear();
         return this;
       }
 
@@ -24853,6 +25068,8 @@ public final class YdbTable {
         } else {
           result.columnFamilies_ = columnFamiliesBuilder_.build();
         }
+        result.attributes_ = internalGetAttributes();
+        result.attributes_.makeImmutable();
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -25003,6 +25220,8 @@ public final class YdbTable {
             }
           }
         }
+        internalGetMutableAttributes().mergeFrom(
+            other.internalGetAttributes());
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -26849,6 +27068,157 @@ public final class YdbTable {
           columnFamilies_ = null;
         }
         return columnFamiliesBuilder_;
+      }
+
+      private com.google.protobuf.MapField<
+          java.lang.String, java.lang.String> attributes_;
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetAttributes() {
+        if (attributes_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              AttributesDefaultEntryHolder.defaultEntry);
+        }
+        return attributes_;
+      }
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetMutableAttributes() {
+        onChanged();;
+        if (attributes_ == null) {
+          attributes_ = com.google.protobuf.MapField.newMapField(
+              AttributesDefaultEntryHolder.defaultEntry);
+        }
+        if (!attributes_.isMutable()) {
+          attributes_ = attributes_.copy();
+        }
+        return attributes_;
+      }
+
+      public int getAttributesCount() {
+        return internalGetAttributes().getMap().size();
+      }
+      /**
+       * <pre>
+       * Attributes. Total size is limited to 10 KB.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+       */
+
+      public boolean containsAttributes(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        return internalGetAttributes().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getAttributesMap()} instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String> getAttributes() {
+        return getAttributesMap();
+      }
+      /**
+       * <pre>
+       * Attributes. Total size is limited to 10 KB.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+       */
+
+      public java.util.Map<java.lang.String, java.lang.String> getAttributesMap() {
+        return internalGetAttributes().getMap();
+      }
+      /**
+       * <pre>
+       * Attributes. Total size is limited to 10 KB.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+       */
+
+      public java.lang.String getAttributesOrDefault(
+          java.lang.String key,
+          java.lang.String defaultValue) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetAttributes().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <pre>
+       * Attributes. Total size is limited to 10 KB.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+       */
+
+      public java.lang.String getAttributesOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetAttributes().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+
+      public Builder clearAttributes() {
+        internalGetMutableAttributes().getMutableMap()
+            .clear();
+        return this;
+      }
+      /**
+       * <pre>
+       * Attributes. Total size is limited to 10 KB.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+       */
+
+      public Builder removeAttributes(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableAttributes().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String>
+      getMutableAttributes() {
+        return internalGetMutableAttributes().getMutableMap();
+      }
+      /**
+       * <pre>
+       * Attributes. Total size is limited to 10 KB.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+       */
+      public Builder putAttributes(
+          java.lang.String key,
+          java.lang.String value) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        if (value == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableAttributes().getMutableMap()
+            .put(key, value);
+        return this;
+      }
+      /**
+       * <pre>
+       * Attributes. Total size is limited to 10 KB.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 11 [(.Ydb.length) = { ... }</code>
+       */
+
+      public Builder putAllAttributes(
+          java.util.Map<java.lang.String, java.lang.String> values) {
+        internalGetMutableAttributes().getMutableMap()
+            .putAll(values);
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -29364,6 +29734,65 @@ public final class YdbTable {
     tech.ydb.table.YdbTable.ColumnFamilyOrBuilder getAlterColumnFamiliesOrBuilder(
         int index);
 
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * Cannot be used in combination with other fields (except session_id and path) at the moment.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+     */
+    int getAlterAttributesCount();
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * Cannot be used in combination with other fields (except session_id and path) at the moment.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+     */
+    boolean containsAlterAttributes(
+        java.lang.String key);
+    /**
+     * Use {@link #getAlterAttributesMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.String, java.lang.String>
+    getAlterAttributes();
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * Cannot be used in combination with other fields (except session_id and path) at the moment.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+     */
+    java.util.Map<java.lang.String, java.lang.String>
+    getAlterAttributesMap();
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * Cannot be used in combination with other fields (except session_id and path) at the moment.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+     */
+
+    java.lang.String getAlterAttributesOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue);
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * Cannot be used in combination with other fields (except session_id and path) at the moment.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+     */
+
+    java.lang.String getAlterAttributesOrThrow(
+        java.lang.String key);
+
     public tech.ydb.table.YdbTable.AlterTableRequest.TtlActionCase getTtlActionCase();
   }
   /**
@@ -29551,6 +29980,19 @@ public final class YdbTable {
                   input.readMessage(tech.ydb.table.YdbTable.ColumnFamily.parser(), extensionRegistry));
               break;
             }
+            case 114: {
+              if (!((mutable_bitField0_ & 0x00002000) == 0x00002000)) {
+                alterAttributes_ = com.google.protobuf.MapField.newMapField(
+                    AlterAttributesDefaultEntryHolder.defaultEntry);
+                mutable_bitField0_ |= 0x00002000;
+              }
+              com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+              alterAttributes__ = input.readMessage(
+                  AlterAttributesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              alterAttributes_.getMutableMap().put(
+                  alterAttributes__.getKey(), alterAttributes__.getValue());
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -29589,6 +30031,17 @@ public final class YdbTable {
       return tech.ydb.table.YdbTable.internal_static_Ydb_Table_AlterTableRequest_descriptor;
     }
 
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 14:
+          return internalGetAlterAttributes();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.table.YdbTable.internal_static_Ydb_Table_AlterTableRequest_fieldAccessorTable
@@ -30170,6 +30623,102 @@ public final class YdbTable {
       return alterColumnFamilies_.get(index);
     }
 
+    public static final int ALTER_ATTRIBUTES_FIELD_NUMBER = 14;
+    private static final class AlterAttributesDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.String, java.lang.String> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.String, java.lang.String>newDefaultInstance(
+                  tech.ydb.table.YdbTable.internal_static_Ydb_Table_AlterTableRequest_AlterAttributesEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "",
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "");
+    }
+    private com.google.protobuf.MapField<
+        java.lang.String, java.lang.String> alterAttributes_;
+    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+    internalGetAlterAttributes() {
+      if (alterAttributes_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            AlterAttributesDefaultEntryHolder.defaultEntry);
+      }
+      return alterAttributes_;
+    }
+
+    public int getAlterAttributesCount() {
+      return internalGetAlterAttributes().getMap().size();
+    }
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * Cannot be used in combination with other fields (except session_id and path) at the moment.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+     */
+
+    public boolean containsAlterAttributes(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetAlterAttributes().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getAlterAttributesMap()} instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, java.lang.String> getAlterAttributes() {
+      return getAlterAttributesMap();
+    }
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * Cannot be used in combination with other fields (except session_id and path) at the moment.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+     */
+
+    public java.util.Map<java.lang.String, java.lang.String> getAlterAttributesMap() {
+      return internalGetAlterAttributes().getMap();
+    }
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * Cannot be used in combination with other fields (except session_id and path) at the moment.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+     */
+
+    public java.lang.String getAlterAttributesOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetAlterAttributes().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * Cannot be used in combination with other fields (except session_id and path) at the moment.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+     */
+
+    public java.lang.String getAlterAttributesOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetAlterAttributes().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -30221,6 +30770,12 @@ public final class YdbTable {
       for (int i = 0; i < alterColumnFamilies_.size(); i++) {
         output.writeMessage(13, alterColumnFamilies_.get(i));
       }
+      com.google.protobuf.GeneratedMessageV3
+        .serializeStringMapTo(
+          output,
+          internalGetAlterAttributes(),
+          AlterAttributesDefaultEntryHolder.defaultEntry,
+          14);
       unknownFields.writeTo(output);
     }
 
@@ -30287,6 +30842,16 @@ public final class YdbTable {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(13, alterColumnFamilies_.get(i));
       }
+      for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+           : internalGetAlterAttributes().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+        alterAttributes__ = AlterAttributesDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(14, alterAttributes__);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -30331,6 +30896,8 @@ public final class YdbTable {
           .equals(other.getAddColumnFamiliesList());
       result = result && getAlterColumnFamiliesList()
           .equals(other.getAlterColumnFamiliesList());
+      result = result && internalGetAlterAttributes().equals(
+          other.internalGetAlterAttributes());
       result = result && getTtlActionCase().equals(
           other.getTtlActionCase());
       if (!result) return false;
@@ -30396,6 +30963,10 @@ public final class YdbTable {
       if (getAlterColumnFamiliesCount() > 0) {
         hash = (37 * hash) + ALTER_COLUMN_FAMILIES_FIELD_NUMBER;
         hash = (53 * hash) + getAlterColumnFamiliesList().hashCode();
+      }
+      if (!internalGetAlterAttributes().getMap().isEmpty()) {
+        hash = (37 * hash) + ALTER_ATTRIBUTES_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetAlterAttributes().hashCode();
       }
       switch (ttlActionCase_) {
         case 7:
@@ -30518,6 +31089,28 @@ public final class YdbTable {
         return tech.ydb.table.YdbTable.internal_static_Ydb_Table_AlterTableRequest_descriptor;
       }
 
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMapField(
+          int number) {
+        switch (number) {
+          case 14:
+            return internalGetAlterAttributes();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMutableMapField(
+          int number) {
+        switch (number) {
+          case 14:
+            return internalGetMutableAlterAttributes();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.table.YdbTable.internal_static_Ydb_Table_AlterTableRequest_fieldAccessorTable
@@ -30597,6 +31190,7 @@ public final class YdbTable {
         } else {
           alterColumnFamiliesBuilder_.clear();
         }
+        internalGetMutableAlterAttributes().clear();
         ttlActionCase_ = 0;
         ttlAction_ = null;
         return this;
@@ -30704,6 +31298,8 @@ public final class YdbTable {
         } else {
           result.alterColumnFamilies_ = alterColumnFamiliesBuilder_.build();
         }
+        result.alterAttributes_ = internalGetAlterAttributes();
+        result.alterAttributes_.makeImmutable();
         result.bitField0_ = to_bitField0_;
         result.ttlActionCase_ = ttlActionCase_;
         onBuilt();
@@ -30911,6 +31507,8 @@ public final class YdbTable {
             }
           }
         }
+        internalGetMutableAlterAttributes().mergeFrom(
+            other.internalGetAlterAttributes());
         switch (other.getTtlActionCase()) {
           case SET_TTL_SETTINGS: {
             mergeSetTtlSettings(other.getSetTtlSettings());
@@ -33433,6 +34031,164 @@ public final class YdbTable {
           alterColumnFamilies_ = null;
         }
         return alterColumnFamiliesBuilder_;
+      }
+
+      private com.google.protobuf.MapField<
+          java.lang.String, java.lang.String> alterAttributes_;
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetAlterAttributes() {
+        if (alterAttributes_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              AlterAttributesDefaultEntryHolder.defaultEntry);
+        }
+        return alterAttributes_;
+      }
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetMutableAlterAttributes() {
+        onChanged();;
+        if (alterAttributes_ == null) {
+          alterAttributes_ = com.google.protobuf.MapField.newMapField(
+              AlterAttributesDefaultEntryHolder.defaultEntry);
+        }
+        if (!alterAttributes_.isMutable()) {
+          alterAttributes_ = alterAttributes_.copy();
+        }
+        return alterAttributes_;
+      }
+
+      public int getAlterAttributesCount() {
+        return internalGetAlterAttributes().getMap().size();
+      }
+      /**
+       * <pre>
+       * Alter attributes. Leave the value blank to drop an attribute.
+       * Cannot be used in combination with other fields (except session_id and path) at the moment.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+       */
+
+      public boolean containsAlterAttributes(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        return internalGetAlterAttributes().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getAlterAttributesMap()} instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String> getAlterAttributes() {
+        return getAlterAttributesMap();
+      }
+      /**
+       * <pre>
+       * Alter attributes. Leave the value blank to drop an attribute.
+       * Cannot be used in combination with other fields (except session_id and path) at the moment.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+       */
+
+      public java.util.Map<java.lang.String, java.lang.String> getAlterAttributesMap() {
+        return internalGetAlterAttributes().getMap();
+      }
+      /**
+       * <pre>
+       * Alter attributes. Leave the value blank to drop an attribute.
+       * Cannot be used in combination with other fields (except session_id and path) at the moment.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+       */
+
+      public java.lang.String getAlterAttributesOrDefault(
+          java.lang.String key,
+          java.lang.String defaultValue) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetAlterAttributes().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <pre>
+       * Alter attributes. Leave the value blank to drop an attribute.
+       * Cannot be used in combination with other fields (except session_id and path) at the moment.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+       */
+
+      public java.lang.String getAlterAttributesOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetAlterAttributes().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+
+      public Builder clearAlterAttributes() {
+        internalGetMutableAlterAttributes().getMutableMap()
+            .clear();
+        return this;
+      }
+      /**
+       * <pre>
+       * Alter attributes. Leave the value blank to drop an attribute.
+       * Cannot be used in combination with other fields (except session_id and path) at the moment.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+       */
+
+      public Builder removeAlterAttributes(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableAlterAttributes().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String>
+      getMutableAlterAttributes() {
+        return internalGetMutableAlterAttributes().getMutableMap();
+      }
+      /**
+       * <pre>
+       * Alter attributes. Leave the value blank to drop an attribute.
+       * Cannot be used in combination with other fields (except session_id and path) at the moment.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+       */
+      public Builder putAlterAttributes(
+          java.lang.String key,
+          java.lang.String value) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        if (value == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableAlterAttributes().getMutableMap()
+            .put(key, value);
+        return this;
+      }
+      /**
+       * <pre>
+       * Alter attributes. Leave the value blank to drop an attribute.
+       * Cannot be used in combination with other fields (except session_id and path) at the moment.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; alter_attributes = 14 [(.Ydb.length) = { ... }</code>
+       */
+
+      public Builder putAllAlterAttributes(
+          java.util.Map<java.lang.String, java.lang.String> values) {
+        internalGetMutableAlterAttributes().getMutableMap()
+            .putAll(values);
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -40523,6 +41279,60 @@ public final class YdbTable {
      */
     tech.ydb.table.YdbTable.ColumnFamilyOrBuilder getColumnFamiliesOrBuilder(
         int index);
+
+    /**
+     * <pre>
+     * Attributes
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 10;</code>
+     */
+    int getAttributesCount();
+    /**
+     * <pre>
+     * Attributes
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 10;</code>
+     */
+    boolean containsAttributes(
+        java.lang.String key);
+    /**
+     * Use {@link #getAttributesMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.String, java.lang.String>
+    getAttributes();
+    /**
+     * <pre>
+     * Attributes
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 10;</code>
+     */
+    java.util.Map<java.lang.String, java.lang.String>
+    getAttributesMap();
+    /**
+     * <pre>
+     * Attributes
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 10;</code>
+     */
+
+    java.lang.String getAttributesOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue);
+    /**
+     * <pre>
+     * Attributes
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 10;</code>
+     */
+
+    java.lang.String getAttributesOrThrow(
+        java.lang.String key);
   }
   /**
    * Protobuf type {@code Ydb.Table.DescribeTableResult}
@@ -40669,6 +41479,19 @@ public final class YdbTable {
                   input.readMessage(tech.ydb.table.YdbTable.ColumnFamily.parser(), extensionRegistry));
               break;
             }
+            case 82: {
+              if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+                attributes_ = com.google.protobuf.MapField.newMapField(
+                    AttributesDefaultEntryHolder.defaultEntry);
+                mutable_bitField0_ |= 0x00000200;
+              }
+              com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+              attributes__ = input.readMessage(
+                  AttributesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              attributes_.getMutableMap().put(
+                  attributes__.getKey(), attributes__.getValue());
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -40701,6 +41524,17 @@ public final class YdbTable {
       return tech.ydb.table.YdbTable.internal_static_Ydb_Table_DescribeTableResult_descriptor;
     }
 
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 10:
+          return internalGetAttributes();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.table.YdbTable.internal_static_Ydb_Table_DescribeTableResult_fieldAccessorTable
@@ -41106,6 +41940,98 @@ public final class YdbTable {
       return columnFamilies_.get(index);
     }
 
+    public static final int ATTRIBUTES_FIELD_NUMBER = 10;
+    private static final class AttributesDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.String, java.lang.String> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.String, java.lang.String>newDefaultInstance(
+                  tech.ydb.table.YdbTable.internal_static_Ydb_Table_DescribeTableResult_AttributesEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "",
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "");
+    }
+    private com.google.protobuf.MapField<
+        java.lang.String, java.lang.String> attributes_;
+    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+    internalGetAttributes() {
+      if (attributes_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            AttributesDefaultEntryHolder.defaultEntry);
+      }
+      return attributes_;
+    }
+
+    public int getAttributesCount() {
+      return internalGetAttributes().getMap().size();
+    }
+    /**
+     * <pre>
+     * Attributes
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 10;</code>
+     */
+
+    public boolean containsAttributes(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetAttributes().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getAttributesMap()} instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, java.lang.String> getAttributes() {
+      return getAttributesMap();
+    }
+    /**
+     * <pre>
+     * Attributes
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 10;</code>
+     */
+
+    public java.util.Map<java.lang.String, java.lang.String> getAttributesMap() {
+      return internalGetAttributes().getMap();
+    }
+    /**
+     * <pre>
+     * Attributes
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 10;</code>
+     */
+
+    public java.lang.String getAttributesOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetAttributes().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <pre>
+     * Attributes
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 10;</code>
+     */
+
+    public java.lang.String getAttributesOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetAttributes().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -41145,6 +42071,12 @@ public final class YdbTable {
       for (int i = 0; i < columnFamilies_.size(); i++) {
         output.writeMessage(9, columnFamilies_.get(i));
       }
+      com.google.protobuf.GeneratedMessageV3
+        .serializeStringMapTo(
+          output,
+          internalGetAttributes(),
+          AttributesDefaultEntryHolder.defaultEntry,
+          10);
       unknownFields.writeTo(output);
     }
 
@@ -41193,6 +42125,16 @@ public final class YdbTable {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, columnFamilies_.get(i));
       }
+      for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+           : internalGetAttributes().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+        attributes__ = AttributesDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(10, attributes__);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -41239,6 +42181,8 @@ public final class YdbTable {
       }
       result = result && getColumnFamiliesList()
           .equals(other.getColumnFamiliesList());
+      result = result && internalGetAttributes().equals(
+          other.internalGetAttributes());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -41285,6 +42229,10 @@ public final class YdbTable {
       if (getColumnFamiliesCount() > 0) {
         hash = (37 * hash) + COLUMN_FAMILIES_FIELD_NUMBER;
         hash = (53 * hash) + getColumnFamiliesList().hashCode();
+      }
+      if (!internalGetAttributes().getMap().isEmpty()) {
+        hash = (37 * hash) + ATTRIBUTES_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetAttributes().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -41391,6 +42339,28 @@ public final class YdbTable {
         return tech.ydb.table.YdbTable.internal_static_Ydb_Table_DescribeTableResult_descriptor;
       }
 
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMapField(
+          int number) {
+        switch (number) {
+          case 10:
+            return internalGetAttributes();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMutableMapField(
+          int number) {
+        switch (number) {
+          case 10:
+            return internalGetMutableAttributes();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.table.YdbTable.internal_static_Ydb_Table_DescribeTableResult_fieldAccessorTable
@@ -41469,6 +42439,7 @@ public final class YdbTable {
         } else {
           columnFamiliesBuilder_.clear();
         }
+        internalGetMutableAttributes().clear();
         return this;
       }
 
@@ -41554,6 +42525,8 @@ public final class YdbTable {
         } else {
           result.columnFamilies_ = columnFamiliesBuilder_.build();
         }
+        result.attributes_ = internalGetAttributes();
+        result.attributes_.makeImmutable();
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -41722,6 +42695,8 @@ public final class YdbTable {
             }
           }
         }
+        internalGetMutableAttributes().mergeFrom(
+            other.internalGetAttributes());
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -43738,6 +44713,157 @@ public final class YdbTable {
           columnFamilies_ = null;
         }
         return columnFamiliesBuilder_;
+      }
+
+      private com.google.protobuf.MapField<
+          java.lang.String, java.lang.String> attributes_;
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetAttributes() {
+        if (attributes_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              AttributesDefaultEntryHolder.defaultEntry);
+        }
+        return attributes_;
+      }
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetMutableAttributes() {
+        onChanged();;
+        if (attributes_ == null) {
+          attributes_ = com.google.protobuf.MapField.newMapField(
+              AttributesDefaultEntryHolder.defaultEntry);
+        }
+        if (!attributes_.isMutable()) {
+          attributes_ = attributes_.copy();
+        }
+        return attributes_;
+      }
+
+      public int getAttributesCount() {
+        return internalGetAttributes().getMap().size();
+      }
+      /**
+       * <pre>
+       * Attributes
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 10;</code>
+       */
+
+      public boolean containsAttributes(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        return internalGetAttributes().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getAttributesMap()} instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String> getAttributes() {
+        return getAttributesMap();
+      }
+      /**
+       * <pre>
+       * Attributes
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 10;</code>
+       */
+
+      public java.util.Map<java.lang.String, java.lang.String> getAttributesMap() {
+        return internalGetAttributes().getMap();
+      }
+      /**
+       * <pre>
+       * Attributes
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 10;</code>
+       */
+
+      public java.lang.String getAttributesOrDefault(
+          java.lang.String key,
+          java.lang.String defaultValue) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetAttributes().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <pre>
+       * Attributes
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 10;</code>
+       */
+
+      public java.lang.String getAttributesOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetAttributes().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+
+      public Builder clearAttributes() {
+        internalGetMutableAttributes().getMutableMap()
+            .clear();
+        return this;
+      }
+      /**
+       * <pre>
+       * Attributes
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 10;</code>
+       */
+
+      public Builder removeAttributes(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableAttributes().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String>
+      getMutableAttributes() {
+        return internalGetMutableAttributes().getMutableMap();
+      }
+      /**
+       * <pre>
+       * Attributes
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 10;</code>
+       */
+      public Builder putAttributes(
+          java.lang.String key,
+          java.lang.String value) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        if (value == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableAttributes().getMutableMap()
+            .put(key, value);
+        return this;
+      }
+      /**
+       * <pre>
+       * Attributes
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 10;</code>
+       */
+
+      public Builder putAllAttributes(
+          java.util.Map<java.lang.String, java.lang.String> values) {
+        internalGetMutableAttributes().getMutableMap()
+            .putAll(values);
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -89285,6 +90411,11 @@ public final class YdbTable {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Table_CreateTableRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Table_CreateTableRequest_AttributesEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Table_CreateTableRequest_AttributesEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Table_CreateTableResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -89304,6 +90435,11 @@ public final class YdbTable {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Table_AlterTableRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Table_AlterTableRequest_AlterAttributesEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Table_AlterTableRequest_AlterAttributesEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Table_AlterTableResponse_descriptor;
   private static final 
@@ -89349,6 +90485,11 @@ public final class YdbTable {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Table_DescribeTableResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Table_DescribeTableResult_AttributesEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Table_DescribeTableResult_AttributesEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Table_Query_descriptor;
   private static final 
@@ -89664,349 +90805,360 @@ public final class YdbTable {
   static {
     java.lang.String[] descriptorData = {
       "\n(kikimr/public/api/protos/ydb_table.pro" +
-      "to\022\tYdb.Table\032)kikimr/public/api/protos/" +
-      "ydb_common.proto\0320kikimr/public/api/prot" +
-      "os/ydb_issue_message.proto\032,kikimr/publi" +
-      "c/api/protos/ydb_operation.proto\032.kikimr" +
-      "/public/api/protos/ydb_query_stats.proto" +
-      "\032(kikimr/public/api/protos/ydb_value.pro" +
-      "to\032)kikimr/public/api/protos/ydb_scheme." +
-      "proto\032/kikimr/public/api/protos/ydb_stat" +
-      "us_codes.proto\032\033google/protobuf/empty.pr",
-      "oto\032\037google/protobuf/timestamp.proto\"Q\n\024" +
-      "CreateSessionRequest\0229\n\020operation_params" +
-      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\"" +
-      "E\n\025CreateSessionResponse\022,\n\toperation\030\001 " +
-      "\001(\0132\031.Ydb.Operations.Operation\")\n\023Create" +
-      "SessionResult\022\022\n\nsession_id\030\001 \001(\t\"e\n\024Del" +
-      "eteSessionRequest\022\022\n\nsession_id\030\001 \001(\t\0229\n" +
-      "\020operation_params\030\002 \001(\0132\037.Ydb.Operations" +
-      ".OperationParams\"E\n\025DeleteSessionRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op",
-      "eration\"\r\n\013GlobalIndex\"i\n\nTableIndex\022\014\n\004" +
-      "name\030\001 \001(\t\022\025\n\rindex_columns\030\002 \003(\t\022.\n\014glo" +
-      "bal_index\030\003 \001(\0132\026.Ydb.Table.GlobalIndexH" +
-      "\000B\006\n\004type\"\317\001\n\022IndexBuildProgress\"\270\001\n\010Pro" +
-      "gress\022\030\n\024PROGRESS_UNSPECIFIED\020\000\022\026\n\022PROGR" +
-      "ESS_PREPARING\020\001\022\035\n\031PROGRESS_TRANSFERING_" +
-      "DATA\020\002\022\025\n\021PROGRESS_APPLYING\020\003\022\021\n\rPROGRES" +
-      "S_DONE\020\004\022\031\n\025PROGRESS_CANCELLATION\020\005\022\026\n\022P" +
-      "ROGRESS_CANCELLED\020\006\"K\n\025IndexBuildDescrip" +
-      "tion\022\014\n\004path\030\001 \001(\t\022$\n\005index\030\002 \001(\0132\025.Ydb.",
-      "Table.TableIndex\"\205\001\n\022IndexBuildMetadata\022" +
-      "5\n\013description\030\001 \001(\0132 .Ydb.Table.IndexBu" +
-      "ildDescription\0228\n\010progress\030\002 \001(\0162&.Ydb.T" +
-      "able.IndexBuildProgress.Progress\"\034\n\013Stor" +
-      "agePool\022\r\n\005media\030\001 \001(\t\"\252\002\n\rStoragePolicy" +
-      "\022\023\n\013preset_name\030\001 \001(\t\022&\n\006syslog\030\002 \001(\0132\026." +
-      "Ydb.Table.StoragePool\022#\n\003log\030\003 \001(\0132\026.Ydb" +
-      ".Table.StoragePool\022$\n\004data\030\004 \001(\0132\026.Ydb.T" +
-      "able.StoragePool\022(\n\010external\030\005 \001(\0132\026.Ydb" +
-      ".Table.StoragePool\022/\n\016keep_in_memory\030\006 \001",
-      "(\0162\027.Ydb.FeatureFlag.Status\0226\n\017column_fa" +
-      "milies\030\007 \003(\0132\035.Ydb.Table.ColumnFamilyPol" +
-      "icy\"\261\002\n\022ColumnFamilyPolicy\022\014\n\004name\030\001 \001(\t" +
-      "\022$\n\004data\030\002 \001(\0132\026.Ydb.Table.StoragePool\022(" +
-      "\n\010external\030\003 \001(\0132\026.Ydb.Table.StoragePool" +
-      "\022/\n\016keep_in_memory\030\004 \001(\0162\027.Ydb.FeatureFl" +
-      "ag.Status\022>\n\013compression\030\005 \001(\0162).Ydb.Tab" +
-      "le.ColumnFamilyPolicy.Compression\"L\n\013Com" +
-      "pression\022\033\n\027COMPRESSION_UNSPECIFIED\020\000\022\020\n" +
-      "\014UNCOMPRESSED\020\001\022\016\n\nCOMPRESSED\020\002\"\'\n\020Compa",
-      "ctionPolicy\022\023\n\013preset_name\030\001 \001(\t\";\n\022Expl" +
-      "icitPartitions\022%\n\014split_points\030\001 \003(\0132\017.Y" +
-      "db.TypedValue\";\n\016PartitionStats\022\025\n\rrows_" +
-      "estimate\030\001 \001(\004\022\022\n\nstore_size\030\002 \001(\004\"\351\001\n\nT" +
-      "ableStats\0222\n\017partition_stats\030\001 \003(\0132\031.Ydb" +
-      ".Table.PartitionStats\022\025\n\rrows_estimate\030\002" +
-      " \001(\004\022\022\n\nstore_size\030\003 \001(\004\022\022\n\npartitions\030\004" +
-      " \001(\004\0221\n\rcreation_time\030\005 \001(\0132\032.google.pro" +
-      "tobuf.Timestamp\0225\n\021modification_time\030\006 \001" +
-      "(\0132\032.google.protobuf.Timestamp\"\334\002\n\022Parti",
-      "tioningPolicy\022\023\n\013preset_name\030\001 \001(\t\022O\n\021au" +
-      "to_partitioning\030\002 \001(\01624.Ydb.Table.Partit" +
-      "ioningPolicy.AutoPartitioningPolicy\022\034\n\022u" +
-      "niform_partitions\030\003 \001(\004H\000\022<\n\023explicit_pa" +
-      "rtitions\030\004 \001(\0132\035.Ydb.Table.ExplicitParti" +
-      "tionsH\000\"v\n\026AutoPartitioningPolicy\022(\n$AUT" +
-      "O_PARTITIONING_POLICY_UNSPECIFIED\020\000\022\014\n\010D" +
-      "ISABLED\020\001\022\016\n\nAUTO_SPLIT\020\002\022\024\n\020AUTO_SPLIT_" +
-      "MERGE\020\003B\014\n\npartitions\"&\n\017ExecutionPolicy" +
-      "\022\023\n\013preset_name\030\001 \001(\t\"\261\001\n\021ReplicationPol",
-      "icy\022\023\n\013preset_name\030\001 \001(\t\022\026\n\016replicas_cou" +
-      "nt\030\002 \001(\r\022=\n\034create_per_availability_zone" +
-      "\030\003 \001(\0162\027.Ydb.FeatureFlag.Status\0220\n\017allow" +
-      "_promotion\030\004 \001(\0162\027.Ydb.FeatureFlag.Statu" +
-      "s\"$\n\rCachingPolicy\022\023\n\013preset_name\030\001 \001(\t\"" +
-      "\353\002\n\014TableProfile\022\023\n\013preset_name\030\001 \001(\t\0220\n" +
-      "\016storage_policy\030\002 \001(\0132\030.Ydb.Table.Storag" +
-      "ePolicy\0226\n\021compaction_policy\030\003 \001(\0132\033.Ydb" +
-      ".Table.CompactionPolicy\022:\n\023partitioning_" +
-      "policy\030\004 \001(\0132\035.Ydb.Table.PartitioningPol",
-      "icy\0224\n\020execution_policy\030\005 \001(\0132\032.Ydb.Tabl" +
-      "e.ExecutionPolicy\0228\n\022replication_policy\030" +
-      "\006 \001(\0132\034.Ydb.Table.ReplicationPolicy\0220\n\016c" +
-      "aching_policy\030\007 \001(\0132\030.Ydb.Table.CachingP" +
-      "olicy\"C\n\nColumnMeta\022\014\n\004name\030\001 \001(\t\022\027\n\004typ" +
-      "e\030\002 \001(\0132\t.Ydb.Type\022\016\n\006family\030\003 \001(\t\"O\n\032Da" +
-      "teTypeColumnModeSettings\022\023\n\013column_name\030" +
-      "\001 \001(\t\022\034\n\024expire_after_seconds\030\002 \001(\r\"X\n\013T" +
-      "tlSettings\022A\n\020date_type_column\030\001 \001(\0132%.Y" +
-      "db.Table.DateTypeColumnModeSettingsH\000B\006\n",
-      "\004mode\"\332\001\n\017StorageSettings\0222\n\022tablet_comm" +
-      "it_log0\030\001 \001(\0132\026.Ydb.Table.StoragePool\0222\n" +
-      "\022tablet_commit_log1\030\002 \001(\0132\026.Ydb.Table.St" +
-      "oragePool\022(\n\010external\030\004 \001(\0132\026.Ydb.Table." +
-      "StoragePool\0225\n\024store_external_blobs\030\005 \001(" +
-      "\0162\027.Ydb.FeatureFlag.Status\"\204\002\n\014ColumnFam" +
-      "ily\022\014\n\004name\030\001 \001(\t\022$\n\004data\030\002 \001(\0132\026.Ydb.Ta" +
-      "ble.StoragePool\0228\n\013compression\030\003 \001(\0162#.Y" +
-      "db.Table.ColumnFamily.Compression\022/\n\016kee" +
-      "p_in_memory\030\004 \001(\0162\027.Ydb.FeatureFlag.Stat",
-      "us\"U\n\013Compression\022\033\n\027COMPRESSION_UNSPECI" +
-      "FIED\020\000\022\024\n\020COMPRESSION_NONE\020\001\022\023\n\017COMPRESS" +
-      "ION_LZ4\020\002\"\226\003\n\022CreateTableRequest\022\022\n\nsess" +
-      "ion_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022&\n\007columns\030\003 " +
-      "\003(\0132\025.Ydb.Table.ColumnMeta\022\023\n\013primary_ke" +
-      "y\030\004 \003(\t\022(\n\007profile\030\005 \001(\0132\027.Ydb.Table.Tab" +
-      "leProfile\0229\n\020operation_params\030\006 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\022&\n\007indexes\030" +
-      "\007 \003(\0132\025.Ydb.Table.TableIndex\022,\n\014ttl_sett" +
-      "ings\030\010 \001(\0132\026.Ydb.Table.TtlSettings\0224\n\020st",
-      "orage_settings\030\t \001(\0132\032.Ydb.Table.Storage" +
-      "Settings\0220\n\017column_families\030\n \003(\0132\027.Ydb." +
-      "Table.ColumnFamily\"C\n\023CreateTableRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"u\n\020DropTableRequest\022\022\n\nsession_i" +
-      "d\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\0229\n\020operation_param" +
-      "s\030\004 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "J\004\010\003\020\004\"A\n\021DropTableResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\303\004\n\021Al" +
-      "terTableRequest\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004p",
-      "ath\030\002 \001(\t\022*\n\013add_columns\030\003 \003(\0132\025.Ydb.Tab" +
-      "le.ColumnMeta\022\024\n\014drop_columns\030\004 \003(\t\0229\n\020o" +
-      "peration_params\030\005 \001(\0132\037.Ydb.Operations.O" +
-      "perationParams\022,\n\ralter_columns\030\006 \003(\0132\025." +
-      "Ydb.Table.ColumnMeta\0222\n\020set_ttl_settings" +
-      "\030\007 \001(\0132\026.Ydb.Table.TtlSettingsH\000\0223\n\021drop" +
-      "_ttl_settings\030\010 \001(\0132\026.google.protobuf.Em" +
-      "ptyH\000\022*\n\013add_indexes\030\t \003(\0132\025.Ydb.Table.T" +
-      "ableIndex\022\024\n\014drop_indexes\030\n \003(\t\022:\n\026alter" +
-      "_storage_settings\030\013 \001(\0132\032.Ydb.Table.Stor",
-      "ageSettings\0224\n\023add_column_families\030\014 \003(\013" +
-      "2\027.Ydb.Table.ColumnFamily\0226\n\025alter_colum" +
-      "n_families\030\r \003(\0132\027.Ydb.Table.ColumnFamil" +
-      "yB\014\n\nttl_action\"B\n\022AlterTableResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"\220\001\n\020CopyTableRequest\022\022\n\nsession_id\030\001" +
-      " \001(\t\022\023\n\013source_path\030\002 \001(\t\022\030\n\020destination" +
-      "_path\030\003 \001(\t\0229\n\020operation_params\030\004 \001(\0132\037." +
-      "Ydb.Operations.OperationParams\"A\n\021CopyTa" +
-      "bleResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope",
-      "rations.Operation\"T\n\rCopyTableItem\022\023\n\013so" +
-      "urce_path\030\001 \001(\t\022\030\n\020destination_path\030\002 \001(" +
-      "\t\022\024\n\014omit_indexes\030\003 \001(\010\"\214\001\n\021CopyTablesRe" +
-      "quest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Op" +
-      "erations.OperationParams\022\022\n\nsession_id\030\002" +
-      " \001(\t\022(\n\006tables\030\003 \003(\0132\030.Ydb.Table.CopyTab" +
-      "leItem\"B\n\022CopyTablesResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\323\001\n\024D" +
-      "escribeTableRequest\022\022\n\nsession_id\030\001 \001(\t\022" +
-      "\014\n\004path\030\002 \001(\t\0229\n\020operation_params\030\004 \001(\0132",
-      "\037.Ydb.Operations.OperationParams\022 \n\030incl" +
-      "ude_shard_key_bounds\030\005 \001(\010\022\033\n\023include_ta" +
-      "ble_stats\030\006 \001(\010\022\037\n\027include_partition_sta" +
-      "ts\030\007 \001(\010\"E\n\025DescribeTableResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
-      "\210\003\n\023DescribeTableResult\022\037\n\004self\030\001 \001(\0132\021." +
-      "Ydb.Scheme.Entry\022&\n\007columns\030\002 \003(\0132\025.Ydb." +
-      "Table.ColumnMeta\022\023\n\013primary_key\030\003 \003(\t\022)\n" +
-      "\020shard_key_bounds\030\004 \003(\0132\017.Ydb.TypedValue" +
-      "\022&\n\007indexes\030\005 \003(\0132\025.Ydb.Table.TableIndex",
-      "\022*\n\013table_stats\030\006 \001(\0132\025.Ydb.Table.TableS" +
-      "tats\022,\n\014ttl_settings\030\007 \001(\0132\026.Ydb.Table.T" +
-      "tlSettings\0224\n\020storage_settings\030\010 \001(\0132\032.Y" +
-      "db.Table.StorageSettings\0220\n\017column_famil" +
-      "ies\030\t \003(\0132\027.Ydb.Table.ColumnFamily\"2\n\005Qu" +
-      "ery\022\022\n\010yql_text\030\001 \001(\tH\000\022\014\n\002id\030\002 \001(\tH\000B\007\n" +
-      "\005query\"\032\n\030SerializableModeSettings\"6\n\022On" +
-      "lineModeSettings\022 \n\030allow_inconsistent_r" +
-      "eads\030\001 \001(\010\"\023\n\021StaleModeSettings\"\334\001\n\023Tran" +
-      "sactionSettings\022F\n\027serializable_read_wri",
-      "te\030\001 \001(\0132#.Ydb.Table.SerializableModeSet" +
-      "tingsH\000\0229\n\020online_read_only\030\002 \001(\0132\035.Ydb." +
-      "Table.OnlineModeSettingsH\000\0227\n\017stale_read" +
-      "_only\030\003 \001(\0132\034.Ydb.Table.StaleModeSetting" +
-      "sH\000B\t\n\007tx_mode\"{\n\022TransactionControl\022\017\n\005" +
-      "tx_id\030\001 \001(\tH\000\0222\n\010begin_tx\030\002 \001(\0132\036.Ydb.Ta" +
-      "ble.TransactionSettingsH\000\022\021\n\tcommit_tx\030\n" +
-      " \001(\010B\r\n\013tx_selector\")\n\020QueryCachePolicy\022" +
-      "\025\n\rkeep_in_cache\030\001 \001(\010\"\300\004\n\027ExecuteDataQu" +
-      "eryRequest\022\022\n\nsession_id\030\001 \001(\t\0221\n\ntx_con",
-      "trol\030\002 \001(\0132\035.Ydb.Table.TransactionContro" +
-      "l\022\037\n\005query\030\003 \001(\0132\020.Ydb.Table.Query\022F\n\npa" +
-      "rameters\030\004 \003(\01322.Ydb.Table.ExecuteDataQu" +
-      "eryRequest.ParametersEntry\0227\n\022query_cach" +
-      "e_policy\030\005 \001(\0132\033.Ydb.Table.QueryCachePol" +
-      "icy\0229\n\020operation_params\030\006 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022M\n\rcollect_stats\030" +
-      "\007 \001(\01626.Ydb.Table.ExecuteDataQueryReques" +
-      "t.StatsCollectionMode\032B\n\017ParametersEntry" +
-      "\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.Typed",
-      "Value:\0028\001\"n\n\023StatsCollectionMode\022 \n\034STAT" +
-      "S_COLLECTION_UNSPECIFIED\020\000\022\031\n\025STATS_COLL" +
-      "ECTION_NONE\020\001\022\032\n\026STATS_COLLECTION_BASIC\020" +
-      "\002\"H\n\030ExecuteDataQueryResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"|\n\031E" +
-      "xecuteSchemeQueryRequest\022\022\n\nsession_id\030\001" +
-      " \001(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020operation_para" +
-      "ms\030\003 \001(\0132\037.Ydb.Operations.OperationParam" +
-      "s\"J\n\032ExecuteSchemeQueryResponse\022,\n\topera" +
-      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\035\n",
-      "\017TransactionMeta\022\n\n\002id\030\001 \001(\t\"\237\001\n\tQueryMe" +
-      "ta\022\n\n\002id\030\001 \001(\t\022C\n\020parameters_types\030\002 \003(\013" +
-      "2).Ydb.Table.QueryMeta.ParametersTypesEn" +
-      "try\032A\n\024ParametersTypesEntry\022\013\n\003key\030\001 \001(\t" +
-      "\022\030\n\005value\030\002 \001(\0132\t.Ydb.Type:\0028\001\"\301\001\n\022Execu" +
-      "teQueryResult\022#\n\013result_sets\030\001 \003(\0132\016.Ydb" +
-      ".ResultSet\022+\n\007tx_meta\030\002 \001(\0132\032.Ydb.Table." +
-      "TransactionMeta\022(\n\nquery_meta\030\003 \001(\0132\024.Yd" +
-      "b.Table.QueryMeta\022/\n\013query_stats\030\004 \001(\0132\032" +
-      ".Ydb.TableStats.QueryStats\"z\n\027ExplainDat",
-      "aQueryRequest\022\022\n\nsession_id\030\001 \001(\t\022\020\n\010yql" +
-      "_text\030\002 \001(\t\0229\n\020operation_params\030\003 \001(\0132\037." +
-      "Ydb.Operations.OperationParams\"H\n\030Explai" +
-      "nDataQueryResponse\022,\n\toperation\030\001 \001(\0132\031." +
-      "Ydb.Operations.Operation\";\n\022ExplainQuery" +
-      "Result\022\021\n\tquery_ast\030\001 \001(\t\022\022\n\nquery_plan\030" +
-      "\002 \001(\t\"z\n\027PrepareDataQueryRequest\022\022\n\nsess" +
-      "ion_id\030\001 \001(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020operat" +
-      "ion_params\030\003 \001(\0132\037.Ydb.Operations.Operat" +
-      "ionParams\"H\n\030PrepareDataQueryResponse\022,\n",
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"\267\001\n\022PrepareQueryResult\022\020\n\010query_id\030\001" +
-      " \001(\t\022L\n\020parameters_types\030\002 \003(\01322.Ydb.Tab" +
-      "le.PrepareQueryResult.ParametersTypesEnt" +
-      "ry\032A\n\024ParametersTypesEntry\022\013\n\003key\030\001 \001(\t\022" +
-      "\030\n\005value\030\002 \001(\0132\t.Ydb.Type:\0028\001\"a\n\020KeepAli" +
-      "veRequest\022\022\n\nsession_id\030\001 \001(\t\0229\n\020operati" +
-      "on_params\030\002 \001(\0132\037.Ydb.Operations.Operati" +
-      "onParams\"A\n\021KeepAliveResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\267\001\n\017",
-      "KeepAliveResult\022@\n\016session_status\030\001 \001(\0162" +
-      "(.Ydb.Table.KeepAliveResult.SessionStatu" +
-      "s\"b\n\rSessionStatus\022\036\n\032SESSION_STATUS_UNS" +
-      "PECIFIED\020\000\022\030\n\024SESSION_STATUS_READY\020\001\022\027\n\023" +
-      "SESSION_STATUS_BUSY\020\002\"\235\001\n\027BeginTransacti" +
-      "onRequest\022\022\n\nsession_id\030\001 \001(\t\0223\n\013tx_sett" +
-      "ings\030\002 \001(\0132\036.Ydb.Table.TransactionSettin" +
-      "gs\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Opera" +
-      "tions.OperationParams\"H\n\030BeginTransactio" +
-      "nResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera",
-      "tions.Operation\"E\n\026BeginTransactionResul" +
-      "t\022+\n\007tx_meta\030\001 \001(\0132\032.Ydb.Table.Transacti" +
-      "onMeta\"x\n\030CommitTransactionRequest\022\022\n\nse" +
-      "ssion_id\030\001 \001(\t\022\r\n\005tx_id\030\002 \001(\t\0229\n\020operati" +
-      "on_params\030\003 \001(\0132\037.Ydb.Operations.Operati" +
-      "onParams\"I\n\031CommitTransactionResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"z\n\032RollbackTransactionRequest\022\022\n\nses" +
-      "sion_id\030\001 \001(\t\022\r\n\005tx_id\030\002 \001(\t\0229\n\020operatio" +
-      "n_params\030\003 \001(\0132\037.Ydb.Operations.Operatio",
-      "nParams\"K\n\033RollbackTransactionResponse\022," +
+      "to\022\tYdb.Table\0324kikimr/public/api/protos/" +
+      "validation/validation.proto\032)kikimr/publ" +
+      "ic/api/protos/ydb_common.proto\0320kikimr/p" +
+      "ublic/api/protos/ydb_issue_message.proto" +
+      "\032,kikimr/public/api/protos/ydb_operation" +
+      ".proto\032.kikimr/public/api/protos/ydb_que" +
+      "ry_stats.proto\032(kikimr/public/api/protos" +
+      "/ydb_value.proto\032)kikimr/public/api/prot" +
+      "os/ydb_scheme.proto\032/kikimr/public/api/p",
+      "rotos/ydb_status_codes.proto\032\033google/pro" +
+      "tobuf/empty.proto\032\037google/protobuf/times" +
+      "tamp.proto\"Q\n\024CreateSessionRequest\0229\n\020op" +
+      "eration_params\030\001 \001(\0132\037.Ydb.Operations.Op" +
+      "erationParams\"E\n\025CreateSessionResponse\022," +
       "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
-      "tion\"\230\001\n\030StoragePolicyDescription\022\014\n\004nam" +
-      "e\030\001 \001(\t\022?\n\006labels\030\002 \003(\0132/.Ydb.Table.Stor" +
-      "agePolicyDescription.LabelsEntry\032-\n\013Labe" +
-      "lsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"" +
-      "\236\001\n\033CompactionPolicyDescription\022\014\n\004name\030" +
-      "\001 \001(\t\022B\n\006labels\030\002 \003(\01322.Ydb.Table.Compac" +
-      "tionPolicyDescription.LabelsEntry\032-\n\013Lab" +
-      "elsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001",
-      "\"\242\001\n\035PartitioningPolicyDescription\022\014\n\004na" +
-      "me\030\001 \001(\t\022D\n\006labels\030\002 \003(\01324.Ydb.Table.Par" +
-      "titioningPolicyDescription.LabelsEntry\032-" +
-      "\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(" +
-      "\t:\0028\001\"\234\001\n\032ExecutionPolicyDescription\022\014\n\004" +
-      "name\030\001 \001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.Table.E" +
-      "xecutionPolicyDescription.LabelsEntry\032-\n" +
-      "\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t" +
-      ":\0028\001\"\240\001\n\034ReplicationPolicyDescription\022\014\n" +
-      "\004name\030\001 \001(\t\022C\n\006labels\030\002 \003(\01323.Ydb.Table.",
-      "ReplicationPolicyDescription.LabelsEntry" +
-      "\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 " +
-      "\001(\t:\0028\001\"\230\001\n\030CachingPolicyDescription\022\014\n\004" +
-      "name\030\001 \001(\t\022?\n\006labels\030\002 \003(\0132/.Ydb.Table.C" +
-      "achingPolicyDescription.LabelsEntry\032-\n\013L" +
-      "abelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\002" +
-      "8\001\"\276\004\n\027TableProfileDescription\022\014\n\004name\030\001" +
-      " \001(\t\022>\n\006labels\030\002 \003(\0132..Ydb.Table.TablePr" +
-      "ofileDescription.LabelsEntry\022\036\n\026default_" +
-      "storage_policy\030\003 \001(\t\022 \n\030allowed_storage_",
-      "policies\030\004 \003(\t\022!\n\031default_compaction_pol" +
-      "icy\030\005 \001(\t\022#\n\033allowed_compaction_policies" +
-      "\030\006 \003(\t\022#\n\033default_partitioning_policy\030\007 " +
-      "\001(\t\022%\n\035allowed_partitioning_policies\030\010 \003" +
-      "(\t\022 \n\030default_execution_policy\030\t \001(\t\022\"\n\032" +
-      "allowed_execution_policies\030\n \003(\t\022\"\n\032defa" +
-      "ult_replication_policy\030\013 \001(\t\022$\n\034allowed_" +
-      "replication_policies\030\014 \003(\t\022\036\n\026default_ca" +
-      "ching_policy\030\r \001(\t\022 \n\030allowed_caching_po" +
-      "licies\030\016 \003(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t",
-      "\022\r\n\005value\030\002 \001(\t:\0028\001\"X\n\033DescribeTableOpti" +
-      "onsRequest\0229\n\020operation_params\030\001 \001(\0132\037.Y" +
-      "db.Operations.OperationParams\"L\n\034Describ" +
-      "eTableOptionsResponse\022,\n\toperation\030\001 \001(\013" +
-      "2\031.Ydb.Operations.Operation\"\231\004\n\032Describe" +
-      "TableOptionsResult\022A\n\025table_profile_pres" +
-      "ets\030\001 \003(\0132\".Ydb.Table.TableProfileDescri" +
-      "ption\022C\n\026storage_policy_presets\030\002 \003(\0132#." +
-      "Ydb.Table.StoragePolicyDescription\022I\n\031co" +
-      "mpaction_policy_presets\030\003 \003(\0132&.Ydb.Tabl",
-      "e.CompactionPolicyDescription\022M\n\033partiti" +
-      "oning_policy_presets\030\004 \003(\0132(.Ydb.Table.P" +
-      "artitioningPolicyDescription\022G\n\030executio" +
-      "n_policy_presets\030\005 \003(\0132%.Ydb.Table.Execu" +
-      "tionPolicyDescription\022K\n\032replication_pol" +
-      "icy_presets\030\006 \003(\0132\'.Ydb.Table.Replicatio" +
-      "nPolicyDescription\022C\n\026caching_policy_pre" +
-      "sets\030\007 \003(\0132#.Ydb.Table.CachingPolicyDesc" +
-      "ription\"\300\001\n\010KeyRange\022\"\n\007greater\030\001 \001(\0132\017." +
-      "Ydb.TypedValueH\000\022+\n\020greater_or_equal\030\002 \001",
-      "(\0132\017.Ydb.TypedValueH\000\022\037\n\004less\030\003 \001(\0132\017.Yd" +
-      "b.TypedValueH\001\022(\n\rless_or_equal\030\004 \001(\0132\017." +
-      "Ydb.TypedValueH\001B\014\n\nfrom_boundB\n\n\010to_bou" +
-      "nd\"\300\001\n\020ReadTableRequest\022\022\n\nsession_id\030\001 " +
-      "\001(\t\022\014\n\004path\030\002 \001(\t\022&\n\tkey_range\030\003 \001(\0132\023.Y" +
-      "db.Table.KeyRange\022\017\n\007columns\030\004 \003(\t\022\017\n\007or" +
-      "dered\030\005 \001(\010\022\021\n\trow_limit\030\006 \001(\004\022-\n\014use_sn" +
-      "apshot\030\007 \001(\0162\027.Ydb.FeatureFlag.Status\"\223\001" +
-      "\n\021ReadTableResponse\022)\n\006status\030\001 \001(\0162\031.Yd" +
-      "b.StatusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027",
-      ".Ydb.Issue.IssueMessage\022*\n\006result\030\003 \001(\0132" +
-      "\032.Ydb.Table.ReadTableResult\"5\n\017ReadTable" +
-      "Result\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultS" +
-      "et\"|\n\021BulkUpsertRequest\022\r\n\005table\030\001 \001(\t\022\035" +
-      "\n\004rows\030\002 \001(\0132\017.Ydb.TypedValue\0229\n\020operati" +
-      "on_params\030\003 \001(\0132\037.Ydb.Operations.Operati" +
-      "onParams\"B\n\022BulkUpsertResponse\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\022\n\020" +
-      "BulkUpsertResult\"\266\002\n\031ExecuteStreamQueryR" +
-      "equest\0227\n\004mode\030\001 \001(\0162).Ydb.Table.Execute",
-      "StreamQueryRequest.Mode\022\037\n\005query\030\002 \001(\0132\020" +
-      ".Ydb.Table.Query\022H\n\nparameters\030\003 \003(\01324.Y" +
-      "db.Table.ExecuteStreamQueryRequest.Param" +
-      "etersEntry\032B\n\017ParametersEntry\022\013\n\003key\030\001 \001" +
-      "(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.TypedValue:\0028\001\"+" +
-      "\n\004Mode\022\024\n\020MODE_UNSPECIFIED\020\000\022\r\n\tMODE_EXE" +
-      "C\020\001J\004\010\004\020\005\"\245\001\n\032ExecuteStreamQueryResponse" +
-      "\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.StatusC" +
-      "ode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMes" +
-      "sage\0223\n\006result\030\003 \001(\0132#.Ydb.Table.Execute",
-      "StreamQueryResult\"H\n\030ExecuteStreamQueryR" +
-      "esult\022$\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultSe" +
-      "tH\000B\006\n\004typeB\031\n\024tech.ydb.table\370\001\001b\006" +
-      "proto3"
+      "tion\")\n\023CreateSessionResult\022\022\n\nsession_i" +
+      "d\030\001 \001(\t\"e\n\024DeleteSessionRequest\022\022\n\nsessi" +
+      "on_id\030\001 \001(\t\0229\n\020operation_params\030\002 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\"E\n\025Delete",
+      "SessionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\"\r\n\013GlobalIndex\"i\n\n" +
+      "TableIndex\022\014\n\004name\030\001 \001(\t\022\025\n\rindex_column" +
+      "s\030\002 \003(\t\022.\n\014global_index\030\003 \001(\0132\026.Ydb.Tabl" +
+      "e.GlobalIndexH\000B\006\n\004type\"\317\001\n\022IndexBuildPr" +
+      "ogress\"\270\001\n\010Progress\022\030\n\024PROGRESS_UNSPECIF" +
+      "IED\020\000\022\026\n\022PROGRESS_PREPARING\020\001\022\035\n\031PROGRES" +
+      "S_TRANSFERING_DATA\020\002\022\025\n\021PROGRESS_APPLYIN" +
+      "G\020\003\022\021\n\rPROGRESS_DONE\020\004\022\031\n\025PROGRESS_CANCE" +
+      "LLATION\020\005\022\026\n\022PROGRESS_CANCELLED\020\006\"K\n\025Ind",
+      "exBuildDescription\022\014\n\004path\030\001 \001(\t\022$\n\005inde" +
+      "x\030\002 \001(\0132\025.Ydb.Table.TableIndex\"\205\001\n\022Index" +
+      "BuildMetadata\0225\n\013description\030\001 \001(\0132 .Ydb" +
+      ".Table.IndexBuildDescription\0228\n\010progress" +
+      "\030\002 \001(\0162&.Ydb.Table.IndexBuildProgress.Pr" +
+      "ogress\"\034\n\013StoragePool\022\r\n\005media\030\001 \001(\t\"\252\002\n" +
+      "\rStoragePolicy\022\023\n\013preset_name\030\001 \001(\t\022&\n\006s" +
+      "yslog\030\002 \001(\0132\026.Ydb.Table.StoragePool\022#\n\003l" +
+      "og\030\003 \001(\0132\026.Ydb.Table.StoragePool\022$\n\004data" +
+      "\030\004 \001(\0132\026.Ydb.Table.StoragePool\022(\n\010extern",
+      "al\030\005 \001(\0132\026.Ydb.Table.StoragePool\022/\n\016keep" +
+      "_in_memory\030\006 \001(\0162\027.Ydb.FeatureFlag.Statu" +
+      "s\0226\n\017column_families\030\007 \003(\0132\035.Ydb.Table.C" +
+      "olumnFamilyPolicy\"\261\002\n\022ColumnFamilyPolicy" +
+      "\022\014\n\004name\030\001 \001(\t\022$\n\004data\030\002 \001(\0132\026.Ydb.Table" +
+      ".StoragePool\022(\n\010external\030\003 \001(\0132\026.Ydb.Tab" +
+      "le.StoragePool\022/\n\016keep_in_memory\030\004 \001(\0162\027" +
+      ".Ydb.FeatureFlag.Status\022>\n\013compression\030\005" +
+      " \001(\0162).Ydb.Table.ColumnFamilyPolicy.Comp" +
+      "ression\"L\n\013Compression\022\033\n\027COMPRESSION_UN",
+      "SPECIFIED\020\000\022\020\n\014UNCOMPRESSED\020\001\022\016\n\nCOMPRES" +
+      "SED\020\002\"\'\n\020CompactionPolicy\022\023\n\013preset_name" +
+      "\030\001 \001(\t\";\n\022ExplicitPartitions\022%\n\014split_po" +
+      "ints\030\001 \003(\0132\017.Ydb.TypedValue\";\n\016Partition" +
+      "Stats\022\025\n\rrows_estimate\030\001 \001(\004\022\022\n\nstore_si" +
+      "ze\030\002 \001(\004\"\351\001\n\nTableStats\0222\n\017partition_sta" +
+      "ts\030\001 \003(\0132\031.Ydb.Table.PartitionStats\022\025\n\rr" +
+      "ows_estimate\030\002 \001(\004\022\022\n\nstore_size\030\003 \001(\004\022\022" +
+      "\n\npartitions\030\004 \001(\004\0221\n\rcreation_time\030\005 \001(" +
+      "\0132\032.google.protobuf.Timestamp\0225\n\021modific",
+      "ation_time\030\006 \001(\0132\032.google.protobuf.Times" +
+      "tamp\"\334\002\n\022PartitioningPolicy\022\023\n\013preset_na" +
+      "me\030\001 \001(\t\022O\n\021auto_partitioning\030\002 \001(\01624.Yd" +
+      "b.Table.PartitioningPolicy.AutoPartition" +
+      "ingPolicy\022\034\n\022uniform_partitions\030\003 \001(\004H\000\022" +
+      "<\n\023explicit_partitions\030\004 \001(\0132\035.Ydb.Table" +
+      ".ExplicitPartitionsH\000\"v\n\026AutoPartitionin" +
+      "gPolicy\022(\n$AUTO_PARTITIONING_POLICY_UNSP" +
+      "ECIFIED\020\000\022\014\n\010DISABLED\020\001\022\016\n\nAUTO_SPLIT\020\002\022" +
+      "\024\n\020AUTO_SPLIT_MERGE\020\003B\014\n\npartitions\"&\n\017E",
+      "xecutionPolicy\022\023\n\013preset_name\030\001 \001(\t\"\261\001\n\021" +
+      "ReplicationPolicy\022\023\n\013preset_name\030\001 \001(\t\022\026" +
+      "\n\016replicas_count\030\002 \001(\r\022=\n\034create_per_ava" +
+      "ilability_zone\030\003 \001(\0162\027.Ydb.FeatureFlag.S" +
+      "tatus\0220\n\017allow_promotion\030\004 \001(\0162\027.Ydb.Fea" +
+      "tureFlag.Status\"$\n\rCachingPolicy\022\023\n\013pres" +
+      "et_name\030\001 \001(\t\"\353\002\n\014TableProfile\022\023\n\013preset" +
+      "_name\030\001 \001(\t\0220\n\016storage_policy\030\002 \001(\0132\030.Yd" +
+      "b.Table.StoragePolicy\0226\n\021compaction_poli" +
+      "cy\030\003 \001(\0132\033.Ydb.Table.CompactionPolicy\022:\n",
+      "\023partitioning_policy\030\004 \001(\0132\035.Ydb.Table.P" +
+      "artitioningPolicy\0224\n\020execution_policy\030\005 " +
+      "\001(\0132\032.Ydb.Table.ExecutionPolicy\0228\n\022repli" +
+      "cation_policy\030\006 \001(\0132\034.Ydb.Table.Replicat" +
+      "ionPolicy\0220\n\016caching_policy\030\007 \001(\0132\030.Ydb." +
+      "Table.CachingPolicy\"C\n\nColumnMeta\022\014\n\004nam" +
+      "e\030\001 \001(\t\022\027\n\004type\030\002 \001(\0132\t.Ydb.Type\022\016\n\006fami" +
+      "ly\030\003 \001(\t\"O\n\032DateTypeColumnModeSettings\022\023" +
+      "\n\013column_name\030\001 \001(\t\022\034\n\024expire_after_seco" +
+      "nds\030\002 \001(\r\"X\n\013TtlSettings\022A\n\020date_type_co",
+      "lumn\030\001 \001(\0132%.Ydb.Table.DateTypeColumnMod" +
+      "eSettingsH\000B\006\n\004mode\"\332\001\n\017StorageSettings\022" +
+      "2\n\022tablet_commit_log0\030\001 \001(\0132\026.Ydb.Table." +
+      "StoragePool\0222\n\022tablet_commit_log1\030\002 \001(\0132" +
+      "\026.Ydb.Table.StoragePool\022(\n\010external\030\004 \001(" +
+      "\0132\026.Ydb.Table.StoragePool\0225\n\024store_exter" +
+      "nal_blobs\030\005 \001(\0162\027.Ydb.FeatureFlag.Status" +
+      "\"\204\002\n\014ColumnFamily\022\014\n\004name\030\001 \001(\t\022$\n\004data\030" +
+      "\002 \001(\0132\026.Ydb.Table.StoragePool\0228\n\013compres" +
+      "sion\030\003 \001(\0162#.Ydb.Table.ColumnFamily.Comp",
+      "ression\022/\n\016keep_in_memory\030\004 \001(\0162\027.Ydb.Fe" +
+      "atureFlag.Status\"U\n\013Compression\022\033\n\027COMPR" +
+      "ESSION_UNSPECIFIED\020\000\022\024\n\020COMPRESSION_NONE" +
+      "\020\001\022\023\n\017COMPRESSION_LZ4\020\002\"\245\004\n\022CreateTableR" +
+      "equest\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t" +
+      "\022&\n\007columns\030\003 \003(\0132\025.Ydb.Table.ColumnMeta" +
+      "\022\023\n\013primary_key\030\004 \003(\t\022(\n\007profile\030\005 \001(\0132\027" +
+      ".Ydb.Table.TableProfile\0229\n\020operation_par" +
+      "ams\030\006 \001(\0132\037.Ydb.Operations.OperationPara" +
+      "ms\022&\n\007indexes\030\007 \003(\0132\025.Ydb.Table.TableInd",
+      "ex\022,\n\014ttl_settings\030\010 \001(\0132\026.Ydb.Table.Ttl" +
+      "Settings\0224\n\020storage_settings\030\t \001(\0132\032.Ydb" +
+      ".Table.StorageSettings\0220\n\017column_familie" +
+      "s\030\n \003(\0132\027.Ydb.Table.ColumnFamily\022Z\n\nattr" +
+      "ibutes\030\013 \003(\0132-.Ydb.Table.CreateTableRequ" +
+      "est.AttributesEntryB\027\252\346*\010\n\006\n\004\010\001\020d\242\346*\007\n\005\010" +
+      "\001\020\200 \0321\n\017AttributesEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005" +
+      "value\030\002 \001(\t:\0028\001\"C\n\023CreateTableResponse\022," +
+      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
+      "tion\"u\n\020DropTableRequest\022\022\n\nsession_id\030\001",
+      " \001(\t\022\014\n\004path\030\002 \001(\t\0229\n\020operation_params\030\004" +
+      " \001(\0132\037.Ydb.Operations.OperationParamsJ\004\010" +
+      "\003\020\004\"A\n\021DropTableResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"\335\005\n\021Alter" +
+      "TableRequest\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path" +
+      "\030\002 \001(\t\022*\n\013add_columns\030\003 \003(\0132\025.Ydb.Table." +
+      "ColumnMeta\022\024\n\014drop_columns\030\004 \003(\t\0229\n\020oper" +
+      "ation_params\030\005 \001(\0132\037.Ydb.Operations.Oper" +
+      "ationParams\022,\n\ralter_columns\030\006 \003(\0132\025.Ydb" +
+      ".Table.ColumnMeta\0222\n\020set_ttl_settings\030\007 ",
+      "\001(\0132\026.Ydb.Table.TtlSettingsH\000\0223\n\021drop_tt" +
+      "l_settings\030\010 \001(\0132\026.google.protobuf.Empty" +
+      "H\000\022*\n\013add_indexes\030\t \003(\0132\025.Ydb.Table.Tabl" +
+      "eIndex\022\024\n\014drop_indexes\030\n \003(\t\022:\n\026alter_st" +
+      "orage_settings\030\013 \001(\0132\032.Ydb.Table.Storage" +
+      "Settings\0224\n\023add_column_families\030\014 \003(\0132\027." +
+      "Ydb.Table.ColumnFamily\0226\n\025alter_column_f" +
+      "amilies\030\r \003(\0132\027.Ydb.Table.ColumnFamily\022`" +
+      "\n\020alter_attributes\030\016 \003(\01321.Ydb.Table.Alt" +
+      "erTableRequest.AlterAttributesEntryB\023\252\346*",
+      "\010\n\006\n\004\010\001\020d\242\346*\003\030\200 \0326\n\024AlterAttributesEntry" +
+      "\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\014\n\nttl_" +
+      "action\"B\n\022AlterTableResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\220\001\n\020C" +
+      "opyTableRequest\022\022\n\nsession_id\030\001 \001(\t\022\023\n\013s" +
+      "ource_path\030\002 \001(\t\022\030\n\020destination_path\030\003 \001" +
+      "(\t\0229\n\020operation_params\030\004 \001(\0132\037.Ydb.Opera" +
+      "tions.OperationParams\"A\n\021CopyTableRespon" +
+      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
+      "peration\"T\n\rCopyTableItem\022\023\n\013source_path",
+      "\030\001 \001(\t\022\030\n\020destination_path\030\002 \001(\t\022\024\n\014omit" +
+      "_indexes\030\003 \001(\010\"\214\001\n\021CopyTablesRequest\0229\n\020" +
+      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
+      "OperationParams\022\022\n\nsession_id\030\002 \001(\t\022(\n\006t" +
+      "ables\030\003 \003(\0132\030.Ydb.Table.CopyTableItem\"B\n" +
+      "\022CopyTablesResponse\022,\n\toperation\030\001 \001(\0132\031" +
+      ".Ydb.Operations.Operation\"\323\001\n\024DescribeTa" +
+      "bleRequest\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002" +
+      " \001(\t\0229\n\020operation_params\030\004 \001(\0132\037.Ydb.Ope" +
+      "rations.OperationParams\022 \n\030include_shard",
+      "_key_bounds\030\005 \001(\010\022\033\n\023include_table_stats" +
+      "\030\006 \001(\010\022\037\n\027include_partition_stats\030\007 \001(\010\"" +
+      "E\n\025DescribeTableResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"\377\003\n\023Descr" +
+      "ibeTableResult\022\037\n\004self\030\001 \001(\0132\021.Ydb.Schem" +
+      "e.Entry\022&\n\007columns\030\002 \003(\0132\025.Ydb.Table.Col" +
+      "umnMeta\022\023\n\013primary_key\030\003 \003(\t\022)\n\020shard_ke" +
+      "y_bounds\030\004 \003(\0132\017.Ydb.TypedValue\022&\n\007index" +
+      "es\030\005 \003(\0132\025.Ydb.Table.TableIndex\022*\n\013table" +
+      "_stats\030\006 \001(\0132\025.Ydb.Table.TableStats\022,\n\014t",
+      "tl_settings\030\007 \001(\0132\026.Ydb.Table.TtlSetting" +
+      "s\0224\n\020storage_settings\030\010 \001(\0132\032.Ydb.Table." +
+      "StorageSettings\0220\n\017column_families\030\t \003(\013" +
+      "2\027.Ydb.Table.ColumnFamily\022B\n\nattributes\030" +
+      "\n \003(\0132..Ydb.Table.DescribeTableResult.At" +
+      "tributesEntry\0321\n\017AttributesEntry\022\013\n\003key\030" +
+      "\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"2\n\005Query\022\022\n\010yql" +
+      "_text\030\001 \001(\tH\000\022\014\n\002id\030\002 \001(\tH\000B\007\n\005query\"\032\n\030" +
+      "SerializableModeSettings\"6\n\022OnlineModeSe" +
+      "ttings\022 \n\030allow_inconsistent_reads\030\001 \001(\010",
+      "\"\023\n\021StaleModeSettings\"\334\001\n\023TransactionSet" +
+      "tings\022F\n\027serializable_read_write\030\001 \001(\0132#" +
+      ".Ydb.Table.SerializableModeSettingsH\000\0229\n" +
+      "\020online_read_only\030\002 \001(\0132\035.Ydb.Table.Onli" +
+      "neModeSettingsH\000\0227\n\017stale_read_only\030\003 \001(" +
+      "\0132\034.Ydb.Table.StaleModeSettingsH\000B\t\n\007tx_" +
+      "mode\"{\n\022TransactionControl\022\017\n\005tx_id\030\001 \001(" +
+      "\tH\000\0222\n\010begin_tx\030\002 \001(\0132\036.Ydb.Table.Transa" +
+      "ctionSettingsH\000\022\021\n\tcommit_tx\030\n \001(\010B\r\n\013tx" +
+      "_selector\")\n\020QueryCachePolicy\022\025\n\rkeep_in",
+      "_cache\030\001 \001(\010\"\300\004\n\027ExecuteDataQueryRequest" +
+      "\022\022\n\nsession_id\030\001 \001(\t\0221\n\ntx_control\030\002 \001(\013" +
+      "2\035.Ydb.Table.TransactionControl\022\037\n\005query" +
+      "\030\003 \001(\0132\020.Ydb.Table.Query\022F\n\nparameters\030\004" +
+      " \003(\01322.Ydb.Table.ExecuteDataQueryRequest" +
+      ".ParametersEntry\0227\n\022query_cache_policy\030\005" +
+      " \001(\0132\033.Ydb.Table.QueryCachePolicy\0229\n\020ope" +
+      "ration_params\030\006 \001(\0132\037.Ydb.Operations.Ope" +
+      "rationParams\022M\n\rcollect_stats\030\007 \001(\01626.Yd" +
+      "b.Table.ExecuteDataQueryRequest.StatsCol",
+      "lectionMode\032B\n\017ParametersEntry\022\013\n\003key\030\001 " +
+      "\001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.TypedValue:\0028\001\"" +
+      "n\n\023StatsCollectionMode\022 \n\034STATS_COLLECTI" +
+      "ON_UNSPECIFIED\020\000\022\031\n\025STATS_COLLECTION_NON" +
+      "E\020\001\022\032\n\026STATS_COLLECTION_BASIC\020\002\"H\n\030Execu" +
+      "teDataQueryResponse\022,\n\toperation\030\001 \001(\0132\031" +
+      ".Ydb.Operations.Operation\"|\n\031ExecuteSche" +
+      "meQueryRequest\022\022\n\nsession_id\030\001 \001(\t\022\020\n\010yq" +
+      "l_text\030\002 \001(\t\0229\n\020operation_params\030\003 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\"J\n\032Execu",
+      "teSchemeQueryResponse\022,\n\toperation\030\001 \001(\013" +
+      "2\031.Ydb.Operations.Operation\"\035\n\017Transacti" +
+      "onMeta\022\n\n\002id\030\001 \001(\t\"\237\001\n\tQueryMeta\022\n\n\002id\030\001" +
+      " \001(\t\022C\n\020parameters_types\030\002 \003(\0132).Ydb.Tab" +
+      "le.QueryMeta.ParametersTypesEntry\032A\n\024Par" +
+      "ametersTypesEntry\022\013\n\003key\030\001 \001(\t\022\030\n\005value\030" +
+      "\002 \001(\0132\t.Ydb.Type:\0028\001\"\301\001\n\022ExecuteQueryRes" +
+      "ult\022#\n\013result_sets\030\001 \003(\0132\016.Ydb.ResultSet" +
+      "\022+\n\007tx_meta\030\002 \001(\0132\032.Ydb.Table.Transactio" +
+      "nMeta\022(\n\nquery_meta\030\003 \001(\0132\024.Ydb.Table.Qu",
+      "eryMeta\022/\n\013query_stats\030\004 \001(\0132\032.Ydb.Table" +
+      "Stats.QueryStats\"z\n\027ExplainDataQueryRequ" +
+      "est\022\022\n\nsession_id\030\001 \001(\t\022\020\n\010yql_text\030\002 \001(" +
+      "\t\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\"H\n\030ExplainDataQuery" +
+      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
+      "ions.Operation\";\n\022ExplainQueryResult\022\021\n\t" +
+      "query_ast\030\001 \001(\t\022\022\n\nquery_plan\030\002 \001(\t\"z\n\027P" +
+      "repareDataQueryRequest\022\022\n\nsession_id\030\001 \001" +
+      "(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020operation_params",
+      "\030\003 \001(\0132\037.Ydb.Operations.OperationParams\"" +
+      "H\n\030PrepareDataQueryResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\267\001\n\022Pr" +
+      "epareQueryResult\022\020\n\010query_id\030\001 \001(\t\022L\n\020pa" +
+      "rameters_types\030\002 \003(\01322.Ydb.Table.Prepare" +
+      "QueryResult.ParametersTypesEntry\032A\n\024Para" +
+      "metersTypesEntry\022\013\n\003key\030\001 \001(\t\022\030\n\005value\030\002" +
+      " \001(\0132\t.Ydb.Type:\0028\001\"a\n\020KeepAliveRequest\022" +
+      "\022\n\nsession_id\030\001 \001(\t\0229\n\020operation_params\030" +
+      "\002 \001(\0132\037.Ydb.Operations.OperationParams\"A",
+      "\n\021KeepAliveResponse\022,\n\toperation\030\001 \001(\0132\031" +
+      ".Ydb.Operations.Operation\"\267\001\n\017KeepAliveR" +
+      "esult\022@\n\016session_status\030\001 \001(\0162(.Ydb.Tabl" +
+      "e.KeepAliveResult.SessionStatus\"b\n\rSessi" +
+      "onStatus\022\036\n\032SESSION_STATUS_UNSPECIFIED\020\000" +
+      "\022\030\n\024SESSION_STATUS_READY\020\001\022\027\n\023SESSION_ST" +
+      "ATUS_BUSY\020\002\"\235\001\n\027BeginTransactionRequest\022" +
+      "\022\n\nsession_id\030\001 \001(\t\0223\n\013tx_settings\030\002 \001(\013" +
+      "2\036.Ydb.Table.TransactionSettings\0229\n\020oper" +
+      "ation_params\030\003 \001(\0132\037.Ydb.Operations.Oper",
+      "ationParams\"H\n\030BeginTransactionResponse\022" +
+      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
+      "ation\"E\n\026BeginTransactionResult\022+\n\007tx_me" +
+      "ta\030\001 \001(\0132\032.Ydb.Table.TransactionMeta\"x\n\030" +
+      "CommitTransactionRequest\022\022\n\nsession_id\030\001" +
+      " \001(\t\022\r\n\005tx_id\030\002 \001(\t\0229\n\020operation_params\030" +
+      "\003 \001(\0132\037.Ydb.Operations.OperationParams\"I" +
+      "\n\031CommitTransactionResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"z\n\032Rol" +
+      "lbackTransactionRequest\022\022\n\nsession_id\030\001 ",
+      "\001(\t\022\r\n\005tx_id\030\002 \001(\t\0229\n\020operation_params\030\003" +
+      " \001(\0132\037.Ydb.Operations.OperationParams\"K\n" +
+      "\033RollbackTransactionResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\230\001\n\030S" +
+      "toragePolicyDescription\022\014\n\004name\030\001 \001(\t\022?\n" +
+      "\006labels\030\002 \003(\0132/.Ydb.Table.StoragePolicyD" +
+      "escription.LabelsEntry\032-\n\013LabelsEntry\022\013\n" +
+      "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\236\001\n\033Compac" +
+      "tionPolicyDescription\022\014\n\004name\030\001 \001(\t\022B\n\006l" +
+      "abels\030\002 \003(\01322.Ydb.Table.CompactionPolicy",
+      "Description.LabelsEntry\032-\n\013LabelsEntry\022\013" +
+      "\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\242\001\n\035Parti" +
+      "tioningPolicyDescription\022\014\n\004name\030\001 \001(\t\022D" +
+      "\n\006labels\030\002 \003(\01324.Ydb.Table.PartitioningP" +
+      "olicyDescription.LabelsEntry\032-\n\013LabelsEn" +
+      "try\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001\n\032" +
+      "ExecutionPolicyDescription\022\014\n\004name\030\001 \001(\t" +
+      "\022A\n\006labels\030\002 \003(\01321.Ydb.Table.ExecutionPo" +
+      "licyDescription.LabelsEntry\032-\n\013LabelsEnt" +
+      "ry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\240\001\n\034R",
+      "eplicationPolicyDescription\022\014\n\004name\030\001 \001(" +
+      "\t\022C\n\006labels\030\002 \003(\01323.Ydb.Table.Replicatio" +
+      "nPolicyDescription.LabelsEntry\032-\n\013Labels" +
+      "Entry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\230\001" +
+      "\n\030CachingPolicyDescription\022\014\n\004name\030\001 \001(\t" +
+      "\022?\n\006labels\030\002 \003(\0132/.Ydb.Table.CachingPoli" +
+      "cyDescription.LabelsEntry\032-\n\013LabelsEntry" +
+      "\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\276\004\n\027Tab" +
+      "leProfileDescription\022\014\n\004name\030\001 \001(\t\022>\n\006la" +
+      "bels\030\002 \003(\0132..Ydb.Table.TableProfileDescr",
+      "iption.LabelsEntry\022\036\n\026default_storage_po" +
+      "licy\030\003 \001(\t\022 \n\030allowed_storage_policies\030\004" +
+      " \003(\t\022!\n\031default_compaction_policy\030\005 \001(\t\022" +
+      "#\n\033allowed_compaction_policies\030\006 \003(\t\022#\n\033" +
+      "default_partitioning_policy\030\007 \001(\t\022%\n\035all" +
+      "owed_partitioning_policies\030\010 \003(\t\022 \n\030defa" +
+      "ult_execution_policy\030\t \001(\t\022\"\n\032allowed_ex" +
+      "ecution_policies\030\n \003(\t\022\"\n\032default_replic" +
+      "ation_policy\030\013 \001(\t\022$\n\034allowed_replicatio" +
+      "n_policies\030\014 \003(\t\022\036\n\026default_caching_poli",
+      "cy\030\r \001(\t\022 \n\030allowed_caching_policies\030\016 \003" +
+      "(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030" +
+      "\002 \001(\t:\0028\001\"X\n\033DescribeTableOptionsRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\"L\n\034DescribeTableOpti" +
+      "onsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
+      "rations.Operation\"\231\004\n\032DescribeTableOptio" +
+      "nsResult\022A\n\025table_profile_presets\030\001 \003(\0132" +
+      "\".Ydb.Table.TableProfileDescription\022C\n\026s" +
+      "torage_policy_presets\030\002 \003(\0132#.Ydb.Table.",
+      "StoragePolicyDescription\022I\n\031compaction_p" +
+      "olicy_presets\030\003 \003(\0132&.Ydb.Table.Compacti" +
+      "onPolicyDescription\022M\n\033partitioning_poli" +
+      "cy_presets\030\004 \003(\0132(.Ydb.Table.Partitionin" +
+      "gPolicyDescription\022G\n\030execution_policy_p" +
+      "resets\030\005 \003(\0132%.Ydb.Table.ExecutionPolicy" +
+      "Description\022K\n\032replication_policy_preset" +
+      "s\030\006 \003(\0132\'.Ydb.Table.ReplicationPolicyDes" +
+      "cription\022C\n\026caching_policy_presets\030\007 \003(\013" +
+      "2#.Ydb.Table.CachingPolicyDescription\"\300\001",
+      "\n\010KeyRange\022\"\n\007greater\030\001 \001(\0132\017.Ydb.TypedV" +
+      "alueH\000\022+\n\020greater_or_equal\030\002 \001(\0132\017.Ydb.T" +
+      "ypedValueH\000\022\037\n\004less\030\003 \001(\0132\017.Ydb.TypedVal" +
+      "ueH\001\022(\n\rless_or_equal\030\004 \001(\0132\017.Ydb.TypedV" +
+      "alueH\001B\014\n\nfrom_boundB\n\n\010to_bound\"\300\001\n\020Rea" +
+      "dTableRequest\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004pat" +
+      "h\030\002 \001(\t\022&\n\tkey_range\030\003 \001(\0132\023.Ydb.Table.K" +
+      "eyRange\022\017\n\007columns\030\004 \003(\t\022\017\n\007ordered\030\005 \001(" +
+      "\010\022\021\n\trow_limit\030\006 \001(\004\022-\n\014use_snapshot\030\007 \001" +
+      "(\0162\027.Ydb.FeatureFlag.Status\"\223\001\n\021ReadTabl",
+      "eResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusId" +
+      "s.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue" +
+      ".IssueMessage\022*\n\006result\030\003 \001(\0132\032.Ydb.Tabl" +
+      "e.ReadTableResult\"5\n\017ReadTableResult\022\"\n\n" +
+      "result_set\030\001 \001(\0132\016.Ydb.ResultSet\"|\n\021Bulk" +
+      "UpsertRequest\022\r\n\005table\030\001 \001(\t\022\035\n\004rows\030\002 \001" +
+      "(\0132\017.Ydb.TypedValue\0229\n\020operation_params\030" +
+      "\003 \001(\0132\037.Ydb.Operations.OperationParams\"B" +
+      "\n\022BulkUpsertResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"\022\n\020BulkUpsert",
+      "Result\"\266\002\n\031ExecuteStreamQueryRequest\0227\n\004" +
+      "mode\030\001 \001(\0162).Ydb.Table.ExecuteStreamQuer" +
+      "yRequest.Mode\022\037\n\005query\030\002 \001(\0132\020.Ydb.Table" +
+      ".Query\022H\n\nparameters\030\003 \003(\01324.Ydb.Table.E" +
+      "xecuteStreamQueryRequest.ParametersEntry" +
+      "\032B\n\017ParametersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005valu" +
+      "e\030\002 \001(\0132\017.Ydb.TypedValue:\0028\001\"+\n\004Mode\022\024\n\020" +
+      "MODE_UNSPECIFIED\020\000\022\r\n\tMODE_EXEC\020\001J\004\010\004\020\005\"" +
+      "\245\001\n\032ExecuteStreamQueryResponse\022)\n\006status" +
+      "\030\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006iss",
+      "ues\030\002 \003(\0132\027.Ydb.Issue.IssueMessage\0223\n\006re" +
+      "sult\030\003 \001(\0132#.Ydb.Table.ExecuteStreamQuer" +
+      "yResult\"H\n\030ExecuteStreamQueryResult\022$\n\nr" +
+      "esult_set\030\001 \001(\0132\016.Ydb.ResultSetH\000B\006\n\004typ" +
+      "eB\031\n\024tech.ydb.table\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -90019,6 +91171,7 @@ public final class YdbTable {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          tech.ydb.Validation.getDescriptor(),
           tech.ydb.common.CommonProtos.getDescriptor(),
           tech.ydb.YdbIssueMessage.getDescriptor(),
           tech.ydb.OperationProtos.getDescriptor(),
@@ -90196,7 +91349,13 @@ public final class YdbTable {
     internal_static_Ydb_Table_CreateTableRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_CreateTableRequest_descriptor,
-        new java.lang.String[] { "SessionId", "Path", "Columns", "PrimaryKey", "Profile", "OperationParams", "Indexes", "TtlSettings", "StorageSettings", "ColumnFamilies", });
+        new java.lang.String[] { "SessionId", "Path", "Columns", "PrimaryKey", "Profile", "OperationParams", "Indexes", "TtlSettings", "StorageSettings", "ColumnFamilies", "Attributes", });
+    internal_static_Ydb_Table_CreateTableRequest_AttributesEntry_descriptor =
+      internal_static_Ydb_Table_CreateTableRequest_descriptor.getNestedTypes().get(0);
+    internal_static_Ydb_Table_CreateTableRequest_AttributesEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Table_CreateTableRequest_AttributesEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Table_CreateTableResponse_descriptor =
       getDescriptor().getMessageTypes().get(28);
     internal_static_Ydb_Table_CreateTableResponse_fieldAccessorTable = new
@@ -90220,7 +91379,13 @@ public final class YdbTable {
     internal_static_Ydb_Table_AlterTableRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_AlterTableRequest_descriptor,
-        new java.lang.String[] { "SessionId", "Path", "AddColumns", "DropColumns", "OperationParams", "AlterColumns", "SetTtlSettings", "DropTtlSettings", "AddIndexes", "DropIndexes", "AlterStorageSettings", "AddColumnFamilies", "AlterColumnFamilies", "TtlAction", });
+        new java.lang.String[] { "SessionId", "Path", "AddColumns", "DropColumns", "OperationParams", "AlterColumns", "SetTtlSettings", "DropTtlSettings", "AddIndexes", "DropIndexes", "AlterStorageSettings", "AddColumnFamilies", "AlterColumnFamilies", "AlterAttributes", "TtlAction", });
+    internal_static_Ydb_Table_AlterTableRequest_AlterAttributesEntry_descriptor =
+      internal_static_Ydb_Table_AlterTableRequest_descriptor.getNestedTypes().get(0);
+    internal_static_Ydb_Table_AlterTableRequest_AlterAttributesEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Table_AlterTableRequest_AlterAttributesEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Table_AlterTableResponse_descriptor =
       getDescriptor().getMessageTypes().get(32);
     internal_static_Ydb_Table_AlterTableResponse_fieldAccessorTable = new
@@ -90274,7 +91439,13 @@ public final class YdbTable {
     internal_static_Ydb_Table_DescribeTableResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_DescribeTableResult_descriptor,
-        new java.lang.String[] { "Self", "Columns", "PrimaryKey", "ShardKeyBounds", "Indexes", "TableStats", "TtlSettings", "StorageSettings", "ColumnFamilies", });
+        new java.lang.String[] { "Self", "Columns", "PrimaryKey", "ShardKeyBounds", "Indexes", "TableStats", "TtlSettings", "StorageSettings", "ColumnFamilies", "Attributes", });
+    internal_static_Ydb_Table_DescribeTableResult_AttributesEntry_descriptor =
+      internal_static_Ydb_Table_DescribeTableResult_descriptor.getNestedTypes().get(0);
+    internal_static_Ydb_Table_DescribeTableResult_AttributesEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Table_DescribeTableResult_AttributesEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Table_Query_descriptor =
       getDescriptor().getMessageTypes().get(41);
     internal_static_Ydb_Table_Query_fieldAccessorTable = new
@@ -90641,6 +91812,13 @@ public final class YdbTable {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ExecuteStreamQueryResult_descriptor,
         new java.lang.String[] { "ResultSet", "Type", });
+    com.google.protobuf.ExtensionRegistry registry =
+        com.google.protobuf.ExtensionRegistry.newInstance();
+    registry.add(tech.ydb.Validation.length);
+    registry.add(tech.ydb.Validation.mapKey);
+    com.google.protobuf.Descriptors.FileDescriptor
+        .internalUpdateFileDescriptor(descriptor, registry);
+    tech.ydb.Validation.getDescriptor();
     tech.ydb.common.CommonProtos.getDescriptor();
     tech.ydb.YdbIssueMessage.getDescriptor();
     tech.ydb.OperationProtos.getDescriptor();
