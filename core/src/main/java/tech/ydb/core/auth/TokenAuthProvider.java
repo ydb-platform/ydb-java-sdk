@@ -15,8 +15,4 @@ public class TokenAuthProvider implements AuthProvider {
     public String getToken() {
         return token;
     }
-
-    @Override
-    public void close() {
-    }
 }

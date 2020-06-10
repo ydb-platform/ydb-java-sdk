@@ -14,8 +14,4 @@ public class NopAuthProvider implements AuthProvider {
     public String getToken() {
         return "";
     }
-
-    @Override
-    public void close() {
-    }
 }

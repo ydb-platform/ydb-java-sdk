@@ -8,5 +8,7 @@ public interface AuthProvider extends AutoCloseable {
     String getToken();
 
     @Override
-    void close();
+    default void close() {
+    }
 }
+
