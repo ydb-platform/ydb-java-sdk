@@ -3,6 +3,7 @@ package tech.ydb.core.grpc;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -270,7 +271,7 @@ public class GrpcTransport implements RpcTransport {
         final NettyChannelBuilder channelBuilder;
         if (endpoint != null) {
             channelBuilder = NettyChannelBuilder.forTarget(YdbNameResolver.makeTarget(endpoint, database))
-                .nameResolverFactory(YdbNameResolver.newFactory(builder.getAuthProvider(), builder.cert))
+                .nameResolverFactory(YdbNameResolver.newFactory(builder.getAuthProvider(), builder.cert, builder.endpointsDiscoveryPeriod))
                 .defaultLoadBalancingPolicy(defaultPolicy);
         } else if (hosts.size() > 1) {
             channelBuilder = NettyChannelBuilder.forTarget(HostsNameResolver.makeTarget(hosts))
@@ -353,6 +354,7 @@ public class GrpcTransport implements RpcTransport {
         private byte[] cert = null;
         private Consumer<NettyChannelBuilder> channelInitializer = (cb) -> {};
         private String localDc;
+        private Duration endpointsDiscoveryPeriod = Duration.ofSeconds(15);
 
         private Builder(@Nullable String endpoint, @Nullable String database, @Nullable List<HostAndPort> hosts) {
             this.endpoint = endpoint;
@@ -368,6 +370,10 @@ public class GrpcTransport implements RpcTransport {
         @Nullable
         public String getEndpoint() {
             return endpoint;
+        }
+
+        public Duration getEndpointsDiscoveryPeriod() {
+            return endpointsDiscoveryPeriod;
         }
 
         @Nullable
@@ -417,6 +423,11 @@ public class GrpcTransport implements RpcTransport {
 
         public Builder withLocalDataCenter(String dc) {
             this.localDc = dc;
+            return this;
+        }
+
+        public Builder withEndpointsDiscoveryPeriod(Duration period) {
+            this.endpointsDiscoveryPeriod = period;
             return this;
         }
 

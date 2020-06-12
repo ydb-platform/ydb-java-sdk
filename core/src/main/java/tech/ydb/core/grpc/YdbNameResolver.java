@@ -5,8 +5,12 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +31,7 @@ import io.grpc.Attributes;
 import io.grpc.EquivalentAddressGroup;
 import io.grpc.NameResolver;
 import io.grpc.Status;
+import io.grpc.SynchronizationContext;
 import io.grpc.internal.GrpcUtil;
 
 
@@ -48,7 +53,20 @@ final class YdbNameResolver extends NameResolver {
     private Listener listener;
     private volatile boolean shutdown = false;
 
-    private YdbNameResolver(String hostname, int port, String database, AuthProvider authProvider, @Nullable byte[] cert) {
+    private final SynchronizationContext synchronizationContext;
+    private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+    private SynchronizationContext.ScheduledHandle scheduledHandle = null;
+    private final Duration discoveryPeriod;
+
+    private YdbNameResolver(
+            String hostname,
+            int port,
+            String database,
+            AuthProvider authProvider,
+            @Nullable byte[] cert,
+            SynchronizationContext synchronizationContext,
+            Duration discoveryPeriod)
+    {
         this.database = database;
         this.authority = GrpcUtil.authorityFromHostAndPort(hostname, port);
         GrpcTransport.Builder transportBuilder = GrpcTransport.forHost(hostname, port)
@@ -57,6 +75,11 @@ final class YdbNameResolver extends NameResolver {
             transportBuilder.withSecureConnection(cert);
         }
         this.transport = transportBuilder.build();
+        this.synchronizationContext = synchronizationContext;
+        if (discoveryPeriod.toMillis() < 5000) {
+            discoveryPeriod = Duration.ofSeconds(5);
+        }
+        this.discoveryPeriod = discoveryPeriod;
     }
 
     static String makeTarget(String endpoint, String database) {
@@ -82,11 +105,20 @@ final class YdbNameResolver extends NameResolver {
 
     @Override
     public void refresh() {
+        if (scheduledHandle != null) {
+            scheduledHandle.cancel();
+            scheduledHandle = null;
+        }
         resolve();
     }
 
     @Override
     public void shutdown() {
+        scheduledExecutorService.shutdown();
+        if (scheduledHandle != null) {
+            scheduledHandle.cancel();
+            scheduledHandle = null;
+        }
         transport.close();
         shutdown = true;
     }
@@ -183,6 +215,8 @@ final class YdbNameResolver extends NameResolver {
                 listener.onError(Status.UNAVAILABLE.withDescription(msg).withCause(t));
             }
         });
+
+        scheduledHandle = synchronizationContext.schedule(this::refresh, discoveryPeriod.toMillis(), TimeUnit.MILLISECONDS, scheduledExecutorService);
     }
 
     // TODO: resolve name asynchronously
@@ -209,10 +243,10 @@ final class YdbNameResolver extends NameResolver {
         ListEndpointsRequest request = ListEndpointsRequest.newBuilder()
             .setDatabase(database)
             .build();
-        transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), request, consumer, 0);
+        transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), request, consumer, System.nanoTime() + discoveryPeriod.dividedBy(2).toNanos());
     }
 
-    static Factory newFactory(AuthProvider authProvider, @Nullable byte[] cert) {
+    static Factory newFactory(AuthProvider authProvider, @Nullable byte[] cert, Duration discoveryPeriod) {
         return new Factory() {
             @Nullable
             @Override
@@ -224,7 +258,7 @@ final class YdbNameResolver extends NameResolver {
                 if (port == -1) {
                     port = GrpcTransport.DEFAULT_PORT;
                 }
-                return new YdbNameResolver(targetUri.getHost(), port, targetUri.getPath(), authProvider, cert);
+                return new YdbNameResolver(targetUri.getHost(), port, targetUri.getPath(), authProvider, cert, helper.getSynchronizationContext(), discoveryPeriod);
             }
 
             @Override
