@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import tech.ydb.table.utils.Async;
+import tech.ydb.core.utils.Async;
 import io.netty.util.Timeout;
 import io.netty.util.TimerTask;
 

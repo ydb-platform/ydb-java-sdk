@@ -19,7 +19,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
-import tech.ydb.table.utils.Async;
+import tech.ydb.core.utils.Async;
 import io.netty.util.Timeout;
 import io.netty.util.TimerTask;
 
