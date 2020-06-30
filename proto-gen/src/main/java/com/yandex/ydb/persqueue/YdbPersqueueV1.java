@@ -82944,6 +82944,31 @@ public final class YdbPersqueueV1 {
 
     java.lang.String getAttributesOrThrow(
         java.lang.String key);
+
+    /**
+     * <pre>
+     * remote mirror rule for this topic.
+     * </pre>
+     *
+     * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+     */
+    boolean hasRemoteMirrorRule();
+    /**
+     * <pre>
+     * remote mirror rule for this topic.
+     * </pre>
+     *
+     * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+     */
+    tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule getRemoteMirrorRule();
+    /**
+     * <pre>
+     * remote mirror rule for this topic.
+     * </pre>
+     *
+     * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+     */
+    tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRuleOrBuilder getRemoteMirrorRuleOrBuilder();
   }
   /**
    * Protobuf type {@code Ydb.PersQueue.V1.TopicSettings}
@@ -83076,6 +83101,19 @@ public final class YdbPersqueueV1 {
                   AttributesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
               attributes_.getMutableMap().put(
                   attributes__.getKey(), attributes__.getValue());
+              break;
+            }
+            case 90: {
+              tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.Builder subBuilder = null;
+              if (remoteMirrorRule_ != null) {
+                subBuilder = remoteMirrorRule_.toBuilder();
+              }
+              remoteMirrorRule_ = input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(remoteMirrorRule_);
+                remoteMirrorRule_ = subBuilder.buildPartial();
+              }
+
               break;
             }
           }
@@ -84675,6 +84713,1175 @@ public final class YdbPersqueueV1 {
 
     }
 
+    public interface RemoteMirrorRuleOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <pre>
+       * Source cluster endpoint in format server:port.
+       * </pre>
+       *
+       * <code>string endpoint = 1;</code>
+       */
+      java.lang.String getEndpoint();
+      /**
+       * <pre>
+       * Source cluster endpoint in format server:port.
+       * </pre>
+       *
+       * <code>string endpoint = 1;</code>
+       */
+      com.google.protobuf.ByteString
+          getEndpointBytes();
+
+      /**
+       * <pre>
+       * Source topic that we want to mirror.
+       * </pre>
+       *
+       * <code>string topic_path = 2;</code>
+       */
+      java.lang.String getTopicPath();
+      /**
+       * <pre>
+       * Source topic that we want to mirror.
+       * </pre>
+       *
+       * <code>string topic_path = 2;</code>
+       */
+      com.google.protobuf.ByteString
+          getTopicPathBytes();
+
+      /**
+       * <pre>
+       * Source consumer for reading source topic.
+       * </pre>
+       *
+       * <code>string consumer_name = 3;</code>
+       */
+      java.lang.String getConsumerName();
+      /**
+       * <pre>
+       * Source consumer for reading source topic.
+       * </pre>
+       *
+       * <code>string consumer_name = 3;</code>
+       */
+      com.google.protobuf.ByteString
+          getConsumerNameBytes();
+
+      /**
+       * <pre>
+       * Robot token for reading source topic by source consumer.
+       * </pre>
+       *
+       * <code>string token = 4;</code>
+       */
+      java.lang.String getToken();
+      /**
+       * <pre>
+       * Robot token for reading source topic by source consumer.
+       * </pre>
+       *
+       * <code>string token = 4;</code>
+       */
+      com.google.protobuf.ByteString
+          getTokenBytes();
+
+      /**
+       * <pre>
+       * All messages with smaller timestamp of write will be skipped.
+       * </pre>
+       *
+       * <code>int64 starting_message_timestamp_ms = 5;</code>
+       */
+      long getStartingMessageTimestampMs();
+    }
+    /**
+     * <pre>
+     * Message for remote mirror rule description.
+     * </pre>
+     *
+     * Protobuf type {@code Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule}
+     */
+    public  static final class RemoteMirrorRule extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule)
+        RemoteMirrorRuleOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use RemoteMirrorRule.newBuilder() to construct.
+      private RemoteMirrorRule(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private RemoteMirrorRule() {
+        endpoint_ = "";
+        topicPath_ = "";
+        consumerName_ = "";
+        token_ = "";
+        startingMessageTimestampMs_ = 0L;
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private RemoteMirrorRule(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownFieldProto3(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 10: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                endpoint_ = s;
+                break;
+              }
+              case 18: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                topicPath_ = s;
+                break;
+              }
+              case 26: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                consumerName_ = s;
+                break;
+              }
+              case 34: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                token_ = s;
+                break;
+              }
+              case 40: {
+
+                startingMessageTimestampMs_ = input.readInt64();
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_TopicSettings_RemoteMirrorRule_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_TopicSettings_RemoteMirrorRule_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.class, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.Builder.class);
+      }
+
+      public static final int ENDPOINT_FIELD_NUMBER = 1;
+      private volatile java.lang.Object endpoint_;
+      /**
+       * <pre>
+       * Source cluster endpoint in format server:port.
+       * </pre>
+       *
+       * <code>string endpoint = 1;</code>
+       */
+      public java.lang.String getEndpoint() {
+        java.lang.Object ref = endpoint_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          endpoint_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * Source cluster endpoint in format server:port.
+       * </pre>
+       *
+       * <code>string endpoint = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getEndpointBytes() {
+        java.lang.Object ref = endpoint_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          endpoint_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int TOPIC_PATH_FIELD_NUMBER = 2;
+      private volatile java.lang.Object topicPath_;
+      /**
+       * <pre>
+       * Source topic that we want to mirror.
+       * </pre>
+       *
+       * <code>string topic_path = 2;</code>
+       */
+      public java.lang.String getTopicPath() {
+        java.lang.Object ref = topicPath_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          topicPath_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * Source topic that we want to mirror.
+       * </pre>
+       *
+       * <code>string topic_path = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTopicPathBytes() {
+        java.lang.Object ref = topicPath_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          topicPath_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int CONSUMER_NAME_FIELD_NUMBER = 3;
+      private volatile java.lang.Object consumerName_;
+      /**
+       * <pre>
+       * Source consumer for reading source topic.
+       * </pre>
+       *
+       * <code>string consumer_name = 3;</code>
+       */
+      public java.lang.String getConsumerName() {
+        java.lang.Object ref = consumerName_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          consumerName_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * Source consumer for reading source topic.
+       * </pre>
+       *
+       * <code>string consumer_name = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getConsumerNameBytes() {
+        java.lang.Object ref = consumerName_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          consumerName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int TOKEN_FIELD_NUMBER = 4;
+      private volatile java.lang.Object token_;
+      /**
+       * <pre>
+       * Robot token for reading source topic by source consumer.
+       * </pre>
+       *
+       * <code>string token = 4;</code>
+       */
+      public java.lang.String getToken() {
+        java.lang.Object ref = token_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          token_ = s;
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * Robot token for reading source topic by source consumer.
+       * </pre>
+       *
+       * <code>string token = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTokenBytes() {
+        java.lang.Object ref = token_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          token_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int STARTING_MESSAGE_TIMESTAMP_MS_FIELD_NUMBER = 5;
+      private long startingMessageTimestampMs_;
+      /**
+       * <pre>
+       * All messages with smaller timestamp of write will be skipped.
+       * </pre>
+       *
+       * <code>int64 starting_message_timestamp_ms = 5;</code>
+       */
+      public long getStartingMessageTimestampMs() {
+        return startingMessageTimestampMs_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (!getEndpointBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 1, endpoint_);
+        }
+        if (!getTopicPathBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, topicPath_);
+        }
+        if (!getConsumerNameBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 3, consumerName_);
+        }
+        if (!getTokenBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 4, token_);
+        }
+        if (startingMessageTimestampMs_ != 0L) {
+          output.writeInt64(5, startingMessageTimestampMs_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (!getEndpointBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, endpoint_);
+        }
+        if (!getTopicPathBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, topicPath_);
+        }
+        if (!getConsumerNameBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, consumerName_);
+        }
+        if (!getTokenBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, token_);
+        }
+        if (startingMessageTimestampMs_ != 0L) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt64Size(5, startingMessageTimestampMs_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule)) {
+          return super.equals(obj);
+        }
+        tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule other = (tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule) obj;
+
+        boolean result = true;
+        result = result && getEndpoint()
+            .equals(other.getEndpoint());
+        result = result && getTopicPath()
+            .equals(other.getTopicPath());
+        result = result && getConsumerName()
+            .equals(other.getConsumerName());
+        result = result && getToken()
+            .equals(other.getToken());
+        result = result && (getStartingMessageTimestampMs()
+            == other.getStartingMessageTimestampMs());
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + ENDPOINT_FIELD_NUMBER;
+        hash = (53 * hash) + getEndpoint().hashCode();
+        hash = (37 * hash) + TOPIC_PATH_FIELD_NUMBER;
+        hash = (53 * hash) + getTopicPath().hashCode();
+        hash = (37 * hash) + CONSUMER_NAME_FIELD_NUMBER;
+        hash = (53 * hash) + getConsumerName().hashCode();
+        hash = (37 * hash) + TOKEN_FIELD_NUMBER;
+        hash = (53 * hash) + getToken().hashCode();
+        hash = (37 * hash) + STARTING_MESSAGE_TIMESTAMP_MS_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getStartingMessageTimestampMs());
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * <pre>
+       * Message for remote mirror rule description.
+       * </pre>
+       *
+       * Protobuf type {@code Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule)
+          tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRuleOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_TopicSettings_RemoteMirrorRule_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_TopicSettings_RemoteMirrorRule_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.class, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.Builder.class);
+        }
+
+        // Construct using tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        public Builder clear() {
+          super.clear();
+          endpoint_ = "";
+
+          topicPath_ = "";
+
+          consumerName_ = "";
+
+          token_ = "";
+
+          startingMessageTimestampMs_ = 0L;
+
+          return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_TopicSettings_RemoteMirrorRule_descriptor;
+        }
+
+        public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule getDefaultInstanceForType() {
+          return tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.getDefaultInstance();
+        }
+
+        public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule build() {
+          tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule buildPartial() {
+          tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule result = new tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule(this);
+          result.endpoint_ = endpoint_;
+          result.topicPath_ = topicPath_;
+          result.consumerName_ = consumerName_;
+          result.token_ = token_;
+          result.startingMessageTimestampMs_ = startingMessageTimestampMs_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule) {
+            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule other) {
+          if (other == tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.getDefaultInstance()) return this;
+          if (!other.getEndpoint().isEmpty()) {
+            endpoint_ = other.endpoint_;
+            onChanged();
+          }
+          if (!other.getTopicPath().isEmpty()) {
+            topicPath_ = other.topicPath_;
+            onChanged();
+          }
+          if (!other.getConsumerName().isEmpty()) {
+            consumerName_ = other.consumerName_;
+            onChanged();
+          }
+          if (!other.getToken().isEmpty()) {
+            token_ = other.token_;
+            onChanged();
+          }
+          if (other.getStartingMessageTimestampMs() != 0L) {
+            setStartingMessageTimestampMs(other.getStartingMessageTimestampMs());
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private java.lang.Object endpoint_ = "";
+        /**
+         * <pre>
+         * Source cluster endpoint in format server:port.
+         * </pre>
+         *
+         * <code>string endpoint = 1;</code>
+         */
+        public java.lang.String getEndpoint() {
+          java.lang.Object ref = endpoint_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            endpoint_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * Source cluster endpoint in format server:port.
+         * </pre>
+         *
+         * <code>string endpoint = 1;</code>
+         */
+        public com.google.protobuf.ByteString
+            getEndpointBytes() {
+          java.lang.Object ref = endpoint_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            endpoint_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * Source cluster endpoint in format server:port.
+         * </pre>
+         *
+         * <code>string endpoint = 1;</code>
+         */
+        public Builder setEndpoint(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          endpoint_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Source cluster endpoint in format server:port.
+         * </pre>
+         *
+         * <code>string endpoint = 1;</code>
+         */
+        public Builder clearEndpoint() {
+          
+          endpoint_ = getDefaultInstance().getEndpoint();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Source cluster endpoint in format server:port.
+         * </pre>
+         *
+         * <code>string endpoint = 1;</code>
+         */
+        public Builder setEndpointBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          endpoint_ = value;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object topicPath_ = "";
+        /**
+         * <pre>
+         * Source topic that we want to mirror.
+         * </pre>
+         *
+         * <code>string topic_path = 2;</code>
+         */
+        public java.lang.String getTopicPath() {
+          java.lang.Object ref = topicPath_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            topicPath_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * Source topic that we want to mirror.
+         * </pre>
+         *
+         * <code>string topic_path = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+            getTopicPathBytes() {
+          java.lang.Object ref = topicPath_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            topicPath_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * Source topic that we want to mirror.
+         * </pre>
+         *
+         * <code>string topic_path = 2;</code>
+         */
+        public Builder setTopicPath(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          topicPath_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Source topic that we want to mirror.
+         * </pre>
+         *
+         * <code>string topic_path = 2;</code>
+         */
+        public Builder clearTopicPath() {
+          
+          topicPath_ = getDefaultInstance().getTopicPath();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Source topic that we want to mirror.
+         * </pre>
+         *
+         * <code>string topic_path = 2;</code>
+         */
+        public Builder setTopicPathBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          topicPath_ = value;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object consumerName_ = "";
+        /**
+         * <pre>
+         * Source consumer for reading source topic.
+         * </pre>
+         *
+         * <code>string consumer_name = 3;</code>
+         */
+        public java.lang.String getConsumerName() {
+          java.lang.Object ref = consumerName_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            consumerName_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * Source consumer for reading source topic.
+         * </pre>
+         *
+         * <code>string consumer_name = 3;</code>
+         */
+        public com.google.protobuf.ByteString
+            getConsumerNameBytes() {
+          java.lang.Object ref = consumerName_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            consumerName_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * Source consumer for reading source topic.
+         * </pre>
+         *
+         * <code>string consumer_name = 3;</code>
+         */
+        public Builder setConsumerName(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          consumerName_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Source consumer for reading source topic.
+         * </pre>
+         *
+         * <code>string consumer_name = 3;</code>
+         */
+        public Builder clearConsumerName() {
+          
+          consumerName_ = getDefaultInstance().getConsumerName();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Source consumer for reading source topic.
+         * </pre>
+         *
+         * <code>string consumer_name = 3;</code>
+         */
+        public Builder setConsumerNameBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          consumerName_ = value;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object token_ = "";
+        /**
+         * <pre>
+         * Robot token for reading source topic by source consumer.
+         * </pre>
+         *
+         * <code>string token = 4;</code>
+         */
+        public java.lang.String getToken() {
+          java.lang.Object ref = token_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            token_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * Robot token for reading source topic by source consumer.
+         * </pre>
+         *
+         * <code>string token = 4;</code>
+         */
+        public com.google.protobuf.ByteString
+            getTokenBytes() {
+          java.lang.Object ref = token_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            token_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * Robot token for reading source topic by source consumer.
+         * </pre>
+         *
+         * <code>string token = 4;</code>
+         */
+        public Builder setToken(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          token_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Robot token for reading source topic by source consumer.
+         * </pre>
+         *
+         * <code>string token = 4;</code>
+         */
+        public Builder clearToken() {
+          
+          token_ = getDefaultInstance().getToken();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Robot token for reading source topic by source consumer.
+         * </pre>
+         *
+         * <code>string token = 4;</code>
+         */
+        public Builder setTokenBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          token_ = value;
+          onChanged();
+          return this;
+        }
+
+        private long startingMessageTimestampMs_ ;
+        /**
+         * <pre>
+         * All messages with smaller timestamp of write will be skipped.
+         * </pre>
+         *
+         * <code>int64 starting_message_timestamp_ms = 5;</code>
+         */
+        public long getStartingMessageTimestampMs() {
+          return startingMessageTimestampMs_;
+        }
+        /**
+         * <pre>
+         * All messages with smaller timestamp of write will be skipped.
+         * </pre>
+         *
+         * <code>int64 starting_message_timestamp_ms = 5;</code>
+         */
+        public Builder setStartingMessageTimestampMs(long value) {
+          
+          startingMessageTimestampMs_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * All messages with smaller timestamp of write will be skipped.
+         * </pre>
+         *
+         * <code>int64 starting_message_timestamp_ms = 5;</code>
+         */
+        public Builder clearStartingMessageTimestampMs() {
+          
+          startingMessageTimestampMs_ = 0L;
+          onChanged();
+          return this;
+        }
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFieldsProto3(unknownFields);
+        }
+
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule)
+      }
+
+      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule)
+      private static final tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule();
+      }
+
+      public static tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<RemoteMirrorRule>
+          PARSER = new com.google.protobuf.AbstractParser<RemoteMirrorRule>() {
+        public RemoteMirrorRule parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+            return new RemoteMirrorRule(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<RemoteMirrorRule> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<RemoteMirrorRule> getParserForType() {
+        return PARSER;
+      }
+
+      public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     private int bitField0_;
     public static final int PARTITIONS_COUNT_FIELD_NUMBER = 1;
     private int partitionsCount_;
@@ -84997,6 +86204,39 @@ public final class YdbPersqueueV1 {
       return map.get(key);
     }
 
+    public static final int REMOTE_MIRROR_RULE_FIELD_NUMBER = 11;
+    private tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule remoteMirrorRule_;
+    /**
+     * <pre>
+     * remote mirror rule for this topic.
+     * </pre>
+     *
+     * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+     */
+    public boolean hasRemoteMirrorRule() {
+      return remoteMirrorRule_ != null;
+    }
+    /**
+     * <pre>
+     * remote mirror rule for this topic.
+     * </pre>
+     *
+     * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+     */
+    public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule getRemoteMirrorRule() {
+      return remoteMirrorRule_ == null ? tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.getDefaultInstance() : remoteMirrorRule_;
+    }
+    /**
+     * <pre>
+     * remote mirror rule for this topic.
+     * </pre>
+     *
+     * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+     */
+    public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRuleOrBuilder getRemoteMirrorRuleOrBuilder() {
+      return getRemoteMirrorRule();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -85047,6 +86287,9 @@ public final class YdbPersqueueV1 {
           internalGetAttributes(),
           AttributesDefaultEntryHolder.defaultEntry,
           10);
+      if (remoteMirrorRule_ != null) {
+        output.writeMessage(11, getRemoteMirrorRule());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -85109,6 +86352,10 @@ public final class YdbPersqueueV1 {
         size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(10, attributes__);
       }
+      if (remoteMirrorRule_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(11, getRemoteMirrorRule());
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -85143,6 +86390,11 @@ public final class YdbPersqueueV1 {
           .equals(other.getReadRulesList());
       result = result && internalGetAttributes().equals(
           other.internalGetAttributes());
+      result = result && (hasRemoteMirrorRule() == other.hasRemoteMirrorRule());
+      if (hasRemoteMirrorRule()) {
+        result = result && getRemoteMirrorRule()
+            .equals(other.getRemoteMirrorRule());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -85184,6 +86436,10 @@ public final class YdbPersqueueV1 {
       if (!internalGetAttributes().getMap().isEmpty()) {
         hash = (37 * hash) + ATTRIBUTES_FIELD_NUMBER;
         hash = (53 * hash) + internalGetAttributes().hashCode();
+      }
+      if (hasRemoteMirrorRule()) {
+        hash = (37 * hash) + REMOTE_MIRROR_RULE_FIELD_NUMBER;
+        hash = (53 * hash) + getRemoteMirrorRule().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -85360,6 +86616,12 @@ public final class YdbPersqueueV1 {
           readRulesBuilder_.clear();
         }
         internalGetMutableAttributes().clear();
+        if (remoteMirrorRuleBuilder_ == null) {
+          remoteMirrorRule_ = null;
+        } else {
+          remoteMirrorRule_ = null;
+          remoteMirrorRuleBuilder_ = null;
+        }
         return this;
       }
 
@@ -85407,6 +86669,11 @@ public final class YdbPersqueueV1 {
         }
         result.attributes_ = internalGetAttributes();
         result.attributes_.makeImmutable();
+        if (remoteMirrorRuleBuilder_ == null) {
+          result.remoteMirrorRule_ = remoteMirrorRule_;
+        } else {
+          result.remoteMirrorRule_ = remoteMirrorRuleBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -85508,6 +86775,9 @@ public final class YdbPersqueueV1 {
         }
         internalGetMutableAttributes().mergeFrom(
             other.internalGetAttributes());
+        if (other.hasRemoteMirrorRule()) {
+          mergeRemoteMirrorRule(other.getRemoteMirrorRule());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -86472,6 +87742,159 @@ public final class YdbPersqueueV1 {
         internalGetMutableAttributes().getMutableMap()
             .putAll(values);
         return this;
+      }
+
+      private tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule remoteMirrorRule_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.Builder, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRuleOrBuilder> remoteMirrorRuleBuilder_;
+      /**
+       * <pre>
+       * remote mirror rule for this topic.
+       * </pre>
+       *
+       * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+       */
+      public boolean hasRemoteMirrorRule() {
+        return remoteMirrorRuleBuilder_ != null || remoteMirrorRule_ != null;
+      }
+      /**
+       * <pre>
+       * remote mirror rule for this topic.
+       * </pre>
+       *
+       * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+       */
+      public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule getRemoteMirrorRule() {
+        if (remoteMirrorRuleBuilder_ == null) {
+          return remoteMirrorRule_ == null ? tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.getDefaultInstance() : remoteMirrorRule_;
+        } else {
+          return remoteMirrorRuleBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * remote mirror rule for this topic.
+       * </pre>
+       *
+       * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+       */
+      public Builder setRemoteMirrorRule(tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule value) {
+        if (remoteMirrorRuleBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          remoteMirrorRule_ = value;
+          onChanged();
+        } else {
+          remoteMirrorRuleBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * remote mirror rule for this topic.
+       * </pre>
+       *
+       * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+       */
+      public Builder setRemoteMirrorRule(
+          tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.Builder builderForValue) {
+        if (remoteMirrorRuleBuilder_ == null) {
+          remoteMirrorRule_ = builderForValue.build();
+          onChanged();
+        } else {
+          remoteMirrorRuleBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * remote mirror rule for this topic.
+       * </pre>
+       *
+       * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+       */
+      public Builder mergeRemoteMirrorRule(tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule value) {
+        if (remoteMirrorRuleBuilder_ == null) {
+          if (remoteMirrorRule_ != null) {
+            remoteMirrorRule_ =
+              tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.newBuilder(remoteMirrorRule_).mergeFrom(value).buildPartial();
+          } else {
+            remoteMirrorRule_ = value;
+          }
+          onChanged();
+        } else {
+          remoteMirrorRuleBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * remote mirror rule for this topic.
+       * </pre>
+       *
+       * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+       */
+      public Builder clearRemoteMirrorRule() {
+        if (remoteMirrorRuleBuilder_ == null) {
+          remoteMirrorRule_ = null;
+          onChanged();
+        } else {
+          remoteMirrorRule_ = null;
+          remoteMirrorRuleBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * remote mirror rule for this topic.
+       * </pre>
+       *
+       * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+       */
+      public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.Builder getRemoteMirrorRuleBuilder() {
+        
+        onChanged();
+        return getRemoteMirrorRuleFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * remote mirror rule for this topic.
+       * </pre>
+       *
+       * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+       */
+      public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRuleOrBuilder getRemoteMirrorRuleOrBuilder() {
+        if (remoteMirrorRuleBuilder_ != null) {
+          return remoteMirrorRuleBuilder_.getMessageOrBuilder();
+        } else {
+          return remoteMirrorRule_ == null ?
+              tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.getDefaultInstance() : remoteMirrorRule_;
+        }
+      }
+      /**
+       * <pre>
+       * remote mirror rule for this topic.
+       * </pre>
+       *
+       * <code>.Ydb.PersQueue.V1.TopicSettings.RemoteMirrorRule remote_mirror_rule = 11;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.Builder, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRuleOrBuilder> 
+          getRemoteMirrorRuleFieldBuilder() {
+        if (remoteMirrorRuleBuilder_ == null) {
+          remoteMirrorRuleBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRule.Builder, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.RemoteMirrorRuleOrBuilder>(
+                  getRemoteMirrorRule(),
+                  getParentForChildren(),
+                  isClean());
+          remoteMirrorRule_ = null;
+        }
+        return remoteMirrorRuleBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -93270,6 +94693,11 @@ public final class YdbPersqueueV1 {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_PersQueue_V1_TopicSettings_AttributesEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_PersQueue_V1_TopicSettings_RemoteMirrorRule_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_PersQueue_V1_TopicSettings_RemoteMirrorRule_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_PersQueue_V1_CreateTopicRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -93681,7 +95109,7 @@ public final class YdbPersqueueV1 {
       "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\014" +
       "\n\004path\030\002 \001(\t\"A\n\021DropTopicResponse\022,\n\tope" +
       "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
-      "\021\n\017DropTopicResult\"\253\007\n\rTopicSettings\022\030\n\020" +
+      "\021\n\017DropTopicResult\"\201\t\n\rTopicSettings\022\030\n\020" +
       "partitions_count\030\001 \001(\005\022\033\n\023retention_peri",
       "od_ms\030\002 \001(\003\022@\n\020supported_format\030\003 \001(\0162&." +
       "Ydb.PersQueue.V1.TopicSettings.Format\022G\n" +
@@ -93693,39 +95121,44 @@ public final class YdbPersqueueV1 {
       "d\030\010 \001(\010\022E\n\nread_rules\030\t \003(\0132(.Ydb.PersQu" +
       "eue.V1.TopicSettings.ReadRuleB\007\232\346*\003\030\270\027\022C" +
       "\n\nattributes\030\n \003(\0132/.Ydb.PersQueue.V1.To",
-      "picSettings.AttributesEntry\032\375\001\n\010ReadRule" +
-      "\022\033\n\rconsumer_name\030\001 \001(\tB\004\220\346*\001\022\021\n\timporta" +
-      "nt\030\002 \001(\010\022%\n\035starting_message_timestamp_m" +
-      "s\030\003 \001(\003\022@\n\020supported_format\030\004 \001(\0162&.Ydb." +
-      "PersQueue.V1.TopicSettings.Format\022G\n\020sup" +
-      "ported_codecs\030\005 \003(\0162%.Ydb.PersQueue.V1.T" +
-      "opicSettings.CodecB\006\232\346*\002\030d\022\017\n\007version\030\006 " +
-      "\001(\003\0321\n\017AttributesEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005v" +
-      "alue\030\002 \001(\t:\0028\001\"1\n\006Format\022\026\n\022FORMAT_UNSPE" +
-      "CIFIED\020\000\022\017\n\013FORMAT_BASE\020\001\"]\n\005Codec\022\025\n\021CO",
-      "DEC_UNSPECIFIED\020\000\022\r\n\tCODEC_RAW\020\001\022\016\n\nCODE" +
-      "C_GZIP\020\002\022\016\n\nCODEC_LZOP\020\003\022\016\n\nCODEC_ZSTD\020\004" +
-      "\"\226\001\n\022CreateTopicRequest\0229\n\020operation_par" +
-      "ams\030\001 \001(\0132\037.Ydb.Operations.OperationPara" +
-      "ms\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\0221\n\010settings\030\004 \001(\013" +
-      "2\037.Ydb.PersQueue.V1.TopicSettings\"C\n\023Cre" +
-      "ateTopicResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
-      "b.Operations.Operation\"\023\n\021CreateTopicRes" +
-      "ult\"\225\001\n\021AlterTopicRequest\0229\n\020operation_p" +
-      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa",
-      "rams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\0221\n\010settings\030\004 \001" +
-      "(\0132\037.Ydb.PersQueue.V1.TopicSettings\"B\n\022A" +
-      "lterTopicResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
-      "db.Operations.Operation\"\022\n\020AlterTopicRes" +
-      "ult\"e\n\024DescribeTopicRequest\0229\n\020operation" +
-      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\"E\n\025DescribeTo" +
-      "picResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"i\n\023DescribeTopicResult" +
-      "\022\037\n\004self\030\001 \001(\0132\021.Ydb.Scheme.Entry\0221\n\010set",
-      "tings\030\002 \001(\0132\037.Ydb.PersQueue.V1.TopicSett" +
-      "ingsB\035\n\030tech.ydb.persqueue\370\001\001b\006pro" +
-      "to3"
+      "picSettings.AttributesEntry\022L\n\022remote_mi" +
+      "rror_rule\030\013 \001(\01320.Ydb.PersQueue.V1.Topic" +
+      "Settings.RemoteMirrorRule\032\375\001\n\010ReadRule\022\033" +
+      "\n\rconsumer_name\030\001 \001(\tB\004\220\346*\001\022\021\n\timportant" +
+      "\030\002 \001(\010\022%\n\035starting_message_timestamp_ms\030" +
+      "\003 \001(\003\022@\n\020supported_format\030\004 \001(\0162&.Ydb.Pe" +
+      "rsQueue.V1.TopicSettings.Format\022G\n\020suppo" +
+      "rted_codecs\030\005 \003(\0162%.Ydb.PersQueue.V1.Top" +
+      "icSettings.CodecB\006\232\346*\002\030d\022\017\n\007version\030\006 \001(" +
+      "\003\0321\n\017AttributesEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005val",
+      "ue\030\002 \001(\t:\0028\001\032\205\001\n\020RemoteMirrorRule\022\020\n\010end" +
+      "point\030\001 \001(\t\022\022\n\ntopic_path\030\002 \001(\t\022\025\n\rconsu" +
+      "mer_name\030\003 \001(\t\022\r\n\005token\030\004 \001(\t\022%\n\035startin" +
+      "g_message_timestamp_ms\030\005 \001(\003\"1\n\006Format\022\026" +
+      "\n\022FORMAT_UNSPECIFIED\020\000\022\017\n\013FORMAT_BASE\020\001\"" +
+      "]\n\005Codec\022\025\n\021CODEC_UNSPECIFIED\020\000\022\r\n\tCODEC" +
+      "_RAW\020\001\022\016\n\nCODEC_GZIP\020\002\022\016\n\nCODEC_LZOP\020\003\022\016" +
+      "\n\nCODEC_ZSTD\020\004\"\226\001\n\022CreateTopicRequest\0229\n" +
+      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
+      ".OperationParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\0221\n\010",
+      "settings\030\004 \001(\0132\037.Ydb.PersQueue.V1.TopicS" +
+      "ettings\"C\n\023CreateTopicResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\023\n\021" +
+      "CreateTopicResult\"\225\001\n\021AlterTopicRequest\022" +
+      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\0221" +
+      "\n\010settings\030\004 \001(\0132\037.Ydb.PersQueue.V1.Topi" +
+      "cSettings\"B\n\022AlterTopicResponse\022,\n\topera" +
+      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\022\n" +
+      "\020AlterTopicResult\"e\n\024DescribeTopicReques",
+      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001" +
+      "\"E\n\025DescribeTopicResponse\022,\n\toperation\030\001" +
+      " \001(\0132\031.Ydb.Operations.Operation\"i\n\023Descr" +
+      "ibeTopicResult\022\037\n\004self\030\001 \001(\0132\021.Ydb.Schem" +
+      "e.Entry\0221\n\010settings\030\002 \001(\0132\037.Ydb.PersQueu" +
+      "e.V1.TopicSettingsB\035\n\030tech.ydb.per" +
+      "squeue\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -94217,7 +95650,7 @@ public final class YdbPersqueueV1 {
     internal_static_Ydb_PersQueue_V1_TopicSettings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_TopicSettings_descriptor,
-        new java.lang.String[] { "PartitionsCount", "RetentionPeriodMs", "SupportedFormat", "SupportedCodecs", "MaxPartitionStorageSize", "MaxPartitionWriteSpeed", "MaxPartitionWriteBurst", "ClientWriteDisabled", "ReadRules", "Attributes", });
+        new java.lang.String[] { "PartitionsCount", "RetentionPeriodMs", "SupportedFormat", "SupportedCodecs", "MaxPartitionStorageSize", "MaxPartitionWriteSpeed", "MaxPartitionWriteBurst", "ClientWriteDisabled", "ReadRules", "Attributes", "RemoteMirrorRule", });
     internal_static_Ydb_PersQueue_V1_TopicSettings_ReadRule_descriptor =
       internal_static_Ydb_PersQueue_V1_TopicSettings_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_PersQueue_V1_TopicSettings_ReadRule_fieldAccessorTable = new
@@ -94230,6 +95663,12 @@ public final class YdbPersqueueV1 {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_TopicSettings_AttributesEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
+    internal_static_Ydb_PersQueue_V1_TopicSettings_RemoteMirrorRule_descriptor =
+      internal_static_Ydb_PersQueue_V1_TopicSettings_descriptor.getNestedTypes().get(2);
+    internal_static_Ydb_PersQueue_V1_TopicSettings_RemoteMirrorRule_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_PersQueue_V1_TopicSettings_RemoteMirrorRule_descriptor,
+        new java.lang.String[] { "Endpoint", "TopicPath", "ConsumerName", "Token", "StartingMessageTimestampMs", });
     internal_static_Ydb_PersQueue_V1_CreateTopicRequest_descriptor =
       getDescriptor().getMessageTypes().get(20);
     internal_static_Ydb_PersQueue_V1_CreateTopicRequest_fieldAccessorTable = new

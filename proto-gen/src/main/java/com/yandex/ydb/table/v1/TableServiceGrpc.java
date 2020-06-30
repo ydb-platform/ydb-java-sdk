@@ -616,35 +616,35 @@ public final class TableServiceGrpc {
     return getBulkUpsertMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExecuteStreamQueryRequest,
-      tech.ydb.table.YdbTable.ExecuteStreamQueryResponse> getExecuteStreamQueryMethod;
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExecuteScanQueryRequest,
+      tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse> getStreamExecuteScanQueryMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "ExecuteStreamQuery",
-      requestType = tech.ydb.table.YdbTable.ExecuteStreamQueryRequest.class,
-      responseType = tech.ydb.table.YdbTable.ExecuteStreamQueryResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "StreamExecuteScanQuery",
+      requestType = tech.ydb.table.YdbTable.ExecuteScanQueryRequest.class,
+      responseType = tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
-  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExecuteStreamQueryRequest,
-      tech.ydb.table.YdbTable.ExecuteStreamQueryResponse> getExecuteStreamQueryMethod() {
-    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExecuteStreamQueryRequest, tech.ydb.table.YdbTable.ExecuteStreamQueryResponse> getExecuteStreamQueryMethod;
-    if ((getExecuteStreamQueryMethod = TableServiceGrpc.getExecuteStreamQueryMethod) == null) {
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExecuteScanQueryRequest,
+      tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse> getStreamExecuteScanQueryMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.ExecuteScanQueryRequest, tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse> getStreamExecuteScanQueryMethod;
+    if ((getStreamExecuteScanQueryMethod = TableServiceGrpc.getStreamExecuteScanQueryMethod) == null) {
       synchronized (TableServiceGrpc.class) {
-        if ((getExecuteStreamQueryMethod = TableServiceGrpc.getExecuteStreamQueryMethod) == null) {
-          TableServiceGrpc.getExecuteStreamQueryMethod = getExecuteStreamQueryMethod =
-              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.ExecuteStreamQueryRequest, tech.ydb.table.YdbTable.ExecuteStreamQueryResponse>newBuilder()
+        if ((getStreamExecuteScanQueryMethod = TableServiceGrpc.getStreamExecuteScanQueryMethod) == null) {
+          TableServiceGrpc.getStreamExecuteScanQueryMethod = getStreamExecuteScanQueryMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.ExecuteScanQueryRequest, tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ExecuteStreamQuery"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "StreamExecuteScanQuery"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  tech.ydb.table.YdbTable.ExecuteStreamQueryRequest.getDefaultInstance()))
+                  tech.ydb.table.YdbTable.ExecuteScanQueryRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  tech.ydb.table.YdbTable.ExecuteStreamQueryResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("ExecuteStreamQuery"))
+                  tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("StreamExecuteScanQuery"))
               .build();
         }
       }
     }
-    return getExecuteStreamQueryMethod;
+    return getStreamExecuteScanQueryMethod;
   }
 
   /**
@@ -899,12 +899,12 @@ public final class TableServiceGrpc {
 
     /**
      * <pre>
-     * Executes stream query.
+     * Executes scan query with streaming result.
      * </pre>
      */
-    public void executeStreamQuery(tech.ydb.table.YdbTable.ExecuteStreamQueryRequest request,
-        io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ExecuteStreamQueryResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getExecuteStreamQueryMethod(), responseObserver);
+    public void streamExecuteScanQuery(tech.ydb.table.YdbTable.ExecuteScanQueryRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getStreamExecuteScanQueryMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
@@ -1043,12 +1043,12 @@ public final class TableServiceGrpc {
                 tech.ydb.table.YdbTable.BulkUpsertResponse>(
                   this, METHODID_BULK_UPSERT)))
           .addMethod(
-            getExecuteStreamQueryMethod(),
+            getStreamExecuteScanQueryMethod(),
             asyncServerStreamingCall(
               new MethodHandlers<
-                tech.ydb.table.YdbTable.ExecuteStreamQueryRequest,
-                tech.ydb.table.YdbTable.ExecuteStreamQueryResponse>(
-                  this, METHODID_EXECUTE_STREAM_QUERY)))
+                tech.ydb.table.YdbTable.ExecuteScanQueryRequest,
+                tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse>(
+                  this, METHODID_STREAM_EXECUTE_SCAN_QUERY)))
           .build();
     }
   }
@@ -1290,13 +1290,13 @@ public final class TableServiceGrpc {
 
     /**
      * <pre>
-     * Executes stream query.
+     * Executes scan query with streaming result.
      * </pre>
      */
-    public void executeStreamQuery(tech.ydb.table.YdbTable.ExecuteStreamQueryRequest request,
-        io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ExecuteStreamQueryResponse> responseObserver) {
+    public void streamExecuteScanQuery(tech.ydb.table.YdbTable.ExecuteScanQueryRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse> responseObserver) {
       asyncServerStreamingCall(
-          getChannel().newCall(getExecuteStreamQueryMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getStreamExecuteScanQueryMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -1519,13 +1519,13 @@ public final class TableServiceGrpc {
 
     /**
      * <pre>
-     * Executes stream query.
+     * Executes scan query with streaming result.
      * </pre>
      */
-    public java.util.Iterator<tech.ydb.table.YdbTable.ExecuteStreamQueryResponse> executeStreamQuery(
-        tech.ydb.table.YdbTable.ExecuteStreamQueryRequest request) {
+    public java.util.Iterator<tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse> streamExecuteScanQuery(
+        tech.ydb.table.YdbTable.ExecuteScanQueryRequest request) {
       return blockingServerStreamingCall(
-          getChannel(), getExecuteStreamQueryMethod(), getCallOptions(), request);
+          getChannel(), getStreamExecuteScanQueryMethod(), getCallOptions(), request);
     }
   }
 
@@ -1773,7 +1773,7 @@ public final class TableServiceGrpc {
   private static final int METHODID_DESCRIBE_TABLE_OPTIONS = 16;
   private static final int METHODID_STREAM_READ_TABLE = 17;
   private static final int METHODID_BULK_UPSERT = 18;
-  private static final int METHODID_EXECUTE_STREAM_QUERY = 19;
+  private static final int METHODID_STREAM_EXECUTE_SCAN_QUERY = 19;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -1868,9 +1868,9 @@ public final class TableServiceGrpc {
           serviceImpl.bulkUpsert((tech.ydb.table.YdbTable.BulkUpsertRequest) request,
               (io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.BulkUpsertResponse>) responseObserver);
           break;
-        case METHODID_EXECUTE_STREAM_QUERY:
-          serviceImpl.executeStreamQuery((tech.ydb.table.YdbTable.ExecuteStreamQueryRequest) request,
-              (io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ExecuteStreamQueryResponse>) responseObserver);
+        case METHODID_STREAM_EXECUTE_SCAN_QUERY:
+          serviceImpl.streamExecuteScanQuery((tech.ydb.table.YdbTable.ExecuteScanQueryRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -1952,7 +1952,7 @@ public final class TableServiceGrpc {
               .addMethod(getDescribeTableOptionsMethod())
               .addMethod(getStreamReadTableMethod())
               .addMethod(getBulkUpsertMethod())
-              .addMethod(getExecuteStreamQueryMethod())
+              .addMethod(getStreamExecuteScanQueryMethod())
               .build();
         }
       }

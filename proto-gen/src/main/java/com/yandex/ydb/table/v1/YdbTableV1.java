@@ -25,7 +25,7 @@ public final class YdbTableV1 {
     java.lang.String[] descriptorData = {
       "\n)kikimr/public/api/grpc/ydb_table_v1.pr" +
       "oto\022\014Ydb.Table.V1\032(kikimr/public/api/pro" +
-      "tos/ydb_table.proto2\314\r\n\014TableService\022R\n\r" +
+      "tos/ydb_table.proto2\323\r\n\014TableService\022R\n\r" +
       "CreateSession\022\037.Ydb.Table.CreateSessionR" +
       "equest\032 .Ydb.Table.CreateSessionResponse" +
       "\022R\n\rDeleteSession\022\037.Ydb.Table.DeleteSess" +
@@ -66,10 +66,11 @@ public final class YdbTableV1 {
       "Table\022\033.Ydb.Table.ReadTableRequest\032\034.Ydb" +
       ".Table.ReadTableResponse0\001\022I\n\nBulkUpsert" +
       "\022\034.Ydb.Table.BulkUpsertRequest\032\035.Ydb.Tab" +
-      "le.BulkUpsertResponse\022c\n\022ExecuteStreamQu" +
-      "ery\022$.Ydb.Table.ExecuteStreamQueryReques" +
-      "t\032%.Ydb.Table.ExecuteStreamQueryResponse" +
-      "0\001B\031\n\027tech.ydb.table.v1b\006proto3"
+      "le.BulkUpsertResponse\022j\n\026StreamExecuteSc" +
+      "anQuery\022\".Ydb.Table.ExecuteScanQueryRequ" +
+      "est\032*.Ydb.Table.ExecuteScanQueryPartialR" +
+      "esponse0\001B\031\n\027tech.ydb.table.v1b\006pr" +
+      "oto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
