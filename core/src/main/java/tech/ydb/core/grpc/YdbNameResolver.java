@@ -8,8 +8,10 @@ import java.net.UnknownHostException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -32,6 +34,7 @@ import io.grpc.NameResolver;
 import io.grpc.Status;
 import io.grpc.SynchronizationContext;
 import io.grpc.internal.GrpcUtil;
+import io.grpc.netty.NettyChannelBuilder;
 import io.netty.util.Timeout;
 
 
@@ -58,22 +61,15 @@ final class YdbNameResolver extends NameResolver {
     private final Duration discoveryPeriod;
 
     private YdbNameResolver(
-            String hostname,
-            int port,
             String database,
-            AuthProvider authProvider,
-            @Nullable byte[] cert,
+            String authority,
+            GrpcTransport transport,
             SynchronizationContext synchronizationContext,
             Duration discoveryPeriod)
     {
         this.database = database;
-        this.authority = GrpcUtil.authorityFromHostAndPort(hostname, port);
-        GrpcTransport.Builder transportBuilder = GrpcTransport.forHost(hostname, port)
-            .withAuthProvider(authProvider);
-        if (cert != null) {
-            transportBuilder.withSecureConnection(cert);
-        }
-        this.transport = transportBuilder.build();
+        this.authority = authority;
+        this.transport = transport;
         this.synchronizationContext = synchronizationContext;
         if (discoveryPeriod.toMillis() < 5000) {
             discoveryPeriod = Duration.ofSeconds(5);
@@ -248,7 +244,13 @@ final class YdbNameResolver extends NameResolver {
         transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), request, consumer, System.nanoTime() + discoveryPeriod.dividedBy(2).toNanos());
     }
 
-    static Factory newFactory(AuthProvider authProvider, @Nullable byte[] cert, Duration discoveryPeriod) {
+    static Factory newFactory(
+            AuthProvider authProvider,
+            @Nullable byte[] cert,
+            Duration discoveryPeriod,
+            Executor executor,
+            Consumer<NettyChannelBuilder> channelCustomizer)
+    {
         return new Factory() {
             @Nullable
             @Override
@@ -260,7 +262,19 @@ final class YdbNameResolver extends NameResolver {
                 if (port == -1) {
                     port = GrpcTransport.DEFAULT_PORT;
                 }
-                return new YdbNameResolver(targetUri.getHost(), port, targetUri.getPath(), authProvider, cert, helper.getSynchronizationContext(), discoveryPeriod);
+
+                String host = targetUri.getHost();
+                String database = targetUri.getPath();
+                String authority = GrpcUtil.authorityFromHostAndPort(host, port);
+                GrpcTransport.Builder transportBuilder = GrpcTransport.forHost(host, port)
+                        .withAuthProvider(authProvider)
+                        .withCallExecutor(executor)
+                        .withChannelInitializer(channelCustomizer);
+                if (cert != null) {
+                    transportBuilder.withSecureConnection(cert);
+                }
+                GrpcTransport transport = transportBuilder.build();
+                return new YdbNameResolver(database, authority, transport, helper.getSynchronizationContext(), discoveryPeriod);
             }
 
             @Override

@@ -271,7 +271,12 @@ public class GrpcTransport implements RpcTransport {
         final NettyChannelBuilder channelBuilder;
         if (endpoint != null) {
             channelBuilder = NettyChannelBuilder.forTarget(YdbNameResolver.makeTarget(endpoint, database))
-                .nameResolverFactory(YdbNameResolver.newFactory(builder.getAuthProvider(), builder.cert, builder.endpointsDiscoveryPeriod))
+                .nameResolverFactory(YdbNameResolver.newFactory(
+                        builder.getAuthProvider(),
+                        builder.cert,
+                        builder.endpointsDiscoveryPeriod,
+                        builder.getCallExecutor(),
+                        builder.getChannelInitializer()))
                 .defaultLoadBalancingPolicy(defaultPolicy);
         } else if (hosts.size() > 1) {
             channelBuilder = NettyChannelBuilder.forTarget(HostsNameResolver.makeTarget(hosts))
