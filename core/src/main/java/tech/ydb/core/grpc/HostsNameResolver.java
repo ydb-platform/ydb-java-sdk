@@ -7,6 +7,11 @@ import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
@@ -22,24 +27,29 @@ import io.grpc.Status;
  * @author Sergey Polovko
  */
 final class HostsNameResolver extends NameResolver {
+    private static final Logger logger = Logger.getLogger(YdbNameResolver.class.getName());
 
     private static final String SCHEME = "ydb-hosts";
 
     private final List<HostAndPort> hosts;
+    private final ConcurrentMap<HostAndPort, EquivalentAddressGroup> latestSuccessResolving = new ConcurrentHashMap<>();
     private final String authority;
     private Listener listener;
+    private final Executor executor;
+    private final AtomicBoolean running = new AtomicBoolean();
 
-    private HostsNameResolver(List<HostAndPort> hosts) {
+    private HostsNameResolver(List<HostAndPort> hosts, Executor executor) {
         this.hosts = hosts;
         this.authority = join(hosts);
+        this.executor = executor;
     }
 
     static String makeTarget(List<HostAndPort> hosts) {
         return SCHEME + "://" + join(hosts);
     }
 
-    static Factory newFactory(List<HostAndPort> hosts) {
-        return new HostsFactory(hosts);
+    static Factory newFactory(List<HostAndPort> hosts, Executor executor) {
+        return new HostsFactory(hosts, executor);
     }
 
     @Override
@@ -50,27 +60,57 @@ final class HostsNameResolver extends NameResolver {
     @Override
     public void start(Listener listener) {
         this.listener = listener;
-        resolve();
+        refresh();
     }
 
     @Override
     public void refresh() {
-        resolve();
+        if (running.compareAndSet(false, true)) {
+            executor.execute(this::resolve);
+        }
     }
 
     private void resolve() {
         try {
             List<EquivalentAddressGroup> groups = new ArrayList<>(hosts.size());
+            UnknownHostException latestUnknownEx = null;
             for (HostAndPort host : hosts) {
-                groups.add(createAddressGroup(host));
+                try {
+                    EquivalentAddressGroup group = createAddressGroup(host);
+                    latestSuccessResolving.put(host, group);
+                    groups.add(group);
+                } catch (UnknownHostException e) {
+                    logger.warning(e.getMessage());
+                    EquivalentAddressGroup prevResolved = latestSuccessResolving.get(host);
+                    if (prevResolved != null) {
+                        groups.add(prevResolved);
+                    } else {
+                        latestUnknownEx = e;
+                    }
+                }
             }
-            listener.onAddresses(groups, Attributes.EMPTY);
-        } catch (UnknownHostException e) {
-            listener.onError(Status.INTERNAL.withCause(e).withDescription("cannot resolve hosts"));
+
+            if (groups.isEmpty() && latestUnknownEx != null) {
+                onFailResolve(latestUnknownEx);
+                return;
+            }
+
+            onSuccessResolve(groups);
+        } catch (Throwable e) {
+            onFailResolve(e);
         }
     }
 
-    // TODO: resolve name asynchronously
+    private void onSuccessResolve(List<EquivalentAddressGroup> groups) {
+        running.set(false);
+        listener.onAddresses(groups, Attributes.EMPTY);
+    }
+
+    private void onFailResolve(Throwable e) {
+        running.set(false);
+        listener.onError(Status.INTERNAL.withCause(e).withDescription("cannot resolve hosts"));
+    }
+
     private static EquivalentAddressGroup createAddressGroup(HostAndPort host) throws UnknownHostException {
         int port = host.getPortOrDefault(GrpcTransport.DEFAULT_PORT);
         InetAddress[] addresses = InetAddress.getAllByName(host.getHost());
@@ -100,9 +140,11 @@ final class HostsNameResolver extends NameResolver {
      */
     private static final class HostsFactory extends Factory {
         private final List<HostAndPort> hosts;
+        private final Executor executor;
 
-        HostsFactory(List<HostAndPort> hosts) {
+        HostsFactory(List<HostAndPort> hosts, Executor executor) {
             this.hosts = hosts;
+            this.executor = executor;
         }
 
         @Nullable
@@ -111,7 +153,7 @@ final class HostsNameResolver extends NameResolver {
             if (!SCHEME.equals(targetUri.getScheme())) {
                 return null;
             }
-            return new HostsNameResolver(hosts);
+            return new HostsNameResolver(hosts, executor);
         }
 
         @Override

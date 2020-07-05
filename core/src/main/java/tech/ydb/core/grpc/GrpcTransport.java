@@ -280,7 +280,7 @@ public class GrpcTransport implements RpcTransport {
                 .defaultLoadBalancingPolicy(defaultPolicy);
         } else if (hosts.size() > 1) {
             channelBuilder = NettyChannelBuilder.forTarget(HostsNameResolver.makeTarget(hosts))
-                .nameResolverFactory(HostsNameResolver.newFactory(hosts))
+                .nameResolverFactory(HostsNameResolver.newFactory(hosts, builder.getCallExecutor()))
                 .defaultLoadBalancingPolicy(defaultPolicy);
         } else {
             channelBuilder = NettyChannelBuilder.forAddress(new InetSocketAddress(
