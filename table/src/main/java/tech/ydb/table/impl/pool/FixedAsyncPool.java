@@ -13,6 +13,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,12 +38,11 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
     private final AtomicInteger pendingAcquireCount = new AtomicInteger(0);
     private final PooledObjectHandler<T> handler;
     private final KeepAliveTask keepAliveTask;
+    private final AtomicBoolean closed = new AtomicBoolean(false);
 
     private final int minSize;
     private final int maxSize;
     private final int waitQueueMaxSize;
-
-    private volatile boolean closed = false;
 
     public FixedAsyncPool(
         PooledObjectHandler<T> handler,
@@ -91,7 +91,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
     public CompletableFuture<T> acquire(Duration timeout) {
         final CompletableFuture<T> promise = new CompletableFuture<>();
         try {
-            if (closed) {
+            if (closed.get()) {
                 promise.completeExceptionally(new IllegalStateException("pool was closed"));
                 return promise;
             }
@@ -125,7 +125,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
 
     @Override
     public void release(T object) {
-        if (closed) {
+        if (closed.get()) {
             // Since the pool is closed, we have no choice but to close the channel
             logger.log(Level.FINE, "Destroy {0} because pool already closed", object);
             handler.destroy(object);
@@ -153,7 +153,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
     }
 
     void offerOrDestroy(T object) {
-        if (closed) {
+        if (closed.get()) {
             // Since the pool is closed, we have no choice but to close the channel
             logger.log(Level.FINE, "Destroy {0} because pool already closed", object);
             handler.destroy(object);
@@ -225,7 +225,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         // one of them must be null
         assert (object == null) != (error == null);
 
-        if (closed) {
+        if (closed.get()) {
             // destroy object because pool was already closed
             if (error == null) {
                 logger.log(Level.FINE, "Destroy {0} because pool already closed", object);
@@ -274,7 +274,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
 
     @Override
     public void close() {
-        if (closed) {
+        if (!closed.compareAndSet(false, true)) {
             return;
         }
 
@@ -291,12 +291,19 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         while ((object = pollObject()) != null) {
             // avoid simultaneous session destruction
             logger.log(Level.FINE, "Destroy {0} because pool is closed", object);
-            handler.destroy(object.getValue()).join();
+            CompletableFuture<Void> future = handler.destroy(object.getValue());
+            try {
+                // do not wait forever to prevent process hangup on exit
+                future.get(3, TimeUnit.SECONDS);
+            } catch (TimeoutException ignore) {
+                // keep going
+            } catch (Exception e) {
+                throw new RuntimeException("cannot destroy " + object, e);
+            }
         }
 
         acquiredObjectsCount.set(0);
         pendingAcquireCount.set(0);
-        closed = true;
     }
 
     /**
