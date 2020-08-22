@@ -99,6 +99,21 @@ public final class RateLimiterProtos {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_RateLimiter_DescribeResourceResult_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_RateLimiter_AcquireResourceRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_RateLimiter_AcquireResourceRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_RateLimiter_AcquireResourceResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_RateLimiter_AcquireResourceResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_RateLimiter_AcquireResourceResult_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_RateLimiter_AcquireResourceResult_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -148,9 +163,16 @@ public final class RateLimiterProtos {
       "H\n\030DescribeResourceResponse\022,\n\toperation" +
       "\030\001 \001(\0132\031.Ydb.Operations.Operation\"E\n\026Des" +
       "cribeResourceResult\022+\n\010resource\030\001 \001(\0132\031.",
-      "Ydb.RateLimiter.ResourceB5\n\033com.yandex.y" +
-      "db.rate_limiterB\021RateLimiterProtosP\001\370\001\001b" +
-      "\006proto3"
+      "Ydb.RateLimiter.Resource\"\267\001\n\026AcquireReso" +
+      "urceRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\022\036\n\026coordi" +
+      "nation_node_path\030\002 \001(\t\022\025\n\rresource_path\030" +
+      "\003 \001(\t\022\022\n\010required\030\004 \001(\004H\000\022\016\n\004used\030\005 \001(\004H" +
+      "\000B\007\n\005units\"G\n\027AcquireResourceResponse\022,\n" +
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ion\"\027\n\025AcquireResourceResultB5\n\033com.yand" +
+      "ex.ydb.rate_limiterB\021RateLimiterProtosP\001" +
+      "\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -267,6 +289,24 @@ public final class RateLimiterProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_RateLimiter_DescribeResourceResult_descriptor,
         new java.lang.String[] { "Resource", });
+    internal_static_Ydb_RateLimiter_AcquireResourceRequest_descriptor =
+      getDescriptor().getMessageTypes().get(17);
+    internal_static_Ydb_RateLimiter_AcquireResourceRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_RateLimiter_AcquireResourceRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "CoordinationNodePath", "ResourcePath", "Required", "Used", "Units", });
+    internal_static_Ydb_RateLimiter_AcquireResourceResponse_descriptor =
+      getDescriptor().getMessageTypes().get(18);
+    internal_static_Ydb_RateLimiter_AcquireResourceResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_RateLimiter_AcquireResourceResponse_descriptor,
+        new java.lang.String[] { "Operation", });
+    internal_static_Ydb_RateLimiter_AcquireResourceResult_descriptor =
+      getDescriptor().getMessageTypes().get(19);
+    internal_static_Ydb_RateLimiter_AcquireResourceResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_RateLimiter_AcquireResourceResult_descriptor,
+        new java.lang.String[] { });
     tech.ydb.OperationProtos.getDescriptor();
   }
 

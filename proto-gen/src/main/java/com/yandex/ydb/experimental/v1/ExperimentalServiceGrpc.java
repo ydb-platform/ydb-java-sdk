@@ -89,6 +89,37 @@ public final class ExperimentalServiceGrpc {
     return getExecuteStreamQueryMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest,
+      tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse> getGetDiskSpaceUsageMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetDiskSpaceUsage",
+      requestType = tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest.class,
+      responseType = tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest,
+      tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse> getGetDiskSpaceUsageMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest, tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse> getGetDiskSpaceUsageMethod;
+    if ((getGetDiskSpaceUsageMethod = ExperimentalServiceGrpc.getGetDiskSpaceUsageMethod) == null) {
+      synchronized (ExperimentalServiceGrpc.class) {
+        if ((getGetDiskSpaceUsageMethod = ExperimentalServiceGrpc.getGetDiskSpaceUsageMethod) == null) {
+          ExperimentalServiceGrpc.getGetDiskSpaceUsageMethod = getGetDiskSpaceUsageMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest, tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetDiskSpaceUsage"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ExperimentalServiceMethodDescriptorSupplier("GetDiskSpaceUsage"))
+              .build();
+        }
+      }
+    }
+    return getGetDiskSpaceUsageMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -154,6 +185,16 @@ public final class ExperimentalServiceGrpc {
       asyncUnimplementedUnaryCall(getExecuteStreamQueryMethod(), responseObserver);
     }
 
+    /**
+     * <pre>
+     * Returns disk space usage by database
+     * </pre>
+     */
+    public void getDiskSpaceUsage(tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetDiskSpaceUsageMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -170,6 +211,13 @@ public final class ExperimentalServiceGrpc {
                 tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest,
                 tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse>(
                   this, METHODID_EXECUTE_STREAM_QUERY)))
+          .addMethod(
+            getGetDiskSpaceUsageMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest,
+                tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse>(
+                  this, METHODID_GET_DISK_SPACE_USAGE)))
           .build();
     }
   }
@@ -206,6 +254,17 @@ public final class ExperimentalServiceGrpc {
       asyncServerStreamingCall(
           getChannel().newCall(getExecuteStreamQueryMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     * Returns disk space usage by database
+     * </pre>
+     */
+    public void getDiskSpaceUsage(tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetDiskSpaceUsageMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -239,6 +298,16 @@ public final class ExperimentalServiceGrpc {
       return blockingServerStreamingCall(
           getChannel(), getExecuteStreamQueryMethod(), getCallOptions(), request);
     }
+
+    /**
+     * <pre>
+     * Returns disk space usage by database
+     * </pre>
+     */
+    public tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse getDiskSpaceUsage(tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getGetDiskSpaceUsageMethod(), getCallOptions(), request);
+    }
   }
 
   /**
@@ -265,10 +334,22 @@ public final class ExperimentalServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getUploadRowsMethod(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     * Returns disk space usage by database
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse> getDiskSpaceUsage(
+        tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetDiskSpaceUsageMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_UPLOAD_ROWS = 0;
   private static final int METHODID_EXECUTE_STREAM_QUERY = 1;
+  private static final int METHODID_GET_DISK_SPACE_USAGE = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -294,6 +375,10 @@ public final class ExperimentalServiceGrpc {
         case METHODID_EXECUTE_STREAM_QUERY:
           serviceImpl.executeStreamQuery((tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest) request,
               (io.grpc.stub.StreamObserver<tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResponse>) responseObserver);
+          break;
+        case METHODID_GET_DISK_SPACE_USAGE:
+          serviceImpl.getDiskSpaceUsage((tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -358,6 +443,7 @@ public final class ExperimentalServiceGrpc {
               .setSchemaDescriptor(new ExperimentalServiceFileDescriptorSupplier())
               .addMethod(getUploadRowsMethod())
               .addMethod(getExecuteStreamQueryMethod())
+              .addMethod(getGetDiskSpaceUsageMethod())
               .build();
         }
       }

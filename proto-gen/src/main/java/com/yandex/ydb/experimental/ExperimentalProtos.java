@@ -5476,6 +5476,2309 @@ public final class ExperimentalProtos {
 
   }
 
+  public interface GetDiskSpaceUsageRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Experimental.GetDiskSpaceUsageRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>string database = 2;</code>
+     */
+    java.lang.String getDatabase();
+    /**
+     * <code>string database = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getDatabaseBytes();
+  }
+  /**
+   * Protobuf type {@code Ydb.Experimental.GetDiskSpaceUsageRequest}
+   */
+  public  static final class GetDiskSpaceUsageRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Experimental.GetDiskSpaceUsageRequest)
+      GetDiskSpaceUsageRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetDiskSpaceUsageRequest.newBuilder() to construct.
+    private GetDiskSpaceUsageRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetDiskSpaceUsageRequest() {
+      database_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetDiskSpaceUsageRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              database_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest.class, tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest.Builder.class);
+    }
+
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int DATABASE_FIELD_NUMBER = 2;
+    private volatile java.lang.Object database_;
+    /**
+     * <code>string database = 2;</code>
+     */
+    public java.lang.String getDatabase() {
+      java.lang.Object ref = database_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        database_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string database = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDatabaseBytes() {
+      java.lang.Object ref = database_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        database_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operationParams_ != null) {
+        output.writeMessage(1, getOperationParams());
+      }
+      if (!getDatabaseBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, database_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperationParams());
+      }
+      if (!getDatabaseBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, database_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest)) {
+        return super.equals(obj);
+      }
+      tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest other = (tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest) obj;
+
+      boolean result = true;
+      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams()) {
+        result = result && getOperationParams()
+            .equals(other.getOperationParams());
+      }
+      result = result && getDatabase()
+          .equals(other.getDatabase());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      hash = (37 * hash) + DATABASE_FIELD_NUMBER;
+      hash = (53 * hash) + getDatabase().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Experimental.GetDiskSpaceUsageRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Experimental.GetDiskSpaceUsageRequest)
+        tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest.class, tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest.Builder.class);
+      }
+
+      // Construct using tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        database_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageRequest_descriptor;
+      }
+
+      public tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest getDefaultInstanceForType() {
+        return tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest.getDefaultInstance();
+      }
+
+      public tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest build() {
+        tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest buildPartial() {
+        tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest result = new tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest(this);
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        result.database_ = database_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest) {
+          return mergeFrom((tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest other) {
+        if (other == tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest.getDefaultInstance()) return this;
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        if (!other.getDatabase().isEmpty()) {
+          database_ = other.database_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
+      private java.lang.Object database_ = "";
+      /**
+       * <code>string database = 2;</code>
+       */
+      public java.lang.String getDatabase() {
+        java.lang.Object ref = database_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          database_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string database = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getDatabaseBytes() {
+        java.lang.Object ref = database_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          database_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string database = 2;</code>
+       */
+      public Builder setDatabase(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        database_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string database = 2;</code>
+       */
+      public Builder clearDatabase() {
+        
+        database_ = getDefaultInstance().getDatabase();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string database = 2;</code>
+       */
+      public Builder setDatabaseBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        database_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Experimental.GetDiskSpaceUsageRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Experimental.GetDiskSpaceUsageRequest)
+    private static final tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest();
+    }
+
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetDiskSpaceUsageRequest>
+        PARSER = new com.google.protobuf.AbstractParser<GetDiskSpaceUsageRequest>() {
+      public GetDiskSpaceUsageRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new GetDiskSpaceUsageRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetDiskSpaceUsageRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetDiskSpaceUsageRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetDiskSpaceUsageResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Experimental.GetDiskSpaceUsageResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    boolean hasOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.Experimental.GetDiskSpaceUsageResponse}
+   */
+  public  static final class GetDiskSpaceUsageResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Experimental.GetDiskSpaceUsageResponse)
+      GetDiskSpaceUsageResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetDiskSpaceUsageResponse.newBuilder() to construct.
+    private GetDiskSpaceUsageResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetDiskSpaceUsageResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetDiskSpaceUsageResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse.class, tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse)) {
+        return super.equals(obj);
+      }
+      tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse other = (tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse) obj;
+
+      boolean result = true;
+      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation()) {
+        result = result && getOperation()
+            .equals(other.getOperation());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Experimental.GetDiskSpaceUsageResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Experimental.GetDiskSpaceUsageResponse)
+        tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse.class, tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse.Builder.class);
+      }
+
+      // Construct using tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageResponse_descriptor;
+      }
+
+      public tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse getDefaultInstanceForType() {
+        return tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse.getDefaultInstance();
+      }
+
+      public tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse build() {
+        tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse buildPartial() {
+        tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse result = new tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse) {
+          return mergeFrom((tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse other) {
+        if (other == tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Experimental.GetDiskSpaceUsageResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Experimental.GetDiskSpaceUsageResponse)
+    private static final tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse();
+    }
+
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetDiskSpaceUsageResponse>
+        PARSER = new com.google.protobuf.AbstractParser<GetDiskSpaceUsageResponse>() {
+      public GetDiskSpaceUsageResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new GetDiskSpaceUsageResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetDiskSpaceUsageResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetDiskSpaceUsageResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetDiskSpaceUsageResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Experimental.GetDiskSpaceUsageResult)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string cloud_id = 1;</code>
+     */
+    java.lang.String getCloudId();
+    /**
+     * <code>string cloud_id = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getCloudIdBytes();
+
+    /**
+     * <code>string folder_id = 2;</code>
+     */
+    java.lang.String getFolderId();
+    /**
+     * <code>string folder_id = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getFolderIdBytes();
+
+    /**
+     * <code>string database_id = 3;</code>
+     */
+    java.lang.String getDatabaseId();
+    /**
+     * <code>string database_id = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getDatabaseIdBytes();
+
+    /**
+     * <pre>
+     * in bytes
+     * </pre>
+     *
+     * <code>uint64 total_size = 4;</code>
+     */
+    long getTotalSize();
+
+    /**
+     * <code>uint64 data_size = 5;</code>
+     */
+    long getDataSize();
+
+    /**
+     * <code>uint64 index_size = 6;</code>
+     */
+    long getIndexSize();
+  }
+  /**
+   * Protobuf type {@code Ydb.Experimental.GetDiskSpaceUsageResult}
+   */
+  public  static final class GetDiskSpaceUsageResult extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Experimental.GetDiskSpaceUsageResult)
+      GetDiskSpaceUsageResultOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use GetDiskSpaceUsageResult.newBuilder() to construct.
+    private GetDiskSpaceUsageResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private GetDiskSpaceUsageResult() {
+      cloudId_ = "";
+      folderId_ = "";
+      databaseId_ = "";
+      totalSize_ = 0L;
+      dataSize_ = 0L;
+      indexSize_ = 0L;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetDiskSpaceUsageResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              cloudId_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              folderId_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              databaseId_ = s;
+              break;
+            }
+            case 32: {
+
+              totalSize_ = input.readUInt64();
+              break;
+            }
+            case 40: {
+
+              dataSize_ = input.readUInt64();
+              break;
+            }
+            case 48: {
+
+              indexSize_ = input.readUInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageResult_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult.class, tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult.Builder.class);
+    }
+
+    public static final int CLOUD_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object cloudId_;
+    /**
+     * <code>string cloud_id = 1;</code>
+     */
+    public java.lang.String getCloudId() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        cloudId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string cloud_id = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCloudIdBytes() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        cloudId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int FOLDER_ID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object folderId_;
+    /**
+     * <code>string folder_id = 2;</code>
+     */
+    public java.lang.String getFolderId() {
+      java.lang.Object ref = folderId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        folderId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string folder_id = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFolderIdBytes() {
+      java.lang.Object ref = folderId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        folderId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DATABASE_ID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object databaseId_;
+    /**
+     * <code>string database_id = 3;</code>
+     */
+    public java.lang.String getDatabaseId() {
+      java.lang.Object ref = databaseId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        databaseId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string database_id = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDatabaseIdBytes() {
+      java.lang.Object ref = databaseId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        databaseId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TOTAL_SIZE_FIELD_NUMBER = 4;
+    private long totalSize_;
+    /**
+     * <pre>
+     * in bytes
+     * </pre>
+     *
+     * <code>uint64 total_size = 4;</code>
+     */
+    public long getTotalSize() {
+      return totalSize_;
+    }
+
+    public static final int DATA_SIZE_FIELD_NUMBER = 5;
+    private long dataSize_;
+    /**
+     * <code>uint64 data_size = 5;</code>
+     */
+    public long getDataSize() {
+      return dataSize_;
+    }
+
+    public static final int INDEX_SIZE_FIELD_NUMBER = 6;
+    private long indexSize_;
+    /**
+     * <code>uint64 index_size = 6;</code>
+     */
+    public long getIndexSize() {
+      return indexSize_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getCloudIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, cloudId_);
+      }
+      if (!getFolderIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, folderId_);
+      }
+      if (!getDatabaseIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, databaseId_);
+      }
+      if (totalSize_ != 0L) {
+        output.writeUInt64(4, totalSize_);
+      }
+      if (dataSize_ != 0L) {
+        output.writeUInt64(5, dataSize_);
+      }
+      if (indexSize_ != 0L) {
+        output.writeUInt64(6, indexSize_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getCloudIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, cloudId_);
+      }
+      if (!getFolderIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, folderId_);
+      }
+      if (!getDatabaseIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, databaseId_);
+      }
+      if (totalSize_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(4, totalSize_);
+      }
+      if (dataSize_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(5, dataSize_);
+      }
+      if (indexSize_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(6, indexSize_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult)) {
+        return super.equals(obj);
+      }
+      tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult other = (tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult) obj;
+
+      boolean result = true;
+      result = result && getCloudId()
+          .equals(other.getCloudId());
+      result = result && getFolderId()
+          .equals(other.getFolderId());
+      result = result && getDatabaseId()
+          .equals(other.getDatabaseId());
+      result = result && (getTotalSize()
+          == other.getTotalSize());
+      result = result && (getDataSize()
+          == other.getDataSize());
+      result = result && (getIndexSize()
+          == other.getIndexSize());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + CLOUD_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getCloudId().hashCode();
+      hash = (37 * hash) + FOLDER_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getFolderId().hashCode();
+      hash = (37 * hash) + DATABASE_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getDatabaseId().hashCode();
+      hash = (37 * hash) + TOTAL_SIZE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTotalSize());
+      hash = (37 * hash) + DATA_SIZE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getDataSize());
+      hash = (37 * hash) + INDEX_SIZE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getIndexSize());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Experimental.GetDiskSpaceUsageResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Experimental.GetDiskSpaceUsageResult)
+        tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageResult_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult.class, tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult.Builder.class);
+      }
+
+      // Construct using tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        cloudId_ = "";
+
+        folderId_ = "";
+
+        databaseId_ = "";
+
+        totalSize_ = 0L;
+
+        dataSize_ = 0L;
+
+        indexSize_ = 0L;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.experimental.ExperimentalProtos.internal_static_Ydb_Experimental_GetDiskSpaceUsageResult_descriptor;
+      }
+
+      public tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult getDefaultInstanceForType() {
+        return tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult.getDefaultInstance();
+      }
+
+      public tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult build() {
+        tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult buildPartial() {
+        tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult result = new tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult(this);
+        result.cloudId_ = cloudId_;
+        result.folderId_ = folderId_;
+        result.databaseId_ = databaseId_;
+        result.totalSize_ = totalSize_;
+        result.dataSize_ = dataSize_;
+        result.indexSize_ = indexSize_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult) {
+          return mergeFrom((tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult other) {
+        if (other == tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult.getDefaultInstance()) return this;
+        if (!other.getCloudId().isEmpty()) {
+          cloudId_ = other.cloudId_;
+          onChanged();
+        }
+        if (!other.getFolderId().isEmpty()) {
+          folderId_ = other.folderId_;
+          onChanged();
+        }
+        if (!other.getDatabaseId().isEmpty()) {
+          databaseId_ = other.databaseId_;
+          onChanged();
+        }
+        if (other.getTotalSize() != 0L) {
+          setTotalSize(other.getTotalSize());
+        }
+        if (other.getDataSize() != 0L) {
+          setDataSize(other.getDataSize());
+        }
+        if (other.getIndexSize() != 0L) {
+          setIndexSize(other.getIndexSize());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object cloudId_ = "";
+      /**
+       * <code>string cloud_id = 1;</code>
+       */
+      public java.lang.String getCloudId() {
+        java.lang.Object ref = cloudId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          cloudId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCloudIdBytes() {
+        java.lang.Object ref = cloudId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cloudId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 1;</code>
+       */
+      public Builder setCloudId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        cloudId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 1;</code>
+       */
+      public Builder clearCloudId() {
+        
+        cloudId_ = getDefaultInstance().getCloudId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 1;</code>
+       */
+      public Builder setCloudIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        cloudId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object folderId_ = "";
+      /**
+       * <code>string folder_id = 2;</code>
+       */
+      public java.lang.String getFolderId() {
+        java.lang.Object ref = folderId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          folderId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string folder_id = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFolderIdBytes() {
+        java.lang.Object ref = folderId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          folderId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string folder_id = 2;</code>
+       */
+      public Builder setFolderId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        folderId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string folder_id = 2;</code>
+       */
+      public Builder clearFolderId() {
+        
+        folderId_ = getDefaultInstance().getFolderId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string folder_id = 2;</code>
+       */
+      public Builder setFolderIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        folderId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object databaseId_ = "";
+      /**
+       * <code>string database_id = 3;</code>
+       */
+      public java.lang.String getDatabaseId() {
+        java.lang.Object ref = databaseId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          databaseId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string database_id = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getDatabaseIdBytes() {
+        java.lang.Object ref = databaseId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          databaseId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string database_id = 3;</code>
+       */
+      public Builder setDatabaseId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        databaseId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string database_id = 3;</code>
+       */
+      public Builder clearDatabaseId() {
+        
+        databaseId_ = getDefaultInstance().getDatabaseId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string database_id = 3;</code>
+       */
+      public Builder setDatabaseIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        databaseId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private long totalSize_ ;
+      /**
+       * <pre>
+       * in bytes
+       * </pre>
+       *
+       * <code>uint64 total_size = 4;</code>
+       */
+      public long getTotalSize() {
+        return totalSize_;
+      }
+      /**
+       * <pre>
+       * in bytes
+       * </pre>
+       *
+       * <code>uint64 total_size = 4;</code>
+       */
+      public Builder setTotalSize(long value) {
+        
+        totalSize_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * in bytes
+       * </pre>
+       *
+       * <code>uint64 total_size = 4;</code>
+       */
+      public Builder clearTotalSize() {
+        
+        totalSize_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long dataSize_ ;
+      /**
+       * <code>uint64 data_size = 5;</code>
+       */
+      public long getDataSize() {
+        return dataSize_;
+      }
+      /**
+       * <code>uint64 data_size = 5;</code>
+       */
+      public Builder setDataSize(long value) {
+        
+        dataSize_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 data_size = 5;</code>
+       */
+      public Builder clearDataSize() {
+        
+        dataSize_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long indexSize_ ;
+      /**
+       * <code>uint64 index_size = 6;</code>
+       */
+      public long getIndexSize() {
+        return indexSize_;
+      }
+      /**
+       * <code>uint64 index_size = 6;</code>
+       */
+      public Builder setIndexSize(long value) {
+        
+        indexSize_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 index_size = 6;</code>
+       */
+      public Builder clearIndexSize() {
+        
+        indexSize_ = 0L;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Experimental.GetDiskSpaceUsageResult)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Experimental.GetDiskSpaceUsageResult)
+    private static final tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult();
+    }
+
+    public static tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetDiskSpaceUsageResult>
+        PARSER = new com.google.protobuf.AbstractParser<GetDiskSpaceUsageResult>() {
+      public GetDiskSpaceUsageResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new GetDiskSpaceUsageResult(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetDiskSpaceUsageResult> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetDiskSpaceUsageResult> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.experimental.ExperimentalProtos.GetDiskSpaceUsageResult getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Experimental_UploadRowsRequest_descriptor;
   private static final 
@@ -5516,6 +7819,21 @@ public final class ExperimentalProtos {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Experimental_ExecuteStreamQueryResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Experimental_GetDiskSpaceUsageRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Experimental_GetDiskSpaceUsageRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Experimental_GetDiskSpaceUsageResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Experimental_GetDiskSpaceUsageResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Experimental_GetDiskSpaceUsageResult_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Experimental_GetDiskSpaceUsageResult_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -5554,8 +7872,16 @@ public final class ExperimentalProtos {
       "yResult\022$\n\nresult_set\030\001 \001(\0132\016.Ydb.Result" +
       "SetH\000\022\021\n\007profile\030\002 \001(\tH\000\0229\n\010progress\030\003 \001" +
       "(\0132%.Ydb.Experimental.StreamQueryProgres" +
-      "sH\000B\010\n\006resultB4\n\033tech.ydb.experime",
-      "ntalB\022ExperimentalProtos\370\001\001b\006proto3"
+      "sH\000B\010\n\006result\"g\n\030GetDiskSpaceUsageReques",
+      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\022\020\n\010database\030\002 \001(\t\"I" +
+      "\n\031GetDiskSpaceUsageResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\216\001\n\027Ge" +
+      "tDiskSpaceUsageResult\022\020\n\010cloud_id\030\001 \001(\t\022" +
+      "\021\n\tfolder_id\030\002 \001(\t\022\023\n\013database_id\030\003 \001(\t\022" +
+      "\022\n\ntotal_size\030\004 \001(\004\022\021\n\tdata_size\030\005 \001(\004\022\022" +
+      "\n\nindex_size\030\006 \001(\004B4\n\033tech.ydb.exp" +
+      "erimentalB\022ExperimentalProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5621,6 +7947,24 @@ public final class ExperimentalProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Experimental_ExecuteStreamQueryResult_descriptor,
         new java.lang.String[] { "ResultSet", "Profile", "Progress", "Result", });
+    internal_static_Ydb_Experimental_GetDiskSpaceUsageRequest_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_Ydb_Experimental_GetDiskSpaceUsageRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Experimental_GetDiskSpaceUsageRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "Database", });
+    internal_static_Ydb_Experimental_GetDiskSpaceUsageResponse_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_Ydb_Experimental_GetDiskSpaceUsageResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Experimental_GetDiskSpaceUsageResponse_descriptor,
+        new java.lang.String[] { "Operation", });
+    internal_static_Ydb_Experimental_GetDiskSpaceUsageResult_descriptor =
+      getDescriptor().getMessageTypes().get(9);
+    internal_static_Ydb_Experimental_GetDiskSpaceUsageResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Experimental_GetDiskSpaceUsageResult_descriptor,
+        new java.lang.String[] { "CloudId", "FolderId", "DatabaseId", "TotalSize", "DataSize", "IndexSize", });
     tech.ydb.YdbIssueMessage.getDescriptor();
     tech.ydb.OperationProtos.getDescriptor();
     tech.ydb.StatusCodesProtos.getDescriptor();

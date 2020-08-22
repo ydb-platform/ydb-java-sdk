@@ -27,30 +27,31 @@ public final class YdbPersqueueV1 {
       "ueue_v1.proto\022\020Ydb.PersQueue.V1\032>kikimr/" +
       "public/api/protos/ydb_persqueue_cluster_" +
       "discovery.proto\032/kikimr/public/api/proto" +
-      "s/ydb_persqueue_v1.proto2\302\005\n\020PersQueueSe" +
+      "s/ydb_persqueue_v1.proto2\336\005\n\020PersQueueSe" +
       "rvice\022r\n\016StreamingWrite\022-.Ydb.PersQueue." +
       "V1.StreamingWriteClientMessage\032-.Ydb.Per" +
       "sQueue.V1.StreamingWriteServerMessage(\0010" +
-      "\001\022o\n\rStreamingRead\022,.Ydb.PersQueue.V1.St" +
-      "reamingReadClientMessage\032,.Ydb.PersQueue",
-      ".V1.StreamingReadServerMessage(\0010\001\022\\\n\023Ge" +
-      "tReadSessionsInfo\022!.Ydb.PersQueue.V1.Rea" +
-      "dInfoRequest\032\".Ydb.PersQueue.V1.ReadInfo" +
-      "Response\022`\n\rDescribeTopic\022&.Ydb.PersQueu" +
-      "e.V1.DescribeTopicRequest\032\'.Ydb.PersQueu" +
-      "e.V1.DescribeTopicResponse\022T\n\tDropTopic\022" +
-      "\".Ydb.PersQueue.V1.DropTopicRequest\032#.Yd" +
-      "b.PersQueue.V1.DropTopicResponse\022Z\n\013Crea" +
-      "teTopic\022$.Ydb.PersQueue.V1.CreateTopicRe" +
-      "quest\032%.Ydb.PersQueue.V1.CreateTopicResp",
-      "onse\022W\n\nAlterTopic\022#.Ydb.PersQueue.V1.Al" +
-      "terTopicRequest\032$.Ydb.PersQueue.V1.Alter" +
-      "TopicResponse2\241\001\n\027ClusterDiscoveryServic" +
-      "e\022\205\001\n\020DiscoverClusters\0227.Ydb.PersQueue.C" +
-      "lusterDiscovery.DiscoverClustersRequest\032" +
-      "8.Ydb.PersQueue.ClusterDiscovery.Discove" +
-      "rClustersResponseB \n\033tech.ydb.pers" +
-      "queue.v1\370\001\001b\006proto3"
+      "\001\022\212\001\n\026MigrationStreamingRead\0225.Ydb.PersQ" +
+      "ueue.V1.MigrationStreamingReadClientMess",
+      "age\0325.Ydb.PersQueue.V1.MigrationStreamin" +
+      "gReadServerMessage(\0010\001\022\\\n\023GetReadSession" +
+      "sInfo\022!.Ydb.PersQueue.V1.ReadInfoRequest" +
+      "\032\".Ydb.PersQueue.V1.ReadInfoResponse\022`\n\r" +
+      "DescribeTopic\022&.Ydb.PersQueue.V1.Describ" +
+      "eTopicRequest\032\'.Ydb.PersQueue.V1.Describ" +
+      "eTopicResponse\022T\n\tDropTopic\022\".Ydb.PersQu" +
+      "eue.V1.DropTopicRequest\032#.Ydb.PersQueue." +
+      "V1.DropTopicResponse\022Z\n\013CreateTopic\022$.Yd" +
+      "b.PersQueue.V1.CreateTopicRequest\032%.Ydb.",
+      "PersQueue.V1.CreateTopicResponse\022W\n\nAlte" +
+      "rTopic\022#.Ydb.PersQueue.V1.AlterTopicRequ" +
+      "est\032$.Ydb.PersQueue.V1.AlterTopicRespons" +
+      "e2\241\001\n\027ClusterDiscoveryService\022\205\001\n\020Discov" +
+      "erClusters\0227.Ydb.PersQueue.ClusterDiscov" +
+      "ery.DiscoverClustersRequest\0328.Ydb.PersQu" +
+      "eue.ClusterDiscovery.DiscoverClustersRes" +
+      "ponseB \n\033tech.ydb.persqueue.v1\370\001\001b" +
+      "\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

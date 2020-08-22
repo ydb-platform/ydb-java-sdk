@@ -5994,6 +5994,10 @@ public final class ValueProtos {
        * <code>JSON_DOCUMENT = 4612;</code>
        */
       JSON_DOCUMENT(4612),
+      /**
+       * <code>DYNUMBER = 4866;</code>
+       */
+      DYNUMBER(4866),
       UNRECOGNIZED(-1),
       ;
 
@@ -6097,6 +6101,10 @@ public final class ValueProtos {
        * <code>JSON_DOCUMENT = 4612;</code>
        */
       public static final int JSON_DOCUMENT_VALUE = 4612;
+      /**
+       * <code>DYNUMBER = 4866;</code>
+       */
+      public static final int DYNUMBER_VALUE = 4866;
 
 
       public final int getNumber() {
@@ -6142,6 +6150,7 @@ public final class ValueProtos {
           case 4610: return JSON;
           case 4611: return UUID;
           case 4612: return JSON_DOCUMENT;
+          case 4866: return DYNUMBER;
           default: return null;
         }
       }
@@ -14959,7 +14968,7 @@ public final class ValueProtos {
       "ember\022\014\n\004name\030\001 \001(\t\022\027\n\004type\030\002 \001(\0132\t.Ydb.",
       "Type\"0\n\nStructType\022\"\n\007members\030\001 \003(\0132\021.Yd" +
       "b.StructMember\">\n\010DictType\022\026\n\003key\030\001 \001(\0132" +
-      "\t.Ydb.Type\022\032\n\007payload\030\002 \001(\0132\t.Ydb.Type\"\350" +
+      "\t.Ydb.Type\022\032\n\007payload\030\002 \001(\0132\t.Ydb.Type\"\367" +
       "\005\n\004Type\022,\n\007type_id\030\001 \001(\0162\031.Ydb.Type.Prim" +
       "itiveTypeIdH\000\022(\n\014decimal_type\030\002 \001(\0132\020.Yd" +
       "b.DecimalTypeH\000\022*\n\roptional_type\030e \001(\0132\021" +
@@ -14969,7 +14978,7 @@ public final class ValueProtos {
       ".StructTypeH\000\022\"\n\tdict_type\030i \001(\0132\r.Ydb.D",
       "ictTypeH\000\022(\n\014variant_type\030j \001(\0132\020.Ydb.Va" +
       "riantTypeH\000\0220\n\tvoid_type\030\311\001 \001(\0162\032.google" +
-      ".protobuf.NullValueH\000\"\341\002\n\017PrimitiveTypeI" +
+      ".protobuf.NullValueH\000\"\360\002\n\017PrimitiveTypeI" +
       "d\022!\n\035PRIMITIVE_TYPE_ID_UNSPECIFIED\020\000\022\010\n\004" +
       "BOOL\020\006\022\010\n\004INT8\020\007\022\t\n\005UINT8\020\005\022\t\n\005INT16\020\010\022\n" +
       "\n\006UINT16\020\t\022\t\n\005INT32\020\001\022\n\n\006UINT32\020\002\022\t\n\005INT" +
@@ -14978,26 +14987,26 @@ public final class ValueProtos {
       "\n\010INTERVAL\0203\022\013\n\007TZ_DATE\0204\022\017\n\013TZ_DATETIME" +
       "\0205\022\020\n\014TZ_TIMESTAMP\0206\022\013\n\006STRING\020\201 \022\t\n\004UTF",
       "8\020\200$\022\t\n\004YSON\020\201$\022\t\n\004JSON\020\202$\022\t\n\004UUID\020\203$\022\022\n" +
-      "\rJSON_DOCUMENT\020\204$B\006\n\004type\"A\n\tValuePair\022\027" +
-      "\n\003key\030\001 \001(\0132\n.Ydb.Value\022\033\n\007payload\030\002 \001(\013" +
-      "2\n.Ydb.Value\"\261\003\n\005Value\022\024\n\nbool_value\030\001 \001" +
-      "(\010H\000\022\025\n\013int32_value\030\002 \001(\017H\000\022\026\n\014uint32_va" +
-      "lue\030\003 \001(\007H\000\022\025\n\013int64_value\030\004 \001(\020H\000\022\026\n\014ui" +
-      "nt64_value\030\005 \001(\006H\000\022\025\n\013float_value\030\006 \001(\002H" +
-      "\000\022\026\n\014double_value\030\007 \001(\001H\000\022\025\n\013bytes_value" +
-      "\030\010 \001(\014H\000\022\024\n\ntext_value\030\t \001(\tH\000\0225\n\017null_f" +
-      "lag_value\030\n \001(\0162\032.google.protobuf.NullVa",
-      "lueH\000\022\"\n\014nested_value\030\013 \001(\0132\n.Ydb.ValueH" +
-      "\000\022\021\n\007low_128\030\017 \001(\006H\000\022\031\n\005items\030\014 \003(\0132\n.Yd" +
-      "b.Value\022\035\n\005pairs\030\r \003(\0132\016.Ydb.ValuePair\022\025" +
-      "\n\rvariant_index\030\016 \001(\r\022\020\n\010high_128\030\020 \001(\006B" +
-      "\007\n\005value\"@\n\nTypedValue\022\027\n\004type\030\001 \001(\0132\t.Y" +
-      "db.Type\022\031\n\005value\030\002 \001(\0132\n.Ydb.Value\"/\n\006Co" +
-      "lumn\022\014\n\004name\030\001 \001(\t\022\027\n\004type\030\002 \001(\0132\t.Ydb.T" +
-      "ype\"V\n\tResultSet\022\034\n\007columns\030\001 \003(\0132\013.Ydb." +
-      "Column\022\030\n\004rows\030\002 \003(\0132\n.Ydb.Value\022\021\n\ttrun" +
-      "cated\030\003 \001(\010B \n\016tech.ydbB\013ValueProt",
-      "os\370\001\001b\006proto3"
+      "\rJSON_DOCUMENT\020\204$\022\r\n\010DYNUMBER\020\202&B\006\n\004type" +
+      "\"A\n\tValuePair\022\027\n\003key\030\001 \001(\0132\n.Ydb.Value\022\033" +
+      "\n\007payload\030\002 \001(\0132\n.Ydb.Value\"\261\003\n\005Value\022\024\n" +
+      "\nbool_value\030\001 \001(\010H\000\022\025\n\013int32_value\030\002 \001(\017" +
+      "H\000\022\026\n\014uint32_value\030\003 \001(\007H\000\022\025\n\013int64_valu" +
+      "e\030\004 \001(\020H\000\022\026\n\014uint64_value\030\005 \001(\006H\000\022\025\n\013flo" +
+      "at_value\030\006 \001(\002H\000\022\026\n\014double_value\030\007 \001(\001H\000" +
+      "\022\025\n\013bytes_value\030\010 \001(\014H\000\022\024\n\ntext_value\030\t " +
+      "\001(\tH\000\0225\n\017null_flag_value\030\n \001(\0162\032.google.",
+      "protobuf.NullValueH\000\022\"\n\014nested_value\030\013 \001" +
+      "(\0132\n.Ydb.ValueH\000\022\021\n\007low_128\030\017 \001(\006H\000\022\031\n\005i" +
+      "tems\030\014 \003(\0132\n.Ydb.Value\022\035\n\005pairs\030\r \003(\0132\016." +
+      "Ydb.ValuePair\022\025\n\rvariant_index\030\016 \001(\r\022\020\n\010" +
+      "high_128\030\020 \001(\006B\007\n\005value\"@\n\nTypedValue\022\027\n" +
+      "\004type\030\001 \001(\0132\t.Ydb.Type\022\031\n\005value\030\002 \001(\0132\n." +
+      "Ydb.Value\"/\n\006Column\022\014\n\004name\030\001 \001(\t\022\027\n\004typ" +
+      "e\030\002 \001(\0132\t.Ydb.Type\"V\n\tResultSet\022\034\n\007colum" +
+      "ns\030\001 \003(\0132\013.Ydb.Column\022\030\n\004rows\030\002 \003(\0132\n.Yd" +
+      "b.Value\022\021\n\ttruncated\030\003 \001(\010B \n\016com.yandex",
+      ".ydbB\013ValueProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

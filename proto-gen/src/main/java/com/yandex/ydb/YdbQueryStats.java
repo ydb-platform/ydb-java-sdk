@@ -587,6 +587,11 @@ public final class YdbQueryStats {
      * <code>.Ydb.TableStats.OperationStats deletes = 5;</code>
      */
     tech.ydb.YdbQueryStats.OperationStatsOrBuilder getDeletesOrBuilder();
+
+    /**
+     * <code>uint64 partitions_count = 6;</code>
+     */
+    long getPartitionsCount();
   }
   /**
    * <pre>
@@ -606,6 +611,7 @@ public final class YdbQueryStats {
     }
     private TableAccessStats() {
       name_ = "";
+      partitionsCount_ = 0L;
     }
 
     @java.lang.Override
@@ -679,6 +685,11 @@ public final class YdbQueryStats {
                 deletes_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 48: {
+
+              partitionsCount_ = input.readUInt64();
               break;
             }
           }
@@ -802,6 +813,15 @@ public final class YdbQueryStats {
       return getDeletes();
     }
 
+    public static final int PARTITIONS_COUNT_FIELD_NUMBER = 6;
+    private long partitionsCount_;
+    /**
+     * <code>uint64 partitions_count = 6;</code>
+     */
+    public long getPartitionsCount() {
+      return partitionsCount_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -826,6 +846,9 @@ public final class YdbQueryStats {
       if (deletes_ != null) {
         output.writeMessage(5, getDeletes());
       }
+      if (partitionsCount_ != 0L) {
+        output.writeUInt64(6, partitionsCount_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -848,6 +871,10 @@ public final class YdbQueryStats {
       if (deletes_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, getDeletes());
+      }
+      if (partitionsCount_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(6, partitionsCount_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -882,6 +909,8 @@ public final class YdbQueryStats {
         result = result && getDeletes()
             .equals(other.getDeletes());
       }
+      result = result && (getPartitionsCount()
+          == other.getPartitionsCount());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -907,6 +936,9 @@ public final class YdbQueryStats {
         hash = (37 * hash) + DELETES_FIELD_NUMBER;
         hash = (53 * hash) + getDeletes().hashCode();
       }
+      hash = (37 * hash) + PARTITIONS_COUNT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getPartitionsCount());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1060,6 +1092,8 @@ public final class YdbQueryStats {
           deletes_ = null;
           deletesBuilder_ = null;
         }
+        partitionsCount_ = 0L;
+
         return this;
       }
 
@@ -1098,6 +1132,7 @@ public final class YdbQueryStats {
         } else {
           result.deletes_ = deletesBuilder_.build();
         }
+        result.partitionsCount_ = partitionsCount_;
         onBuilt();
         return result;
       }
@@ -1151,6 +1186,9 @@ public final class YdbQueryStats {
         }
         if (other.hasDeletes()) {
           mergeDeletes(other.getDeletes());
+        }
+        if (other.getPartitionsCount() != 0L) {
+          setPartitionsCount(other.getPartitionsCount());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1598,6 +1636,32 @@ public final class YdbQueryStats {
         }
         return deletesBuilder_;
       }
+
+      private long partitionsCount_ ;
+      /**
+       * <code>uint64 partitions_count = 6;</code>
+       */
+      public long getPartitionsCount() {
+        return partitionsCount_;
+      }
+      /**
+       * <code>uint64 partitions_count = 6;</code>
+       */
+      public Builder setPartitionsCount(long value) {
+        
+        partitionsCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 partitions_count = 6;</code>
+       */
+      public Builder clearPartitionsCount() {
+        
+        partitionsCount_ = 0L;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -1684,6 +1748,11 @@ public final class YdbQueryStats {
      * <code>uint64 cpu_time_us = 3;</code>
      */
     long getCpuTimeUs();
+
+    /**
+     * <code>uint64 affected_shards = 4;</code>
+     */
+    long getAffectedShards();
   }
   /**
    * Protobuf type {@code Ydb.TableStats.QueryPhaseStats}
@@ -1701,6 +1770,7 @@ public final class YdbQueryStats {
       durationUs_ = 0L;
       tableAccess_ = java.util.Collections.emptyList();
       cpuTimeUs_ = 0L;
+      affectedShards_ = 0L;
     }
 
     @java.lang.Override
@@ -1748,6 +1818,11 @@ public final class YdbQueryStats {
             case 24: {
 
               cpuTimeUs_ = input.readUInt64();
+              break;
+            }
+            case 32: {
+
+              affectedShards_ = input.readUInt64();
               break;
             }
           }
@@ -1831,6 +1906,15 @@ public final class YdbQueryStats {
       return cpuTimeUs_;
     }
 
+    public static final int AFFECTED_SHARDS_FIELD_NUMBER = 4;
+    private long affectedShards_;
+    /**
+     * <code>uint64 affected_shards = 4;</code>
+     */
+    public long getAffectedShards() {
+      return affectedShards_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1852,6 +1936,9 @@ public final class YdbQueryStats {
       if (cpuTimeUs_ != 0L) {
         output.writeUInt64(3, cpuTimeUs_);
       }
+      if (affectedShards_ != 0L) {
+        output.writeUInt64(4, affectedShards_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1871,6 +1958,10 @@ public final class YdbQueryStats {
       if (cpuTimeUs_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(3, cpuTimeUs_);
+      }
+      if (affectedShards_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(4, affectedShards_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1894,6 +1985,8 @@ public final class YdbQueryStats {
           .equals(other.getTableAccessList());
       result = result && (getCpuTimeUs()
           == other.getCpuTimeUs());
+      result = result && (getAffectedShards()
+          == other.getAffectedShards());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1915,6 +2008,9 @@ public final class YdbQueryStats {
       hash = (37 * hash) + CPU_TIME_US_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getCpuTimeUs());
+      hash = (37 * hash) + AFFECTED_SHARDS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getAffectedShards());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2055,6 +2151,8 @@ public final class YdbQueryStats {
         }
         cpuTimeUs_ = 0L;
 
+        affectedShards_ = 0L;
+
         return this;
       }
 
@@ -2090,6 +2188,7 @@ public final class YdbQueryStats {
           result.tableAccess_ = tableAccessBuilder_.build();
         }
         result.cpuTimeUs_ = cpuTimeUs_;
+        result.affectedShards_ = affectedShards_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2163,6 +2262,9 @@ public final class YdbQueryStats {
         }
         if (other.getCpuTimeUs() != 0L) {
           setCpuTimeUs(other.getCpuTimeUs());
+        }
+        if (other.getAffectedShards() != 0L) {
+          setAffectedShards(other.getAffectedShards());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2480,6 +2582,32 @@ public final class YdbQueryStats {
       public Builder clearCpuTimeUs() {
         
         cpuTimeUs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long affectedShards_ ;
+      /**
+       * <code>uint64 affected_shards = 4;</code>
+       */
+      public long getAffectedShards() {
+        return affectedShards_;
+      }
+      /**
+       * <code>uint64 affected_shards = 4;</code>
+       */
+      public Builder setAffectedShards(long value) {
+        
+        affectedShards_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 affected_shards = 4;</code>
+       */
+      public Builder clearAffectedShards() {
+        
+        affectedShards_ = 0L;
         onChanged();
         return this;
       }
@@ -4272,21 +4400,23 @@ public final class YdbQueryStats {
     java.lang.String[] descriptorData = {
       "\n.kikimr/public/api/protos/ydb_query_sta" +
       "ts.proto\022\016Ydb.TableStats\"-\n\016OperationSta" +
-      "ts\022\014\n\004rows\030\001 \001(\004\022\r\n\005bytes\030\002 \001(\004\"\267\001\n\020Tabl" +
+      "ts\022\014\n\004rows\030\001 \001(\004\022\r\n\005bytes\030\002 \001(\004\"\321\001\n\020Tabl" +
       "eAccessStats\022\014\n\004name\030\001 \001(\t\022-\n\005reads\030\003 \001(" +
       "\0132\036.Ydb.TableStats.OperationStats\022/\n\007upd" +
       "ates\030\004 \001(\0132\036.Ydb.TableStats.OperationSta" +
       "ts\022/\n\007deletes\030\005 \001(\0132\036.Ydb.TableStats.Ope" +
-      "rationStatsJ\004\010\002\020\003\"s\n\017QueryPhaseStats\022\023\n\013" +
-      "duration_us\030\001 \001(\004\0226\n\014table_access\030\002 \003(\0132" +
-      " .Ydb.TableStats.TableAccessStats\022\023\n\013cpu",
-      "_time_us\030\003 \001(\004\"P\n\020CompilationStats\022\022\n\nfr" +
-      "om_cache\030\001 \001(\010\022\023\n\013duration_us\030\002 \001(\004\022\023\n\013c" +
-      "pu_time_us\030\003 \001(\004\"\227\001\n\nQueryStats\0225\n\014query" +
-      "_phases\030\001 \003(\0132\037.Ydb.TableStats.QueryPhas" +
-      "eStats\0225\n\013compilation\030\002 \001(\0132 .Ydb.TableS" +
-      "tats.CompilationStats\022\033\n\023process_cpu_tim" +
-      "e_us\030\003 \001(\004B\023\n\016tech.ydb\370\001\001b\006proto3"
+      "rationStats\022\030\n\020partitions_count\030\006 \001(\004J\004\010" +
+      "\002\020\003\"\214\001\n\017QueryPhaseStats\022\023\n\013duration_us\030\001" +
+      " \001(\004\0226\n\014table_access\030\002 \003(\0132 .Ydb.TableSt",
+      "ats.TableAccessStats\022\023\n\013cpu_time_us\030\003 \001(" +
+      "\004\022\027\n\017affected_shards\030\004 \001(\004\"P\n\020Compilatio" +
+      "nStats\022\022\n\nfrom_cache\030\001 \001(\010\022\023\n\013duration_u" +
+      "s\030\002 \001(\004\022\023\n\013cpu_time_us\030\003 \001(\004\"\227\001\n\nQuerySt" +
+      "ats\0225\n\014query_phases\030\001 \003(\0132\037.Ydb.TableSta" +
+      "ts.QueryPhaseStats\0225\n\013compilation\030\002 \001(\0132" +
+      " .Ydb.TableStats.CompilationStats\022\033\n\023pro" +
+      "cess_cpu_time_us\030\003 \001(\004B\023\n\016tech.ydb" +
+      "\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4311,13 +4441,13 @@ public final class YdbQueryStats {
     internal_static_Ydb_TableStats_TableAccessStats_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_TableStats_TableAccessStats_descriptor,
-        new java.lang.String[] { "Name", "Reads", "Updates", "Deletes", });
+        new java.lang.String[] { "Name", "Reads", "Updates", "Deletes", "PartitionsCount", });
     internal_static_Ydb_TableStats_QueryPhaseStats_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_Ydb_TableStats_QueryPhaseStats_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_TableStats_QueryPhaseStats_descriptor,
-        new java.lang.String[] { "DurationUs", "TableAccess", "CpuTimeUs", });
+        new java.lang.String[] { "DurationUs", "TableAccess", "CpuTimeUs", "AffectedShards", });
     internal_static_Ydb_TableStats_CompilationStats_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_Ydb_TableStats_CompilationStats_fieldAccessorTable = new

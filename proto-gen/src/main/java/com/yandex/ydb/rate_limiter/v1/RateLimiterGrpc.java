@@ -26,7 +26,7 @@ public final class RateLimiterGrpc {
       "\n0kikimr/public/api/grpc/ydb_rate_limite" +
       "r_v1.proto\022\022Ydb.RateLimiter.V1\032/kikimr/p" +
       "ublic/api/protos/ydb_rate_limiter.proto2" +
-      "\375\003\n\022RateLimiterService\022a\n\016CreateResource" +
+      "\343\004\n\022RateLimiterService\022a\n\016CreateResource" +
       "\022&.Ydb.RateLimiter.CreateResourceRequest" +
       "\032\'.Ydb.RateLimiter.CreateResourceRespons" +
       "e\022^\n\rAlterResource\022%.Ydb.RateLimiter.Alt" +
@@ -38,9 +38,11 @@ public final class RateLimiterGrpc {
       "equest\032&.Ydb.RateLimiter.ListResourcesRe" +
       "sponse\022g\n\020DescribeResource\022(.Ydb.RateLim" +
       "iter.DescribeResourceRequest\032).Ydb.RateL" +
-      "imiter.DescribeResourceResponseB3\n\036com.y" +
-      "andex.ydb.rate_limiter.v1B\017RateLimiterGr" +
-      "pcP\001b\006proto3"
+      "imiter.DescribeResourceResponse\022d\n\017Acqui" +
+      "reResource\022\'.Ydb.RateLimiter.AcquireReso" +
+      "urceRequest\032(.Ydb.RateLimiter.AcquireRes" +
+      "ourceResponseB3\n\036tech.ydb.rate_lim" +
+      "iter.v1B\017RateLimiterGrpcP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

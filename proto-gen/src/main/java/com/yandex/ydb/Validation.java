@@ -11,6 +11,7 @@ public final class Validation {
     registry.add(tech.ydb.Validation.size);
     registry.add(tech.ydb.Validation.length);
     registry.add(tech.ydb.Validation.mapKey);
+    registry.add(tech.ydb.Validation.value);
   }
 
   public static void registerAllExtensions(
@@ -1602,6 +1603,16 @@ public final class Validation {
      * <code>.Ydb.Limit length = 1;</code>
      */
     tech.ydb.Validation.LimitOrBuilder getLengthOrBuilder();
+
+    /**
+     * <code>string value = 2;</code>
+     */
+    java.lang.String getValue();
+    /**
+     * <code>string value = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getValueBytes();
   }
   /**
    * Protobuf type {@code Ydb.MapKey}
@@ -1616,6 +1627,7 @@ public final class Validation {
       super(builder);
     }
     private MapKey() {
+      value_ = "";
     }
 
     @java.lang.Override
@@ -1657,6 +1669,12 @@ public final class Validation {
                 length_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              value_ = s;
               break;
             }
           }
@@ -1704,6 +1722,40 @@ public final class Validation {
       return getLength();
     }
 
+    public static final int VALUE_FIELD_NUMBER = 2;
+    private volatile java.lang.Object value_;
+    /**
+     * <code>string value = 2;</code>
+     */
+    public java.lang.String getValue() {
+      java.lang.Object ref = value_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        value_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string value = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getValueBytes() {
+      java.lang.Object ref = value_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        value_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1719,6 +1771,9 @@ public final class Validation {
       if (length_ != null) {
         output.writeMessage(1, getLength());
       }
+      if (!getValueBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, value_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1730,6 +1785,9 @@ public final class Validation {
       if (length_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getLength());
+      }
+      if (!getValueBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, value_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1752,6 +1810,8 @@ public final class Validation {
         result = result && getLength()
             .equals(other.getLength());
       }
+      result = result && getValue()
+          .equals(other.getValue());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1767,6 +1827,8 @@ public final class Validation {
         hash = (37 * hash) + LENGTH_FIELD_NUMBER;
         hash = (53 * hash) + getLength().hashCode();
       }
+      hash = (37 * hash) + VALUE_FIELD_NUMBER;
+      hash = (53 * hash) + getValue().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1902,6 +1964,8 @@ public final class Validation {
           length_ = null;
           lengthBuilder_ = null;
         }
+        value_ = "";
+
         return this;
       }
 
@@ -1929,6 +1993,7 @@ public final class Validation {
         } else {
           result.length_ = lengthBuilder_.build();
         }
+        result.value_ = value_;
         onBuilt();
         return result;
       }
@@ -1972,6 +2037,10 @@ public final class Validation {
         if (other == tech.ydb.Validation.MapKey.getDefaultInstance()) return this;
         if (other.hasLength()) {
           mergeLength(other.getLength());
+        }
+        if (!other.getValue().isEmpty()) {
+          value_ = other.value_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2116,6 +2185,75 @@ public final class Validation {
         }
         return lengthBuilder_;
       }
+
+      private java.lang.Object value_ = "";
+      /**
+       * <code>string value = 2;</code>
+       */
+      public java.lang.String getValue() {
+        java.lang.Object ref = value_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          value_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string value = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getValueBytes() {
+        java.lang.Object ref = value_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          value_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string value = 2;</code>
+       */
+      public Builder setValue(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        value_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string value = 2;</code>
+       */
+      public Builder clearValue() {
+        
+        value_ = getDefaultInstance().getValue();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string value = 2;</code>
+       */
+      public Builder setValueBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        value_ = value;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -2209,6 +2347,17 @@ public final class Validation {
           .newFileScopedGeneratedExtension(
         tech.ydb.Validation.MapKey.class,
         tech.ydb.Validation.MapKey.getDefaultInstance());
+  public static final int VALUE_FIELD_NUMBER = 87654;
+  /**
+   * <code>extend .google.protobuf.FieldOptions { ... }</code>
+   */
+  public static final
+    com.google.protobuf.GeneratedMessage.GeneratedExtension<
+      com.google.protobuf.DescriptorProtos.FieldOptions,
+      java.lang.String> value = com.google.protobuf.GeneratedMessage
+          .newFileScopedGeneratedExtension(
+        java.lang.String.class,
+        null);
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Limit_descriptor;
   private static final 
@@ -2239,14 +2388,16 @@ public final class Validation {
       ".Ydb.Limit.RangeH\000\022\014\n\002lt\030\002 \001(\rH\000\022\014\n\002le\030\003" +
       " \001(\rH\000\022\014\n\002eq\030\004 \001(\rH\000\022\014\n\002ge\030\005 \001(\rH\000\022\014\n\002gt" +
       "\030\006 \001(\rH\000\032!\n\005Range\022\013\n\003min\030\001 \001(\r\022\013\n\003max\030\002 " +
-      "\001(\rB\006\n\004kind\"$\n\006MapKey\022\032\n\006length\030\001 \001(\0132\n." +
-      "Ydb.Limit:1\n\010required\022\035.google.protobuf." +
-      "FieldOptions\030\342\254\005 \001(\010:9\n\004size\022\035.google.pr" +
-      "otobuf.FieldOptions\030\343\254\005 \001(\0132\n.Ydb.Limit:",
-      ";\n\006length\022\035.google.protobuf.FieldOptions" +
-      "\030\344\254\005 \001(\0132\n.Ydb.Limit:=\n\007map_key\022\035.google" +
-      ".protobuf.FieldOptions\030\345\254\005 \001(\0132\013.Ydb.Map" +
-      "KeyB\023\n\016tech.ydb\370\001\001b\006proto3"
+      "\001(\rB\006\n\004kind\"3\n\006MapKey\022\032\n\006length\030\001 \001(\0132\n." +
+      "Ydb.Limit\022\r\n\005value\030\002 \001(\t:1\n\010required\022\035.g" +
+      "oogle.protobuf.FieldOptions\030\342\254\005 \001(\010:9\n\004s" +
+      "ize\022\035.google.protobuf.FieldOptions\030\343\254\005 \001",
+      "(\0132\n.Ydb.Limit:;\n\006length\022\035.google.protob" +
+      "uf.FieldOptions\030\344\254\005 \001(\0132\n.Ydb.Limit:=\n\007m" +
+      "ap_key\022\035.google.protobuf.FieldOptions\030\345\254" +
+      "\005 \001(\0132\013.Ydb.MapKey:.\n\005value\022\035.google.pro" +
+      "tobuf.FieldOptions\030\346\254\005 \001(\tB\023\n\016com.yandex" +
+      ".ydb\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2278,11 +2429,12 @@ public final class Validation {
     internal_static_Ydb_MapKey_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_MapKey_descriptor,
-        new java.lang.String[] { "Length", });
+        new java.lang.String[] { "Length", "Value", });
     required.internalInit(descriptor.getExtensions().get(0));
     size.internalInit(descriptor.getExtensions().get(1));
     length.internalInit(descriptor.getExtensions().get(2));
     mapKey.internalInit(descriptor.getExtensions().get(3));
+    value.internalInit(descriptor.getExtensions().get(4));
     com.google.protobuf.DescriptorProtos.getDescriptor();
   }
 

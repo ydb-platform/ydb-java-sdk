@@ -185,6 +185,37 @@ public final class RateLimiterServiceGrpc {
     return getDescribeResourceMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.rate_limiter.AcquireResourceRequest,
+      tech.ydb.rate_limiter.AcquireResourceResponse> getAcquireResourceMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "AcquireResource",
+      requestType = tech.ydb.rate_limiter.AcquireResourceRequest.class,
+      responseType = tech.ydb.rate_limiter.AcquireResourceResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.rate_limiter.AcquireResourceRequest,
+      tech.ydb.rate_limiter.AcquireResourceResponse> getAcquireResourceMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.rate_limiter.AcquireResourceRequest, tech.ydb.rate_limiter.AcquireResourceResponse> getAcquireResourceMethod;
+    if ((getAcquireResourceMethod = RateLimiterServiceGrpc.getAcquireResourceMethod) == null) {
+      synchronized (RateLimiterServiceGrpc.class) {
+        if ((getAcquireResourceMethod = RateLimiterServiceGrpc.getAcquireResourceMethod) == null) {
+          RateLimiterServiceGrpc.getAcquireResourceMethod = getAcquireResourceMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.rate_limiter.AcquireResourceRequest, tech.ydb.rate_limiter.AcquireResourceResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "AcquireResource"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.rate_limiter.AcquireResourceRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.rate_limiter.AcquireResourceResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new RateLimiterServiceMethodDescriptorSupplier("AcquireResource"))
+              .build();
+        }
+      }
+    }
+    return getAcquireResourceMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -286,6 +317,16 @@ public final class RateLimiterServiceGrpc {
       asyncUnimplementedUnaryCall(getDescribeResourceMethod(), responseObserver);
     }
 
+    /**
+     * <pre>
+     * Take units for usage of a resource in coordination node.
+     * </pre>
+     */
+    public void acquireResource(tech.ydb.rate_limiter.AcquireResourceRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.rate_limiter.AcquireResourceResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getAcquireResourceMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -323,6 +364,13 @@ public final class RateLimiterServiceGrpc {
                 tech.ydb.rate_limiter.DescribeResourceRequest,
                 tech.ydb.rate_limiter.DescribeResourceResponse>(
                   this, METHODID_DESCRIBE_RESOURCE)))
+          .addMethod(
+            getAcquireResourceMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.rate_limiter.AcquireResourceRequest,
+                tech.ydb.rate_limiter.AcquireResourceResponse>(
+                  this, METHODID_ACQUIRE_RESOURCE)))
           .build();
     }
   }
@@ -398,6 +446,17 @@ public final class RateLimiterServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getDescribeResourceMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     * Take units for usage of a resource in coordination node.
+     * </pre>
+     */
+    public void acquireResource(tech.ydb.rate_limiter.AcquireResourceRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.rate_limiter.AcquireResourceResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getAcquireResourceMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -465,6 +524,16 @@ public final class RateLimiterServiceGrpc {
     public tech.ydb.rate_limiter.DescribeResourceResponse describeResource(tech.ydb.rate_limiter.DescribeResourceRequest request) {
       return blockingUnaryCall(
           getChannel(), getDescribeResourceMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Take units for usage of a resource in coordination node.
+     * </pre>
+     */
+    public tech.ydb.rate_limiter.AcquireResourceResponse acquireResource(tech.ydb.rate_limiter.AcquireResourceRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getAcquireResourceMethod(), getCallOptions(), request);
     }
   }
 
@@ -539,6 +608,17 @@ public final class RateLimiterServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getDescribeResourceMethod(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     * Take units for usage of a resource in coordination node.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.rate_limiter.AcquireResourceResponse> acquireResource(
+        tech.ydb.rate_limiter.AcquireResourceRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getAcquireResourceMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_CREATE_RESOURCE = 0;
@@ -546,6 +626,7 @@ public final class RateLimiterServiceGrpc {
   private static final int METHODID_DROP_RESOURCE = 2;
   private static final int METHODID_LIST_RESOURCES = 3;
   private static final int METHODID_DESCRIBE_RESOURCE = 4;
+  private static final int METHODID_ACQUIRE_RESOURCE = 5;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -583,6 +664,10 @@ public final class RateLimiterServiceGrpc {
         case METHODID_DESCRIBE_RESOURCE:
           serviceImpl.describeResource((tech.ydb.rate_limiter.DescribeResourceRequest) request,
               (io.grpc.stub.StreamObserver<tech.ydb.rate_limiter.DescribeResourceResponse>) responseObserver);
+          break;
+        case METHODID_ACQUIRE_RESOURCE:
+          serviceImpl.acquireResource((tech.ydb.rate_limiter.AcquireResourceRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.rate_limiter.AcquireResourceResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -650,6 +735,7 @@ public final class RateLimiterServiceGrpc {
               .addMethod(getDropResourceMethod())
               .addMethod(getListResourcesMethod())
               .addMethod(getDescribeResourceMethod())
+              .addMethod(getAcquireResourceMethod())
               .build();
         }
       }

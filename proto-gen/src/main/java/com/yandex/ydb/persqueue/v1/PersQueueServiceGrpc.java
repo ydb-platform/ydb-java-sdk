@@ -58,35 +58,35 @@ public final class PersQueueServiceGrpc {
     return getStreamingWriteMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage,
-      tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage> getStreamingReadMethod;
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage,
+      tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadServerMessage> getMigrationStreamingReadMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "StreamingRead",
-      requestType = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage.class,
-      responseType = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage.class,
+      fullMethodName = SERVICE_NAME + '/' + "MigrationStreamingRead",
+      requestType = tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.class,
+      responseType = tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadServerMessage.class,
       methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
-  public static io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage,
-      tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage> getStreamingReadMethod() {
-    io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage> getStreamingReadMethod;
-    if ((getStreamingReadMethod = PersQueueServiceGrpc.getStreamingReadMethod) == null) {
+  public static io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage,
+      tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadServerMessage> getMigrationStreamingReadMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadServerMessage> getMigrationStreamingReadMethod;
+    if ((getMigrationStreamingReadMethod = PersQueueServiceGrpc.getMigrationStreamingReadMethod) == null) {
       synchronized (PersQueueServiceGrpc.class) {
-        if ((getStreamingReadMethod = PersQueueServiceGrpc.getStreamingReadMethod) == null) {
-          PersQueueServiceGrpc.getStreamingReadMethod = getStreamingReadMethod =
-              io.grpc.MethodDescriptor.<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage>newBuilder()
+        if ((getMigrationStreamingReadMethod = PersQueueServiceGrpc.getMigrationStreamingReadMethod) == null) {
+          PersQueueServiceGrpc.getMigrationStreamingReadMethod = getMigrationStreamingReadMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadServerMessage>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "StreamingRead"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "MigrationStreamingRead"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage.getDefaultInstance()))
+                  tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage.getDefaultInstance()))
-              .setSchemaDescriptor(new PersQueueServiceMethodDescriptorSupplier("StreamingRead"))
+                  tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadServerMessage.getDefaultInstance()))
+              .setSchemaDescriptor(new PersQueueServiceMethodDescriptorSupplier("MigrationStreamingRead"))
               .build();
         }
       }
     }
-    return getStreamingReadMethod;
+    return getMigrationStreamingReadMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.ReadInfoRequest,
@@ -335,9 +335,9 @@ public final class PersQueueServiceGrpc {
      *        &lt;----------------
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage> streamingRead(
-        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage> responseObserver) {
-      return asyncUnimplementedStreamingCall(getStreamingReadMethod(), responseObserver);
+    public io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage> migrationStreamingRead(
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadServerMessage> responseObserver) {
+      return asyncUnimplementedStreamingCall(getMigrationStreamingReadMethod(), responseObserver);
     }
 
     /**
@@ -400,12 +400,12 @@ public final class PersQueueServiceGrpc {
                 tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage>(
                   this, METHODID_STREAMING_WRITE)))
           .addMethod(
-            getStreamingReadMethod(),
+            getMigrationStreamingReadMethod(),
             asyncBidiStreamingCall(
               new MethodHandlers<
-                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage,
-                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage>(
-                  this, METHODID_STREAMING_READ)))
+                tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage,
+                tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadServerMessage>(
+                  this, METHODID_MIGRATION_STREAMING_READ)))
           .addMethod(
             getGetReadSessionsInfoMethod(),
             asyncUnaryCall(
@@ -503,10 +503,10 @@ public final class PersQueueServiceGrpc {
      *        &lt;----------------
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessage> streamingRead(
-        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage> responseObserver) {
+    public io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage> migrationStreamingRead(
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadServerMessage> responseObserver) {
       return asyncBidiStreamingCall(
-          getChannel().newCall(getStreamingReadMethod(), getCallOptions()), responseObserver);
+          getChannel().newCall(getMigrationStreamingReadMethod(), getCallOptions()), responseObserver);
     }
 
     /**
@@ -706,7 +706,7 @@ public final class PersQueueServiceGrpc {
   private static final int METHODID_CREATE_TOPIC = 3;
   private static final int METHODID_ALTER_TOPIC = 4;
   private static final int METHODID_STREAMING_WRITE = 5;
-  private static final int METHODID_STREAMING_READ = 6;
+  private static final int METHODID_MIGRATION_STREAMING_READ = 6;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -758,9 +758,9 @@ public final class PersQueueServiceGrpc {
         case METHODID_STREAMING_WRITE:
           return (io.grpc.stub.StreamObserver<Req>) serviceImpl.streamingWrite(
               (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingWriteServerMessage>) responseObserver);
-        case METHODID_STREAMING_READ:
-          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.streamingRead(
-              (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessage>) responseObserver);
+        case METHODID_MIGRATION_STREAMING_READ:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.migrationStreamingRead(
+              (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadServerMessage>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -813,7 +813,7 @@ public final class PersQueueServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new PersQueueServiceFileDescriptorSupplier())
               .addMethod(getStreamingWriteMethod())
-              .addMethod(getStreamingReadMethod())
+              .addMethod(getMigrationStreamingReadMethod())
               .addMethod(getGetReadSessionsInfoMethod())
               .addMethod(getDescribeTopicMethod())
               .addMethod(getDropTopicMethod())
