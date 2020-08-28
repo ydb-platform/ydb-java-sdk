@@ -269,6 +269,7 @@ final class YdbNameResolver extends NameResolver {
                 GrpcTransport.Builder transportBuilder = GrpcTransport.forHost(host, port)
                         .withAuthProvider(authProvider)
                         .withCallExecutor(executor)
+                        .withDataBase(database)
                         .withChannelInitializer(channelCustomizer);
                 if (cert != null) {
                     transportBuilder.withSecureConnection(cert);

@@ -80,7 +80,7 @@ public class GrpcTransport implements RpcTransport {
         this.channel = interceptChannel(realChannel, builder);
         this.callOptions = createCallOptions(builder);
         this.defautlReadTimeoutMillis = builder.getReadTimeoutMillis();
-        this.database = Strings.nullToEmpty(builder.database);
+        this.database = Strings.nullToEmpty(builder.getDatabase());
         this.operationTray = new GrpcOperationTray(this);
     }
 
@@ -354,7 +354,7 @@ public class GrpcTransport implements RpcTransport {
     @ParametersAreNonnullByDefault
     public static final class Builder extends RpcTransportBuilder<GrpcTransport, Builder> {
         private final String endpoint;
-        private final String database;
+        private String database;
         private final List<HostAndPort> hosts;
         private byte[] cert = null;
         private Consumer<NettyChannelBuilder> channelInitializer = (cb) -> {};
@@ -384,6 +384,11 @@ public class GrpcTransport implements RpcTransport {
         @Nullable
         public String getDatabase() {
             return database;
+        }
+
+        public Builder withDataBase(String dataBase) {
+            this.database = dataBase;
+            return this;
         }
 
         public String getVersionString() {
