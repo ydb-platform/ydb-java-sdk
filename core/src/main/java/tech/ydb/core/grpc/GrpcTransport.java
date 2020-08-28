@@ -234,7 +234,7 @@ public class GrpcTransport implements RpcTransport {
         String endpoint = builder.getEndpoint();
         String database = builder.getDatabase();
         List<HostAndPort> hosts = builder.getHosts();
-        assert (endpoint != null) == (database != null);
+        assert (endpoint == null) || ((endpoint != null) && (database != null));
         assert (endpoint == null) != (hosts == null);
 
         final String localDc = builder.getLocalDc();
