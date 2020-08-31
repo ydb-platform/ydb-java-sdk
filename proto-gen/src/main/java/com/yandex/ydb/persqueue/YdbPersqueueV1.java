@@ -84475,7 +84475,7 @@ public final class YdbPersqueueV1 {
      * Max storage usage for each topic's partition. Must be less than database limit. Default limit - 130 GB.
      * </pre>
      *
-     * <code>int64 max_partition_storage_size = 5 [(.Ydb.value) = "&gt; 0"];</code>
+     * <code>int64 max_partition_storage_size = 5 [(.Ydb.value) = "&gt;= 0"];</code>
      */
     long getMaxPartitionStorageSize();
 
@@ -84484,7 +84484,7 @@ public final class YdbPersqueueV1 {
      * Partition write speed in bytes per second. Must be less than database limit. Default limit - 1 MB/s.
      * </pre>
      *
-     * <code>int64 max_partition_write_speed = 6 [(.Ydb.value) = "&gt; 0"];</code>
+     * <code>int64 max_partition_write_speed = 6 [(.Ydb.value) = "&gt;= 0"];</code>
      */
     long getMaxPartitionWriteSpeed();
 
@@ -84493,7 +84493,7 @@ public final class YdbPersqueueV1 {
      * Burst size for write in partition, in bytes. Must be less than database limit. Default limit - 1 MB.
      * </pre>
      *
-     * <code>int64 max_partition_write_burst = 7 [(.Ydb.value) = "&gt; 0"];</code>
+     * <code>int64 max_partition_write_burst = 7 [(.Ydb.value) = "&gt;= 0"];</code>
      */
     long getMaxPartitionWriteBurst();
 
@@ -87925,7 +87925,7 @@ public final class YdbPersqueueV1 {
      * Max storage usage for each topic's partition. Must be less than database limit. Default limit - 130 GB.
      * </pre>
      *
-     * <code>int64 max_partition_storage_size = 5 [(.Ydb.value) = "&gt; 0"];</code>
+     * <code>int64 max_partition_storage_size = 5 [(.Ydb.value) = "&gt;= 0"];</code>
      */
     public long getMaxPartitionStorageSize() {
       return maxPartitionStorageSize_;
@@ -87938,7 +87938,7 @@ public final class YdbPersqueueV1 {
      * Partition write speed in bytes per second. Must be less than database limit. Default limit - 1 MB/s.
      * </pre>
      *
-     * <code>int64 max_partition_write_speed = 6 [(.Ydb.value) = "&gt; 0"];</code>
+     * <code>int64 max_partition_write_speed = 6 [(.Ydb.value) = "&gt;= 0"];</code>
      */
     public long getMaxPartitionWriteSpeed() {
       return maxPartitionWriteSpeed_;
@@ -87951,7 +87951,7 @@ public final class YdbPersqueueV1 {
      * Burst size for write in partition, in bytes. Must be less than database limit. Default limit - 1 MB.
      * </pre>
      *
-     * <code>int64 max_partition_write_burst = 7 [(.Ydb.value) = "&gt; 0"];</code>
+     * <code>int64 max_partition_write_burst = 7 [(.Ydb.value) = "&gt;= 0"];</code>
      */
     public long getMaxPartitionWriteBurst() {
       return maxPartitionWriteBurst_;
@@ -89048,7 +89048,7 @@ public final class YdbPersqueueV1 {
        * Max storage usage for each topic's partition. Must be less than database limit. Default limit - 130 GB.
        * </pre>
        *
-       * <code>int64 max_partition_storage_size = 5 [(.Ydb.value) = "&gt; 0"];</code>
+       * <code>int64 max_partition_storage_size = 5 [(.Ydb.value) = "&gt;= 0"];</code>
        */
       public long getMaxPartitionStorageSize() {
         return maxPartitionStorageSize_;
@@ -89058,7 +89058,7 @@ public final class YdbPersqueueV1 {
        * Max storage usage for each topic's partition. Must be less than database limit. Default limit - 130 GB.
        * </pre>
        *
-       * <code>int64 max_partition_storage_size = 5 [(.Ydb.value) = "&gt; 0"];</code>
+       * <code>int64 max_partition_storage_size = 5 [(.Ydb.value) = "&gt;= 0"];</code>
        */
       public Builder setMaxPartitionStorageSize(long value) {
         
@@ -89071,7 +89071,7 @@ public final class YdbPersqueueV1 {
        * Max storage usage for each topic's partition. Must be less than database limit. Default limit - 130 GB.
        * </pre>
        *
-       * <code>int64 max_partition_storage_size = 5 [(.Ydb.value) = "&gt; 0"];</code>
+       * <code>int64 max_partition_storage_size = 5 [(.Ydb.value) = "&gt;= 0"];</code>
        */
       public Builder clearMaxPartitionStorageSize() {
         
@@ -89086,7 +89086,7 @@ public final class YdbPersqueueV1 {
        * Partition write speed in bytes per second. Must be less than database limit. Default limit - 1 MB/s.
        * </pre>
        *
-       * <code>int64 max_partition_write_speed = 6 [(.Ydb.value) = "&gt; 0"];</code>
+       * <code>int64 max_partition_write_speed = 6 [(.Ydb.value) = "&gt;= 0"];</code>
        */
       public long getMaxPartitionWriteSpeed() {
         return maxPartitionWriteSpeed_;
@@ -89096,7 +89096,7 @@ public final class YdbPersqueueV1 {
        * Partition write speed in bytes per second. Must be less than database limit. Default limit - 1 MB/s.
        * </pre>
        *
-       * <code>int64 max_partition_write_speed = 6 [(.Ydb.value) = "&gt; 0"];</code>
+       * <code>int64 max_partition_write_speed = 6 [(.Ydb.value) = "&gt;= 0"];</code>
        */
       public Builder setMaxPartitionWriteSpeed(long value) {
         
@@ -89109,7 +89109,7 @@ public final class YdbPersqueueV1 {
        * Partition write speed in bytes per second. Must be less than database limit. Default limit - 1 MB/s.
        * </pre>
        *
-       * <code>int64 max_partition_write_speed = 6 [(.Ydb.value) = "&gt; 0"];</code>
+       * <code>int64 max_partition_write_speed = 6 [(.Ydb.value) = "&gt;= 0"];</code>
        */
       public Builder clearMaxPartitionWriteSpeed() {
         
@@ -89124,7 +89124,7 @@ public final class YdbPersqueueV1 {
        * Burst size for write in partition, in bytes. Must be less than database limit. Default limit - 1 MB.
        * </pre>
        *
-       * <code>int64 max_partition_write_burst = 7 [(.Ydb.value) = "&gt; 0"];</code>
+       * <code>int64 max_partition_write_burst = 7 [(.Ydb.value) = "&gt;= 0"];</code>
        */
       public long getMaxPartitionWriteBurst() {
         return maxPartitionWriteBurst_;
@@ -89134,7 +89134,7 @@ public final class YdbPersqueueV1 {
        * Burst size for write in partition, in bytes. Must be less than database limit. Default limit - 1 MB.
        * </pre>
        *
-       * <code>int64 max_partition_write_burst = 7 [(.Ydb.value) = "&gt; 0"];</code>
+       * <code>int64 max_partition_write_burst = 7 [(.Ydb.value) = "&gt;= 0"];</code>
        */
       public Builder setMaxPartitionWriteBurst(long value) {
         
@@ -89147,7 +89147,7 @@ public final class YdbPersqueueV1 {
        * Burst size for write in partition, in bytes. Must be less than database limit. Default limit - 1 MB.
        * </pre>
        *
-       * <code>int64 max_partition_write_burst = 7 [(.Ydb.value) = "&gt; 0"];</code>
+       * <code>int64 max_partition_write_burst = 7 [(.Ydb.value) = "&gt;= 0"];</code>
        */
       public Builder clearMaxPartitionWriteBurst() {
         
@@ -97041,60 +97041,60 @@ public final class YdbPersqueueV1 {
       "th_token\030\001 \001(\tH\000\022\024\n\njwt_params\030\002 \001(\tH\000\0220" +
       "\n\003iam\030\003 \001(\0132!.Ydb.PersQueue.V1.Credentia" +
       "ls.IamH\000\0324\n\003Iam\022\020\n\010endpoint\030\001 \001(\t\022\033\n\023ser" +
-      "vice_account_key\030\002 \001(\tB\r\n\013credentials\"\203\n" +
+      "vice_account_key\030\002 \001(\tB\r\n\013credentials\"\206\n" +
       "\n\rTopicSettings\022!\n\020partitions_count\030\001 \001(" +
       "\005B\007\262\346*\003> 0\022$\n\023retention_period_ms\030\002 \001(\003B",
       "\007\262\346*\003> 0\022@\n\020supported_format\030\003 \001(\0162&.Ydb" +
       ".PersQueue.V1.TopicSettings.Format\022G\n\020su" +
       "pported_codecs\030\004 \003(\0162%.Ydb.PersQueue.V1." +
-      "TopicSettings.CodecB\006\232\346*\002\030d\022+\n\032max_parti" +
-      "tion_storage_size\030\005 \001(\003B\007\262\346*\003> 0\022*\n\031max_" +
-      "partition_write_speed\030\006 \001(\003B\007\262\346*\003> 0\022*\n\031" +
-      "max_partition_write_burst\030\007 \001(\003B\007\262\346*\003> 0" +
-      "\022\035\n\025client_write_disabled\030\010 \001(\010\022E\n\nread_" +
-      "rules\030\t \003(\0132(.Ydb.PersQueue.V1.TopicSett" +
-      "ings.ReadRuleB\007\232\346*\003\030\270\027\022C\n\nattributes\030\n \003",
-      "(\0132/.Ydb.PersQueue.V1.TopicSettings.Attr" +
-      "ibutesEntry\022L\n\022remote_mirror_rule\030\013 \001(\0132" +
-      "0.Ydb.PersQueue.V1.TopicSettings.RemoteM" +
-      "irrorRule\032\221\002\n\010ReadRule\022\033\n\rconsumer_name\030" +
-      "\001 \001(\tB\004\220\346*\001\022\021\n\timportant\030\002 \001(\010\022/\n\035starti" +
-      "ng_message_timestamp_ms\030\003 \001(\003B\010\262\346*\004>= 0\022" +
-      "@\n\020supported_format\030\004 \001(\0162&.Ydb.PersQueu" +
-      "e.V1.TopicSettings.Format\022G\n\020supported_c" +
-      "odecs\030\005 \003(\0162%.Ydb.PersQueue.V1.TopicSett" +
-      "ings.CodecB\006\232\346*\002\030d\022\031\n\007version\030\006 \001(\003B\010\262\346*",
-      "\004>= 0\0321\n\017AttributesEntry\022\013\n\003key\030\001 \001(\t\022\r\n" +
-      "\005value\030\002 \001(\t:\0028\001\032\306\001\n\020RemoteMirrorRule\022\020\n" +
-      "\010endpoint\030\001 \001(\t\022\022\n\ntopic_path\030\002 \001(\t\022\025\n\rc" +
-      "onsumer_name\030\003 \001(\t\0222\n\013credentials\030\004 \001(\0132" +
-      "\035.Ydb.PersQueue.V1.Credentials\022/\n\035starti" +
-      "ng_message_timestamp_ms\030\005 \001(\003B\010\262\346*\004>= 0\022" +
-      "\020\n\010database\030\006 \001(\t\"1\n\006Format\022\026\n\022FORMAT_UN" +
-      "SPECIFIED\020\000\022\017\n\013FORMAT_BASE\020\001\"]\n\005Codec\022\025\n" +
-      "\021CODEC_UNSPECIFIED\020\000\022\r\n\tCODEC_RAW\020\001\022\016\n\nC" +
-      "ODEC_GZIP\020\002\022\016\n\nCODEC_LZOP\020\003\022\016\n\nCODEC_ZST",
-      "D\020\004\"\226\001\n\022CreateTopicRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\0221\n\010settings\030\004 " +
-      "\001(\0132\037.Ydb.PersQueue.V1.TopicSettings\"C\n\023" +
-      "CreateTopicResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.Operation\"\023\n\021CreateTopic" +
-      "Result\"\225\001\n\021AlterTopicRequest\0229\n\020operatio" +
-      "n_params\030\001 \001(\0132\037.Ydb.Operations.Operatio" +
-      "nParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\0221\n\010settings\030" +
-      "\004 \001(\0132\037.Ydb.PersQueue.V1.TopicSettings\"B",
-      "\n\022AlterTopicResponse\022,\n\toperation\030\001 \001(\0132" +
-      "\031.Ydb.Operations.Operation\"\022\n\020AlterTopic" +
-      "Result\"e\n\024DescribeTopicRequest\0229\n\020operat" +
-      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
-      "ionParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\"E\n\025Describ" +
-      "eTopicResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
-      "Operations.Operation\"i\n\023DescribeTopicRes" +
-      "ult\022\037\n\004self\030\001 \001(\0132\021.Ydb.Scheme.Entry\0221\n\010" +
-      "settings\030\002 \001(\0132\037.Ydb.PersQueue.V1.TopicS" +
-      "ettingsB\035\n\030tech.ydb.persqueue\370\001\001b\006",
-      "proto3"
+      "TopicSettings.CodecB\006\232\346*\002\030d\022,\n\032max_parti" +
+      "tion_storage_size\030\005 \001(\003B\010\262\346*\004>= 0\022+\n\031max" +
+      "_partition_write_speed\030\006 \001(\003B\010\262\346*\004>= 0\022+" +
+      "\n\031max_partition_write_burst\030\007 \001(\003B\010\262\346*\004>" +
+      "= 0\022\035\n\025client_write_disabled\030\010 \001(\010\022E\n\nre" +
+      "ad_rules\030\t \003(\0132(.Ydb.PersQueue.V1.TopicS" +
+      "ettings.ReadRuleB\007\232\346*\003\030\270\027\022C\n\nattributes\030",
+      "\n \003(\0132/.Ydb.PersQueue.V1.TopicSettings.A" +
+      "ttributesEntry\022L\n\022remote_mirror_rule\030\013 \001" +
+      "(\01320.Ydb.PersQueue.V1.TopicSettings.Remo" +
+      "teMirrorRule\032\221\002\n\010ReadRule\022\033\n\rconsumer_na" +
+      "me\030\001 \001(\tB\004\220\346*\001\022\021\n\timportant\030\002 \001(\010\022/\n\035sta" +
+      "rting_message_timestamp_ms\030\003 \001(\003B\010\262\346*\004>=" +
+      " 0\022@\n\020supported_format\030\004 \001(\0162&.Ydb.PersQ" +
+      "ueue.V1.TopicSettings.Format\022G\n\020supporte" +
+      "d_codecs\030\005 \003(\0162%.Ydb.PersQueue.V1.TopicS" +
+      "ettings.CodecB\006\232\346*\002\030d\022\031\n\007version\030\006 \001(\003B\010",
+      "\262\346*\004>= 0\0321\n\017AttributesEntry\022\013\n\003key\030\001 \001(\t" +
+      "\022\r\n\005value\030\002 \001(\t:\0028\001\032\306\001\n\020RemoteMirrorRule" +
+      "\022\020\n\010endpoint\030\001 \001(\t\022\022\n\ntopic_path\030\002 \001(\t\022\025" +
+      "\n\rconsumer_name\030\003 \001(\t\0222\n\013credentials\030\004 \001" +
+      "(\0132\035.Ydb.PersQueue.V1.Credentials\022/\n\035sta" +
+      "rting_message_timestamp_ms\030\005 \001(\003B\010\262\346*\004>=" +
+      " 0\022\020\n\010database\030\006 \001(\t\"1\n\006Format\022\026\n\022FORMAT" +
+      "_UNSPECIFIED\020\000\022\017\n\013FORMAT_BASE\020\001\"]\n\005Codec" +
+      "\022\025\n\021CODEC_UNSPECIFIED\020\000\022\r\n\tCODEC_RAW\020\001\022\016" +
+      "\n\nCODEC_GZIP\020\002\022\016\n\nCODEC_LZOP\020\003\022\016\n\nCODEC_",
+      "ZSTD\020\004\"\226\001\n\022CreateTopicRequest\0229\n\020operati" +
+      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
+      "onParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\0221\n\010settings" +
+      "\030\004 \001(\0132\037.Ydb.PersQueue.V1.TopicSettings\"" +
+      "C\n\023CreateTopicResponse\022,\n\toperation\030\001 \001(" +
+      "\0132\031.Ydb.Operations.Operation\"\023\n\021CreateTo" +
+      "picResult\"\225\001\n\021AlterTopicRequest\0229\n\020opera" +
+      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
+      "tionParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\0221\n\010settin" +
+      "gs\030\004 \001(\0132\037.Ydb.PersQueue.V1.TopicSetting",
+      "s\"B\n\022AlterTopicResponse\022,\n\toperation\030\001 \001" +
+      "(\0132\031.Ydb.Operations.Operation\"\022\n\020AlterTo" +
+      "picResult\"e\n\024DescribeTopicRequest\0229\n\020ope" +
+      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
+      "rationParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\"E\n\025Desc" +
+      "ribeTopicResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
+      "db.Operations.Operation\"i\n\023DescribeTopic" +
+      "Result\022\037\n\004self\030\001 \001(\0132\021.Ydb.Scheme.Entry\022" +
+      "1\n\010settings\030\002 \001(\0132\037.Ydb.PersQueue.V1.Top" +
+      "icSettingsB\035\n\030tech.ydb.persqueue\370\001",
+      "\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
