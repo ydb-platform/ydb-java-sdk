@@ -54,6 +54,8 @@ public class ProtoType {
     private static final ValueProtos.Type TZ_DATE = primitiveType(PrimitiveTypeId.TZ_DATE);
     private static final ValueProtos.Type TZ_DATETIME = primitiveType(PrimitiveTypeId.TZ_DATETIME);
     private static final ValueProtos.Type TZ_TIMESTAMP = primitiveType(PrimitiveTypeId.TZ_TIMESTAMP);
+    private static final ValueProtos.Type JSON_DOCUMENT = primitiveType(PrimitiveTypeId.JSON_DOCUMENT);
+    private static final ValueProtos.Type DYNUMBER = primitiveType(PrimitiveTypeId.DYNUMBER);
 
     private static ValueProtos.Type primitiveType(PrimitiveTypeId id) {
         ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
@@ -84,6 +86,8 @@ public class ProtoType {
     public static ValueProtos.Type tzDate() { return TZ_DATE; }
     public static ValueProtos.Type tzDatetime() { return TZ_DATETIME; }
     public static ValueProtos.Type tzTimestamp() { return TZ_TIMESTAMP; }
+    public static ValueProtos.Type jsonDocument() { return JSON_DOCUMENT; }
+    public static ValueProtos.Type dyNumber() { return DYNUMBER; }
 
     public static ValueProtos.Type decimal(int precision, int scale) {
         ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
@@ -357,6 +361,8 @@ public class ProtoType {
             case TZ_DATE: return PrimitiveType.tzDate();
             case TZ_DATETIME: return PrimitiveType.tzDatetime();
             case TZ_TIMESTAMP: return PrimitiveType.tzTimestamp();
+            case JSON_DOCUMENT: return PrimitiveType.jsonDocument();
+            case DYNUMBER: return PrimitiveType.dyNumber();
         }
 
         throw new IllegalStateException("unknown PrimitiveType: " + dataType.getTypeId());

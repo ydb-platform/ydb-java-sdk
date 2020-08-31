@@ -34,6 +34,8 @@ public final class PrimitiveType implements Type {
         TzDate(0x0034),
         TzDatetime(0x0035),
         TzTimestamp(0x0036),
+        JsonDocument(0x1204),
+        DyNumber(0x1302)
         ;
 
         private final short numId;
@@ -74,6 +76,8 @@ public final class PrimitiveType implements Type {
     public static PrimitiveType tzDate() { return PrimitiveType.TZ_DATE; }
     public static PrimitiveType tzDatetime() { return PrimitiveType.TZ_DATETIME; }
     public static PrimitiveType tzTimestamp() { return PrimitiveType.TZ_TIMESTAMP; }
+    public static PrimitiveType jsonDocument() { return PrimitiveType.JSON_DOCUMENT; }
+    public static PrimitiveType dyNumber() { return PrimitiveType.DYNUMBER; }
 
     private static final PrimitiveType BOOL = new PrimitiveType(Id.Bool, ProtoType.bool());
     private static final PrimitiveType INT_8 = new PrimitiveType(Id.Int8, ProtoType.int8());
@@ -98,6 +102,8 @@ public final class PrimitiveType implements Type {
     private static final PrimitiveType TZ_DATE = new PrimitiveType(Id.TzDate, ProtoType.tzDate());
     private static final PrimitiveType TZ_DATETIME = new PrimitiveType(Id.TzDatetime, ProtoType.tzDatetime());
     private static final PrimitiveType TZ_TIMESTAMP = new PrimitiveType(Id.TzTimestamp, ProtoType.tzTimestamp());
+    private static final PrimitiveType JSON_DOCUMENT = new PrimitiveType(Id.JsonDocument, ProtoType.jsonDocument());
+    private static final PrimitiveType DYNUMBER = new PrimitiveType(Id.DyNumber, ProtoType.tzTimestamp());
 
     private static final PrimitiveType[] BY_IDS;
     static {
@@ -174,6 +180,8 @@ public final class PrimitiveType implements Type {
             case TzDate: return TZ_DATE;
             case TzDatetime: return TZ_DATETIME;
             case TzTimestamp: return TZ_TIMESTAMP;
+            case JsonDocument: return JSON_DOCUMENT;
+            case DyNumber: return DYNUMBER;
         }
         throw new IllegalArgumentException("unknown PrimitiveType: " + id);
     }
