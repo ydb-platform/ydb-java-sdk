@@ -2,7 +2,6 @@ package tech.ydb.core.grpc;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.net.InetSocketAddress;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
@@ -283,9 +282,9 @@ public class GrpcTransport implements RpcTransport {
                 .nameResolverFactory(HostsNameResolver.newFactory(hosts, builder.getCallExecutor()))
                 .defaultLoadBalancingPolicy(defaultPolicy);
         } else {
-            channelBuilder = NettyChannelBuilder.forAddress(new InetSocketAddress(
+            channelBuilder = NettyChannelBuilder.forAddress(
                 hosts.get(0).getHost(),
-                hosts.get(0).getPortOrDefault(DEFAULT_PORT)));
+                hosts.get(0).getPortOrDefault(DEFAULT_PORT));
         }
 
         if (builder.cert != null) {
