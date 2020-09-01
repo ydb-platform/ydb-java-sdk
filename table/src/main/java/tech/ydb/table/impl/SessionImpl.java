@@ -324,7 +324,7 @@ class SessionImpl implements Session {
         }
         description.setPrimaryKeys(result.getPrimaryKeyList());
         for (int i = 0; i < result.getIndexesCount(); i++) {
-            YdbTable.TableIndex index = result.getIndexes(i);
+            YdbTable.TableIndexDescription index = result.getIndexes(i);
             description.addGlobalIndex(index.getName(), index.getIndexColumnsList());
         }
         return description.build();
