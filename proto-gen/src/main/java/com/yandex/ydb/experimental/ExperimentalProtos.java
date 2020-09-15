@@ -2011,6 +2011,11 @@ public final class ExperimentalProtos {
      * <code>.Ydb.Experimental.ExecuteStreamQueryRequest.ProfileMode profile_mode = 3;</code>
      */
     tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode getProfileMode();
+
+    /**
+     * <code>bool explain = 4;</code>
+     */
+    boolean getExplain();
   }
   /**
    * Protobuf type {@code Ydb.Experimental.ExecuteStreamQueryRequest}
@@ -2027,6 +2032,7 @@ public final class ExperimentalProtos {
     private ExecuteStreamQueryRequest() {
       yqlText_ = "";
       profileMode_ = 0;
+      explain_ = false;
     }
 
     @java.lang.Override
@@ -2080,6 +2086,11 @@ public final class ExperimentalProtos {
               int rawValue = input.readEnum();
 
               profileMode_ = rawValue;
+              break;
+            }
+            case 32: {
+
+              explain_ = input.readBool();
               break;
             }
           }
@@ -2360,6 +2371,15 @@ public final class ExperimentalProtos {
       return result == null ? tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode.UNRECOGNIZED : result;
     }
 
+    public static final int EXPLAIN_FIELD_NUMBER = 4;
+    private boolean explain_;
+    /**
+     * <code>bool explain = 4;</code>
+     */
+    public boolean getExplain() {
+      return explain_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2383,6 +2403,9 @@ public final class ExperimentalProtos {
           2);
       if (profileMode_ != tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryRequest.ProfileMode.PROFILE_MODE_UNSPECIFIED.getNumber()) {
         output.writeEnum(3, profileMode_);
+      }
+      if (explain_ != false) {
+        output.writeBool(4, explain_);
       }
       unknownFields.writeTo(output);
     }
@@ -2409,6 +2432,10 @@ public final class ExperimentalProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, profileMode_);
       }
+      if (explain_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, explain_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2430,6 +2457,8 @@ public final class ExperimentalProtos {
       result = result && internalGetParameters().equals(
           other.internalGetParameters());
       result = result && profileMode_ == other.profileMode_;
+      result = result && (getExplain()
+          == other.getExplain());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2449,6 +2478,9 @@ public final class ExperimentalProtos {
       }
       hash = (37 * hash) + PROFILE_MODE_FIELD_NUMBER;
       hash = (53 * hash) + profileMode_;
+      hash = (37 * hash) + EXPLAIN_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getExplain());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2605,6 +2637,8 @@ public final class ExperimentalProtos {
         internalGetMutableParameters().clear();
         profileMode_ = 0;
 
+        explain_ = false;
+
         return this;
       }
 
@@ -2633,6 +2667,7 @@ public final class ExperimentalProtos {
         result.parameters_ = internalGetParameters();
         result.parameters_.makeImmutable();
         result.profileMode_ = profileMode_;
+        result.explain_ = explain_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2683,6 +2718,9 @@ public final class ExperimentalProtos {
             other.internalGetParameters());
         if (other.profileMode_ != 0) {
           setProfileModeValue(other.getProfileModeValue());
+        }
+        if (other.getExplain() != false) {
+          setExplain(other.getExplain());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2944,6 +2982,32 @@ public final class ExperimentalProtos {
       public Builder clearProfileMode() {
         
         profileMode_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean explain_ ;
+      /**
+       * <code>bool explain = 4;</code>
+       */
+      public boolean getExplain() {
+        return explain_;
+      }
+      /**
+       * <code>bool explain = 4;</code>
+       */
+      public Builder setExplain(boolean value) {
+        
+        explain_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool explain = 4;</code>
+       */
+      public Builder clearExplain() {
+        
+        explain_ = false;
         onChanged();
         return this;
       }
@@ -4463,6 +4527,16 @@ public final class ExperimentalProtos {
      */
     tech.ydb.experimental.ExperimentalProtos.StreamQueryProgressOrBuilder getProgressOrBuilder();
 
+    /**
+     * <code>string query_plan = 4;</code>
+     */
+    java.lang.String getQueryPlan();
+    /**
+     * <code>string query_plan = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getQueryPlanBytes();
+
     public tech.ydb.experimental.ExperimentalProtos.ExecuteStreamQueryResult.ResultCase getResultCase();
   }
   /**
@@ -4542,6 +4616,12 @@ public final class ExperimentalProtos {
               resultCase_ = 3;
               break;
             }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+              resultCase_ = 4;
+              result_ = s;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4573,6 +4653,7 @@ public final class ExperimentalProtos {
       RESULT_SET(1),
       PROFILE(2),
       PROGRESS(3),
+      QUERY_PLAN(4),
       RESULT_NOT_SET(0);
       private final int value;
       private ResultCase(int value) {
@@ -4591,6 +4672,7 @@ public final class ExperimentalProtos {
           case 1: return RESULT_SET;
           case 2: return PROFILE;
           case 3: return PROGRESS;
+          case 4: return QUERY_PLAN;
           case 0: return RESULT_NOT_SET;
           default: return null;
         }
@@ -4701,6 +4783,49 @@ public final class ExperimentalProtos {
       return tech.ydb.experimental.ExperimentalProtos.StreamQueryProgress.getDefaultInstance();
     }
 
+    public static final int QUERY_PLAN_FIELD_NUMBER = 4;
+    /**
+     * <code>string query_plan = 4;</code>
+     */
+    public java.lang.String getQueryPlan() {
+      java.lang.Object ref = "";
+      if (resultCase_ == 4) {
+        ref = result_;
+      }
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (resultCase_ == 4) {
+          result_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>string query_plan = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getQueryPlanBytes() {
+      java.lang.Object ref = "";
+      if (resultCase_ == 4) {
+        ref = result_;
+      }
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        if (resultCase_ == 4) {
+          result_ = b;
+        }
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -4722,6 +4847,9 @@ public final class ExperimentalProtos {
       if (resultCase_ == 3) {
         output.writeMessage(3, (tech.ydb.experimental.ExperimentalProtos.StreamQueryProgress) result_);
       }
+      if (resultCase_ == 4) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, result_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -4740,6 +4868,9 @@ public final class ExperimentalProtos {
       if (resultCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, (tech.ydb.experimental.ExperimentalProtos.StreamQueryProgress) result_);
+      }
+      if (resultCase_ == 4) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, result_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4773,6 +4904,10 @@ public final class ExperimentalProtos {
           result = result && getProgress()
               .equals(other.getProgress());
           break;
+        case 4:
+          result = result && getQueryPlan()
+              .equals(other.getQueryPlan());
+          break;
         case 0:
         default:
       }
@@ -4799,6 +4934,10 @@ public final class ExperimentalProtos {
         case 3:
           hash = (37 * hash) + PROGRESS_FIELD_NUMBER;
           hash = (53 * hash) + getProgress().hashCode();
+          break;
+        case 4:
+          hash = (37 * hash) + QUERY_PLAN_FIELD_NUMBER;
+          hash = (53 * hash) + getQueryPlan().hashCode();
           break;
         case 0:
         default:
@@ -4973,6 +5112,9 @@ public final class ExperimentalProtos {
             result.result_ = progressBuilder_.build();
           }
         }
+        if (resultCase_ == 4) {
+          result.result_ = result_;
+        }
         result.resultCase_ = resultCase_;
         onBuilt();
         return result;
@@ -5028,6 +5170,12 @@ public final class ExperimentalProtos {
           }
           case PROGRESS: {
             mergeProgress(other.getProgress());
+            break;
+          }
+          case QUERY_PLAN: {
+            resultCase_ = 4;
+            result_ = other.result_;
+            onChanged();
             break;
           }
           case RESULT_NOT_SET: {
@@ -5426,6 +5574,86 @@ public final class ExperimentalProtos {
         resultCase_ = 3;
         onChanged();;
         return progressBuilder_;
+      }
+
+      /**
+       * <code>string query_plan = 4;</code>
+       */
+      public java.lang.String getQueryPlan() {
+        java.lang.Object ref = "";
+        if (resultCase_ == 4) {
+          ref = result_;
+        }
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (resultCase_ == 4) {
+            result_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string query_plan = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getQueryPlanBytes() {
+        java.lang.Object ref = "";
+        if (resultCase_ == 4) {
+          ref = result_;
+        }
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          if (resultCase_ == 4) {
+            result_ = b;
+          }
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string query_plan = 4;</code>
+       */
+      public Builder setQueryPlan(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  resultCase_ = 4;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string query_plan = 4;</code>
+       */
+      public Builder clearQueryPlan() {
+        if (resultCase_ == 4) {
+          resultCase_ = 0;
+          result_ = null;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>string query_plan = 4;</code>
+       */
+      public Builder setQueryPlanBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        resultCase_ = 4;
+        result_ = value;
+        onChanged();
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -7854,34 +8082,35 @@ public final class ExperimentalProtos {
       "e\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Operat" +
       "ions.OperationParams\"B\n\022UploadRowsRespon",
       "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
-      "peration\"\022\n\020UploadRowsResult\"\335\002\n\031Execute" +
+      "peration\"\022\n\020UploadRowsResult\"\356\002\n\031Execute" +
       "StreamQueryRequest\022\020\n\010yql_text\030\001 \001(\t\022O\n\n" +
       "parameters\030\002 \003(\0132;.Ydb.Experimental.Exec" +
       "uteStreamQueryRequest.ParametersEntry\022M\n" +
       "\014profile_mode\030\003 \001(\01627.Ydb.Experimental.E" +
-      "xecuteStreamQueryRequest.ProfileMode\032B\n\017" +
-      "ParametersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 " +
-      "\001(\0132\017.Ydb.TypedValue:\0028\001\"J\n\013ProfileMode\022" +
-      "\034\n\030PROFILE_MODE_UNSPECIFIED\020\000\022\010\n\004NONE\020\001\022",
-      "\t\n\005BASIC\020\002\022\010\n\004FULL\020\003\"\254\001\n\032ExecuteStreamQu" +
-      "eryResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.Status" +
-      "Ids.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Iss" +
-      "ue.IssueMessage\022:\n\006result\030\003 \001(\0132*.Ydb.Ex" +
-      "perimental.ExecuteStreamQueryResult\"\025\n\023S" +
-      "treamQueryProgress\"\230\001\n\030ExecuteStreamQuer" +
-      "yResult\022$\n\nresult_set\030\001 \001(\0132\016.Ydb.Result" +
-      "SetH\000\022\021\n\007profile\030\002 \001(\tH\000\0229\n\010progress\030\003 \001" +
-      "(\0132%.Ydb.Experimental.StreamQueryProgres" +
-      "sH\000B\010\n\006result\"g\n\030GetDiskSpaceUsageReques",
-      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\022\020\n\010database\030\002 \001(\t\"I" +
-      "\n\031GetDiskSpaceUsageResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\216\001\n\027Ge" +
-      "tDiskSpaceUsageResult\022\020\n\010cloud_id\030\001 \001(\t\022" +
-      "\021\n\tfolder_id\030\002 \001(\t\022\023\n\013database_id\030\003 \001(\t\022" +
-      "\022\n\ntotal_size\030\004 \001(\004\022\021\n\tdata_size\030\005 \001(\004\022\022" +
-      "\n\nindex_size\030\006 \001(\004B4\n\033tech.ydb.exp" +
-      "erimentalB\022ExperimentalProtos\370\001\001b\006proto3"
+      "xecuteStreamQueryRequest.ProfileMode\022\017\n\007" +
+      "explain\030\004 \001(\010\032B\n\017ParametersEntry\022\013\n\003key\030" +
+      "\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.TypedValue:\0028" +
+      "\001\"J\n\013ProfileMode\022\034\n\030PROFILE_MODE_UNSPECI",
+      "FIED\020\000\022\010\n\004NONE\020\001\022\t\n\005BASIC\020\002\022\010\n\004FULL\020\003\"\254\001" +
+      "\n\032ExecuteStreamQueryResponse\022)\n\006status\030\001" +
+      " \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006issue" +
+      "s\030\002 \003(\0132\027.Ydb.Issue.IssueMessage\022:\n\006resu" +
+      "lt\030\003 \001(\0132*.Ydb.Experimental.ExecuteStrea" +
+      "mQueryResult\"\025\n\023StreamQueryProgress\"\256\001\n\030" +
+      "ExecuteStreamQueryResult\022$\n\nresult_set\030\001" +
+      " \001(\0132\016.Ydb.ResultSetH\000\022\021\n\007profile\030\002 \001(\tH" +
+      "\000\0229\n\010progress\030\003 \001(\0132%.Ydb.Experimental.S" +
+      "treamQueryProgressH\000\022\024\n\nquery_plan\030\004 \001(\t",
+      "H\000B\010\n\006result\"g\n\030GetDiskSpaceUsageRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\022\020\n\010database\030\002 \001(\t\"I\n" +
+      "\031GetDiskSpaceUsageResponse\022,\n\toperation\030" +
+      "\001 \001(\0132\031.Ydb.Operations.Operation\"\216\001\n\027Get" +
+      "DiskSpaceUsageResult\022\020\n\010cloud_id\030\001 \001(\t\022\021" +
+      "\n\tfolder_id\030\002 \001(\t\022\023\n\013database_id\030\003 \001(\t\022\022" +
+      "\n\ntotal_size\030\004 \001(\004\022\021\n\tdata_size\030\005 \001(\004\022\022\n" +
+      "\nindex_size\030\006 \001(\004B4\n\033tech.ydb.expe" +
+      "rimentalB\022ExperimentalProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -7922,7 +8151,7 @@ public final class ExperimentalProtos {
     internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_descriptor,
-        new java.lang.String[] { "YqlText", "Parameters", "ProfileMode", });
+        new java.lang.String[] { "YqlText", "Parameters", "ProfileMode", "Explain", });
     internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_ParametersEntry_descriptor =
       internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_Experimental_ExecuteStreamQueryRequest_ParametersEntry_fieldAccessorTable = new
@@ -7946,7 +8175,7 @@ public final class ExperimentalProtos {
     internal_static_Ydb_Experimental_ExecuteStreamQueryResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Experimental_ExecuteStreamQueryResult_descriptor,
-        new java.lang.String[] { "ResultSet", "Profile", "Progress", "Result", });
+        new java.lang.String[] { "ResultSet", "Profile", "Progress", "QueryPlan", "Result", });
     internal_static_Ydb_Experimental_GetDiskSpaceUsageRequest_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_Ydb_Experimental_GetDiskSpaceUsageRequest_fieldAccessorTable = new

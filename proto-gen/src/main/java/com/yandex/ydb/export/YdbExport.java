@@ -540,6 +540,905 @@ public final class YdbExport {
 
   }
 
+  public interface ExportItemProgressOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Export.ExportItemProgress)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>uint32 parts_total = 1;</code>
+     */
+    int getPartsTotal();
+
+    /**
+     * <code>uint32 parts_completed = 2;</code>
+     */
+    int getPartsCompleted();
+
+    /**
+     * <code>.google.protobuf.Timestamp start_time = 3;</code>
+     */
+    boolean hasStartTime();
+    /**
+     * <code>.google.protobuf.Timestamp start_time = 3;</code>
+     */
+    com.google.protobuf.Timestamp getStartTime();
+    /**
+     * <code>.google.protobuf.Timestamp start_time = 3;</code>
+     */
+    com.google.protobuf.TimestampOrBuilder getStartTimeOrBuilder();
+
+    /**
+     * <code>.google.protobuf.Timestamp end_time = 4;</code>
+     */
+    boolean hasEndTime();
+    /**
+     * <code>.google.protobuf.Timestamp end_time = 4;</code>
+     */
+    com.google.protobuf.Timestamp getEndTime();
+    /**
+     * <code>.google.protobuf.Timestamp end_time = 4;</code>
+     */
+    com.google.protobuf.TimestampOrBuilder getEndTimeOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.Export.ExportItemProgress}
+   */
+  public  static final class ExportItemProgress extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Export.ExportItemProgress)
+      ExportItemProgressOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ExportItemProgress.newBuilder() to construct.
+    private ExportItemProgress(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ExportItemProgress() {
+      partsTotal_ = 0;
+      partsCompleted_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ExportItemProgress(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+
+              partsTotal_ = input.readUInt32();
+              break;
+            }
+            case 16: {
+
+              partsCompleted_ = input.readUInt32();
+              break;
+            }
+            case 26: {
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
+              if (startTime_ != null) {
+                subBuilder = startTime_.toBuilder();
+              }
+              startTime_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(startTime_);
+                startTime_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 34: {
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
+              if (endTime_ != null) {
+                subBuilder = endTime_.toBuilder();
+              }
+              endTime_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(endTime_);
+                endTime_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportItemProgress_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportItemProgress_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.export.YdbExport.ExportItemProgress.class, tech.ydb.export.YdbExport.ExportItemProgress.Builder.class);
+    }
+
+    public static final int PARTS_TOTAL_FIELD_NUMBER = 1;
+    private int partsTotal_;
+    /**
+     * <code>uint32 parts_total = 1;</code>
+     */
+    public int getPartsTotal() {
+      return partsTotal_;
+    }
+
+    public static final int PARTS_COMPLETED_FIELD_NUMBER = 2;
+    private int partsCompleted_;
+    /**
+     * <code>uint32 parts_completed = 2;</code>
+     */
+    public int getPartsCompleted() {
+      return partsCompleted_;
+    }
+
+    public static final int START_TIME_FIELD_NUMBER = 3;
+    private com.google.protobuf.Timestamp startTime_;
+    /**
+     * <code>.google.protobuf.Timestamp start_time = 3;</code>
+     */
+    public boolean hasStartTime() {
+      return startTime_ != null;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp start_time = 3;</code>
+     */
+    public com.google.protobuf.Timestamp getStartTime() {
+      return startTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : startTime_;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp start_time = 3;</code>
+     */
+    public com.google.protobuf.TimestampOrBuilder getStartTimeOrBuilder() {
+      return getStartTime();
+    }
+
+    public static final int END_TIME_FIELD_NUMBER = 4;
+    private com.google.protobuf.Timestamp endTime_;
+    /**
+     * <code>.google.protobuf.Timestamp end_time = 4;</code>
+     */
+    public boolean hasEndTime() {
+      return endTime_ != null;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp end_time = 4;</code>
+     */
+    public com.google.protobuf.Timestamp getEndTime() {
+      return endTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : endTime_;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp end_time = 4;</code>
+     */
+    public com.google.protobuf.TimestampOrBuilder getEndTimeOrBuilder() {
+      return getEndTime();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (partsTotal_ != 0) {
+        output.writeUInt32(1, partsTotal_);
+      }
+      if (partsCompleted_ != 0) {
+        output.writeUInt32(2, partsCompleted_);
+      }
+      if (startTime_ != null) {
+        output.writeMessage(3, getStartTime());
+      }
+      if (endTime_ != null) {
+        output.writeMessage(4, getEndTime());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (partsTotal_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, partsTotal_);
+      }
+      if (partsCompleted_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, partsCompleted_);
+      }
+      if (startTime_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getStartTime());
+      }
+      if (endTime_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getEndTime());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.export.YdbExport.ExportItemProgress)) {
+        return super.equals(obj);
+      }
+      tech.ydb.export.YdbExport.ExportItemProgress other = (tech.ydb.export.YdbExport.ExportItemProgress) obj;
+
+      boolean result = true;
+      result = result && (getPartsTotal()
+          == other.getPartsTotal());
+      result = result && (getPartsCompleted()
+          == other.getPartsCompleted());
+      result = result && (hasStartTime() == other.hasStartTime());
+      if (hasStartTime()) {
+        result = result && getStartTime()
+            .equals(other.getStartTime());
+      }
+      result = result && (hasEndTime() == other.hasEndTime());
+      if (hasEndTime()) {
+        result = result && getEndTime()
+            .equals(other.getEndTime());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + PARTS_TOTAL_FIELD_NUMBER;
+      hash = (53 * hash) + getPartsTotal();
+      hash = (37 * hash) + PARTS_COMPLETED_FIELD_NUMBER;
+      hash = (53 * hash) + getPartsCompleted();
+      if (hasStartTime()) {
+        hash = (37 * hash) + START_TIME_FIELD_NUMBER;
+        hash = (53 * hash) + getStartTime().hashCode();
+      }
+      if (hasEndTime()) {
+        hash = (37 * hash) + END_TIME_FIELD_NUMBER;
+        hash = (53 * hash) + getEndTime().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.export.YdbExport.ExportItemProgress parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportItemProgress parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportItemProgress parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportItemProgress parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportItemProgress parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.export.YdbExport.ExportItemProgress parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportItemProgress parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportItemProgress parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportItemProgress parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportItemProgress parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.export.YdbExport.ExportItemProgress parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.export.YdbExport.ExportItemProgress parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.export.YdbExport.ExportItemProgress prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Export.ExportItemProgress}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Export.ExportItemProgress)
+        tech.ydb.export.YdbExport.ExportItemProgressOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportItemProgress_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportItemProgress_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.export.YdbExport.ExportItemProgress.class, tech.ydb.export.YdbExport.ExportItemProgress.Builder.class);
+      }
+
+      // Construct using tech.ydb.export.YdbExport.ExportItemProgress.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        partsTotal_ = 0;
+
+        partsCompleted_ = 0;
+
+        if (startTimeBuilder_ == null) {
+          startTime_ = null;
+        } else {
+          startTime_ = null;
+          startTimeBuilder_ = null;
+        }
+        if (endTimeBuilder_ == null) {
+          endTime_ = null;
+        } else {
+          endTime_ = null;
+          endTimeBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportItemProgress_descriptor;
+      }
+
+      public tech.ydb.export.YdbExport.ExportItemProgress getDefaultInstanceForType() {
+        return tech.ydb.export.YdbExport.ExportItemProgress.getDefaultInstance();
+      }
+
+      public tech.ydb.export.YdbExport.ExportItemProgress build() {
+        tech.ydb.export.YdbExport.ExportItemProgress result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.export.YdbExport.ExportItemProgress buildPartial() {
+        tech.ydb.export.YdbExport.ExportItemProgress result = new tech.ydb.export.YdbExport.ExportItemProgress(this);
+        result.partsTotal_ = partsTotal_;
+        result.partsCompleted_ = partsCompleted_;
+        if (startTimeBuilder_ == null) {
+          result.startTime_ = startTime_;
+        } else {
+          result.startTime_ = startTimeBuilder_.build();
+        }
+        if (endTimeBuilder_ == null) {
+          result.endTime_ = endTime_;
+        } else {
+          result.endTime_ = endTimeBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.export.YdbExport.ExportItemProgress) {
+          return mergeFrom((tech.ydb.export.YdbExport.ExportItemProgress)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.export.YdbExport.ExportItemProgress other) {
+        if (other == tech.ydb.export.YdbExport.ExportItemProgress.getDefaultInstance()) return this;
+        if (other.getPartsTotal() != 0) {
+          setPartsTotal(other.getPartsTotal());
+        }
+        if (other.getPartsCompleted() != 0) {
+          setPartsCompleted(other.getPartsCompleted());
+        }
+        if (other.hasStartTime()) {
+          mergeStartTime(other.getStartTime());
+        }
+        if (other.hasEndTime()) {
+          mergeEndTime(other.getEndTime());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.export.YdbExport.ExportItemProgress parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.export.YdbExport.ExportItemProgress) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int partsTotal_ ;
+      /**
+       * <code>uint32 parts_total = 1;</code>
+       */
+      public int getPartsTotal() {
+        return partsTotal_;
+      }
+      /**
+       * <code>uint32 parts_total = 1;</code>
+       */
+      public Builder setPartsTotal(int value) {
+        
+        partsTotal_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 parts_total = 1;</code>
+       */
+      public Builder clearPartsTotal() {
+        
+        partsTotal_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int partsCompleted_ ;
+      /**
+       * <code>uint32 parts_completed = 2;</code>
+       */
+      public int getPartsCompleted() {
+        return partsCompleted_;
+      }
+      /**
+       * <code>uint32 parts_completed = 2;</code>
+       */
+      public Builder setPartsCompleted(int value) {
+        
+        partsCompleted_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 parts_completed = 2;</code>
+       */
+      public Builder clearPartsCompleted() {
+        
+        partsCompleted_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.Timestamp startTime_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> startTimeBuilder_;
+      /**
+       * <code>.google.protobuf.Timestamp start_time = 3;</code>
+       */
+      public boolean hasStartTime() {
+        return startTimeBuilder_ != null || startTime_ != null;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp start_time = 3;</code>
+       */
+      public com.google.protobuf.Timestamp getStartTime() {
+        if (startTimeBuilder_ == null) {
+          return startTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : startTime_;
+        } else {
+          return startTimeBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp start_time = 3;</code>
+       */
+      public Builder setStartTime(com.google.protobuf.Timestamp value) {
+        if (startTimeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          startTime_ = value;
+          onChanged();
+        } else {
+          startTimeBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp start_time = 3;</code>
+       */
+      public Builder setStartTime(
+          com.google.protobuf.Timestamp.Builder builderForValue) {
+        if (startTimeBuilder_ == null) {
+          startTime_ = builderForValue.build();
+          onChanged();
+        } else {
+          startTimeBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp start_time = 3;</code>
+       */
+      public Builder mergeStartTime(com.google.protobuf.Timestamp value) {
+        if (startTimeBuilder_ == null) {
+          if (startTime_ != null) {
+            startTime_ =
+              com.google.protobuf.Timestamp.newBuilder(startTime_).mergeFrom(value).buildPartial();
+          } else {
+            startTime_ = value;
+          }
+          onChanged();
+        } else {
+          startTimeBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp start_time = 3;</code>
+       */
+      public Builder clearStartTime() {
+        if (startTimeBuilder_ == null) {
+          startTime_ = null;
+          onChanged();
+        } else {
+          startTime_ = null;
+          startTimeBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp start_time = 3;</code>
+       */
+      public com.google.protobuf.Timestamp.Builder getStartTimeBuilder() {
+        
+        onChanged();
+        return getStartTimeFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.google.protobuf.Timestamp start_time = 3;</code>
+       */
+      public com.google.protobuf.TimestampOrBuilder getStartTimeOrBuilder() {
+        if (startTimeBuilder_ != null) {
+          return startTimeBuilder_.getMessageOrBuilder();
+        } else {
+          return startTime_ == null ?
+              com.google.protobuf.Timestamp.getDefaultInstance() : startTime_;
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp start_time = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+          getStartTimeFieldBuilder() {
+        if (startTimeBuilder_ == null) {
+          startTimeBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                  getStartTime(),
+                  getParentForChildren(),
+                  isClean());
+          startTime_ = null;
+        }
+        return startTimeBuilder_;
+      }
+
+      private com.google.protobuf.Timestamp endTime_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> endTimeBuilder_;
+      /**
+       * <code>.google.protobuf.Timestamp end_time = 4;</code>
+       */
+      public boolean hasEndTime() {
+        return endTimeBuilder_ != null || endTime_ != null;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp end_time = 4;</code>
+       */
+      public com.google.protobuf.Timestamp getEndTime() {
+        if (endTimeBuilder_ == null) {
+          return endTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : endTime_;
+        } else {
+          return endTimeBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp end_time = 4;</code>
+       */
+      public Builder setEndTime(com.google.protobuf.Timestamp value) {
+        if (endTimeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          endTime_ = value;
+          onChanged();
+        } else {
+          endTimeBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp end_time = 4;</code>
+       */
+      public Builder setEndTime(
+          com.google.protobuf.Timestamp.Builder builderForValue) {
+        if (endTimeBuilder_ == null) {
+          endTime_ = builderForValue.build();
+          onChanged();
+        } else {
+          endTimeBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp end_time = 4;</code>
+       */
+      public Builder mergeEndTime(com.google.protobuf.Timestamp value) {
+        if (endTimeBuilder_ == null) {
+          if (endTime_ != null) {
+            endTime_ =
+              com.google.protobuf.Timestamp.newBuilder(endTime_).mergeFrom(value).buildPartial();
+          } else {
+            endTime_ = value;
+          }
+          onChanged();
+        } else {
+          endTimeBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp end_time = 4;</code>
+       */
+      public Builder clearEndTime() {
+        if (endTimeBuilder_ == null) {
+          endTime_ = null;
+          onChanged();
+        } else {
+          endTime_ = null;
+          endTimeBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp end_time = 4;</code>
+       */
+      public com.google.protobuf.Timestamp.Builder getEndTimeBuilder() {
+        
+        onChanged();
+        return getEndTimeFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.google.protobuf.Timestamp end_time = 4;</code>
+       */
+      public com.google.protobuf.TimestampOrBuilder getEndTimeOrBuilder() {
+        if (endTimeBuilder_ != null) {
+          return endTimeBuilder_.getMessageOrBuilder();
+        } else {
+          return endTime_ == null ?
+              com.google.protobuf.Timestamp.getDefaultInstance() : endTime_;
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp end_time = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+          getEndTimeFieldBuilder() {
+        if (endTimeBuilder_ == null) {
+          endTimeBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                  getEndTime(),
+                  getParentForChildren(),
+                  isClean());
+          endTime_ = null;
+        }
+        return endTimeBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Export.ExportItemProgress)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Export.ExportItemProgress)
+    private static final tech.ydb.export.YdbExport.ExportItemProgress DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.export.YdbExport.ExportItemProgress();
+    }
+
+    public static tech.ydb.export.YdbExport.ExportItemProgress getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ExportItemProgress>
+        PARSER = new com.google.protobuf.AbstractParser<ExportItemProgress>() {
+      public ExportItemProgress parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ExportItemProgress(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ExportItemProgress> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ExportItemProgress> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.export.YdbExport.ExportItemProgress getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface ExportToYtSettingsOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.Export.ExportToYtSettings)
       com.google.protobuf.MessageOrBuilder {
@@ -3010,6 +3909,30 @@ public final class YdbExport {
      * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
      */
     tech.ydb.export.YdbExport.ExportProgress.Progress getProgress();
+
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    java.util.List<tech.ydb.export.YdbExport.ExportItemProgress> 
+        getItemsProgressList();
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    tech.ydb.export.YdbExport.ExportItemProgress getItemsProgress(int index);
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    int getItemsProgressCount();
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    java.util.List<? extends tech.ydb.export.YdbExport.ExportItemProgressOrBuilder> 
+        getItemsProgressOrBuilderList();
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    tech.ydb.export.YdbExport.ExportItemProgressOrBuilder getItemsProgressOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code Ydb.Export.ExportToYtMetadata}
@@ -3025,6 +3948,7 @@ public final class YdbExport {
     }
     private ExportToYtMetadata() {
       progress_ = 0;
+      itemsProgress_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -3074,6 +3998,15 @@ public final class YdbExport {
               progress_ = rawValue;
               break;
             }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                itemsProgress_ = new java.util.ArrayList<tech.ydb.export.YdbExport.ExportItemProgress>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              itemsProgress_.add(
+                  input.readMessage(tech.ydb.export.YdbExport.ExportItemProgress.parser(), extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3082,6 +4015,9 @@ public final class YdbExport {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          itemsProgress_ = java.util.Collections.unmodifiableList(itemsProgress_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -3098,6 +4034,7 @@ public final class YdbExport {
               tech.ydb.export.YdbExport.ExportToYtMetadata.class, tech.ydb.export.YdbExport.ExportToYtMetadata.Builder.class);
     }
 
+    private int bitField0_;
     public static final int SETTINGS_FIELD_NUMBER = 1;
     private tech.ydb.export.YdbExport.ExportToYtSettings settings_;
     /**
@@ -3135,6 +4072,41 @@ public final class YdbExport {
       return result == null ? tech.ydb.export.YdbExport.ExportProgress.Progress.UNRECOGNIZED : result;
     }
 
+    public static final int ITEMS_PROGRESS_FIELD_NUMBER = 3;
+    private java.util.List<tech.ydb.export.YdbExport.ExportItemProgress> itemsProgress_;
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    public java.util.List<tech.ydb.export.YdbExport.ExportItemProgress> getItemsProgressList() {
+      return itemsProgress_;
+    }
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    public java.util.List<? extends tech.ydb.export.YdbExport.ExportItemProgressOrBuilder> 
+        getItemsProgressOrBuilderList() {
+      return itemsProgress_;
+    }
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    public int getItemsProgressCount() {
+      return itemsProgress_.size();
+    }
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    public tech.ydb.export.YdbExport.ExportItemProgress getItemsProgress(int index) {
+      return itemsProgress_.get(index);
+    }
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    public tech.ydb.export.YdbExport.ExportItemProgressOrBuilder getItemsProgressOrBuilder(
+        int index) {
+      return itemsProgress_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -3153,6 +4125,9 @@ public final class YdbExport {
       if (progress_ != tech.ydb.export.YdbExport.ExportProgress.Progress.PROGRESS_UNSPECIFIED.getNumber()) {
         output.writeEnum(2, progress_);
       }
+      for (int i = 0; i < itemsProgress_.size(); i++) {
+        output.writeMessage(3, itemsProgress_.get(i));
+      }
       unknownFields.writeTo(output);
     }
 
@@ -3168,6 +4143,10 @@ public final class YdbExport {
       if (progress_ != tech.ydb.export.YdbExport.ExportProgress.Progress.PROGRESS_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, progress_);
+      }
+      for (int i = 0; i < itemsProgress_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, itemsProgress_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3191,6 +4170,8 @@ public final class YdbExport {
             .equals(other.getSettings());
       }
       result = result && progress_ == other.progress_;
+      result = result && getItemsProgressList()
+          .equals(other.getItemsProgressList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -3208,6 +4189,10 @@ public final class YdbExport {
       }
       hash = (37 * hash) + PROGRESS_FIELD_NUMBER;
       hash = (53 * hash) + progress_;
+      if (getItemsProgressCount() > 0) {
+        hash = (37 * hash) + ITEMS_PROGRESS_FIELD_NUMBER;
+        hash = (53 * hash) + getItemsProgressList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3333,6 +4318,7 @@ public final class YdbExport {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getItemsProgressFieldBuilder();
         }
       }
       public Builder clear() {
@@ -3345,6 +4331,12 @@ public final class YdbExport {
         }
         progress_ = 0;
 
+        if (itemsProgressBuilder_ == null) {
+          itemsProgress_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          itemsProgressBuilder_.clear();
+        }
         return this;
       }
 
@@ -3367,12 +4359,24 @@ public final class YdbExport {
 
       public tech.ydb.export.YdbExport.ExportToYtMetadata buildPartial() {
         tech.ydb.export.YdbExport.ExportToYtMetadata result = new tech.ydb.export.YdbExport.ExportToYtMetadata(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (settingsBuilder_ == null) {
           result.settings_ = settings_;
         } else {
           result.settings_ = settingsBuilder_.build();
         }
         result.progress_ = progress_;
+        if (itemsProgressBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            itemsProgress_ = java.util.Collections.unmodifiableList(itemsProgress_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.itemsProgress_ = itemsProgress_;
+        } else {
+          result.itemsProgress_ = itemsProgressBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -3420,6 +4424,32 @@ public final class YdbExport {
         if (other.progress_ != 0) {
           setProgressValue(other.getProgressValue());
         }
+        if (itemsProgressBuilder_ == null) {
+          if (!other.itemsProgress_.isEmpty()) {
+            if (itemsProgress_.isEmpty()) {
+              itemsProgress_ = other.itemsProgress_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureItemsProgressIsMutable();
+              itemsProgress_.addAll(other.itemsProgress_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.itemsProgress_.isEmpty()) {
+            if (itemsProgressBuilder_.isEmpty()) {
+              itemsProgressBuilder_.dispose();
+              itemsProgressBuilder_ = null;
+              itemsProgress_ = other.itemsProgress_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              itemsProgressBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getItemsProgressFieldBuilder() : null;
+            } else {
+              itemsProgressBuilder_.addAllMessages(other.itemsProgress_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -3446,6 +4476,7 @@ public final class YdbExport {
         }
         return this;
       }
+      private int bitField0_;
 
       private tech.ydb.export.YdbExport.ExportToYtSettings settings_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -3606,6 +4637,246 @@ public final class YdbExport {
         progress_ = 0;
         onChanged();
         return this;
+      }
+
+      private java.util.List<tech.ydb.export.YdbExport.ExportItemProgress> itemsProgress_ =
+        java.util.Collections.emptyList();
+      private void ensureItemsProgressIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          itemsProgress_ = new java.util.ArrayList<tech.ydb.export.YdbExport.ExportItemProgress>(itemsProgress_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.export.YdbExport.ExportItemProgress, tech.ydb.export.YdbExport.ExportItemProgress.Builder, tech.ydb.export.YdbExport.ExportItemProgressOrBuilder> itemsProgressBuilder_;
+
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public java.util.List<tech.ydb.export.YdbExport.ExportItemProgress> getItemsProgressList() {
+        if (itemsProgressBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(itemsProgress_);
+        } else {
+          return itemsProgressBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public int getItemsProgressCount() {
+        if (itemsProgressBuilder_ == null) {
+          return itemsProgress_.size();
+        } else {
+          return itemsProgressBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportItemProgress getItemsProgress(int index) {
+        if (itemsProgressBuilder_ == null) {
+          return itemsProgress_.get(index);
+        } else {
+          return itemsProgressBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder setItemsProgress(
+          int index, tech.ydb.export.YdbExport.ExportItemProgress value) {
+        if (itemsProgressBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsProgressIsMutable();
+          itemsProgress_.set(index, value);
+          onChanged();
+        } else {
+          itemsProgressBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder setItemsProgress(
+          int index, tech.ydb.export.YdbExport.ExportItemProgress.Builder builderForValue) {
+        if (itemsProgressBuilder_ == null) {
+          ensureItemsProgressIsMutable();
+          itemsProgress_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemsProgressBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder addItemsProgress(tech.ydb.export.YdbExport.ExportItemProgress value) {
+        if (itemsProgressBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsProgressIsMutable();
+          itemsProgress_.add(value);
+          onChanged();
+        } else {
+          itemsProgressBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder addItemsProgress(
+          int index, tech.ydb.export.YdbExport.ExportItemProgress value) {
+        if (itemsProgressBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsProgressIsMutable();
+          itemsProgress_.add(index, value);
+          onChanged();
+        } else {
+          itemsProgressBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder addItemsProgress(
+          tech.ydb.export.YdbExport.ExportItemProgress.Builder builderForValue) {
+        if (itemsProgressBuilder_ == null) {
+          ensureItemsProgressIsMutable();
+          itemsProgress_.add(builderForValue.build());
+          onChanged();
+        } else {
+          itemsProgressBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder addItemsProgress(
+          int index, tech.ydb.export.YdbExport.ExportItemProgress.Builder builderForValue) {
+        if (itemsProgressBuilder_ == null) {
+          ensureItemsProgressIsMutable();
+          itemsProgress_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemsProgressBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder addAllItemsProgress(
+          java.lang.Iterable<? extends tech.ydb.export.YdbExport.ExportItemProgress> values) {
+        if (itemsProgressBuilder_ == null) {
+          ensureItemsProgressIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, itemsProgress_);
+          onChanged();
+        } else {
+          itemsProgressBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder clearItemsProgress() {
+        if (itemsProgressBuilder_ == null) {
+          itemsProgress_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          itemsProgressBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder removeItemsProgress(int index) {
+        if (itemsProgressBuilder_ == null) {
+          ensureItemsProgressIsMutable();
+          itemsProgress_.remove(index);
+          onChanged();
+        } else {
+          itemsProgressBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportItemProgress.Builder getItemsProgressBuilder(
+          int index) {
+        return getItemsProgressFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportItemProgressOrBuilder getItemsProgressOrBuilder(
+          int index) {
+        if (itemsProgressBuilder_ == null) {
+          return itemsProgress_.get(index);  } else {
+          return itemsProgressBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public java.util.List<? extends tech.ydb.export.YdbExport.ExportItemProgressOrBuilder> 
+           getItemsProgressOrBuilderList() {
+        if (itemsProgressBuilder_ != null) {
+          return itemsProgressBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(itemsProgress_);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportItemProgress.Builder addItemsProgressBuilder() {
+        return getItemsProgressFieldBuilder().addBuilder(
+            tech.ydb.export.YdbExport.ExportItemProgress.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportItemProgress.Builder addItemsProgressBuilder(
+          int index) {
+        return getItemsProgressFieldBuilder().addBuilder(
+            index, tech.ydb.export.YdbExport.ExportItemProgress.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public java.util.List<tech.ydb.export.YdbExport.ExportItemProgress.Builder> 
+           getItemsProgressBuilderList() {
+        return getItemsProgressFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.export.YdbExport.ExportItemProgress, tech.ydb.export.YdbExport.ExportItemProgress.Builder, tech.ydb.export.YdbExport.ExportItemProgressOrBuilder> 
+          getItemsProgressFieldBuilder() {
+        if (itemsProgressBuilder_ == null) {
+          itemsProgressBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              tech.ydb.export.YdbExport.ExportItemProgress, tech.ydb.export.YdbExport.ExportItemProgress.Builder, tech.ydb.export.YdbExport.ExportItemProgressOrBuilder>(
+                  itemsProgress_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          itemsProgress_ = null;
+        }
+        return itemsProgressBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -7998,6 +9269,30 @@ public final class YdbExport {
      * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
      */
     tech.ydb.export.YdbExport.ExportProgress.Progress getProgress();
+
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    java.util.List<tech.ydb.export.YdbExport.ExportItemProgress> 
+        getItemsProgressList();
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    tech.ydb.export.YdbExport.ExportItemProgress getItemsProgress(int index);
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    int getItemsProgressCount();
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    java.util.List<? extends tech.ydb.export.YdbExport.ExportItemProgressOrBuilder> 
+        getItemsProgressOrBuilderList();
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    tech.ydb.export.YdbExport.ExportItemProgressOrBuilder getItemsProgressOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code Ydb.Export.ExportToS3Metadata}
@@ -8013,6 +9308,7 @@ public final class YdbExport {
     }
     private ExportToS3Metadata() {
       progress_ = 0;
+      itemsProgress_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -8062,6 +9358,15 @@ public final class YdbExport {
               progress_ = rawValue;
               break;
             }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                itemsProgress_ = new java.util.ArrayList<tech.ydb.export.YdbExport.ExportItemProgress>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              itemsProgress_.add(
+                  input.readMessage(tech.ydb.export.YdbExport.ExportItemProgress.parser(), extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8070,6 +9375,9 @@ public final class YdbExport {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          itemsProgress_ = java.util.Collections.unmodifiableList(itemsProgress_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -8086,6 +9394,7 @@ public final class YdbExport {
               tech.ydb.export.YdbExport.ExportToS3Metadata.class, tech.ydb.export.YdbExport.ExportToS3Metadata.Builder.class);
     }
 
+    private int bitField0_;
     public static final int SETTINGS_FIELD_NUMBER = 1;
     private tech.ydb.export.YdbExport.ExportToS3Settings settings_;
     /**
@@ -8123,6 +9432,41 @@ public final class YdbExport {
       return result == null ? tech.ydb.export.YdbExport.ExportProgress.Progress.UNRECOGNIZED : result;
     }
 
+    public static final int ITEMS_PROGRESS_FIELD_NUMBER = 3;
+    private java.util.List<tech.ydb.export.YdbExport.ExportItemProgress> itemsProgress_;
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    public java.util.List<tech.ydb.export.YdbExport.ExportItemProgress> getItemsProgressList() {
+      return itemsProgress_;
+    }
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    public java.util.List<? extends tech.ydb.export.YdbExport.ExportItemProgressOrBuilder> 
+        getItemsProgressOrBuilderList() {
+      return itemsProgress_;
+    }
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    public int getItemsProgressCount() {
+      return itemsProgress_.size();
+    }
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    public tech.ydb.export.YdbExport.ExportItemProgress getItemsProgress(int index) {
+      return itemsProgress_.get(index);
+    }
+    /**
+     * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+     */
+    public tech.ydb.export.YdbExport.ExportItemProgressOrBuilder getItemsProgressOrBuilder(
+        int index) {
+      return itemsProgress_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -8141,6 +9485,9 @@ public final class YdbExport {
       if (progress_ != tech.ydb.export.YdbExport.ExportProgress.Progress.PROGRESS_UNSPECIFIED.getNumber()) {
         output.writeEnum(2, progress_);
       }
+      for (int i = 0; i < itemsProgress_.size(); i++) {
+        output.writeMessage(3, itemsProgress_.get(i));
+      }
       unknownFields.writeTo(output);
     }
 
@@ -8156,6 +9503,10 @@ public final class YdbExport {
       if (progress_ != tech.ydb.export.YdbExport.ExportProgress.Progress.PROGRESS_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, progress_);
+      }
+      for (int i = 0; i < itemsProgress_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, itemsProgress_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -8179,6 +9530,8 @@ public final class YdbExport {
             .equals(other.getSettings());
       }
       result = result && progress_ == other.progress_;
+      result = result && getItemsProgressList()
+          .equals(other.getItemsProgressList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -8196,6 +9549,10 @@ public final class YdbExport {
       }
       hash = (37 * hash) + PROGRESS_FIELD_NUMBER;
       hash = (53 * hash) + progress_;
+      if (getItemsProgressCount() > 0) {
+        hash = (37 * hash) + ITEMS_PROGRESS_FIELD_NUMBER;
+        hash = (53 * hash) + getItemsProgressList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -8321,6 +9678,7 @@ public final class YdbExport {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getItemsProgressFieldBuilder();
         }
       }
       public Builder clear() {
@@ -8333,6 +9691,12 @@ public final class YdbExport {
         }
         progress_ = 0;
 
+        if (itemsProgressBuilder_ == null) {
+          itemsProgress_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          itemsProgressBuilder_.clear();
+        }
         return this;
       }
 
@@ -8355,12 +9719,24 @@ public final class YdbExport {
 
       public tech.ydb.export.YdbExport.ExportToS3Metadata buildPartial() {
         tech.ydb.export.YdbExport.ExportToS3Metadata result = new tech.ydb.export.YdbExport.ExportToS3Metadata(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (settingsBuilder_ == null) {
           result.settings_ = settings_;
         } else {
           result.settings_ = settingsBuilder_.build();
         }
         result.progress_ = progress_;
+        if (itemsProgressBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            itemsProgress_ = java.util.Collections.unmodifiableList(itemsProgress_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.itemsProgress_ = itemsProgress_;
+        } else {
+          result.itemsProgress_ = itemsProgressBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -8408,6 +9784,32 @@ public final class YdbExport {
         if (other.progress_ != 0) {
           setProgressValue(other.getProgressValue());
         }
+        if (itemsProgressBuilder_ == null) {
+          if (!other.itemsProgress_.isEmpty()) {
+            if (itemsProgress_.isEmpty()) {
+              itemsProgress_ = other.itemsProgress_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureItemsProgressIsMutable();
+              itemsProgress_.addAll(other.itemsProgress_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.itemsProgress_.isEmpty()) {
+            if (itemsProgressBuilder_.isEmpty()) {
+              itemsProgressBuilder_.dispose();
+              itemsProgressBuilder_ = null;
+              itemsProgress_ = other.itemsProgress_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              itemsProgressBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getItemsProgressFieldBuilder() : null;
+            } else {
+              itemsProgressBuilder_.addAllMessages(other.itemsProgress_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -8434,6 +9836,7 @@ public final class YdbExport {
         }
         return this;
       }
+      private int bitField0_;
 
       private tech.ydb.export.YdbExport.ExportToS3Settings settings_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -8594,6 +9997,246 @@ public final class YdbExport {
         progress_ = 0;
         onChanged();
         return this;
+      }
+
+      private java.util.List<tech.ydb.export.YdbExport.ExportItemProgress> itemsProgress_ =
+        java.util.Collections.emptyList();
+      private void ensureItemsProgressIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          itemsProgress_ = new java.util.ArrayList<tech.ydb.export.YdbExport.ExportItemProgress>(itemsProgress_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.export.YdbExport.ExportItemProgress, tech.ydb.export.YdbExport.ExportItemProgress.Builder, tech.ydb.export.YdbExport.ExportItemProgressOrBuilder> itemsProgressBuilder_;
+
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public java.util.List<tech.ydb.export.YdbExport.ExportItemProgress> getItemsProgressList() {
+        if (itemsProgressBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(itemsProgress_);
+        } else {
+          return itemsProgressBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public int getItemsProgressCount() {
+        if (itemsProgressBuilder_ == null) {
+          return itemsProgress_.size();
+        } else {
+          return itemsProgressBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportItemProgress getItemsProgress(int index) {
+        if (itemsProgressBuilder_ == null) {
+          return itemsProgress_.get(index);
+        } else {
+          return itemsProgressBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder setItemsProgress(
+          int index, tech.ydb.export.YdbExport.ExportItemProgress value) {
+        if (itemsProgressBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsProgressIsMutable();
+          itemsProgress_.set(index, value);
+          onChanged();
+        } else {
+          itemsProgressBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder setItemsProgress(
+          int index, tech.ydb.export.YdbExport.ExportItemProgress.Builder builderForValue) {
+        if (itemsProgressBuilder_ == null) {
+          ensureItemsProgressIsMutable();
+          itemsProgress_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemsProgressBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder addItemsProgress(tech.ydb.export.YdbExport.ExportItemProgress value) {
+        if (itemsProgressBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsProgressIsMutable();
+          itemsProgress_.add(value);
+          onChanged();
+        } else {
+          itemsProgressBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder addItemsProgress(
+          int index, tech.ydb.export.YdbExport.ExportItemProgress value) {
+        if (itemsProgressBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsProgressIsMutable();
+          itemsProgress_.add(index, value);
+          onChanged();
+        } else {
+          itemsProgressBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder addItemsProgress(
+          tech.ydb.export.YdbExport.ExportItemProgress.Builder builderForValue) {
+        if (itemsProgressBuilder_ == null) {
+          ensureItemsProgressIsMutable();
+          itemsProgress_.add(builderForValue.build());
+          onChanged();
+        } else {
+          itemsProgressBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder addItemsProgress(
+          int index, tech.ydb.export.YdbExport.ExportItemProgress.Builder builderForValue) {
+        if (itemsProgressBuilder_ == null) {
+          ensureItemsProgressIsMutable();
+          itemsProgress_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemsProgressBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder addAllItemsProgress(
+          java.lang.Iterable<? extends tech.ydb.export.YdbExport.ExportItemProgress> values) {
+        if (itemsProgressBuilder_ == null) {
+          ensureItemsProgressIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, itemsProgress_);
+          onChanged();
+        } else {
+          itemsProgressBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder clearItemsProgress() {
+        if (itemsProgressBuilder_ == null) {
+          itemsProgress_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          itemsProgressBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public Builder removeItemsProgress(int index) {
+        if (itemsProgressBuilder_ == null) {
+          ensureItemsProgressIsMutable();
+          itemsProgress_.remove(index);
+          onChanged();
+        } else {
+          itemsProgressBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportItemProgress.Builder getItemsProgressBuilder(
+          int index) {
+        return getItemsProgressFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportItemProgressOrBuilder getItemsProgressOrBuilder(
+          int index) {
+        if (itemsProgressBuilder_ == null) {
+          return itemsProgress_.get(index);  } else {
+          return itemsProgressBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public java.util.List<? extends tech.ydb.export.YdbExport.ExportItemProgressOrBuilder> 
+           getItemsProgressOrBuilderList() {
+        if (itemsProgressBuilder_ != null) {
+          return itemsProgressBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(itemsProgress_);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportItemProgress.Builder addItemsProgressBuilder() {
+        return getItemsProgressFieldBuilder().addBuilder(
+            tech.ydb.export.YdbExport.ExportItemProgress.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportItemProgress.Builder addItemsProgressBuilder(
+          int index) {
+        return getItemsProgressFieldBuilder().addBuilder(
+            index, tech.ydb.export.YdbExport.ExportItemProgress.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
+       */
+      public java.util.List<tech.ydb.export.YdbExport.ExportItemProgress.Builder> 
+           getItemsProgressBuilderList() {
+        return getItemsProgressFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.export.YdbExport.ExportItemProgress, tech.ydb.export.YdbExport.ExportItemProgress.Builder, tech.ydb.export.YdbExport.ExportItemProgressOrBuilder> 
+          getItemsProgressFieldBuilder() {
+        if (itemsProgressBuilder_ == null) {
+          itemsProgressBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              tech.ydb.export.YdbExport.ExportItemProgress, tech.ydb.export.YdbExport.ExportItemProgress.Builder, tech.ydb.export.YdbExport.ExportItemProgressOrBuilder>(
+                  itemsProgress_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          itemsProgress_ = null;
+        }
+        return itemsProgressBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -10077,6 +11720,11 @@ public final class YdbExport {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Export_ExportProgress_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Export_ExportItemProgress_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Export_ExportItemProgress_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Export_ExportToYtSettings_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -10148,48 +11796,55 @@ public final class YdbExport {
       "\n)kikimr/public/api/protos/ydb_export.pr" +
       "oto\022\nYdb.Export\0324kikimr/public/api/proto" +
       "s/validation/validation.proto\032,kikimr/pu" +
-      "blic/api/protos/ydb_operation.proto\"\261\001\n\016" +
-      "ExportProgress\"\236\001\n\010Progress\022\030\n\024PROGRESS_" +
-      "UNSPECIFIED\020\000\022\026\n\022PROGRESS_PREPARING\020\001\022\032\n" +
-      "\026PROGRESS_TRANSFER_DATA\020\002\022\021\n\rPROGRESS_DO" +
-      "NE\020\003\022\031\n\025PROGRESS_CANCELLATION\020\004\022\026\n\022PROGR" +
-      "ESS_CANCELLED\020\005\"\230\002\n\022ExportToYtSettings\022\022" +
-      "\n\004host\030\001 \001(\tB\004\220\346*\001\022\014\n\004port\030\002 \001(\r\022\023\n\005toke",
-      "n\030\003 \001(\tB\004\220\346*\001\022:\n\005items\030\004 \003(\0132#.Ydb.Expor" +
-      "t.ExportToYtSettings.ItemB\006\232\346*\002(\001\022\034\n\013des" +
-      "cription\030\005 \001(\tB\007\242\346*\003\030\200\001\022\031\n\021number_of_ret" +
-      "ries\030\006 \001(\r\022\023\n\013use_type_v3\030\007 \001(\010\032A\n\004Item\022" +
-      "\031\n\013source_path\030\001 \001(\tB\004\220\346*\001\022\036\n\020destinatio" +
-      "n_path\030\002 \001(\tB\004\220\346*\001\"\022\n\020ExportToYtResult\"}" +
-      "\n\022ExportToYtMetadata\0220\n\010settings\030\001 \001(\0132\036" +
-      ".Ydb.Export.ExportToYtSettings\0225\n\010progre" +
-      "ss\030\002 \001(\0162#.Ydb.Export.ExportProgress.Pro" +
-      "gress\"\206\001\n\021ExportToYtRequest\0229\n\020operation",
-      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\0226\n\010settings\030\002 \001(\0132\036.Ydb.Export.Ex" +
-      "portToYtSettingsB\004\220\346*\001\"B\n\022ExportToYtResp" +
-      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
-      ".Operation\"\227\003\n\022ExportToS3Settings\022\026\n\010end" +
-      "point\030\001 \001(\tB\004\220\346*\001\0225\n\006scheme\030\002 \001(\0162%.Ydb." +
-      "Export.ExportToS3Settings.Scheme\022\024\n\006buck" +
-      "et\030\003 \001(\tB\004\220\346*\001\022\030\n\naccess_key\030\004 \001(\tB\004\220\346*\001" +
-      "\022\030\n\nsecret_key\030\005 \001(\tB\004\220\346*\001\022:\n\005items\030\006 \003(" +
-      "\0132#.Ydb.Export.ExportToS3Settings.ItemB\006",
-      "\232\346*\002(\001\022\034\n\013description\030\007 \001(\tB\007\242\346*\003\030\200\001\022\031\n\021" +
-      "number_of_retries\030\010 \001(\r\032C\n\004Item\022\031\n\013sourc" +
-      "e_path\030\001 \001(\tB\004\220\346*\001\022 \n\022destination_prefix" +
-      "\030\002 \001(\tB\004\220\346*\001\".\n\006Scheme\022\017\n\013UNSPECIFIED\020\000\022" +
-      "\010\n\004HTTP\020\001\022\t\n\005HTTPS\020\002\"\022\n\020ExportToS3Result" +
-      "\"}\n\022ExportToS3Metadata\0220\n\010settings\030\001 \001(\013" +
-      "2\036.Ydb.Export.ExportToS3Settings\0225\n\010prog" +
-      "ress\030\002 \001(\0162#.Ydb.Export.ExportProgress.P" +
-      "rogress\"\206\001\n\021ExportToS3Request\0229\n\020operati" +
-      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati",
-      "onParams\0226\n\010settings\030\002 \001(\0132\036.Ydb.Export." +
-      "ExportToS3SettingsB\004\220\346*\001\"B\n\022ExportToS3Re" +
-      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
-      "ns.OperationB\032\n\025tech.ydb.export\370\001\001" +
-      "b\006proto3"
+      "blic/api/protos/ydb_operation.proto\032\037goo" +
+      "gle/protobuf/timestamp.proto\"\261\001\n\016ExportP" +
+      "rogress\"\236\001\n\010Progress\022\030\n\024PROGRESS_UNSPECI" +
+      "FIED\020\000\022\026\n\022PROGRESS_PREPARING\020\001\022\032\n\026PROGRE" +
+      "SS_TRANSFER_DATA\020\002\022\021\n\rPROGRESS_DONE\020\003\022\031\n" +
+      "\025PROGRESS_CANCELLATION\020\004\022\026\n\022PROGRESS_CAN" +
+      "CELLED\020\005\"\240\001\n\022ExportItemProgress\022\023\n\013parts",
+      "_total\030\001 \001(\r\022\027\n\017parts_completed\030\002 \001(\r\022.\n" +
+      "\nstart_time\030\003 \001(\0132\032.google.protobuf.Time" +
+      "stamp\022,\n\010end_time\030\004 \001(\0132\032.google.protobu" +
+      "f.Timestamp\"\230\002\n\022ExportToYtSettings\022\022\n\004ho" +
+      "st\030\001 \001(\tB\004\220\346*\001\022\014\n\004port\030\002 \001(\r\022\023\n\005token\030\003 " +
+      "\001(\tB\004\220\346*\001\022:\n\005items\030\004 \003(\0132#.Ydb.Export.Ex" +
+      "portToYtSettings.ItemB\006\232\346*\002(\001\022\034\n\013descrip" +
+      "tion\030\005 \001(\tB\007\242\346*\003\030\200\001\022\031\n\021number_of_retries" +
+      "\030\006 \001(\r\022\023\n\013use_type_v3\030\007 \001(\010\032A\n\004Item\022\031\n\013s" +
+      "ource_path\030\001 \001(\tB\004\220\346*\001\022\036\n\020destination_pa",
+      "th\030\002 \001(\tB\004\220\346*\001\"\022\n\020ExportToYtResult\"\265\001\n\022E" +
+      "xportToYtMetadata\0220\n\010settings\030\001 \001(\0132\036.Yd" +
+      "b.Export.ExportToYtSettings\0225\n\010progress\030" +
+      "\002 \001(\0162#.Ydb.Export.ExportProgress.Progre" +
+      "ss\0226\n\016items_progress\030\003 \003(\0132\036.Ydb.Export." +
+      "ExportItemProgress\"\206\001\n\021ExportToYtRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\0226\n\010settings\030\002 \001(\0132\036." +
+      "Ydb.Export.ExportToYtSettingsB\004\220\346*\001\"B\n\022E" +
+      "xportToYtResponse\022,\n\toperation\030\001 \001(\0132\031.Y",
+      "db.Operations.Operation\"\227\003\n\022ExportToS3Se" +
+      "ttings\022\026\n\010endpoint\030\001 \001(\tB\004\220\346*\001\0225\n\006scheme" +
+      "\030\002 \001(\0162%.Ydb.Export.ExportToS3Settings.S" +
+      "cheme\022\024\n\006bucket\030\003 \001(\tB\004\220\346*\001\022\030\n\naccess_ke" +
+      "y\030\004 \001(\tB\004\220\346*\001\022\030\n\nsecret_key\030\005 \001(\tB\004\220\346*\001\022" +
+      ":\n\005items\030\006 \003(\0132#.Ydb.Export.ExportToS3Se" +
+      "ttings.ItemB\006\232\346*\002(\001\022\034\n\013description\030\007 \001(\t" +
+      "B\007\242\346*\003\030\200\001\022\031\n\021number_of_retries\030\010 \001(\r\032C\n\004" +
+      "Item\022\031\n\013source_path\030\001 \001(\tB\004\220\346*\001\022 \n\022desti" +
+      "nation_prefix\030\002 \001(\tB\004\220\346*\001\".\n\006Scheme\022\017\n\013U",
+      "NSPECIFIED\020\000\022\010\n\004HTTP\020\001\022\t\n\005HTTPS\020\002\"\022\n\020Exp" +
+      "ortToS3Result\"\265\001\n\022ExportToS3Metadata\0220\n\010" +
+      "settings\030\001 \001(\0132\036.Ydb.Export.ExportToS3Se" +
+      "ttings\0225\n\010progress\030\002 \001(\0162#.Ydb.Export.Ex" +
+      "portProgress.Progress\0226\n\016items_progress\030" +
+      "\003 \003(\0132\036.Ydb.Export.ExportItemProgress\"\206\001" +
+      "\n\021ExportToS3Request\0229\n\020operation_params\030" +
+      "\001 \001(\0132\037.Ydb.Operations.OperationParams\0226" +
+      "\n\010settings\030\002 \001(\0132\036.Ydb.Export.ExportToS3" +
+      "SettingsB\004\220\346*\001\"B\n\022ExportToS3Response\022,\n\t",
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
+      "onB\032\n\025tech.ydb.export\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -10204,6 +11859,7 @@ public final class YdbExport {
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.Validation.getDescriptor(),
           tech.ydb.OperationProtos.getDescriptor(),
+          com.google.protobuf.TimestampProto.getDescriptor(),
         }, assigner);
     internal_static_Ydb_Export_ExportProgress_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -10211,8 +11867,14 @@ public final class YdbExport {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportProgress_descriptor,
         new java.lang.String[] { });
-    internal_static_Ydb_Export_ExportToYtSettings_descriptor =
+    internal_static_Ydb_Export_ExportItemProgress_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_Ydb_Export_ExportItemProgress_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Export_ExportItemProgress_descriptor,
+        new java.lang.String[] { "PartsTotal", "PartsCompleted", "StartTime", "EndTime", });
+    internal_static_Ydb_Export_ExportToYtSettings_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_Ydb_Export_ExportToYtSettings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToYtSettings_descriptor,
@@ -10224,31 +11886,31 @@ public final class YdbExport {
         internal_static_Ydb_Export_ExportToYtSettings_Item_descriptor,
         new java.lang.String[] { "SourcePath", "DestinationPath", });
     internal_static_Ydb_Export_ExportToYtResult_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_Ydb_Export_ExportToYtResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToYtResult_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_Export_ExportToYtMetadata_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_Ydb_Export_ExportToYtMetadata_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToYtMetadata_descriptor,
-        new java.lang.String[] { "Settings", "Progress", });
+        new java.lang.String[] { "Settings", "Progress", "ItemsProgress", });
     internal_static_Ydb_Export_ExportToYtRequest_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_Ydb_Export_ExportToYtRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToYtRequest_descriptor,
         new java.lang.String[] { "OperationParams", "Settings", });
     internal_static_Ydb_Export_ExportToYtResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_Ydb_Export_ExportToYtResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToYtResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Export_ExportToS3Settings_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_Ydb_Export_ExportToS3Settings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToS3Settings_descriptor,
@@ -10260,25 +11922,25 @@ public final class YdbExport {
         internal_static_Ydb_Export_ExportToS3Settings_Item_descriptor,
         new java.lang.String[] { "SourcePath", "DestinationPrefix", });
     internal_static_Ydb_Export_ExportToS3Result_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Ydb_Export_ExportToS3Result_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToS3Result_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_Export_ExportToS3Metadata_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Export_ExportToS3Metadata_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToS3Metadata_descriptor,
-        new java.lang.String[] { "Settings", "Progress", });
+        new java.lang.String[] { "Settings", "Progress", "ItemsProgress", });
     internal_static_Ydb_Export_ExportToS3Request_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_Ydb_Export_ExportToS3Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToS3Request_descriptor,
         new java.lang.String[] { "OperationParams", "Settings", });
     internal_static_Ydb_Export_ExportToS3Response_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_Ydb_Export_ExportToS3Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToS3Response_descriptor,
@@ -10292,6 +11954,7 @@ public final class YdbExport {
         .internalUpdateFileDescriptor(descriptor, registry);
     tech.ydb.Validation.getDescriptor();
     tech.ydb.OperationProtos.getDescriptor();
+    com.google.protobuf.TimestampProto.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

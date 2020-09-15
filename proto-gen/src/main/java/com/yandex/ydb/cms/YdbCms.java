@@ -5472,6 +5472,1443 @@ public final class YdbCms {
 
   }
 
+  public interface SchemaOperationQuotasOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Cms.SchemaOperationQuotas)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Leaky bucket based quotas
+     * </pre>
+     *
+     * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+     */
+    java.util.List<tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket> 
+        getLeakyBucketQuotasList();
+    /**
+     * <pre>
+     * Leaky bucket based quotas
+     * </pre>
+     *
+     * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+     */
+    tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket getLeakyBucketQuotas(int index);
+    /**
+     * <pre>
+     * Leaky bucket based quotas
+     * </pre>
+     *
+     * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+     */
+    int getLeakyBucketQuotasCount();
+    /**
+     * <pre>
+     * Leaky bucket based quotas
+     * </pre>
+     *
+     * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+     */
+    java.util.List<? extends tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucketOrBuilder> 
+        getLeakyBucketQuotasOrBuilderList();
+    /**
+     * <pre>
+     * Leaky bucket based quotas
+     * </pre>
+     *
+     * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+     */
+    tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucketOrBuilder getLeakyBucketQuotasOrBuilder(
+        int index);
+  }
+  /**
+   * <pre>
+   * A set of quotas for schema operations
+   * </pre>
+   *
+   * Protobuf type {@code Ydb.Cms.SchemaOperationQuotas}
+   */
+  public  static final class SchemaOperationQuotas extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Cms.SchemaOperationQuotas)
+      SchemaOperationQuotasOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SchemaOperationQuotas.newBuilder() to construct.
+    private SchemaOperationQuotas(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SchemaOperationQuotas() {
+      leakyBucketQuotas_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SchemaOperationQuotas(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                leakyBucketQuotas_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              leakyBucketQuotas_.add(
+                  input.readMessage(tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.parser(), extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          leakyBucketQuotas_ = java.util.Collections.unmodifiableList(leakyBucketQuotas_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.cms.YdbCms.SchemaOperationQuotas.class, tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder.class);
+    }
+
+    public interface LeakyBucketOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Ydb.Cms.SchemaOperationQuotas.LeakyBucket)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <pre>
+       * Bucket size, e.g. &lt;1000&gt; per day
+       * </pre>
+       *
+       * <code>double bucket_size = 1;</code>
+       */
+      double getBucketSize();
+
+      /**
+       * <pre>
+       * Bucket duration in seconds, e.g. 1000 per &lt;day&gt;
+       * </pre>
+       *
+       * <code>uint64 bucket_seconds = 2;</code>
+       */
+      long getBucketSeconds();
+    }
+    /**
+     * <pre>
+     * A single quota based on leaky bucket
+     * </pre>
+     *
+     * Protobuf type {@code Ydb.Cms.SchemaOperationQuotas.LeakyBucket}
+     */
+    public  static final class LeakyBucket extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:Ydb.Cms.SchemaOperationQuotas.LeakyBucket)
+        LeakyBucketOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use LeakyBucket.newBuilder() to construct.
+      private LeakyBucket(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private LeakyBucket() {
+        bucketSize_ = 0D;
+        bucketSeconds_ = 0L;
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private LeakyBucket(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownFieldProto3(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 9: {
+
+                bucketSize_ = input.readDouble();
+                break;
+              }
+              case 16: {
+
+                bucketSeconds_ = input.readUInt64();
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.class, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.Builder.class);
+      }
+
+      public static final int BUCKET_SIZE_FIELD_NUMBER = 1;
+      private double bucketSize_;
+      /**
+       * <pre>
+       * Bucket size, e.g. &lt;1000&gt; per day
+       * </pre>
+       *
+       * <code>double bucket_size = 1;</code>
+       */
+      public double getBucketSize() {
+        return bucketSize_;
+      }
+
+      public static final int BUCKET_SECONDS_FIELD_NUMBER = 2;
+      private long bucketSeconds_;
+      /**
+       * <pre>
+       * Bucket duration in seconds, e.g. 1000 per &lt;day&gt;
+       * </pre>
+       *
+       * <code>uint64 bucket_seconds = 2;</code>
+       */
+      public long getBucketSeconds() {
+        return bucketSeconds_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (bucketSize_ != 0D) {
+          output.writeDouble(1, bucketSize_);
+        }
+        if (bucketSeconds_ != 0L) {
+          output.writeUInt64(2, bucketSeconds_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (bucketSize_ != 0D) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeDoubleSize(1, bucketSize_);
+        }
+        if (bucketSeconds_ != 0L) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeUInt64Size(2, bucketSeconds_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket)) {
+          return super.equals(obj);
+        }
+        tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket other = (tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket) obj;
+
+        boolean result = true;
+        result = result && (
+            java.lang.Double.doubleToLongBits(getBucketSize())
+            == java.lang.Double.doubleToLongBits(
+                other.getBucketSize()));
+        result = result && (getBucketSeconds()
+            == other.getBucketSeconds());
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + BUCKET_SIZE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            java.lang.Double.doubleToLongBits(getBucketSize()));
+        hash = (37 * hash) + BUCKET_SECONDS_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getBucketSeconds());
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * <pre>
+       * A single quota based on leaky bucket
+       * </pre>
+       *
+       * Protobuf type {@code Ydb.Cms.SchemaOperationQuotas.LeakyBucket}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:Ydb.Cms.SchemaOperationQuotas.LeakyBucket)
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucketOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.class, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.Builder.class);
+        }
+
+        // Construct using tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        public Builder clear() {
+          super.clear();
+          bucketSize_ = 0D;
+
+          bucketSeconds_ = 0L;
+
+          return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_descriptor;
+        }
+
+        public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket getDefaultInstanceForType() {
+          return tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.getDefaultInstance();
+        }
+
+        public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket build() {
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket buildPartial() {
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket result = new tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket(this);
+          result.bucketSize_ = bucketSize_;
+          result.bucketSeconds_ = bucketSeconds_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket) {
+            return mergeFrom((tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket other) {
+          if (other == tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.getDefaultInstance()) return this;
+          if (other.getBucketSize() != 0D) {
+            setBucketSize(other.getBucketSize());
+          }
+          if (other.getBucketSeconds() != 0L) {
+            setBucketSeconds(other.getBucketSeconds());
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private double bucketSize_ ;
+        /**
+         * <pre>
+         * Bucket size, e.g. &lt;1000&gt; per day
+         * </pre>
+         *
+         * <code>double bucket_size = 1;</code>
+         */
+        public double getBucketSize() {
+          return bucketSize_;
+        }
+        /**
+         * <pre>
+         * Bucket size, e.g. &lt;1000&gt; per day
+         * </pre>
+         *
+         * <code>double bucket_size = 1;</code>
+         */
+        public Builder setBucketSize(double value) {
+          
+          bucketSize_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Bucket size, e.g. &lt;1000&gt; per day
+         * </pre>
+         *
+         * <code>double bucket_size = 1;</code>
+         */
+        public Builder clearBucketSize() {
+          
+          bucketSize_ = 0D;
+          onChanged();
+          return this;
+        }
+
+        private long bucketSeconds_ ;
+        /**
+         * <pre>
+         * Bucket duration in seconds, e.g. 1000 per &lt;day&gt;
+         * </pre>
+         *
+         * <code>uint64 bucket_seconds = 2;</code>
+         */
+        public long getBucketSeconds() {
+          return bucketSeconds_;
+        }
+        /**
+         * <pre>
+         * Bucket duration in seconds, e.g. 1000 per &lt;day&gt;
+         * </pre>
+         *
+         * <code>uint64 bucket_seconds = 2;</code>
+         */
+        public Builder setBucketSeconds(long value) {
+          
+          bucketSeconds_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Bucket duration in seconds, e.g. 1000 per &lt;day&gt;
+         * </pre>
+         *
+         * <code>uint64 bucket_seconds = 2;</code>
+         */
+        public Builder clearBucketSeconds() {
+          
+          bucketSeconds_ = 0L;
+          onChanged();
+          return this;
+        }
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFieldsProto3(unknownFields);
+        }
+
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:Ydb.Cms.SchemaOperationQuotas.LeakyBucket)
+      }
+
+      // @@protoc_insertion_point(class_scope:Ydb.Cms.SchemaOperationQuotas.LeakyBucket)
+      private static final tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket();
+      }
+
+      public static tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<LeakyBucket>
+          PARSER = new com.google.protobuf.AbstractParser<LeakyBucket>() {
+        public LeakyBucket parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+            return new LeakyBucket(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<LeakyBucket> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<LeakyBucket> getParserForType() {
+        return PARSER;
+      }
+
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public static final int LEAKY_BUCKET_QUOTAS_FIELD_NUMBER = 1;
+    private java.util.List<tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket> leakyBucketQuotas_;
+    /**
+     * <pre>
+     * Leaky bucket based quotas
+     * </pre>
+     *
+     * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+     */
+    public java.util.List<tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket> getLeakyBucketQuotasList() {
+      return leakyBucketQuotas_;
+    }
+    /**
+     * <pre>
+     * Leaky bucket based quotas
+     * </pre>
+     *
+     * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+     */
+    public java.util.List<? extends tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucketOrBuilder> 
+        getLeakyBucketQuotasOrBuilderList() {
+      return leakyBucketQuotas_;
+    }
+    /**
+     * <pre>
+     * Leaky bucket based quotas
+     * </pre>
+     *
+     * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+     */
+    public int getLeakyBucketQuotasCount() {
+      return leakyBucketQuotas_.size();
+    }
+    /**
+     * <pre>
+     * Leaky bucket based quotas
+     * </pre>
+     *
+     * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+     */
+    public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket getLeakyBucketQuotas(int index) {
+      return leakyBucketQuotas_.get(index);
+    }
+    /**
+     * <pre>
+     * Leaky bucket based quotas
+     * </pre>
+     *
+     * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+     */
+    public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucketOrBuilder getLeakyBucketQuotasOrBuilder(
+        int index) {
+      return leakyBucketQuotas_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < leakyBucketQuotas_.size(); i++) {
+        output.writeMessage(1, leakyBucketQuotas_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < leakyBucketQuotas_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, leakyBucketQuotas_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.cms.YdbCms.SchemaOperationQuotas)) {
+        return super.equals(obj);
+      }
+      tech.ydb.cms.YdbCms.SchemaOperationQuotas other = (tech.ydb.cms.YdbCms.SchemaOperationQuotas) obj;
+
+      boolean result = true;
+      result = result && getLeakyBucketQuotasList()
+          .equals(other.getLeakyBucketQuotasList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getLeakyBucketQuotasCount() > 0) {
+        hash = (37 * hash) + LEAKY_BUCKET_QUOTAS_FIELD_NUMBER;
+        hash = (53 * hash) + getLeakyBucketQuotasList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.cms.YdbCms.SchemaOperationQuotas parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.cms.YdbCms.SchemaOperationQuotas parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.SchemaOperationQuotas parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.cms.YdbCms.SchemaOperationQuotas parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.SchemaOperationQuotas parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.cms.YdbCms.SchemaOperationQuotas parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.SchemaOperationQuotas parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.cms.YdbCms.SchemaOperationQuotas parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.SchemaOperationQuotas parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.cms.YdbCms.SchemaOperationQuotas parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.SchemaOperationQuotas parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.cms.YdbCms.SchemaOperationQuotas parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.cms.YdbCms.SchemaOperationQuotas prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * A set of quotas for schema operations
+     * </pre>
+     *
+     * Protobuf type {@code Ydb.Cms.SchemaOperationQuotas}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Cms.SchemaOperationQuotas)
+        tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.cms.YdbCms.SchemaOperationQuotas.class, tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder.class);
+      }
+
+      // Construct using tech.ydb.cms.YdbCms.SchemaOperationQuotas.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getLeakyBucketQuotasFieldBuilder();
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (leakyBucketQuotasBuilder_ == null) {
+          leakyBucketQuotas_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          leakyBucketQuotasBuilder_.clear();
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_descriptor;
+      }
+
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas getDefaultInstanceForType() {
+        return tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance();
+      }
+
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas build() {
+        tech.ydb.cms.YdbCms.SchemaOperationQuotas result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas buildPartial() {
+        tech.ydb.cms.YdbCms.SchemaOperationQuotas result = new tech.ydb.cms.YdbCms.SchemaOperationQuotas(this);
+        int from_bitField0_ = bitField0_;
+        if (leakyBucketQuotasBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            leakyBucketQuotas_ = java.util.Collections.unmodifiableList(leakyBucketQuotas_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.leakyBucketQuotas_ = leakyBucketQuotas_;
+        } else {
+          result.leakyBucketQuotas_ = leakyBucketQuotasBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.cms.YdbCms.SchemaOperationQuotas) {
+          return mergeFrom((tech.ydb.cms.YdbCms.SchemaOperationQuotas)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.cms.YdbCms.SchemaOperationQuotas other) {
+        if (other == tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance()) return this;
+        if (leakyBucketQuotasBuilder_ == null) {
+          if (!other.leakyBucketQuotas_.isEmpty()) {
+            if (leakyBucketQuotas_.isEmpty()) {
+              leakyBucketQuotas_ = other.leakyBucketQuotas_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureLeakyBucketQuotasIsMutable();
+              leakyBucketQuotas_.addAll(other.leakyBucketQuotas_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.leakyBucketQuotas_.isEmpty()) {
+            if (leakyBucketQuotasBuilder_.isEmpty()) {
+              leakyBucketQuotasBuilder_.dispose();
+              leakyBucketQuotasBuilder_ = null;
+              leakyBucketQuotas_ = other.leakyBucketQuotas_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              leakyBucketQuotasBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getLeakyBucketQuotasFieldBuilder() : null;
+            } else {
+              leakyBucketQuotasBuilder_.addAllMessages(other.leakyBucketQuotas_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.cms.YdbCms.SchemaOperationQuotas parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.cms.YdbCms.SchemaOperationQuotas) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket> leakyBucketQuotas_ =
+        java.util.Collections.emptyList();
+      private void ensureLeakyBucketQuotasIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          leakyBucketQuotas_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket>(leakyBucketQuotas_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucketOrBuilder> leakyBucketQuotasBuilder_;
+
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public java.util.List<tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket> getLeakyBucketQuotasList() {
+        if (leakyBucketQuotasBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(leakyBucketQuotas_);
+        } else {
+          return leakyBucketQuotasBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public int getLeakyBucketQuotasCount() {
+        if (leakyBucketQuotasBuilder_ == null) {
+          return leakyBucketQuotas_.size();
+        } else {
+          return leakyBucketQuotasBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket getLeakyBucketQuotas(int index) {
+        if (leakyBucketQuotasBuilder_ == null) {
+          return leakyBucketQuotas_.get(index);
+        } else {
+          return leakyBucketQuotasBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public Builder setLeakyBucketQuotas(
+          int index, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket value) {
+        if (leakyBucketQuotasBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLeakyBucketQuotasIsMutable();
+          leakyBucketQuotas_.set(index, value);
+          onChanged();
+        } else {
+          leakyBucketQuotasBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public Builder setLeakyBucketQuotas(
+          int index, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.Builder builderForValue) {
+        if (leakyBucketQuotasBuilder_ == null) {
+          ensureLeakyBucketQuotasIsMutable();
+          leakyBucketQuotas_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          leakyBucketQuotasBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public Builder addLeakyBucketQuotas(tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket value) {
+        if (leakyBucketQuotasBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLeakyBucketQuotasIsMutable();
+          leakyBucketQuotas_.add(value);
+          onChanged();
+        } else {
+          leakyBucketQuotasBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public Builder addLeakyBucketQuotas(
+          int index, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket value) {
+        if (leakyBucketQuotasBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLeakyBucketQuotasIsMutable();
+          leakyBucketQuotas_.add(index, value);
+          onChanged();
+        } else {
+          leakyBucketQuotasBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public Builder addLeakyBucketQuotas(
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.Builder builderForValue) {
+        if (leakyBucketQuotasBuilder_ == null) {
+          ensureLeakyBucketQuotasIsMutable();
+          leakyBucketQuotas_.add(builderForValue.build());
+          onChanged();
+        } else {
+          leakyBucketQuotasBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public Builder addLeakyBucketQuotas(
+          int index, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.Builder builderForValue) {
+        if (leakyBucketQuotasBuilder_ == null) {
+          ensureLeakyBucketQuotasIsMutable();
+          leakyBucketQuotas_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          leakyBucketQuotasBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public Builder addAllLeakyBucketQuotas(
+          java.lang.Iterable<? extends tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket> values) {
+        if (leakyBucketQuotasBuilder_ == null) {
+          ensureLeakyBucketQuotasIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, leakyBucketQuotas_);
+          onChanged();
+        } else {
+          leakyBucketQuotasBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public Builder clearLeakyBucketQuotas() {
+        if (leakyBucketQuotasBuilder_ == null) {
+          leakyBucketQuotas_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          leakyBucketQuotasBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public Builder removeLeakyBucketQuotas(int index) {
+        if (leakyBucketQuotasBuilder_ == null) {
+          ensureLeakyBucketQuotasIsMutable();
+          leakyBucketQuotas_.remove(index);
+          onChanged();
+        } else {
+          leakyBucketQuotasBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.Builder getLeakyBucketQuotasBuilder(
+          int index) {
+        return getLeakyBucketQuotasFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucketOrBuilder getLeakyBucketQuotasOrBuilder(
+          int index) {
+        if (leakyBucketQuotasBuilder_ == null) {
+          return leakyBucketQuotas_.get(index);  } else {
+          return leakyBucketQuotasBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public java.util.List<? extends tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucketOrBuilder> 
+           getLeakyBucketQuotasOrBuilderList() {
+        if (leakyBucketQuotasBuilder_ != null) {
+          return leakyBucketQuotasBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(leakyBucketQuotas_);
+        }
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.Builder addLeakyBucketQuotasBuilder() {
+        return getLeakyBucketQuotasFieldBuilder().addBuilder(
+            tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.Builder addLeakyBucketQuotasBuilder(
+          int index) {
+        return getLeakyBucketQuotasFieldBuilder().addBuilder(
+            index, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Leaky bucket based quotas
+       * </pre>
+       *
+       * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
+       */
+      public java.util.List<tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.Builder> 
+           getLeakyBucketQuotasBuilderList() {
+        return getLeakyBucketQuotasFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucketOrBuilder> 
+          getLeakyBucketQuotasFieldBuilder() {
+        if (leakyBucketQuotasBuilder_ == null) {
+          leakyBucketQuotasBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucketOrBuilder>(
+                  leakyBucketQuotas_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          leakyBucketQuotas_ = null;
+        }
+        return leakyBucketQuotasBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Cms.SchemaOperationQuotas)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Cms.SchemaOperationQuotas)
+    private static final tech.ydb.cms.YdbCms.SchemaOperationQuotas DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.cms.YdbCms.SchemaOperationQuotas();
+    }
+
+    public static tech.ydb.cms.YdbCms.SchemaOperationQuotas getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SchemaOperationQuotas>
+        PARSER = new com.google.protobuf.AbstractParser<SchemaOperationQuotas>() {
+      public SchemaOperationQuotas parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new SchemaOperationQuotas(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SchemaOperationQuotas> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SchemaOperationQuotas> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.cms.YdbCms.SchemaOperationQuotas getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface CreateDatabaseRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.Cms.CreateDatabaseRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -5651,6 +7088,31 @@ public final class YdbCms {
     tech.ydb.cms.YdbCms.AttributeOrBuilder getAttributesOrBuilder(
         int index);
 
+    /**
+     * <pre>
+     * Optional quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+     */
+    boolean hasSchemaOperationQuotas();
+    /**
+     * <pre>
+     * Optional quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+     */
+    tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas();
+    /**
+     * <pre>
+     * Optional quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+     */
+    tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder();
+
     public tech.ydb.cms.YdbCms.CreateDatabaseRequest.ResourcesKindCase getResourcesKindCase();
   }
   /**
@@ -5785,6 +7247,19 @@ public final class YdbCms {
                 resourcesKind_ = subBuilder.buildPartial();
               }
               resourcesKindCase_ = 7;
+              break;
+            }
+            case 66: {
+              tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder subBuilder = null;
+              if (schemaOperationQuotas_ != null) {
+                subBuilder = schemaOperationQuotas_.toBuilder();
+              }
+              schemaOperationQuotas_ = input.readMessage(tech.ydb.cms.YdbCms.SchemaOperationQuotas.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(schemaOperationQuotas_);
+                schemaOperationQuotas_ = subBuilder.buildPartial();
+              }
+
               break;
             }
           }
@@ -6120,6 +7595,39 @@ public final class YdbCms {
       return attributes_.get(index);
     }
 
+    public static final int SCHEMA_OPERATION_QUOTAS_FIELD_NUMBER = 8;
+    private tech.ydb.cms.YdbCms.SchemaOperationQuotas schemaOperationQuotas_;
+    /**
+     * <pre>
+     * Optional quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+     */
+    public boolean hasSchemaOperationQuotas() {
+      return schemaOperationQuotas_ != null;
+    }
+    /**
+     * <pre>
+     * Optional quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+     */
+    public tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas() {
+      return schemaOperationQuotas_ == null ? tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance() : schemaOperationQuotas_;
+    }
+    /**
+     * <pre>
+     * Optional quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+     */
+    public tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder() {
+      return getSchemaOperationQuotas();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -6152,6 +7660,9 @@ public final class YdbCms {
       }
       if (resourcesKindCase_ == 7) {
         output.writeMessage(7, (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_);
+      }
+      if (schemaOperationQuotas_ != null) {
+        output.writeMessage(8, getSchemaOperationQuotas());
       }
       unknownFields.writeTo(output);
     }
@@ -6188,6 +7699,10 @@ public final class YdbCms {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_);
       }
+      if (schemaOperationQuotas_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, getSchemaOperationQuotas());
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -6218,6 +7733,11 @@ public final class YdbCms {
       }
       result = result && getAttributesList()
           .equals(other.getAttributesList());
+      result = result && (hasSchemaOperationQuotas() == other.hasSchemaOperationQuotas());
+      if (hasSchemaOperationQuotas()) {
+        result = result && getSchemaOperationQuotas()
+            .equals(other.getSchemaOperationQuotas());
+      }
       result = result && getResourcesKindCase().equals(
           other.getResourcesKindCase());
       if (!result) return false;
@@ -6261,6 +7781,10 @@ public final class YdbCms {
       if (getAttributesCount() > 0) {
         hash = (37 * hash) + ATTRIBUTES_FIELD_NUMBER;
         hash = (53 * hash) + getAttributesList().hashCode();
+      }
+      if (hasSchemaOperationQuotas()) {
+        hash = (37 * hash) + SCHEMA_OPERATION_QUOTAS_FIELD_NUMBER;
+        hash = (53 * hash) + getSchemaOperationQuotas().hashCode();
       }
       switch (resourcesKindCase_) {
         case 3:
@@ -6434,6 +7958,12 @@ public final class YdbCms {
         } else {
           attributesBuilder_.clear();
         }
+        if (schemaOperationQuotasBuilder_ == null) {
+          schemaOperationQuotas_ = null;
+        } else {
+          schemaOperationQuotas_ = null;
+          schemaOperationQuotasBuilder_ = null;
+        }
         resourcesKindCase_ = 0;
         resourcesKind_ = null;
         return this;
@@ -6500,6 +8030,11 @@ public final class YdbCms {
           result.attributes_ = attributes_;
         } else {
           result.attributes_ = attributesBuilder_.build();
+        }
+        if (schemaOperationQuotasBuilder_ == null) {
+          result.schemaOperationQuotas_ = schemaOperationQuotas_;
+        } else {
+          result.schemaOperationQuotas_ = schemaOperationQuotasBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         result.resourcesKindCase_ = resourcesKindCase_;
@@ -6579,6 +8114,9 @@ public final class YdbCms {
               attributesBuilder_.addAllMessages(other.attributes_);
             }
           }
+        }
+        if (other.hasSchemaOperationQuotas()) {
+          mergeSchemaOperationQuotas(other.getSchemaOperationQuotas());
         }
         switch (other.getResourcesKindCase()) {
           case RESOURCES: {
@@ -7825,6 +9363,159 @@ public final class YdbCms {
           attributes_ = null;
         }
         return attributesBuilder_;
+      }
+
+      private tech.ydb.cms.YdbCms.SchemaOperationQuotas schemaOperationQuotas_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas, tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder> schemaOperationQuotasBuilder_;
+      /**
+       * <pre>
+       * Optional quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+       */
+      public boolean hasSchemaOperationQuotas() {
+        return schemaOperationQuotasBuilder_ != null || schemaOperationQuotas_ != null;
+      }
+      /**
+       * <pre>
+       * Optional quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+       */
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas() {
+        if (schemaOperationQuotasBuilder_ == null) {
+          return schemaOperationQuotas_ == null ? tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance() : schemaOperationQuotas_;
+        } else {
+          return schemaOperationQuotasBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Optional quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+       */
+      public Builder setSchemaOperationQuotas(tech.ydb.cms.YdbCms.SchemaOperationQuotas value) {
+        if (schemaOperationQuotasBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          schemaOperationQuotas_ = value;
+          onChanged();
+        } else {
+          schemaOperationQuotasBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+       */
+      public Builder setSchemaOperationQuotas(
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder builderForValue) {
+        if (schemaOperationQuotasBuilder_ == null) {
+          schemaOperationQuotas_ = builderForValue.build();
+          onChanged();
+        } else {
+          schemaOperationQuotasBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+       */
+      public Builder mergeSchemaOperationQuotas(tech.ydb.cms.YdbCms.SchemaOperationQuotas value) {
+        if (schemaOperationQuotasBuilder_ == null) {
+          if (schemaOperationQuotas_ != null) {
+            schemaOperationQuotas_ =
+              tech.ydb.cms.YdbCms.SchemaOperationQuotas.newBuilder(schemaOperationQuotas_).mergeFrom(value).buildPartial();
+          } else {
+            schemaOperationQuotas_ = value;
+          }
+          onChanged();
+        } else {
+          schemaOperationQuotasBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+       */
+      public Builder clearSchemaOperationQuotas() {
+        if (schemaOperationQuotasBuilder_ == null) {
+          schemaOperationQuotas_ = null;
+          onChanged();
+        } else {
+          schemaOperationQuotas_ = null;
+          schemaOperationQuotasBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+       */
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder getSchemaOperationQuotasBuilder() {
+        
+        onChanged();
+        return getSchemaOperationQuotasFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Optional quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+       */
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder() {
+        if (schemaOperationQuotasBuilder_ != null) {
+          return schemaOperationQuotasBuilder_.getMessageOrBuilder();
+        } else {
+          return schemaOperationQuotas_ == null ?
+              tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance() : schemaOperationQuotas_;
+        }
+      }
+      /**
+       * <pre>
+       * Optional quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas, tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder> 
+          getSchemaOperationQuotasFieldBuilder() {
+        if (schemaOperationQuotasBuilder_ == null) {
+          schemaOperationQuotasBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.cms.YdbCms.SchemaOperationQuotas, tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder>(
+                  getSchemaOperationQuotas(),
+                  getParentForChildren(),
+                  isClean());
+          schemaOperationQuotas_ = null;
+        }
+        return schemaOperationQuotasBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -12607,6 +14298,31 @@ public final class YdbCms {
      * <code>uint64 generation = 8;</code>
      */
     long getGeneration();
+
+    /**
+     * <pre>
+     * Change quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     */
+    boolean hasSchemaOperationQuotas();
+    /**
+     * <pre>
+     * Change quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     */
+    tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas();
+    /**
+     * <pre>
+     * Change quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     */
+    tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder();
   }
   /**
    * <pre>
@@ -12729,6 +14445,19 @@ public final class YdbCms {
             case 64: {
 
               generation_ = input.readUInt64();
+              break;
+            }
+            case 74: {
+              tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder subBuilder = null;
+              if (schemaOperationQuotas_ != null) {
+                subBuilder = schemaOperationQuotas_.toBuilder();
+              }
+              schemaOperationQuotas_ = input.readMessage(tech.ydb.cms.YdbCms.SchemaOperationQuotas.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(schemaOperationQuotas_);
+                schemaOperationQuotas_ = subBuilder.buildPartial();
+              }
+
               break;
             }
           }
@@ -13134,6 +14863,39 @@ public final class YdbCms {
       return generation_;
     }
 
+    public static final int SCHEMA_OPERATION_QUOTAS_FIELD_NUMBER = 9;
+    private tech.ydb.cms.YdbCms.SchemaOperationQuotas schemaOperationQuotas_;
+    /**
+     * <pre>
+     * Change quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     */
+    public boolean hasSchemaOperationQuotas() {
+      return schemaOperationQuotas_ != null;
+    }
+    /**
+     * <pre>
+     * Change quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     */
+    public tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas() {
+      return schemaOperationQuotas_ == null ? tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance() : schemaOperationQuotas_;
+    }
+    /**
+     * <pre>
+     * Change quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     */
+    public tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder() {
+      return getSchemaOperationQuotas();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -13169,6 +14931,9 @@ public final class YdbCms {
       }
       if (generation_ != 0L) {
         output.writeUInt64(8, generation_);
+      }
+      if (schemaOperationQuotas_ != null) {
+        output.writeMessage(9, getSchemaOperationQuotas());
       }
       unknownFields.writeTo(output);
     }
@@ -13209,6 +14974,10 @@ public final class YdbCms {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(8, generation_);
       }
+      if (schemaOperationQuotas_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, getSchemaOperationQuotas());
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -13244,6 +15013,11 @@ public final class YdbCms {
       }
       result = result && (getGeneration()
           == other.getGeneration());
+      result = result && (hasSchemaOperationQuotas() == other.hasSchemaOperationQuotas());
+      if (hasSchemaOperationQuotas()) {
+        result = result && getSchemaOperationQuotas()
+            .equals(other.getSchemaOperationQuotas());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -13284,6 +15058,10 @@ public final class YdbCms {
       hash = (37 * hash) + GENERATION_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getGeneration());
+      if (hasSchemaOperationQuotas()) {
+        hash = (37 * hash) + SCHEMA_OPERATION_QUOTAS_FIELD_NUMBER;
+        hash = (53 * hash) + getSchemaOperationQuotas().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -13462,6 +15240,12 @@ public final class YdbCms {
         }
         generation_ = 0L;
 
+        if (schemaOperationQuotasBuilder_ == null) {
+          schemaOperationQuotas_ = null;
+        } else {
+          schemaOperationQuotas_ = null;
+          schemaOperationQuotasBuilder_ = null;
+        }
         return this;
       }
 
@@ -13538,6 +15322,11 @@ public final class YdbCms {
           result.operationParams_ = operationParamsBuilder_.build();
         }
         result.generation_ = generation_;
+        if (schemaOperationQuotasBuilder_ == null) {
+          result.schemaOperationQuotas_ = schemaOperationQuotas_;
+        } else {
+          result.schemaOperationQuotas_ = schemaOperationQuotasBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -13719,6 +15508,9 @@ public final class YdbCms {
         }
         if (other.getGeneration() != 0L) {
           setGeneration(other.getGeneration());
+        }
+        if (other.hasSchemaOperationQuotas()) {
+          mergeSchemaOperationQuotas(other.getSchemaOperationQuotas());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -15586,6 +17378,159 @@ public final class YdbCms {
         generation_ = 0L;
         onChanged();
         return this;
+      }
+
+      private tech.ydb.cms.YdbCms.SchemaOperationQuotas schemaOperationQuotas_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas, tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder> schemaOperationQuotasBuilder_;
+      /**
+       * <pre>
+       * Change quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public boolean hasSchemaOperationQuotas() {
+        return schemaOperationQuotasBuilder_ != null || schemaOperationQuotas_ != null;
+      }
+      /**
+       * <pre>
+       * Change quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas() {
+        if (schemaOperationQuotasBuilder_ == null) {
+          return schemaOperationQuotas_ == null ? tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance() : schemaOperationQuotas_;
+        } else {
+          return schemaOperationQuotasBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Change quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public Builder setSchemaOperationQuotas(tech.ydb.cms.YdbCms.SchemaOperationQuotas value) {
+        if (schemaOperationQuotasBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          schemaOperationQuotas_ = value;
+          onChanged();
+        } else {
+          schemaOperationQuotasBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Change quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public Builder setSchemaOperationQuotas(
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder builderForValue) {
+        if (schemaOperationQuotasBuilder_ == null) {
+          schemaOperationQuotas_ = builderForValue.build();
+          onChanged();
+        } else {
+          schemaOperationQuotasBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Change quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public Builder mergeSchemaOperationQuotas(tech.ydb.cms.YdbCms.SchemaOperationQuotas value) {
+        if (schemaOperationQuotasBuilder_ == null) {
+          if (schemaOperationQuotas_ != null) {
+            schemaOperationQuotas_ =
+              tech.ydb.cms.YdbCms.SchemaOperationQuotas.newBuilder(schemaOperationQuotas_).mergeFrom(value).buildPartial();
+          } else {
+            schemaOperationQuotas_ = value;
+          }
+          onChanged();
+        } else {
+          schemaOperationQuotasBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Change quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public Builder clearSchemaOperationQuotas() {
+        if (schemaOperationQuotasBuilder_ == null) {
+          schemaOperationQuotas_ = null;
+          onChanged();
+        } else {
+          schemaOperationQuotas_ = null;
+          schemaOperationQuotasBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Change quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder getSchemaOperationQuotasBuilder() {
+        
+        onChanged();
+        return getSchemaOperationQuotasFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Change quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder() {
+        if (schemaOperationQuotasBuilder_ != null) {
+          return schemaOperationQuotasBuilder_.getMessageOrBuilder();
+        } else {
+          return schemaOperationQuotas_ == null ?
+              tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance() : schemaOperationQuotas_;
+        }
+      }
+      /**
+       * <pre>
+       * Change quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas, tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder> 
+          getSchemaOperationQuotasFieldBuilder() {
+        if (schemaOperationQuotasBuilder_ == null) {
+          schemaOperationQuotasBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.cms.YdbCms.SchemaOperationQuotas, tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder>(
+                  getSchemaOperationQuotas(),
+                  getParentForChildren(),
+                  isClean());
+          schemaOperationQuotas_ = null;
+        }
+        return schemaOperationQuotasBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -24906,6 +26851,16 @@ public final class YdbCms {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Cms_Attribute_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Cms_SchemaOperationQuotas_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Cms_SchemaOperationQuotas_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -25034,80 +26989,87 @@ public final class YdbCms {
       "atabaseOptions\022\032\n\022disable_tx_service\030\001 \001" +
       "(\010\022\"\n\032disable_external_subdomain\030\002 \001(\010\"(" +
       "\n\tAttribute\022\014\n\004name\030\001 \001(\t\022\r\n\005value\030\002 \001(\t" +
-      "\"\334\002\n\025CreateDatabaseRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\014\n\004path\030\002 \001(\t\022\'\n\tresources\030\003 \001(\0132\022" +
-      ".Ydb.Cms.ResourcesH\000\022.\n\020shared_resources" +
-      "\030\006 \001(\0132\022.Ydb.Cms.ResourcesH\000\022<\n\024serverle",
-      "ss_resources\030\007 \001(\0132\034.Ydb.Cms.ServerlessR" +
-      "esourcesH\000\022)\n\007options\030\004 \001(\0132\030.Ydb.Cms.Da" +
-      "tabaseOptions\022&\n\nattributes\030\005 \003(\0132\022.Ydb." +
-      "Cms.AttributeB\020\n\016resources_kind\"F\n\026Creat" +
-      "eDatabaseResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
-      "db.Operations.Operation\"c\n\030GetDatabaseSt" +
-      "atusRequest\022\014\n\004path\030\001 \001(\t\0229\n\020operation_p" +
-      "arams\030\002 \001(\0132\037.Ydb.Operations.OperationPa" +
-      "rams\"I\n\031GetDatabaseStatusResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"",
-      "\201\004\n\027GetDatabaseStatusResult\022\014\n\004path\030\001 \001(" +
-      "\t\0225\n\005state\030\002 \001(\0162&.Ydb.Cms.GetDatabaseSt" +
-      "atusResult.State\0220\n\022required_resources\030\003" +
-      " \001(\0132\022.Ydb.Cms.ResourcesH\000\0227\n\031required_s" +
-      "hared_resources\030\007 \001(\0132\022.Ydb.Cms.Resource" +
-      "sH\000\022<\n\024serverless_resources\030\010 \001(\0132\034.Ydb." +
-      "Cms.ServerlessResourcesH\000\022/\n\023allocated_r" +
-      "esources\030\004 \001(\0132\022.Ydb.Cms.Resources\022A\n\024re" +
-      "gistered_resources\030\005 \003(\0132#.Ydb.Cms.Alloc" +
-      "atedComputationalUnit\022\022\n\ngeneration\030\006 \001(",
-      "\004\"^\n\005State\022\025\n\021STATE_UNSPECIFIED\020\000\022\014\n\010CRE" +
-      "ATING\020\001\022\013\n\007RUNNING\020\002\022\014\n\010REMOVING\020\003\022\025\n\021PE" +
-      "NDING_RESOURCES\020\004B\020\n\016resources_kind\"\313\003\n\024" +
-      "AlterDatabaseRequest\022\014\n\004path\030\001 \001(\t\022?\n\032co" +
-      "mputational_units_to_add\030\002 \003(\0132\033.Ydb.Cms" +
-      ".ComputationalUnits\022B\n\035computational_uni" +
-      "ts_to_remove\030\003 \003(\0132\033.Ydb.Cms.Computation" +
-      "alUnits\0223\n\024storage_units_to_add\030\004 \003(\0132\025." +
-      "Ydb.Cms.StorageUnits\022L\n\037computational_un" +
-      "its_to_register\030\005 \003(\0132#.Ydb.Cms.Allocate",
-      "dComputationalUnit\022N\n!computational_unit" +
-      "s_to_deregister\030\006 \003(\0132#.Ydb.Cms.Allocate" +
-      "dComputationalUnit\0229\n\020operation_params\030\007" +
-      " \001(\0132\037.Ydb.Operations.OperationParams\022\022\n" +
-      "\ngeneration\030\010 \001(\004\"E\n\025AlterDatabaseRespon" +
-      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
-      "peration\"Q\n\024ListDatabasesRequest\0229\n\020oper" +
-      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
-      "ationParams\"E\n\025ListDatabasesResponse\022,\n\t" +
-      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati",
-      "on\"$\n\023ListDatabasesResult\022\r\n\005paths\030\001 \003(\t" +
-      "\"`\n\025RemoveDatabaseRequest\022\014\n\004path\030\001 \001(\t\022" +
-      "9\n\020operation_params\030\002 \001(\0132\037.Ydb.Operatio" +
-      "ns.OperationParams\"F\n\026RemoveDatabaseResp" +
-      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
-      ".Operation\"\222\001\n\026StorageUnitDescription\022\014\n" +
-      "\004kind\030\001 \001(\t\022;\n\006labels\030\002 \003(\0132+.Ydb.Cms.St" +
-      "orageUnitDescription.LabelsEntry\032-\n\013Labe" +
-      "lsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"" +
-      "\234\001\n\033AvailabilityZoneDescription\022\014\n\004name\030",
-      "\001 \001(\t\022@\n\006labels\030\002 \003(\01320.Ydb.Cms.Availabi" +
-      "lityZoneDescription.LabelsEntry\032-\n\013Label" +
-      "sEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\302" +
-      "\001\n\034ComputationalUnitDescription\022\014\n\004kind\030" +
-      "\001 \001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.Cms.Computat" +
-      "ionalUnitDescription.LabelsEntry\022\"\n\032allo" +
-      "wed_availability_zones\030\003 \003(\t\032-\n\013LabelsEn" +
-      "try\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"[\n\036D" +
-      "escribeDatabaseOptionsRequest\0229\n\020operati" +
-      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati",
-      "onParams\"O\n\037DescribeDatabaseOptionsRespo" +
-      "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
-      "Operation\"\335\001\n\035DescribeDatabaseOptionsRes" +
-      "ult\0226\n\rstorage_units\030\001 \003(\0132\037.Ydb.Cms.Sto" +
-      "rageUnitDescription\022@\n\022availability_zone" +
-      "s\030\002 \003(\0132$.Ydb.Cms.AvailabilityZoneDescri" +
-      "ption\022B\n\023computational_units\030\003 \003(\0132%.Ydb" +
-      ".Cms.ComputationalUnitDescriptionB\027\n\022com" +
-      ".yandex.ydb.cms\370\001\001b\006proto3"
+      "\"\234\001\n\025SchemaOperationQuotas\022G\n\023leaky_buck" +
+      "et_quotas\030\001 \003(\0132*.Ydb.Cms.SchemaOperatio" +
+      "nQuotas.LeakyBucket\032:\n\013LeakyBucket\022\023\n\013bu" +
+      "cket_size\030\001 \001(\001\022\026\n\016bucket_seconds\030\002 \001(\004\"" +
+      "\235\003\n\025CreateDatabaseRequest\0229\n\020operation_p",
+      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
+      "rams\022\014\n\004path\030\002 \001(\t\022\'\n\tresources\030\003 \001(\0132\022." +
+      "Ydb.Cms.ResourcesH\000\022.\n\020shared_resources\030" +
+      "\006 \001(\0132\022.Ydb.Cms.ResourcesH\000\022<\n\024serverles" +
+      "s_resources\030\007 \001(\0132\034.Ydb.Cms.ServerlessRe" +
+      "sourcesH\000\022)\n\007options\030\004 \001(\0132\030.Ydb.Cms.Dat" +
+      "abaseOptions\022&\n\nattributes\030\005 \003(\0132\022.Ydb.C" +
+      "ms.Attribute\022?\n\027schema_operation_quotas\030" +
+      "\010 \001(\0132\036.Ydb.Cms.SchemaOperationQuotasB\020\n" +
+      "\016resources_kind\"F\n\026CreateDatabaseRespons",
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
+      "eration\"c\n\030GetDatabaseStatusRequest\022\014\n\004p" +
+      "ath\030\001 \001(\t\0229\n\020operation_params\030\002 \001(\0132\037.Yd" +
+      "b.Operations.OperationParams\"I\n\031GetDatab" +
+      "aseStatusResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
+      "db.Operations.Operation\"\201\004\n\027GetDatabaseS" +
+      "tatusResult\022\014\n\004path\030\001 \001(\t\0225\n\005state\030\002 \001(\016" +
+      "2&.Ydb.Cms.GetDatabaseStatusResult.State" +
+      "\0220\n\022required_resources\030\003 \001(\0132\022.Ydb.Cms.R" +
+      "esourcesH\000\0227\n\031required_shared_resources\030",
+      "\007 \001(\0132\022.Ydb.Cms.ResourcesH\000\022<\n\024serverles" +
+      "s_resources\030\010 \001(\0132\034.Ydb.Cms.ServerlessRe" +
+      "sourcesH\000\022/\n\023allocated_resources\030\004 \001(\0132\022" +
+      ".Ydb.Cms.Resources\022A\n\024registered_resourc" +
+      "es\030\005 \003(\0132#.Ydb.Cms.AllocatedComputationa" +
+      "lUnit\022\022\n\ngeneration\030\006 \001(\004\"^\n\005State\022\025\n\021ST" +
+      "ATE_UNSPECIFIED\020\000\022\014\n\010CREATING\020\001\022\013\n\007RUNNI" +
+      "NG\020\002\022\014\n\010REMOVING\020\003\022\025\n\021PENDING_RESOURCES\020" +
+      "\004B\020\n\016resources_kind\"\214\004\n\024AlterDatabaseReq" +
+      "uest\022\014\n\004path\030\001 \001(\t\022?\n\032computational_unit",
+      "s_to_add\030\002 \003(\0132\033.Ydb.Cms.ComputationalUn" +
+      "its\022B\n\035computational_units_to_remove\030\003 \003" +
+      "(\0132\033.Ydb.Cms.ComputationalUnits\0223\n\024stora" +
+      "ge_units_to_add\030\004 \003(\0132\025.Ydb.Cms.StorageU" +
+      "nits\022L\n\037computational_units_to_register\030" +
+      "\005 \003(\0132#.Ydb.Cms.AllocatedComputationalUn" +
+      "it\022N\n!computational_units_to_deregister\030" +
+      "\006 \003(\0132#.Ydb.Cms.AllocatedComputationalUn" +
+      "it\0229\n\020operation_params\030\007 \001(\0132\037.Ydb.Opera" +
+      "tions.OperationParams\022\022\n\ngeneration\030\010 \001(",
+      "\004\022?\n\027schema_operation_quotas\030\t \001(\0132\036.Ydb" +
+      ".Cms.SchemaOperationQuotas\"E\n\025AlterDatab" +
+      "aseResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
+      "rations.Operation\"Q\n\024ListDatabasesReques" +
+      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\"E\n\025ListDatabasesRes" +
+      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
+      "s.Operation\"$\n\023ListDatabasesResult\022\r\n\005pa" +
+      "ths\030\001 \003(\t\"`\n\025RemoveDatabaseRequest\022\014\n\004pa" +
+      "th\030\001 \001(\t\0229\n\020operation_params\030\002 \001(\0132\037.Ydb",
+      ".Operations.OperationParams\"F\n\026RemoveDat" +
+      "abaseResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
+      "perations.Operation\"\222\001\n\026StorageUnitDescr" +
+      "iption\022\014\n\004kind\030\001 \001(\t\022;\n\006labels\030\002 \003(\0132+.Y" +
+      "db.Cms.StorageUnitDescription.LabelsEntr" +
+      "y\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002" +
+      " \001(\t:\0028\001\"\234\001\n\033AvailabilityZoneDescription" +
+      "\022\014\n\004name\030\001 \001(\t\022@\n\006labels\030\002 \003(\01320.Ydb.Cms" +
+      ".AvailabilityZoneDescription.LabelsEntry" +
+      "\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 ",
+      "\001(\t:\0028\001\"\302\001\n\034ComputationalUnitDescription" +
+      "\022\014\n\004kind\030\001 \001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.Cms" +
+      ".ComputationalUnitDescription.LabelsEntr" +
+      "y\022\"\n\032allowed_availability_zones\030\003 \003(\t\032-\n" +
+      "\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t" +
+      ":\0028\001\"[\n\036DescribeDatabaseOptionsRequest\0229" +
+      "\n\020operation_params\030\001 \001(\0132\037.Ydb.Operation" +
+      "s.OperationParams\"O\n\037DescribeDatabaseOpt" +
+      "ionsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
+      "erations.Operation\"\335\001\n\035DescribeDatabaseO",
+      "ptionsResult\0226\n\rstorage_units\030\001 \003(\0132\037.Yd" +
+      "b.Cms.StorageUnitDescription\022@\n\022availabi" +
+      "lity_zones\030\002 \003(\0132$.Ydb.Cms.AvailabilityZ" +
+      "oneDescription\022B\n\023computational_units\030\003 " +
+      "\003(\0132%.Ydb.Cms.ComputationalUnitDescripti" +
+      "onB\027\n\022tech.ydb.cms\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -25164,80 +27126,92 @@ public final class YdbCms {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_Attribute_descriptor,
         new java.lang.String[] { "Name", "Value", });
-    internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor =
+    internal_static_Ydb_Cms_SchemaOperationQuotas_descriptor =
       getDescriptor().getMessageTypes().get(7);
+    internal_static_Ydb_Cms_SchemaOperationQuotas_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Cms_SchemaOperationQuotas_descriptor,
+        new java.lang.String[] { "LeakyBucketQuotas", });
+    internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_descriptor =
+      internal_static_Ydb_Cms_SchemaOperationQuotas_descriptor.getNestedTypes().get(0);
+    internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_descriptor,
+        new java.lang.String[] { "BucketSize", "BucketSeconds", });
+    internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor =
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Ydb_Cms_CreateDatabaseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Path", "Resources", "SharedResources", "ServerlessResources", "Options", "Attributes", "ResourcesKind", });
+        new java.lang.String[] { "OperationParams", "Path", "Resources", "SharedResources", "ServerlessResources", "Options", "Attributes", "SchemaOperationQuotas", "ResourcesKind", });
     internal_static_Ydb_Cms_CreateDatabaseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Cms_CreateDatabaseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_CreateDatabaseResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_GetDatabaseStatusRequest_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_Ydb_Cms_GetDatabaseStatusRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_GetDatabaseStatusRequest_descriptor,
         new java.lang.String[] { "Path", "OperationParams", });
     internal_static_Ydb_Cms_GetDatabaseStatusResponse_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_Ydb_Cms_GetDatabaseStatusResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_GetDatabaseStatusResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_GetDatabaseStatusResult_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_Ydb_Cms_GetDatabaseStatusResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_GetDatabaseStatusResult_descriptor,
         new java.lang.String[] { "Path", "State", "RequiredResources", "RequiredSharedResources", "ServerlessResources", "AllocatedResources", "RegisteredResources", "Generation", "ResourcesKind", });
     internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_Ydb_Cms_AlterDatabaseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor,
-        new java.lang.String[] { "Path", "ComputationalUnitsToAdd", "ComputationalUnitsToRemove", "StorageUnitsToAdd", "ComputationalUnitsToRegister", "ComputationalUnitsToDeregister", "OperationParams", "Generation", });
+        new java.lang.String[] { "Path", "ComputationalUnitsToAdd", "ComputationalUnitsToRemove", "StorageUnitsToAdd", "ComputationalUnitsToRegister", "ComputationalUnitsToDeregister", "OperationParams", "Generation", "SchemaOperationQuotas", });
     internal_static_Ydb_Cms_AlterDatabaseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_Ydb_Cms_AlterDatabaseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_AlterDatabaseResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_ListDatabasesRequest_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_Ydb_Cms_ListDatabasesRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ListDatabasesRequest_descriptor,
         new java.lang.String[] { "OperationParams", });
     internal_static_Ydb_Cms_ListDatabasesResponse_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_Ydb_Cms_ListDatabasesResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ListDatabasesResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_ListDatabasesResult_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_Ydb_Cms_ListDatabasesResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ListDatabasesResult_descriptor,
         new java.lang.String[] { "Paths", });
     internal_static_Ydb_Cms_RemoveDatabaseRequest_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_Ydb_Cms_RemoveDatabaseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_RemoveDatabaseRequest_descriptor,
         new java.lang.String[] { "Path", "OperationParams", });
     internal_static_Ydb_Cms_RemoveDatabaseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_Ydb_Cms_RemoveDatabaseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_RemoveDatabaseResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_StorageUnitDescription_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_Ydb_Cms_StorageUnitDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_StorageUnitDescription_descriptor,
@@ -25249,7 +27223,7 @@ public final class YdbCms {
         internal_static_Ydb_Cms_StorageUnitDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Cms_AvailabilityZoneDescription_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_Ydb_Cms_AvailabilityZoneDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_AvailabilityZoneDescription_descriptor,
@@ -25261,7 +27235,7 @@ public final class YdbCms {
         internal_static_Ydb_Cms_AvailabilityZoneDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Cms_ComputationalUnitDescription_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_Ydb_Cms_ComputationalUnitDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ComputationalUnitDescription_descriptor,
@@ -25273,19 +27247,19 @@ public final class YdbCms {
         internal_static_Ydb_Cms_ComputationalUnitDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_descriptor,
         new java.lang.String[] { "OperationParams", });
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_descriptor,

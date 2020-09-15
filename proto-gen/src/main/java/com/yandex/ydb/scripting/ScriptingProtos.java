@@ -74,6 +74,15 @@ public final class ScriptingProtos {
 
     tech.ydb.ValueProtos.TypedValue getParametersOrThrow(
         java.lang.String key);
+
+    /**
+     * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+     */
+    int getCollectStatsValue();
+    /**
+     * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+     */
+    tech.ydb.table.YdbTable.QueryStatsCollection.Mode getCollectStats();
   }
   /**
    * Protobuf type {@code Ydb.Scripting.ExecuteYqlRequest}
@@ -89,6 +98,7 @@ public final class ScriptingProtos {
     }
     private ExecuteYqlRequest() {
       script_ = "";
+      collectStats_ = 0;
     }
 
     @java.lang.Override
@@ -149,6 +159,12 @@ public final class ScriptingProtos {
                   ParametersDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
               parameters_.getMutableMap().put(
                   parameters__.getKey(), parameters__.getValue());
+              break;
+            }
+            case 32: {
+              int rawValue = input.readEnum();
+
+              collectStats_ = rawValue;
               break;
             }
           }
@@ -318,6 +334,22 @@ public final class ScriptingProtos {
       return map.get(key);
     }
 
+    public static final int COLLECT_STATS_FIELD_NUMBER = 4;
+    private int collectStats_;
+    /**
+     * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+     */
+    public int getCollectStatsValue() {
+      return collectStats_;
+    }
+    /**
+     * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+     */
+    public tech.ydb.table.YdbTable.QueryStatsCollection.Mode getCollectStats() {
+      tech.ydb.table.YdbTable.QueryStatsCollection.Mode result = tech.ydb.table.YdbTable.QueryStatsCollection.Mode.valueOf(collectStats_);
+      return result == null ? tech.ydb.table.YdbTable.QueryStatsCollection.Mode.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -342,6 +374,9 @@ public final class ScriptingProtos {
           internalGetParameters(),
           ParametersDefaultEntryHolder.defaultEntry,
           3);
+      if (collectStats_ != tech.ydb.table.YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_UNSPECIFIED.getNumber()) {
+        output.writeEnum(4, collectStats_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -366,6 +401,10 @@ public final class ScriptingProtos {
             .build();
         size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(3, parameters__);
+      }
+      if (collectStats_ != tech.ydb.table.YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(4, collectStats_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -392,6 +431,7 @@ public final class ScriptingProtos {
           .equals(other.getScript());
       result = result && internalGetParameters().equals(
           other.internalGetParameters());
+      result = result && collectStats_ == other.collectStats_;
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -413,6 +453,8 @@ public final class ScriptingProtos {
         hash = (37 * hash) + PARAMETERS_FIELD_NUMBER;
         hash = (53 * hash) + internalGetParameters().hashCode();
       }
+      hash = (37 * hash) + COLLECT_STATS_FIELD_NUMBER;
+      hash = (53 * hash) + collectStats_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -573,6 +615,8 @@ public final class ScriptingProtos {
         script_ = "";
 
         internalGetMutableParameters().clear();
+        collectStats_ = 0;
+
         return this;
       }
 
@@ -605,6 +649,7 @@ public final class ScriptingProtos {
         result.script_ = script_;
         result.parameters_ = internalGetParameters();
         result.parameters_.makeImmutable();
+        result.collectStats_ = collectStats_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -656,6 +701,9 @@ public final class ScriptingProtos {
         }
         internalGetMutableParameters().mergeFrom(
             other.internalGetParameters());
+        if (other.collectStats_ != 0) {
+          setCollectStatsValue(other.getCollectStatsValue());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -990,6 +1038,50 @@ public final class ScriptingProtos {
           java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> values) {
         internalGetMutableParameters().getMutableMap()
             .putAll(values);
+        return this;
+      }
+
+      private int collectStats_ = 0;
+      /**
+       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+       */
+      public int getCollectStatsValue() {
+        return collectStats_;
+      }
+      /**
+       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+       */
+      public Builder setCollectStatsValue(int value) {
+        collectStats_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+       */
+      public tech.ydb.table.YdbTable.QueryStatsCollection.Mode getCollectStats() {
+        tech.ydb.table.YdbTable.QueryStatsCollection.Mode result = tech.ydb.table.YdbTable.QueryStatsCollection.Mode.valueOf(collectStats_);
+        return result == null ? tech.ydb.table.YdbTable.QueryStatsCollection.Mode.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+       */
+      public Builder setCollectStats(tech.ydb.table.YdbTable.QueryStatsCollection.Mode value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        collectStats_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+       */
+      public Builder clearCollectStats() {
+        
+        collectStats_ = 0;
+        onChanged();
         return this;
       }
       public final Builder setUnknownFields(
@@ -1647,6 +1739,19 @@ public final class ScriptingProtos {
      */
     tech.ydb.ValueProtos.ResultSetOrBuilder getResultSetsOrBuilder(
         int index);
+
+    /**
+     * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+     */
+    boolean hasQueryStats();
+    /**
+     * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+     */
+    tech.ydb.YdbQueryStats.QueryStats getQueryStats();
+    /**
+     * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+     */
+    tech.ydb.YdbQueryStats.QueryStatsOrBuilder getQueryStatsOrBuilder();
   }
   /**
    * Protobuf type {@code Ydb.Scripting.ExecuteYqlResult}
@@ -1701,6 +1806,19 @@ public final class ScriptingProtos {
                   input.readMessage(tech.ydb.ValueProtos.ResultSet.parser(), extensionRegistry));
               break;
             }
+            case 18: {
+              tech.ydb.YdbQueryStats.QueryStats.Builder subBuilder = null;
+              if (queryStats_ != null) {
+                subBuilder = queryStats_.toBuilder();
+              }
+              queryStats_ = input.readMessage(tech.ydb.YdbQueryStats.QueryStats.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(queryStats_);
+                queryStats_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1728,6 +1846,7 @@ public final class ScriptingProtos {
               tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult.class, tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult.Builder.class);
     }
 
+    private int bitField0_;
     public static final int RESULT_SETS_FIELD_NUMBER = 1;
     private java.util.List<tech.ydb.ValueProtos.ResultSet> resultSets_;
     /**
@@ -1763,6 +1882,27 @@ public final class ScriptingProtos {
       return resultSets_.get(index);
     }
 
+    public static final int QUERY_STATS_FIELD_NUMBER = 2;
+    private tech.ydb.YdbQueryStats.QueryStats queryStats_;
+    /**
+     * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+     */
+    public boolean hasQueryStats() {
+      return queryStats_ != null;
+    }
+    /**
+     * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+     */
+    public tech.ydb.YdbQueryStats.QueryStats getQueryStats() {
+      return queryStats_ == null ? tech.ydb.YdbQueryStats.QueryStats.getDefaultInstance() : queryStats_;
+    }
+    /**
+     * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+     */
+    public tech.ydb.YdbQueryStats.QueryStatsOrBuilder getQueryStatsOrBuilder() {
+      return getQueryStats();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1778,6 +1918,9 @@ public final class ScriptingProtos {
       for (int i = 0; i < resultSets_.size(); i++) {
         output.writeMessage(1, resultSets_.get(i));
       }
+      if (queryStats_ != null) {
+        output.writeMessage(2, getQueryStats());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1789,6 +1932,10 @@ public final class ScriptingProtos {
       for (int i = 0; i < resultSets_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, resultSets_.get(i));
+      }
+      if (queryStats_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getQueryStats());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1808,6 +1955,11 @@ public final class ScriptingProtos {
       boolean result = true;
       result = result && getResultSetsList()
           .equals(other.getResultSetsList());
+      result = result && (hasQueryStats() == other.hasQueryStats());
+      if (hasQueryStats()) {
+        result = result && getQueryStats()
+            .equals(other.getQueryStats());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1822,6 +1974,10 @@ public final class ScriptingProtos {
       if (getResultSetsCount() > 0) {
         hash = (37 * hash) + RESULT_SETS_FIELD_NUMBER;
         hash = (53 * hash) + getResultSetsList().hashCode();
+      }
+      if (hasQueryStats()) {
+        hash = (37 * hash) + QUERY_STATS_FIELD_NUMBER;
+        hash = (53 * hash) + getQueryStats().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -1959,6 +2115,12 @@ public final class ScriptingProtos {
         } else {
           resultSetsBuilder_.clear();
         }
+        if (queryStatsBuilder_ == null) {
+          queryStats_ = null;
+        } else {
+          queryStats_ = null;
+          queryStatsBuilder_ = null;
+        }
         return this;
       }
 
@@ -1982,6 +2144,7 @@ public final class ScriptingProtos {
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult buildPartial() {
         tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult result = new tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (resultSetsBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             resultSets_ = java.util.Collections.unmodifiableList(resultSets_);
@@ -1991,6 +2154,12 @@ public final class ScriptingProtos {
         } else {
           result.resultSets_ = resultSetsBuilder_.build();
         }
+        if (queryStatsBuilder_ == null) {
+          result.queryStats_ = queryStats_;
+        } else {
+          result.queryStats_ = queryStatsBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -2057,6 +2226,9 @@ public final class ScriptingProtos {
               resultSetsBuilder_.addAllMessages(other.resultSets_);
             }
           }
+        }
+        if (other.hasQueryStats()) {
+          mergeQueryStats(other.getQueryStats());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2325,6 +2497,123 @@ public final class ScriptingProtos {
         }
         return resultSetsBuilder_;
       }
+
+      private tech.ydb.YdbQueryStats.QueryStats queryStats_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.YdbQueryStats.QueryStats, tech.ydb.YdbQueryStats.QueryStats.Builder, tech.ydb.YdbQueryStats.QueryStatsOrBuilder> queryStatsBuilder_;
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+       */
+      public boolean hasQueryStats() {
+        return queryStatsBuilder_ != null || queryStats_ != null;
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+       */
+      public tech.ydb.YdbQueryStats.QueryStats getQueryStats() {
+        if (queryStatsBuilder_ == null) {
+          return queryStats_ == null ? tech.ydb.YdbQueryStats.QueryStats.getDefaultInstance() : queryStats_;
+        } else {
+          return queryStatsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+       */
+      public Builder setQueryStats(tech.ydb.YdbQueryStats.QueryStats value) {
+        if (queryStatsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          queryStats_ = value;
+          onChanged();
+        } else {
+          queryStatsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+       */
+      public Builder setQueryStats(
+          tech.ydb.YdbQueryStats.QueryStats.Builder builderForValue) {
+        if (queryStatsBuilder_ == null) {
+          queryStats_ = builderForValue.build();
+          onChanged();
+        } else {
+          queryStatsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+       */
+      public Builder mergeQueryStats(tech.ydb.YdbQueryStats.QueryStats value) {
+        if (queryStatsBuilder_ == null) {
+          if (queryStats_ != null) {
+            queryStats_ =
+              tech.ydb.YdbQueryStats.QueryStats.newBuilder(queryStats_).mergeFrom(value).buildPartial();
+          } else {
+            queryStats_ = value;
+          }
+          onChanged();
+        } else {
+          queryStatsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+       */
+      public Builder clearQueryStats() {
+        if (queryStatsBuilder_ == null) {
+          queryStats_ = null;
+          onChanged();
+        } else {
+          queryStats_ = null;
+          queryStatsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+       */
+      public tech.ydb.YdbQueryStats.QueryStats.Builder getQueryStatsBuilder() {
+        
+        onChanged();
+        return getQueryStatsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+       */
+      public tech.ydb.YdbQueryStats.QueryStatsOrBuilder getQueryStatsOrBuilder() {
+        if (queryStatsBuilder_ != null) {
+          return queryStatsBuilder_.getMessageOrBuilder();
+        } else {
+          return queryStats_ == null ?
+              tech.ydb.YdbQueryStats.QueryStats.getDefaultInstance() : queryStats_;
+        }
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.YdbQueryStats.QueryStats, tech.ydb.YdbQueryStats.QueryStats.Builder, tech.ydb.YdbQueryStats.QueryStatsOrBuilder> 
+          getQueryStatsFieldBuilder() {
+        if (queryStatsBuilder_ == null) {
+          queryStatsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.YdbQueryStats.QueryStats, tech.ydb.YdbQueryStats.QueryStats.Builder, tech.ydb.YdbQueryStats.QueryStatsOrBuilder>(
+                  getQueryStats(),
+                  getParentForChildren(),
+                  isClean());
+          queryStats_ = null;
+        }
+        return queryStatsBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -2406,16 +2695,21 @@ public final class ScriptingProtos {
       "\n,kikimr/public/api/protos/ydb_scripting" +
       ".proto\022\rYdb.Scripting\032,kikimr/public/api" +
       "/protos/ydb_operation.proto\032(kikimr/publ" +
-      "ic/api/protos/ydb_value.proto\"\350\001\n\021Execut" +
-      "eYqlRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
-      "Ydb.Operations.OperationParams\022\016\n\006script" +
-      "\030\002 \001(\t\022D\n\nparameters\030\003 \003(\01320.Ydb.Scripti" +
-      "ng.ExecuteYqlRequest.ParametersEntry\032B\n\017" +
-      "ParametersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 " +
-      "\001(\0132\017.Ydb.TypedValue:\0028\001\"B\n\022ExecuteYqlRe",
-      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
-      "ns.Operation\"7\n\020ExecuteYqlResult\022#\n\013resu" +
-      "lt_sets\030\001 \003(\0132\016.Ydb.ResultSetB.\n\030com.yan" +
+      "ic/api/protos/ydb_value.proto\032(kikimr/pu" +
+      "blic/api/protos/ydb_table.proto\032.kikimr/" +
+      "public/api/protos/ydb_query_stats.proto\"" +
+      "\245\002\n\021ExecuteYqlRequest\0229\n\020operation_param" +
+      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
+      "\022\016\n\006script\030\002 \001(\t\022D\n\nparameters\030\003 \003(\01320.Y" +
+      "db.Scripting.ExecuteYqlRequest.Parameter",
+      "sEntry\022;\n\rcollect_stats\030\004 \001(\0162$.Ydb.Tabl" +
+      "e.QueryStatsCollection.Mode\032B\n\017Parameter" +
+      "sEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb" +
+      ".TypedValue:\0028\001\"B\n\022ExecuteYqlResponse\022,\n" +
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ion\"h\n\020ExecuteYqlResult\022#\n\013result_sets\030\001" +
+      " \003(\0132\016.Ydb.ResultSet\022/\n\013query_stats\030\002 \001(" +
+      "\0132\032.Ydb.TableStats.QueryStatsB.\n\030com.yan" +
       "dex.ydb.scriptingB\017ScriptingProtos\370\001\001b\006p" +
       "roto3"
     };
@@ -2432,13 +2726,15 @@ public final class ScriptingProtos {
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
           tech.ydb.ValueProtos.getDescriptor(),
+          tech.ydb.table.YdbTable.getDescriptor(),
+          tech.ydb.YdbQueryStats.getDescriptor(),
         }, assigner);
     internal_static_Ydb_Scripting_ExecuteYqlRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_Scripting_ExecuteYqlRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Scripting_ExecuteYqlRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Script", "Parameters", });
+        new java.lang.String[] { "OperationParams", "Script", "Parameters", "CollectStats", });
     internal_static_Ydb_Scripting_ExecuteYqlRequest_ParametersEntry_descriptor =
       internal_static_Ydb_Scripting_ExecuteYqlRequest_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_Scripting_ExecuteYqlRequest_ParametersEntry_fieldAccessorTable = new
@@ -2456,9 +2752,11 @@ public final class ScriptingProtos {
     internal_static_Ydb_Scripting_ExecuteYqlResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Scripting_ExecuteYqlResult_descriptor,
-        new java.lang.String[] { "ResultSets", });
+        new java.lang.String[] { "ResultSets", "QueryStats", });
     tech.ydb.OperationProtos.getDescriptor();
     tech.ydb.ValueProtos.getDescriptor();
+    tech.ydb.table.YdbTable.getDescriptor();
+    tech.ydb.YdbQueryStats.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)
