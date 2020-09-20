@@ -11773,6 +11773,31 @@ public final class YdbCms {
      */
     long getGeneration();
 
+    /**
+     * <pre>
+     * Current quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     */
+    boolean hasSchemaOperationQuotas();
+    /**
+     * <pre>
+     * Current quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     */
+    tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas();
+    /**
+     * <pre>
+     * Current quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     */
+    tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder();
+
     public tech.ydb.cms.YdbCms.GetDatabaseStatusResult.ResourcesKindCase getResourcesKindCase();
   }
   /**
@@ -11901,6 +11926,19 @@ public final class YdbCms {
                 resourcesKind_ = subBuilder.buildPartial();
               }
               resourcesKindCase_ = 8;
+              break;
+            }
+            case 74: {
+              tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder subBuilder = null;
+              if (schemaOperationQuotas_ != null) {
+                subBuilder = schemaOperationQuotas_.toBuilder();
+              }
+              schemaOperationQuotas_ = input.readMessage(tech.ydb.cms.YdbCms.SchemaOperationQuotas.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(schemaOperationQuotas_);
+                schemaOperationQuotas_ = subBuilder.buildPartial();
+              }
+
               break;
             }
           }
@@ -12354,6 +12392,39 @@ public final class YdbCms {
       return generation_;
     }
 
+    public static final int SCHEMA_OPERATION_QUOTAS_FIELD_NUMBER = 9;
+    private tech.ydb.cms.YdbCms.SchemaOperationQuotas schemaOperationQuotas_;
+    /**
+     * <pre>
+     * Current quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     */
+    public boolean hasSchemaOperationQuotas() {
+      return schemaOperationQuotas_ != null;
+    }
+    /**
+     * <pre>
+     * Current quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     */
+    public tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas() {
+      return schemaOperationQuotas_ == null ? tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance() : schemaOperationQuotas_;
+    }
+    /**
+     * <pre>
+     * Current quotas for schema operations
+     * </pre>
+     *
+     * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     */
+    public tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder() {
+      return getSchemaOperationQuotas();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -12389,6 +12460,9 @@ public final class YdbCms {
       }
       if (resourcesKindCase_ == 8) {
         output.writeMessage(8, (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_);
+      }
+      if (schemaOperationQuotas_ != null) {
+        output.writeMessage(9, getSchemaOperationQuotas());
       }
       unknownFields.writeTo(output);
     }
@@ -12429,6 +12503,10 @@ public final class YdbCms {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_);
       }
+      if (schemaOperationQuotas_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, getSchemaOperationQuotas());
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -12457,6 +12535,11 @@ public final class YdbCms {
           .equals(other.getRegisteredResourcesList());
       result = result && (getGeneration()
           == other.getGeneration());
+      result = result && (hasSchemaOperationQuotas() == other.hasSchemaOperationQuotas());
+      if (hasSchemaOperationQuotas()) {
+        result = result && getSchemaOperationQuotas()
+            .equals(other.getSchemaOperationQuotas());
+      }
       result = result && getResourcesKindCase().equals(
           other.getResourcesKindCase());
       if (!result) return false;
@@ -12502,6 +12585,10 @@ public final class YdbCms {
       hash = (37 * hash) + GENERATION_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getGeneration());
+      if (hasSchemaOperationQuotas()) {
+        hash = (37 * hash) + SCHEMA_OPERATION_QUOTAS_FIELD_NUMBER;
+        hash = (53 * hash) + getSchemaOperationQuotas().hashCode();
+      }
       switch (resourcesKindCase_) {
         case 3:
           hash = (37 * hash) + REQUIRED_RESOURCES_FIELD_NUMBER;
@@ -12666,6 +12753,12 @@ public final class YdbCms {
         }
         generation_ = 0L;
 
+        if (schemaOperationQuotasBuilder_ == null) {
+          schemaOperationQuotas_ = null;
+        } else {
+          schemaOperationQuotas_ = null;
+          schemaOperationQuotasBuilder_ = null;
+        }
         resourcesKindCase_ = 0;
         resourcesKind_ = null;
         return this;
@@ -12730,6 +12823,11 @@ public final class YdbCms {
           result.registeredResources_ = registeredResourcesBuilder_.build();
         }
         result.generation_ = generation_;
+        if (schemaOperationQuotasBuilder_ == null) {
+          result.schemaOperationQuotas_ = schemaOperationQuotas_;
+        } else {
+          result.schemaOperationQuotas_ = schemaOperationQuotasBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         result.resourcesKindCase_ = resourcesKindCase_;
         onBuilt();
@@ -12811,6 +12909,9 @@ public final class YdbCms {
         }
         if (other.getGeneration() != 0L) {
           setGeneration(other.getGeneration());
+        }
+        if (other.hasSchemaOperationQuotas()) {
+          mergeSchemaOperationQuotas(other.getSchemaOperationQuotas());
         }
         switch (other.getResourcesKindCase()) {
           case REQUIRED_RESOURCES: {
@@ -13973,6 +14074,159 @@ public final class YdbCms {
         generation_ = 0L;
         onChanged();
         return this;
+      }
+
+      private tech.ydb.cms.YdbCms.SchemaOperationQuotas schemaOperationQuotas_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas, tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder> schemaOperationQuotasBuilder_;
+      /**
+       * <pre>
+       * Current quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public boolean hasSchemaOperationQuotas() {
+        return schemaOperationQuotasBuilder_ != null || schemaOperationQuotas_ != null;
+      }
+      /**
+       * <pre>
+       * Current quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas() {
+        if (schemaOperationQuotasBuilder_ == null) {
+          return schemaOperationQuotas_ == null ? tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance() : schemaOperationQuotas_;
+        } else {
+          return schemaOperationQuotasBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Current quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public Builder setSchemaOperationQuotas(tech.ydb.cms.YdbCms.SchemaOperationQuotas value) {
+        if (schemaOperationQuotasBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          schemaOperationQuotas_ = value;
+          onChanged();
+        } else {
+          schemaOperationQuotasBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Current quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public Builder setSchemaOperationQuotas(
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder builderForValue) {
+        if (schemaOperationQuotasBuilder_ == null) {
+          schemaOperationQuotas_ = builderForValue.build();
+          onChanged();
+        } else {
+          schemaOperationQuotasBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Current quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public Builder mergeSchemaOperationQuotas(tech.ydb.cms.YdbCms.SchemaOperationQuotas value) {
+        if (schemaOperationQuotasBuilder_ == null) {
+          if (schemaOperationQuotas_ != null) {
+            schemaOperationQuotas_ =
+              tech.ydb.cms.YdbCms.SchemaOperationQuotas.newBuilder(schemaOperationQuotas_).mergeFrom(value).buildPartial();
+          } else {
+            schemaOperationQuotas_ = value;
+          }
+          onChanged();
+        } else {
+          schemaOperationQuotasBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Current quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public Builder clearSchemaOperationQuotas() {
+        if (schemaOperationQuotasBuilder_ == null) {
+          schemaOperationQuotas_ = null;
+          onChanged();
+        } else {
+          schemaOperationQuotas_ = null;
+          schemaOperationQuotasBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Current quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder getSchemaOperationQuotasBuilder() {
+        
+        onChanged();
+        return getSchemaOperationQuotasFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Current quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      public tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder() {
+        if (schemaOperationQuotasBuilder_ != null) {
+          return schemaOperationQuotasBuilder_.getMessageOrBuilder();
+        } else {
+          return schemaOperationQuotas_ == null ?
+              tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance() : schemaOperationQuotas_;
+        }
+      }
+      /**
+       * <pre>
+       * Current quotas for schema operations
+       * </pre>
+       *
+       * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.SchemaOperationQuotas, tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder> 
+          getSchemaOperationQuotasFieldBuilder() {
+        if (schemaOperationQuotasBuilder_ == null) {
+          schemaOperationQuotasBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.cms.YdbCms.SchemaOperationQuotas, tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder>(
+                  getSchemaOperationQuotas(),
+                  getParentForChildren(),
+                  isClean());
+          schemaOperationQuotas_ = null;
+        }
+        return schemaOperationQuotasBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -27009,7 +27263,7 @@ public final class YdbCms {
       "ath\030\001 \001(\t\0229\n\020operation_params\030\002 \001(\0132\037.Yd" +
       "b.Operations.OperationParams\"I\n\031GetDatab" +
       "aseStatusResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
-      "db.Operations.Operation\"\201\004\n\027GetDatabaseS" +
+      "db.Operations.Operation\"\302\004\n\027GetDatabaseS" +
       "tatusResult\022\014\n\004path\030\001 \001(\t\0225\n\005state\030\002 \001(\016" +
       "2&.Ydb.Cms.GetDatabaseStatusResult.State" +
       "\0220\n\022required_resources\030\003 \001(\0132\022.Ydb.Cms.R" +
@@ -27019,57 +27273,59 @@ public final class YdbCms {
       "sourcesH\000\022/\n\023allocated_resources\030\004 \001(\0132\022" +
       ".Ydb.Cms.Resources\022A\n\024registered_resourc" +
       "es\030\005 \003(\0132#.Ydb.Cms.AllocatedComputationa" +
-      "lUnit\022\022\n\ngeneration\030\006 \001(\004\"^\n\005State\022\025\n\021ST" +
-      "ATE_UNSPECIFIED\020\000\022\014\n\010CREATING\020\001\022\013\n\007RUNNI" +
-      "NG\020\002\022\014\n\010REMOVING\020\003\022\025\n\021PENDING_RESOURCES\020" +
-      "\004B\020\n\016resources_kind\"\214\004\n\024AlterDatabaseReq" +
-      "uest\022\014\n\004path\030\001 \001(\t\022?\n\032computational_unit",
-      "s_to_add\030\002 \003(\0132\033.Ydb.Cms.ComputationalUn" +
-      "its\022B\n\035computational_units_to_remove\030\003 \003" +
-      "(\0132\033.Ydb.Cms.ComputationalUnits\0223\n\024stora" +
-      "ge_units_to_add\030\004 \003(\0132\025.Ydb.Cms.StorageU" +
-      "nits\022L\n\037computational_units_to_register\030" +
-      "\005 \003(\0132#.Ydb.Cms.AllocatedComputationalUn" +
-      "it\022N\n!computational_units_to_deregister\030" +
-      "\006 \003(\0132#.Ydb.Cms.AllocatedComputationalUn" +
-      "it\0229\n\020operation_params\030\007 \001(\0132\037.Ydb.Opera" +
-      "tions.OperationParams\022\022\n\ngeneration\030\010 \001(",
-      "\004\022?\n\027schema_operation_quotas\030\t \001(\0132\036.Ydb" +
-      ".Cms.SchemaOperationQuotas\"E\n\025AlterDatab" +
-      "aseResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"Q\n\024ListDatabasesReques" +
-      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\"E\n\025ListDatabasesRes" +
-      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
-      "s.Operation\"$\n\023ListDatabasesResult\022\r\n\005pa" +
-      "ths\030\001 \003(\t\"`\n\025RemoveDatabaseRequest\022\014\n\004pa" +
-      "th\030\001 \001(\t\0229\n\020operation_params\030\002 \001(\0132\037.Ydb",
-      ".Operations.OperationParams\"F\n\026RemoveDat" +
-      "abaseResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
-      "perations.Operation\"\222\001\n\026StorageUnitDescr" +
-      "iption\022\014\n\004kind\030\001 \001(\t\022;\n\006labels\030\002 \003(\0132+.Y" +
-      "db.Cms.StorageUnitDescription.LabelsEntr" +
-      "y\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002" +
-      " \001(\t:\0028\001\"\234\001\n\033AvailabilityZoneDescription" +
-      "\022\014\n\004name\030\001 \001(\t\022@\n\006labels\030\002 \003(\01320.Ydb.Cms" +
-      ".AvailabilityZoneDescription.LabelsEntry" +
-      "\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 ",
-      "\001(\t:\0028\001\"\302\001\n\034ComputationalUnitDescription" +
-      "\022\014\n\004kind\030\001 \001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.Cms" +
-      ".ComputationalUnitDescription.LabelsEntr" +
-      "y\022\"\n\032allowed_availability_zones\030\003 \003(\t\032-\n" +
-      "\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t" +
-      ":\0028\001\"[\n\036DescribeDatabaseOptionsRequest\0229" +
-      "\n\020operation_params\030\001 \001(\0132\037.Ydb.Operation" +
-      "s.OperationParams\"O\n\037DescribeDatabaseOpt" +
-      "ionsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
-      "erations.Operation\"\335\001\n\035DescribeDatabaseO",
-      "ptionsResult\0226\n\rstorage_units\030\001 \003(\0132\037.Yd" +
-      "b.Cms.StorageUnitDescription\022@\n\022availabi" +
-      "lity_zones\030\002 \003(\0132$.Ydb.Cms.AvailabilityZ" +
-      "oneDescription\022B\n\023computational_units\030\003 " +
-      "\003(\0132%.Ydb.Cms.ComputationalUnitDescripti" +
-      "onB\027\n\022tech.ydb.cms\370\001\001b\006proto3"
+      "lUnit\022\022\n\ngeneration\030\006 \001(\004\022?\n\027schema_oper" +
+      "ation_quotas\030\t \001(\0132\036.Ydb.Cms.SchemaOpera" +
+      "tionQuotas\"^\n\005State\022\025\n\021STATE_UNSPECIFIED" +
+      "\020\000\022\014\n\010CREATING\020\001\022\013\n\007RUNNING\020\002\022\014\n\010REMOVIN" +
+      "G\020\003\022\025\n\021PENDING_RESOURCES\020\004B\020\n\016resources_",
+      "kind\"\214\004\n\024AlterDatabaseRequest\022\014\n\004path\030\001 " +
+      "\001(\t\022?\n\032computational_units_to_add\030\002 \003(\0132" +
+      "\033.Ydb.Cms.ComputationalUnits\022B\n\035computat" +
+      "ional_units_to_remove\030\003 \003(\0132\033.Ydb.Cms.Co" +
+      "mputationalUnits\0223\n\024storage_units_to_add" +
+      "\030\004 \003(\0132\025.Ydb.Cms.StorageUnits\022L\n\037computa" +
+      "tional_units_to_register\030\005 \003(\0132#.Ydb.Cms" +
+      ".AllocatedComputationalUnit\022N\n!computati" +
+      "onal_units_to_deregister\030\006 \003(\0132#.Ydb.Cms" +
+      ".AllocatedComputationalUnit\0229\n\020operation",
+      "_params\030\007 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\022\022\n\ngeneration\030\010 \001(\004\022?\n\027schema_ope" +
+      "ration_quotas\030\t \001(\0132\036.Ydb.Cms.SchemaOper" +
+      "ationQuotas\"E\n\025AlterDatabaseResponse\022,\n\t" +
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
+      "on\"Q\n\024ListDatabasesRequest\0229\n\020operation_" +
+      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\"E\n\025ListDatabasesResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"$\n\023" +
+      "ListDatabasesResult\022\r\n\005paths\030\001 \003(\t\"`\n\025Re",
+      "moveDatabaseRequest\022\014\n\004path\030\001 \001(\t\0229\n\020ope" +
+      "ration_params\030\002 \001(\0132\037.Ydb.Operations.Ope" +
+      "rationParams\"F\n\026RemoveDatabaseResponse\022," +
+      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
+      "tion\"\222\001\n\026StorageUnitDescription\022\014\n\004kind\030" +
+      "\001 \001(\t\022;\n\006labels\030\002 \003(\0132+.Ydb.Cms.StorageU" +
+      "nitDescription.LabelsEntry\032-\n\013LabelsEntr" +
+      "y\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001\n\033Av" +
+      "ailabilityZoneDescription\022\014\n\004name\030\001 \001(\t\022" +
+      "@\n\006labels\030\002 \003(\01320.Ydb.Cms.AvailabilityZo",
+      "neDescription.LabelsEntry\032-\n\013LabelsEntry" +
+      "\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\302\001\n\034Com" +
+      "putationalUnitDescription\022\014\n\004kind\030\001 \001(\t\022" +
+      "A\n\006labels\030\002 \003(\01321.Ydb.Cms.ComputationalU" +
+      "nitDescription.LabelsEntry\022\"\n\032allowed_av" +
+      "ailability_zones\030\003 \003(\t\032-\n\013LabelsEntry\022\013\n" +
+      "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"[\n\036Describ" +
+      "eDatabaseOptionsRequest\0229\n\020operation_par" +
+      "ams\030\001 \001(\0132\037.Ydb.Operations.OperationPara" +
+      "ms\"O\n\037DescribeDatabaseOptionsResponse\022,\n",
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ion\"\335\001\n\035DescribeDatabaseOptionsResult\0226\n" +
+      "\rstorage_units\030\001 \003(\0132\037.Ydb.Cms.StorageUn" +
+      "itDescription\022@\n\022availability_zones\030\002 \003(" +
+      "\0132$.Ydb.Cms.AvailabilityZoneDescription\022" +
+      "B\n\023computational_units\030\003 \003(\0132%.Ydb.Cms.C" +
+      "omputationalUnitDescriptionB\027\n\022com.yande" +
+      "x.ydb.cms\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -27167,7 +27423,7 @@ public final class YdbCms {
     internal_static_Ydb_Cms_GetDatabaseStatusResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_GetDatabaseStatusResult_descriptor,
-        new java.lang.String[] { "Path", "State", "RequiredResources", "RequiredSharedResources", "ServerlessResources", "AllocatedResources", "RegisteredResources", "Generation", "ResourcesKind", });
+        new java.lang.String[] { "Path", "State", "RequiredResources", "RequiredSharedResources", "ServerlessResources", "AllocatedResources", "RegisteredResources", "Generation", "SchemaOperationQuotas", "ResourcesKind", });
     internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor =
       getDescriptor().getMessageTypes().get(13);
     internal_static_Ydb_Cms_AlterDatabaseRequest_fieldAccessorTable = new
