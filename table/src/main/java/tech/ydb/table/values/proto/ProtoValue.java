@@ -217,6 +217,14 @@ public class ProtoValue {
         return value.getTextValue();
     }
 
+    public static ValueProtos.Value jsonDocument(String value) {
+        return text(value);
+    }
+
+    public static String toJsonDocument(ValueProtos.Value value) {
+        return value.getTextValue();
+    }
+
     // - uuid -
 
     public static ValueProtos.Value uuid(long high, long low) {
@@ -815,6 +823,7 @@ public class ProtoValue {
             case Utf8: return PrimitiveValue.utf8(value.getTextValue());
             case Yson: return PrimitiveValue.yson(value.getBytesValue());
             case Json: return PrimitiveValue.json(value.getTextValue());
+            case JsonDocument: return PrimitiveValue.jsonDocument(value.getTextValue());
             case Uuid: return PrimitiveValue.uuid(value.getHigh128(), value.getLow128());
             case Date: return PrimitiveValue.date(Integer.toUnsignedLong(value.getUint32Value()));
             case Datetime: return PrimitiveValue.datetime(Integer.toUnsignedLong(value.getUint32Value()));

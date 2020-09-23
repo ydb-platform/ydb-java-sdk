@@ -66,5 +66,7 @@ public interface PrimitiveReader {
 
     String getJson();
 
+    String getJsonDocument();
+
     DecimalValue getDecimal();
 }

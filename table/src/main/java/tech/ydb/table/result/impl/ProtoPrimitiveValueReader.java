@@ -186,6 +186,12 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     }
 
     @Override
+    public String getJsonDocument() {
+        checkPrimitive(PrimitiveTypeId.JSON_DOCUMENT);
+        return ProtoValue.toJsonDocument(value);
+    }
+
+    @Override
     public DecimalValue getDecimal() {
         if (type.getTypeCase() != ValueProtos.Type.TypeCase.DECIMAL_TYPE) {
             throw new IllegalStateException(

@@ -157,6 +157,11 @@ abstract class AbstractValueReader implements ValueReader {
     }
 
     @Override
+    public String getJsonDocument() {
+        throw error("getJsonDocument");
+    }
+
+    @Override
     public DecimalValue getDecimal() {
         throw error("getDecimal");
     }

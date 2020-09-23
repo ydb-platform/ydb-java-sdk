@@ -108,6 +108,10 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         throw new IllegalStateException("expected Json, but was " + getClass().getSimpleName());
     }
 
+    public String getJsonDocument() {
+        throw new IllegalStateException("expected JsonDocument, but was " + getClass().getSimpleName());
+    }
+
     public String getUuidString() {
         throw new IllegalStateException("expected Uuid, but was " + getClass().getSimpleName());
     }
@@ -188,6 +192,9 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
     public static PrimitiveValue json(String value) {
         return value.isEmpty() ? Text.EMPTY_JSON : new Text(PrimitiveType.json(), value);
+    }
+    public static PrimitiveValue jsonDocument(String value) {
+        return value.isEmpty() ? Text.EMPTY_JSON_DOCUMENT : new Text(PrimitiveType.jsonDocument(), value);
     }
     public static PrimitiveValue uuid(long high, long low) { return new Uuid(high, low); }
     public static PrimitiveValue uuid(UUID uuid) { return new Uuid(uuid); }
@@ -878,6 +885,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     private static final class Text extends PrimitiveValue {
         private static final Text EMPTY_UTF8 = new Text(PrimitiveType.utf8(), "");
         private static final Text EMPTY_JSON = new Text(PrimitiveType.json(), "");
+        private static final Text EMPTY_JSON_DOCUMENT = new Text(PrimitiveType.jsonDocument(), "");
 
         private static final Escaper ESCAPER = Escapers.builder()
             .addEscape('\\', "\\\\")
@@ -906,6 +914,12 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         @Override
         public String getJson() {
             checkType(PrimitiveType.json(), type.getId());
+            return value;
+        }
+
+        @Override
+        public String getJsonDocument() {
+            checkType(PrimitiveType.jsonDocument(), type.getId());
             return value;
         }
 
