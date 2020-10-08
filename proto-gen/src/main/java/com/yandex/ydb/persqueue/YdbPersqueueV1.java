@@ -14,6 +14,131 @@ public final class YdbPersqueueV1 {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
+  /**
+   * Protobuf enum {@code Ydb.PersQueue.V1.Codec}
+   */
+  public enum Codec
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>CODEC_UNSPECIFIED = 0;</code>
+     */
+    CODEC_UNSPECIFIED(0),
+    /**
+     * <code>CODEC_RAW = 1;</code>
+     */
+    CODEC_RAW(1),
+    /**
+     * <code>CODEC_GZIP = 2;</code>
+     */
+    CODEC_GZIP(2),
+    /**
+     * <code>CODEC_LZOP = 3;</code>
+     */
+    CODEC_LZOP(3),
+    /**
+     * <code>CODEC_ZSTD = 4;</code>
+     */
+    CODEC_ZSTD(4),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>CODEC_UNSPECIFIED = 0;</code>
+     */
+    public static final int CODEC_UNSPECIFIED_VALUE = 0;
+    /**
+     * <code>CODEC_RAW = 1;</code>
+     */
+    public static final int CODEC_RAW_VALUE = 1;
+    /**
+     * <code>CODEC_GZIP = 2;</code>
+     */
+    public static final int CODEC_GZIP_VALUE = 2;
+    /**
+     * <code>CODEC_LZOP = 3;</code>
+     */
+    public static final int CODEC_LZOP_VALUE = 3;
+    /**
+     * <code>CODEC_ZSTD = 4;</code>
+     */
+    public static final int CODEC_ZSTD_VALUE = 4;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static Codec valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static Codec forNumber(int value) {
+      switch (value) {
+        case 0: return CODEC_UNSPECIFIED;
+        case 1: return CODEC_RAW;
+        case 2: return CODEC_GZIP;
+        case 3: return CODEC_LZOP;
+        case 4: return CODEC_ZSTD;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<Codec>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        Codec> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<Codec>() {
+            public Codec findValueByNumber(int number) {
+              return Codec.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return tech.ydb.persqueue.YdbPersqueueV1.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final Codec[] VALUES = values();
+
+    public static Codec valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private Codec(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:Ydb.PersQueue.V1.Codec)
+  }
+
   public interface SessionMetaValueOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.SessionMetaValue)
       com.google.protobuf.MessageOrBuilder {
@@ -7466,38 +7591,45 @@ public final class YdbPersqueueV1 {
 
       /**
        * <pre>
-       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
        * </pre>
        *
-       * <code>repeated string supported_codecs = 10;</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
        */
-      java.util.List<java.lang.String>
-          getSupportedCodecsList();
+      java.util.List<tech.ydb.persqueue.YdbPersqueueV1.Codec> getSupportedCodecsList();
       /**
        * <pre>
-       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
        * </pre>
        *
-       * <code>repeated string supported_codecs = 10;</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
        */
       int getSupportedCodecsCount();
       /**
        * <pre>
-       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
        * </pre>
        *
-       * <code>repeated string supported_codecs = 10;</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
        */
-      java.lang.String getSupportedCodecs(int index);
+      tech.ydb.persqueue.YdbPersqueueV1.Codec getSupportedCodecs(int index);
       /**
        * <pre>
-       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
        * </pre>
        *
-       * <code>repeated string supported_codecs = 10;</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
        */
-      com.google.protobuf.ByteString
-          getSupportedCodecsBytes(int index);
+      java.util.List<java.lang.Integer>
+      getSupportedCodecsValueList();
+      /**
+       * <pre>
+       * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
+       * </pre>
+       *
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
+       */
+      int getSupportedCodecsValue(int index);
 
       /**
        * <pre>
@@ -7550,7 +7682,7 @@ public final class YdbPersqueueV1 {
         cluster_ = "";
         partitionId_ = 0L;
         blockFormatVersion_ = 0L;
-        supportedCodecs_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        supportedCodecs_ = java.util.Collections.emptyList();
         maxFlushWindowSize_ = 0L;
         maxBlockSize_ = 0L;
         connectionMeta_ = com.google.protobuf.ByteString.EMPTY;
@@ -7632,13 +7764,27 @@ public final class YdbPersqueueV1 {
                 connectionMeta_ = input.readBytes();
                 break;
               }
-              case 82: {
-                java.lang.String s = input.readStringRequireUtf8();
+              case 80: {
+                int rawValue = input.readEnum();
                 if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
-                  supportedCodecs_ = new com.google.protobuf.LazyStringArrayList();
+                  supportedCodecs_ = new java.util.ArrayList<java.lang.Integer>();
                   mutable_bitField0_ |= 0x00000040;
                 }
-                supportedCodecs_.add(s);
+                supportedCodecs_.add(rawValue);
+                break;
+              }
+              case 82: {
+                int length = input.readRawVarint32();
+                int oldLimit = input.pushLimit(length);
+                while(input.getBytesUntilLimit() > 0) {
+                  int rawValue = input.readEnum();
+                  if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                    supportedCodecs_ = new java.util.ArrayList<java.lang.Integer>();
+                    mutable_bitField0_ |= 0x00000040;
+                  }
+                  supportedCodecs_.add(rawValue);
+                }
+                input.popLimit(oldLimit);
                 break;
               }
             }
@@ -7650,7 +7796,7 @@ public final class YdbPersqueueV1 {
               e).setUnfinishedMessage(this);
         } finally {
           if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
-            supportedCodecs_ = supportedCodecs_.getUnmodifiableView();
+            supportedCodecs_ = java.util.Collections.unmodifiableList(supportedCodecs_);
           }
           this.unknownFields = unknownFields.build();
           makeExtensionsImmutable();
@@ -7835,49 +7981,69 @@ public final class YdbPersqueueV1 {
       }
 
       public static final int SUPPORTED_CODECS_FIELD_NUMBER = 10;
-      private com.google.protobuf.LazyStringList supportedCodecs_;
+      private java.util.List<java.lang.Integer> supportedCodecs_;
+      private static final com.google.protobuf.Internal.ListAdapter.Converter<
+          java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.Codec> supportedCodecs_converter_ =
+              new com.google.protobuf.Internal.ListAdapter.Converter<
+                  java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.Codec>() {
+                public tech.ydb.persqueue.YdbPersqueueV1.Codec convert(java.lang.Integer from) {
+                  tech.ydb.persqueue.YdbPersqueueV1.Codec result = tech.ydb.persqueue.YdbPersqueueV1.Codec.valueOf(from);
+                  return result == null ? tech.ydb.persqueue.YdbPersqueueV1.Codec.UNRECOGNIZED : result;
+                }
+              };
       /**
        * <pre>
-       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
        * </pre>
        *
-       * <code>repeated string supported_codecs = 10;</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
        */
-      public com.google.protobuf.ProtocolStringList
-          getSupportedCodecsList() {
-        return supportedCodecs_;
+      public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.Codec> getSupportedCodecsList() {
+        return new com.google.protobuf.Internal.ListAdapter<
+            java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.Codec>(supportedCodecs_, supportedCodecs_converter_);
       }
       /**
        * <pre>
-       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
        * </pre>
        *
-       * <code>repeated string supported_codecs = 10;</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
        */
       public int getSupportedCodecsCount() {
         return supportedCodecs_.size();
       }
       /**
        * <pre>
-       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
        * </pre>
        *
-       * <code>repeated string supported_codecs = 10;</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
        */
-      public java.lang.String getSupportedCodecs(int index) {
-        return supportedCodecs_.get(index);
+      public tech.ydb.persqueue.YdbPersqueueV1.Codec getSupportedCodecs(int index) {
+        return supportedCodecs_converter_.convert(supportedCodecs_.get(index));
       }
       /**
        * <pre>
-       * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+       * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
        * </pre>
        *
-       * <code>repeated string supported_codecs = 10;</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
        */
-      public com.google.protobuf.ByteString
-          getSupportedCodecsBytes(int index) {
-        return supportedCodecs_.getByteString(index);
+      public java.util.List<java.lang.Integer>
+      getSupportedCodecsValueList() {
+        return supportedCodecs_;
       }
+      /**
+       * <pre>
+       * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
+       * </pre>
+       *
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
+       */
+      public int getSupportedCodecsValue(int index) {
+        return supportedCodecs_.get(index);
+      }
+      private int supportedCodecsMemoizedSerializedSize;
 
       public static final int MAX_FLUSH_WINDOW_SIZE_FIELD_NUMBER = 7;
       private long maxFlushWindowSize_;
@@ -7931,6 +8097,7 @@ public final class YdbPersqueueV1 {
 
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
+        getSerializedSize();
         if (lastSequenceNumber_ != 0L) {
           output.writeInt64(1, lastSequenceNumber_);
         }
@@ -7958,8 +8125,12 @@ public final class YdbPersqueueV1 {
         if (!connectionMeta_.isEmpty()) {
           output.writeBytes(9, connectionMeta_);
         }
+        if (getSupportedCodecsList().size() > 0) {
+          output.writeUInt32NoTag(82);
+          output.writeUInt32NoTag(supportedCodecsMemoizedSerializedSize);
+        }
         for (int i = 0; i < supportedCodecs_.size(); i++) {
-          com.google.protobuf.GeneratedMessageV3.writeString(output, 10, supportedCodecs_.getRaw(i));
+          output.writeEnumNoTag(supportedCodecs_.get(i));
         }
         unknownFields.writeTo(output);
       }
@@ -8005,10 +8176,14 @@ public final class YdbPersqueueV1 {
         {
           int dataSize = 0;
           for (int i = 0; i < supportedCodecs_.size(); i++) {
-            dataSize += computeStringSizeNoTag(supportedCodecs_.getRaw(i));
+            dataSize += com.google.protobuf.CodedOutputStream
+              .computeEnumSizeNoTag(supportedCodecs_.get(i));
           }
           size += dataSize;
-          size += 1 * getSupportedCodecsList().size();
+          if (!getSupportedCodecsList().isEmpty()) {  size += 1;
+            size += com.google.protobuf.CodedOutputStream
+              .computeUInt32SizeNoTag(dataSize);
+          }supportedCodecsMemoizedSerializedSize = dataSize;
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -8038,8 +8213,7 @@ public final class YdbPersqueueV1 {
             == other.getPartitionId());
         result = result && (getBlockFormatVersion()
             == other.getBlockFormatVersion());
-        result = result && getSupportedCodecsList()
-            .equals(other.getSupportedCodecsList());
+        result = result && supportedCodecs_.equals(other.supportedCodecs_);
         result = result && (getMaxFlushWindowSize()
             == other.getMaxFlushWindowSize());
         result = result && (getMaxBlockSize()
@@ -8074,7 +8248,7 @@ public final class YdbPersqueueV1 {
             getBlockFormatVersion());
         if (getSupportedCodecsCount() > 0) {
           hash = (37 * hash) + SUPPORTED_CODECS_FIELD_NUMBER;
-          hash = (53 * hash) + getSupportedCodecsList().hashCode();
+          hash = (53 * hash) + supportedCodecs_.hashCode();
         }
         hash = (37 * hash) + MAX_FLUSH_WINDOW_SIZE_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
@@ -8229,7 +8403,7 @@ public final class YdbPersqueueV1 {
 
           blockFormatVersion_ = 0L;
 
-          supportedCodecs_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+          supportedCodecs_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000040);
           maxFlushWindowSize_ = 0L;
 
@@ -8268,7 +8442,7 @@ public final class YdbPersqueueV1 {
           result.partitionId_ = partitionId_;
           result.blockFormatVersion_ = blockFormatVersion_;
           if (((bitField0_ & 0x00000040) == 0x00000040)) {
-            supportedCodecs_ = supportedCodecs_.getUnmodifiableView();
+            supportedCodecs_ = java.util.Collections.unmodifiableList(supportedCodecs_);
             bitField0_ = (bitField0_ & ~0x00000040);
           }
           result.supportedCodecs_ = supportedCodecs_;
@@ -8766,132 +8940,168 @@ public final class YdbPersqueueV1 {
           return this;
         }
 
-        private com.google.protobuf.LazyStringList supportedCodecs_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        private java.util.List<java.lang.Integer> supportedCodecs_ =
+          java.util.Collections.emptyList();
         private void ensureSupportedCodecsIsMutable() {
           if (!((bitField0_ & 0x00000040) == 0x00000040)) {
-            supportedCodecs_ = new com.google.protobuf.LazyStringArrayList(supportedCodecs_);
+            supportedCodecs_ = new java.util.ArrayList<java.lang.Integer>(supportedCodecs_);
             bitField0_ |= 0x00000040;
-           }
+          }
         }
         /**
          * <pre>
-         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
          * </pre>
          *
-         * <code>repeated string supported_codecs = 10;</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
          */
-        public com.google.protobuf.ProtocolStringList
-            getSupportedCodecsList() {
-          return supportedCodecs_.getUnmodifiableView();
+        public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.Codec> getSupportedCodecsList() {
+          return new com.google.protobuf.Internal.ListAdapter<
+              java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.Codec>(supportedCodecs_, supportedCodecs_converter_);
         }
         /**
          * <pre>
-         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
          * </pre>
          *
-         * <code>repeated string supported_codecs = 10;</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
          */
         public int getSupportedCodecsCount() {
           return supportedCodecs_.size();
         }
         /**
          * <pre>
-         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
          * </pre>
          *
-         * <code>repeated string supported_codecs = 10;</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
          */
-        public java.lang.String getSupportedCodecs(int index) {
-          return supportedCodecs_.get(index);
+        public tech.ydb.persqueue.YdbPersqueueV1.Codec getSupportedCodecs(int index) {
+          return supportedCodecs_converter_.convert(supportedCodecs_.get(index));
         }
         /**
          * <pre>
-         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
          * </pre>
          *
-         * <code>repeated string supported_codecs = 10;</code>
-         */
-        public com.google.protobuf.ByteString
-            getSupportedCodecsBytes(int index) {
-          return supportedCodecs_.getByteString(index);
-        }
-        /**
-         * <pre>
-         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
-         * </pre>
-         *
-         * <code>repeated string supported_codecs = 10;</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
          */
         public Builder setSupportedCodecs(
-            int index, java.lang.String value) {
+            int index, tech.ydb.persqueue.YdbPersqueueV1.Codec value) {
           if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureSupportedCodecsIsMutable();
-          supportedCodecs_.set(index, value);
+            throw new NullPointerException();
+          }
+          ensureSupportedCodecsIsMutable();
+          supportedCodecs_.set(index, value.getNumber());
           onChanged();
           return this;
         }
         /**
          * <pre>
-         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
          * </pre>
          *
-         * <code>repeated string supported_codecs = 10;</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
          */
-        public Builder addSupportedCodecs(
-            java.lang.String value) {
+        public Builder addSupportedCodecs(tech.ydb.persqueue.YdbPersqueueV1.Codec value) {
           if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureSupportedCodecsIsMutable();
-          supportedCodecs_.add(value);
+            throw new NullPointerException();
+          }
+          ensureSupportedCodecsIsMutable();
+          supportedCodecs_.add(value.getNumber());
           onChanged();
           return this;
         }
         /**
          * <pre>
-         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
          * </pre>
          *
-         * <code>repeated string supported_codecs = 10;</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
          */
         public Builder addAllSupportedCodecs(
-            java.lang.Iterable<java.lang.String> values) {
+            java.lang.Iterable<? extends tech.ydb.persqueue.YdbPersqueueV1.Codec> values) {
           ensureSupportedCodecsIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, supportedCodecs_);
+          for (tech.ydb.persqueue.YdbPersqueueV1.Codec value : values) {
+            supportedCodecs_.add(value.getNumber());
+          }
           onChanged();
           return this;
         }
         /**
          * <pre>
-         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
          * </pre>
          *
-         * <code>repeated string supported_codecs = 10;</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
          */
         public Builder clearSupportedCodecs() {
-          supportedCodecs_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+          supportedCodecs_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000040);
           onChanged();
           return this;
         }
         /**
          * <pre>
-         * Client can only use compression codecs from this set to write messages to topic, session will be close with BAD_REQUEST otherwise.
+         * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
          * </pre>
          *
-         * <code>repeated string supported_codecs = 10;</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
          */
-        public Builder addSupportedCodecsBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+        public java.util.List<java.lang.Integer>
+        getSupportedCodecsValueList() {
+          return java.util.Collections.unmodifiableList(supportedCodecs_);
+        }
+        /**
+         * <pre>
+         * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
+         * </pre>
+         *
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
+         */
+        public int getSupportedCodecsValue(int index) {
+          return supportedCodecs_.get(index);
+        }
+        /**
+         * <pre>
+         * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
+         * </pre>
+         *
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
+         */
+        public Builder setSupportedCodecsValue(
+            int index, int value) {
+          ensureSupportedCodecsIsMutable();
+          supportedCodecs_.set(index, value);
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
+         * </pre>
+         *
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
+         */
+        public Builder addSupportedCodecsValue(int value) {
           ensureSupportedCodecsIsMutable();
           supportedCodecs_.add(value);
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * Client can only use compression codecs from this set to write messages to topic, session will be closed with BAD_REQUEST otherwise.
+         * </pre>
+         *
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 10;</code>
+         */
+        public Builder addAllSupportedCodecsValue(
+            java.lang.Iterable<java.lang.Integer> values) {
+          ensureSupportedCodecsIsMutable();
+          for (int value : values) {
+            supportedCodecs_.add(value);
+          }
           onChanged();
           return this;
         }
@@ -15456,17 +15666,17 @@ public final class YdbPersqueueV1 {
     tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadRequestOrBuilder getReadRequestOrBuilder();
 
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
      */
-    boolean hasCreateReadStreamResponse();
+    boolean hasCreatePartitionStreamResponse();
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
      */
-    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse getCreateReadStreamResponse();
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse getCreatePartitionStreamResponse();
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
      */
-    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponseOrBuilder getCreateReadStreamResponseOrBuilder();
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponseOrBuilder getCreatePartitionStreamResponseOrBuilder();
 
     /**
      * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CommitRequest commit_request = 4;</code>
@@ -15482,17 +15692,17 @@ public final class YdbPersqueueV1 {
     tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CommitRequestOrBuilder getCommitRequestOrBuilder();
 
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
      */
-    boolean hasDestroyReadStreamResponse();
+    boolean hasDestroyPartitionStreamResponse();
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
      */
-    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse getDestroyReadStreamResponse();
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse getDestroyPartitionStreamResponse();
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
      */
-    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponseOrBuilder getDestroyReadStreamResponseOrBuilder();
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponseOrBuilder getDestroyPartitionStreamResponseOrBuilder();
 
     /**
      * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.StopReadRequest stop_read_request = 6;</code>
@@ -15521,17 +15731,17 @@ public final class YdbPersqueueV1 {
     tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ResumeReadRequestOrBuilder getResumeReadRequestOrBuilder();
 
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
      */
-    boolean hasReadStreamStatusRequest();
+    boolean hasPartitionStreamStatusRequest();
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
      */
-    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest getReadStreamStatusRequest();
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest getPartitionStreamStatusRequest();
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
      */
-    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequestOrBuilder getReadStreamStatusRequestOrBuilder();
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequestOrBuilder getPartitionStreamStatusRequestOrBuilder();
 
     /**
      * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.AddTopicRequest add_topic_request = 9;</code>
@@ -15586,8 +15796,8 @@ public final class YdbPersqueueV1 {
    *      InitRequest - handshake request.
    *      ReadRequest - request for data.
    *      CommitRequest - request for commit of some read data.
-   *      CreateReadStreamResponse - signal for server that client is ready to get data from partition.
-   *      DestroyReadStreamResponse - signal for server that client finished working with partition. Must be sent only after corresponding Release request from server.
+   *      CreatePartitionStreamResponse - signal for server that client is ready to get data from partition.
+   *      DestroyPartitionStreamResponse - signal for server that client finished working with partition. Must be sent only after corresponding Release request from server.
    *      StopReadRequest - signal for server that client is not ready to get more data from this partition.
    *      ResumeReadRequest - signal for server that client is ready to get more data from this partition.
    * </pre>
@@ -15664,14 +15874,14 @@ public final class YdbPersqueueV1 {
               break;
             }
             case 26: {
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.Builder subBuilder = null;
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.Builder subBuilder = null;
               if (clientMessageCase_ == 3) {
-                subBuilder = ((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse) clientMessage_).toBuilder();
+                subBuilder = ((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse) clientMessage_).toBuilder();
               }
               clientMessage_ =
-                  input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.parser(), extensionRegistry);
+                  input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse) clientMessage_);
+                subBuilder.mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse) clientMessage_);
                 clientMessage_ = subBuilder.buildPartial();
               }
               clientMessageCase_ = 3;
@@ -15692,14 +15902,14 @@ public final class YdbPersqueueV1 {
               break;
             }
             case 42: {
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.Builder subBuilder = null;
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.Builder subBuilder = null;
               if (clientMessageCase_ == 5) {
-                subBuilder = ((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse) clientMessage_).toBuilder();
+                subBuilder = ((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse) clientMessage_).toBuilder();
               }
               clientMessage_ =
-                  input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.parser(), extensionRegistry);
+                  input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse) clientMessage_);
+                subBuilder.mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse) clientMessage_);
                 clientMessage_ = subBuilder.buildPartial();
               }
               clientMessageCase_ = 5;
@@ -15734,14 +15944,14 @@ public final class YdbPersqueueV1 {
               break;
             }
             case 66: {
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.Builder subBuilder = null;
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.Builder subBuilder = null;
               if (clientMessageCase_ == 8) {
-                subBuilder = ((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest) clientMessage_).toBuilder();
+                subBuilder = ((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest) clientMessage_).toBuilder();
               }
               clientMessage_ =
-                  input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.parser(), extensionRegistry);
+                  input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest) clientMessage_);
+                subBuilder.mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest) clientMessage_);
                 clientMessage_ = subBuilder.buildPartial();
               }
               clientMessageCase_ = 8;
@@ -15917,8 +16127,8 @@ public final class YdbPersqueueV1 {
       /**
        * <pre>
        * Maximal size of client cache for message_group_id, ip and meta, per partition.
-       * There is separate caches for each partition read streams.
-       * There is separate caches for message group identifiers, ip and meta inside one partition read stream.
+       * There is separate caches for each partition partition streams.
+       * There is separate caches for message group identifiers, ip and meta inside one partition partition stream.
        * </pre>
        *
        * <code>int64 max_meta_cache_size = 10;</code>
@@ -16140,27 +16350,27 @@ public final class YdbPersqueueV1 {
           com.google.protobuf.MessageOrBuilder {
 
         /**
-         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        java.util.List<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState> 
-            getReadStreamsStatesList();
+        java.util.List<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState> 
+            getPartitionStreamsStatesList();
         /**
-         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState getReadStreamsStates(int index);
+        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState getPartitionStreamsStates(int index);
         /**
-         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        int getReadStreamsStatesCount();
+        int getPartitionStreamsStatesCount();
         /**
-         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        java.util.List<? extends tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamStateOrBuilder> 
-            getReadStreamsStatesOrBuilderList();
+        java.util.List<? extends tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamStateOrBuilder> 
+            getPartitionStreamsStatesOrBuilderList();
         /**
-         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamStateOrBuilder getReadStreamsStatesOrBuilder(
+        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamStateOrBuilder getPartitionStreamsStatesOrBuilder(
             int index);
       }
       /**
@@ -16180,7 +16390,7 @@ public final class YdbPersqueueV1 {
           super(builder);
         }
         private State() {
-          readStreamsStates_ = java.util.Collections.emptyList();
+          partitionStreamsStates_ = java.util.Collections.emptyList();
         }
 
         @java.lang.Override
@@ -16213,11 +16423,11 @@ public final class YdbPersqueueV1 {
                 }
                 case 10: {
                   if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                    readStreamsStates_ = new java.util.ArrayList<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState>();
+                    partitionStreamsStates_ = new java.util.ArrayList<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState>();
                     mutable_bitField0_ |= 0x00000001;
                   }
-                  readStreamsStates_.add(
-                      input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.parser(), extensionRegistry));
+                  partitionStreamsStates_.add(
+                      input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.parser(), extensionRegistry));
                   break;
                 }
               }
@@ -16229,7 +16439,7 @@ public final class YdbPersqueueV1 {
                 e).setUnfinishedMessage(this);
           } finally {
             if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-              readStreamsStates_ = java.util.Collections.unmodifiableList(readStreamsStates_);
+              partitionStreamsStates_ = java.util.Collections.unmodifiableList(partitionStreamsStates_);
             }
             this.unknownFields = unknownFields.build();
             makeExtensionsImmutable();
@@ -16247,34 +16457,34 @@ public final class YdbPersqueueV1 {
                   tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.Builder.class);
         }
 
-        public interface ReadStreamStateOrBuilder extends
-            // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState)
+        public interface PartitionStreamStateOrBuilder extends
+            // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState)
             com.google.protobuf.MessageOrBuilder {
 
           /**
            * <pre>
-           * Partition read stream.
+           * Partition partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+           * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
            */
-          boolean hasReadStream();
+          boolean hasPartitionStream();
           /**
            * <pre>
-           * Partition read stream.
+           * Partition partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+           * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
            */
-          tech.ydb.persqueue.YdbPersqueueV1.ReadStream getReadStream();
+          tech.ydb.persqueue.YdbPersqueueV1.PartitionStream getPartitionStream();
           /**
            * <pre>
-           * Partition read stream.
+           * Partition partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+           * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
            */
-          tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder getReadStreamOrBuilder();
+          tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder getPartitionStreamOrBuilder();
 
           /**
            * <pre>
@@ -16331,34 +16541,34 @@ public final class YdbPersqueueV1 {
 
           /**
            * <pre>
-           * Status of read stream.
+           * Status of partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status status = 4;</code>
+           * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status status = 4;</code>
            */
           int getStatusValue();
           /**
            * <pre>
-           * Status of read stream.
+           * Status of partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status status = 4;</code>
+           * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status status = 4;</code>
            */
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status getStatus();
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status getStatus();
         }
         /**
-         * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState}
+         * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState}
          */
-        public  static final class ReadStreamState extends
+        public  static final class PartitionStreamState extends
             com.google.protobuf.GeneratedMessageV3 implements
-            // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState)
-            ReadStreamStateOrBuilder {
+            // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState)
+            PartitionStreamStateOrBuilder {
         private static final long serialVersionUID = 0L;
-          // Use ReadStreamState.newBuilder() to construct.
-          private ReadStreamState(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+          // Use PartitionStreamState.newBuilder() to construct.
+          private PartitionStreamState(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
           }
-          private ReadStreamState() {
+          private PartitionStreamState() {
             readOffset_ = 0L;
             offsetRanges_ = java.util.Collections.emptyList();
             status_ = 0;
@@ -16369,7 +16579,7 @@ public final class YdbPersqueueV1 {
           getUnknownFields() {
             return this.unknownFields;
           }
-          private ReadStreamState(
+          private PartitionStreamState(
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
@@ -16393,14 +16603,14 @@ public final class YdbPersqueueV1 {
                     break;
                   }
                   case 10: {
-                    tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder subBuilder = null;
-                    if (readStream_ != null) {
-                      subBuilder = readStream_.toBuilder();
+                    tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder subBuilder = null;
+                    if (partitionStream_ != null) {
+                      subBuilder = partitionStream_.toBuilder();
                     }
-                    readStream_ = input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.ReadStream.parser(), extensionRegistry);
+                    partitionStream_ = input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.parser(), extensionRegistry);
                     if (subBuilder != null) {
-                      subBuilder.mergeFrom(readStream_);
-                      readStream_ = subBuilder.buildPartial();
+                      subBuilder.mergeFrom(partitionStream_);
+                      partitionStream_ = subBuilder.buildPartial();
                     }
 
                     break;
@@ -16442,18 +16652,18 @@ public final class YdbPersqueueV1 {
           }
           public static final com.google.protobuf.Descriptors.Descriptor
               getDescriptor() {
-            return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_ReadStreamState_descriptor;
+            return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_PartitionStreamState_descriptor;
           }
 
           protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
               internalGetFieldAccessorTable() {
-            return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_ReadStreamState_fieldAccessorTable
+            return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_PartitionStreamState_fieldAccessorTable
                 .ensureFieldAccessorsInitialized(
-                    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Builder.class);
+                    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Builder.class);
           }
 
           /**
-           * Protobuf enum {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status}
+           * Protobuf enum {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status}
            */
           public enum Status
               implements com.google.protobuf.ProtocolMessageEnum {
@@ -16483,7 +16693,7 @@ public final class YdbPersqueueV1 {
             DESTROYING(2),
             /**
              * <pre>
-             * Client sent Created or ResumeReadRequest message to server for this read stream.
+             * Client sent Created or ResumeReadRequest message to server for this partition stream.
              * </pre>
              *
              * <code>READING = 3;</code>
@@ -16491,7 +16701,7 @@ public final class YdbPersqueueV1 {
             READING(3),
             /**
              * <pre>
-             * Client sent StopReadRequest for this read stream.
+             * Client sent StopReadRequest for this partition stream.
              * </pre>
              *
              * <code>STOPPED = 4;</code>
@@ -16526,7 +16736,7 @@ public final class YdbPersqueueV1 {
             public static final int DESTROYING_VALUE = 2;
             /**
              * <pre>
-             * Client sent Created or ResumeReadRequest message to server for this read stream.
+             * Client sent Created or ResumeReadRequest message to server for this partition stream.
              * </pre>
              *
              * <code>READING = 3;</code>
@@ -16534,7 +16744,7 @@ public final class YdbPersqueueV1 {
             public static final int READING_VALUE = 3;
             /**
              * <pre>
-             * Client sent StopReadRequest for this read stream.
+             * Client sent StopReadRequest for this partition stream.
              * </pre>
              *
              * <code>STOPPED = 4;</code>
@@ -16591,7 +16801,7 @@ public final class YdbPersqueueV1 {
             }
             public static final com.google.protobuf.Descriptors.EnumDescriptor
                 getDescriptor() {
-              return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.getDescriptor().getEnumTypes().get(0);
+              return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.getDescriptor().getEnumTypes().get(0);
             }
 
             private static final Status[] VALUES = values();
@@ -16614,41 +16824,41 @@ public final class YdbPersqueueV1 {
               this.value = value;
             }
 
-            // @@protoc_insertion_point(enum_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status)
+            // @@protoc_insertion_point(enum_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status)
           }
 
           private int bitField0_;
-          public static final int READ_STREAM_FIELD_NUMBER = 1;
-          private tech.ydb.persqueue.YdbPersqueueV1.ReadStream readStream_;
+          public static final int PARTITION_STREAM_FIELD_NUMBER = 1;
+          private tech.ydb.persqueue.YdbPersqueueV1.PartitionStream partitionStream_;
           /**
            * <pre>
-           * Partition read stream.
+           * Partition partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+           * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
            */
-          public boolean hasReadStream() {
-            return readStream_ != null;
+          public boolean hasPartitionStream() {
+            return partitionStream_ != null;
           }
           /**
            * <pre>
-           * Partition read stream.
+           * Partition partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+           * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.ReadStream getReadStream() {
-            return readStream_ == null ? tech.ydb.persqueue.YdbPersqueueV1.ReadStream.getDefaultInstance() : readStream_;
+          public tech.ydb.persqueue.YdbPersqueueV1.PartitionStream getPartitionStream() {
+            return partitionStream_ == null ? tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.getDefaultInstance() : partitionStream_;
           }
           /**
            * <pre>
-           * Partition read stream.
+           * Partition partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+           * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder getReadStreamOrBuilder() {
-            return getReadStream();
+          public tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder getPartitionStreamOrBuilder() {
+            return getPartitionStream();
           }
 
           public static final int READ_OFFSET_FIELD_NUMBER = 2;
@@ -16723,24 +16933,24 @@ public final class YdbPersqueueV1 {
           private int status_;
           /**
            * <pre>
-           * Status of read stream.
+           * Status of partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status status = 4;</code>
+           * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status status = 4;</code>
            */
           public int getStatusValue() {
             return status_;
           }
           /**
            * <pre>
-           * Status of read stream.
+           * Status of partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status status = 4;</code>
+           * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status status = 4;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status getStatus() {
-            tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status result = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status.valueOf(status_);
-            return result == null ? tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status.UNRECOGNIZED : result;
+          public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status getStatus() {
+            tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status result = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status.valueOf(status_);
+            return result == null ? tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status.UNRECOGNIZED : result;
           }
 
           private byte memoizedIsInitialized = -1;
@@ -16755,8 +16965,8 @@ public final class YdbPersqueueV1 {
 
           public void writeTo(com.google.protobuf.CodedOutputStream output)
                               throws java.io.IOException {
-            if (readStream_ != null) {
-              output.writeMessage(1, getReadStream());
+            if (partitionStream_ != null) {
+              output.writeMessage(1, getPartitionStream());
             }
             if (readOffset_ != 0L) {
               output.writeInt64(2, readOffset_);
@@ -16764,7 +16974,7 @@ public final class YdbPersqueueV1 {
             for (int i = 0; i < offsetRanges_.size(); i++) {
               output.writeMessage(3, offsetRanges_.get(i));
             }
-            if (status_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status.STATUS_UNSPECIFIED.getNumber()) {
+            if (status_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status.STATUS_UNSPECIFIED.getNumber()) {
               output.writeEnum(4, status_);
             }
             unknownFields.writeTo(output);
@@ -16775,9 +16985,9 @@ public final class YdbPersqueueV1 {
             if (size != -1) return size;
 
             size = 0;
-            if (readStream_ != null) {
+            if (partitionStream_ != null) {
               size += com.google.protobuf.CodedOutputStream
-                .computeMessageSize(1, getReadStream());
+                .computeMessageSize(1, getPartitionStream());
             }
             if (readOffset_ != 0L) {
               size += com.google.protobuf.CodedOutputStream
@@ -16787,7 +16997,7 @@ public final class YdbPersqueueV1 {
               size += com.google.protobuf.CodedOutputStream
                 .computeMessageSize(3, offsetRanges_.get(i));
             }
-            if (status_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status.STATUS_UNSPECIFIED.getNumber()) {
+            if (status_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status.STATUS_UNSPECIFIED.getNumber()) {
               size += com.google.protobuf.CodedOutputStream
                 .computeEnumSize(4, status_);
             }
@@ -16801,16 +17011,16 @@ public final class YdbPersqueueV1 {
             if (obj == this) {
              return true;
             }
-            if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState)) {
+            if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState)) {
               return super.equals(obj);
             }
-            tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState) obj;
+            tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState) obj;
 
             boolean result = true;
-            result = result && (hasReadStream() == other.hasReadStream());
-            if (hasReadStream()) {
-              result = result && getReadStream()
-                  .equals(other.getReadStream());
+            result = result && (hasPartitionStream() == other.hasPartitionStream());
+            if (hasPartitionStream()) {
+              result = result && getPartitionStream()
+                  .equals(other.getPartitionStream());
             }
             result = result && (getReadOffset()
                 == other.getReadOffset());
@@ -16828,9 +17038,9 @@ public final class YdbPersqueueV1 {
             }
             int hash = 41;
             hash = (19 * hash) + getDescriptor().hashCode();
-            if (hasReadStream()) {
-              hash = (37 * hash) + READ_STREAM_FIELD_NUMBER;
-              hash = (53 * hash) + getReadStream().hashCode();
+            if (hasPartitionStream()) {
+              hash = (37 * hash) + PARTITION_STREAM_FIELD_NUMBER;
+              hash = (53 * hash) + getPartitionStream().hashCode();
             }
             hash = (37 * hash) + READ_OFFSET_FIELD_NUMBER;
             hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
@@ -16846,69 +17056,69 @@ public final class YdbPersqueueV1 {
             return hash;
           }
 
-          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState parseFrom(
               java.nio.ByteBuffer data)
               throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState parseFrom(
               java.nio.ByteBuffer data,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState parseFrom(
               com.google.protobuf.ByteString data)
               throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState parseFrom(
               com.google.protobuf.ByteString data,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState parseFrom(byte[] data)
+          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState parseFrom(byte[] data)
               throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState parseFrom(
               byte[] data,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState parseFrom(java.io.InputStream input)
+          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState parseFrom(java.io.InputStream input)
               throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                 .parseWithIOException(PARSER, input);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState parseFrom(
               java.io.InputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                 .parseWithIOException(PARSER, input, extensionRegistry);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState parseDelimitedFrom(java.io.InputStream input)
+          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState parseDelimitedFrom(java.io.InputStream input)
               throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                 .parseDelimitedWithIOException(PARSER, input);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState parseDelimitedFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState parseDelimitedFrom(
               java.io.InputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                 .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState parseFrom(
               com.google.protobuf.CodedInputStream input)
               throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                 .parseWithIOException(PARSER, input);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState parseFrom(
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws java.io.IOException {
@@ -16920,7 +17130,7 @@ public final class YdbPersqueueV1 {
           public static Builder newBuilder() {
             return DEFAULT_INSTANCE.toBuilder();
           }
-          public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState prototype) {
+          public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState prototype) {
             return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
           }
           public Builder toBuilder() {
@@ -16935,25 +17145,25 @@ public final class YdbPersqueueV1 {
             return builder;
           }
           /**
-           * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState}
+           * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState}
            */
           public static final class Builder extends
               com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-              // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState)
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamStateOrBuilder {
+              // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState)
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamStateOrBuilder {
             public static final com.google.protobuf.Descriptors.Descriptor
                 getDescriptor() {
-              return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_ReadStreamState_descriptor;
+              return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_PartitionStreamState_descriptor;
             }
 
             protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
                 internalGetFieldAccessorTable() {
-              return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_ReadStreamState_fieldAccessorTable
+              return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_PartitionStreamState_fieldAccessorTable
                   .ensureFieldAccessorsInitialized(
-                      tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Builder.class);
+                      tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Builder.class);
             }
 
-            // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.newBuilder()
+            // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.newBuilder()
             private Builder() {
               maybeForceBuilderInitialization();
             }
@@ -16971,11 +17181,11 @@ public final class YdbPersqueueV1 {
             }
             public Builder clear() {
               super.clear();
-              if (readStreamBuilder_ == null) {
-                readStream_ = null;
+              if (partitionStreamBuilder_ == null) {
+                partitionStream_ = null;
               } else {
-                readStream_ = null;
-                readStreamBuilder_ = null;
+                partitionStream_ = null;
+                partitionStreamBuilder_ = null;
               }
               readOffset_ = 0L;
 
@@ -16992,29 +17202,29 @@ public final class YdbPersqueueV1 {
 
             public com.google.protobuf.Descriptors.Descriptor
                 getDescriptorForType() {
-              return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_ReadStreamState_descriptor;
+              return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_PartitionStreamState_descriptor;
             }
 
-            public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState getDefaultInstanceForType() {
-              return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.getDefaultInstance();
+            public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState getDefaultInstanceForType() {
+              return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.getDefaultInstance();
             }
 
-            public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState build() {
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState result = buildPartial();
+            public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState build() {
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState result = buildPartial();
               if (!result.isInitialized()) {
                 throw newUninitializedMessageException(result);
               }
               return result;
             }
 
-            public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState buildPartial() {
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState(this);
+            public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState buildPartial() {
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState(this);
               int from_bitField0_ = bitField0_;
               int to_bitField0_ = 0;
-              if (readStreamBuilder_ == null) {
-                result.readStream_ = readStream_;
+              if (partitionStreamBuilder_ == null) {
+                result.partitionStream_ = partitionStream_;
               } else {
-                result.readStream_ = readStreamBuilder_.build();
+                result.partitionStream_ = partitionStreamBuilder_.build();
               }
               result.readOffset_ = readOffset_;
               if (offsetRangesBuilder_ == null) {
@@ -17059,18 +17269,18 @@ public final class YdbPersqueueV1 {
               return (Builder) super.addRepeatedField(field, value);
             }
             public Builder mergeFrom(com.google.protobuf.Message other) {
-              if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState) {
-                return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState)other);
+              if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState) {
+                return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState)other);
               } else {
                 super.mergeFrom(other);
                 return this;
               }
             }
 
-            public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState other) {
-              if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.getDefaultInstance()) return this;
-              if (other.hasReadStream()) {
-                mergeReadStream(other.getReadStream());
+            public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState other) {
+              if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.getDefaultInstance()) return this;
+              if (other.hasPartitionStream()) {
+                mergePartitionStream(other.getPartitionStream());
               }
               if (other.getReadOffset() != 0L) {
                 setReadOffset(other.getReadOffset());
@@ -17117,11 +17327,11 @@ public final class YdbPersqueueV1 {
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws java.io.IOException {
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState parsedMessage = null;
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState parsedMessage = null;
               try {
                 parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
               } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-                parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState) e.getUnfinishedMessage();
+                parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState) e.getUnfinishedMessage();
                 throw e.unwrapIOException();
               } finally {
                 if (parsedMessage != null) {
@@ -17132,157 +17342,157 @@ public final class YdbPersqueueV1 {
             }
             private int bitField0_;
 
-            private tech.ydb.persqueue.YdbPersqueueV1.ReadStream readStream_ = null;
+            private tech.ydb.persqueue.YdbPersqueueV1.PartitionStream partitionStream_ = null;
             private com.google.protobuf.SingleFieldBuilderV3<
-                tech.ydb.persqueue.YdbPersqueueV1.ReadStream, tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder> readStreamBuilder_;
+                tech.ydb.persqueue.YdbPersqueueV1.PartitionStream, tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder> partitionStreamBuilder_;
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public boolean hasReadStream() {
-              return readStreamBuilder_ != null || readStream_ != null;
+            public boolean hasPartitionStream() {
+              return partitionStreamBuilder_ != null || partitionStream_ != null;
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public tech.ydb.persqueue.YdbPersqueueV1.ReadStream getReadStream() {
-              if (readStreamBuilder_ == null) {
-                return readStream_ == null ? tech.ydb.persqueue.YdbPersqueueV1.ReadStream.getDefaultInstance() : readStream_;
+            public tech.ydb.persqueue.YdbPersqueueV1.PartitionStream getPartitionStream() {
+              if (partitionStreamBuilder_ == null) {
+                return partitionStream_ == null ? tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.getDefaultInstance() : partitionStream_;
               } else {
-                return readStreamBuilder_.getMessage();
+                return partitionStreamBuilder_.getMessage();
               }
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public Builder setReadStream(tech.ydb.persqueue.YdbPersqueueV1.ReadStream value) {
-              if (readStreamBuilder_ == null) {
+            public Builder setPartitionStream(tech.ydb.persqueue.YdbPersqueueV1.PartitionStream value) {
+              if (partitionStreamBuilder_ == null) {
                 if (value == null) {
                   throw new NullPointerException();
                 }
-                readStream_ = value;
+                partitionStream_ = value;
                 onChanged();
               } else {
-                readStreamBuilder_.setMessage(value);
+                partitionStreamBuilder_.setMessage(value);
               }
 
               return this;
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public Builder setReadStream(
-                tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder builderForValue) {
-              if (readStreamBuilder_ == null) {
-                readStream_ = builderForValue.build();
+            public Builder setPartitionStream(
+                tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder builderForValue) {
+              if (partitionStreamBuilder_ == null) {
+                partitionStream_ = builderForValue.build();
                 onChanged();
               } else {
-                readStreamBuilder_.setMessage(builderForValue.build());
+                partitionStreamBuilder_.setMessage(builderForValue.build());
               }
 
               return this;
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public Builder mergeReadStream(tech.ydb.persqueue.YdbPersqueueV1.ReadStream value) {
-              if (readStreamBuilder_ == null) {
-                if (readStream_ != null) {
-                  readStream_ =
-                    tech.ydb.persqueue.YdbPersqueueV1.ReadStream.newBuilder(readStream_).mergeFrom(value).buildPartial();
+            public Builder mergePartitionStream(tech.ydb.persqueue.YdbPersqueueV1.PartitionStream value) {
+              if (partitionStreamBuilder_ == null) {
+                if (partitionStream_ != null) {
+                  partitionStream_ =
+                    tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.newBuilder(partitionStream_).mergeFrom(value).buildPartial();
                 } else {
-                  readStream_ = value;
+                  partitionStream_ = value;
                 }
                 onChanged();
               } else {
-                readStreamBuilder_.mergeFrom(value);
+                partitionStreamBuilder_.mergeFrom(value);
               }
 
               return this;
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public Builder clearReadStream() {
-              if (readStreamBuilder_ == null) {
-                readStream_ = null;
+            public Builder clearPartitionStream() {
+              if (partitionStreamBuilder_ == null) {
+                partitionStream_ = null;
                 onChanged();
               } else {
-                readStream_ = null;
-                readStreamBuilder_ = null;
+                partitionStream_ = null;
+                partitionStreamBuilder_ = null;
               }
 
               return this;
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder getReadStreamBuilder() {
+            public tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder getPartitionStreamBuilder() {
               
               onChanged();
-              return getReadStreamFieldBuilder().getBuilder();
+              return getPartitionStreamFieldBuilder().getBuilder();
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder getReadStreamOrBuilder() {
-              if (readStreamBuilder_ != null) {
-                return readStreamBuilder_.getMessageOrBuilder();
+            public tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder getPartitionStreamOrBuilder() {
+              if (partitionStreamBuilder_ != null) {
+                return partitionStreamBuilder_.getMessageOrBuilder();
               } else {
-                return readStream_ == null ?
-                    tech.ydb.persqueue.YdbPersqueueV1.ReadStream.getDefaultInstance() : readStream_;
+                return partitionStream_ == null ?
+                    tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.getDefaultInstance() : partitionStream_;
               }
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
             private com.google.protobuf.SingleFieldBuilderV3<
-                tech.ydb.persqueue.YdbPersqueueV1.ReadStream, tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder> 
-                getReadStreamFieldBuilder() {
-              if (readStreamBuilder_ == null) {
-                readStreamBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-                    tech.ydb.persqueue.YdbPersqueueV1.ReadStream, tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder>(
-                        getReadStream(),
+                tech.ydb.persqueue.YdbPersqueueV1.PartitionStream, tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder> 
+                getPartitionStreamFieldBuilder() {
+              if (partitionStreamBuilder_ == null) {
+                partitionStreamBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                    tech.ydb.persqueue.YdbPersqueueV1.PartitionStream, tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder>(
+                        getPartitionStream(),
                         getParentForChildren(),
                         isClean());
-                readStream_ = null;
+                partitionStream_ = null;
               }
-              return readStreamBuilder_;
+              return partitionStreamBuilder_;
             }
 
             private long readOffset_ ;
@@ -17638,20 +17848,20 @@ public final class YdbPersqueueV1 {
             private int status_ = 0;
             /**
              * <pre>
-             * Status of read stream.
+             * Status of partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status status = 4;</code>
+             * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status status = 4;</code>
              */
             public int getStatusValue() {
               return status_;
             }
             /**
              * <pre>
-             * Status of read stream.
+             * Status of partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status status = 4;</code>
+             * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status status = 4;</code>
              */
             public Builder setStatusValue(int value) {
               status_ = value;
@@ -17660,23 +17870,23 @@ public final class YdbPersqueueV1 {
             }
             /**
              * <pre>
-             * Status of read stream.
+             * Status of partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status status = 4;</code>
+             * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status status = 4;</code>
              */
-            public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status getStatus() {
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status result = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status.valueOf(status_);
-              return result == null ? tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status.UNRECOGNIZED : result;
+            public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status getStatus() {
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status result = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status.valueOf(status_);
+              return result == null ? tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status.UNRECOGNIZED : result;
             }
             /**
              * <pre>
-             * Status of read stream.
+             * Status of partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status status = 4;</code>
+             * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status status = 4;</code>
              */
-            public Builder setStatus(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status value) {
+            public Builder setStatus(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status value) {
               if (value == null) {
                 throw new NullPointerException();
               }
@@ -17687,10 +17897,10 @@ public final class YdbPersqueueV1 {
             }
             /**
              * <pre>
-             * Status of read stream.
+             * Status of partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Status status = 4;</code>
+             * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Status status = 4;</code>
              */
             public Builder clearStatus() {
               
@@ -17709,77 +17919,77 @@ public final class YdbPersqueueV1 {
             }
 
 
-            // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState)
+            // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState)
           }
 
-          // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState)
-          private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState DEFAULT_INSTANCE;
+          // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState)
+          private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState DEFAULT_INSTANCE;
           static {
-            DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState();
+            DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState();
           }
 
-          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState getDefaultInstance() {
+          public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState getDefaultInstance() {
             return DEFAULT_INSTANCE;
           }
 
-          private static final com.google.protobuf.Parser<ReadStreamState>
-              PARSER = new com.google.protobuf.AbstractParser<ReadStreamState>() {
-            public ReadStreamState parsePartialFrom(
+          private static final com.google.protobuf.Parser<PartitionStreamState>
+              PARSER = new com.google.protobuf.AbstractParser<PartitionStreamState>() {
+            public PartitionStreamState parsePartialFrom(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws com.google.protobuf.InvalidProtocolBufferException {
-                return new ReadStreamState(input, extensionRegistry);
+                return new PartitionStreamState(input, extensionRegistry);
             }
           };
 
-          public static com.google.protobuf.Parser<ReadStreamState> parser() {
+          public static com.google.protobuf.Parser<PartitionStreamState> parser() {
             return PARSER;
           }
 
           @java.lang.Override
-          public com.google.protobuf.Parser<ReadStreamState> getParserForType() {
+          public com.google.protobuf.Parser<PartitionStreamState> getParserForType() {
             return PARSER;
           }
 
-          public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState getDefaultInstanceForType() {
+          public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState getDefaultInstanceForType() {
             return DEFAULT_INSTANCE;
           }
 
         }
 
-        public static final int READ_STREAMS_STATES_FIELD_NUMBER = 1;
-        private java.util.List<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState> readStreamsStates_;
+        public static final int PARTITION_STREAMS_STATES_FIELD_NUMBER = 1;
+        private java.util.List<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState> partitionStreamsStates_;
         /**
-         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState> getReadStreamsStatesList() {
-          return readStreamsStates_;
+        public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState> getPartitionStreamsStatesList() {
+          return partitionStreamsStates_;
         }
         /**
-         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        public java.util.List<? extends tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamStateOrBuilder> 
-            getReadStreamsStatesOrBuilderList() {
-          return readStreamsStates_;
+        public java.util.List<? extends tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamStateOrBuilder> 
+            getPartitionStreamsStatesOrBuilderList() {
+          return partitionStreamsStates_;
         }
         /**
-         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        public int getReadStreamsStatesCount() {
-          return readStreamsStates_.size();
+        public int getPartitionStreamsStatesCount() {
+          return partitionStreamsStates_.size();
         }
         /**
-         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState getReadStreamsStates(int index) {
-          return readStreamsStates_.get(index);
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState getPartitionStreamsStates(int index) {
+          return partitionStreamsStates_.get(index);
         }
         /**
-         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamStateOrBuilder getReadStreamsStatesOrBuilder(
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamStateOrBuilder getPartitionStreamsStatesOrBuilder(
             int index) {
-          return readStreamsStates_.get(index);
+          return partitionStreamsStates_.get(index);
         }
 
         private byte memoizedIsInitialized = -1;
@@ -17794,8 +18004,8 @@ public final class YdbPersqueueV1 {
 
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                             throws java.io.IOException {
-          for (int i = 0; i < readStreamsStates_.size(); i++) {
-            output.writeMessage(1, readStreamsStates_.get(i));
+          for (int i = 0; i < partitionStreamsStates_.size(); i++) {
+            output.writeMessage(1, partitionStreamsStates_.get(i));
           }
           unknownFields.writeTo(output);
         }
@@ -17805,9 +18015,9 @@ public final class YdbPersqueueV1 {
           if (size != -1) return size;
 
           size = 0;
-          for (int i = 0; i < readStreamsStates_.size(); i++) {
+          for (int i = 0; i < partitionStreamsStates_.size(); i++) {
             size += com.google.protobuf.CodedOutputStream
-              .computeMessageSize(1, readStreamsStates_.get(i));
+              .computeMessageSize(1, partitionStreamsStates_.get(i));
           }
           size += unknownFields.getSerializedSize();
           memoizedSize = size;
@@ -17825,8 +18035,8 @@ public final class YdbPersqueueV1 {
           tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State) obj;
 
           boolean result = true;
-          result = result && getReadStreamsStatesList()
-              .equals(other.getReadStreamsStatesList());
+          result = result && getPartitionStreamsStatesList()
+              .equals(other.getPartitionStreamsStatesList());
           result = result && unknownFields.equals(other.unknownFields);
           return result;
         }
@@ -17838,9 +18048,9 @@ public final class YdbPersqueueV1 {
           }
           int hash = 41;
           hash = (19 * hash) + getDescriptor().hashCode();
-          if (getReadStreamsStatesCount() > 0) {
-            hash = (37 * hash) + READ_STREAMS_STATES_FIELD_NUMBER;
-            hash = (53 * hash) + getReadStreamsStatesList().hashCode();
+          if (getPartitionStreamsStatesCount() > 0) {
+            hash = (37 * hash) + PARTITION_STREAMS_STATES_FIELD_NUMBER;
+            hash = (53 * hash) + getPartitionStreamsStatesList().hashCode();
           }
           hash = (29 * hash) + unknownFields.hashCode();
           memoizedHashCode = hash;
@@ -17971,16 +18181,16 @@ public final class YdbPersqueueV1 {
           private void maybeForceBuilderInitialization() {
             if (com.google.protobuf.GeneratedMessageV3
                     .alwaysUseFieldBuilders) {
-              getReadStreamsStatesFieldBuilder();
+              getPartitionStreamsStatesFieldBuilder();
             }
           }
           public Builder clear() {
             super.clear();
-            if (readStreamsStatesBuilder_ == null) {
-              readStreamsStates_ = java.util.Collections.emptyList();
+            if (partitionStreamsStatesBuilder_ == null) {
+              partitionStreamsStates_ = java.util.Collections.emptyList();
               bitField0_ = (bitField0_ & ~0x00000001);
             } else {
-              readStreamsStatesBuilder_.clear();
+              partitionStreamsStatesBuilder_.clear();
             }
             return this;
           }
@@ -18005,14 +18215,14 @@ public final class YdbPersqueueV1 {
           public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State buildPartial() {
             tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State(this);
             int from_bitField0_ = bitField0_;
-            if (readStreamsStatesBuilder_ == null) {
+            if (partitionStreamsStatesBuilder_ == null) {
               if (((bitField0_ & 0x00000001) == 0x00000001)) {
-                readStreamsStates_ = java.util.Collections.unmodifiableList(readStreamsStates_);
+                partitionStreamsStates_ = java.util.Collections.unmodifiableList(partitionStreamsStates_);
                 bitField0_ = (bitField0_ & ~0x00000001);
               }
-              result.readStreamsStates_ = readStreamsStates_;
+              result.partitionStreamsStates_ = partitionStreamsStates_;
             } else {
-              result.readStreamsStates_ = readStreamsStatesBuilder_.build();
+              result.partitionStreamsStates_ = partitionStreamsStatesBuilder_.build();
             }
             onBuilt();
             return result;
@@ -18055,29 +18265,29 @@ public final class YdbPersqueueV1 {
 
           public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State other) {
             if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.getDefaultInstance()) return this;
-            if (readStreamsStatesBuilder_ == null) {
-              if (!other.readStreamsStates_.isEmpty()) {
-                if (readStreamsStates_.isEmpty()) {
-                  readStreamsStates_ = other.readStreamsStates_;
+            if (partitionStreamsStatesBuilder_ == null) {
+              if (!other.partitionStreamsStates_.isEmpty()) {
+                if (partitionStreamsStates_.isEmpty()) {
+                  partitionStreamsStates_ = other.partitionStreamsStates_;
                   bitField0_ = (bitField0_ & ~0x00000001);
                 } else {
-                  ensureReadStreamsStatesIsMutable();
-                  readStreamsStates_.addAll(other.readStreamsStates_);
+                  ensurePartitionStreamsStatesIsMutable();
+                  partitionStreamsStates_.addAll(other.partitionStreamsStates_);
                 }
                 onChanged();
               }
             } else {
-              if (!other.readStreamsStates_.isEmpty()) {
-                if (readStreamsStatesBuilder_.isEmpty()) {
-                  readStreamsStatesBuilder_.dispose();
-                  readStreamsStatesBuilder_ = null;
-                  readStreamsStates_ = other.readStreamsStates_;
+              if (!other.partitionStreamsStates_.isEmpty()) {
+                if (partitionStreamsStatesBuilder_.isEmpty()) {
+                  partitionStreamsStatesBuilder_.dispose();
+                  partitionStreamsStatesBuilder_ = null;
+                  partitionStreamsStates_ = other.partitionStreamsStates_;
                   bitField0_ = (bitField0_ & ~0x00000001);
-                  readStreamsStatesBuilder_ = 
+                  partitionStreamsStatesBuilder_ = 
                     com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                       getReadStreamsStatesFieldBuilder() : null;
+                       getPartitionStreamsStatesFieldBuilder() : null;
                 } else {
-                  readStreamsStatesBuilder_.addAllMessages(other.readStreamsStates_);
+                  partitionStreamsStatesBuilder_.addAllMessages(other.partitionStreamsStates_);
                 }
               }
             }
@@ -18109,244 +18319,244 @@ public final class YdbPersqueueV1 {
           }
           private int bitField0_;
 
-          private java.util.List<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState> readStreamsStates_ =
+          private java.util.List<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState> partitionStreamsStates_ =
             java.util.Collections.emptyList();
-          private void ensureReadStreamsStatesIsMutable() {
+          private void ensurePartitionStreamsStatesIsMutable() {
             if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-              readStreamsStates_ = new java.util.ArrayList<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState>(readStreamsStates_);
+              partitionStreamsStates_ = new java.util.ArrayList<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState>(partitionStreamsStates_);
               bitField0_ |= 0x00000001;
              }
           }
 
           private com.google.protobuf.RepeatedFieldBuilderV3<
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamStateOrBuilder> readStreamsStatesBuilder_;
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamStateOrBuilder> partitionStreamsStatesBuilder_;
 
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState> getReadStreamsStatesList() {
-            if (readStreamsStatesBuilder_ == null) {
-              return java.util.Collections.unmodifiableList(readStreamsStates_);
+          public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState> getPartitionStreamsStatesList() {
+            if (partitionStreamsStatesBuilder_ == null) {
+              return java.util.Collections.unmodifiableList(partitionStreamsStates_);
             } else {
-              return readStreamsStatesBuilder_.getMessageList();
+              return partitionStreamsStatesBuilder_.getMessageList();
             }
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public int getReadStreamsStatesCount() {
-            if (readStreamsStatesBuilder_ == null) {
-              return readStreamsStates_.size();
+          public int getPartitionStreamsStatesCount() {
+            if (partitionStreamsStatesBuilder_ == null) {
+              return partitionStreamsStates_.size();
             } else {
-              return readStreamsStatesBuilder_.getCount();
+              return partitionStreamsStatesBuilder_.getCount();
             }
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState getReadStreamsStates(int index) {
-            if (readStreamsStatesBuilder_ == null) {
-              return readStreamsStates_.get(index);
+          public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState getPartitionStreamsStates(int index) {
+            if (partitionStreamsStatesBuilder_ == null) {
+              return partitionStreamsStates_.get(index);
             } else {
-              return readStreamsStatesBuilder_.getMessage(index);
+              return partitionStreamsStatesBuilder_.getMessage(index);
             }
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder setReadStreamsStates(
-              int index, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState value) {
-            if (readStreamsStatesBuilder_ == null) {
+          public Builder setPartitionStreamsStates(
+              int index, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState value) {
+            if (partitionStreamsStatesBuilder_ == null) {
               if (value == null) {
                 throw new NullPointerException();
               }
-              ensureReadStreamsStatesIsMutable();
-              readStreamsStates_.set(index, value);
+              ensurePartitionStreamsStatesIsMutable();
+              partitionStreamsStates_.set(index, value);
               onChanged();
             } else {
-              readStreamsStatesBuilder_.setMessage(index, value);
+              partitionStreamsStatesBuilder_.setMessage(index, value);
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder setReadStreamsStates(
-              int index, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Builder builderForValue) {
-            if (readStreamsStatesBuilder_ == null) {
-              ensureReadStreamsStatesIsMutable();
-              readStreamsStates_.set(index, builderForValue.build());
+          public Builder setPartitionStreamsStates(
+              int index, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Builder builderForValue) {
+            if (partitionStreamsStatesBuilder_ == null) {
+              ensurePartitionStreamsStatesIsMutable();
+              partitionStreamsStates_.set(index, builderForValue.build());
               onChanged();
             } else {
-              readStreamsStatesBuilder_.setMessage(index, builderForValue.build());
+              partitionStreamsStatesBuilder_.setMessage(index, builderForValue.build());
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder addReadStreamsStates(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState value) {
-            if (readStreamsStatesBuilder_ == null) {
+          public Builder addPartitionStreamsStates(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState value) {
+            if (partitionStreamsStatesBuilder_ == null) {
               if (value == null) {
                 throw new NullPointerException();
               }
-              ensureReadStreamsStatesIsMutable();
-              readStreamsStates_.add(value);
+              ensurePartitionStreamsStatesIsMutable();
+              partitionStreamsStates_.add(value);
               onChanged();
             } else {
-              readStreamsStatesBuilder_.addMessage(value);
+              partitionStreamsStatesBuilder_.addMessage(value);
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder addReadStreamsStates(
-              int index, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState value) {
-            if (readStreamsStatesBuilder_ == null) {
+          public Builder addPartitionStreamsStates(
+              int index, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState value) {
+            if (partitionStreamsStatesBuilder_ == null) {
               if (value == null) {
                 throw new NullPointerException();
               }
-              ensureReadStreamsStatesIsMutable();
-              readStreamsStates_.add(index, value);
+              ensurePartitionStreamsStatesIsMutable();
+              partitionStreamsStates_.add(index, value);
               onChanged();
             } else {
-              readStreamsStatesBuilder_.addMessage(index, value);
+              partitionStreamsStatesBuilder_.addMessage(index, value);
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder addReadStreamsStates(
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Builder builderForValue) {
-            if (readStreamsStatesBuilder_ == null) {
-              ensureReadStreamsStatesIsMutable();
-              readStreamsStates_.add(builderForValue.build());
+          public Builder addPartitionStreamsStates(
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Builder builderForValue) {
+            if (partitionStreamsStatesBuilder_ == null) {
+              ensurePartitionStreamsStatesIsMutable();
+              partitionStreamsStates_.add(builderForValue.build());
               onChanged();
             } else {
-              readStreamsStatesBuilder_.addMessage(builderForValue.build());
+              partitionStreamsStatesBuilder_.addMessage(builderForValue.build());
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder addReadStreamsStates(
-              int index, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Builder builderForValue) {
-            if (readStreamsStatesBuilder_ == null) {
-              ensureReadStreamsStatesIsMutable();
-              readStreamsStates_.add(index, builderForValue.build());
+          public Builder addPartitionStreamsStates(
+              int index, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Builder builderForValue) {
+            if (partitionStreamsStatesBuilder_ == null) {
+              ensurePartitionStreamsStatesIsMutable();
+              partitionStreamsStates_.add(index, builderForValue.build());
               onChanged();
             } else {
-              readStreamsStatesBuilder_.addMessage(index, builderForValue.build());
+              partitionStreamsStatesBuilder_.addMessage(index, builderForValue.build());
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder addAllReadStreamsStates(
-              java.lang.Iterable<? extends tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState> values) {
-            if (readStreamsStatesBuilder_ == null) {
-              ensureReadStreamsStatesIsMutable();
+          public Builder addAllPartitionStreamsStates(
+              java.lang.Iterable<? extends tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState> values) {
+            if (partitionStreamsStatesBuilder_ == null) {
+              ensurePartitionStreamsStatesIsMutable();
               com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                  values, readStreamsStates_);
+                  values, partitionStreamsStates_);
               onChanged();
             } else {
-              readStreamsStatesBuilder_.addAllMessages(values);
+              partitionStreamsStatesBuilder_.addAllMessages(values);
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder clearReadStreamsStates() {
-            if (readStreamsStatesBuilder_ == null) {
-              readStreamsStates_ = java.util.Collections.emptyList();
+          public Builder clearPartitionStreamsStates() {
+            if (partitionStreamsStatesBuilder_ == null) {
+              partitionStreamsStates_ = java.util.Collections.emptyList();
               bitField0_ = (bitField0_ & ~0x00000001);
               onChanged();
             } else {
-              readStreamsStatesBuilder_.clear();
+              partitionStreamsStatesBuilder_.clear();
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder removeReadStreamsStates(int index) {
-            if (readStreamsStatesBuilder_ == null) {
-              ensureReadStreamsStatesIsMutable();
-              readStreamsStates_.remove(index);
+          public Builder removePartitionStreamsStates(int index) {
+            if (partitionStreamsStatesBuilder_ == null) {
+              ensurePartitionStreamsStatesIsMutable();
+              partitionStreamsStates_.remove(index);
               onChanged();
             } else {
-              readStreamsStatesBuilder_.remove(index);
+              partitionStreamsStatesBuilder_.remove(index);
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Builder getReadStreamsStatesBuilder(
+          public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Builder getPartitionStreamsStatesBuilder(
               int index) {
-            return getReadStreamsStatesFieldBuilder().getBuilder(index);
+            return getPartitionStreamsStatesFieldBuilder().getBuilder(index);
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamStateOrBuilder getReadStreamsStatesOrBuilder(
+          public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamStateOrBuilder getPartitionStreamsStatesOrBuilder(
               int index) {
-            if (readStreamsStatesBuilder_ == null) {
-              return readStreamsStates_.get(index);  } else {
-              return readStreamsStatesBuilder_.getMessageOrBuilder(index);
+            if (partitionStreamsStatesBuilder_ == null) {
+              return partitionStreamsStates_.get(index);  } else {
+              return partitionStreamsStatesBuilder_.getMessageOrBuilder(index);
             }
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public java.util.List<? extends tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamStateOrBuilder> 
-               getReadStreamsStatesOrBuilderList() {
-            if (readStreamsStatesBuilder_ != null) {
-              return readStreamsStatesBuilder_.getMessageOrBuilderList();
+          public java.util.List<? extends tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamStateOrBuilder> 
+               getPartitionStreamsStatesOrBuilderList() {
+            if (partitionStreamsStatesBuilder_ != null) {
+              return partitionStreamsStatesBuilder_.getMessageOrBuilderList();
             } else {
-              return java.util.Collections.unmodifiableList(readStreamsStates_);
+              return java.util.Collections.unmodifiableList(partitionStreamsStates_);
             }
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Builder addReadStreamsStatesBuilder() {
-            return getReadStreamsStatesFieldBuilder().addBuilder(
-                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.getDefaultInstance());
+          public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Builder addPartitionStreamsStatesBuilder() {
+            return getPartitionStreamsStatesFieldBuilder().addBuilder(
+                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.getDefaultInstance());
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Builder addReadStreamsStatesBuilder(
+          public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Builder addPartitionStreamsStatesBuilder(
               int index) {
-            return getReadStreamsStatesFieldBuilder().addBuilder(
-                index, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.getDefaultInstance());
+            return getPartitionStreamsStatesFieldBuilder().addBuilder(
+                index, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.getDefaultInstance());
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Builder> 
-               getReadStreamsStatesBuilderList() {
-            return getReadStreamsStatesFieldBuilder().getBuilderList();
+          public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Builder> 
+               getPartitionStreamsStatesBuilderList() {
+            return getPartitionStreamsStatesFieldBuilder().getBuilderList();
           }
           private com.google.protobuf.RepeatedFieldBuilderV3<
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamStateOrBuilder> 
-              getReadStreamsStatesFieldBuilder() {
-            if (readStreamsStatesBuilder_ == null) {
-              readStreamsStatesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamState.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.ReadStreamStateOrBuilder>(
-                      readStreamsStates_,
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamStateOrBuilder> 
+              getPartitionStreamsStatesFieldBuilder() {
+            if (partitionStreamsStatesBuilder_ == null) {
+              partitionStreamsStatesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamState.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.InitRequest.State.PartitionStreamStateOrBuilder>(
+                      partitionStreamsStates_,
                       ((bitField0_ & 0x00000001) == 0x00000001),
                       getParentForChildren(),
                       isClean());
-              readStreamsStates_ = null;
+              partitionStreamsStates_ = null;
             }
-            return readStreamsStatesBuilder_;
+            return partitionStreamsStatesBuilder_;
           }
           public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -18559,8 +18769,8 @@ public final class YdbPersqueueV1 {
       /**
        * <pre>
        * Maximal size of client cache for message_group_id, ip and meta, per partition.
-       * There is separate caches for each partition read streams.
-       * There is separate caches for message group identifiers, ip and meta inside one partition read stream.
+       * There is separate caches for each partition partition streams.
+       * There is separate caches for message group identifiers, ip and meta inside one partition partition stream.
        * </pre>
        *
        * <code>int64 max_meta_cache_size = 10;</code>
@@ -19766,8 +19976,8 @@ public final class YdbPersqueueV1 {
         /**
          * <pre>
          * Maximal size of client cache for message_group_id, ip and meta, per partition.
-         * There is separate caches for each partition read streams.
-         * There is separate caches for message group identifiers, ip and meta inside one partition read stream.
+         * There is separate caches for each partition partition streams.
+         * There is separate caches for message group identifiers, ip and meta inside one partition partition stream.
          * </pre>
          *
          * <code>int64 max_meta_cache_size = 10;</code>
@@ -19778,8 +19988,8 @@ public final class YdbPersqueueV1 {
         /**
          * <pre>
          * Maximal size of client cache for message_group_id, ip and meta, per partition.
-         * There is separate caches for each partition read streams.
-         * There is separate caches for message group identifiers, ip and meta inside one partition read stream.
+         * There is separate caches for each partition partition streams.
+         * There is separate caches for message group identifiers, ip and meta inside one partition partition stream.
          * </pre>
          *
          * <code>int64 max_meta_cache_size = 10;</code>
@@ -19793,8 +20003,8 @@ public final class YdbPersqueueV1 {
         /**
          * <pre>
          * Maximal size of client cache for message_group_id, ip and meta, per partition.
-         * There is separate caches for each partition read streams.
-         * There is separate caches for message group identifiers, ip and meta inside one partition read stream.
+         * There is separate caches for each partition partition streams.
+         * There is separate caches for message group identifiers, ip and meta inside one partition partition stream.
          * </pre>
          *
          * <code>int64 max_meta_cache_size = 10;</code>
@@ -20642,18 +20852,18 @@ public final class YdbPersqueueV1 {
 
     }
 
-    public interface CreateReadStreamResponseOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse)
+    public interface CreatePartitionStreamResponseOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse)
         com.google.protobuf.MessageOrBuilder {
 
       /**
        * <pre>
-       * Read stream identifier of partition to start read.
+       * Partition stream identifier of partition to start read.
        * </pre>
        *
-       * <code>int64 read_stream_id = 1;</code>
+       * <code>int64 partition_stream_id = 1;</code>
        */
-      long getReadStreamId();
+      long getPartitionStreamId();
 
       /**
        * <pre>
@@ -20692,19 +20902,19 @@ public final class YdbPersqueueV1 {
      * Signal for server that cient is ready to recive data for partition.
      * </pre>
      *
-     * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse}
+     * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse}
      */
-    public  static final class CreateReadStreamResponse extends
+    public  static final class CreatePartitionStreamResponse extends
         com.google.protobuf.GeneratedMessageV3 implements
-        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse)
-        CreateReadStreamResponseOrBuilder {
+        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse)
+        CreatePartitionStreamResponseOrBuilder {
     private static final long serialVersionUID = 0L;
-      // Use CreateReadStreamResponse.newBuilder() to construct.
-      private CreateReadStreamResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      // Use CreatePartitionStreamResponse.newBuilder() to construct.
+      private CreatePartitionStreamResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
         super(builder);
       }
-      private CreateReadStreamResponse() {
-        readStreamId_ = 0L;
+      private CreatePartitionStreamResponse() {
+        partitionStreamId_ = 0L;
         readOffset_ = 0L;
         commitOffset_ = 0L;
         verifyReadOffset_ = false;
@@ -20715,7 +20925,7 @@ public final class YdbPersqueueV1 {
       getUnknownFields() {
         return this.unknownFields;
       }
-      private CreateReadStreamResponse(
+      private CreatePartitionStreamResponse(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -20740,7 +20950,7 @@ public final class YdbPersqueueV1 {
               }
               case 8: {
 
-                readStreamId_ = input.readInt64();
+                partitionStreamId_ = input.readInt64();
                 break;
               }
               case 16: {
@@ -20772,27 +20982,27 @@ public final class YdbPersqueueV1 {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreateReadStreamResponse_descriptor;
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreatePartitionStreamResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreateReadStreamResponse_fieldAccessorTable
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreatePartitionStreamResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.Builder.class);
+                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.Builder.class);
       }
 
-      public static final int READ_STREAM_ID_FIELD_NUMBER = 1;
-      private long readStreamId_;
+      public static final int PARTITION_STREAM_ID_FIELD_NUMBER = 1;
+      private long partitionStreamId_;
       /**
        * <pre>
-       * Read stream identifier of partition to start read.
+       * Partition stream identifier of partition to start read.
        * </pre>
        *
-       * <code>int64 read_stream_id = 1;</code>
+       * <code>int64 partition_stream_id = 1;</code>
        */
-      public long getReadStreamId() {
-        return readStreamId_;
+      public long getPartitionStreamId() {
+        return partitionStreamId_;
       }
 
       public static final int READ_OFFSET_FIELD_NUMBER = 2;
@@ -20851,8 +21061,8 @@ public final class YdbPersqueueV1 {
 
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (readStreamId_ != 0L) {
-          output.writeInt64(1, readStreamId_);
+        if (partitionStreamId_ != 0L) {
+          output.writeInt64(1, partitionStreamId_);
         }
         if (readOffset_ != 0L) {
           output.writeInt64(2, readOffset_);
@@ -20871,9 +21081,9 @@ public final class YdbPersqueueV1 {
         if (size != -1) return size;
 
         size = 0;
-        if (readStreamId_ != 0L) {
+        if (partitionStreamId_ != 0L) {
           size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(1, readStreamId_);
+            .computeInt64Size(1, partitionStreamId_);
         }
         if (readOffset_ != 0L) {
           size += com.google.protobuf.CodedOutputStream
@@ -20897,14 +21107,14 @@ public final class YdbPersqueueV1 {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse)) {
+        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse)) {
           return super.equals(obj);
         }
-        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse) obj;
+        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse) obj;
 
         boolean result = true;
-        result = result && (getReadStreamId()
-            == other.getReadStreamId());
+        result = result && (getPartitionStreamId()
+            == other.getPartitionStreamId());
         result = result && (getReadOffset()
             == other.getReadOffset());
         result = result && (getCommitOffset()
@@ -20922,9 +21132,9 @@ public final class YdbPersqueueV1 {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + READ_STREAM_ID_FIELD_NUMBER;
+        hash = (37 * hash) + PARTITION_STREAM_ID_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getReadStreamId());
+            getPartitionStreamId());
         hash = (37 * hash) + READ_OFFSET_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
             getReadOffset());
@@ -20939,69 +21149,69 @@ public final class YdbPersqueueV1 {
         return hash;
       }
 
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse parseFrom(byte[] data)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse parseFrom(java.io.InputStream input)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse parseDelimitedFrom(java.io.InputStream input)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse parseDelimitedFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -21013,7 +21223,7 @@ public final class YdbPersqueueV1 {
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse prototype) {
+      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
       public Builder toBuilder() {
@@ -21032,25 +21242,25 @@ public final class YdbPersqueueV1 {
        * Signal for server that cient is ready to recive data for partition.
        * </pre>
        *
-       * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse}
+       * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse)
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponseOrBuilder {
+          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse)
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponseOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreateReadStreamResponse_descriptor;
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreatePartitionStreamResponse_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreateReadStreamResponse_fieldAccessorTable
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreatePartitionStreamResponse_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.Builder.class);
+                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.Builder.class);
         }
 
-        // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.newBuilder()
+        // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
         }
@@ -21067,7 +21277,7 @@ public final class YdbPersqueueV1 {
         }
         public Builder clear() {
           super.clear();
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
 
           readOffset_ = 0L;
 
@@ -21080,24 +21290,24 @@ public final class YdbPersqueueV1 {
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreateReadStreamResponse_descriptor;
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreatePartitionStreamResponse_descriptor;
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse getDefaultInstanceForType() {
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.getDefaultInstance();
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse getDefaultInstanceForType() {
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.getDefaultInstance();
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse build() {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse result = buildPartial();
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse build() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse buildPartial() {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse(this);
-          result.readStreamId_ = readStreamId_;
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse buildPartial() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse(this);
+          result.partitionStreamId_ = partitionStreamId_;
           result.readOffset_ = readOffset_;
           result.commitOffset_ = commitOffset_;
           result.verifyReadOffset_ = verifyReadOffset_;
@@ -21132,18 +21342,18 @@ public final class YdbPersqueueV1 {
           return (Builder) super.addRepeatedField(field, value);
         }
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse) {
-            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse)other);
+          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse) {
+            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse other) {
-          if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.getDefaultInstance()) return this;
-          if (other.getReadStreamId() != 0L) {
-            setReadStreamId(other.getReadStreamId());
+        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse other) {
+          if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.getDefaultInstance()) return this;
+          if (other.getPartitionStreamId() != 0L) {
+            setPartitionStreamId(other.getPartitionStreamId());
           }
           if (other.getReadOffset() != 0L) {
             setReadOffset(other.getReadOffset());
@@ -21167,11 +21377,11 @@ public final class YdbPersqueueV1 {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse parsedMessage = null;
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse) e.getUnfinishedMessage();
+            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
@@ -21181,40 +21391,40 @@ public final class YdbPersqueueV1 {
           return this;
         }
 
-        private long readStreamId_ ;
+        private long partitionStreamId_ ;
         /**
          * <pre>
-         * Read stream identifier of partition to start read.
+         * Partition stream identifier of partition to start read.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public long getReadStreamId() {
-          return readStreamId_;
+        public long getPartitionStreamId() {
+          return partitionStreamId_;
         }
         /**
          * <pre>
-         * Read stream identifier of partition to start read.
+         * Partition stream identifier of partition to start read.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public Builder setReadStreamId(long value) {
+        public Builder setPartitionStreamId(long value) {
           
-          readStreamId_ = value;
+          partitionStreamId_ = value;
           onChanged();
           return this;
         }
         /**
          * <pre>
-         * Read stream identifier of partition to start read.
+         * Partition stream identifier of partition to start read.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public Builder clearReadStreamId() {
+        public Builder clearPartitionStreamId() {
           
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
           onChanged();
           return this;
         }
@@ -21358,56 +21568,56 @@ public final class YdbPersqueueV1 {
         }
 
 
-        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse)
+        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse)
       }
 
-      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse)
-      private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse DEFAULT_INSTANCE;
+      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse)
+      private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse();
+        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse();
       }
 
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse getDefaultInstance() {
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
-      private static final com.google.protobuf.Parser<CreateReadStreamResponse>
-          PARSER = new com.google.protobuf.AbstractParser<CreateReadStreamResponse>() {
-        public CreateReadStreamResponse parsePartialFrom(
+      private static final com.google.protobuf.Parser<CreatePartitionStreamResponse>
+          PARSER = new com.google.protobuf.AbstractParser<CreatePartitionStreamResponse>() {
+        public CreatePartitionStreamResponse parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new CreateReadStreamResponse(input, extensionRegistry);
+            return new CreatePartitionStreamResponse(input, extensionRegistry);
         }
       };
 
-      public static com.google.protobuf.Parser<CreateReadStreamResponse> parser() {
+      public static com.google.protobuf.Parser<CreatePartitionStreamResponse> parser() {
         return PARSER;
       }
 
       @java.lang.Override
-      public com.google.protobuf.Parser<CreateReadStreamResponse> getParserForType() {
+      public com.google.protobuf.Parser<CreatePartitionStreamResponse> getParserForType() {
         return PARSER;
       }
 
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse getDefaultInstanceForType() {
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
     }
 
-    public interface DestroyReadStreamResponseOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse)
+    public interface DestroyPartitionStreamResponseOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse)
         com.google.protobuf.MessageOrBuilder {
 
       /**
        * <pre>
-       * Read stream identifier of partition read stream that is released by client.
+       * Partition stream identifier of partition partition stream that is released by client.
        * </pre>
        *
-       * <code>int64 read_stream_id = 1;</code>
+       * <code>int64 partition_stream_id = 1;</code>
        */
-      long getReadStreamId();
+      long getPartitionStreamId();
     }
     /**
      * <pre>
@@ -21415,19 +21625,19 @@ public final class YdbPersqueueV1 {
      * Server will give this partition to other read session only after Released signal.
      * </pre>
      *
-     * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse}
+     * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse}
      */
-    public  static final class DestroyReadStreamResponse extends
+    public  static final class DestroyPartitionStreamResponse extends
         com.google.protobuf.GeneratedMessageV3 implements
-        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse)
-        DestroyReadStreamResponseOrBuilder {
+        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse)
+        DestroyPartitionStreamResponseOrBuilder {
     private static final long serialVersionUID = 0L;
-      // Use DestroyReadStreamResponse.newBuilder() to construct.
-      private DestroyReadStreamResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      // Use DestroyPartitionStreamResponse.newBuilder() to construct.
+      private DestroyPartitionStreamResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
         super(builder);
       }
-      private DestroyReadStreamResponse() {
-        readStreamId_ = 0L;
+      private DestroyPartitionStreamResponse() {
+        partitionStreamId_ = 0L;
       }
 
       @java.lang.Override
@@ -21435,7 +21645,7 @@ public final class YdbPersqueueV1 {
       getUnknownFields() {
         return this.unknownFields;
       }
-      private DestroyReadStreamResponse(
+      private DestroyPartitionStreamResponse(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -21460,7 +21670,7 @@ public final class YdbPersqueueV1 {
               }
               case 8: {
 
-                readStreamId_ = input.readInt64();
+                partitionStreamId_ = input.readInt64();
                 break;
               }
             }
@@ -21477,27 +21687,27 @@ public final class YdbPersqueueV1 {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyReadStreamResponse_descriptor;
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyPartitionStreamResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyReadStreamResponse_fieldAccessorTable
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyPartitionStreamResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.Builder.class);
+                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.Builder.class);
       }
 
-      public static final int READ_STREAM_ID_FIELD_NUMBER = 1;
-      private long readStreamId_;
+      public static final int PARTITION_STREAM_ID_FIELD_NUMBER = 1;
+      private long partitionStreamId_;
       /**
        * <pre>
-       * Read stream identifier of partition read stream that is released by client.
+       * Partition stream identifier of partition partition stream that is released by client.
        * </pre>
        *
-       * <code>int64 read_stream_id = 1;</code>
+       * <code>int64 partition_stream_id = 1;</code>
        */
-      public long getReadStreamId() {
-        return readStreamId_;
+      public long getPartitionStreamId() {
+        return partitionStreamId_;
       }
 
       private byte memoizedIsInitialized = -1;
@@ -21512,8 +21722,8 @@ public final class YdbPersqueueV1 {
 
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (readStreamId_ != 0L) {
-          output.writeInt64(1, readStreamId_);
+        if (partitionStreamId_ != 0L) {
+          output.writeInt64(1, partitionStreamId_);
         }
         unknownFields.writeTo(output);
       }
@@ -21523,9 +21733,9 @@ public final class YdbPersqueueV1 {
         if (size != -1) return size;
 
         size = 0;
-        if (readStreamId_ != 0L) {
+        if (partitionStreamId_ != 0L) {
           size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(1, readStreamId_);
+            .computeInt64Size(1, partitionStreamId_);
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -21537,14 +21747,14 @@ public final class YdbPersqueueV1 {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse)) {
+        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse)) {
           return super.equals(obj);
         }
-        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse) obj;
+        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse) obj;
 
         boolean result = true;
-        result = result && (getReadStreamId()
-            == other.getReadStreamId());
+        result = result && (getPartitionStreamId()
+            == other.getPartitionStreamId());
         result = result && unknownFields.equals(other.unknownFields);
         return result;
       }
@@ -21556,77 +21766,77 @@ public final class YdbPersqueueV1 {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + READ_STREAM_ID_FIELD_NUMBER;
+        hash = (37 * hash) + PARTITION_STREAM_ID_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getReadStreamId());
+            getPartitionStreamId());
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
         return hash;
       }
 
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse parseFrom(byte[] data)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse parseFrom(java.io.InputStream input)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse parseDelimitedFrom(java.io.InputStream input)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse parseDelimitedFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -21638,7 +21848,7 @@ public final class YdbPersqueueV1 {
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse prototype) {
+      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
       public Builder toBuilder() {
@@ -21658,25 +21868,25 @@ public final class YdbPersqueueV1 {
        * Server will give this partition to other read session only after Released signal.
        * </pre>
        *
-       * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse}
+       * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse)
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponseOrBuilder {
+          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse)
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponseOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyReadStreamResponse_descriptor;
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyPartitionStreamResponse_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyReadStreamResponse_fieldAccessorTable
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyPartitionStreamResponse_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.Builder.class);
+                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.Builder.class);
         }
 
-        // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.newBuilder()
+        // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
         }
@@ -21693,31 +21903,31 @@ public final class YdbPersqueueV1 {
         }
         public Builder clear() {
           super.clear();
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
 
           return this;
         }
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyReadStreamResponse_descriptor;
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyPartitionStreamResponse_descriptor;
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse getDefaultInstanceForType() {
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.getDefaultInstance();
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse getDefaultInstanceForType() {
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.getDefaultInstance();
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse build() {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse result = buildPartial();
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse build() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse buildPartial() {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse(this);
-          result.readStreamId_ = readStreamId_;
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse buildPartial() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse(this);
+          result.partitionStreamId_ = partitionStreamId_;
           onBuilt();
           return result;
         }
@@ -21749,18 +21959,18 @@ public final class YdbPersqueueV1 {
           return (Builder) super.addRepeatedField(field, value);
         }
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse) {
-            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse)other);
+          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse) {
+            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse other) {
-          if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.getDefaultInstance()) return this;
-          if (other.getReadStreamId() != 0L) {
-            setReadStreamId(other.getReadStreamId());
+        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse other) {
+          if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.getDefaultInstance()) return this;
+          if (other.getPartitionStreamId() != 0L) {
+            setPartitionStreamId(other.getPartitionStreamId());
           }
           this.mergeUnknownFields(other.unknownFields);
           onChanged();
@@ -21775,11 +21985,11 @@ public final class YdbPersqueueV1 {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse parsedMessage = null;
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse) e.getUnfinishedMessage();
+            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
@@ -21789,40 +21999,40 @@ public final class YdbPersqueueV1 {
           return this;
         }
 
-        private long readStreamId_ ;
+        private long partitionStreamId_ ;
         /**
          * <pre>
-         * Read stream identifier of partition read stream that is released by client.
+         * Partition stream identifier of partition partition stream that is released by client.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public long getReadStreamId() {
-          return readStreamId_;
+        public long getPartitionStreamId() {
+          return partitionStreamId_;
         }
         /**
          * <pre>
-         * Read stream identifier of partition read stream that is released by client.
+         * Partition stream identifier of partition partition stream that is released by client.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public Builder setReadStreamId(long value) {
+        public Builder setPartitionStreamId(long value) {
           
-          readStreamId_ = value;
+          partitionStreamId_ = value;
           onChanged();
           return this;
         }
         /**
          * <pre>
-         * Read stream identifier of partition read stream that is released by client.
+         * Partition stream identifier of partition partition stream that is released by client.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public Builder clearReadStreamId() {
+        public Builder clearPartitionStreamId() {
           
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
           onChanged();
           return this;
         }
@@ -21837,39 +22047,39 @@ public final class YdbPersqueueV1 {
         }
 
 
-        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse)
+        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse)
       }
 
-      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse)
-      private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse DEFAULT_INSTANCE;
+      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse)
+      private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse();
+        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse();
       }
 
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse getDefaultInstance() {
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
-      private static final com.google.protobuf.Parser<DestroyReadStreamResponse>
-          PARSER = new com.google.protobuf.AbstractParser<DestroyReadStreamResponse>() {
-        public DestroyReadStreamResponse parsePartialFrom(
+      private static final com.google.protobuf.Parser<DestroyPartitionStreamResponse>
+          PARSER = new com.google.protobuf.AbstractParser<DestroyPartitionStreamResponse>() {
+        public DestroyPartitionStreamResponse parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new DestroyReadStreamResponse(input, extensionRegistry);
+            return new DestroyPartitionStreamResponse(input, extensionRegistry);
         }
       };
 
-      public static com.google.protobuf.Parser<DestroyReadStreamResponse> parser() {
+      public static com.google.protobuf.Parser<DestroyPartitionStreamResponse> parser() {
         return PARSER;
       }
 
       @java.lang.Override
-      public com.google.protobuf.Parser<DestroyReadStreamResponse> getParserForType() {
+      public com.google.protobuf.Parser<DestroyPartitionStreamResponse> getParserForType() {
         return PARSER;
       }
 
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse getDefaultInstanceForType() {
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
@@ -21880,17 +22090,17 @@ public final class YdbPersqueueV1 {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>repeated int64 read_stream_ids = 1;</code>
+       * <code>repeated int64 partition_stream_ids = 1;</code>
        */
-      java.util.List<java.lang.Long> getReadStreamIdsList();
+      java.util.List<java.lang.Long> getPartitionStreamIdsList();
       /**
-       * <code>repeated int64 read_stream_ids = 1;</code>
+       * <code>repeated int64 partition_stream_ids = 1;</code>
        */
-      int getReadStreamIdsCount();
+      int getPartitionStreamIdsCount();
       /**
-       * <code>repeated int64 read_stream_ids = 1;</code>
+       * <code>repeated int64 partition_stream_ids = 1;</code>
        */
-      long getReadStreamIds(int index);
+      long getPartitionStreamIds(int index);
     }
     /**
      * <pre>
@@ -21909,7 +22119,7 @@ public final class YdbPersqueueV1 {
         super(builder);
       }
       private StopReadRequest() {
-        readStreamIds_ = java.util.Collections.emptyList();
+        partitionStreamIds_ = java.util.Collections.emptyList();
       }
 
       @java.lang.Override
@@ -21942,21 +22152,21 @@ public final class YdbPersqueueV1 {
               }
               case 8: {
                 if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                  readStreamIds_ = new java.util.ArrayList<java.lang.Long>();
+                  partitionStreamIds_ = new java.util.ArrayList<java.lang.Long>();
                   mutable_bitField0_ |= 0x00000001;
                 }
-                readStreamIds_.add(input.readInt64());
+                partitionStreamIds_.add(input.readInt64());
                 break;
               }
               case 10: {
                 int length = input.readRawVarint32();
                 int limit = input.pushLimit(length);
                 if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
-                  readStreamIds_ = new java.util.ArrayList<java.lang.Long>();
+                  partitionStreamIds_ = new java.util.ArrayList<java.lang.Long>();
                   mutable_bitField0_ |= 0x00000001;
                 }
                 while (input.getBytesUntilLimit() > 0) {
-                  readStreamIds_.add(input.readInt64());
+                  partitionStreamIds_.add(input.readInt64());
                 }
                 input.popLimit(limit);
                 break;
@@ -21970,7 +22180,7 @@ public final class YdbPersqueueV1 {
               e).setUnfinishedMessage(this);
         } finally {
           if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-            readStreamIds_ = java.util.Collections.unmodifiableList(readStreamIds_);
+            partitionStreamIds_ = java.util.Collections.unmodifiableList(partitionStreamIds_);
           }
           this.unknownFields = unknownFields.build();
           makeExtensionsImmutable();
@@ -21988,28 +22198,28 @@ public final class YdbPersqueueV1 {
                 tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.StopReadRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.StopReadRequest.Builder.class);
       }
 
-      public static final int READ_STREAM_IDS_FIELD_NUMBER = 1;
-      private java.util.List<java.lang.Long> readStreamIds_;
+      public static final int PARTITION_STREAM_IDS_FIELD_NUMBER = 1;
+      private java.util.List<java.lang.Long> partitionStreamIds_;
       /**
-       * <code>repeated int64 read_stream_ids = 1;</code>
+       * <code>repeated int64 partition_stream_ids = 1;</code>
        */
       public java.util.List<java.lang.Long>
-          getReadStreamIdsList() {
-        return readStreamIds_;
+          getPartitionStreamIdsList() {
+        return partitionStreamIds_;
       }
       /**
-       * <code>repeated int64 read_stream_ids = 1;</code>
+       * <code>repeated int64 partition_stream_ids = 1;</code>
        */
-      public int getReadStreamIdsCount() {
-        return readStreamIds_.size();
+      public int getPartitionStreamIdsCount() {
+        return partitionStreamIds_.size();
       }
       /**
-       * <code>repeated int64 read_stream_ids = 1;</code>
+       * <code>repeated int64 partition_stream_ids = 1;</code>
        */
-      public long getReadStreamIds(int index) {
-        return readStreamIds_.get(index);
+      public long getPartitionStreamIds(int index) {
+        return partitionStreamIds_.get(index);
       }
-      private int readStreamIdsMemoizedSerializedSize = -1;
+      private int partitionStreamIdsMemoizedSerializedSize = -1;
 
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
@@ -22024,12 +22234,12 @@ public final class YdbPersqueueV1 {
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         getSerializedSize();
-        if (getReadStreamIdsList().size() > 0) {
+        if (getPartitionStreamIdsList().size() > 0) {
           output.writeUInt32NoTag(10);
-          output.writeUInt32NoTag(readStreamIdsMemoizedSerializedSize);
+          output.writeUInt32NoTag(partitionStreamIdsMemoizedSerializedSize);
         }
-        for (int i = 0; i < readStreamIds_.size(); i++) {
-          output.writeInt64NoTag(readStreamIds_.get(i));
+        for (int i = 0; i < partitionStreamIds_.size(); i++) {
+          output.writeInt64NoTag(partitionStreamIds_.get(i));
         }
         unknownFields.writeTo(output);
       }
@@ -22041,17 +22251,17 @@ public final class YdbPersqueueV1 {
         size = 0;
         {
           int dataSize = 0;
-          for (int i = 0; i < readStreamIds_.size(); i++) {
+          for (int i = 0; i < partitionStreamIds_.size(); i++) {
             dataSize += com.google.protobuf.CodedOutputStream
-              .computeInt64SizeNoTag(readStreamIds_.get(i));
+              .computeInt64SizeNoTag(partitionStreamIds_.get(i));
           }
           size += dataSize;
-          if (!getReadStreamIdsList().isEmpty()) {
+          if (!getPartitionStreamIdsList().isEmpty()) {
             size += 1;
             size += com.google.protobuf.CodedOutputStream
                 .computeInt32SizeNoTag(dataSize);
           }
-          readStreamIdsMemoizedSerializedSize = dataSize;
+          partitionStreamIdsMemoizedSerializedSize = dataSize;
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -22069,8 +22279,8 @@ public final class YdbPersqueueV1 {
         tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.StopReadRequest other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.StopReadRequest) obj;
 
         boolean result = true;
-        result = result && getReadStreamIdsList()
-            .equals(other.getReadStreamIdsList());
+        result = result && getPartitionStreamIdsList()
+            .equals(other.getPartitionStreamIdsList());
         result = result && unknownFields.equals(other.unknownFields);
         return result;
       }
@@ -22082,9 +22292,9 @@ public final class YdbPersqueueV1 {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        if (getReadStreamIdsCount() > 0) {
-          hash = (37 * hash) + READ_STREAM_IDS_FIELD_NUMBER;
-          hash = (53 * hash) + getReadStreamIdsList().hashCode();
+        if (getPartitionStreamIdsCount() > 0) {
+          hash = (37 * hash) + PARTITION_STREAM_IDS_FIELD_NUMBER;
+          hash = (53 * hash) + getPartitionStreamIdsList().hashCode();
         }
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
@@ -22219,7 +22429,7 @@ public final class YdbPersqueueV1 {
         }
         public Builder clear() {
           super.clear();
-          readStreamIds_ = java.util.Collections.emptyList();
+          partitionStreamIds_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000001);
           return this;
         }
@@ -22245,10 +22455,10 @@ public final class YdbPersqueueV1 {
           tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.StopReadRequest result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.StopReadRequest(this);
           int from_bitField0_ = bitField0_;
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            readStreamIds_ = java.util.Collections.unmodifiableList(readStreamIds_);
+            partitionStreamIds_ = java.util.Collections.unmodifiableList(partitionStreamIds_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
-          result.readStreamIds_ = readStreamIds_;
+          result.partitionStreamIds_ = partitionStreamIds_;
           onBuilt();
           return result;
         }
@@ -22290,13 +22500,13 @@ public final class YdbPersqueueV1 {
 
         public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.StopReadRequest other) {
           if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.StopReadRequest.getDefaultInstance()) return this;
-          if (!other.readStreamIds_.isEmpty()) {
-            if (readStreamIds_.isEmpty()) {
-              readStreamIds_ = other.readStreamIds_;
+          if (!other.partitionStreamIds_.isEmpty()) {
+            if (partitionStreamIds_.isEmpty()) {
+              partitionStreamIds_ = other.partitionStreamIds_;
               bitField0_ = (bitField0_ & ~0x00000001);
             } else {
-              ensureReadStreamIdsIsMutable();
-              readStreamIds_.addAll(other.readStreamIds_);
+              ensurePartitionStreamIdsIsMutable();
+              partitionStreamIds_.addAll(other.partitionStreamIds_);
             }
             onChanged();
           }
@@ -22328,67 +22538,67 @@ public final class YdbPersqueueV1 {
         }
         private int bitField0_;
 
-        private java.util.List<java.lang.Long> readStreamIds_ = java.util.Collections.emptyList();
-        private void ensureReadStreamIdsIsMutable() {
+        private java.util.List<java.lang.Long> partitionStreamIds_ = java.util.Collections.emptyList();
+        private void ensurePartitionStreamIdsIsMutable() {
           if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-            readStreamIds_ = new java.util.ArrayList<java.lang.Long>(readStreamIds_);
+            partitionStreamIds_ = new java.util.ArrayList<java.lang.Long>(partitionStreamIds_);
             bitField0_ |= 0x00000001;
            }
         }
         /**
-         * <code>repeated int64 read_stream_ids = 1;</code>
+         * <code>repeated int64 partition_stream_ids = 1;</code>
          */
         public java.util.List<java.lang.Long>
-            getReadStreamIdsList() {
-          return java.util.Collections.unmodifiableList(readStreamIds_);
+            getPartitionStreamIdsList() {
+          return java.util.Collections.unmodifiableList(partitionStreamIds_);
         }
         /**
-         * <code>repeated int64 read_stream_ids = 1;</code>
+         * <code>repeated int64 partition_stream_ids = 1;</code>
          */
-        public int getReadStreamIdsCount() {
-          return readStreamIds_.size();
+        public int getPartitionStreamIdsCount() {
+          return partitionStreamIds_.size();
         }
         /**
-         * <code>repeated int64 read_stream_ids = 1;</code>
+         * <code>repeated int64 partition_stream_ids = 1;</code>
          */
-        public long getReadStreamIds(int index) {
-          return readStreamIds_.get(index);
+        public long getPartitionStreamIds(int index) {
+          return partitionStreamIds_.get(index);
         }
         /**
-         * <code>repeated int64 read_stream_ids = 1;</code>
+         * <code>repeated int64 partition_stream_ids = 1;</code>
          */
-        public Builder setReadStreamIds(
+        public Builder setPartitionStreamIds(
             int index, long value) {
-          ensureReadStreamIdsIsMutable();
-          readStreamIds_.set(index, value);
+          ensurePartitionStreamIdsIsMutable();
+          partitionStreamIds_.set(index, value);
           onChanged();
           return this;
         }
         /**
-         * <code>repeated int64 read_stream_ids = 1;</code>
+         * <code>repeated int64 partition_stream_ids = 1;</code>
          */
-        public Builder addReadStreamIds(long value) {
-          ensureReadStreamIdsIsMutable();
-          readStreamIds_.add(value);
+        public Builder addPartitionStreamIds(long value) {
+          ensurePartitionStreamIdsIsMutable();
+          partitionStreamIds_.add(value);
           onChanged();
           return this;
         }
         /**
-         * <code>repeated int64 read_stream_ids = 1;</code>
+         * <code>repeated int64 partition_stream_ids = 1;</code>
          */
-        public Builder addAllReadStreamIds(
+        public Builder addAllPartitionStreamIds(
             java.lang.Iterable<? extends java.lang.Long> values) {
-          ensureReadStreamIdsIsMutable();
+          ensurePartitionStreamIdsIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, readStreamIds_);
+              values, partitionStreamIds_);
           onChanged();
           return this;
         }
         /**
-         * <code>repeated int64 read_stream_ids = 1;</code>
+         * <code>repeated int64 partition_stream_ids = 1;</code>
          */
-        public Builder clearReadStreamIds() {
-          readStreamIds_ = java.util.Collections.emptyList();
+        public Builder clearPartitionStreamIds() {
+          partitionStreamIds_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
           return this;
@@ -22447,17 +22657,17 @@ public final class YdbPersqueueV1 {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>repeated int64 read_stream_ids = 1;</code>
+       * <code>repeated int64 partition_stream_ids = 1;</code>
        */
-      java.util.List<java.lang.Long> getReadStreamIdsList();
+      java.util.List<java.lang.Long> getPartitionStreamIdsList();
       /**
-       * <code>repeated int64 read_stream_ids = 1;</code>
+       * <code>repeated int64 partition_stream_ids = 1;</code>
        */
-      int getReadStreamIdsCount();
+      int getPartitionStreamIdsCount();
       /**
-       * <code>repeated int64 read_stream_ids = 1;</code>
+       * <code>repeated int64 partition_stream_ids = 1;</code>
        */
-      long getReadStreamIds(int index);
+      long getPartitionStreamIds(int index);
 
       /**
        * <pre>
@@ -22486,7 +22696,7 @@ public final class YdbPersqueueV1 {
 
       /**
        * <pre>
-       * Cookie for matching data from ReadStream after resuming. Must be greater than zero.
+       * Cookie for matching data from PartitionStream after resuming. Must be greater than zero.
        * </pre>
        *
        * <code>repeated int64 resume_cookies = 3;</code>
@@ -22494,7 +22704,7 @@ public final class YdbPersqueueV1 {
       java.util.List<java.lang.Long> getResumeCookiesList();
       /**
        * <pre>
-       * Cookie for matching data from ReadStream after resuming. Must be greater than zero.
+       * Cookie for matching data from PartitionStream after resuming. Must be greater than zero.
        * </pre>
        *
        * <code>repeated int64 resume_cookies = 3;</code>
@@ -22502,7 +22712,7 @@ public final class YdbPersqueueV1 {
       int getResumeCookiesCount();
       /**
        * <pre>
-       * Cookie for matching data from ReadStream after resuming. Must be greater than zero.
+       * Cookie for matching data from PartitionStream after resuming. Must be greater than zero.
        * </pre>
        *
        * <code>repeated int64 resume_cookies = 3;</code>
@@ -22526,7 +22736,7 @@ public final class YdbPersqueueV1 {
         super(builder);
       }
       private ResumeReadRequest() {
-        readStreamIds_ = java.util.Collections.emptyList();
+        partitionStreamIds_ = java.util.Collections.emptyList();
         readOffsets_ = java.util.Collections.emptyList();
         resumeCookies_ = java.util.Collections.emptyList();
       }
@@ -22561,21 +22771,21 @@ public final class YdbPersqueueV1 {
               }
               case 8: {
                 if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                  readStreamIds_ = new java.util.ArrayList<java.lang.Long>();
+                  partitionStreamIds_ = new java.util.ArrayList<java.lang.Long>();
                   mutable_bitField0_ |= 0x00000001;
                 }
-                readStreamIds_.add(input.readInt64());
+                partitionStreamIds_.add(input.readInt64());
                 break;
               }
               case 10: {
                 int length = input.readRawVarint32();
                 int limit = input.pushLimit(length);
                 if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
-                  readStreamIds_ = new java.util.ArrayList<java.lang.Long>();
+                  partitionStreamIds_ = new java.util.ArrayList<java.lang.Long>();
                   mutable_bitField0_ |= 0x00000001;
                 }
                 while (input.getBytesUntilLimit() > 0) {
-                  readStreamIds_.add(input.readInt64());
+                  partitionStreamIds_.add(input.readInt64());
                 }
                 input.popLimit(limit);
                 break;
@@ -22631,7 +22841,7 @@ public final class YdbPersqueueV1 {
               e).setUnfinishedMessage(this);
         } finally {
           if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-            readStreamIds_ = java.util.Collections.unmodifiableList(readStreamIds_);
+            partitionStreamIds_ = java.util.Collections.unmodifiableList(partitionStreamIds_);
           }
           if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
             readOffsets_ = java.util.Collections.unmodifiableList(readOffsets_);
@@ -22655,28 +22865,28 @@ public final class YdbPersqueueV1 {
                 tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ResumeReadRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ResumeReadRequest.Builder.class);
       }
 
-      public static final int READ_STREAM_IDS_FIELD_NUMBER = 1;
-      private java.util.List<java.lang.Long> readStreamIds_;
+      public static final int PARTITION_STREAM_IDS_FIELD_NUMBER = 1;
+      private java.util.List<java.lang.Long> partitionStreamIds_;
       /**
-       * <code>repeated int64 read_stream_ids = 1;</code>
+       * <code>repeated int64 partition_stream_ids = 1;</code>
        */
       public java.util.List<java.lang.Long>
-          getReadStreamIdsList() {
-        return readStreamIds_;
+          getPartitionStreamIdsList() {
+        return partitionStreamIds_;
       }
       /**
-       * <code>repeated int64 read_stream_ids = 1;</code>
+       * <code>repeated int64 partition_stream_ids = 1;</code>
        */
-      public int getReadStreamIdsCount() {
-        return readStreamIds_.size();
+      public int getPartitionStreamIdsCount() {
+        return partitionStreamIds_.size();
       }
       /**
-       * <code>repeated int64 read_stream_ids = 1;</code>
+       * <code>repeated int64 partition_stream_ids = 1;</code>
        */
-      public long getReadStreamIds(int index) {
-        return readStreamIds_.get(index);
+      public long getPartitionStreamIds(int index) {
+        return partitionStreamIds_.get(index);
       }
-      private int readStreamIdsMemoizedSerializedSize = -1;
+      private int partitionStreamIdsMemoizedSerializedSize = -1;
 
       public static final int READ_OFFSETS_FIELD_NUMBER = 2;
       private java.util.List<java.lang.Long> readOffsets_;
@@ -22717,7 +22927,7 @@ public final class YdbPersqueueV1 {
       private java.util.List<java.lang.Long> resumeCookies_;
       /**
        * <pre>
-       * Cookie for matching data from ReadStream after resuming. Must be greater than zero.
+       * Cookie for matching data from PartitionStream after resuming. Must be greater than zero.
        * </pre>
        *
        * <code>repeated int64 resume_cookies = 3;</code>
@@ -22728,7 +22938,7 @@ public final class YdbPersqueueV1 {
       }
       /**
        * <pre>
-       * Cookie for matching data from ReadStream after resuming. Must be greater than zero.
+       * Cookie for matching data from PartitionStream after resuming. Must be greater than zero.
        * </pre>
        *
        * <code>repeated int64 resume_cookies = 3;</code>
@@ -22738,7 +22948,7 @@ public final class YdbPersqueueV1 {
       }
       /**
        * <pre>
-       * Cookie for matching data from ReadStream after resuming. Must be greater than zero.
+       * Cookie for matching data from PartitionStream after resuming. Must be greater than zero.
        * </pre>
        *
        * <code>repeated int64 resume_cookies = 3;</code>
@@ -22761,12 +22971,12 @@ public final class YdbPersqueueV1 {
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         getSerializedSize();
-        if (getReadStreamIdsList().size() > 0) {
+        if (getPartitionStreamIdsList().size() > 0) {
           output.writeUInt32NoTag(10);
-          output.writeUInt32NoTag(readStreamIdsMemoizedSerializedSize);
+          output.writeUInt32NoTag(partitionStreamIdsMemoizedSerializedSize);
         }
-        for (int i = 0; i < readStreamIds_.size(); i++) {
-          output.writeInt64NoTag(readStreamIds_.get(i));
+        for (int i = 0; i < partitionStreamIds_.size(); i++) {
+          output.writeInt64NoTag(partitionStreamIds_.get(i));
         }
         if (getReadOffsetsList().size() > 0) {
           output.writeUInt32NoTag(18);
@@ -22792,17 +23002,17 @@ public final class YdbPersqueueV1 {
         size = 0;
         {
           int dataSize = 0;
-          for (int i = 0; i < readStreamIds_.size(); i++) {
+          for (int i = 0; i < partitionStreamIds_.size(); i++) {
             dataSize += com.google.protobuf.CodedOutputStream
-              .computeInt64SizeNoTag(readStreamIds_.get(i));
+              .computeInt64SizeNoTag(partitionStreamIds_.get(i));
           }
           size += dataSize;
-          if (!getReadStreamIdsList().isEmpty()) {
+          if (!getPartitionStreamIdsList().isEmpty()) {
             size += 1;
             size += com.google.protobuf.CodedOutputStream
                 .computeInt32SizeNoTag(dataSize);
           }
-          readStreamIdsMemoizedSerializedSize = dataSize;
+          partitionStreamIdsMemoizedSerializedSize = dataSize;
         }
         {
           int dataSize = 0;
@@ -22848,8 +23058,8 @@ public final class YdbPersqueueV1 {
         tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ResumeReadRequest other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ResumeReadRequest) obj;
 
         boolean result = true;
-        result = result && getReadStreamIdsList()
-            .equals(other.getReadStreamIdsList());
+        result = result && getPartitionStreamIdsList()
+            .equals(other.getPartitionStreamIdsList());
         result = result && getReadOffsetsList()
             .equals(other.getReadOffsetsList());
         result = result && getResumeCookiesList()
@@ -22865,9 +23075,9 @@ public final class YdbPersqueueV1 {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        if (getReadStreamIdsCount() > 0) {
-          hash = (37 * hash) + READ_STREAM_IDS_FIELD_NUMBER;
-          hash = (53 * hash) + getReadStreamIdsList().hashCode();
+        if (getPartitionStreamIdsCount() > 0) {
+          hash = (37 * hash) + PARTITION_STREAM_IDS_FIELD_NUMBER;
+          hash = (53 * hash) + getPartitionStreamIdsList().hashCode();
         }
         if (getReadOffsetsCount() > 0) {
           hash = (37 * hash) + READ_OFFSETS_FIELD_NUMBER;
@@ -23010,7 +23220,7 @@ public final class YdbPersqueueV1 {
         }
         public Builder clear() {
           super.clear();
-          readStreamIds_ = java.util.Collections.emptyList();
+          partitionStreamIds_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000001);
           readOffsets_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000002);
@@ -23040,10 +23250,10 @@ public final class YdbPersqueueV1 {
           tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ResumeReadRequest result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ResumeReadRequest(this);
           int from_bitField0_ = bitField0_;
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            readStreamIds_ = java.util.Collections.unmodifiableList(readStreamIds_);
+            partitionStreamIds_ = java.util.Collections.unmodifiableList(partitionStreamIds_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
-          result.readStreamIds_ = readStreamIds_;
+          result.partitionStreamIds_ = partitionStreamIds_;
           if (((bitField0_ & 0x00000002) == 0x00000002)) {
             readOffsets_ = java.util.Collections.unmodifiableList(readOffsets_);
             bitField0_ = (bitField0_ & ~0x00000002);
@@ -23095,13 +23305,13 @@ public final class YdbPersqueueV1 {
 
         public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ResumeReadRequest other) {
           if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ResumeReadRequest.getDefaultInstance()) return this;
-          if (!other.readStreamIds_.isEmpty()) {
-            if (readStreamIds_.isEmpty()) {
-              readStreamIds_ = other.readStreamIds_;
+          if (!other.partitionStreamIds_.isEmpty()) {
+            if (partitionStreamIds_.isEmpty()) {
+              partitionStreamIds_ = other.partitionStreamIds_;
               bitField0_ = (bitField0_ & ~0x00000001);
             } else {
-              ensureReadStreamIdsIsMutable();
-              readStreamIds_.addAll(other.readStreamIds_);
+              ensurePartitionStreamIdsIsMutable();
+              partitionStreamIds_.addAll(other.partitionStreamIds_);
             }
             onChanged();
           }
@@ -23153,67 +23363,67 @@ public final class YdbPersqueueV1 {
         }
         private int bitField0_;
 
-        private java.util.List<java.lang.Long> readStreamIds_ = java.util.Collections.emptyList();
-        private void ensureReadStreamIdsIsMutable() {
+        private java.util.List<java.lang.Long> partitionStreamIds_ = java.util.Collections.emptyList();
+        private void ensurePartitionStreamIdsIsMutable() {
           if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-            readStreamIds_ = new java.util.ArrayList<java.lang.Long>(readStreamIds_);
+            partitionStreamIds_ = new java.util.ArrayList<java.lang.Long>(partitionStreamIds_);
             bitField0_ |= 0x00000001;
            }
         }
         /**
-         * <code>repeated int64 read_stream_ids = 1;</code>
+         * <code>repeated int64 partition_stream_ids = 1;</code>
          */
         public java.util.List<java.lang.Long>
-            getReadStreamIdsList() {
-          return java.util.Collections.unmodifiableList(readStreamIds_);
+            getPartitionStreamIdsList() {
+          return java.util.Collections.unmodifiableList(partitionStreamIds_);
         }
         /**
-         * <code>repeated int64 read_stream_ids = 1;</code>
+         * <code>repeated int64 partition_stream_ids = 1;</code>
          */
-        public int getReadStreamIdsCount() {
-          return readStreamIds_.size();
+        public int getPartitionStreamIdsCount() {
+          return partitionStreamIds_.size();
         }
         /**
-         * <code>repeated int64 read_stream_ids = 1;</code>
+         * <code>repeated int64 partition_stream_ids = 1;</code>
          */
-        public long getReadStreamIds(int index) {
-          return readStreamIds_.get(index);
+        public long getPartitionStreamIds(int index) {
+          return partitionStreamIds_.get(index);
         }
         /**
-         * <code>repeated int64 read_stream_ids = 1;</code>
+         * <code>repeated int64 partition_stream_ids = 1;</code>
          */
-        public Builder setReadStreamIds(
+        public Builder setPartitionStreamIds(
             int index, long value) {
-          ensureReadStreamIdsIsMutable();
-          readStreamIds_.set(index, value);
+          ensurePartitionStreamIdsIsMutable();
+          partitionStreamIds_.set(index, value);
           onChanged();
           return this;
         }
         /**
-         * <code>repeated int64 read_stream_ids = 1;</code>
+         * <code>repeated int64 partition_stream_ids = 1;</code>
          */
-        public Builder addReadStreamIds(long value) {
-          ensureReadStreamIdsIsMutable();
-          readStreamIds_.add(value);
+        public Builder addPartitionStreamIds(long value) {
+          ensurePartitionStreamIdsIsMutable();
+          partitionStreamIds_.add(value);
           onChanged();
           return this;
         }
         /**
-         * <code>repeated int64 read_stream_ids = 1;</code>
+         * <code>repeated int64 partition_stream_ids = 1;</code>
          */
-        public Builder addAllReadStreamIds(
+        public Builder addAllPartitionStreamIds(
             java.lang.Iterable<? extends java.lang.Long> values) {
-          ensureReadStreamIdsIsMutable();
+          ensurePartitionStreamIdsIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, readStreamIds_);
+              values, partitionStreamIds_);
           onChanged();
           return this;
         }
         /**
-         * <code>repeated int64 read_stream_ids = 1;</code>
+         * <code>repeated int64 partition_stream_ids = 1;</code>
          */
-        public Builder clearReadStreamIds() {
-          readStreamIds_ = java.util.Collections.emptyList();
+        public Builder clearPartitionStreamIds() {
+          partitionStreamIds_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
           return this;
@@ -23322,7 +23532,7 @@ public final class YdbPersqueueV1 {
         }
         /**
          * <pre>
-         * Cookie for matching data from ReadStream after resuming. Must be greater than zero.
+         * Cookie for matching data from PartitionStream after resuming. Must be greater than zero.
          * </pre>
          *
          * <code>repeated int64 resume_cookies = 3;</code>
@@ -23333,7 +23543,7 @@ public final class YdbPersqueueV1 {
         }
         /**
          * <pre>
-         * Cookie for matching data from ReadStream after resuming. Must be greater than zero.
+         * Cookie for matching data from PartitionStream after resuming. Must be greater than zero.
          * </pre>
          *
          * <code>repeated int64 resume_cookies = 3;</code>
@@ -23343,7 +23553,7 @@ public final class YdbPersqueueV1 {
         }
         /**
          * <pre>
-         * Cookie for matching data from ReadStream after resuming. Must be greater than zero.
+         * Cookie for matching data from PartitionStream after resuming. Must be greater than zero.
          * </pre>
          *
          * <code>repeated int64 resume_cookies = 3;</code>
@@ -23353,7 +23563,7 @@ public final class YdbPersqueueV1 {
         }
         /**
          * <pre>
-         * Cookie for matching data from ReadStream after resuming. Must be greater than zero.
+         * Cookie for matching data from PartitionStream after resuming. Must be greater than zero.
          * </pre>
          *
          * <code>repeated int64 resume_cookies = 3;</code>
@@ -23367,7 +23577,7 @@ public final class YdbPersqueueV1 {
         }
         /**
          * <pre>
-         * Cookie for matching data from ReadStream after resuming. Must be greater than zero.
+         * Cookie for matching data from PartitionStream after resuming. Must be greater than zero.
          * </pre>
          *
          * <code>repeated int64 resume_cookies = 3;</code>
@@ -23380,7 +23590,7 @@ public final class YdbPersqueueV1 {
         }
         /**
          * <pre>
-         * Cookie for matching data from ReadStream after resuming. Must be greater than zero.
+         * Cookie for matching data from PartitionStream after resuming. Must be greater than zero.
          * </pre>
          *
          * <code>repeated int64 resume_cookies = 3;</code>
@@ -23395,7 +23605,7 @@ public final class YdbPersqueueV1 {
         }
         /**
          * <pre>
-         * Cookie for matching data from ReadStream after resuming. Must be greater than zero.
+         * Cookie for matching data from PartitionStream after resuming. Must be greater than zero.
          * </pre>
          *
          * <code>repeated int64 resume_cookies = 3;</code>
@@ -24329,29 +24539,29 @@ public final class YdbPersqueueV1 {
 
     }
 
-    public interface ReadStreamStatusRequestOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest)
+    public interface PartitionStreamStatusRequestOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest)
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>int64 read_stream_id = 1;</code>
+       * <code>int64 partition_stream_id = 1;</code>
        */
-      long getReadStreamId();
+      long getPartitionStreamId();
     }
     /**
-     * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest}
+     * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest}
      */
-    public  static final class ReadStreamStatusRequest extends
+    public  static final class PartitionStreamStatusRequest extends
         com.google.protobuf.GeneratedMessageV3 implements
-        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest)
-        ReadStreamStatusRequestOrBuilder {
+        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest)
+        PartitionStreamStatusRequestOrBuilder {
     private static final long serialVersionUID = 0L;
-      // Use ReadStreamStatusRequest.newBuilder() to construct.
-      private ReadStreamStatusRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      // Use PartitionStreamStatusRequest.newBuilder() to construct.
+      private PartitionStreamStatusRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
         super(builder);
       }
-      private ReadStreamStatusRequest() {
-        readStreamId_ = 0L;
+      private PartitionStreamStatusRequest() {
+        partitionStreamId_ = 0L;
       }
 
       @java.lang.Override
@@ -24359,7 +24569,7 @@ public final class YdbPersqueueV1 {
       getUnknownFields() {
         return this.unknownFields;
       }
-      private ReadStreamStatusRequest(
+      private PartitionStreamStatusRequest(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -24384,7 +24594,7 @@ public final class YdbPersqueueV1 {
               }
               case 8: {
 
-                readStreamId_ = input.readInt64();
+                partitionStreamId_ = input.readInt64();
                 break;
               }
             }
@@ -24401,23 +24611,23 @@ public final class YdbPersqueueV1 {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadStreamStatusRequest_descriptor;
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_PartitionStreamStatusRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadStreamStatusRequest_fieldAccessorTable
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_PartitionStreamStatusRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.Builder.class);
+                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.Builder.class);
       }
 
-      public static final int READ_STREAM_ID_FIELD_NUMBER = 1;
-      private long readStreamId_;
+      public static final int PARTITION_STREAM_ID_FIELD_NUMBER = 1;
+      private long partitionStreamId_;
       /**
-       * <code>int64 read_stream_id = 1;</code>
+       * <code>int64 partition_stream_id = 1;</code>
        */
-      public long getReadStreamId() {
-        return readStreamId_;
+      public long getPartitionStreamId() {
+        return partitionStreamId_;
       }
 
       private byte memoizedIsInitialized = -1;
@@ -24432,8 +24642,8 @@ public final class YdbPersqueueV1 {
 
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (readStreamId_ != 0L) {
-          output.writeInt64(1, readStreamId_);
+        if (partitionStreamId_ != 0L) {
+          output.writeInt64(1, partitionStreamId_);
         }
         unknownFields.writeTo(output);
       }
@@ -24443,9 +24653,9 @@ public final class YdbPersqueueV1 {
         if (size != -1) return size;
 
         size = 0;
-        if (readStreamId_ != 0L) {
+        if (partitionStreamId_ != 0L) {
           size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(1, readStreamId_);
+            .computeInt64Size(1, partitionStreamId_);
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -24457,14 +24667,14 @@ public final class YdbPersqueueV1 {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest)) {
+        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest)) {
           return super.equals(obj);
         }
-        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest) obj;
+        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest) obj;
 
         boolean result = true;
-        result = result && (getReadStreamId()
-            == other.getReadStreamId());
+        result = result && (getPartitionStreamId()
+            == other.getPartitionStreamId());
         result = result && unknownFields.equals(other.unknownFields);
         return result;
       }
@@ -24476,77 +24686,77 @@ public final class YdbPersqueueV1 {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + READ_STREAM_ID_FIELD_NUMBER;
+        hash = (37 * hash) + PARTITION_STREAM_ID_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getReadStreamId());
+            getPartitionStreamId());
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
         return hash;
       }
 
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest parseFrom(byte[] data)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest parseFrom(java.io.InputStream input)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest parseDelimitedFrom(java.io.InputStream input)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest parseDelimitedFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -24558,7 +24768,7 @@ public final class YdbPersqueueV1 {
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest prototype) {
+      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
       public Builder toBuilder() {
@@ -24573,25 +24783,25 @@ public final class YdbPersqueueV1 {
         return builder;
       }
       /**
-       * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest}
+       * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest)
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequestOrBuilder {
+          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest)
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequestOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadStreamStatusRequest_descriptor;
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_PartitionStreamStatusRequest_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadStreamStatusRequest_fieldAccessorTable
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_PartitionStreamStatusRequest_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.Builder.class);
+                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.Builder.class);
         }
 
-        // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.newBuilder()
+        // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
         }
@@ -24608,31 +24818,31 @@ public final class YdbPersqueueV1 {
         }
         public Builder clear() {
           super.clear();
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
 
           return this;
         }
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadStreamStatusRequest_descriptor;
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_PartitionStreamStatusRequest_descriptor;
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest getDefaultInstanceForType() {
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.getDefaultInstance();
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest getDefaultInstanceForType() {
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.getDefaultInstance();
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest build() {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest result = buildPartial();
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest build() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest buildPartial() {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest(this);
-          result.readStreamId_ = readStreamId_;
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest buildPartial() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest(this);
+          result.partitionStreamId_ = partitionStreamId_;
           onBuilt();
           return result;
         }
@@ -24664,18 +24874,18 @@ public final class YdbPersqueueV1 {
           return (Builder) super.addRepeatedField(field, value);
         }
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest) {
-            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest)other);
+          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest) {
+            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest other) {
-          if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.getDefaultInstance()) return this;
-          if (other.getReadStreamId() != 0L) {
-            setReadStreamId(other.getReadStreamId());
+        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest other) {
+          if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.getDefaultInstance()) return this;
+          if (other.getPartitionStreamId() != 0L) {
+            setPartitionStreamId(other.getPartitionStreamId());
           }
           this.mergeUnknownFields(other.unknownFields);
           onChanged();
@@ -24690,11 +24900,11 @@ public final class YdbPersqueueV1 {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest parsedMessage = null;
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest) e.getUnfinishedMessage();
+            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
@@ -24704,28 +24914,28 @@ public final class YdbPersqueueV1 {
           return this;
         }
 
-        private long readStreamId_ ;
+        private long partitionStreamId_ ;
         /**
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public long getReadStreamId() {
-          return readStreamId_;
+        public long getPartitionStreamId() {
+          return partitionStreamId_;
         }
         /**
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public Builder setReadStreamId(long value) {
+        public Builder setPartitionStreamId(long value) {
           
-          readStreamId_ = value;
+          partitionStreamId_ = value;
           onChanged();
           return this;
         }
         /**
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public Builder clearReadStreamId() {
+        public Builder clearPartitionStreamId() {
           
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
           onChanged();
           return this;
         }
@@ -24740,39 +24950,39 @@ public final class YdbPersqueueV1 {
         }
 
 
-        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest)
+        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest)
       }
 
-      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest)
-      private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest DEFAULT_INSTANCE;
+      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest)
+      private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest();
+        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest();
       }
 
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest getDefaultInstance() {
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
-      private static final com.google.protobuf.Parser<ReadStreamStatusRequest>
-          PARSER = new com.google.protobuf.AbstractParser<ReadStreamStatusRequest>() {
-        public ReadStreamStatusRequest parsePartialFrom(
+      private static final com.google.protobuf.Parser<PartitionStreamStatusRequest>
+          PARSER = new com.google.protobuf.AbstractParser<PartitionStreamStatusRequest>() {
+        public PartitionStreamStatusRequest parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new ReadStreamStatusRequest(input, extensionRegistry);
+            return new PartitionStreamStatusRequest(input, extensionRegistry);
         }
       };
 
-      public static com.google.protobuf.Parser<ReadStreamStatusRequest> parser() {
+      public static com.google.protobuf.Parser<PartitionStreamStatusRequest> parser() {
         return PARSER;
       }
 
       @java.lang.Override
-      public com.google.protobuf.Parser<ReadStreamStatusRequest> getParserForType() {
+      public com.google.protobuf.Parser<PartitionStreamStatusRequest> getParserForType() {
         return PARSER;
       }
 
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest getDefaultInstanceForType() {
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
@@ -26785,12 +26995,12 @@ public final class YdbPersqueueV1 {
 
       /**
        * <pre>
-       * Identifier of read stream with data to commit.
+       * Identifier of partition stream with data to commit.
        * </pre>
        *
-       * <code>int64 read_stream_id = 1;</code>
+       * <code>int64 partition_stream_id = 1;</code>
        */
-      long getReadStreamId();
+      long getPartitionStreamId();
 
       /**
        * <pre>
@@ -26854,7 +27064,7 @@ public final class YdbPersqueueV1 {
         super(builder);
       }
       private PartitionCommit() {
-        readStreamId_ = 0L;
+        partitionStreamId_ = 0L;
         offsets_ = java.util.Collections.emptyList();
       }
 
@@ -26888,7 +27098,7 @@ public final class YdbPersqueueV1 {
               }
               case 8: {
 
-                readStreamId_ = input.readInt64();
+                partitionStreamId_ = input.readInt64();
                 break;
               }
               case 18: {
@@ -26928,17 +27138,17 @@ public final class YdbPersqueueV1 {
       }
 
       private int bitField0_;
-      public static final int READ_STREAM_ID_FIELD_NUMBER = 1;
-      private long readStreamId_;
+      public static final int PARTITION_STREAM_ID_FIELD_NUMBER = 1;
+      private long partitionStreamId_;
       /**
        * <pre>
-       * Identifier of read stream with data to commit.
+       * Identifier of partition stream with data to commit.
        * </pre>
        *
-       * <code>int64 read_stream_id = 1;</code>
+       * <code>int64 partition_stream_id = 1;</code>
        */
-      public long getReadStreamId() {
-        return readStreamId_;
+      public long getPartitionStreamId() {
+        return partitionStreamId_;
       }
 
       public static final int OFFSETS_FIELD_NUMBER = 2;
@@ -27008,8 +27218,8 @@ public final class YdbPersqueueV1 {
 
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (readStreamId_ != 0L) {
-          output.writeInt64(1, readStreamId_);
+        if (partitionStreamId_ != 0L) {
+          output.writeInt64(1, partitionStreamId_);
         }
         for (int i = 0; i < offsets_.size(); i++) {
           output.writeMessage(2, offsets_.get(i));
@@ -27022,9 +27232,9 @@ public final class YdbPersqueueV1 {
         if (size != -1) return size;
 
         size = 0;
-        if (readStreamId_ != 0L) {
+        if (partitionStreamId_ != 0L) {
           size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(1, readStreamId_);
+            .computeInt64Size(1, partitionStreamId_);
         }
         for (int i = 0; i < offsets_.size(); i++) {
           size += com.google.protobuf.CodedOutputStream
@@ -27046,8 +27256,8 @@ public final class YdbPersqueueV1 {
         tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionCommit other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionCommit) obj;
 
         boolean result = true;
-        result = result && (getReadStreamId()
-            == other.getReadStreamId());
+        result = result && (getPartitionStreamId()
+            == other.getPartitionStreamId());
         result = result && getOffsetsList()
             .equals(other.getOffsetsList());
         result = result && unknownFields.equals(other.unknownFields);
@@ -27061,9 +27271,9 @@ public final class YdbPersqueueV1 {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + READ_STREAM_ID_FIELD_NUMBER;
+        hash = (37 * hash) + PARTITION_STREAM_ID_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getReadStreamId());
+            getPartitionStreamId());
         if (getOffsetsCount() > 0) {
           hash = (37 * hash) + OFFSETS_FIELD_NUMBER;
           hash = (53 * hash) + getOffsetsList().hashCode();
@@ -27203,7 +27413,7 @@ public final class YdbPersqueueV1 {
         }
         public Builder clear() {
           super.clear();
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
 
           if (offsetsBuilder_ == null) {
             offsets_ = java.util.Collections.emptyList();
@@ -27235,7 +27445,7 @@ public final class YdbPersqueueV1 {
           tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionCommit result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionCommit(this);
           int from_bitField0_ = bitField0_;
           int to_bitField0_ = 0;
-          result.readStreamId_ = readStreamId_;
+          result.partitionStreamId_ = partitionStreamId_;
           if (offsetsBuilder_ == null) {
             if (((bitField0_ & 0x00000002) == 0x00000002)) {
               offsets_ = java.util.Collections.unmodifiableList(offsets_);
@@ -27287,8 +27497,8 @@ public final class YdbPersqueueV1 {
 
         public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionCommit other) {
           if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionCommit.getDefaultInstance()) return this;
-          if (other.getReadStreamId() != 0L) {
-            setReadStreamId(other.getReadStreamId());
+          if (other.getPartitionStreamId() != 0L) {
+            setPartitionStreamId(other.getPartitionStreamId());
           }
           if (offsetsBuilder_ == null) {
             if (!other.offsets_.isEmpty()) {
@@ -27344,40 +27554,40 @@ public final class YdbPersqueueV1 {
         }
         private int bitField0_;
 
-        private long readStreamId_ ;
+        private long partitionStreamId_ ;
         /**
          * <pre>
-         * Identifier of read stream with data to commit.
+         * Identifier of partition stream with data to commit.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public long getReadStreamId() {
-          return readStreamId_;
+        public long getPartitionStreamId() {
+          return partitionStreamId_;
         }
         /**
          * <pre>
-         * Identifier of read stream with data to commit.
+         * Identifier of partition stream with data to commit.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public Builder setReadStreamId(long value) {
+        public Builder setPartitionStreamId(long value) {
           
-          readStreamId_ = value;
+          partitionStreamId_ = value;
           onChanged();
           return this;
         }
         /**
          * <pre>
-         * Identifier of read stream with data to commit.
+         * Identifier of partition stream with data to commit.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public Builder clearReadStreamId() {
+        public Builder clearPartitionStreamId() {
           
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
           onChanged();
           return this;
         }
@@ -27748,12 +27958,12 @@ public final class YdbPersqueueV1 {
         implements com.google.protobuf.Internal.EnumLite {
       INIT_REQUEST(1),
       READ_REQUEST(2),
-      CREATE_READ_STREAM_RESPONSE(3),
+      CREATE_PARTITION_STREAM_RESPONSE(3),
       COMMIT_REQUEST(4),
-      DESTROY_READ_STREAM_RESPONSE(5),
+      DESTROY_PARTITION_STREAM_RESPONSE(5),
       STOP_READ_REQUEST(6),
       RESUME_READ_REQUEST(7),
-      READ_STREAM_STATUS_REQUEST(8),
+      PARTITION_STREAM_STATUS_REQUEST(8),
       ADD_TOPIC_REQUEST(9),
       REMOVE_TOPIC_REQUEST(10),
       CLIENTMESSAGE_NOT_SET(0);
@@ -27773,12 +27983,12 @@ public final class YdbPersqueueV1 {
         switch (value) {
           case 1: return INIT_REQUEST;
           case 2: return READ_REQUEST;
-          case 3: return CREATE_READ_STREAM_RESPONSE;
+          case 3: return CREATE_PARTITION_STREAM_RESPONSE;
           case 4: return COMMIT_REQUEST;
-          case 5: return DESTROY_READ_STREAM_RESPONSE;
+          case 5: return DESTROY_PARTITION_STREAM_RESPONSE;
           case 6: return STOP_READ_REQUEST;
           case 7: return RESUME_READ_REQUEST;
-          case 8: return READ_STREAM_STATUS_REQUEST;
+          case 8: return PARTITION_STREAM_STATUS_REQUEST;
           case 9: return ADD_TOPIC_REQUEST;
           case 10: return REMOVE_TOPIC_REQUEST;
           case 0: return CLIENTMESSAGE_NOT_SET;
@@ -27848,30 +28058,30 @@ public final class YdbPersqueueV1 {
       return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadRequest.getDefaultInstance();
     }
 
-    public static final int CREATE_READ_STREAM_RESPONSE_FIELD_NUMBER = 3;
+    public static final int CREATE_PARTITION_STREAM_RESPONSE_FIELD_NUMBER = 3;
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
      */
-    public boolean hasCreateReadStreamResponse() {
+    public boolean hasCreatePartitionStreamResponse() {
       return clientMessageCase_ == 3;
     }
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
      */
-    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse getCreateReadStreamResponse() {
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse getCreatePartitionStreamResponse() {
       if (clientMessageCase_ == 3) {
-         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse) clientMessage_;
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse) clientMessage_;
       }
-      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.getDefaultInstance();
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.getDefaultInstance();
     }
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
      */
-    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponseOrBuilder getCreateReadStreamResponseOrBuilder() {
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponseOrBuilder getCreatePartitionStreamResponseOrBuilder() {
       if (clientMessageCase_ == 3) {
-         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse) clientMessage_;
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse) clientMessage_;
       }
-      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.getDefaultInstance();
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.getDefaultInstance();
     }
 
     public static final int COMMIT_REQUEST_FIELD_NUMBER = 4;
@@ -27900,30 +28110,30 @@ public final class YdbPersqueueV1 {
       return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CommitRequest.getDefaultInstance();
     }
 
-    public static final int DESTROY_READ_STREAM_RESPONSE_FIELD_NUMBER = 5;
+    public static final int DESTROY_PARTITION_STREAM_RESPONSE_FIELD_NUMBER = 5;
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
      */
-    public boolean hasDestroyReadStreamResponse() {
+    public boolean hasDestroyPartitionStreamResponse() {
       return clientMessageCase_ == 5;
     }
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
      */
-    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse getDestroyReadStreamResponse() {
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse getDestroyPartitionStreamResponse() {
       if (clientMessageCase_ == 5) {
-         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse) clientMessage_;
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse) clientMessage_;
       }
-      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.getDefaultInstance();
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.getDefaultInstance();
     }
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
      */
-    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponseOrBuilder getDestroyReadStreamResponseOrBuilder() {
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponseOrBuilder getDestroyPartitionStreamResponseOrBuilder() {
       if (clientMessageCase_ == 5) {
-         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse) clientMessage_;
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse) clientMessage_;
       }
-      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.getDefaultInstance();
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.getDefaultInstance();
     }
 
     public static final int STOP_READ_REQUEST_FIELD_NUMBER = 6;
@@ -27978,30 +28188,30 @@ public final class YdbPersqueueV1 {
       return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ResumeReadRequest.getDefaultInstance();
     }
 
-    public static final int READ_STREAM_STATUS_REQUEST_FIELD_NUMBER = 8;
+    public static final int PARTITION_STREAM_STATUS_REQUEST_FIELD_NUMBER = 8;
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
      */
-    public boolean hasReadStreamStatusRequest() {
+    public boolean hasPartitionStreamStatusRequest() {
       return clientMessageCase_ == 8;
     }
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
      */
-    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest getReadStreamStatusRequest() {
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest getPartitionStreamStatusRequest() {
       if (clientMessageCase_ == 8) {
-         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest) clientMessage_;
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest) clientMessage_;
       }
-      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.getDefaultInstance();
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.getDefaultInstance();
     }
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
      */
-    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequestOrBuilder getReadStreamStatusRequestOrBuilder() {
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequestOrBuilder getPartitionStreamStatusRequestOrBuilder() {
       if (clientMessageCase_ == 8) {
-         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest) clientMessage_;
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest) clientMessage_;
       }
-      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.getDefaultInstance();
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.getDefaultInstance();
     }
 
     public static final int ADD_TOPIC_REQUEST_FIELD_NUMBER = 9;
@@ -28117,13 +28327,13 @@ public final class YdbPersqueueV1 {
         output.writeMessage(2, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadRequest) clientMessage_);
       }
       if (clientMessageCase_ == 3) {
-        output.writeMessage(3, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse) clientMessage_);
+        output.writeMessage(3, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse) clientMessage_);
       }
       if (clientMessageCase_ == 4) {
         output.writeMessage(4, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CommitRequest) clientMessage_);
       }
       if (clientMessageCase_ == 5) {
-        output.writeMessage(5, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse) clientMessage_);
+        output.writeMessage(5, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse) clientMessage_);
       }
       if (clientMessageCase_ == 6) {
         output.writeMessage(6, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.StopReadRequest) clientMessage_);
@@ -28132,7 +28342,7 @@ public final class YdbPersqueueV1 {
         output.writeMessage(7, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ResumeReadRequest) clientMessage_);
       }
       if (clientMessageCase_ == 8) {
-        output.writeMessage(8, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest) clientMessage_);
+        output.writeMessage(8, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest) clientMessage_);
       }
       if (clientMessageCase_ == 9) {
         output.writeMessage(9, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.AddTopicRequest) clientMessage_);
@@ -28161,7 +28371,7 @@ public final class YdbPersqueueV1 {
       }
       if (clientMessageCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse) clientMessage_);
+          .computeMessageSize(3, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse) clientMessage_);
       }
       if (clientMessageCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
@@ -28169,7 +28379,7 @@ public final class YdbPersqueueV1 {
       }
       if (clientMessageCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse) clientMessage_);
+          .computeMessageSize(5, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse) clientMessage_);
       }
       if (clientMessageCase_ == 6) {
         size += com.google.protobuf.CodedOutputStream
@@ -28181,7 +28391,7 @@ public final class YdbPersqueueV1 {
       }
       if (clientMessageCase_ == 8) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(8, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest) clientMessage_);
+          .computeMessageSize(8, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest) clientMessage_);
       }
       if (clientMessageCase_ == 9) {
         size += com.google.protobuf.CodedOutputStream
@@ -28225,16 +28435,16 @@ public final class YdbPersqueueV1 {
               .equals(other.getReadRequest());
           break;
         case 3:
-          result = result && getCreateReadStreamResponse()
-              .equals(other.getCreateReadStreamResponse());
+          result = result && getCreatePartitionStreamResponse()
+              .equals(other.getCreatePartitionStreamResponse());
           break;
         case 4:
           result = result && getCommitRequest()
               .equals(other.getCommitRequest());
           break;
         case 5:
-          result = result && getDestroyReadStreamResponse()
-              .equals(other.getDestroyReadStreamResponse());
+          result = result && getDestroyPartitionStreamResponse()
+              .equals(other.getDestroyPartitionStreamResponse());
           break;
         case 6:
           result = result && getStopReadRequest()
@@ -28245,8 +28455,8 @@ public final class YdbPersqueueV1 {
               .equals(other.getResumeReadRequest());
           break;
         case 8:
-          result = result && getReadStreamStatusRequest()
-              .equals(other.getReadStreamStatusRequest());
+          result = result && getPartitionStreamStatusRequest()
+              .equals(other.getPartitionStreamStatusRequest());
           break;
         case 9:
           result = result && getAddTopicRequest()
@@ -28282,16 +28492,16 @@ public final class YdbPersqueueV1 {
           hash = (53 * hash) + getReadRequest().hashCode();
           break;
         case 3:
-          hash = (37 * hash) + CREATE_READ_STREAM_RESPONSE_FIELD_NUMBER;
-          hash = (53 * hash) + getCreateReadStreamResponse().hashCode();
+          hash = (37 * hash) + CREATE_PARTITION_STREAM_RESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getCreatePartitionStreamResponse().hashCode();
           break;
         case 4:
           hash = (37 * hash) + COMMIT_REQUEST_FIELD_NUMBER;
           hash = (53 * hash) + getCommitRequest().hashCode();
           break;
         case 5:
-          hash = (37 * hash) + DESTROY_READ_STREAM_RESPONSE_FIELD_NUMBER;
-          hash = (53 * hash) + getDestroyReadStreamResponse().hashCode();
+          hash = (37 * hash) + DESTROY_PARTITION_STREAM_RESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getDestroyPartitionStreamResponse().hashCode();
           break;
         case 6:
           hash = (37 * hash) + STOP_READ_REQUEST_FIELD_NUMBER;
@@ -28302,8 +28512,8 @@ public final class YdbPersqueueV1 {
           hash = (53 * hash) + getResumeReadRequest().hashCode();
           break;
         case 8:
-          hash = (37 * hash) + READ_STREAM_STATUS_REQUEST_FIELD_NUMBER;
-          hash = (53 * hash) + getReadStreamStatusRequest().hashCode();
+          hash = (37 * hash) + PARTITION_STREAM_STATUS_REQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getPartitionStreamStatusRequest().hashCode();
           break;
         case 9:
           hash = (37 * hash) + ADD_TOPIC_REQUEST_FIELD_NUMBER;
@@ -28416,8 +28626,8 @@ public final class YdbPersqueueV1 {
      *      InitRequest - handshake request.
      *      ReadRequest - request for data.
      *      CommitRequest - request for commit of some read data.
-     *      CreateReadStreamResponse - signal for server that client is ready to get data from partition.
-     *      DestroyReadStreamResponse - signal for server that client finished working with partition. Must be sent only after corresponding Release request from server.
+     *      CreatePartitionStreamResponse - signal for server that client is ready to get data from partition.
+     *      DestroyPartitionStreamResponse - signal for server that client finished working with partition. Must be sent only after corresponding Release request from server.
      *      StopReadRequest - signal for server that client is not ready to get more data from this partition.
      *      ResumeReadRequest - signal for server that client is ready to get more data from this partition.
      * </pre>
@@ -28498,10 +28708,10 @@ public final class YdbPersqueueV1 {
           }
         }
         if (clientMessageCase_ == 3) {
-          if (createReadStreamResponseBuilder_ == null) {
+          if (createPartitionStreamResponseBuilder_ == null) {
             result.clientMessage_ = clientMessage_;
           } else {
-            result.clientMessage_ = createReadStreamResponseBuilder_.build();
+            result.clientMessage_ = createPartitionStreamResponseBuilder_.build();
           }
         }
         if (clientMessageCase_ == 4) {
@@ -28512,10 +28722,10 @@ public final class YdbPersqueueV1 {
           }
         }
         if (clientMessageCase_ == 5) {
-          if (destroyReadStreamResponseBuilder_ == null) {
+          if (destroyPartitionStreamResponseBuilder_ == null) {
             result.clientMessage_ = clientMessage_;
           } else {
-            result.clientMessage_ = destroyReadStreamResponseBuilder_.build();
+            result.clientMessage_ = destroyPartitionStreamResponseBuilder_.build();
           }
         }
         if (clientMessageCase_ == 6) {
@@ -28533,10 +28743,10 @@ public final class YdbPersqueueV1 {
           }
         }
         if (clientMessageCase_ == 8) {
-          if (readStreamStatusRequestBuilder_ == null) {
+          if (partitionStreamStatusRequestBuilder_ == null) {
             result.clientMessage_ = clientMessage_;
           } else {
-            result.clientMessage_ = readStreamStatusRequestBuilder_.build();
+            result.clientMessage_ = partitionStreamStatusRequestBuilder_.build();
           }
         }
         if (clientMessageCase_ == 9) {
@@ -28609,16 +28819,16 @@ public final class YdbPersqueueV1 {
             mergeReadRequest(other.getReadRequest());
             break;
           }
-          case CREATE_READ_STREAM_RESPONSE: {
-            mergeCreateReadStreamResponse(other.getCreateReadStreamResponse());
+          case CREATE_PARTITION_STREAM_RESPONSE: {
+            mergeCreatePartitionStreamResponse(other.getCreatePartitionStreamResponse());
             break;
           }
           case COMMIT_REQUEST: {
             mergeCommitRequest(other.getCommitRequest());
             break;
           }
-          case DESTROY_READ_STREAM_RESPONSE: {
-            mergeDestroyReadStreamResponse(other.getDestroyReadStreamResponse());
+          case DESTROY_PARTITION_STREAM_RESPONSE: {
+            mergeDestroyPartitionStreamResponse(other.getDestroyPartitionStreamResponse());
             break;
           }
           case STOP_READ_REQUEST: {
@@ -28629,8 +28839,8 @@ public final class YdbPersqueueV1 {
             mergeResumeReadRequest(other.getResumeReadRequest());
             break;
           }
-          case READ_STREAM_STATUS_REQUEST: {
-            mergeReadStreamStatusRequest(other.getReadStreamStatusRequest());
+          case PARTITION_STREAM_STATUS_REQUEST: {
+            mergePartitionStreamStatusRequest(other.getPartitionStreamStatusRequest());
             break;
           }
           case ADD_TOPIC_REQUEST: {
@@ -28960,67 +29170,67 @@ public final class YdbPersqueueV1 {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponseOrBuilder> createReadStreamResponseBuilder_;
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponseOrBuilder> createPartitionStreamResponseBuilder_;
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
        */
-      public boolean hasCreateReadStreamResponse() {
+      public boolean hasCreatePartitionStreamResponse() {
         return clientMessageCase_ == 3;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse getCreateReadStreamResponse() {
-        if (createReadStreamResponseBuilder_ == null) {
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse getCreatePartitionStreamResponse() {
+        if (createPartitionStreamResponseBuilder_ == null) {
           if (clientMessageCase_ == 3) {
-            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse) clientMessage_;
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse) clientMessage_;
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.getDefaultInstance();
         } else {
           if (clientMessageCase_ == 3) {
-            return createReadStreamResponseBuilder_.getMessage();
+            return createPartitionStreamResponseBuilder_.getMessage();
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
        */
-      public Builder setCreateReadStreamResponse(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse value) {
-        if (createReadStreamResponseBuilder_ == null) {
+      public Builder setCreatePartitionStreamResponse(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse value) {
+        if (createPartitionStreamResponseBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
           clientMessage_ = value;
           onChanged();
         } else {
-          createReadStreamResponseBuilder_.setMessage(value);
+          createPartitionStreamResponseBuilder_.setMessage(value);
         }
         clientMessageCase_ = 3;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
        */
-      public Builder setCreateReadStreamResponse(
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.Builder builderForValue) {
-        if (createReadStreamResponseBuilder_ == null) {
+      public Builder setCreatePartitionStreamResponse(
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.Builder builderForValue) {
+        if (createPartitionStreamResponseBuilder_ == null) {
           clientMessage_ = builderForValue.build();
           onChanged();
         } else {
-          createReadStreamResponseBuilder_.setMessage(builderForValue.build());
+          createPartitionStreamResponseBuilder_.setMessage(builderForValue.build());
         }
         clientMessageCase_ = 3;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
        */
-      public Builder mergeCreateReadStreamResponse(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse value) {
-        if (createReadStreamResponseBuilder_ == null) {
+      public Builder mergeCreatePartitionStreamResponse(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse value) {
+        if (createPartitionStreamResponseBuilder_ == null) {
           if (clientMessageCase_ == 3 &&
-              clientMessage_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.getDefaultInstance()) {
-            clientMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.newBuilder((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse) clientMessage_)
+              clientMessage_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.getDefaultInstance()) {
+            clientMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.newBuilder((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse) clientMessage_)
                 .mergeFrom(value).buildPartial();
           } else {
             clientMessage_ = value;
@@ -29028,18 +29238,18 @@ public final class YdbPersqueueV1 {
           onChanged();
         } else {
           if (clientMessageCase_ == 3) {
-            createReadStreamResponseBuilder_.mergeFrom(value);
+            createPartitionStreamResponseBuilder_.mergeFrom(value);
           }
-          createReadStreamResponseBuilder_.setMessage(value);
+          createPartitionStreamResponseBuilder_.setMessage(value);
         }
         clientMessageCase_ = 3;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
        */
-      public Builder clearCreateReadStreamResponse() {
-        if (createReadStreamResponseBuilder_ == null) {
+      public Builder clearCreatePartitionStreamResponse() {
+        if (createPartitionStreamResponseBuilder_ == null) {
           if (clientMessageCase_ == 3) {
             clientMessageCase_ = 0;
             clientMessage_ = null;
@@ -29050,49 +29260,49 @@ public final class YdbPersqueueV1 {
             clientMessageCase_ = 0;
             clientMessage_ = null;
           }
-          createReadStreamResponseBuilder_.clear();
+          createPartitionStreamResponseBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.Builder getCreateReadStreamResponseBuilder() {
-        return getCreateReadStreamResponseFieldBuilder().getBuilder();
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.Builder getCreatePartitionStreamResponseBuilder() {
+        return getCreatePartitionStreamResponseFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponseOrBuilder getCreateReadStreamResponseOrBuilder() {
-        if ((clientMessageCase_ == 3) && (createReadStreamResponseBuilder_ != null)) {
-          return createReadStreamResponseBuilder_.getMessageOrBuilder();
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponseOrBuilder getCreatePartitionStreamResponseOrBuilder() {
+        if ((clientMessageCase_ == 3) && (createPartitionStreamResponseBuilder_ != null)) {
+          return createPartitionStreamResponseBuilder_.getMessageOrBuilder();
         } else {
           if (clientMessageCase_ == 3) {
-            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse) clientMessage_;
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse) clientMessage_;
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreateReadStreamResponse create_read_stream_response = 3;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.CreatePartitionStreamResponse create_partition_stream_response = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponseOrBuilder> 
-          getCreateReadStreamResponseFieldBuilder() {
-        if (createReadStreamResponseBuilder_ == null) {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponseOrBuilder> 
+          getCreatePartitionStreamResponseFieldBuilder() {
+        if (createPartitionStreamResponseBuilder_ == null) {
           if (!(clientMessageCase_ == 3)) {
-            clientMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.getDefaultInstance();
+            clientMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.getDefaultInstance();
           }
-          createReadStreamResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponseOrBuilder>(
-                  (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreateReadStreamResponse) clientMessage_,
+          createPartitionStreamResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponseOrBuilder>(
+                  (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.CreatePartitionStreamResponse) clientMessage_,
                   getParentForChildren(),
                   isClean());
           clientMessage_ = null;
         }
         clientMessageCase_ = 3;
         onChanged();;
-        return createReadStreamResponseBuilder_;
+        return createPartitionStreamResponseBuilder_;
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -29232,67 +29442,67 @@ public final class YdbPersqueueV1 {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponseOrBuilder> destroyReadStreamResponseBuilder_;
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponseOrBuilder> destroyPartitionStreamResponseBuilder_;
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
        */
-      public boolean hasDestroyReadStreamResponse() {
+      public boolean hasDestroyPartitionStreamResponse() {
         return clientMessageCase_ == 5;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse getDestroyReadStreamResponse() {
-        if (destroyReadStreamResponseBuilder_ == null) {
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse getDestroyPartitionStreamResponse() {
+        if (destroyPartitionStreamResponseBuilder_ == null) {
           if (clientMessageCase_ == 5) {
-            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse) clientMessage_;
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse) clientMessage_;
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.getDefaultInstance();
         } else {
           if (clientMessageCase_ == 5) {
-            return destroyReadStreamResponseBuilder_.getMessage();
+            return destroyPartitionStreamResponseBuilder_.getMessage();
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
        */
-      public Builder setDestroyReadStreamResponse(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse value) {
-        if (destroyReadStreamResponseBuilder_ == null) {
+      public Builder setDestroyPartitionStreamResponse(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse value) {
+        if (destroyPartitionStreamResponseBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
           clientMessage_ = value;
           onChanged();
         } else {
-          destroyReadStreamResponseBuilder_.setMessage(value);
+          destroyPartitionStreamResponseBuilder_.setMessage(value);
         }
         clientMessageCase_ = 5;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
        */
-      public Builder setDestroyReadStreamResponse(
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.Builder builderForValue) {
-        if (destroyReadStreamResponseBuilder_ == null) {
+      public Builder setDestroyPartitionStreamResponse(
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.Builder builderForValue) {
+        if (destroyPartitionStreamResponseBuilder_ == null) {
           clientMessage_ = builderForValue.build();
           onChanged();
         } else {
-          destroyReadStreamResponseBuilder_.setMessage(builderForValue.build());
+          destroyPartitionStreamResponseBuilder_.setMessage(builderForValue.build());
         }
         clientMessageCase_ = 5;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
        */
-      public Builder mergeDestroyReadStreamResponse(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse value) {
-        if (destroyReadStreamResponseBuilder_ == null) {
+      public Builder mergeDestroyPartitionStreamResponse(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse value) {
+        if (destroyPartitionStreamResponseBuilder_ == null) {
           if (clientMessageCase_ == 5 &&
-              clientMessage_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.getDefaultInstance()) {
-            clientMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.newBuilder((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse) clientMessage_)
+              clientMessage_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.getDefaultInstance()) {
+            clientMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.newBuilder((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse) clientMessage_)
                 .mergeFrom(value).buildPartial();
           } else {
             clientMessage_ = value;
@@ -29300,18 +29510,18 @@ public final class YdbPersqueueV1 {
           onChanged();
         } else {
           if (clientMessageCase_ == 5) {
-            destroyReadStreamResponseBuilder_.mergeFrom(value);
+            destroyPartitionStreamResponseBuilder_.mergeFrom(value);
           }
-          destroyReadStreamResponseBuilder_.setMessage(value);
+          destroyPartitionStreamResponseBuilder_.setMessage(value);
         }
         clientMessageCase_ = 5;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
        */
-      public Builder clearDestroyReadStreamResponse() {
-        if (destroyReadStreamResponseBuilder_ == null) {
+      public Builder clearDestroyPartitionStreamResponse() {
+        if (destroyPartitionStreamResponseBuilder_ == null) {
           if (clientMessageCase_ == 5) {
             clientMessageCase_ = 0;
             clientMessage_ = null;
@@ -29322,49 +29532,49 @@ public final class YdbPersqueueV1 {
             clientMessageCase_ = 0;
             clientMessage_ = null;
           }
-          destroyReadStreamResponseBuilder_.clear();
+          destroyPartitionStreamResponseBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.Builder getDestroyReadStreamResponseBuilder() {
-        return getDestroyReadStreamResponseFieldBuilder().getBuilder();
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.Builder getDestroyPartitionStreamResponseBuilder() {
+        return getDestroyPartitionStreamResponseFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponseOrBuilder getDestroyReadStreamResponseOrBuilder() {
-        if ((clientMessageCase_ == 5) && (destroyReadStreamResponseBuilder_ != null)) {
-          return destroyReadStreamResponseBuilder_.getMessageOrBuilder();
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponseOrBuilder getDestroyPartitionStreamResponseOrBuilder() {
+        if ((clientMessageCase_ == 5) && (destroyPartitionStreamResponseBuilder_ != null)) {
+          return destroyPartitionStreamResponseBuilder_.getMessageOrBuilder();
         } else {
           if (clientMessageCase_ == 5) {
-            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse) clientMessage_;
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse) clientMessage_;
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyReadStreamResponse destroy_read_stream_response = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse destroy_partition_stream_response = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponseOrBuilder> 
-          getDestroyReadStreamResponseFieldBuilder() {
-        if (destroyReadStreamResponseBuilder_ == null) {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponseOrBuilder> 
+          getDestroyPartitionStreamResponseFieldBuilder() {
+        if (destroyPartitionStreamResponseBuilder_ == null) {
           if (!(clientMessageCase_ == 5)) {
-            clientMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.getDefaultInstance();
+            clientMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.getDefaultInstance();
           }
-          destroyReadStreamResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponseOrBuilder>(
-                  (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyReadStreamResponse) clientMessage_,
+          destroyPartitionStreamResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponseOrBuilder>(
+                  (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.DestroyPartitionStreamResponse) clientMessage_,
                   getParentForChildren(),
                   isClean());
           clientMessage_ = null;
         }
         clientMessageCase_ = 5;
         onChanged();;
-        return destroyReadStreamResponseBuilder_;
+        return destroyPartitionStreamResponseBuilder_;
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -29640,67 +29850,67 @@ public final class YdbPersqueueV1 {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequestOrBuilder> readStreamStatusRequestBuilder_;
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequestOrBuilder> partitionStreamStatusRequestBuilder_;
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
        */
-      public boolean hasReadStreamStatusRequest() {
+      public boolean hasPartitionStreamStatusRequest() {
         return clientMessageCase_ == 8;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest getReadStreamStatusRequest() {
-        if (readStreamStatusRequestBuilder_ == null) {
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest getPartitionStreamStatusRequest() {
+        if (partitionStreamStatusRequestBuilder_ == null) {
           if (clientMessageCase_ == 8) {
-            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest) clientMessage_;
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest) clientMessage_;
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.getDefaultInstance();
         } else {
           if (clientMessageCase_ == 8) {
-            return readStreamStatusRequestBuilder_.getMessage();
+            return partitionStreamStatusRequestBuilder_.getMessage();
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
        */
-      public Builder setReadStreamStatusRequest(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest value) {
-        if (readStreamStatusRequestBuilder_ == null) {
+      public Builder setPartitionStreamStatusRequest(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest value) {
+        if (partitionStreamStatusRequestBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
           clientMessage_ = value;
           onChanged();
         } else {
-          readStreamStatusRequestBuilder_.setMessage(value);
+          partitionStreamStatusRequestBuilder_.setMessage(value);
         }
         clientMessageCase_ = 8;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
        */
-      public Builder setReadStreamStatusRequest(
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.Builder builderForValue) {
-        if (readStreamStatusRequestBuilder_ == null) {
+      public Builder setPartitionStreamStatusRequest(
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.Builder builderForValue) {
+        if (partitionStreamStatusRequestBuilder_ == null) {
           clientMessage_ = builderForValue.build();
           onChanged();
         } else {
-          readStreamStatusRequestBuilder_.setMessage(builderForValue.build());
+          partitionStreamStatusRequestBuilder_.setMessage(builderForValue.build());
         }
         clientMessageCase_ = 8;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
        */
-      public Builder mergeReadStreamStatusRequest(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest value) {
-        if (readStreamStatusRequestBuilder_ == null) {
+      public Builder mergePartitionStreamStatusRequest(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest value) {
+        if (partitionStreamStatusRequestBuilder_ == null) {
           if (clientMessageCase_ == 8 &&
-              clientMessage_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.getDefaultInstance()) {
-            clientMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.newBuilder((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest) clientMessage_)
+              clientMessage_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.getDefaultInstance()) {
+            clientMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.newBuilder((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest) clientMessage_)
                 .mergeFrom(value).buildPartial();
           } else {
             clientMessage_ = value;
@@ -29708,18 +29918,18 @@ public final class YdbPersqueueV1 {
           onChanged();
         } else {
           if (clientMessageCase_ == 8) {
-            readStreamStatusRequestBuilder_.mergeFrom(value);
+            partitionStreamStatusRequestBuilder_.mergeFrom(value);
           }
-          readStreamStatusRequestBuilder_.setMessage(value);
+          partitionStreamStatusRequestBuilder_.setMessage(value);
         }
         clientMessageCase_ = 8;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
        */
-      public Builder clearReadStreamStatusRequest() {
-        if (readStreamStatusRequestBuilder_ == null) {
+      public Builder clearPartitionStreamStatusRequest() {
+        if (partitionStreamStatusRequestBuilder_ == null) {
           if (clientMessageCase_ == 8) {
             clientMessageCase_ = 0;
             clientMessage_ = null;
@@ -29730,49 +29940,49 @@ public final class YdbPersqueueV1 {
             clientMessageCase_ = 0;
             clientMessage_ = null;
           }
-          readStreamStatusRequestBuilder_.clear();
+          partitionStreamStatusRequestBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.Builder getReadStreamStatusRequestBuilder() {
-        return getReadStreamStatusRequestFieldBuilder().getBuilder();
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.Builder getPartitionStreamStatusRequestBuilder() {
+        return getPartitionStreamStatusRequestFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequestOrBuilder getReadStreamStatusRequestOrBuilder() {
-        if ((clientMessageCase_ == 8) && (readStreamStatusRequestBuilder_ != null)) {
-          return readStreamStatusRequestBuilder_.getMessageOrBuilder();
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequestOrBuilder getPartitionStreamStatusRequestOrBuilder() {
+        if ((clientMessageCase_ == 8) && (partitionStreamStatusRequestBuilder_ != null)) {
+          return partitionStreamStatusRequestBuilder_.getMessageOrBuilder();
         } else {
           if (clientMessageCase_ == 8) {
-            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest) clientMessage_;
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest) clientMessage_;
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.ReadStreamStatusRequest read_stream_status_request = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadClientMessageNew.PartitionStreamStatusRequest partition_stream_status_request = 8;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequestOrBuilder> 
-          getReadStreamStatusRequestFieldBuilder() {
-        if (readStreamStatusRequestBuilder_ == null) {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequestOrBuilder> 
+          getPartitionStreamStatusRequestFieldBuilder() {
+        if (partitionStreamStatusRequestBuilder_ == null) {
           if (!(clientMessageCase_ == 8)) {
-            clientMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.getDefaultInstance();
+            clientMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.getDefaultInstance();
           }
-          readStreamStatusRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequestOrBuilder>(
-                  (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.ReadStreamStatusRequest) clientMessage_,
+          partitionStreamStatusRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequestOrBuilder>(
+                  (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadClientMessageNew.PartitionStreamStatusRequest) clientMessage_,
                   getParentForChildren(),
                   isClean());
           clientMessage_ = null;
         }
         clientMessageCase_ = 8;
         onChanged();;
-        return readStreamStatusRequestBuilder_;
+        return partitionStreamStatusRequestBuilder_;
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -30215,30 +30425,30 @@ public final class YdbPersqueueV1 {
     tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponseOrBuilder getBatchReadResponseOrBuilder();
 
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
      */
-    boolean hasCreateReadStreamRequest();
+    boolean hasCreatePartitionStreamRequest();
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
      */
-    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest getCreateReadStreamRequest();
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest getCreatePartitionStreamRequest();
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
      */
-    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequestOrBuilder getCreateReadStreamRequestOrBuilder();
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequestOrBuilder getCreatePartitionStreamRequestOrBuilder();
 
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
      */
-    boolean hasDestroyReadStreamRequest();
+    boolean hasDestroyPartitionStreamRequest();
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
      */
-    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest getDestroyReadStreamRequest();
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest getDestroyPartitionStreamRequest();
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
      */
-    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequestOrBuilder getDestroyReadStreamRequestOrBuilder();
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequestOrBuilder getDestroyPartitionStreamRequestOrBuilder();
 
     /**
      * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CommitResponse commit_response = 7;</code>
@@ -30254,17 +30464,17 @@ public final class YdbPersqueueV1 {
     tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CommitResponseOrBuilder getCommitResponseOrBuilder();
 
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
      */
-    boolean hasReadStreamStatusResponse();
+    boolean hasPartitionStreamStatusResponse();
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
      */
-    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse getReadStreamStatusResponse();
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse getPartitionStreamStatusResponse();
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
      */
-    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponseOrBuilder getReadStreamStatusResponseOrBuilder();
+    tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponseOrBuilder getPartitionStreamStatusResponseOrBuilder();
 
     /**
      * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.StopReadResponse stop_read_response = 9;</code>
@@ -30360,8 +30570,8 @@ public final class YdbPersqueueV1 {
    *      InitResponse - handshake response from server.
    *      BatchReadResponse - portion of data.
    *      CommitResponse - acknowledgment for commit.
-   *      CreateReadStreamRequest - command from server to create a partition read stream.
-   *      DestroyReadStreamRequest - command from server to destroy a partition read stream.
+   *      CreatePartitionStreamRequest - command from server to create a partition partition stream.
+   *      DestroyPartitionStreamRequest - command from server to destroy a partition partition stream.
    * </pre>
    *
    * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadServerMessageNew}
@@ -30452,28 +30662,28 @@ public final class YdbPersqueueV1 {
               break;
             }
             case 42: {
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.Builder subBuilder = null;
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.Builder subBuilder = null;
               if (serverMessageCase_ == 5) {
-                subBuilder = ((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest) serverMessage_).toBuilder();
+                subBuilder = ((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest) serverMessage_).toBuilder();
               }
               serverMessage_ =
-                  input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.parser(), extensionRegistry);
+                  input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest) serverMessage_);
+                subBuilder.mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest) serverMessage_);
                 serverMessage_ = subBuilder.buildPartial();
               }
               serverMessageCase_ = 5;
               break;
             }
             case 50: {
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.Builder subBuilder = null;
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.Builder subBuilder = null;
               if (serverMessageCase_ == 6) {
-                subBuilder = ((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest) serverMessage_).toBuilder();
+                subBuilder = ((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest) serverMessage_).toBuilder();
               }
               serverMessage_ =
-                  input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.parser(), extensionRegistry);
+                  input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest) serverMessage_);
+                subBuilder.mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest) serverMessage_);
                 serverMessage_ = subBuilder.buildPartial();
               }
               serverMessageCase_ = 6;
@@ -30494,14 +30704,14 @@ public final class YdbPersqueueV1 {
               break;
             }
             case 66: {
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.Builder subBuilder = null;
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.Builder subBuilder = null;
               if (serverMessageCase_ == 8) {
-                subBuilder = ((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse) serverMessage_).toBuilder();
+                subBuilder = ((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse) serverMessage_).toBuilder();
               }
               serverMessage_ =
-                  input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.parser(), extensionRegistry);
+                  input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse) serverMessage_);
+                subBuilder.mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse) serverMessage_);
                 serverMessage_ = subBuilder.buildPartial();
               }
               serverMessageCase_ = 8;
@@ -31620,34 +31830,34 @@ public final class YdbPersqueueV1 {
 
     }
 
-    public interface CreateReadStreamRequestOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest)
+    public interface CreatePartitionStreamRequestOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest)
         com.google.protobuf.MessageOrBuilder {
 
       /**
        * <pre>
-       * Partition read stream description.
+       * Partition partition stream description.
        * </pre>
        *
-       * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+       * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
        */
-      boolean hasReadStream();
+      boolean hasPartitionStream();
       /**
        * <pre>
-       * Partition read stream description.
+       * Partition partition stream description.
        * </pre>
        *
-       * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+       * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
        */
-      tech.ydb.persqueue.YdbPersqueueV1.ReadStream getReadStream();
+      tech.ydb.persqueue.YdbPersqueueV1.PartitionStream getPartitionStream();
       /**
        * <pre>
-       * Partition read stream description.
+       * Partition partition stream description.
        * </pre>
        *
-       * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+       * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
        */
-      tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder getReadStreamOrBuilder();
+      tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder getPartitionStreamOrBuilder();
 
       /**
        * <pre>
@@ -31669,22 +31879,22 @@ public final class YdbPersqueueV1 {
     }
     /**
      * <pre>
-     * Command to create a partition read stream.
+     * Command to create a partition partition stream.
      * Client must react on this signal by sending StartRead when ready recieve data from this partition.
      * </pre>
      *
-     * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest}
+     * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest}
      */
-    public  static final class CreateReadStreamRequest extends
+    public  static final class CreatePartitionStreamRequest extends
         com.google.protobuf.GeneratedMessageV3 implements
-        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest)
-        CreateReadStreamRequestOrBuilder {
+        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest)
+        CreatePartitionStreamRequestOrBuilder {
     private static final long serialVersionUID = 0L;
-      // Use CreateReadStreamRequest.newBuilder() to construct.
-      private CreateReadStreamRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      // Use CreatePartitionStreamRequest.newBuilder() to construct.
+      private CreatePartitionStreamRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
         super(builder);
       }
-      private CreateReadStreamRequest() {
+      private CreatePartitionStreamRequest() {
         committedOffset_ = 0L;
         endOffset_ = 0L;
       }
@@ -31694,7 +31904,7 @@ public final class YdbPersqueueV1 {
       getUnknownFields() {
         return this.unknownFields;
       }
-      private CreateReadStreamRequest(
+      private CreatePartitionStreamRequest(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -31718,14 +31928,14 @@ public final class YdbPersqueueV1 {
                 break;
               }
               case 10: {
-                tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder subBuilder = null;
-                if (readStream_ != null) {
-                  subBuilder = readStream_.toBuilder();
+                tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder subBuilder = null;
+                if (partitionStream_ != null) {
+                  subBuilder = partitionStream_.toBuilder();
                 }
-                readStream_ = input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.ReadStream.parser(), extensionRegistry);
+                partitionStream_ = input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.parser(), extensionRegistry);
                 if (subBuilder != null) {
-                  subBuilder.mergeFrom(readStream_);
-                  readStream_ = subBuilder.buildPartial();
+                  subBuilder.mergeFrom(partitionStream_);
+                  partitionStream_ = subBuilder.buildPartial();
                 }
 
                 break;
@@ -31754,47 +31964,47 @@ public final class YdbPersqueueV1 {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreateReadStreamRequest_descriptor;
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreatePartitionStreamRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreateReadStreamRequest_fieldAccessorTable
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreatePartitionStreamRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.Builder.class);
+                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.Builder.class);
       }
 
-      public static final int READ_STREAM_FIELD_NUMBER = 1;
-      private tech.ydb.persqueue.YdbPersqueueV1.ReadStream readStream_;
+      public static final int PARTITION_STREAM_FIELD_NUMBER = 1;
+      private tech.ydb.persqueue.YdbPersqueueV1.PartitionStream partitionStream_;
       /**
        * <pre>
-       * Partition read stream description.
+       * Partition partition stream description.
        * </pre>
        *
-       * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+       * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
        */
-      public boolean hasReadStream() {
-        return readStream_ != null;
+      public boolean hasPartitionStream() {
+        return partitionStream_ != null;
       }
       /**
        * <pre>
-       * Partition read stream description.
+       * Partition partition stream description.
        * </pre>
        *
-       * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+       * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.ReadStream getReadStream() {
-        return readStream_ == null ? tech.ydb.persqueue.YdbPersqueueV1.ReadStream.getDefaultInstance() : readStream_;
+      public tech.ydb.persqueue.YdbPersqueueV1.PartitionStream getPartitionStream() {
+        return partitionStream_ == null ? tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.getDefaultInstance() : partitionStream_;
       }
       /**
        * <pre>
-       * Partition read stream description.
+       * Partition partition stream description.
        * </pre>
        *
-       * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+       * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder getReadStreamOrBuilder() {
-        return getReadStream();
+      public tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder getPartitionStreamOrBuilder() {
+        return getPartitionStream();
       }
 
       public static final int COMMITTED_OFFSET_FIELD_NUMBER = 2;
@@ -31835,8 +32045,8 @@ public final class YdbPersqueueV1 {
 
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (readStream_ != null) {
-          output.writeMessage(1, getReadStream());
+        if (partitionStream_ != null) {
+          output.writeMessage(1, getPartitionStream());
         }
         if (committedOffset_ != 0L) {
           output.writeInt64(2, committedOffset_);
@@ -31852,9 +32062,9 @@ public final class YdbPersqueueV1 {
         if (size != -1) return size;
 
         size = 0;
-        if (readStream_ != null) {
+        if (partitionStream_ != null) {
           size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(1, getReadStream());
+            .computeMessageSize(1, getPartitionStream());
         }
         if (committedOffset_ != 0L) {
           size += com.google.protobuf.CodedOutputStream
@@ -31874,16 +32084,16 @@ public final class YdbPersqueueV1 {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest)) {
+        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest)) {
           return super.equals(obj);
         }
-        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest) obj;
+        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest) obj;
 
         boolean result = true;
-        result = result && (hasReadStream() == other.hasReadStream());
-        if (hasReadStream()) {
-          result = result && getReadStream()
-              .equals(other.getReadStream());
+        result = result && (hasPartitionStream() == other.hasPartitionStream());
+        if (hasPartitionStream()) {
+          result = result && getPartitionStream()
+              .equals(other.getPartitionStream());
         }
         result = result && (getCommittedOffset()
             == other.getCommittedOffset());
@@ -31900,9 +32110,9 @@ public final class YdbPersqueueV1 {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        if (hasReadStream()) {
-          hash = (37 * hash) + READ_STREAM_FIELD_NUMBER;
-          hash = (53 * hash) + getReadStream().hashCode();
+        if (hasPartitionStream()) {
+          hash = (37 * hash) + PARTITION_STREAM_FIELD_NUMBER;
+          hash = (53 * hash) + getPartitionStream().hashCode();
         }
         hash = (37 * hash) + COMMITTED_OFFSET_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
@@ -31915,69 +32125,69 @@ public final class YdbPersqueueV1 {
         return hash;
       }
 
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest parseFrom(byte[] data)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest parseFrom(java.io.InputStream input)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest parseDelimitedFrom(java.io.InputStream input)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest parseDelimitedFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -31989,7 +32199,7 @@ public final class YdbPersqueueV1 {
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest prototype) {
+      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
       public Builder toBuilder() {
@@ -32005,29 +32215,29 @@ public final class YdbPersqueueV1 {
       }
       /**
        * <pre>
-       * Command to create a partition read stream.
+       * Command to create a partition partition stream.
        * Client must react on this signal by sending StartRead when ready recieve data from this partition.
        * </pre>
        *
-       * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest}
+       * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest)
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequestOrBuilder {
+          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest)
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequestOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreateReadStreamRequest_descriptor;
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreatePartitionStreamRequest_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreateReadStreamRequest_fieldAccessorTable
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreatePartitionStreamRequest_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.Builder.class);
+                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.Builder.class);
         }
 
-        // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.newBuilder()
+        // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
         }
@@ -32044,11 +32254,11 @@ public final class YdbPersqueueV1 {
         }
         public Builder clear() {
           super.clear();
-          if (readStreamBuilder_ == null) {
-            readStream_ = null;
+          if (partitionStreamBuilder_ == null) {
+            partitionStream_ = null;
           } else {
-            readStream_ = null;
-            readStreamBuilder_ = null;
+            partitionStream_ = null;
+            partitionStreamBuilder_ = null;
           }
           committedOffset_ = 0L;
 
@@ -32059,27 +32269,27 @@ public final class YdbPersqueueV1 {
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreateReadStreamRequest_descriptor;
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreatePartitionStreamRequest_descriptor;
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest getDefaultInstanceForType() {
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.getDefaultInstance();
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest getDefaultInstanceForType() {
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.getDefaultInstance();
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest build() {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest result = buildPartial();
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest build() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest buildPartial() {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest(this);
-          if (readStreamBuilder_ == null) {
-            result.readStream_ = readStream_;
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest buildPartial() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest(this);
+          if (partitionStreamBuilder_ == null) {
+            result.partitionStream_ = partitionStream_;
           } else {
-            result.readStream_ = readStreamBuilder_.build();
+            result.partitionStream_ = partitionStreamBuilder_.build();
           }
           result.committedOffset_ = committedOffset_;
           result.endOffset_ = endOffset_;
@@ -32114,18 +32324,18 @@ public final class YdbPersqueueV1 {
           return (Builder) super.addRepeatedField(field, value);
         }
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest) {
-            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest)other);
+          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest) {
+            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest other) {
-          if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.getDefaultInstance()) return this;
-          if (other.hasReadStream()) {
-            mergeReadStream(other.getReadStream());
+        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest other) {
+          if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.getDefaultInstance()) return this;
+          if (other.hasPartitionStream()) {
+            mergePartitionStream(other.getPartitionStream());
           }
           if (other.getCommittedOffset() != 0L) {
             setCommittedOffset(other.getCommittedOffset());
@@ -32146,11 +32356,11 @@ public final class YdbPersqueueV1 {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest parsedMessage = null;
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest) e.getUnfinishedMessage();
+            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
@@ -32160,157 +32370,157 @@ public final class YdbPersqueueV1 {
           return this;
         }
 
-        private tech.ydb.persqueue.YdbPersqueueV1.ReadStream readStream_ = null;
+        private tech.ydb.persqueue.YdbPersqueueV1.PartitionStream partitionStream_ = null;
         private com.google.protobuf.SingleFieldBuilderV3<
-            tech.ydb.persqueue.YdbPersqueueV1.ReadStream, tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder> readStreamBuilder_;
+            tech.ydb.persqueue.YdbPersqueueV1.PartitionStream, tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder> partitionStreamBuilder_;
         /**
          * <pre>
-         * Partition read stream description.
+         * Partition partition stream description.
          * </pre>
          *
-         * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+         * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
          */
-        public boolean hasReadStream() {
-          return readStreamBuilder_ != null || readStream_ != null;
+        public boolean hasPartitionStream() {
+          return partitionStreamBuilder_ != null || partitionStream_ != null;
         }
         /**
          * <pre>
-         * Partition read stream description.
+         * Partition partition stream description.
          * </pre>
          *
-         * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+         * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
          */
-        public tech.ydb.persqueue.YdbPersqueueV1.ReadStream getReadStream() {
-          if (readStreamBuilder_ == null) {
-            return readStream_ == null ? tech.ydb.persqueue.YdbPersqueueV1.ReadStream.getDefaultInstance() : readStream_;
+        public tech.ydb.persqueue.YdbPersqueueV1.PartitionStream getPartitionStream() {
+          if (partitionStreamBuilder_ == null) {
+            return partitionStream_ == null ? tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.getDefaultInstance() : partitionStream_;
           } else {
-            return readStreamBuilder_.getMessage();
+            return partitionStreamBuilder_.getMessage();
           }
         }
         /**
          * <pre>
-         * Partition read stream description.
+         * Partition partition stream description.
          * </pre>
          *
-         * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+         * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
          */
-        public Builder setReadStream(tech.ydb.persqueue.YdbPersqueueV1.ReadStream value) {
-          if (readStreamBuilder_ == null) {
+        public Builder setPartitionStream(tech.ydb.persqueue.YdbPersqueueV1.PartitionStream value) {
+          if (partitionStreamBuilder_ == null) {
             if (value == null) {
               throw new NullPointerException();
             }
-            readStream_ = value;
+            partitionStream_ = value;
             onChanged();
           } else {
-            readStreamBuilder_.setMessage(value);
+            partitionStreamBuilder_.setMessage(value);
           }
 
           return this;
         }
         /**
          * <pre>
-         * Partition read stream description.
+         * Partition partition stream description.
          * </pre>
          *
-         * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+         * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
          */
-        public Builder setReadStream(
-            tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder builderForValue) {
-          if (readStreamBuilder_ == null) {
-            readStream_ = builderForValue.build();
+        public Builder setPartitionStream(
+            tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder builderForValue) {
+          if (partitionStreamBuilder_ == null) {
+            partitionStream_ = builderForValue.build();
             onChanged();
           } else {
-            readStreamBuilder_.setMessage(builderForValue.build());
+            partitionStreamBuilder_.setMessage(builderForValue.build());
           }
 
           return this;
         }
         /**
          * <pre>
-         * Partition read stream description.
+         * Partition partition stream description.
          * </pre>
          *
-         * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+         * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
          */
-        public Builder mergeReadStream(tech.ydb.persqueue.YdbPersqueueV1.ReadStream value) {
-          if (readStreamBuilder_ == null) {
-            if (readStream_ != null) {
-              readStream_ =
-                tech.ydb.persqueue.YdbPersqueueV1.ReadStream.newBuilder(readStream_).mergeFrom(value).buildPartial();
+        public Builder mergePartitionStream(tech.ydb.persqueue.YdbPersqueueV1.PartitionStream value) {
+          if (partitionStreamBuilder_ == null) {
+            if (partitionStream_ != null) {
+              partitionStream_ =
+                tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.newBuilder(partitionStream_).mergeFrom(value).buildPartial();
             } else {
-              readStream_ = value;
+              partitionStream_ = value;
             }
             onChanged();
           } else {
-            readStreamBuilder_.mergeFrom(value);
+            partitionStreamBuilder_.mergeFrom(value);
           }
 
           return this;
         }
         /**
          * <pre>
-         * Partition read stream description.
+         * Partition partition stream description.
          * </pre>
          *
-         * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+         * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
          */
-        public Builder clearReadStream() {
-          if (readStreamBuilder_ == null) {
-            readStream_ = null;
+        public Builder clearPartitionStream() {
+          if (partitionStreamBuilder_ == null) {
+            partitionStream_ = null;
             onChanged();
           } else {
-            readStream_ = null;
-            readStreamBuilder_ = null;
+            partitionStream_ = null;
+            partitionStreamBuilder_ = null;
           }
 
           return this;
         }
         /**
          * <pre>
-         * Partition read stream description.
+         * Partition partition stream description.
          * </pre>
          *
-         * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+         * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
          */
-        public tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder getReadStreamBuilder() {
+        public tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder getPartitionStreamBuilder() {
           
           onChanged();
-          return getReadStreamFieldBuilder().getBuilder();
+          return getPartitionStreamFieldBuilder().getBuilder();
         }
         /**
          * <pre>
-         * Partition read stream description.
+         * Partition partition stream description.
          * </pre>
          *
-         * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+         * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
          */
-        public tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder getReadStreamOrBuilder() {
-          if (readStreamBuilder_ != null) {
-            return readStreamBuilder_.getMessageOrBuilder();
+        public tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder getPartitionStreamOrBuilder() {
+          if (partitionStreamBuilder_ != null) {
+            return partitionStreamBuilder_.getMessageOrBuilder();
           } else {
-            return readStream_ == null ?
-                tech.ydb.persqueue.YdbPersqueueV1.ReadStream.getDefaultInstance() : readStream_;
+            return partitionStream_ == null ?
+                tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.getDefaultInstance() : partitionStream_;
           }
         }
         /**
          * <pre>
-         * Partition read stream description.
+         * Partition partition stream description.
          * </pre>
          *
-         * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+         * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
          */
         private com.google.protobuf.SingleFieldBuilderV3<
-            tech.ydb.persqueue.YdbPersqueueV1.ReadStream, tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder> 
-            getReadStreamFieldBuilder() {
-          if (readStreamBuilder_ == null) {
-            readStreamBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-                tech.ydb.persqueue.YdbPersqueueV1.ReadStream, tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder>(
-                    getReadStream(),
+            tech.ydb.persqueue.YdbPersqueueV1.PartitionStream, tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder> 
+            getPartitionStreamFieldBuilder() {
+          if (partitionStreamBuilder_ == null) {
+            partitionStreamBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                tech.ydb.persqueue.YdbPersqueueV1.PartitionStream, tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder>(
+                    getPartitionStream(),
                     getParentForChildren(),
                     isClean());
-            readStream_ = null;
+            partitionStream_ = null;
           }
-          return readStreamBuilder_;
+          return partitionStreamBuilder_;
         }
 
         private long committedOffset_ ;
@@ -32399,56 +32609,56 @@ public final class YdbPersqueueV1 {
         }
 
 
-        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest)
+        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest)
       }
 
-      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest)
-      private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest DEFAULT_INSTANCE;
+      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest)
+      private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest();
+        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest();
       }
 
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest getDefaultInstance() {
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
-      private static final com.google.protobuf.Parser<CreateReadStreamRequest>
-          PARSER = new com.google.protobuf.AbstractParser<CreateReadStreamRequest>() {
-        public CreateReadStreamRequest parsePartialFrom(
+      private static final com.google.protobuf.Parser<CreatePartitionStreamRequest>
+          PARSER = new com.google.protobuf.AbstractParser<CreatePartitionStreamRequest>() {
+        public CreatePartitionStreamRequest parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new CreateReadStreamRequest(input, extensionRegistry);
+            return new CreatePartitionStreamRequest(input, extensionRegistry);
         }
       };
 
-      public static com.google.protobuf.Parser<CreateReadStreamRequest> parser() {
+      public static com.google.protobuf.Parser<CreatePartitionStreamRequest> parser() {
         return PARSER;
       }
 
       @java.lang.Override
-      public com.google.protobuf.Parser<CreateReadStreamRequest> getParserForType() {
+      public com.google.protobuf.Parser<CreatePartitionStreamRequest> getParserForType() {
         return PARSER;
       }
 
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest getDefaultInstanceForType() {
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
     }
 
-    public interface DestroyReadStreamRequestOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest)
+    public interface DestroyPartitionStreamRequestOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest)
         com.google.protobuf.MessageOrBuilder {
 
       /**
        * <pre>
-       * Identifier of partition read stream that is ready to be closed by server.
+       * Identifier of partition partition stream that is ready to be closed by server.
        * </pre>
        *
-       * <code>int64 read_stream_id = 1;</code>
+       * <code>int64 partition_stream_id = 1;</code>
        */
-      long getReadStreamId();
+      long getPartitionStreamId();
 
       /**
        * <pre>
@@ -32457,7 +32667,7 @@ public final class YdbPersqueueV1 {
        * Server will not send more data from this partition.
        * Client can process all received data and wait for commit and only after send Destroyed signal.
        * If False then server gives partition for other session right now.
-       * All futher commits for this ReadStream has no effect. Server is not waiting for Destroyed signal.
+       * All futher commits for this PartitionStream has no effect. Server is not waiting for Destroyed signal.
        * </pre>
        *
        * <code>bool graceful = 2;</code>
@@ -32475,22 +32685,22 @@ public final class YdbPersqueueV1 {
     }
     /**
      * <pre>
-     * Command to destroy concrete read stream.
+     * Command to destroy concrete partition stream.
      * </pre>
      *
-     * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest}
+     * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest}
      */
-    public  static final class DestroyReadStreamRequest extends
+    public  static final class DestroyPartitionStreamRequest extends
         com.google.protobuf.GeneratedMessageV3 implements
-        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest)
-        DestroyReadStreamRequestOrBuilder {
+        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest)
+        DestroyPartitionStreamRequestOrBuilder {
     private static final long serialVersionUID = 0L;
-      // Use DestroyReadStreamRequest.newBuilder() to construct.
-      private DestroyReadStreamRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      // Use DestroyPartitionStreamRequest.newBuilder() to construct.
+      private DestroyPartitionStreamRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
         super(builder);
       }
-      private DestroyReadStreamRequest() {
-        readStreamId_ = 0L;
+      private DestroyPartitionStreamRequest() {
+        partitionStreamId_ = 0L;
         graceful_ = false;
         committedOffset_ = 0L;
       }
@@ -32500,7 +32710,7 @@ public final class YdbPersqueueV1 {
       getUnknownFields() {
         return this.unknownFields;
       }
-      private DestroyReadStreamRequest(
+      private DestroyPartitionStreamRequest(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -32525,7 +32735,7 @@ public final class YdbPersqueueV1 {
               }
               case 8: {
 
-                readStreamId_ = input.readInt64();
+                partitionStreamId_ = input.readInt64();
                 break;
               }
               case 16: {
@@ -32552,27 +32762,27 @@ public final class YdbPersqueueV1 {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyReadStreamRequest_descriptor;
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyPartitionStreamRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyReadStreamRequest_fieldAccessorTable
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyPartitionStreamRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.Builder.class);
+                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.Builder.class);
       }
 
-      public static final int READ_STREAM_ID_FIELD_NUMBER = 1;
-      private long readStreamId_;
+      public static final int PARTITION_STREAM_ID_FIELD_NUMBER = 1;
+      private long partitionStreamId_;
       /**
        * <pre>
-       * Identifier of partition read stream that is ready to be closed by server.
+       * Identifier of partition partition stream that is ready to be closed by server.
        * </pre>
        *
-       * <code>int64 read_stream_id = 1;</code>
+       * <code>int64 partition_stream_id = 1;</code>
        */
-      public long getReadStreamId() {
-        return readStreamId_;
+      public long getPartitionStreamId() {
+        return partitionStreamId_;
       }
 
       public static final int GRACEFUL_FIELD_NUMBER = 2;
@@ -32584,7 +32794,7 @@ public final class YdbPersqueueV1 {
        * Server will not send more data from this partition.
        * Client can process all received data and wait for commit and only after send Destroyed signal.
        * If False then server gives partition for other session right now.
-       * All futher commits for this ReadStream has no effect. Server is not waiting for Destroyed signal.
+       * All futher commits for this PartitionStream has no effect. Server is not waiting for Destroyed signal.
        * </pre>
        *
        * <code>bool graceful = 2;</code>
@@ -32618,8 +32828,8 @@ public final class YdbPersqueueV1 {
 
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (readStreamId_ != 0L) {
-          output.writeInt64(1, readStreamId_);
+        if (partitionStreamId_ != 0L) {
+          output.writeInt64(1, partitionStreamId_);
         }
         if (graceful_ != false) {
           output.writeBool(2, graceful_);
@@ -32635,9 +32845,9 @@ public final class YdbPersqueueV1 {
         if (size != -1) return size;
 
         size = 0;
-        if (readStreamId_ != 0L) {
+        if (partitionStreamId_ != 0L) {
           size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(1, readStreamId_);
+            .computeInt64Size(1, partitionStreamId_);
         }
         if (graceful_ != false) {
           size += com.google.protobuf.CodedOutputStream
@@ -32657,14 +32867,14 @@ public final class YdbPersqueueV1 {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest)) {
+        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest)) {
           return super.equals(obj);
         }
-        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest) obj;
+        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest) obj;
 
         boolean result = true;
-        result = result && (getReadStreamId()
-            == other.getReadStreamId());
+        result = result && (getPartitionStreamId()
+            == other.getPartitionStreamId());
         result = result && (getGraceful()
             == other.getGraceful());
         result = result && (getCommittedOffset()
@@ -32680,9 +32890,9 @@ public final class YdbPersqueueV1 {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + READ_STREAM_ID_FIELD_NUMBER;
+        hash = (37 * hash) + PARTITION_STREAM_ID_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getReadStreamId());
+            getPartitionStreamId());
         hash = (37 * hash) + GRACEFUL_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
             getGraceful());
@@ -32694,69 +32904,69 @@ public final class YdbPersqueueV1 {
         return hash;
       }
 
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest parseFrom(byte[] data)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest parseFrom(java.io.InputStream input)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest parseDelimitedFrom(java.io.InputStream input)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest parseDelimitedFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -32768,7 +32978,7 @@ public final class YdbPersqueueV1 {
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest prototype) {
+      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
       public Builder toBuilder() {
@@ -32784,28 +32994,28 @@ public final class YdbPersqueueV1 {
       }
       /**
        * <pre>
-       * Command to destroy concrete read stream.
+       * Command to destroy concrete partition stream.
        * </pre>
        *
-       * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest}
+       * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest)
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequestOrBuilder {
+          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest)
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequestOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyReadStreamRequest_descriptor;
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyPartitionStreamRequest_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyReadStreamRequest_fieldAccessorTable
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyPartitionStreamRequest_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.Builder.class);
+                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.Builder.class);
         }
 
-        // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.newBuilder()
+        // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
         }
@@ -32822,7 +33032,7 @@ public final class YdbPersqueueV1 {
         }
         public Builder clear() {
           super.clear();
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
 
           graceful_ = false;
 
@@ -32833,24 +33043,24 @@ public final class YdbPersqueueV1 {
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyReadStreamRequest_descriptor;
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyPartitionStreamRequest_descriptor;
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest getDefaultInstanceForType() {
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.getDefaultInstance();
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest getDefaultInstanceForType() {
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.getDefaultInstance();
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest build() {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest result = buildPartial();
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest build() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest buildPartial() {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest(this);
-          result.readStreamId_ = readStreamId_;
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest buildPartial() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest(this);
+          result.partitionStreamId_ = partitionStreamId_;
           result.graceful_ = graceful_;
           result.committedOffset_ = committedOffset_;
           onBuilt();
@@ -32884,18 +33094,18 @@ public final class YdbPersqueueV1 {
           return (Builder) super.addRepeatedField(field, value);
         }
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest) {
-            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest)other);
+          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest) {
+            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest other) {
-          if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.getDefaultInstance()) return this;
-          if (other.getReadStreamId() != 0L) {
-            setReadStreamId(other.getReadStreamId());
+        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest other) {
+          if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.getDefaultInstance()) return this;
+          if (other.getPartitionStreamId() != 0L) {
+            setPartitionStreamId(other.getPartitionStreamId());
           }
           if (other.getGraceful() != false) {
             setGraceful(other.getGraceful());
@@ -32916,11 +33126,11 @@ public final class YdbPersqueueV1 {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest parsedMessage = null;
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest) e.getUnfinishedMessage();
+            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
@@ -32930,40 +33140,40 @@ public final class YdbPersqueueV1 {
           return this;
         }
 
-        private long readStreamId_ ;
+        private long partitionStreamId_ ;
         /**
          * <pre>
-         * Identifier of partition read stream that is ready to be closed by server.
+         * Identifier of partition partition stream that is ready to be closed by server.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public long getReadStreamId() {
-          return readStreamId_;
+        public long getPartitionStreamId() {
+          return partitionStreamId_;
         }
         /**
          * <pre>
-         * Identifier of partition read stream that is ready to be closed by server.
+         * Identifier of partition partition stream that is ready to be closed by server.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public Builder setReadStreamId(long value) {
+        public Builder setPartitionStreamId(long value) {
           
-          readStreamId_ = value;
+          partitionStreamId_ = value;
           onChanged();
           return this;
         }
         /**
          * <pre>
-         * Identifier of partition read stream that is ready to be closed by server.
+         * Identifier of partition partition stream that is ready to be closed by server.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public Builder clearReadStreamId() {
+        public Builder clearPartitionStreamId() {
           
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
           onChanged();
           return this;
         }
@@ -32976,7 +33186,7 @@ public final class YdbPersqueueV1 {
          * Server will not send more data from this partition.
          * Client can process all received data and wait for commit and only after send Destroyed signal.
          * If False then server gives partition for other session right now.
-         * All futher commits for this ReadStream has no effect. Server is not waiting for Destroyed signal.
+         * All futher commits for this PartitionStream has no effect. Server is not waiting for Destroyed signal.
          * </pre>
          *
          * <code>bool graceful = 2;</code>
@@ -32991,7 +33201,7 @@ public final class YdbPersqueueV1 {
          * Server will not send more data from this partition.
          * Client can process all received data and wait for commit and only after send Destroyed signal.
          * If False then server gives partition for other session right now.
-         * All futher commits for this ReadStream has no effect. Server is not waiting for Destroyed signal.
+         * All futher commits for this PartitionStream has no effect. Server is not waiting for Destroyed signal.
          * </pre>
          *
          * <code>bool graceful = 2;</code>
@@ -33009,7 +33219,7 @@ public final class YdbPersqueueV1 {
          * Server will not send more data from this partition.
          * Client can process all received data and wait for commit and only after send Destroyed signal.
          * If False then server gives partition for other session right now.
-         * All futher commits for this ReadStream has no effect. Server is not waiting for Destroyed signal.
+         * All futher commits for this PartitionStream has no effect. Server is not waiting for Destroyed signal.
          * </pre>
          *
          * <code>bool graceful = 2;</code>
@@ -33069,39 +33279,39 @@ public final class YdbPersqueueV1 {
         }
 
 
-        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest)
+        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest)
       }
 
-      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest)
-      private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest DEFAULT_INSTANCE;
+      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest)
+      private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest();
+        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest();
       }
 
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest getDefaultInstance() {
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
-      private static final com.google.protobuf.Parser<DestroyReadStreamRequest>
-          PARSER = new com.google.protobuf.AbstractParser<DestroyReadStreamRequest>() {
-        public DestroyReadStreamRequest parsePartialFrom(
+      private static final com.google.protobuf.Parser<DestroyPartitionStreamRequest>
+          PARSER = new com.google.protobuf.AbstractParser<DestroyPartitionStreamRequest>() {
+        public DestroyPartitionStreamRequest parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new DestroyReadStreamRequest(input, extensionRegistry);
+            return new DestroyPartitionStreamRequest(input, extensionRegistry);
         }
       };
 
-      public static com.google.protobuf.Parser<DestroyReadStreamRequest> parser() {
+      public static com.google.protobuf.Parser<DestroyPartitionStreamRequest> parser() {
         return PARSER;
       }
 
       @java.lang.Override
-      public com.google.protobuf.Parser<DestroyReadStreamRequest> getParserForType() {
+      public com.google.protobuf.Parser<DestroyPartitionStreamRequest> getParserForType() {
         return PARSER;
       }
 
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest getDefaultInstanceForType() {
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
@@ -33245,12 +33455,12 @@ public final class YdbPersqueueV1 {
 
         /**
          * <pre>
-         * Partition read stream identifier.
+         * Partition partition stream identifier.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        long getReadStreamId();
+        long getPartitionStreamId();
 
         /**
          * <pre>
@@ -33278,7 +33488,7 @@ public final class YdbPersqueueV1 {
           super(builder);
         }
         private PartitionCommittedOffset() {
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
           committedOffset_ = 0L;
         }
 
@@ -33312,7 +33522,7 @@ public final class YdbPersqueueV1 {
                 }
                 case 8: {
 
-                  readStreamId_ = input.readInt64();
+                  partitionStreamId_ = input.readInt64();
                   break;
                 }
                 case 16: {
@@ -33344,17 +33554,17 @@ public final class YdbPersqueueV1 {
                   tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CommitResponse.PartitionCommittedOffset.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CommitResponse.PartitionCommittedOffset.Builder.class);
         }
 
-        public static final int READ_STREAM_ID_FIELD_NUMBER = 1;
-        private long readStreamId_;
+        public static final int PARTITION_STREAM_ID_FIELD_NUMBER = 1;
+        private long partitionStreamId_;
         /**
          * <pre>
-         * Partition read stream identifier.
+         * Partition partition stream identifier.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public long getReadStreamId() {
-          return readStreamId_;
+        public long getPartitionStreamId() {
+          return partitionStreamId_;
         }
 
         public static final int COMMITTED_OFFSET_FIELD_NUMBER = 2;
@@ -33382,8 +33592,8 @@ public final class YdbPersqueueV1 {
 
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                             throws java.io.IOException {
-          if (readStreamId_ != 0L) {
-            output.writeInt64(1, readStreamId_);
+          if (partitionStreamId_ != 0L) {
+            output.writeInt64(1, partitionStreamId_);
           }
           if (committedOffset_ != 0L) {
             output.writeInt64(2, committedOffset_);
@@ -33396,9 +33606,9 @@ public final class YdbPersqueueV1 {
           if (size != -1) return size;
 
           size = 0;
-          if (readStreamId_ != 0L) {
+          if (partitionStreamId_ != 0L) {
             size += com.google.protobuf.CodedOutputStream
-              .computeInt64Size(1, readStreamId_);
+              .computeInt64Size(1, partitionStreamId_);
           }
           if (committedOffset_ != 0L) {
             size += com.google.protobuf.CodedOutputStream
@@ -33420,8 +33630,8 @@ public final class YdbPersqueueV1 {
           tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CommitResponse.PartitionCommittedOffset other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CommitResponse.PartitionCommittedOffset) obj;
 
           boolean result = true;
-          result = result && (getReadStreamId()
-              == other.getReadStreamId());
+          result = result && (getPartitionStreamId()
+              == other.getPartitionStreamId());
           result = result && (getCommittedOffset()
               == other.getCommittedOffset());
           result = result && unknownFields.equals(other.unknownFields);
@@ -33435,9 +33645,9 @@ public final class YdbPersqueueV1 {
           }
           int hash = 41;
           hash = (19 * hash) + getDescriptor().hashCode();
-          hash = (37 * hash) + READ_STREAM_ID_FIELD_NUMBER;
+          hash = (37 * hash) + PARTITION_STREAM_ID_FIELD_NUMBER;
           hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-              getReadStreamId());
+              getPartitionStreamId());
           hash = (37 * hash) + COMMITTED_OFFSET_FIELD_NUMBER;
           hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
               getCommittedOffset());
@@ -33574,7 +33784,7 @@ public final class YdbPersqueueV1 {
           }
           public Builder clear() {
             super.clear();
-            readStreamId_ = 0L;
+            partitionStreamId_ = 0L;
 
             committedOffset_ = 0L;
 
@@ -33600,7 +33810,7 @@ public final class YdbPersqueueV1 {
 
           public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CommitResponse.PartitionCommittedOffset buildPartial() {
             tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CommitResponse.PartitionCommittedOffset result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CommitResponse.PartitionCommittedOffset(this);
-            result.readStreamId_ = readStreamId_;
+            result.partitionStreamId_ = partitionStreamId_;
             result.committedOffset_ = committedOffset_;
             onBuilt();
             return result;
@@ -33643,8 +33853,8 @@ public final class YdbPersqueueV1 {
 
           public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CommitResponse.PartitionCommittedOffset other) {
             if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CommitResponse.PartitionCommittedOffset.getDefaultInstance()) return this;
-            if (other.getReadStreamId() != 0L) {
-              setReadStreamId(other.getReadStreamId());
+            if (other.getPartitionStreamId() != 0L) {
+              setPartitionStreamId(other.getPartitionStreamId());
             }
             if (other.getCommittedOffset() != 0L) {
               setCommittedOffset(other.getCommittedOffset());
@@ -33676,40 +33886,40 @@ public final class YdbPersqueueV1 {
             return this;
           }
 
-          private long readStreamId_ ;
+          private long partitionStreamId_ ;
           /**
            * <pre>
-           * Partition read stream identifier.
+           * Partition partition stream identifier.
            * </pre>
            *
-           * <code>int64 read_stream_id = 1;</code>
+           * <code>int64 partition_stream_id = 1;</code>
            */
-          public long getReadStreamId() {
-            return readStreamId_;
+          public long getPartitionStreamId() {
+            return partitionStreamId_;
           }
           /**
            * <pre>
-           * Partition read stream identifier.
+           * Partition partition stream identifier.
            * </pre>
            *
-           * <code>int64 read_stream_id = 1;</code>
+           * <code>int64 partition_stream_id = 1;</code>
            */
-          public Builder setReadStreamId(long value) {
+          public Builder setPartitionStreamId(long value) {
             
-            readStreamId_ = value;
+            partitionStreamId_ = value;
             onChanged();
             return this;
           }
           /**
            * <pre>
-           * Partition read stream identifier.
+           * Partition partition stream identifier.
            * </pre>
            *
-           * <code>int64 read_stream_id = 1;</code>
+           * <code>int64 partition_stream_id = 1;</code>
            */
-          public Builder clearReadStreamId() {
+          public Builder clearPartitionStreamId() {
             
-            readStreamId_ = 0L;
+            partitionStreamId_ = 0L;
             onChanged();
             return this;
           }
@@ -34717,12 +34927,12 @@ public final class YdbPersqueueV1 {
 
         /**
          * <pre>
-         * Data inside this message is from read stream with this identifier.
+         * Data inside this message is from partition stream with this identifier.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        long getReadStreamId();
+        long getPartitionStreamId();
 
         /**
          * <pre>
@@ -35292,7 +35502,7 @@ public final class YdbPersqueueV1 {
           super(builder);
         }
         private PartitionData() {
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
           offsets_ = java.util.Collections.emptyList();
           sequenceNumbers_ = java.util.Collections.emptyList();
           createdAtMs_ = java.util.Collections.emptyList();
@@ -35343,7 +35553,7 @@ public final class YdbPersqueueV1 {
                 }
                 case 8: {
 
-                  readStreamId_ = input.readInt64();
+                  partitionStreamId_ = input.readInt64();
                   break;
                 }
                 case 16: {
@@ -36504,17 +36714,17 @@ public final class YdbPersqueueV1 {
         }
 
         private int bitField0_;
-        public static final int READ_STREAM_ID_FIELD_NUMBER = 1;
-        private long readStreamId_;
+        public static final int PARTITION_STREAM_ID_FIELD_NUMBER = 1;
+        private long partitionStreamId_;
         /**
          * <pre>
-         * Data inside this message is from read stream with this identifier.
+         * Data inside this message is from partition stream with this identifier.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public long getReadStreamId() {
-          return readStreamId_;
+        public long getPartitionStreamId() {
+          return partitionStreamId_;
         }
 
         public static final int OFFSETS_FIELD_NUMBER = 2;
@@ -37261,8 +37471,8 @@ public final class YdbPersqueueV1 {
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                             throws java.io.IOException {
           getSerializedSize();
-          if (readStreamId_ != 0L) {
-            output.writeInt64(1, readStreamId_);
+          if (partitionStreamId_ != 0L) {
+            output.writeInt64(1, partitionStreamId_);
           }
           if (getOffsetsList().size() > 0) {
             output.writeUInt32NoTag(18);
@@ -37377,9 +37587,9 @@ public final class YdbPersqueueV1 {
           if (size != -1) return size;
 
           size = 0;
-          if (readStreamId_ != 0L) {
+          if (partitionStreamId_ != 0L) {
             size += com.google.protobuf.CodedOutputStream
-              .computeInt64Size(1, readStreamId_);
+              .computeInt64Size(1, partitionStreamId_);
           }
           {
             int dataSize = 0;
@@ -37611,8 +37821,8 @@ public final class YdbPersqueueV1 {
           tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.PartitionData other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.PartitionData) obj;
 
           boolean result = true;
-          result = result && (getReadStreamId()
-              == other.getReadStreamId());
+          result = result && (getPartitionStreamId()
+              == other.getPartitionStreamId());
           result = result && getOffsetsList()
               .equals(other.getOffsetsList());
           result = result && getSequenceNumbersList()
@@ -37665,9 +37875,9 @@ public final class YdbPersqueueV1 {
           }
           int hash = 41;
           hash = (19 * hash) + getDescriptor().hashCode();
-          hash = (37 * hash) + READ_STREAM_ID_FIELD_NUMBER;
+          hash = (37 * hash) + PARTITION_STREAM_ID_FIELD_NUMBER;
           hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-              getReadStreamId());
+              getPartitionStreamId());
           if (getOffsetsCount() > 0) {
             hash = (37 * hash) + OFFSETS_FIELD_NUMBER;
             hash = (53 * hash) + getOffsetsList().hashCode();
@@ -37878,7 +38088,7 @@ public final class YdbPersqueueV1 {
           }
           public Builder clear() {
             super.clear();
-            readStreamId_ = 0L;
+            partitionStreamId_ = 0L;
 
             offsets_ = java.util.Collections.emptyList();
             bitField0_ = (bitField0_ & ~0x00000002);
@@ -37950,7 +38160,7 @@ public final class YdbPersqueueV1 {
             tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.PartitionData result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.PartitionData(this);
             int from_bitField0_ = bitField0_;
             int to_bitField0_ = 0;
-            result.readStreamId_ = readStreamId_;
+            result.partitionStreamId_ = partitionStreamId_;
             if (((bitField0_ & 0x00000002) == 0x00000002)) {
               offsets_ = java.util.Collections.unmodifiableList(offsets_);
               bitField0_ = (bitField0_ & ~0x00000002);
@@ -38088,8 +38298,8 @@ public final class YdbPersqueueV1 {
 
           public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.PartitionData other) {
             if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.PartitionData.getDefaultInstance()) return this;
-            if (other.getReadStreamId() != 0L) {
-              setReadStreamId(other.getReadStreamId());
+            if (other.getPartitionStreamId() != 0L) {
+              setPartitionStreamId(other.getPartitionStreamId());
             }
             if (!other.offsets_.isEmpty()) {
               if (offsets_.isEmpty()) {
@@ -38311,40 +38521,40 @@ public final class YdbPersqueueV1 {
           }
           private int bitField0_;
 
-          private long readStreamId_ ;
+          private long partitionStreamId_ ;
           /**
            * <pre>
-           * Data inside this message is from read stream with this identifier.
+           * Data inside this message is from partition stream with this identifier.
            * </pre>
            *
-           * <code>int64 read_stream_id = 1;</code>
+           * <code>int64 partition_stream_id = 1;</code>
            */
-          public long getReadStreamId() {
-            return readStreamId_;
+          public long getPartitionStreamId() {
+            return partitionStreamId_;
           }
           /**
            * <pre>
-           * Data inside this message is from read stream with this identifier.
+           * Data inside this message is from partition stream with this identifier.
            * </pre>
            *
-           * <code>int64 read_stream_id = 1;</code>
+           * <code>int64 partition_stream_id = 1;</code>
            */
-          public Builder setReadStreamId(long value) {
+          public Builder setPartitionStreamId(long value) {
             
-            readStreamId_ = value;
+            partitionStreamId_ = value;
             onChanged();
             return this;
           }
           /**
            * <pre>
-           * Data inside this message is from read stream with this identifier.
+           * Data inside this message is from partition stream with this identifier.
            * </pre>
            *
-           * <code>int64 read_stream_id = 1;</code>
+           * <code>int64 partition_stream_id = 1;</code>
            */
-          public Builder clearReadStreamId() {
+          public Builder clearPartitionStreamId() {
             
-            readStreamId_ = 0L;
+            partitionStreamId_ = 0L;
             onChanged();
             return this;
           }
@@ -40607,12 +40817,12 @@ public final class YdbPersqueueV1 {
 
         /**
          * <pre>
-         * Read Stream identifier.
+         * Partition Stream identifier.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        long getReadStreamId();
+        long getPartitionStreamId();
 
         /**
          * <pre>
@@ -40655,7 +40865,7 @@ public final class YdbPersqueueV1 {
           super(builder);
         }
         private SkipRange() {
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
         }
 
         @java.lang.Override
@@ -40688,7 +40898,7 @@ public final class YdbPersqueueV1 {
                 }
                 case 8: {
 
-                  readStreamId_ = input.readInt64();
+                  partitionStreamId_ = input.readInt64();
                   break;
                 }
                 case 18: {
@@ -40728,17 +40938,17 @@ public final class YdbPersqueueV1 {
                   tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.SkipRange.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.SkipRange.Builder.class);
         }
 
-        public static final int READ_STREAM_ID_FIELD_NUMBER = 1;
-        private long readStreamId_;
+        public static final int PARTITION_STREAM_ID_FIELD_NUMBER = 1;
+        private long partitionStreamId_;
         /**
          * <pre>
-         * Read Stream identifier.
+         * Partition Stream identifier.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public long getReadStreamId() {
-          return readStreamId_;
+        public long getPartitionStreamId() {
+          return partitionStreamId_;
         }
 
         public static final int SKIP_RANGE_FIELD_NUMBER = 2;
@@ -40789,8 +40999,8 @@ public final class YdbPersqueueV1 {
 
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                             throws java.io.IOException {
-          if (readStreamId_ != 0L) {
-            output.writeInt64(1, readStreamId_);
+          if (partitionStreamId_ != 0L) {
+            output.writeInt64(1, partitionStreamId_);
           }
           if (skipRange_ != null) {
             output.writeMessage(2, getSkipRange());
@@ -40803,9 +41013,9 @@ public final class YdbPersqueueV1 {
           if (size != -1) return size;
 
           size = 0;
-          if (readStreamId_ != 0L) {
+          if (partitionStreamId_ != 0L) {
             size += com.google.protobuf.CodedOutputStream
-              .computeInt64Size(1, readStreamId_);
+              .computeInt64Size(1, partitionStreamId_);
           }
           if (skipRange_ != null) {
             size += com.google.protobuf.CodedOutputStream
@@ -40827,8 +41037,8 @@ public final class YdbPersqueueV1 {
           tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.SkipRange other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.SkipRange) obj;
 
           boolean result = true;
-          result = result && (getReadStreamId()
-              == other.getReadStreamId());
+          result = result && (getPartitionStreamId()
+              == other.getPartitionStreamId());
           result = result && (hasSkipRange() == other.hasSkipRange());
           if (hasSkipRange()) {
             result = result && getSkipRange()
@@ -40845,9 +41055,9 @@ public final class YdbPersqueueV1 {
           }
           int hash = 41;
           hash = (19 * hash) + getDescriptor().hashCode();
-          hash = (37 * hash) + READ_STREAM_ID_FIELD_NUMBER;
+          hash = (37 * hash) + PARTITION_STREAM_ID_FIELD_NUMBER;
           hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-              getReadStreamId());
+              getPartitionStreamId());
           if (hasSkipRange()) {
             hash = (37 * hash) + SKIP_RANGE_FIELD_NUMBER;
             hash = (53 * hash) + getSkipRange().hashCode();
@@ -40981,7 +41191,7 @@ public final class YdbPersqueueV1 {
           }
           public Builder clear() {
             super.clear();
-            readStreamId_ = 0L;
+            partitionStreamId_ = 0L;
 
             if (skipRangeBuilder_ == null) {
               skipRange_ = null;
@@ -41011,7 +41221,7 @@ public final class YdbPersqueueV1 {
 
           public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.SkipRange buildPartial() {
             tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.SkipRange result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.SkipRange(this);
-            result.readStreamId_ = readStreamId_;
+            result.partitionStreamId_ = partitionStreamId_;
             if (skipRangeBuilder_ == null) {
               result.skipRange_ = skipRange_;
             } else {
@@ -41058,8 +41268,8 @@ public final class YdbPersqueueV1 {
 
           public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.SkipRange other) {
             if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.SkipRange.getDefaultInstance()) return this;
-            if (other.getReadStreamId() != 0L) {
-              setReadStreamId(other.getReadStreamId());
+            if (other.getPartitionStreamId() != 0L) {
+              setPartitionStreamId(other.getPartitionStreamId());
             }
             if (other.hasSkipRange()) {
               mergeSkipRange(other.getSkipRange());
@@ -41091,40 +41301,40 @@ public final class YdbPersqueueV1 {
             return this;
           }
 
-          private long readStreamId_ ;
+          private long partitionStreamId_ ;
           /**
            * <pre>
-           * Read Stream identifier.
+           * Partition Stream identifier.
            * </pre>
            *
-           * <code>int64 read_stream_id = 1;</code>
+           * <code>int64 partition_stream_id = 1;</code>
            */
-          public long getReadStreamId() {
-            return readStreamId_;
+          public long getPartitionStreamId() {
+            return partitionStreamId_;
           }
           /**
            * <pre>
-           * Read Stream identifier.
+           * Partition Stream identifier.
            * </pre>
            *
-           * <code>int64 read_stream_id = 1;</code>
+           * <code>int64 partition_stream_id = 1;</code>
            */
-          public Builder setReadStreamId(long value) {
+          public Builder setPartitionStreamId(long value) {
             
-            readStreamId_ = value;
+            partitionStreamId_ = value;
             onChanged();
             return this;
           }
           /**
            * <pre>
-           * Read Stream identifier.
+           * Partition Stream identifier.
            * </pre>
            *
-           * <code>int64 read_stream_id = 1;</code>
+           * <code>int64 partition_stream_id = 1;</code>
            */
-          public Builder clearReadStreamId() {
+          public Builder clearPartitionStreamId() {
             
-            readStreamId_ = 0L;
+            partitionStreamId_ = 0L;
             onChanged();
             return this;
           }
@@ -42411,18 +42621,18 @@ public final class YdbPersqueueV1 {
 
     }
 
-    public interface ReadStreamStatusResponseOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse)
+    public interface PartitionStreamStatusResponseOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse)
         com.google.protobuf.MessageOrBuilder {
 
       /**
        * <pre>
-       * Identifier of partition read stream that is ready to be closed by server.
+       * Identifier of partition partition stream that is ready to be closed by server.
        * </pre>
        *
-       * <code>int64 read_stream_id = 1;</code>
+       * <code>int64 partition_stream_id = 1;</code>
        */
-      long getReadStreamId();
+      long getPartitionStreamId();
 
       /**
        * <code>int64 committed_offset = 2;</code>
@@ -42448,19 +42658,19 @@ public final class YdbPersqueueV1 {
      * Response for status requst.
      * </pre>
      *
-     * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse}
+     * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse}
      */
-    public  static final class ReadStreamStatusResponse extends
+    public  static final class PartitionStreamStatusResponse extends
         com.google.protobuf.GeneratedMessageV3 implements
-        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse)
-        ReadStreamStatusResponseOrBuilder {
+        // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse)
+        PartitionStreamStatusResponseOrBuilder {
     private static final long serialVersionUID = 0L;
-      // Use ReadStreamStatusResponse.newBuilder() to construct.
-      private ReadStreamStatusResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      // Use PartitionStreamStatusResponse.newBuilder() to construct.
+      private PartitionStreamStatusResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
         super(builder);
       }
-      private ReadStreamStatusResponse() {
-        readStreamId_ = 0L;
+      private PartitionStreamStatusResponse() {
+        partitionStreamId_ = 0L;
         committedOffset_ = 0L;
         endOffset_ = 0L;
         writtenAtWatermarkMs_ = 0L;
@@ -42471,7 +42681,7 @@ public final class YdbPersqueueV1 {
       getUnknownFields() {
         return this.unknownFields;
       }
-      private ReadStreamStatusResponse(
+      private PartitionStreamStatusResponse(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -42496,7 +42706,7 @@ public final class YdbPersqueueV1 {
               }
               case 8: {
 
-                readStreamId_ = input.readInt64();
+                partitionStreamId_ = input.readInt64();
                 break;
               }
               case 16: {
@@ -42528,27 +42738,27 @@ public final class YdbPersqueueV1 {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_ReadStreamStatusResponse_descriptor;
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_PartitionStreamStatusResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_ReadStreamStatusResponse_fieldAccessorTable
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_PartitionStreamStatusResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.Builder.class);
+                tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.Builder.class);
       }
 
-      public static final int READ_STREAM_ID_FIELD_NUMBER = 1;
-      private long readStreamId_;
+      public static final int PARTITION_STREAM_ID_FIELD_NUMBER = 1;
+      private long partitionStreamId_;
       /**
        * <pre>
-       * Identifier of partition read stream that is ready to be closed by server.
+       * Identifier of partition partition stream that is ready to be closed by server.
        * </pre>
        *
-       * <code>int64 read_stream_id = 1;</code>
+       * <code>int64 partition_stream_id = 1;</code>
        */
-      public long getReadStreamId() {
-        return readStreamId_;
+      public long getPartitionStreamId() {
+        return partitionStreamId_;
       }
 
       public static final int COMMITTED_OFFSET_FIELD_NUMBER = 2;
@@ -42594,8 +42804,8 @@ public final class YdbPersqueueV1 {
 
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (readStreamId_ != 0L) {
-          output.writeInt64(1, readStreamId_);
+        if (partitionStreamId_ != 0L) {
+          output.writeInt64(1, partitionStreamId_);
         }
         if (committedOffset_ != 0L) {
           output.writeInt64(2, committedOffset_);
@@ -42614,9 +42824,9 @@ public final class YdbPersqueueV1 {
         if (size != -1) return size;
 
         size = 0;
-        if (readStreamId_ != 0L) {
+        if (partitionStreamId_ != 0L) {
           size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(1, readStreamId_);
+            .computeInt64Size(1, partitionStreamId_);
         }
         if (committedOffset_ != 0L) {
           size += com.google.protobuf.CodedOutputStream
@@ -42640,14 +42850,14 @@ public final class YdbPersqueueV1 {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse)) {
+        if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse)) {
           return super.equals(obj);
         }
-        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse) obj;
+        tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse other = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse) obj;
 
         boolean result = true;
-        result = result && (getReadStreamId()
-            == other.getReadStreamId());
+        result = result && (getPartitionStreamId()
+            == other.getPartitionStreamId());
         result = result && (getCommittedOffset()
             == other.getCommittedOffset());
         result = result && (getEndOffset()
@@ -42665,9 +42875,9 @@ public final class YdbPersqueueV1 {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + READ_STREAM_ID_FIELD_NUMBER;
+        hash = (37 * hash) + PARTITION_STREAM_ID_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getReadStreamId());
+            getPartitionStreamId());
         hash = (37 * hash) + COMMITTED_OFFSET_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
             getCommittedOffset());
@@ -42682,69 +42892,69 @@ public final class YdbPersqueueV1 {
         return hash;
       }
 
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse parseFrom(byte[] data)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse parseFrom(java.io.InputStream input)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse parseDelimitedFrom(java.io.InputStream input)
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse parseDelimitedFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse parseFrom(
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -42756,7 +42966,7 @@ public final class YdbPersqueueV1 {
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse prototype) {
+      public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
       public Builder toBuilder() {
@@ -42775,25 +42985,25 @@ public final class YdbPersqueueV1 {
        * Response for status requst.
        * </pre>
        *
-       * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse}
+       * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse)
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponseOrBuilder {
+          // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse)
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponseOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_ReadStreamStatusResponse_descriptor;
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_PartitionStreamStatusResponse_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_ReadStreamStatusResponse_fieldAccessorTable
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_PartitionStreamStatusResponse_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.Builder.class);
+                  tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.class, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.Builder.class);
         }
 
-        // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.newBuilder()
+        // Construct using tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
         }
@@ -42810,7 +43020,7 @@ public final class YdbPersqueueV1 {
         }
         public Builder clear() {
           super.clear();
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
 
           committedOffset_ = 0L;
 
@@ -42823,24 +43033,24 @@ public final class YdbPersqueueV1 {
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_ReadStreamStatusResponse_descriptor;
+          return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_PartitionStreamStatusResponse_descriptor;
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse getDefaultInstanceForType() {
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.getDefaultInstance();
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse getDefaultInstanceForType() {
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.getDefaultInstance();
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse build() {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse result = buildPartial();
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse build() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse buildPartial() {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse(this);
-          result.readStreamId_ = readStreamId_;
+        public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse buildPartial() {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse result = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse(this);
+          result.partitionStreamId_ = partitionStreamId_;
           result.committedOffset_ = committedOffset_;
           result.endOffset_ = endOffset_;
           result.writtenAtWatermarkMs_ = writtenAtWatermarkMs_;
@@ -42875,18 +43085,18 @@ public final class YdbPersqueueV1 {
           return (Builder) super.addRepeatedField(field, value);
         }
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse) {
-            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse)other);
+          if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse) {
+            return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse other) {
-          if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.getDefaultInstance()) return this;
-          if (other.getReadStreamId() != 0L) {
-            setReadStreamId(other.getReadStreamId());
+        public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse other) {
+          if (other == tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.getDefaultInstance()) return this;
+          if (other.getPartitionStreamId() != 0L) {
+            setPartitionStreamId(other.getPartitionStreamId());
           }
           if (other.getCommittedOffset() != 0L) {
             setCommittedOffset(other.getCommittedOffset());
@@ -42910,11 +43120,11 @@ public final class YdbPersqueueV1 {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse parsedMessage = null;
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse) e.getUnfinishedMessage();
+            parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
@@ -42924,40 +43134,40 @@ public final class YdbPersqueueV1 {
           return this;
         }
 
-        private long readStreamId_ ;
+        private long partitionStreamId_ ;
         /**
          * <pre>
-         * Identifier of partition read stream that is ready to be closed by server.
+         * Identifier of partition partition stream that is ready to be closed by server.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public long getReadStreamId() {
-          return readStreamId_;
+        public long getPartitionStreamId() {
+          return partitionStreamId_;
         }
         /**
          * <pre>
-         * Identifier of partition read stream that is ready to be closed by server.
+         * Identifier of partition partition stream that is ready to be closed by server.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public Builder setReadStreamId(long value) {
+        public Builder setPartitionStreamId(long value) {
           
-          readStreamId_ = value;
+          partitionStreamId_ = value;
           onChanged();
           return this;
         }
         /**
          * <pre>
-         * Identifier of partition read stream that is ready to be closed by server.
+         * Identifier of partition partition stream that is ready to be closed by server.
          * </pre>
          *
-         * <code>int64 read_stream_id = 1;</code>
+         * <code>int64 partition_stream_id = 1;</code>
          */
-        public Builder clearReadStreamId() {
+        public Builder clearPartitionStreamId() {
           
-          readStreamId_ = 0L;
+          partitionStreamId_ = 0L;
           onChanged();
           return this;
         }
@@ -43062,39 +43272,39 @@ public final class YdbPersqueueV1 {
         }
 
 
-        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse)
+        // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse)
       }
 
-      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse)
-      private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse DEFAULT_INSTANCE;
+      // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse)
+      private static final tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse();
+        DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse();
       }
 
-      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse getDefaultInstance() {
+      public static tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
-      private static final com.google.protobuf.Parser<ReadStreamStatusResponse>
-          PARSER = new com.google.protobuf.AbstractParser<ReadStreamStatusResponse>() {
-        public ReadStreamStatusResponse parsePartialFrom(
+      private static final com.google.protobuf.Parser<PartitionStreamStatusResponse>
+          PARSER = new com.google.protobuf.AbstractParser<PartitionStreamStatusResponse>() {
+        public PartitionStreamStatusResponse parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new ReadStreamStatusResponse(input, extensionRegistry);
+            return new PartitionStreamStatusResponse(input, extensionRegistry);
         }
       };
 
-      public static com.google.protobuf.Parser<ReadStreamStatusResponse> parser() {
+      public static com.google.protobuf.Parser<PartitionStreamStatusResponse> parser() {
         return PARSER;
       }
 
       @java.lang.Override
-      public com.google.protobuf.Parser<ReadStreamStatusResponse> getParserForType() {
+      public com.google.protobuf.Parser<PartitionStreamStatusResponse> getParserForType() {
         return PARSER;
       }
 
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse getDefaultInstanceForType() {
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
@@ -44728,10 +44938,10 @@ public final class YdbPersqueueV1 {
         implements com.google.protobuf.Internal.EnumLite {
       INIT_RESPONSE(3),
       BATCH_READ_RESPONSE(4),
-      CREATE_READ_STREAM_REQUEST(5),
-      DESTROY_READ_STREAM_REQUEST(6),
+      CREATE_PARTITION_STREAM_REQUEST(5),
+      DESTROY_PARTITION_STREAM_REQUEST(6),
       COMMIT_RESPONSE(7),
-      READ_STREAM_STATUS_RESPONSE(8),
+      PARTITION_STREAM_STATUS_RESPONSE(8),
       STOP_READ_RESPONSE(9),
       RESUME_READ_RESPONSE(10),
       ADD_TOPIC_RESPONSE(11),
@@ -44753,10 +44963,10 @@ public final class YdbPersqueueV1 {
         switch (value) {
           case 3: return INIT_RESPONSE;
           case 4: return BATCH_READ_RESPONSE;
-          case 5: return CREATE_READ_STREAM_REQUEST;
-          case 6: return DESTROY_READ_STREAM_REQUEST;
+          case 5: return CREATE_PARTITION_STREAM_REQUEST;
+          case 6: return DESTROY_PARTITION_STREAM_REQUEST;
           case 7: return COMMIT_RESPONSE;
-          case 8: return READ_STREAM_STATUS_RESPONSE;
+          case 8: return PARTITION_STREAM_STATUS_RESPONSE;
           case 9: return STOP_READ_RESPONSE;
           case 10: return RESUME_READ_RESPONSE;
           case 11: return ADD_TOPIC_RESPONSE;
@@ -44828,56 +45038,56 @@ public final class YdbPersqueueV1 {
       return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse.getDefaultInstance();
     }
 
-    public static final int CREATE_READ_STREAM_REQUEST_FIELD_NUMBER = 5;
+    public static final int CREATE_PARTITION_STREAM_REQUEST_FIELD_NUMBER = 5;
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
      */
-    public boolean hasCreateReadStreamRequest() {
+    public boolean hasCreatePartitionStreamRequest() {
       return serverMessageCase_ == 5;
     }
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
      */
-    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest getCreateReadStreamRequest() {
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest getCreatePartitionStreamRequest() {
       if (serverMessageCase_ == 5) {
-         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest) serverMessage_;
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest) serverMessage_;
       }
-      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.getDefaultInstance();
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.getDefaultInstance();
     }
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
      */
-    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequestOrBuilder getCreateReadStreamRequestOrBuilder() {
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequestOrBuilder getCreatePartitionStreamRequestOrBuilder() {
       if (serverMessageCase_ == 5) {
-         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest) serverMessage_;
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest) serverMessage_;
       }
-      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.getDefaultInstance();
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.getDefaultInstance();
     }
 
-    public static final int DESTROY_READ_STREAM_REQUEST_FIELD_NUMBER = 6;
+    public static final int DESTROY_PARTITION_STREAM_REQUEST_FIELD_NUMBER = 6;
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
      */
-    public boolean hasDestroyReadStreamRequest() {
+    public boolean hasDestroyPartitionStreamRequest() {
       return serverMessageCase_ == 6;
     }
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
      */
-    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest getDestroyReadStreamRequest() {
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest getDestroyPartitionStreamRequest() {
       if (serverMessageCase_ == 6) {
-         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest) serverMessage_;
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest) serverMessage_;
       }
-      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.getDefaultInstance();
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.getDefaultInstance();
     }
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
      */
-    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequestOrBuilder getDestroyReadStreamRequestOrBuilder() {
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequestOrBuilder getDestroyPartitionStreamRequestOrBuilder() {
       if (serverMessageCase_ == 6) {
-         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest) serverMessage_;
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest) serverMessage_;
       }
-      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.getDefaultInstance();
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.getDefaultInstance();
     }
 
     public static final int COMMIT_RESPONSE_FIELD_NUMBER = 7;
@@ -44906,30 +45116,30 @@ public final class YdbPersqueueV1 {
       return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CommitResponse.getDefaultInstance();
     }
 
-    public static final int READ_STREAM_STATUS_RESPONSE_FIELD_NUMBER = 8;
+    public static final int PARTITION_STREAM_STATUS_RESPONSE_FIELD_NUMBER = 8;
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
      */
-    public boolean hasReadStreamStatusResponse() {
+    public boolean hasPartitionStreamStatusResponse() {
       return serverMessageCase_ == 8;
     }
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
      */
-    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse getReadStreamStatusResponse() {
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse getPartitionStreamStatusResponse() {
       if (serverMessageCase_ == 8) {
-         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse) serverMessage_;
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse) serverMessage_;
       }
-      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.getDefaultInstance();
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.getDefaultInstance();
     }
     /**
-     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+     * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
      */
-    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponseOrBuilder getReadStreamStatusResponseOrBuilder() {
+    public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponseOrBuilder getPartitionStreamStatusResponseOrBuilder() {
       if (serverMessageCase_ == 8) {
-         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse) serverMessage_;
+         return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse) serverMessage_;
       }
-      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.getDefaultInstance();
+      return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.getDefaultInstance();
     }
 
     public static final int STOP_READ_RESPONSE_FIELD_NUMBER = 9;
@@ -45112,16 +45322,16 @@ public final class YdbPersqueueV1 {
         output.writeMessage(4, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.BatchReadResponse) serverMessage_);
       }
       if (serverMessageCase_ == 5) {
-        output.writeMessage(5, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest) serverMessage_);
+        output.writeMessage(5, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest) serverMessage_);
       }
       if (serverMessageCase_ == 6) {
-        output.writeMessage(6, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest) serverMessage_);
+        output.writeMessage(6, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest) serverMessage_);
       }
       if (serverMessageCase_ == 7) {
         output.writeMessage(7, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CommitResponse) serverMessage_);
       }
       if (serverMessageCase_ == 8) {
-        output.writeMessage(8, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse) serverMessage_);
+        output.writeMessage(8, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse) serverMessage_);
       }
       if (serverMessageCase_ == 9) {
         output.writeMessage(9, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.StopReadResponse) serverMessage_);
@@ -45161,11 +45371,11 @@ public final class YdbPersqueueV1 {
       }
       if (serverMessageCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest) serverMessage_);
+          .computeMessageSize(5, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest) serverMessage_);
       }
       if (serverMessageCase_ == 6) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest) serverMessage_);
+          .computeMessageSize(6, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest) serverMessage_);
       }
       if (serverMessageCase_ == 7) {
         size += com.google.protobuf.CodedOutputStream
@@ -45173,7 +45383,7 @@ public final class YdbPersqueueV1 {
       }
       if (serverMessageCase_ == 8) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(8, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse) serverMessage_);
+          .computeMessageSize(8, (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse) serverMessage_);
       }
       if (serverMessageCase_ == 9) {
         size += com.google.protobuf.CodedOutputStream
@@ -45223,20 +45433,20 @@ public final class YdbPersqueueV1 {
               .equals(other.getBatchReadResponse());
           break;
         case 5:
-          result = result && getCreateReadStreamRequest()
-              .equals(other.getCreateReadStreamRequest());
+          result = result && getCreatePartitionStreamRequest()
+              .equals(other.getCreatePartitionStreamRequest());
           break;
         case 6:
-          result = result && getDestroyReadStreamRequest()
-              .equals(other.getDestroyReadStreamRequest());
+          result = result && getDestroyPartitionStreamRequest()
+              .equals(other.getDestroyPartitionStreamRequest());
           break;
         case 7:
           result = result && getCommitResponse()
               .equals(other.getCommitResponse());
           break;
         case 8:
-          result = result && getReadStreamStatusResponse()
-              .equals(other.getReadStreamStatusResponse());
+          result = result && getPartitionStreamStatusResponse()
+              .equals(other.getPartitionStreamStatusResponse());
           break;
         case 9:
           result = result && getStopReadResponse()
@@ -45284,20 +45494,20 @@ public final class YdbPersqueueV1 {
           hash = (53 * hash) + getBatchReadResponse().hashCode();
           break;
         case 5:
-          hash = (37 * hash) + CREATE_READ_STREAM_REQUEST_FIELD_NUMBER;
-          hash = (53 * hash) + getCreateReadStreamRequest().hashCode();
+          hash = (37 * hash) + CREATE_PARTITION_STREAM_REQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getCreatePartitionStreamRequest().hashCode();
           break;
         case 6:
-          hash = (37 * hash) + DESTROY_READ_STREAM_REQUEST_FIELD_NUMBER;
-          hash = (53 * hash) + getDestroyReadStreamRequest().hashCode();
+          hash = (37 * hash) + DESTROY_PARTITION_STREAM_REQUEST_FIELD_NUMBER;
+          hash = (53 * hash) + getDestroyPartitionStreamRequest().hashCode();
           break;
         case 7:
           hash = (37 * hash) + COMMIT_RESPONSE_FIELD_NUMBER;
           hash = (53 * hash) + getCommitResponse().hashCode();
           break;
         case 8:
-          hash = (37 * hash) + READ_STREAM_STATUS_RESPONSE_FIELD_NUMBER;
-          hash = (53 * hash) + getReadStreamStatusResponse().hashCode();
+          hash = (37 * hash) + PARTITION_STREAM_STATUS_RESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getPartitionStreamStatusResponse().hashCode();
           break;
         case 9:
           hash = (37 * hash) + STOP_READ_RESPONSE_FIELD_NUMBER;
@@ -45418,8 +45628,8 @@ public final class YdbPersqueueV1 {
      *      InitResponse - handshake response from server.
      *      BatchReadResponse - portion of data.
      *      CommitResponse - acknowledgment for commit.
-     *      CreateReadStreamRequest - command from server to create a partition read stream.
-     *      DestroyReadStreamRequest - command from server to destroy a partition read stream.
+     *      CreatePartitionStreamRequest - command from server to create a partition partition stream.
+     *      DestroyPartitionStreamRequest - command from server to destroy a partition partition stream.
      * </pre>
      *
      * Protobuf type {@code Ydb.PersQueue.V1.StreamingReadServerMessageNew}
@@ -45507,17 +45717,17 @@ public final class YdbPersqueueV1 {
           }
         }
         if (serverMessageCase_ == 5) {
-          if (createReadStreamRequestBuilder_ == null) {
+          if (createPartitionStreamRequestBuilder_ == null) {
             result.serverMessage_ = serverMessage_;
           } else {
-            result.serverMessage_ = createReadStreamRequestBuilder_.build();
+            result.serverMessage_ = createPartitionStreamRequestBuilder_.build();
           }
         }
         if (serverMessageCase_ == 6) {
-          if (destroyReadStreamRequestBuilder_ == null) {
+          if (destroyPartitionStreamRequestBuilder_ == null) {
             result.serverMessage_ = serverMessage_;
           } else {
-            result.serverMessage_ = destroyReadStreamRequestBuilder_.build();
+            result.serverMessage_ = destroyPartitionStreamRequestBuilder_.build();
           }
         }
         if (serverMessageCase_ == 7) {
@@ -45528,10 +45738,10 @@ public final class YdbPersqueueV1 {
           }
         }
         if (serverMessageCase_ == 8) {
-          if (readStreamStatusResponseBuilder_ == null) {
+          if (partitionStreamStatusResponseBuilder_ == null) {
             result.serverMessage_ = serverMessage_;
           } else {
-            result.serverMessage_ = readStreamStatusResponseBuilder_.build();
+            result.serverMessage_ = partitionStreamStatusResponseBuilder_.build();
           }
         }
         if (serverMessageCase_ == 9) {
@@ -45653,20 +45863,20 @@ public final class YdbPersqueueV1 {
             mergeBatchReadResponse(other.getBatchReadResponse());
             break;
           }
-          case CREATE_READ_STREAM_REQUEST: {
-            mergeCreateReadStreamRequest(other.getCreateReadStreamRequest());
+          case CREATE_PARTITION_STREAM_REQUEST: {
+            mergeCreatePartitionStreamRequest(other.getCreatePartitionStreamRequest());
             break;
           }
-          case DESTROY_READ_STREAM_REQUEST: {
-            mergeDestroyReadStreamRequest(other.getDestroyReadStreamRequest());
+          case DESTROY_PARTITION_STREAM_REQUEST: {
+            mergeDestroyPartitionStreamRequest(other.getDestroyPartitionStreamRequest());
             break;
           }
           case COMMIT_RESPONSE: {
             mergeCommitResponse(other.getCommitResponse());
             break;
           }
-          case READ_STREAM_STATUS_RESPONSE: {
-            mergeReadStreamStatusResponse(other.getReadStreamStatusResponse());
+          case PARTITION_STREAM_STATUS_RESPONSE: {
+            mergePartitionStreamStatusResponse(other.getPartitionStreamStatusResponse());
             break;
           }
           case STOP_READ_RESPONSE: {
@@ -46005,67 +46215,67 @@ public final class YdbPersqueueV1 {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequestOrBuilder> createReadStreamRequestBuilder_;
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequestOrBuilder> createPartitionStreamRequestBuilder_;
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
        */
-      public boolean hasCreateReadStreamRequest() {
+      public boolean hasCreatePartitionStreamRequest() {
         return serverMessageCase_ == 5;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest getCreateReadStreamRequest() {
-        if (createReadStreamRequestBuilder_ == null) {
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest getCreatePartitionStreamRequest() {
+        if (createPartitionStreamRequestBuilder_ == null) {
           if (serverMessageCase_ == 5) {
-            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest) serverMessage_;
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest) serverMessage_;
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.getDefaultInstance();
         } else {
           if (serverMessageCase_ == 5) {
-            return createReadStreamRequestBuilder_.getMessage();
+            return createPartitionStreamRequestBuilder_.getMessage();
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
        */
-      public Builder setCreateReadStreamRequest(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest value) {
-        if (createReadStreamRequestBuilder_ == null) {
+      public Builder setCreatePartitionStreamRequest(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest value) {
+        if (createPartitionStreamRequestBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
           serverMessage_ = value;
           onChanged();
         } else {
-          createReadStreamRequestBuilder_.setMessage(value);
+          createPartitionStreamRequestBuilder_.setMessage(value);
         }
         serverMessageCase_ = 5;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
        */
-      public Builder setCreateReadStreamRequest(
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.Builder builderForValue) {
-        if (createReadStreamRequestBuilder_ == null) {
+      public Builder setCreatePartitionStreamRequest(
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.Builder builderForValue) {
+        if (createPartitionStreamRequestBuilder_ == null) {
           serverMessage_ = builderForValue.build();
           onChanged();
         } else {
-          createReadStreamRequestBuilder_.setMessage(builderForValue.build());
+          createPartitionStreamRequestBuilder_.setMessage(builderForValue.build());
         }
         serverMessageCase_ = 5;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
        */
-      public Builder mergeCreateReadStreamRequest(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest value) {
-        if (createReadStreamRequestBuilder_ == null) {
+      public Builder mergeCreatePartitionStreamRequest(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest value) {
+        if (createPartitionStreamRequestBuilder_ == null) {
           if (serverMessageCase_ == 5 &&
-              serverMessage_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.getDefaultInstance()) {
-            serverMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.newBuilder((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest) serverMessage_)
+              serverMessage_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.getDefaultInstance()) {
+            serverMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.newBuilder((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest) serverMessage_)
                 .mergeFrom(value).buildPartial();
           } else {
             serverMessage_ = value;
@@ -46073,18 +46283,18 @@ public final class YdbPersqueueV1 {
           onChanged();
         } else {
           if (serverMessageCase_ == 5) {
-            createReadStreamRequestBuilder_.mergeFrom(value);
+            createPartitionStreamRequestBuilder_.mergeFrom(value);
           }
-          createReadStreamRequestBuilder_.setMessage(value);
+          createPartitionStreamRequestBuilder_.setMessage(value);
         }
         serverMessageCase_ = 5;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
        */
-      public Builder clearCreateReadStreamRequest() {
-        if (createReadStreamRequestBuilder_ == null) {
+      public Builder clearCreatePartitionStreamRequest() {
+        if (createPartitionStreamRequestBuilder_ == null) {
           if (serverMessageCase_ == 5) {
             serverMessageCase_ = 0;
             serverMessage_ = null;
@@ -46095,113 +46305,113 @@ public final class YdbPersqueueV1 {
             serverMessageCase_ = 0;
             serverMessage_ = null;
           }
-          createReadStreamRequestBuilder_.clear();
+          createPartitionStreamRequestBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.Builder getCreateReadStreamRequestBuilder() {
-        return getCreateReadStreamRequestFieldBuilder().getBuilder();
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.Builder getCreatePartitionStreamRequestBuilder() {
+        return getCreatePartitionStreamRequestFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequestOrBuilder getCreateReadStreamRequestOrBuilder() {
-        if ((serverMessageCase_ == 5) && (createReadStreamRequestBuilder_ != null)) {
-          return createReadStreamRequestBuilder_.getMessageOrBuilder();
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequestOrBuilder getCreatePartitionStreamRequestOrBuilder() {
+        if ((serverMessageCase_ == 5) && (createPartitionStreamRequestBuilder_ != null)) {
+          return createPartitionStreamRequestBuilder_.getMessageOrBuilder();
         } else {
           if (serverMessageCase_ == 5) {
-            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest) serverMessage_;
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest) serverMessage_;
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreateReadStreamRequest create_read_stream_request = 5;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.CreatePartitionStreamRequest create_partition_stream_request = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequestOrBuilder> 
-          getCreateReadStreamRequestFieldBuilder() {
-        if (createReadStreamRequestBuilder_ == null) {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequestOrBuilder> 
+          getCreatePartitionStreamRequestFieldBuilder() {
+        if (createPartitionStreamRequestBuilder_ == null) {
           if (!(serverMessageCase_ == 5)) {
-            serverMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.getDefaultInstance();
+            serverMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.getDefaultInstance();
           }
-          createReadStreamRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequestOrBuilder>(
-                  (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreateReadStreamRequest) serverMessage_,
+          createPartitionStreamRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequestOrBuilder>(
+                  (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.CreatePartitionStreamRequest) serverMessage_,
                   getParentForChildren(),
                   isClean());
           serverMessage_ = null;
         }
         serverMessageCase_ = 5;
         onChanged();;
-        return createReadStreamRequestBuilder_;
+        return createPartitionStreamRequestBuilder_;
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequestOrBuilder> destroyReadStreamRequestBuilder_;
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequestOrBuilder> destroyPartitionStreamRequestBuilder_;
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
        */
-      public boolean hasDestroyReadStreamRequest() {
+      public boolean hasDestroyPartitionStreamRequest() {
         return serverMessageCase_ == 6;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest getDestroyReadStreamRequest() {
-        if (destroyReadStreamRequestBuilder_ == null) {
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest getDestroyPartitionStreamRequest() {
+        if (destroyPartitionStreamRequestBuilder_ == null) {
           if (serverMessageCase_ == 6) {
-            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest) serverMessage_;
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest) serverMessage_;
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.getDefaultInstance();
         } else {
           if (serverMessageCase_ == 6) {
-            return destroyReadStreamRequestBuilder_.getMessage();
+            return destroyPartitionStreamRequestBuilder_.getMessage();
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
        */
-      public Builder setDestroyReadStreamRequest(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest value) {
-        if (destroyReadStreamRequestBuilder_ == null) {
+      public Builder setDestroyPartitionStreamRequest(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest value) {
+        if (destroyPartitionStreamRequestBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
           serverMessage_ = value;
           onChanged();
         } else {
-          destroyReadStreamRequestBuilder_.setMessage(value);
+          destroyPartitionStreamRequestBuilder_.setMessage(value);
         }
         serverMessageCase_ = 6;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
        */
-      public Builder setDestroyReadStreamRequest(
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.Builder builderForValue) {
-        if (destroyReadStreamRequestBuilder_ == null) {
+      public Builder setDestroyPartitionStreamRequest(
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.Builder builderForValue) {
+        if (destroyPartitionStreamRequestBuilder_ == null) {
           serverMessage_ = builderForValue.build();
           onChanged();
         } else {
-          destroyReadStreamRequestBuilder_.setMessage(builderForValue.build());
+          destroyPartitionStreamRequestBuilder_.setMessage(builderForValue.build());
         }
         serverMessageCase_ = 6;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
        */
-      public Builder mergeDestroyReadStreamRequest(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest value) {
-        if (destroyReadStreamRequestBuilder_ == null) {
+      public Builder mergeDestroyPartitionStreamRequest(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest value) {
+        if (destroyPartitionStreamRequestBuilder_ == null) {
           if (serverMessageCase_ == 6 &&
-              serverMessage_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.getDefaultInstance()) {
-            serverMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.newBuilder((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest) serverMessage_)
+              serverMessage_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.getDefaultInstance()) {
+            serverMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.newBuilder((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest) serverMessage_)
                 .mergeFrom(value).buildPartial();
           } else {
             serverMessage_ = value;
@@ -46209,18 +46419,18 @@ public final class YdbPersqueueV1 {
           onChanged();
         } else {
           if (serverMessageCase_ == 6) {
-            destroyReadStreamRequestBuilder_.mergeFrom(value);
+            destroyPartitionStreamRequestBuilder_.mergeFrom(value);
           }
-          destroyReadStreamRequestBuilder_.setMessage(value);
+          destroyPartitionStreamRequestBuilder_.setMessage(value);
         }
         serverMessageCase_ = 6;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
        */
-      public Builder clearDestroyReadStreamRequest() {
-        if (destroyReadStreamRequestBuilder_ == null) {
+      public Builder clearDestroyPartitionStreamRequest() {
+        if (destroyPartitionStreamRequestBuilder_ == null) {
           if (serverMessageCase_ == 6) {
             serverMessageCase_ = 0;
             serverMessage_ = null;
@@ -46231,49 +46441,49 @@ public final class YdbPersqueueV1 {
             serverMessageCase_ = 0;
             serverMessage_ = null;
           }
-          destroyReadStreamRequestBuilder_.clear();
+          destroyPartitionStreamRequestBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.Builder getDestroyReadStreamRequestBuilder() {
-        return getDestroyReadStreamRequestFieldBuilder().getBuilder();
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.Builder getDestroyPartitionStreamRequestBuilder() {
+        return getDestroyPartitionStreamRequestFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequestOrBuilder getDestroyReadStreamRequestOrBuilder() {
-        if ((serverMessageCase_ == 6) && (destroyReadStreamRequestBuilder_ != null)) {
-          return destroyReadStreamRequestBuilder_.getMessageOrBuilder();
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequestOrBuilder getDestroyPartitionStreamRequestOrBuilder() {
+        if ((serverMessageCase_ == 6) && (destroyPartitionStreamRequestBuilder_ != null)) {
+          return destroyPartitionStreamRequestBuilder_.getMessageOrBuilder();
         } else {
           if (serverMessageCase_ == 6) {
-            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest) serverMessage_;
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest) serverMessage_;
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyReadStreamRequest destroy_read_stream_request = 6;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest destroy_partition_stream_request = 6;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequestOrBuilder> 
-          getDestroyReadStreamRequestFieldBuilder() {
-        if (destroyReadStreamRequestBuilder_ == null) {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequestOrBuilder> 
+          getDestroyPartitionStreamRequestFieldBuilder() {
+        if (destroyPartitionStreamRequestBuilder_ == null) {
           if (!(serverMessageCase_ == 6)) {
-            serverMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.getDefaultInstance();
+            serverMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.getDefaultInstance();
           }
-          destroyReadStreamRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequestOrBuilder>(
-                  (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyReadStreamRequest) serverMessage_,
+          destroyPartitionStreamRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequestOrBuilder>(
+                  (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.DestroyPartitionStreamRequest) serverMessage_,
                   getParentForChildren(),
                   isClean());
           serverMessage_ = null;
         }
         serverMessageCase_ = 6;
         onChanged();;
-        return destroyReadStreamRequestBuilder_;
+        return destroyPartitionStreamRequestBuilder_;
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -46413,67 +46623,67 @@ public final class YdbPersqueueV1 {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponseOrBuilder> readStreamStatusResponseBuilder_;
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponseOrBuilder> partitionStreamStatusResponseBuilder_;
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
        */
-      public boolean hasReadStreamStatusResponse() {
+      public boolean hasPartitionStreamStatusResponse() {
         return serverMessageCase_ == 8;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse getReadStreamStatusResponse() {
-        if (readStreamStatusResponseBuilder_ == null) {
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse getPartitionStreamStatusResponse() {
+        if (partitionStreamStatusResponseBuilder_ == null) {
           if (serverMessageCase_ == 8) {
-            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse) serverMessage_;
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse) serverMessage_;
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.getDefaultInstance();
         } else {
           if (serverMessageCase_ == 8) {
-            return readStreamStatusResponseBuilder_.getMessage();
+            return partitionStreamStatusResponseBuilder_.getMessage();
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
        */
-      public Builder setReadStreamStatusResponse(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse value) {
-        if (readStreamStatusResponseBuilder_ == null) {
+      public Builder setPartitionStreamStatusResponse(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse value) {
+        if (partitionStreamStatusResponseBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
           serverMessage_ = value;
           onChanged();
         } else {
-          readStreamStatusResponseBuilder_.setMessage(value);
+          partitionStreamStatusResponseBuilder_.setMessage(value);
         }
         serverMessageCase_ = 8;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
        */
-      public Builder setReadStreamStatusResponse(
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.Builder builderForValue) {
-        if (readStreamStatusResponseBuilder_ == null) {
+      public Builder setPartitionStreamStatusResponse(
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.Builder builderForValue) {
+        if (partitionStreamStatusResponseBuilder_ == null) {
           serverMessage_ = builderForValue.build();
           onChanged();
         } else {
-          readStreamStatusResponseBuilder_.setMessage(builderForValue.build());
+          partitionStreamStatusResponseBuilder_.setMessage(builderForValue.build());
         }
         serverMessageCase_ = 8;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
        */
-      public Builder mergeReadStreamStatusResponse(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse value) {
-        if (readStreamStatusResponseBuilder_ == null) {
+      public Builder mergePartitionStreamStatusResponse(tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse value) {
+        if (partitionStreamStatusResponseBuilder_ == null) {
           if (serverMessageCase_ == 8 &&
-              serverMessage_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.getDefaultInstance()) {
-            serverMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.newBuilder((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse) serverMessage_)
+              serverMessage_ != tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.getDefaultInstance()) {
+            serverMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.newBuilder((tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse) serverMessage_)
                 .mergeFrom(value).buildPartial();
           } else {
             serverMessage_ = value;
@@ -46481,18 +46691,18 @@ public final class YdbPersqueueV1 {
           onChanged();
         } else {
           if (serverMessageCase_ == 8) {
-            readStreamStatusResponseBuilder_.mergeFrom(value);
+            partitionStreamStatusResponseBuilder_.mergeFrom(value);
           }
-          readStreamStatusResponseBuilder_.setMessage(value);
+          partitionStreamStatusResponseBuilder_.setMessage(value);
         }
         serverMessageCase_ = 8;
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
        */
-      public Builder clearReadStreamStatusResponse() {
-        if (readStreamStatusResponseBuilder_ == null) {
+      public Builder clearPartitionStreamStatusResponse() {
+        if (partitionStreamStatusResponseBuilder_ == null) {
           if (serverMessageCase_ == 8) {
             serverMessageCase_ = 0;
             serverMessage_ = null;
@@ -46503,49 +46713,49 @@ public final class YdbPersqueueV1 {
             serverMessageCase_ = 0;
             serverMessage_ = null;
           }
-          readStreamStatusResponseBuilder_.clear();
+          partitionStreamStatusResponseBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.Builder getReadStreamStatusResponseBuilder() {
-        return getReadStreamStatusResponseFieldBuilder().getBuilder();
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.Builder getPartitionStreamStatusResponseBuilder() {
+        return getPartitionStreamStatusResponseFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponseOrBuilder getReadStreamStatusResponseOrBuilder() {
-        if ((serverMessageCase_ == 8) && (readStreamStatusResponseBuilder_ != null)) {
-          return readStreamStatusResponseBuilder_.getMessageOrBuilder();
+      public tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponseOrBuilder getPartitionStreamStatusResponseOrBuilder() {
+        if ((serverMessageCase_ == 8) && (partitionStreamStatusResponseBuilder_ != null)) {
+          return partitionStreamStatusResponseBuilder_.getMessageOrBuilder();
         } else {
           if (serverMessageCase_ == 8) {
-            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse) serverMessage_;
+            return (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse) serverMessage_;
           }
-          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.getDefaultInstance();
+          return tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.ReadStreamStatusResponse read_stream_status_response = 8;</code>
+       * <code>.Ydb.PersQueue.V1.StreamingReadServerMessageNew.PartitionStreamStatusResponse partition_stream_status_response = 8;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponseOrBuilder> 
-          getReadStreamStatusResponseFieldBuilder() {
-        if (readStreamStatusResponseBuilder_ == null) {
+          tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponseOrBuilder> 
+          getPartitionStreamStatusResponseFieldBuilder() {
+        if (partitionStreamStatusResponseBuilder_ == null) {
           if (!(serverMessageCase_ == 8)) {
-            serverMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.getDefaultInstance();
+            serverMessage_ = tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.getDefaultInstance();
           }
-          readStreamStatusResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponseOrBuilder>(
-                  (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.ReadStreamStatusResponse) serverMessage_,
+          partitionStreamStatusResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse.Builder, tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponseOrBuilder>(
+                  (tech.ydb.persqueue.YdbPersqueueV1.StreamingReadServerMessageNew.PartitionStreamStatusResponse) serverMessage_,
                   getParentForChildren(),
                   isClean());
           serverMessage_ = null;
         }
         serverMessageCase_ = 8;
         onChanged();;
-        return readStreamStatusResponseBuilder_;
+        return partitionStreamStatusResponseBuilder_;
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -47424,8 +47634,8 @@ public final class YdbPersqueueV1 {
 
   }
 
-  public interface ReadStreamOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.ReadStream)
+  public interface PartitionStreamOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.PartitionStream)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -47484,16 +47694,16 @@ public final class YdbPersqueueV1 {
 
     /**
      * <pre>
-     * Identitifier of read stream. Unique inside one RPC call.
+     * Identitifier of partition stream. Unique inside one RPC call.
      * </pre>
      *
-     * <code>int64 read_stream_id = 6;</code>
+     * <code>int64 partition_stream_id = 6;</code>
      */
-    long getReadStreamId();
+    long getPartitionStreamId();
 
     /**
      * <pre>
-     * Opaque blob. Provide it with read stream in state for session reconnects.
+     * Opaque blob. Provide it with partition stream in state for session reconnects.
      * </pre>
      *
      * <code>bytes connection_meta = 7;</code>
@@ -47503,26 +47713,26 @@ public final class YdbPersqueueV1 {
   /**
    * <pre>
    **
-   * Message that represens concrete partition read stream.
+   * Message that represens concrete partition partition stream.
    * </pre>
    *
-   * Protobuf type {@code Ydb.PersQueue.V1.ReadStream}
+   * Protobuf type {@code Ydb.PersQueue.V1.PartitionStream}
    */
-  public  static final class ReadStream extends
+  public  static final class PartitionStream extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.ReadStream)
-      ReadStreamOrBuilder {
+      // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.PartitionStream)
+      PartitionStreamOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ReadStream.newBuilder() to construct.
-    private ReadStream(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use PartitionStream.newBuilder() to construct.
+    private PartitionStream(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ReadStream() {
+    private PartitionStream() {
       topic_ = "";
       cluster_ = "";
       partitionId_ = 0L;
       partitionGroupId_ = 0L;
-      readStreamId_ = 0L;
+      partitionStreamId_ = 0L;
       connectionMeta_ = com.google.protobuf.ByteString.EMPTY;
     }
 
@@ -47531,7 +47741,7 @@ public final class YdbPersqueueV1 {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ReadStream(
+    private PartitionStream(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -47578,7 +47788,7 @@ public final class YdbPersqueueV1 {
             }
             case 48: {
 
-              readStreamId_ = input.readInt64();
+              partitionStreamId_ = input.readInt64();
               break;
             }
             case 58: {
@@ -47600,14 +47810,14 @@ public final class YdbPersqueueV1 {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_ReadStream_descriptor;
+      return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_PartitionStream_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_ReadStream_fieldAccessorTable
+      return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_PartitionStream_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              tech.ydb.persqueue.YdbPersqueueV1.ReadStream.class, tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder.class);
+              tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.class, tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder.class);
     }
 
     public static final int TOPIC_FIELD_NUMBER = 1;
@@ -47720,24 +47930,24 @@ public final class YdbPersqueueV1 {
       return partitionGroupId_;
     }
 
-    public static final int READ_STREAM_ID_FIELD_NUMBER = 6;
-    private long readStreamId_;
+    public static final int PARTITION_STREAM_ID_FIELD_NUMBER = 6;
+    private long partitionStreamId_;
     /**
      * <pre>
-     * Identitifier of read stream. Unique inside one RPC call.
+     * Identitifier of partition stream. Unique inside one RPC call.
      * </pre>
      *
-     * <code>int64 read_stream_id = 6;</code>
+     * <code>int64 partition_stream_id = 6;</code>
      */
-    public long getReadStreamId() {
-      return readStreamId_;
+    public long getPartitionStreamId() {
+      return partitionStreamId_;
     }
 
     public static final int CONNECTION_META_FIELD_NUMBER = 7;
     private com.google.protobuf.ByteString connectionMeta_;
     /**
      * <pre>
-     * Opaque blob. Provide it with read stream in state for session reconnects.
+     * Opaque blob. Provide it with partition stream in state for session reconnects.
      * </pre>
      *
      * <code>bytes connection_meta = 7;</code>
@@ -47770,8 +47980,8 @@ public final class YdbPersqueueV1 {
       if (partitionGroupId_ != 0L) {
         output.writeInt64(4, partitionGroupId_);
       }
-      if (readStreamId_ != 0L) {
-        output.writeInt64(6, readStreamId_);
+      if (partitionStreamId_ != 0L) {
+        output.writeInt64(6, partitionStreamId_);
       }
       if (!connectionMeta_.isEmpty()) {
         output.writeBytes(7, connectionMeta_);
@@ -47798,9 +48008,9 @@ public final class YdbPersqueueV1 {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(4, partitionGroupId_);
       }
-      if (readStreamId_ != 0L) {
+      if (partitionStreamId_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(6, readStreamId_);
+          .computeInt64Size(6, partitionStreamId_);
       }
       if (!connectionMeta_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream
@@ -47816,10 +48026,10 @@ public final class YdbPersqueueV1 {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.ReadStream)) {
+      if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.PartitionStream)) {
         return super.equals(obj);
       }
-      tech.ydb.persqueue.YdbPersqueueV1.ReadStream other = (tech.ydb.persqueue.YdbPersqueueV1.ReadStream) obj;
+      tech.ydb.persqueue.YdbPersqueueV1.PartitionStream other = (tech.ydb.persqueue.YdbPersqueueV1.PartitionStream) obj;
 
       boolean result = true;
       result = result && getTopic()
@@ -47830,8 +48040,8 @@ public final class YdbPersqueueV1 {
           == other.getPartitionId());
       result = result && (getPartitionGroupId()
           == other.getPartitionGroupId());
-      result = result && (getReadStreamId()
-          == other.getReadStreamId());
+      result = result && (getPartitionStreamId()
+          == other.getPartitionStreamId());
       result = result && getConnectionMeta()
           .equals(other.getConnectionMeta());
       result = result && unknownFields.equals(other.unknownFields);
@@ -47855,9 +48065,9 @@ public final class YdbPersqueueV1 {
       hash = (37 * hash) + PARTITION_GROUP_ID_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getPartitionGroupId());
-      hash = (37 * hash) + READ_STREAM_ID_FIELD_NUMBER;
+      hash = (37 * hash) + PARTITION_STREAM_ID_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getReadStreamId());
+          getPartitionStreamId());
       hash = (37 * hash) + CONNECTION_META_FIELD_NUMBER;
       hash = (53 * hash) + getConnectionMeta().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -47865,69 +48075,69 @@ public final class YdbPersqueueV1 {
       return hash;
     }
 
-    public static tech.ydb.persqueue.YdbPersqueueV1.ReadStream parseFrom(
+    public static tech.ydb.persqueue.YdbPersqueueV1.PartitionStream parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.persqueue.YdbPersqueueV1.ReadStream parseFrom(
+    public static tech.ydb.persqueue.YdbPersqueueV1.PartitionStream parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.persqueue.YdbPersqueueV1.ReadStream parseFrom(
+    public static tech.ydb.persqueue.YdbPersqueueV1.PartitionStream parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.persqueue.YdbPersqueueV1.ReadStream parseFrom(
+    public static tech.ydb.persqueue.YdbPersqueueV1.PartitionStream parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.persqueue.YdbPersqueueV1.ReadStream parseFrom(byte[] data)
+    public static tech.ydb.persqueue.YdbPersqueueV1.PartitionStream parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.persqueue.YdbPersqueueV1.ReadStream parseFrom(
+    public static tech.ydb.persqueue.YdbPersqueueV1.PartitionStream parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.persqueue.YdbPersqueueV1.ReadStream parseFrom(java.io.InputStream input)
+    public static tech.ydb.persqueue.YdbPersqueueV1.PartitionStream parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.persqueue.YdbPersqueueV1.ReadStream parseFrom(
+    public static tech.ydb.persqueue.YdbPersqueueV1.PartitionStream parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.persqueue.YdbPersqueueV1.ReadStream parseDelimitedFrom(java.io.InputStream input)
+    public static tech.ydb.persqueue.YdbPersqueueV1.PartitionStream parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static tech.ydb.persqueue.YdbPersqueueV1.ReadStream parseDelimitedFrom(
+    public static tech.ydb.persqueue.YdbPersqueueV1.PartitionStream parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.persqueue.YdbPersqueueV1.ReadStream parseFrom(
+    public static tech.ydb.persqueue.YdbPersqueueV1.PartitionStream parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.persqueue.YdbPersqueueV1.ReadStream parseFrom(
+    public static tech.ydb.persqueue.YdbPersqueueV1.PartitionStream parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -47939,7 +48149,7 @@ public final class YdbPersqueueV1 {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.ReadStream prototype) {
+    public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.PartitionStream prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -47956,28 +48166,28 @@ public final class YdbPersqueueV1 {
     /**
      * <pre>
      **
-     * Message that represens concrete partition read stream.
+     * Message that represens concrete partition partition stream.
      * </pre>
      *
-     * Protobuf type {@code Ydb.PersQueue.V1.ReadStream}
+     * Protobuf type {@code Ydb.PersQueue.V1.PartitionStream}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.ReadStream)
-        tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.PartitionStream)
+        tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_ReadStream_descriptor;
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_PartitionStream_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_ReadStream_fieldAccessorTable
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_PartitionStream_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.persqueue.YdbPersqueueV1.ReadStream.class, tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder.class);
+                tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.class, tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder.class);
       }
 
-      // Construct using tech.ydb.persqueue.YdbPersqueueV1.ReadStream.newBuilder()
+      // Construct using tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -48002,7 +48212,7 @@ public final class YdbPersqueueV1 {
 
         partitionGroupId_ = 0L;
 
-        readStreamId_ = 0L;
+        partitionStreamId_ = 0L;
 
         connectionMeta_ = com.google.protobuf.ByteString.EMPTY;
 
@@ -48011,28 +48221,28 @@ public final class YdbPersqueueV1 {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_ReadStream_descriptor;
+        return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_PartitionStream_descriptor;
       }
 
-      public tech.ydb.persqueue.YdbPersqueueV1.ReadStream getDefaultInstanceForType() {
-        return tech.ydb.persqueue.YdbPersqueueV1.ReadStream.getDefaultInstance();
+      public tech.ydb.persqueue.YdbPersqueueV1.PartitionStream getDefaultInstanceForType() {
+        return tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.getDefaultInstance();
       }
 
-      public tech.ydb.persqueue.YdbPersqueueV1.ReadStream build() {
-        tech.ydb.persqueue.YdbPersqueueV1.ReadStream result = buildPartial();
+      public tech.ydb.persqueue.YdbPersqueueV1.PartitionStream build() {
+        tech.ydb.persqueue.YdbPersqueueV1.PartitionStream result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public tech.ydb.persqueue.YdbPersqueueV1.ReadStream buildPartial() {
-        tech.ydb.persqueue.YdbPersqueueV1.ReadStream result = new tech.ydb.persqueue.YdbPersqueueV1.ReadStream(this);
+      public tech.ydb.persqueue.YdbPersqueueV1.PartitionStream buildPartial() {
+        tech.ydb.persqueue.YdbPersqueueV1.PartitionStream result = new tech.ydb.persqueue.YdbPersqueueV1.PartitionStream(this);
         result.topic_ = topic_;
         result.cluster_ = cluster_;
         result.partitionId_ = partitionId_;
         result.partitionGroupId_ = partitionGroupId_;
-        result.readStreamId_ = readStreamId_;
+        result.partitionStreamId_ = partitionStreamId_;
         result.connectionMeta_ = connectionMeta_;
         onBuilt();
         return result;
@@ -48065,16 +48275,16 @@ public final class YdbPersqueueV1 {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.ReadStream) {
-          return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.ReadStream)other);
+        if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.PartitionStream) {
+          return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.PartitionStream)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.ReadStream other) {
-        if (other == tech.ydb.persqueue.YdbPersqueueV1.ReadStream.getDefaultInstance()) return this;
+      public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.PartitionStream other) {
+        if (other == tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.getDefaultInstance()) return this;
         if (!other.getTopic().isEmpty()) {
           topic_ = other.topic_;
           onChanged();
@@ -48089,8 +48299,8 @@ public final class YdbPersqueueV1 {
         if (other.getPartitionGroupId() != 0L) {
           setPartitionGroupId(other.getPartitionGroupId());
         }
-        if (other.getReadStreamId() != 0L) {
-          setReadStreamId(other.getReadStreamId());
+        if (other.getPartitionStreamId() != 0L) {
+          setPartitionStreamId(other.getPartitionStreamId());
         }
         if (other.getConnectionMeta() != com.google.protobuf.ByteString.EMPTY) {
           setConnectionMeta(other.getConnectionMeta());
@@ -48108,11 +48318,11 @@ public final class YdbPersqueueV1 {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        tech.ydb.persqueue.YdbPersqueueV1.ReadStream parsedMessage = null;
+        tech.ydb.persqueue.YdbPersqueueV1.PartitionStream parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.ReadStream) e.getUnfinishedMessage();
+          parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.PartitionStream) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -48376,40 +48586,40 @@ public final class YdbPersqueueV1 {
         return this;
       }
 
-      private long readStreamId_ ;
+      private long partitionStreamId_ ;
       /**
        * <pre>
-       * Identitifier of read stream. Unique inside one RPC call.
+       * Identitifier of partition stream. Unique inside one RPC call.
        * </pre>
        *
-       * <code>int64 read_stream_id = 6;</code>
+       * <code>int64 partition_stream_id = 6;</code>
        */
-      public long getReadStreamId() {
-        return readStreamId_;
+      public long getPartitionStreamId() {
+        return partitionStreamId_;
       }
       /**
        * <pre>
-       * Identitifier of read stream. Unique inside one RPC call.
+       * Identitifier of partition stream. Unique inside one RPC call.
        * </pre>
        *
-       * <code>int64 read_stream_id = 6;</code>
+       * <code>int64 partition_stream_id = 6;</code>
        */
-      public Builder setReadStreamId(long value) {
+      public Builder setPartitionStreamId(long value) {
         
-        readStreamId_ = value;
+        partitionStreamId_ = value;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * Identitifier of read stream. Unique inside one RPC call.
+       * Identitifier of partition stream. Unique inside one RPC call.
        * </pre>
        *
-       * <code>int64 read_stream_id = 6;</code>
+       * <code>int64 partition_stream_id = 6;</code>
        */
-      public Builder clearReadStreamId() {
+      public Builder clearPartitionStreamId() {
         
-        readStreamId_ = 0L;
+        partitionStreamId_ = 0L;
         onChanged();
         return this;
       }
@@ -48417,7 +48627,7 @@ public final class YdbPersqueueV1 {
       private com.google.protobuf.ByteString connectionMeta_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <pre>
-       * Opaque blob. Provide it with read stream in state for session reconnects.
+       * Opaque blob. Provide it with partition stream in state for session reconnects.
        * </pre>
        *
        * <code>bytes connection_meta = 7;</code>
@@ -48427,7 +48637,7 @@ public final class YdbPersqueueV1 {
       }
       /**
        * <pre>
-       * Opaque blob. Provide it with read stream in state for session reconnects.
+       * Opaque blob. Provide it with partition stream in state for session reconnects.
        * </pre>
        *
        * <code>bytes connection_meta = 7;</code>
@@ -48443,7 +48653,7 @@ public final class YdbPersqueueV1 {
       }
       /**
        * <pre>
-       * Opaque blob. Provide it with read stream in state for session reconnects.
+       * Opaque blob. Provide it with partition stream in state for session reconnects.
        * </pre>
        *
        * <code>bytes connection_meta = 7;</code>
@@ -48465,39 +48675,39 @@ public final class YdbPersqueueV1 {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.ReadStream)
+      // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.PartitionStream)
     }
 
-    // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.ReadStream)
-    private static final tech.ydb.persqueue.YdbPersqueueV1.ReadStream DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.PartitionStream)
+    private static final tech.ydb.persqueue.YdbPersqueueV1.PartitionStream DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.ReadStream();
+      DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.PartitionStream();
     }
 
-    public static tech.ydb.persqueue.YdbPersqueueV1.ReadStream getDefaultInstance() {
+    public static tech.ydb.persqueue.YdbPersqueueV1.PartitionStream getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ReadStream>
-        PARSER = new com.google.protobuf.AbstractParser<ReadStream>() {
-      public ReadStream parsePartialFrom(
+    private static final com.google.protobuf.Parser<PartitionStream>
+        PARSER = new com.google.protobuf.AbstractParser<PartitionStream>() {
+      public PartitionStream parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ReadStream(input, extensionRegistry);
+          return new PartitionStream(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ReadStream> parser() {
+    public static com.google.protobuf.Parser<PartitionStream> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ReadStream> getParserForType() {
+    public com.google.protobuf.Parser<PartitionStream> getParserForType() {
       return PARSER;
     }
 
-    public tech.ydb.persqueue.YdbPersqueueV1.ReadStream getDefaultInstanceForType() {
+    public tech.ydb.persqueue.YdbPersqueueV1.PartitionStream getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -49749,8 +49959,8 @@ public final class YdbPersqueueV1 {
       /**
        * <pre>
        * Maximal size of client cache for message_group_id, ip and meta, per partition.
-       * There is separate caches for each partition read streams.
-       * There is separate caches for message group identifiers, ip and meta inside one partition read stream.
+       * There is separate caches for each partition partition streams.
+       * There is separate caches for message group identifiers, ip and meta inside one partition partition stream.
        * </pre>
        *
        * <code>int64 max_meta_cache_size = 10;</code>
@@ -50016,27 +50226,27 @@ public final class YdbPersqueueV1 {
           com.google.protobuf.MessageOrBuilder {
 
         /**
-         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        java.util.List<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState> 
-            getReadStreamsStatesList();
+        java.util.List<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState> 
+            getPartitionStreamsStatesList();
         /**
-         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState getReadStreamsStates(int index);
+        tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState getPartitionStreamsStates(int index);
         /**
-         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        int getReadStreamsStatesCount();
+        int getPartitionStreamsStatesCount();
         /**
-         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        java.util.List<? extends tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamStateOrBuilder> 
-            getReadStreamsStatesOrBuilderList();
+        java.util.List<? extends tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamStateOrBuilder> 
+            getPartitionStreamsStatesOrBuilderList();
         /**
-         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamStateOrBuilder getReadStreamsStatesOrBuilder(
+        tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamStateOrBuilder getPartitionStreamsStatesOrBuilder(
             int index);
       }
       /**
@@ -50056,7 +50266,7 @@ public final class YdbPersqueueV1 {
           super(builder);
         }
         private State() {
-          readStreamsStates_ = java.util.Collections.emptyList();
+          partitionStreamsStates_ = java.util.Collections.emptyList();
         }
 
         @java.lang.Override
@@ -50089,11 +50299,11 @@ public final class YdbPersqueueV1 {
                 }
                 case 10: {
                   if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                    readStreamsStates_ = new java.util.ArrayList<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState>();
+                    partitionStreamsStates_ = new java.util.ArrayList<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState>();
                     mutable_bitField0_ |= 0x00000001;
                   }
-                  readStreamsStates_.add(
-                      input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.parser(), extensionRegistry));
+                  partitionStreamsStates_.add(
+                      input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.parser(), extensionRegistry));
                   break;
                 }
               }
@@ -50105,7 +50315,7 @@ public final class YdbPersqueueV1 {
                 e).setUnfinishedMessage(this);
           } finally {
             if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-              readStreamsStates_ = java.util.Collections.unmodifiableList(readStreamsStates_);
+              partitionStreamsStates_ = java.util.Collections.unmodifiableList(partitionStreamsStates_);
             }
             this.unknownFields = unknownFields.build();
             makeExtensionsImmutable();
@@ -50123,34 +50333,34 @@ public final class YdbPersqueueV1 {
                   tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.class, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.Builder.class);
         }
 
-        public interface ReadStreamStateOrBuilder extends
-            // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState)
+        public interface PartitionStreamStateOrBuilder extends
+            // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState)
             com.google.protobuf.MessageOrBuilder {
 
           /**
            * <pre>
-           * Partition read stream.
+           * Partition partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+           * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
            */
-          boolean hasReadStream();
+          boolean hasPartitionStream();
           /**
            * <pre>
-           * Partition read stream.
+           * Partition partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+           * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
            */
-          tech.ydb.persqueue.YdbPersqueueV1.ReadStream getReadStream();
+          tech.ydb.persqueue.YdbPersqueueV1.PartitionStream getPartitionStream();
           /**
            * <pre>
-           * Partition read stream.
+           * Partition partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+           * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
            */
-          tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder getReadStreamOrBuilder();
+          tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder getPartitionStreamOrBuilder();
 
           /**
            * <pre>
@@ -50207,34 +50417,34 @@ public final class YdbPersqueueV1 {
 
           /**
            * <pre>
-           * Status of read stream.
+           * Status of partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status status = 4;</code>
+           * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status status = 4;</code>
            */
           int getStatusValue();
           /**
            * <pre>
-           * Status of read stream.
+           * Status of partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status status = 4;</code>
+           * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status status = 4;</code>
            */
-          tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status getStatus();
+          tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status getStatus();
         }
         /**
-         * Protobuf type {@code Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState}
+         * Protobuf type {@code Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState}
          */
-        public  static final class ReadStreamState extends
+        public  static final class PartitionStreamState extends
             com.google.protobuf.GeneratedMessageV3 implements
-            // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState)
-            ReadStreamStateOrBuilder {
+            // @@protoc_insertion_point(message_implements:Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState)
+            PartitionStreamStateOrBuilder {
         private static final long serialVersionUID = 0L;
-          // Use ReadStreamState.newBuilder() to construct.
-          private ReadStreamState(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+          // Use PartitionStreamState.newBuilder() to construct.
+          private PartitionStreamState(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
             super(builder);
           }
-          private ReadStreamState() {
+          private PartitionStreamState() {
             readOffset_ = 0L;
             offsetRanges_ = java.util.Collections.emptyList();
             status_ = 0;
@@ -50245,7 +50455,7 @@ public final class YdbPersqueueV1 {
           getUnknownFields() {
             return this.unknownFields;
           }
-          private ReadStreamState(
+          private PartitionStreamState(
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
@@ -50269,14 +50479,14 @@ public final class YdbPersqueueV1 {
                     break;
                   }
                   case 10: {
-                    tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder subBuilder = null;
-                    if (readStream_ != null) {
-                      subBuilder = readStream_.toBuilder();
+                    tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder subBuilder = null;
+                    if (partitionStream_ != null) {
+                      subBuilder = partitionStream_.toBuilder();
                     }
-                    readStream_ = input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.ReadStream.parser(), extensionRegistry);
+                    partitionStream_ = input.readMessage(tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.parser(), extensionRegistry);
                     if (subBuilder != null) {
-                      subBuilder.mergeFrom(readStream_);
-                      readStream_ = subBuilder.buildPartial();
+                      subBuilder.mergeFrom(partitionStream_);
+                      partitionStream_ = subBuilder.buildPartial();
                     }
 
                     break;
@@ -50318,18 +50528,18 @@ public final class YdbPersqueueV1 {
           }
           public static final com.google.protobuf.Descriptors.Descriptor
               getDescriptor() {
-            return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_ReadStreamState_descriptor;
+            return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_PartitionStreamState_descriptor;
           }
 
           protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
               internalGetFieldAccessorTable() {
-            return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_ReadStreamState_fieldAccessorTable
+            return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_PartitionStreamState_fieldAccessorTable
                 .ensureFieldAccessorsInitialized(
-                    tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.class, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Builder.class);
+                    tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.class, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Builder.class);
           }
 
           /**
-           * Protobuf enum {@code Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status}
+           * Protobuf enum {@code Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status}
            */
           public enum Status
               implements com.google.protobuf.ProtocolMessageEnum {
@@ -50359,7 +50569,7 @@ public final class YdbPersqueueV1 {
             DESTROYING(2),
             /**
              * <pre>
-             * Client sent Created or ResumeReadRequest message to server for this read stream.
+             * Client sent Created or ResumeReadRequest message to server for this partition stream.
              * </pre>
              *
              * <code>READING = 3;</code>
@@ -50367,7 +50577,7 @@ public final class YdbPersqueueV1 {
             READING(3),
             /**
              * <pre>
-             * Client sent StopReadRequest for this read stream.
+             * Client sent StopReadRequest for this partition stream.
              * </pre>
              *
              * <code>STOPPED = 4;</code>
@@ -50402,7 +50612,7 @@ public final class YdbPersqueueV1 {
             public static final int DESTROYING_VALUE = 2;
             /**
              * <pre>
-             * Client sent Created or ResumeReadRequest message to server for this read stream.
+             * Client sent Created or ResumeReadRequest message to server for this partition stream.
              * </pre>
              *
              * <code>READING = 3;</code>
@@ -50410,7 +50620,7 @@ public final class YdbPersqueueV1 {
             public static final int READING_VALUE = 3;
             /**
              * <pre>
-             * Client sent StopReadRequest for this read stream.
+             * Client sent StopReadRequest for this partition stream.
              * </pre>
              *
              * <code>STOPPED = 4;</code>
@@ -50467,7 +50677,7 @@ public final class YdbPersqueueV1 {
             }
             public static final com.google.protobuf.Descriptors.EnumDescriptor
                 getDescriptor() {
-              return tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.getDescriptor().getEnumTypes().get(0);
+              return tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.getDescriptor().getEnumTypes().get(0);
             }
 
             private static final Status[] VALUES = values();
@@ -50490,41 +50700,41 @@ public final class YdbPersqueueV1 {
               this.value = value;
             }
 
-            // @@protoc_insertion_point(enum_scope:Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status)
+            // @@protoc_insertion_point(enum_scope:Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status)
           }
 
           private int bitField0_;
-          public static final int READ_STREAM_FIELD_NUMBER = 1;
-          private tech.ydb.persqueue.YdbPersqueueV1.ReadStream readStream_;
+          public static final int PARTITION_STREAM_FIELD_NUMBER = 1;
+          private tech.ydb.persqueue.YdbPersqueueV1.PartitionStream partitionStream_;
           /**
            * <pre>
-           * Partition read stream.
+           * Partition partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+           * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
            */
-          public boolean hasReadStream() {
-            return readStream_ != null;
+          public boolean hasPartitionStream() {
+            return partitionStream_ != null;
           }
           /**
            * <pre>
-           * Partition read stream.
+           * Partition partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+           * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.ReadStream getReadStream() {
-            return readStream_ == null ? tech.ydb.persqueue.YdbPersqueueV1.ReadStream.getDefaultInstance() : readStream_;
+          public tech.ydb.persqueue.YdbPersqueueV1.PartitionStream getPartitionStream() {
+            return partitionStream_ == null ? tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.getDefaultInstance() : partitionStream_;
           }
           /**
            * <pre>
-           * Partition read stream.
+           * Partition partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+           * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder getReadStreamOrBuilder() {
-            return getReadStream();
+          public tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder getPartitionStreamOrBuilder() {
+            return getPartitionStream();
           }
 
           public static final int READ_OFFSET_FIELD_NUMBER = 2;
@@ -50599,24 +50809,24 @@ public final class YdbPersqueueV1 {
           private int status_;
           /**
            * <pre>
-           * Status of read stream.
+           * Status of partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status status = 4;</code>
+           * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status status = 4;</code>
            */
           public int getStatusValue() {
             return status_;
           }
           /**
            * <pre>
-           * Status of read stream.
+           * Status of partition stream.
            * </pre>
            *
-           * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status status = 4;</code>
+           * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status status = 4;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status getStatus() {
-            tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status result = tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status.valueOf(status_);
-            return result == null ? tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status.UNRECOGNIZED : result;
+          public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status getStatus() {
+            tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status result = tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status.valueOf(status_);
+            return result == null ? tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status.UNRECOGNIZED : result;
           }
 
           private byte memoizedIsInitialized = -1;
@@ -50631,8 +50841,8 @@ public final class YdbPersqueueV1 {
 
           public void writeTo(com.google.protobuf.CodedOutputStream output)
                               throws java.io.IOException {
-            if (readStream_ != null) {
-              output.writeMessage(1, getReadStream());
+            if (partitionStream_ != null) {
+              output.writeMessage(1, getPartitionStream());
             }
             if (readOffset_ != 0L) {
               output.writeInt64(2, readOffset_);
@@ -50640,7 +50850,7 @@ public final class YdbPersqueueV1 {
             for (int i = 0; i < offsetRanges_.size(); i++) {
               output.writeMessage(3, offsetRanges_.get(i));
             }
-            if (status_ != tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status.STATUS_UNSPECIFIED.getNumber()) {
+            if (status_ != tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status.STATUS_UNSPECIFIED.getNumber()) {
               output.writeEnum(4, status_);
             }
             unknownFields.writeTo(output);
@@ -50651,9 +50861,9 @@ public final class YdbPersqueueV1 {
             if (size != -1) return size;
 
             size = 0;
-            if (readStream_ != null) {
+            if (partitionStream_ != null) {
               size += com.google.protobuf.CodedOutputStream
-                .computeMessageSize(1, getReadStream());
+                .computeMessageSize(1, getPartitionStream());
             }
             if (readOffset_ != 0L) {
               size += com.google.protobuf.CodedOutputStream
@@ -50663,7 +50873,7 @@ public final class YdbPersqueueV1 {
               size += com.google.protobuf.CodedOutputStream
                 .computeMessageSize(3, offsetRanges_.get(i));
             }
-            if (status_ != tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status.STATUS_UNSPECIFIED.getNumber()) {
+            if (status_ != tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status.STATUS_UNSPECIFIED.getNumber()) {
               size += com.google.protobuf.CodedOutputStream
                 .computeEnumSize(4, status_);
             }
@@ -50677,16 +50887,16 @@ public final class YdbPersqueueV1 {
             if (obj == this) {
              return true;
             }
-            if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState)) {
+            if (!(obj instanceof tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState)) {
               return super.equals(obj);
             }
-            tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState other = (tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState) obj;
+            tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState other = (tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState) obj;
 
             boolean result = true;
-            result = result && (hasReadStream() == other.hasReadStream());
-            if (hasReadStream()) {
-              result = result && getReadStream()
-                  .equals(other.getReadStream());
+            result = result && (hasPartitionStream() == other.hasPartitionStream());
+            if (hasPartitionStream()) {
+              result = result && getPartitionStream()
+                  .equals(other.getPartitionStream());
             }
             result = result && (getReadOffset()
                 == other.getReadOffset());
@@ -50704,9 +50914,9 @@ public final class YdbPersqueueV1 {
             }
             int hash = 41;
             hash = (19 * hash) + getDescriptor().hashCode();
-            if (hasReadStream()) {
-              hash = (37 * hash) + READ_STREAM_FIELD_NUMBER;
-              hash = (53 * hash) + getReadStream().hashCode();
+            if (hasPartitionStream()) {
+              hash = (37 * hash) + PARTITION_STREAM_FIELD_NUMBER;
+              hash = (53 * hash) + getPartitionStream().hashCode();
             }
             hash = (37 * hash) + READ_OFFSET_FIELD_NUMBER;
             hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
@@ -50722,69 +50932,69 @@ public final class YdbPersqueueV1 {
             return hash;
           }
 
-          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState parseFrom(
               java.nio.ByteBuffer data)
               throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState parseFrom(
               java.nio.ByteBuffer data,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState parseFrom(
               com.google.protobuf.ByteString data)
               throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState parseFrom(
               com.google.protobuf.ByteString data,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState parseFrom(byte[] data)
+          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState parseFrom(byte[] data)
               throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState parseFrom(
               byte[] data,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState parseFrom(java.io.InputStream input)
+          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState parseFrom(java.io.InputStream input)
               throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                 .parseWithIOException(PARSER, input);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState parseFrom(
               java.io.InputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                 .parseWithIOException(PARSER, input, extensionRegistry);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState parseDelimitedFrom(java.io.InputStream input)
+          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState parseDelimitedFrom(java.io.InputStream input)
               throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                 .parseDelimitedWithIOException(PARSER, input);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState parseDelimitedFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState parseDelimitedFrom(
               java.io.InputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                 .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState parseFrom(
               com.google.protobuf.CodedInputStream input)
               throws java.io.IOException {
             return com.google.protobuf.GeneratedMessageV3
                 .parseWithIOException(PARSER, input);
           }
-          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState parseFrom(
+          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState parseFrom(
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws java.io.IOException {
@@ -50796,7 +51006,7 @@ public final class YdbPersqueueV1 {
           public static Builder newBuilder() {
             return DEFAULT_INSTANCE.toBuilder();
           }
-          public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState prototype) {
+          public static Builder newBuilder(tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState prototype) {
             return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
           }
           public Builder toBuilder() {
@@ -50811,25 +51021,25 @@ public final class YdbPersqueueV1 {
             return builder;
           }
           /**
-           * Protobuf type {@code Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState}
+           * Protobuf type {@code Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState}
            */
           public static final class Builder extends
               com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-              // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState)
-              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamStateOrBuilder {
+              // @@protoc_insertion_point(builder_implements:Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState)
+              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamStateOrBuilder {
             public static final com.google.protobuf.Descriptors.Descriptor
                 getDescriptor() {
-              return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_ReadStreamState_descriptor;
+              return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_PartitionStreamState_descriptor;
             }
 
             protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
                 internalGetFieldAccessorTable() {
-              return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_ReadStreamState_fieldAccessorTable
+              return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_PartitionStreamState_fieldAccessorTable
                   .ensureFieldAccessorsInitialized(
-                      tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.class, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Builder.class);
+                      tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.class, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Builder.class);
             }
 
-            // Construct using tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.newBuilder()
+            // Construct using tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.newBuilder()
             private Builder() {
               maybeForceBuilderInitialization();
             }
@@ -50847,11 +51057,11 @@ public final class YdbPersqueueV1 {
             }
             public Builder clear() {
               super.clear();
-              if (readStreamBuilder_ == null) {
-                readStream_ = null;
+              if (partitionStreamBuilder_ == null) {
+                partitionStream_ = null;
               } else {
-                readStream_ = null;
-                readStreamBuilder_ = null;
+                partitionStream_ = null;
+                partitionStreamBuilder_ = null;
               }
               readOffset_ = 0L;
 
@@ -50868,29 +51078,29 @@ public final class YdbPersqueueV1 {
 
             public com.google.protobuf.Descriptors.Descriptor
                 getDescriptorForType() {
-              return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_ReadStreamState_descriptor;
+              return tech.ydb.persqueue.YdbPersqueueV1.internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_PartitionStreamState_descriptor;
             }
 
-            public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState getDefaultInstanceForType() {
-              return tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.getDefaultInstance();
+            public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState getDefaultInstanceForType() {
+              return tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.getDefaultInstance();
             }
 
-            public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState build() {
-              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState result = buildPartial();
+            public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState build() {
+              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState result = buildPartial();
               if (!result.isInitialized()) {
                 throw newUninitializedMessageException(result);
               }
               return result;
             }
 
-            public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState buildPartial() {
-              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState result = new tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState(this);
+            public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState buildPartial() {
+              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState result = new tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState(this);
               int from_bitField0_ = bitField0_;
               int to_bitField0_ = 0;
-              if (readStreamBuilder_ == null) {
-                result.readStream_ = readStream_;
+              if (partitionStreamBuilder_ == null) {
+                result.partitionStream_ = partitionStream_;
               } else {
-                result.readStream_ = readStreamBuilder_.build();
+                result.partitionStream_ = partitionStreamBuilder_.build();
               }
               result.readOffset_ = readOffset_;
               if (offsetRangesBuilder_ == null) {
@@ -50935,18 +51145,18 @@ public final class YdbPersqueueV1 {
               return (Builder) super.addRepeatedField(field, value);
             }
             public Builder mergeFrom(com.google.protobuf.Message other) {
-              if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState) {
-                return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState)other);
+              if (other instanceof tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState) {
+                return mergeFrom((tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState)other);
               } else {
                 super.mergeFrom(other);
                 return this;
               }
             }
 
-            public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState other) {
-              if (other == tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.getDefaultInstance()) return this;
-              if (other.hasReadStream()) {
-                mergeReadStream(other.getReadStream());
+            public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState other) {
+              if (other == tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.getDefaultInstance()) return this;
+              if (other.hasPartitionStream()) {
+                mergePartitionStream(other.getPartitionStream());
               }
               if (other.getReadOffset() != 0L) {
                 setReadOffset(other.getReadOffset());
@@ -50993,11 +51203,11 @@ public final class YdbPersqueueV1 {
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws java.io.IOException {
-              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState parsedMessage = null;
+              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState parsedMessage = null;
               try {
                 parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
               } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-                parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState) e.getUnfinishedMessage();
+                parsedMessage = (tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState) e.getUnfinishedMessage();
                 throw e.unwrapIOException();
               } finally {
                 if (parsedMessage != null) {
@@ -51008,157 +51218,157 @@ public final class YdbPersqueueV1 {
             }
             private int bitField0_;
 
-            private tech.ydb.persqueue.YdbPersqueueV1.ReadStream readStream_ = null;
+            private tech.ydb.persqueue.YdbPersqueueV1.PartitionStream partitionStream_ = null;
             private com.google.protobuf.SingleFieldBuilderV3<
-                tech.ydb.persqueue.YdbPersqueueV1.ReadStream, tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder> readStreamBuilder_;
+                tech.ydb.persqueue.YdbPersqueueV1.PartitionStream, tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder> partitionStreamBuilder_;
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public boolean hasReadStream() {
-              return readStreamBuilder_ != null || readStream_ != null;
+            public boolean hasPartitionStream() {
+              return partitionStreamBuilder_ != null || partitionStream_ != null;
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public tech.ydb.persqueue.YdbPersqueueV1.ReadStream getReadStream() {
-              if (readStreamBuilder_ == null) {
-                return readStream_ == null ? tech.ydb.persqueue.YdbPersqueueV1.ReadStream.getDefaultInstance() : readStream_;
+            public tech.ydb.persqueue.YdbPersqueueV1.PartitionStream getPartitionStream() {
+              if (partitionStreamBuilder_ == null) {
+                return partitionStream_ == null ? tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.getDefaultInstance() : partitionStream_;
               } else {
-                return readStreamBuilder_.getMessage();
+                return partitionStreamBuilder_.getMessage();
               }
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public Builder setReadStream(tech.ydb.persqueue.YdbPersqueueV1.ReadStream value) {
-              if (readStreamBuilder_ == null) {
+            public Builder setPartitionStream(tech.ydb.persqueue.YdbPersqueueV1.PartitionStream value) {
+              if (partitionStreamBuilder_ == null) {
                 if (value == null) {
                   throw new NullPointerException();
                 }
-                readStream_ = value;
+                partitionStream_ = value;
                 onChanged();
               } else {
-                readStreamBuilder_.setMessage(value);
+                partitionStreamBuilder_.setMessage(value);
               }
 
               return this;
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public Builder setReadStream(
-                tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder builderForValue) {
-              if (readStreamBuilder_ == null) {
-                readStream_ = builderForValue.build();
+            public Builder setPartitionStream(
+                tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder builderForValue) {
+              if (partitionStreamBuilder_ == null) {
+                partitionStream_ = builderForValue.build();
                 onChanged();
               } else {
-                readStreamBuilder_.setMessage(builderForValue.build());
+                partitionStreamBuilder_.setMessage(builderForValue.build());
               }
 
               return this;
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public Builder mergeReadStream(tech.ydb.persqueue.YdbPersqueueV1.ReadStream value) {
-              if (readStreamBuilder_ == null) {
-                if (readStream_ != null) {
-                  readStream_ =
-                    tech.ydb.persqueue.YdbPersqueueV1.ReadStream.newBuilder(readStream_).mergeFrom(value).buildPartial();
+            public Builder mergePartitionStream(tech.ydb.persqueue.YdbPersqueueV1.PartitionStream value) {
+              if (partitionStreamBuilder_ == null) {
+                if (partitionStream_ != null) {
+                  partitionStream_ =
+                    tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.newBuilder(partitionStream_).mergeFrom(value).buildPartial();
                 } else {
-                  readStream_ = value;
+                  partitionStream_ = value;
                 }
                 onChanged();
               } else {
-                readStreamBuilder_.mergeFrom(value);
+                partitionStreamBuilder_.mergeFrom(value);
               }
 
               return this;
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public Builder clearReadStream() {
-              if (readStreamBuilder_ == null) {
-                readStream_ = null;
+            public Builder clearPartitionStream() {
+              if (partitionStreamBuilder_ == null) {
+                partitionStream_ = null;
                 onChanged();
               } else {
-                readStream_ = null;
-                readStreamBuilder_ = null;
+                partitionStream_ = null;
+                partitionStreamBuilder_ = null;
               }
 
               return this;
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder getReadStreamBuilder() {
+            public tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder getPartitionStreamBuilder() {
               
               onChanged();
-              return getReadStreamFieldBuilder().getBuilder();
+              return getPartitionStreamFieldBuilder().getBuilder();
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
-            public tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder getReadStreamOrBuilder() {
-              if (readStreamBuilder_ != null) {
-                return readStreamBuilder_.getMessageOrBuilder();
+            public tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder getPartitionStreamOrBuilder() {
+              if (partitionStreamBuilder_ != null) {
+                return partitionStreamBuilder_.getMessageOrBuilder();
               } else {
-                return readStream_ == null ?
-                    tech.ydb.persqueue.YdbPersqueueV1.ReadStream.getDefaultInstance() : readStream_;
+                return partitionStream_ == null ?
+                    tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.getDefaultInstance() : partitionStream_;
               }
             }
             /**
              * <pre>
-             * Partition read stream.
+             * Partition partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.ReadStream read_stream = 1;</code>
+             * <code>.Ydb.PersQueue.V1.PartitionStream partition_stream = 1;</code>
              */
             private com.google.protobuf.SingleFieldBuilderV3<
-                tech.ydb.persqueue.YdbPersqueueV1.ReadStream, tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder> 
-                getReadStreamFieldBuilder() {
-              if (readStreamBuilder_ == null) {
-                readStreamBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-                    tech.ydb.persqueue.YdbPersqueueV1.ReadStream, tech.ydb.persqueue.YdbPersqueueV1.ReadStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.ReadStreamOrBuilder>(
-                        getReadStream(),
+                tech.ydb.persqueue.YdbPersqueueV1.PartitionStream, tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder> 
+                getPartitionStreamFieldBuilder() {
+              if (partitionStreamBuilder_ == null) {
+                partitionStreamBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                    tech.ydb.persqueue.YdbPersqueueV1.PartitionStream, tech.ydb.persqueue.YdbPersqueueV1.PartitionStream.Builder, tech.ydb.persqueue.YdbPersqueueV1.PartitionStreamOrBuilder>(
+                        getPartitionStream(),
                         getParentForChildren(),
                         isClean());
-                readStream_ = null;
+                partitionStream_ = null;
               }
-              return readStreamBuilder_;
+              return partitionStreamBuilder_;
             }
 
             private long readOffset_ ;
@@ -51514,20 +51724,20 @@ public final class YdbPersqueueV1 {
             private int status_ = 0;
             /**
              * <pre>
-             * Status of read stream.
+             * Status of partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status status = 4;</code>
+             * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status status = 4;</code>
              */
             public int getStatusValue() {
               return status_;
             }
             /**
              * <pre>
-             * Status of read stream.
+             * Status of partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status status = 4;</code>
+             * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status status = 4;</code>
              */
             public Builder setStatusValue(int value) {
               status_ = value;
@@ -51536,23 +51746,23 @@ public final class YdbPersqueueV1 {
             }
             /**
              * <pre>
-             * Status of read stream.
+             * Status of partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status status = 4;</code>
+             * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status status = 4;</code>
              */
-            public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status getStatus() {
-              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status result = tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status.valueOf(status_);
-              return result == null ? tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status.UNRECOGNIZED : result;
+            public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status getStatus() {
+              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status result = tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status.valueOf(status_);
+              return result == null ? tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status.UNRECOGNIZED : result;
             }
             /**
              * <pre>
-             * Status of read stream.
+             * Status of partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status status = 4;</code>
+             * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status status = 4;</code>
              */
-            public Builder setStatus(tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status value) {
+            public Builder setStatus(tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status value) {
               if (value == null) {
                 throw new NullPointerException();
               }
@@ -51563,10 +51773,10 @@ public final class YdbPersqueueV1 {
             }
             /**
              * <pre>
-             * Status of read stream.
+             * Status of partition stream.
              * </pre>
              *
-             * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Status status = 4;</code>
+             * <code>.Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Status status = 4;</code>
              */
             public Builder clearStatus() {
               
@@ -51585,77 +51795,77 @@ public final class YdbPersqueueV1 {
             }
 
 
-            // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState)
+            // @@protoc_insertion_point(builder_scope:Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState)
           }
 
-          // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState)
-          private static final tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState DEFAULT_INSTANCE;
+          // @@protoc_insertion_point(class_scope:Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState)
+          private static final tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState DEFAULT_INSTANCE;
           static {
-            DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState();
+            DEFAULT_INSTANCE = new tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState();
           }
 
-          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState getDefaultInstance() {
+          public static tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState getDefaultInstance() {
             return DEFAULT_INSTANCE;
           }
 
-          private static final com.google.protobuf.Parser<ReadStreamState>
-              PARSER = new com.google.protobuf.AbstractParser<ReadStreamState>() {
-            public ReadStreamState parsePartialFrom(
+          private static final com.google.protobuf.Parser<PartitionStreamState>
+              PARSER = new com.google.protobuf.AbstractParser<PartitionStreamState>() {
+            public PartitionStreamState parsePartialFrom(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws com.google.protobuf.InvalidProtocolBufferException {
-                return new ReadStreamState(input, extensionRegistry);
+                return new PartitionStreamState(input, extensionRegistry);
             }
           };
 
-          public static com.google.protobuf.Parser<ReadStreamState> parser() {
+          public static com.google.protobuf.Parser<PartitionStreamState> parser() {
             return PARSER;
           }
 
           @java.lang.Override
-          public com.google.protobuf.Parser<ReadStreamState> getParserForType() {
+          public com.google.protobuf.Parser<PartitionStreamState> getParserForType() {
             return PARSER;
           }
 
-          public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState getDefaultInstanceForType() {
+          public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState getDefaultInstanceForType() {
             return DEFAULT_INSTANCE;
           }
 
         }
 
-        public static final int READ_STREAMS_STATES_FIELD_NUMBER = 1;
-        private java.util.List<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState> readStreamsStates_;
+        public static final int PARTITION_STREAMS_STATES_FIELD_NUMBER = 1;
+        private java.util.List<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState> partitionStreamsStates_;
         /**
-         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState> getReadStreamsStatesList() {
-          return readStreamsStates_;
+        public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState> getPartitionStreamsStatesList() {
+          return partitionStreamsStates_;
         }
         /**
-         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        public java.util.List<? extends tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamStateOrBuilder> 
-            getReadStreamsStatesOrBuilderList() {
-          return readStreamsStates_;
+        public java.util.List<? extends tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamStateOrBuilder> 
+            getPartitionStreamsStatesOrBuilderList() {
+          return partitionStreamsStates_;
         }
         /**
-         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        public int getReadStreamsStatesCount() {
-          return readStreamsStates_.size();
+        public int getPartitionStreamsStatesCount() {
+          return partitionStreamsStates_.size();
         }
         /**
-         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState getReadStreamsStates(int index) {
-          return readStreamsStates_.get(index);
+        public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState getPartitionStreamsStates(int index) {
+          return partitionStreamsStates_.get(index);
         }
         /**
-         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+         * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
          */
-        public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamStateOrBuilder getReadStreamsStatesOrBuilder(
+        public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamStateOrBuilder getPartitionStreamsStatesOrBuilder(
             int index) {
-          return readStreamsStates_.get(index);
+          return partitionStreamsStates_.get(index);
         }
 
         private byte memoizedIsInitialized = -1;
@@ -51670,8 +51880,8 @@ public final class YdbPersqueueV1 {
 
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                             throws java.io.IOException {
-          for (int i = 0; i < readStreamsStates_.size(); i++) {
-            output.writeMessage(1, readStreamsStates_.get(i));
+          for (int i = 0; i < partitionStreamsStates_.size(); i++) {
+            output.writeMessage(1, partitionStreamsStates_.get(i));
           }
           unknownFields.writeTo(output);
         }
@@ -51681,9 +51891,9 @@ public final class YdbPersqueueV1 {
           if (size != -1) return size;
 
           size = 0;
-          for (int i = 0; i < readStreamsStates_.size(); i++) {
+          for (int i = 0; i < partitionStreamsStates_.size(); i++) {
             size += com.google.protobuf.CodedOutputStream
-              .computeMessageSize(1, readStreamsStates_.get(i));
+              .computeMessageSize(1, partitionStreamsStates_.get(i));
           }
           size += unknownFields.getSerializedSize();
           memoizedSize = size;
@@ -51701,8 +51911,8 @@ public final class YdbPersqueueV1 {
           tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State other = (tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State) obj;
 
           boolean result = true;
-          result = result && getReadStreamsStatesList()
-              .equals(other.getReadStreamsStatesList());
+          result = result && getPartitionStreamsStatesList()
+              .equals(other.getPartitionStreamsStatesList());
           result = result && unknownFields.equals(other.unknownFields);
           return result;
         }
@@ -51714,9 +51924,9 @@ public final class YdbPersqueueV1 {
           }
           int hash = 41;
           hash = (19 * hash) + getDescriptor().hashCode();
-          if (getReadStreamsStatesCount() > 0) {
-            hash = (37 * hash) + READ_STREAMS_STATES_FIELD_NUMBER;
-            hash = (53 * hash) + getReadStreamsStatesList().hashCode();
+          if (getPartitionStreamsStatesCount() > 0) {
+            hash = (37 * hash) + PARTITION_STREAMS_STATES_FIELD_NUMBER;
+            hash = (53 * hash) + getPartitionStreamsStatesList().hashCode();
           }
           hash = (29 * hash) + unknownFields.hashCode();
           memoizedHashCode = hash;
@@ -51847,16 +52057,16 @@ public final class YdbPersqueueV1 {
           private void maybeForceBuilderInitialization() {
             if (com.google.protobuf.GeneratedMessageV3
                     .alwaysUseFieldBuilders) {
-              getReadStreamsStatesFieldBuilder();
+              getPartitionStreamsStatesFieldBuilder();
             }
           }
           public Builder clear() {
             super.clear();
-            if (readStreamsStatesBuilder_ == null) {
-              readStreamsStates_ = java.util.Collections.emptyList();
+            if (partitionStreamsStatesBuilder_ == null) {
+              partitionStreamsStates_ = java.util.Collections.emptyList();
               bitField0_ = (bitField0_ & ~0x00000001);
             } else {
-              readStreamsStatesBuilder_.clear();
+              partitionStreamsStatesBuilder_.clear();
             }
             return this;
           }
@@ -51881,14 +52091,14 @@ public final class YdbPersqueueV1 {
           public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State buildPartial() {
             tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State result = new tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State(this);
             int from_bitField0_ = bitField0_;
-            if (readStreamsStatesBuilder_ == null) {
+            if (partitionStreamsStatesBuilder_ == null) {
               if (((bitField0_ & 0x00000001) == 0x00000001)) {
-                readStreamsStates_ = java.util.Collections.unmodifiableList(readStreamsStates_);
+                partitionStreamsStates_ = java.util.Collections.unmodifiableList(partitionStreamsStates_);
                 bitField0_ = (bitField0_ & ~0x00000001);
               }
-              result.readStreamsStates_ = readStreamsStates_;
+              result.partitionStreamsStates_ = partitionStreamsStates_;
             } else {
-              result.readStreamsStates_ = readStreamsStatesBuilder_.build();
+              result.partitionStreamsStates_ = partitionStreamsStatesBuilder_.build();
             }
             onBuilt();
             return result;
@@ -51931,29 +52141,29 @@ public final class YdbPersqueueV1 {
 
           public Builder mergeFrom(tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State other) {
             if (other == tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.getDefaultInstance()) return this;
-            if (readStreamsStatesBuilder_ == null) {
-              if (!other.readStreamsStates_.isEmpty()) {
-                if (readStreamsStates_.isEmpty()) {
-                  readStreamsStates_ = other.readStreamsStates_;
+            if (partitionStreamsStatesBuilder_ == null) {
+              if (!other.partitionStreamsStates_.isEmpty()) {
+                if (partitionStreamsStates_.isEmpty()) {
+                  partitionStreamsStates_ = other.partitionStreamsStates_;
                   bitField0_ = (bitField0_ & ~0x00000001);
                 } else {
-                  ensureReadStreamsStatesIsMutable();
-                  readStreamsStates_.addAll(other.readStreamsStates_);
+                  ensurePartitionStreamsStatesIsMutable();
+                  partitionStreamsStates_.addAll(other.partitionStreamsStates_);
                 }
                 onChanged();
               }
             } else {
-              if (!other.readStreamsStates_.isEmpty()) {
-                if (readStreamsStatesBuilder_.isEmpty()) {
-                  readStreamsStatesBuilder_.dispose();
-                  readStreamsStatesBuilder_ = null;
-                  readStreamsStates_ = other.readStreamsStates_;
+              if (!other.partitionStreamsStates_.isEmpty()) {
+                if (partitionStreamsStatesBuilder_.isEmpty()) {
+                  partitionStreamsStatesBuilder_.dispose();
+                  partitionStreamsStatesBuilder_ = null;
+                  partitionStreamsStates_ = other.partitionStreamsStates_;
                   bitField0_ = (bitField0_ & ~0x00000001);
-                  readStreamsStatesBuilder_ = 
+                  partitionStreamsStatesBuilder_ = 
                     com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                       getReadStreamsStatesFieldBuilder() : null;
+                       getPartitionStreamsStatesFieldBuilder() : null;
                 } else {
-                  readStreamsStatesBuilder_.addAllMessages(other.readStreamsStates_);
+                  partitionStreamsStatesBuilder_.addAllMessages(other.partitionStreamsStates_);
                 }
               }
             }
@@ -51985,244 +52195,244 @@ public final class YdbPersqueueV1 {
           }
           private int bitField0_;
 
-          private java.util.List<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState> readStreamsStates_ =
+          private java.util.List<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState> partitionStreamsStates_ =
             java.util.Collections.emptyList();
-          private void ensureReadStreamsStatesIsMutable() {
+          private void ensurePartitionStreamsStatesIsMutable() {
             if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-              readStreamsStates_ = new java.util.ArrayList<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState>(readStreamsStates_);
+              partitionStreamsStates_ = new java.util.ArrayList<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState>(partitionStreamsStates_);
               bitField0_ |= 0x00000001;
              }
           }
 
           private com.google.protobuf.RepeatedFieldBuilderV3<
-              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Builder, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamStateOrBuilder> readStreamsStatesBuilder_;
+              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Builder, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamStateOrBuilder> partitionStreamsStatesBuilder_;
 
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState> getReadStreamsStatesList() {
-            if (readStreamsStatesBuilder_ == null) {
-              return java.util.Collections.unmodifiableList(readStreamsStates_);
+          public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState> getPartitionStreamsStatesList() {
+            if (partitionStreamsStatesBuilder_ == null) {
+              return java.util.Collections.unmodifiableList(partitionStreamsStates_);
             } else {
-              return readStreamsStatesBuilder_.getMessageList();
+              return partitionStreamsStatesBuilder_.getMessageList();
             }
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public int getReadStreamsStatesCount() {
-            if (readStreamsStatesBuilder_ == null) {
-              return readStreamsStates_.size();
+          public int getPartitionStreamsStatesCount() {
+            if (partitionStreamsStatesBuilder_ == null) {
+              return partitionStreamsStates_.size();
             } else {
-              return readStreamsStatesBuilder_.getCount();
+              return partitionStreamsStatesBuilder_.getCount();
             }
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState getReadStreamsStates(int index) {
-            if (readStreamsStatesBuilder_ == null) {
-              return readStreamsStates_.get(index);
+          public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState getPartitionStreamsStates(int index) {
+            if (partitionStreamsStatesBuilder_ == null) {
+              return partitionStreamsStates_.get(index);
             } else {
-              return readStreamsStatesBuilder_.getMessage(index);
+              return partitionStreamsStatesBuilder_.getMessage(index);
             }
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder setReadStreamsStates(
-              int index, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState value) {
-            if (readStreamsStatesBuilder_ == null) {
+          public Builder setPartitionStreamsStates(
+              int index, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState value) {
+            if (partitionStreamsStatesBuilder_ == null) {
               if (value == null) {
                 throw new NullPointerException();
               }
-              ensureReadStreamsStatesIsMutable();
-              readStreamsStates_.set(index, value);
+              ensurePartitionStreamsStatesIsMutable();
+              partitionStreamsStates_.set(index, value);
               onChanged();
             } else {
-              readStreamsStatesBuilder_.setMessage(index, value);
+              partitionStreamsStatesBuilder_.setMessage(index, value);
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder setReadStreamsStates(
-              int index, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Builder builderForValue) {
-            if (readStreamsStatesBuilder_ == null) {
-              ensureReadStreamsStatesIsMutable();
-              readStreamsStates_.set(index, builderForValue.build());
+          public Builder setPartitionStreamsStates(
+              int index, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Builder builderForValue) {
+            if (partitionStreamsStatesBuilder_ == null) {
+              ensurePartitionStreamsStatesIsMutable();
+              partitionStreamsStates_.set(index, builderForValue.build());
               onChanged();
             } else {
-              readStreamsStatesBuilder_.setMessage(index, builderForValue.build());
+              partitionStreamsStatesBuilder_.setMessage(index, builderForValue.build());
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder addReadStreamsStates(tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState value) {
-            if (readStreamsStatesBuilder_ == null) {
+          public Builder addPartitionStreamsStates(tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState value) {
+            if (partitionStreamsStatesBuilder_ == null) {
               if (value == null) {
                 throw new NullPointerException();
               }
-              ensureReadStreamsStatesIsMutable();
-              readStreamsStates_.add(value);
+              ensurePartitionStreamsStatesIsMutable();
+              partitionStreamsStates_.add(value);
               onChanged();
             } else {
-              readStreamsStatesBuilder_.addMessage(value);
+              partitionStreamsStatesBuilder_.addMessage(value);
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder addReadStreamsStates(
-              int index, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState value) {
-            if (readStreamsStatesBuilder_ == null) {
+          public Builder addPartitionStreamsStates(
+              int index, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState value) {
+            if (partitionStreamsStatesBuilder_ == null) {
               if (value == null) {
                 throw new NullPointerException();
               }
-              ensureReadStreamsStatesIsMutable();
-              readStreamsStates_.add(index, value);
+              ensurePartitionStreamsStatesIsMutable();
+              partitionStreamsStates_.add(index, value);
               onChanged();
             } else {
-              readStreamsStatesBuilder_.addMessage(index, value);
+              partitionStreamsStatesBuilder_.addMessage(index, value);
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder addReadStreamsStates(
-              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Builder builderForValue) {
-            if (readStreamsStatesBuilder_ == null) {
-              ensureReadStreamsStatesIsMutable();
-              readStreamsStates_.add(builderForValue.build());
+          public Builder addPartitionStreamsStates(
+              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Builder builderForValue) {
+            if (partitionStreamsStatesBuilder_ == null) {
+              ensurePartitionStreamsStatesIsMutable();
+              partitionStreamsStates_.add(builderForValue.build());
               onChanged();
             } else {
-              readStreamsStatesBuilder_.addMessage(builderForValue.build());
+              partitionStreamsStatesBuilder_.addMessage(builderForValue.build());
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder addReadStreamsStates(
-              int index, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Builder builderForValue) {
-            if (readStreamsStatesBuilder_ == null) {
-              ensureReadStreamsStatesIsMutable();
-              readStreamsStates_.add(index, builderForValue.build());
+          public Builder addPartitionStreamsStates(
+              int index, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Builder builderForValue) {
+            if (partitionStreamsStatesBuilder_ == null) {
+              ensurePartitionStreamsStatesIsMutable();
+              partitionStreamsStates_.add(index, builderForValue.build());
               onChanged();
             } else {
-              readStreamsStatesBuilder_.addMessage(index, builderForValue.build());
+              partitionStreamsStatesBuilder_.addMessage(index, builderForValue.build());
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder addAllReadStreamsStates(
-              java.lang.Iterable<? extends tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState> values) {
-            if (readStreamsStatesBuilder_ == null) {
-              ensureReadStreamsStatesIsMutable();
+          public Builder addAllPartitionStreamsStates(
+              java.lang.Iterable<? extends tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState> values) {
+            if (partitionStreamsStatesBuilder_ == null) {
+              ensurePartitionStreamsStatesIsMutable();
               com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                  values, readStreamsStates_);
+                  values, partitionStreamsStates_);
               onChanged();
             } else {
-              readStreamsStatesBuilder_.addAllMessages(values);
+              partitionStreamsStatesBuilder_.addAllMessages(values);
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder clearReadStreamsStates() {
-            if (readStreamsStatesBuilder_ == null) {
-              readStreamsStates_ = java.util.Collections.emptyList();
+          public Builder clearPartitionStreamsStates() {
+            if (partitionStreamsStatesBuilder_ == null) {
+              partitionStreamsStates_ = java.util.Collections.emptyList();
               bitField0_ = (bitField0_ & ~0x00000001);
               onChanged();
             } else {
-              readStreamsStatesBuilder_.clear();
+              partitionStreamsStatesBuilder_.clear();
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public Builder removeReadStreamsStates(int index) {
-            if (readStreamsStatesBuilder_ == null) {
-              ensureReadStreamsStatesIsMutable();
-              readStreamsStates_.remove(index);
+          public Builder removePartitionStreamsStates(int index) {
+            if (partitionStreamsStatesBuilder_ == null) {
+              ensurePartitionStreamsStatesIsMutable();
+              partitionStreamsStates_.remove(index);
               onChanged();
             } else {
-              readStreamsStatesBuilder_.remove(index);
+              partitionStreamsStatesBuilder_.remove(index);
             }
             return this;
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Builder getReadStreamsStatesBuilder(
+          public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Builder getPartitionStreamsStatesBuilder(
               int index) {
-            return getReadStreamsStatesFieldBuilder().getBuilder(index);
+            return getPartitionStreamsStatesFieldBuilder().getBuilder(index);
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamStateOrBuilder getReadStreamsStatesOrBuilder(
+          public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamStateOrBuilder getPartitionStreamsStatesOrBuilder(
               int index) {
-            if (readStreamsStatesBuilder_ == null) {
-              return readStreamsStates_.get(index);  } else {
-              return readStreamsStatesBuilder_.getMessageOrBuilder(index);
+            if (partitionStreamsStatesBuilder_ == null) {
+              return partitionStreamsStates_.get(index);  } else {
+              return partitionStreamsStatesBuilder_.getMessageOrBuilder(index);
             }
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public java.util.List<? extends tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamStateOrBuilder> 
-               getReadStreamsStatesOrBuilderList() {
-            if (readStreamsStatesBuilder_ != null) {
-              return readStreamsStatesBuilder_.getMessageOrBuilderList();
+          public java.util.List<? extends tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamStateOrBuilder> 
+               getPartitionStreamsStatesOrBuilderList() {
+            if (partitionStreamsStatesBuilder_ != null) {
+              return partitionStreamsStatesBuilder_.getMessageOrBuilderList();
             } else {
-              return java.util.Collections.unmodifiableList(readStreamsStates_);
+              return java.util.Collections.unmodifiableList(partitionStreamsStates_);
             }
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Builder addReadStreamsStatesBuilder() {
-            return getReadStreamsStatesFieldBuilder().addBuilder(
-                tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.getDefaultInstance());
+          public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Builder addPartitionStreamsStatesBuilder() {
+            return getPartitionStreamsStatesFieldBuilder().addBuilder(
+                tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.getDefaultInstance());
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Builder addReadStreamsStatesBuilder(
+          public tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Builder addPartitionStreamsStatesBuilder(
               int index) {
-            return getReadStreamsStatesFieldBuilder().addBuilder(
-                index, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.getDefaultInstance());
+            return getPartitionStreamsStatesFieldBuilder().addBuilder(
+                index, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.getDefaultInstance());
           }
           /**
-           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState read_streams_states = 1;</code>
+           * <code>repeated .Ydb.PersQueue.V1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState partition_streams_states = 1;</code>
            */
-          public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Builder> 
-               getReadStreamsStatesBuilderList() {
-            return getReadStreamsStatesFieldBuilder().getBuilderList();
+          public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Builder> 
+               getPartitionStreamsStatesBuilderList() {
+            return getPartitionStreamsStatesFieldBuilder().getBuilderList();
           }
           private com.google.protobuf.RepeatedFieldBuilderV3<
-              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Builder, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamStateOrBuilder> 
-              getReadStreamsStatesFieldBuilder() {
-            if (readStreamsStatesBuilder_ == null) {
-              readStreamsStatesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-                  tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamState.Builder, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.ReadStreamStateOrBuilder>(
-                      readStreamsStates_,
+              tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Builder, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamStateOrBuilder> 
+              getPartitionStreamsStatesFieldBuilder() {
+            if (partitionStreamsStatesBuilder_ == null) {
+              partitionStreamsStatesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+                  tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamState.Builder, tech.ydb.persqueue.YdbPersqueueV1.MigrationStreamingReadClientMessage.InitRequest.State.PartitionStreamStateOrBuilder>(
+                      partitionStreamsStates_,
                       ((bitField0_ & 0x00000001) == 0x00000001),
                       getParentForChildren(),
                       isClean());
-              readStreamsStates_ = null;
+              partitionStreamsStates_ = null;
             }
-            return readStreamsStatesBuilder_;
+            return partitionStreamsStatesBuilder_;
           }
           public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -52435,8 +52645,8 @@ public final class YdbPersqueueV1 {
       /**
        * <pre>
        * Maximal size of client cache for message_group_id, ip and meta, per partition.
-       * There is separate caches for each partition read streams.
-       * There is separate caches for message group identifiers, ip and meta inside one partition read stream.
+       * There is separate caches for each partition partition streams.
+       * There is separate caches for message group identifiers, ip and meta inside one partition partition stream.
        * </pre>
        *
        * <code>int64 max_meta_cache_size = 10;</code>
@@ -53711,8 +53921,8 @@ public final class YdbPersqueueV1 {
         /**
          * <pre>
          * Maximal size of client cache for message_group_id, ip and meta, per partition.
-         * There is separate caches for each partition read streams.
-         * There is separate caches for message group identifiers, ip and meta inside one partition read stream.
+         * There is separate caches for each partition partition streams.
+         * There is separate caches for message group identifiers, ip and meta inside one partition partition stream.
          * </pre>
          *
          * <code>int64 max_meta_cache_size = 10;</code>
@@ -53723,8 +53933,8 @@ public final class YdbPersqueueV1 {
         /**
          * <pre>
          * Maximal size of client cache for message_group_id, ip and meta, per partition.
-         * There is separate caches for each partition read streams.
-         * There is separate caches for message group identifiers, ip and meta inside one partition read stream.
+         * There is separate caches for each partition partition streams.
+         * There is separate caches for message group identifiers, ip and meta inside one partition partition stream.
          * </pre>
          *
          * <code>int64 max_meta_cache_size = 10;</code>
@@ -53738,8 +53948,8 @@ public final class YdbPersqueueV1 {
         /**
          * <pre>
          * Maximal size of client cache for message_group_id, ip and meta, per partition.
-         * There is separate caches for each partition read streams.
-         * There is separate caches for message group identifiers, ip and meta inside one partition read stream.
+         * There is separate caches for each partition partition streams.
+         * There is separate caches for message group identifiers, ip and meta inside one partition partition stream.
          * </pre>
          *
          * <code>int64 max_meta_cache_size = 10;</code>
@@ -65039,18 +65249,17 @@ public final class YdbPersqueueV1 {
          * Codec that is used for data compressing.
          * </pre>
          *
-         * <code>string codec = 4;</code>
+         * <code>.Ydb.PersQueue.V1.Codec codec = 4;</code>
          */
-        java.lang.String getCodec();
+        int getCodecValue();
         /**
          * <pre>
          * Codec that is used for data compressing.
          * </pre>
          *
-         * <code>string codec = 4;</code>
+         * <code>.Ydb.PersQueue.V1.Codec codec = 4;</code>
          */
-        com.google.protobuf.ByteString
-            getCodecBytes();
+        tech.ydb.persqueue.YdbPersqueueV1.Codec getCodec();
 
         /**
          * <pre>
@@ -65060,6 +65269,15 @@ public final class YdbPersqueueV1 {
          * <code>bytes data = 5;</code>
          */
         com.google.protobuf.ByteString getData();
+
+        /**
+         * <pre>
+         * Uncompressed size of client message body.
+         * </pre>
+         *
+         * <code>uint64 uncompressed_size = 6;</code>
+         */
+        long getUncompressedSize();
       }
       /**
        * <pre>
@@ -65081,8 +65299,9 @@ public final class YdbPersqueueV1 {
           offset_ = 0L;
           seqNo_ = 0L;
           createTimestampMs_ = 0L;
-          codec_ = "";
+          codec_ = 0;
           data_ = com.google.protobuf.ByteString.EMPTY;
+          uncompressedSize_ = 0L;
         }
 
         @java.lang.Override
@@ -65128,15 +65347,20 @@ public final class YdbPersqueueV1 {
                   createTimestampMs_ = input.readUInt64();
                   break;
                 }
-                case 34: {
-                  java.lang.String s = input.readStringRequireUtf8();
+                case 32: {
+                  int rawValue = input.readEnum();
 
-                  codec_ = s;
+                  codec_ = rawValue;
                   break;
                 }
                 case 42: {
 
                   data_ = input.readBytes();
+                  break;
+                }
+                case 48: {
+
+                  uncompressedSize_ = input.readUInt64();
                   break;
                 }
               }
@@ -65203,45 +65427,27 @@ public final class YdbPersqueueV1 {
         }
 
         public static final int CODEC_FIELD_NUMBER = 4;
-        private volatile java.lang.Object codec_;
+        private int codec_;
         /**
          * <pre>
          * Codec that is used for data compressing.
          * </pre>
          *
-         * <code>string codec = 4;</code>
+         * <code>.Ydb.PersQueue.V1.Codec codec = 4;</code>
          */
-        public java.lang.String getCodec() {
-          java.lang.Object ref = codec_;
-          if (ref instanceof java.lang.String) {
-            return (java.lang.String) ref;
-          } else {
-            com.google.protobuf.ByteString bs = 
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            codec_ = s;
-            return s;
-          }
+        public int getCodecValue() {
+          return codec_;
         }
         /**
          * <pre>
          * Codec that is used for data compressing.
          * </pre>
          *
-         * <code>string codec = 4;</code>
+         * <code>.Ydb.PersQueue.V1.Codec codec = 4;</code>
          */
-        public com.google.protobuf.ByteString
-            getCodecBytes() {
-          java.lang.Object ref = codec_;
-          if (ref instanceof java.lang.String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            codec_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
+        public tech.ydb.persqueue.YdbPersqueueV1.Codec getCodec() {
+          tech.ydb.persqueue.YdbPersqueueV1.Codec result = tech.ydb.persqueue.YdbPersqueueV1.Codec.valueOf(codec_);
+          return result == null ? tech.ydb.persqueue.YdbPersqueueV1.Codec.UNRECOGNIZED : result;
         }
 
         public static final int DATA_FIELD_NUMBER = 5;
@@ -65255,6 +65461,19 @@ public final class YdbPersqueueV1 {
          */
         public com.google.protobuf.ByteString getData() {
           return data_;
+        }
+
+        public static final int UNCOMPRESSED_SIZE_FIELD_NUMBER = 6;
+        private long uncompressedSize_;
+        /**
+         * <pre>
+         * Uncompressed size of client message body.
+         * </pre>
+         *
+         * <code>uint64 uncompressed_size = 6;</code>
+         */
+        public long getUncompressedSize() {
+          return uncompressedSize_;
         }
 
         private byte memoizedIsInitialized = -1;
@@ -65278,11 +65497,14 @@ public final class YdbPersqueueV1 {
           if (createTimestampMs_ != 0L) {
             output.writeUInt64(3, createTimestampMs_);
           }
-          if (!getCodecBytes().isEmpty()) {
-            com.google.protobuf.GeneratedMessageV3.writeString(output, 4, codec_);
+          if (codec_ != tech.ydb.persqueue.YdbPersqueueV1.Codec.CODEC_UNSPECIFIED.getNumber()) {
+            output.writeEnum(4, codec_);
           }
           if (!data_.isEmpty()) {
             output.writeBytes(5, data_);
+          }
+          if (uncompressedSize_ != 0L) {
+            output.writeUInt64(6, uncompressedSize_);
           }
           unknownFields.writeTo(output);
         }
@@ -65304,12 +65526,17 @@ public final class YdbPersqueueV1 {
             size += com.google.protobuf.CodedOutputStream
               .computeUInt64Size(3, createTimestampMs_);
           }
-          if (!getCodecBytes().isEmpty()) {
-            size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, codec_);
+          if (codec_ != tech.ydb.persqueue.YdbPersqueueV1.Codec.CODEC_UNSPECIFIED.getNumber()) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeEnumSize(4, codec_);
           }
           if (!data_.isEmpty()) {
             size += com.google.protobuf.CodedOutputStream
               .computeBytesSize(5, data_);
+          }
+          if (uncompressedSize_ != 0L) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeUInt64Size(6, uncompressedSize_);
           }
           size += unknownFields.getSerializedSize();
           memoizedSize = size;
@@ -65333,10 +65560,11 @@ public final class YdbPersqueueV1 {
               == other.getSeqNo());
           result = result && (getCreateTimestampMs()
               == other.getCreateTimestampMs());
-          result = result && getCodec()
-              .equals(other.getCodec());
+          result = result && codec_ == other.codec_;
           result = result && getData()
               .equals(other.getData());
+          result = result && (getUncompressedSize()
+              == other.getUncompressedSize());
           result = result && unknownFields.equals(other.unknownFields);
           return result;
         }
@@ -65358,9 +65586,12 @@ public final class YdbPersqueueV1 {
           hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
               getCreateTimestampMs());
           hash = (37 * hash) + CODEC_FIELD_NUMBER;
-          hash = (53 * hash) + getCodec().hashCode();
+          hash = (53 * hash) + codec_;
           hash = (37 * hash) + DATA_FIELD_NUMBER;
           hash = (53 * hash) + getData().hashCode();
+          hash = (37 * hash) + UNCOMPRESSED_SIZE_FIELD_NUMBER;
+          hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+              getUncompressedSize());
           hash = (29 * hash) + unknownFields.hashCode();
           memoizedHashCode = hash;
           return hash;
@@ -65500,9 +65731,11 @@ public final class YdbPersqueueV1 {
 
             createTimestampMs_ = 0L;
 
-            codec_ = "";
+            codec_ = 0;
 
             data_ = com.google.protobuf.ByteString.EMPTY;
+
+            uncompressedSize_ = 0L;
 
             return this;
           }
@@ -65531,6 +65764,7 @@ public final class YdbPersqueueV1 {
             result.createTimestampMs_ = createTimestampMs_;
             result.codec_ = codec_;
             result.data_ = data_;
+            result.uncompressedSize_ = uncompressedSize_;
             onBuilt();
             return result;
           }
@@ -65581,12 +65815,14 @@ public final class YdbPersqueueV1 {
             if (other.getCreateTimestampMs() != 0L) {
               setCreateTimestampMs(other.getCreateTimestampMs());
             }
-            if (!other.getCodec().isEmpty()) {
-              codec_ = other.codec_;
-              onChanged();
+            if (other.codec_ != 0) {
+              setCodecValue(other.getCodecValue());
             }
             if (other.getData() != com.google.protobuf.ByteString.EMPTY) {
               setData(other.getData());
+            }
+            if (other.getUncompressedSize() != 0L) {
+              setUncompressedSize(other.getUncompressedSize());
             }
             this.mergeUnknownFields(other.unknownFields);
             onChanged();
@@ -65729,59 +65965,25 @@ public final class YdbPersqueueV1 {
             return this;
           }
 
-          private java.lang.Object codec_ = "";
+          private int codec_ = 0;
           /**
            * <pre>
            * Codec that is used for data compressing.
            * </pre>
            *
-           * <code>string codec = 4;</code>
+           * <code>.Ydb.PersQueue.V1.Codec codec = 4;</code>
            */
-          public java.lang.String getCodec() {
-            java.lang.Object ref = codec_;
-            if (!(ref instanceof java.lang.String)) {
-              com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-              java.lang.String s = bs.toStringUtf8();
-              codec_ = s;
-              return s;
-            } else {
-              return (java.lang.String) ref;
-            }
+          public int getCodecValue() {
+            return codec_;
           }
           /**
            * <pre>
            * Codec that is used for data compressing.
            * </pre>
            *
-           * <code>string codec = 4;</code>
+           * <code>.Ydb.PersQueue.V1.Codec codec = 4;</code>
            */
-          public com.google.protobuf.ByteString
-              getCodecBytes() {
-            java.lang.Object ref = codec_;
-            if (ref instanceof String) {
-              com.google.protobuf.ByteString b = 
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                      (java.lang.String) ref);
-              codec_ = b;
-              return b;
-            } else {
-              return (com.google.protobuf.ByteString) ref;
-            }
-          }
-          /**
-           * <pre>
-           * Codec that is used for data compressing.
-           * </pre>
-           *
-           * <code>string codec = 4;</code>
-           */
-          public Builder setCodec(
-              java.lang.String value) {
-            if (value == null) {
-    throw new NullPointerException();
-  }
-  
+          public Builder setCodecValue(int value) {
             codec_ = value;
             onChanged();
             return this;
@@ -65791,29 +65993,38 @@ public final class YdbPersqueueV1 {
            * Codec that is used for data compressing.
            * </pre>
            *
-           * <code>string codec = 4;</code>
+           * <code>.Ydb.PersQueue.V1.Codec codec = 4;</code>
+           */
+          public tech.ydb.persqueue.YdbPersqueueV1.Codec getCodec() {
+            tech.ydb.persqueue.YdbPersqueueV1.Codec result = tech.ydb.persqueue.YdbPersqueueV1.Codec.valueOf(codec_);
+            return result == null ? tech.ydb.persqueue.YdbPersqueueV1.Codec.UNRECOGNIZED : result;
+          }
+          /**
+           * <pre>
+           * Codec that is used for data compressing.
+           * </pre>
+           *
+           * <code>.Ydb.PersQueue.V1.Codec codec = 4;</code>
+           */
+          public Builder setCodec(tech.ydb.persqueue.YdbPersqueueV1.Codec value) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            
+            codec_ = value.getNumber();
+            onChanged();
+            return this;
+          }
+          /**
+           * <pre>
+           * Codec that is used for data compressing.
+           * </pre>
+           *
+           * <code>.Ydb.PersQueue.V1.Codec codec = 4;</code>
            */
           public Builder clearCodec() {
             
-            codec_ = getDefaultInstance().getCodec();
-            onChanged();
-            return this;
-          }
-          /**
-           * <pre>
-           * Codec that is used for data compressing.
-           * </pre>
-           *
-           * <code>string codec = 4;</code>
-           */
-          public Builder setCodecBytes(
-              com.google.protobuf.ByteString value) {
-            if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-            
-            codec_ = value;
+            codec_ = 0;
             onChanged();
             return this;
           }
@@ -65855,6 +66066,44 @@ public final class YdbPersqueueV1 {
           public Builder clearData() {
             
             data_ = getDefaultInstance().getData();
+            onChanged();
+            return this;
+          }
+
+          private long uncompressedSize_ ;
+          /**
+           * <pre>
+           * Uncompressed size of client message body.
+           * </pre>
+           *
+           * <code>uint64 uncompressed_size = 6;</code>
+           */
+          public long getUncompressedSize() {
+            return uncompressedSize_;
+          }
+          /**
+           * <pre>
+           * Uncompressed size of client message body.
+           * </pre>
+           *
+           * <code>uint64 uncompressed_size = 6;</code>
+           */
+          public Builder setUncompressedSize(long value) {
+            
+            uncompressedSize_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <pre>
+           * Uncompressed size of client message body.
+           * </pre>
+           *
+           * <code>uint64 uncompressed_size = 6;</code>
+           */
+          public Builder clearUncompressedSize() {
+            
+            uncompressedSize_ = 0L;
             onChanged();
             return this;
           }
@@ -84429,16 +84678,16 @@ public final class YdbPersqueueV1 {
      * Writes with codec not from this list are forbiden.
      * </pre>
      *
-     * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+     * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
      */
-    java.util.List<tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec> getSupportedCodecsList();
+    java.util.List<tech.ydb.persqueue.YdbPersqueueV1.Codec> getSupportedCodecsList();
     /**
      * <pre>
      * List of allowed codecs for writers.
      * Writes with codec not from this list are forbiden.
      * </pre>
      *
-     * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+     * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
      */
     int getSupportedCodecsCount();
     /**
@@ -84447,16 +84696,16 @@ public final class YdbPersqueueV1 {
      * Writes with codec not from this list are forbiden.
      * </pre>
      *
-     * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+     * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
      */
-    tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec getSupportedCodecs(int index);
+    tech.ydb.persqueue.YdbPersqueueV1.Codec getSupportedCodecs(int index);
     /**
      * <pre>
      * List of allowed codecs for writers.
      * Writes with codec not from this list are forbiden.
      * </pre>
      *
-     * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+     * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
      */
     java.util.List<java.lang.Integer>
     getSupportedCodecsValueList();
@@ -84466,7 +84715,7 @@ public final class YdbPersqueueV1 {
      * Writes with codec not from this list are forbiden.
      * </pre>
      *
-     * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+     * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
      */
     int getSupportedCodecsValue(int index);
 
@@ -84914,131 +85163,6 @@ public final class YdbPersqueueV1 {
       // @@protoc_insertion_point(enum_scope:Ydb.PersQueue.V1.TopicSettings.Format)
     }
 
-    /**
-     * Protobuf enum {@code Ydb.PersQueue.V1.TopicSettings.Codec}
-     */
-    public enum Codec
-        implements com.google.protobuf.ProtocolMessageEnum {
-      /**
-       * <code>CODEC_UNSPECIFIED = 0;</code>
-       */
-      CODEC_UNSPECIFIED(0),
-      /**
-       * <code>CODEC_RAW = 1;</code>
-       */
-      CODEC_RAW(1),
-      /**
-       * <code>CODEC_GZIP = 2;</code>
-       */
-      CODEC_GZIP(2),
-      /**
-       * <code>CODEC_LZOP = 3;</code>
-       */
-      CODEC_LZOP(3),
-      /**
-       * <code>CODEC_ZSTD = 4;</code>
-       */
-      CODEC_ZSTD(4),
-      UNRECOGNIZED(-1),
-      ;
-
-      /**
-       * <code>CODEC_UNSPECIFIED = 0;</code>
-       */
-      public static final int CODEC_UNSPECIFIED_VALUE = 0;
-      /**
-       * <code>CODEC_RAW = 1;</code>
-       */
-      public static final int CODEC_RAW_VALUE = 1;
-      /**
-       * <code>CODEC_GZIP = 2;</code>
-       */
-      public static final int CODEC_GZIP_VALUE = 2;
-      /**
-       * <code>CODEC_LZOP = 3;</code>
-       */
-      public static final int CODEC_LZOP_VALUE = 3;
-      /**
-       * <code>CODEC_ZSTD = 4;</code>
-       */
-      public static final int CODEC_ZSTD_VALUE = 4;
-
-
-      public final int getNumber() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalArgumentException(
-              "Can't get the number of an unknown enum value.");
-        }
-        return value;
-      }
-
-      /**
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static Codec valueOf(int value) {
-        return forNumber(value);
-      }
-
-      public static Codec forNumber(int value) {
-        switch (value) {
-          case 0: return CODEC_UNSPECIFIED;
-          case 1: return CODEC_RAW;
-          case 2: return CODEC_GZIP;
-          case 3: return CODEC_LZOP;
-          case 4: return CODEC_ZSTD;
-          default: return null;
-        }
-      }
-
-      public static com.google.protobuf.Internal.EnumLiteMap<Codec>
-          internalGetValueMap() {
-        return internalValueMap;
-      }
-      private static final com.google.protobuf.Internal.EnumLiteMap<
-          Codec> internalValueMap =
-            new com.google.protobuf.Internal.EnumLiteMap<Codec>() {
-              public Codec findValueByNumber(int number) {
-                return Codec.forNumber(number);
-              }
-            };
-
-      public final com.google.protobuf.Descriptors.EnumValueDescriptor
-          getValueDescriptor() {
-        return getDescriptor().getValues().get(ordinal());
-      }
-      public final com.google.protobuf.Descriptors.EnumDescriptor
-          getDescriptorForType() {
-        return getDescriptor();
-      }
-      public static final com.google.protobuf.Descriptors.EnumDescriptor
-          getDescriptor() {
-        return tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.getDescriptor().getEnumTypes().get(1);
-      }
-
-      private static final Codec[] VALUES = values();
-
-      public static Codec valueOf(
-          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-        if (desc.getType() != getDescriptor()) {
-          throw new java.lang.IllegalArgumentException(
-            "EnumValueDescriptor is not for this type.");
-        }
-        if (desc.getIndex() == -1) {
-          return UNRECOGNIZED;
-        }
-        return VALUES[desc.getIndex()];
-      }
-
-      private final int value;
-
-      private Codec(int value) {
-        this.value = value;
-      }
-
-      // @@protoc_insertion_point(enum_scope:Ydb.PersQueue.V1.TopicSettings.Codec)
-    }
-
     public interface ReadRuleOrBuilder extends
         // @@protoc_insertion_point(interface_extends:Ydb.PersQueue.V1.TopicSettings.ReadRule)
         com.google.protobuf.MessageOrBuilder {
@@ -85106,16 +85230,16 @@ public final class YdbPersqueueV1 {
        * supported_codecs on topic must be contained inside this list.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
        */
-      java.util.List<tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec> getSupportedCodecsList();
+      java.util.List<tech.ydb.persqueue.YdbPersqueueV1.Codec> getSupportedCodecsList();
       /**
        * <pre>
        * List of supported codecs by this consumer.
        * supported_codecs on topic must be contained inside this list.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
        */
       int getSupportedCodecsCount();
       /**
@@ -85124,16 +85248,16 @@ public final class YdbPersqueueV1 {
        * supported_codecs on topic must be contained inside this list.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
        */
-      tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec getSupportedCodecs(int index);
+      tech.ydb.persqueue.YdbPersqueueV1.Codec getSupportedCodecs(int index);
       /**
        * <pre>
        * List of supported codecs by this consumer.
        * supported_codecs on topic must be contained inside this list.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
        */
       java.util.List<java.lang.Integer>
       getSupportedCodecsValueList();
@@ -85143,7 +85267,7 @@ public final class YdbPersqueueV1 {
        * supported_codecs on topic must be contained inside this list.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
        */
       int getSupportedCodecsValue(int index);
 
@@ -85386,12 +85510,12 @@ public final class YdbPersqueueV1 {
       public static final int SUPPORTED_CODECS_FIELD_NUMBER = 5;
       private java.util.List<java.lang.Integer> supportedCodecs_;
       private static final com.google.protobuf.Internal.ListAdapter.Converter<
-          java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec> supportedCodecs_converter_ =
+          java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.Codec> supportedCodecs_converter_ =
               new com.google.protobuf.Internal.ListAdapter.Converter<
-                  java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec>() {
-                public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec convert(java.lang.Integer from) {
-                  tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec result = tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec.valueOf(from);
-                  return result == null ? tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec.UNRECOGNIZED : result;
+                  java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.Codec>() {
+                public tech.ydb.persqueue.YdbPersqueueV1.Codec convert(java.lang.Integer from) {
+                  tech.ydb.persqueue.YdbPersqueueV1.Codec result = tech.ydb.persqueue.YdbPersqueueV1.Codec.valueOf(from);
+                  return result == null ? tech.ydb.persqueue.YdbPersqueueV1.Codec.UNRECOGNIZED : result;
                 }
               };
       /**
@@ -85400,11 +85524,11 @@ public final class YdbPersqueueV1 {
        * supported_codecs on topic must be contained inside this list.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
        */
-      public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec> getSupportedCodecsList() {
+      public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.Codec> getSupportedCodecsList() {
         return new com.google.protobuf.Internal.ListAdapter<
-            java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec>(supportedCodecs_, supportedCodecs_converter_);
+            java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.Codec>(supportedCodecs_, supportedCodecs_converter_);
       }
       /**
        * <pre>
@@ -85412,7 +85536,7 @@ public final class YdbPersqueueV1 {
        * supported_codecs on topic must be contained inside this list.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
        */
       public int getSupportedCodecsCount() {
         return supportedCodecs_.size();
@@ -85423,9 +85547,9 @@ public final class YdbPersqueueV1 {
        * supported_codecs on topic must be contained inside this list.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec getSupportedCodecs(int index) {
+      public tech.ydb.persqueue.YdbPersqueueV1.Codec getSupportedCodecs(int index) {
         return supportedCodecs_converter_.convert(supportedCodecs_.get(index));
       }
       /**
@@ -85434,7 +85558,7 @@ public final class YdbPersqueueV1 {
        * supported_codecs on topic must be contained inside this list.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
        */
       public java.util.List<java.lang.Integer>
       getSupportedCodecsValueList() {
@@ -85446,7 +85570,7 @@ public final class YdbPersqueueV1 {
        * supported_codecs on topic must be contained inside this list.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
        */
       public int getSupportedCodecsValue(int index) {
         return supportedCodecs_.get(index);
@@ -86122,11 +86246,11 @@ public final class YdbPersqueueV1 {
          * supported_codecs on topic must be contained inside this list.
          * </pre>
          *
-         * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
          */
-        public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec> getSupportedCodecsList() {
+        public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.Codec> getSupportedCodecsList() {
           return new com.google.protobuf.Internal.ListAdapter<
-              java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec>(supportedCodecs_, supportedCodecs_converter_);
+              java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.Codec>(supportedCodecs_, supportedCodecs_converter_);
         }
         /**
          * <pre>
@@ -86134,7 +86258,7 @@ public final class YdbPersqueueV1 {
          * supported_codecs on topic must be contained inside this list.
          * </pre>
          *
-         * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
          */
         public int getSupportedCodecsCount() {
           return supportedCodecs_.size();
@@ -86145,9 +86269,9 @@ public final class YdbPersqueueV1 {
          * supported_codecs on topic must be contained inside this list.
          * </pre>
          *
-         * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
          */
-        public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec getSupportedCodecs(int index) {
+        public tech.ydb.persqueue.YdbPersqueueV1.Codec getSupportedCodecs(int index) {
           return supportedCodecs_converter_.convert(supportedCodecs_.get(index));
         }
         /**
@@ -86156,10 +86280,10 @@ public final class YdbPersqueueV1 {
          * supported_codecs on topic must be contained inside this list.
          * </pre>
          *
-         * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
          */
         public Builder setSupportedCodecs(
-            int index, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec value) {
+            int index, tech.ydb.persqueue.YdbPersqueueV1.Codec value) {
           if (value == null) {
             throw new NullPointerException();
           }
@@ -86174,9 +86298,9 @@ public final class YdbPersqueueV1 {
          * supported_codecs on topic must be contained inside this list.
          * </pre>
          *
-         * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
          */
-        public Builder addSupportedCodecs(tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec value) {
+        public Builder addSupportedCodecs(tech.ydb.persqueue.YdbPersqueueV1.Codec value) {
           if (value == null) {
             throw new NullPointerException();
           }
@@ -86191,12 +86315,12 @@ public final class YdbPersqueueV1 {
          * supported_codecs on topic must be contained inside this list.
          * </pre>
          *
-         * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
          */
         public Builder addAllSupportedCodecs(
-            java.lang.Iterable<? extends tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec> values) {
+            java.lang.Iterable<? extends tech.ydb.persqueue.YdbPersqueueV1.Codec> values) {
           ensureSupportedCodecsIsMutable();
-          for (tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec value : values) {
+          for (tech.ydb.persqueue.YdbPersqueueV1.Codec value : values) {
             supportedCodecs_.add(value.getNumber());
           }
           onChanged();
@@ -86208,7 +86332,7 @@ public final class YdbPersqueueV1 {
          * supported_codecs on topic must be contained inside this list.
          * </pre>
          *
-         * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
          */
         public Builder clearSupportedCodecs() {
           supportedCodecs_ = java.util.Collections.emptyList();
@@ -86222,7 +86346,7 @@ public final class YdbPersqueueV1 {
          * supported_codecs on topic must be contained inside this list.
          * </pre>
          *
-         * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
          */
         public java.util.List<java.lang.Integer>
         getSupportedCodecsValueList() {
@@ -86234,7 +86358,7 @@ public final class YdbPersqueueV1 {
          * supported_codecs on topic must be contained inside this list.
          * </pre>
          *
-         * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
          */
         public int getSupportedCodecsValue(int index) {
           return supportedCodecs_.get(index);
@@ -86245,7 +86369,7 @@ public final class YdbPersqueueV1 {
          * supported_codecs on topic must be contained inside this list.
          * </pre>
          *
-         * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
          */
         public Builder setSupportedCodecsValue(
             int index, int value) {
@@ -86260,7 +86384,7 @@ public final class YdbPersqueueV1 {
          * supported_codecs on topic must be contained inside this list.
          * </pre>
          *
-         * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
          */
         public Builder addSupportedCodecsValue(int value) {
           ensureSupportedCodecsIsMutable();
@@ -86274,7 +86398,7 @@ public final class YdbPersqueueV1 {
          * supported_codecs on topic must be contained inside this list.
          * </pre>
          *
-         * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 5 [(.Ydb.size) = { ... }</code>
          */
         public Builder addAllSupportedCodecsValue(
             java.lang.Iterable<java.lang.Integer> values) {
@@ -87851,12 +87975,12 @@ public final class YdbPersqueueV1 {
     public static final int SUPPORTED_CODECS_FIELD_NUMBER = 4;
     private java.util.List<java.lang.Integer> supportedCodecs_;
     private static final com.google.protobuf.Internal.ListAdapter.Converter<
-        java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec> supportedCodecs_converter_ =
+        java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.Codec> supportedCodecs_converter_ =
             new com.google.protobuf.Internal.ListAdapter.Converter<
-                java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec>() {
-              public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec convert(java.lang.Integer from) {
-                tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec result = tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec.valueOf(from);
-                return result == null ? tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec.UNRECOGNIZED : result;
+                java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.Codec>() {
+              public tech.ydb.persqueue.YdbPersqueueV1.Codec convert(java.lang.Integer from) {
+                tech.ydb.persqueue.YdbPersqueueV1.Codec result = tech.ydb.persqueue.YdbPersqueueV1.Codec.valueOf(from);
+                return result == null ? tech.ydb.persqueue.YdbPersqueueV1.Codec.UNRECOGNIZED : result;
               }
             };
     /**
@@ -87865,11 +87989,11 @@ public final class YdbPersqueueV1 {
      * Writes with codec not from this list are forbiden.
      * </pre>
      *
-     * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+     * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
      */
-    public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec> getSupportedCodecsList() {
+    public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.Codec> getSupportedCodecsList() {
       return new com.google.protobuf.Internal.ListAdapter<
-          java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec>(supportedCodecs_, supportedCodecs_converter_);
+          java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.Codec>(supportedCodecs_, supportedCodecs_converter_);
     }
     /**
      * <pre>
@@ -87877,7 +88001,7 @@ public final class YdbPersqueueV1 {
      * Writes with codec not from this list are forbiden.
      * </pre>
      *
-     * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+     * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
      */
     public int getSupportedCodecsCount() {
       return supportedCodecs_.size();
@@ -87888,9 +88012,9 @@ public final class YdbPersqueueV1 {
      * Writes with codec not from this list are forbiden.
      * </pre>
      *
-     * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+     * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
      */
-    public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec getSupportedCodecs(int index) {
+    public tech.ydb.persqueue.YdbPersqueueV1.Codec getSupportedCodecs(int index) {
       return supportedCodecs_converter_.convert(supportedCodecs_.get(index));
     }
     /**
@@ -87899,7 +88023,7 @@ public final class YdbPersqueueV1 {
      * Writes with codec not from this list are forbiden.
      * </pre>
      *
-     * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+     * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
      */
     public java.util.List<java.lang.Integer>
     getSupportedCodecsValueList() {
@@ -87911,7 +88035,7 @@ public final class YdbPersqueueV1 {
      * Writes with codec not from this list are forbiden.
      * </pre>
      *
-     * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+     * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
      */
     public int getSupportedCodecsValue(int index) {
       return supportedCodecs_.get(index);
@@ -88878,11 +89002,11 @@ public final class YdbPersqueueV1 {
        * Writes with codec not from this list are forbiden.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
        */
-      public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec> getSupportedCodecsList() {
+      public java.util.List<tech.ydb.persqueue.YdbPersqueueV1.Codec> getSupportedCodecsList() {
         return new com.google.protobuf.Internal.ListAdapter<
-            java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec>(supportedCodecs_, supportedCodecs_converter_);
+            java.lang.Integer, tech.ydb.persqueue.YdbPersqueueV1.Codec>(supportedCodecs_, supportedCodecs_converter_);
       }
       /**
        * <pre>
@@ -88890,7 +89014,7 @@ public final class YdbPersqueueV1 {
        * Writes with codec not from this list are forbiden.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
        */
       public int getSupportedCodecsCount() {
         return supportedCodecs_.size();
@@ -88901,9 +89025,9 @@ public final class YdbPersqueueV1 {
        * Writes with codec not from this list are forbiden.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
        */
-      public tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec getSupportedCodecs(int index) {
+      public tech.ydb.persqueue.YdbPersqueueV1.Codec getSupportedCodecs(int index) {
         return supportedCodecs_converter_.convert(supportedCodecs_.get(index));
       }
       /**
@@ -88912,10 +89036,10 @@ public final class YdbPersqueueV1 {
        * Writes with codec not from this list are forbiden.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder setSupportedCodecs(
-          int index, tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec value) {
+          int index, tech.ydb.persqueue.YdbPersqueueV1.Codec value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -88930,9 +89054,9 @@ public final class YdbPersqueueV1 {
        * Writes with codec not from this list are forbiden.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
        */
-      public Builder addSupportedCodecs(tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec value) {
+      public Builder addSupportedCodecs(tech.ydb.persqueue.YdbPersqueueV1.Codec value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -88947,12 +89071,12 @@ public final class YdbPersqueueV1 {
        * Writes with codec not from this list are forbiden.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder addAllSupportedCodecs(
-          java.lang.Iterable<? extends tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec> values) {
+          java.lang.Iterable<? extends tech.ydb.persqueue.YdbPersqueueV1.Codec> values) {
         ensureSupportedCodecsIsMutable();
-        for (tech.ydb.persqueue.YdbPersqueueV1.TopicSettings.Codec value : values) {
+        for (tech.ydb.persqueue.YdbPersqueueV1.Codec value : values) {
           supportedCodecs_.add(value.getNumber());
         }
         onChanged();
@@ -88964,7 +89088,7 @@ public final class YdbPersqueueV1 {
        * Writes with codec not from this list are forbiden.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder clearSupportedCodecs() {
         supportedCodecs_ = java.util.Collections.emptyList();
@@ -88978,7 +89102,7 @@ public final class YdbPersqueueV1 {
        * Writes with codec not from this list are forbiden.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
        */
       public java.util.List<java.lang.Integer>
       getSupportedCodecsValueList() {
@@ -88990,7 +89114,7 @@ public final class YdbPersqueueV1 {
        * Writes with codec not from this list are forbiden.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
        */
       public int getSupportedCodecsValue(int index) {
         return supportedCodecs_.get(index);
@@ -89001,7 +89125,7 @@ public final class YdbPersqueueV1 {
        * Writes with codec not from this list are forbiden.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder setSupportedCodecsValue(
           int index, int value) {
@@ -89016,7 +89140,7 @@ public final class YdbPersqueueV1 {
        * Writes with codec not from this list are forbiden.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder addSupportedCodecsValue(int value) {
         ensureSupportedCodecsIsMutable();
@@ -89030,7 +89154,7 @@ public final class YdbPersqueueV1 {
        * Writes with codec not from this list are forbiden.
        * </pre>
        *
-       * <code>repeated .Ydb.PersQueue.V1.TopicSettings.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .Ydb.PersQueue.V1.Codec supported_codecs = 4 [(.Ydb.size) = { ... }</code>
        */
       public Builder addAllSupportedCodecsValue(
           java.lang.Iterable<java.lang.Integer> values) {
@@ -96301,25 +96425,25 @@ public final class YdbPersqueueV1 {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_ReadStreamState_descriptor;
+    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_PartitionStreamState_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_ReadStreamState_fieldAccessorTable;
+      internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_PartitionStreamState_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreateReadStreamResponse_descriptor;
+    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreatePartitionStreamResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreateReadStreamResponse_fieldAccessorTable;
+      internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreatePartitionStreamResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyReadStreamResponse_descriptor;
+    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyPartitionStreamResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyReadStreamResponse_fieldAccessorTable;
+      internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyPartitionStreamResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_StopReadRequest_descriptor;
   private static final 
@@ -96336,10 +96460,10 @@ public final class YdbPersqueueV1 {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CommitRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadStreamStatusRequest_descriptor;
+    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_PartitionStreamStatusRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadStreamStatusRequest_fieldAccessorTable;
+      internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_PartitionStreamStatusRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_AddTopicRequest_descriptor;
   private static final 
@@ -96376,15 +96500,15 @@ public final class YdbPersqueueV1 {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_InitResponse_BlockFormatVersionByTopicEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreateReadStreamRequest_descriptor;
+    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreatePartitionStreamRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreateReadStreamRequest_fieldAccessorTable;
+      internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreatePartitionStreamRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyReadStreamRequest_descriptor;
+    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyPartitionStreamRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyReadStreamRequest_fieldAccessorTable;
+      internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyPartitionStreamRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CommitResponse_descriptor;
   private static final 
@@ -96416,10 +96540,10 @@ public final class YdbPersqueueV1 {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_SkipRange_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_ReadStreamStatusResponse_descriptor;
+    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_PartitionStreamStatusResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_ReadStreamStatusResponse_fieldAccessorTable;
+      internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_PartitionStreamStatusResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_StopReadResponse_descriptor;
   private static final 
@@ -96441,10 +96565,10 @@ public final class YdbPersqueueV1 {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_RemoveTopicResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_PersQueue_V1_ReadStream_descriptor;
+    internal_static_Ydb_PersQueue_V1_PartitionStream_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_PersQueue_V1_ReadStream_fieldAccessorTable;
+      internal_static_Ydb_PersQueue_V1_PartitionStream_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_descriptor;
   private static final 
@@ -96466,10 +96590,10 @@ public final class YdbPersqueueV1 {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_ReadStreamState_descriptor;
+    internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_PartitionStreamState_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_ReadStreamState_fieldAccessorTable;
+      internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_PartitionStreamState_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_Read_descriptor;
   private static final 
@@ -96712,7 +96836,7 @@ public final class YdbPersqueueV1 {
       "s_uncompressed_sizes\030\t \003(\003\022\026\n\016blocks_hea" +
       "ders\030\n \003(\014\022\023\n\013blocks_data\030\013 \003(\014\032#\n\022Updat" +
       "eTokenRequest\022\r\n\005token\030\001 \001(\tB\020\n\016client_m" +
-      "essage\"\256\010\n\033StreamingWriteServerMessage\022S" +
+      "essage\"\307\010\n\033StreamingWriteServerMessage\022S" +
       "\n\rinit_response\030\003 \001(\0132:.Ydb.PersQueue.V1",
       ".StreamingWriteServerMessage.InitRespons" +
       "eH\000\022`\n\024batch_write_response\030\004 \001(\0132@.Ydb." +
@@ -96722,379 +96846,386 @@ public final class YdbPersqueueV1 {
       "gWriteServerMessage.UpdateTokenResponseH" +
       "\000\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.Status" +
       "Code\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMe" +
-      "ssage\032\376\001\n\014InitResponse\022\034\n\024last_sequence_" +
+      "ssage\032\227\002\n\014InitResponse\022\034\n\024last_sequence_" +
       "number\030\001 \001(\003\022\022\n\nsession_id\030\002 \001(\t\022\r\n\005topi",
       "c\030\003 \001(\t\022\017\n\007cluster\030\004 \001(\t\022\024\n\014partition_id" +
-      "\030\005 \001(\003\022\034\n\024block_format_version\030\006 \001(\003\022\030\n\020" +
-      "supported_codecs\030\n \003(\t\022\035\n\025max_flush_wind" +
-      "ow_size\030\007 \001(\003\022\026\n\016max_block_size\030\010 \001(\003\022\027\n" +
-      "\017connection_meta\030\t \001(\014\032\307\001\n\022BatchWriteRes" +
-      "ponse\022\030\n\020sequence_numbers\030\001 \003(\003\022\017\n\007offse" +
-      "ts\030\002 \003(\003\022\027\n\017already_written\030\003 \003(\010\022\024\n\014par" +
-      "tition_id\030\004 \001(\003\022W\n\020write_statistics\030\005 \001(" +
-      "\0132=.Ydb.PersQueue.V1.StreamingWriteServe" +
-      "rMessage.WriteStatistics\032\025\n\023UpdateTokenR",
-      "esponse\032\253\001\n\017WriteStatistics\022\033\n\023persist_d" +
-      "uration_ms\030\001 \001(\003\022\'\n\037queued_in_partition_" +
-      "duration_ms\030\002 \001(\003\022*\n\"throttled_on_partit" +
-      "ion_duration_ms\030\003 \001(\003\022&\n\036throttled_on_to" +
-      "pic_duration_ms\030\004 \001(\003B\020\n\016server_message\"" +
-      "\024\n\004Path\022\014\n\004path\030\001 \001(\t\"&\n\010KeyValue\022\013\n\003key" +
-      "\030\001 \001(\t\022\r\n\005value\030\002 \001(\t\"D\n\nReadParams\022\037\n\027m" +
-      "ax_read_messages_count\030\001 \001(\r\022\025\n\rmax_read" +
-      "_size\030\002 \001(\r\";\n\014CommitCookie\022\021\n\tassign_id" +
-      "\030\001 \001(\004\022\030\n\020partition_cookie\030\002 \001(\004\"\204\026\n\035Str",
-      "eamingReadClientMessageNew\022S\n\014init_reque" +
-      "st\030\001 \001(\0132;.Ydb.PersQueue.V1.StreamingRea" +
-      "dClientMessageNew.InitRequestH\000\022S\n\014read_" +
-      "request\030\002 \001(\0132;.Ydb.PersQueue.V1.Streami" +
-      "ngReadClientMessageNew.ReadRequestH\000\022o\n\033" +
-      "create_read_stream_response\030\003 \001(\0132H.Ydb." +
+      "\030\005 \001(\003\022\034\n\024block_format_version\030\006 \001(\003\0221\n\020" +
+      "supported_codecs\030\n \003(\0162\027.Ydb.PersQueue.V" +
+      "1.Codec\022\035\n\025max_flush_window_size\030\007 \001(\003\022\026" +
+      "\n\016max_block_size\030\010 \001(\003\022\027\n\017connection_met" +
+      "a\030\t \001(\014\032\307\001\n\022BatchWriteResponse\022\030\n\020sequen" +
+      "ce_numbers\030\001 \003(\003\022\017\n\007offsets\030\002 \003(\003\022\027\n\017alr" +
+      "eady_written\030\003 \003(\010\022\024\n\014partition_id\030\004 \001(\003" +
+      "\022W\n\020write_statistics\030\005 \001(\0132=.Ydb.PersQue" +
+      "ue.V1.StreamingWriteServerMessage.WriteS",
+      "tatistics\032\025\n\023UpdateTokenResponse\032\253\001\n\017Wri" +
+      "teStatistics\022\033\n\023persist_duration_ms\030\001 \001(" +
+      "\003\022\'\n\037queued_in_partition_duration_ms\030\002 \001" +
+      "(\003\022*\n\"throttled_on_partition_duration_ms" +
+      "\030\003 \001(\003\022&\n\036throttled_on_topic_duration_ms" +
+      "\030\004 \001(\003B\020\n\016server_message\"\024\n\004Path\022\014\n\004path" +
+      "\030\001 \001(\t\"&\n\010KeyValue\022\013\n\003key\030\001 \001(\t\022\r\n\005value" +
+      "\030\002 \001(\t\"D\n\nReadParams\022\037\n\027max_read_message" +
+      "s_count\030\001 \001(\r\022\025\n\rmax_read_size\030\002 \001(\r\";\n\014" +
+      "CommitCookie\022\021\n\tassign_id\030\001 \001(\004\022\030\n\020parti",
+      "tion_cookie\030\002 \001(\004\"\356\026\n\035StreamingReadClien" +
+      "tMessageNew\022S\n\014init_request\030\001 \001(\0132;.Ydb." +
       "PersQueue.V1.StreamingReadClientMessageN" +
-      "ew.CreateReadStreamResponseH\000\022W\n\016commit_" +
-      "request\030\004 \001(\0132=.Ydb.PersQueue.V1.Streami" +
-      "ngReadClientMessageNew.CommitRequestH\000\022q",
-      "\n\034destroy_read_stream_response\030\005 \001(\0132I.Y" +
+      "ew.InitRequestH\000\022S\n\014read_request\030\002 \001(\0132;" +
+      ".Ydb.PersQueue.V1.StreamingReadClientMes" +
+      "sageNew.ReadRequestH\000\022y\n create_partitio" +
+      "n_stream_response\030\003 \001(\0132M.Ydb.PersQueue." +
+      "V1.StreamingReadClientMessageNew.CreateP" +
+      "artitionStreamResponseH\000\022W\n\016commit_reque" +
+      "st\030\004 \001(\0132=.Ydb.PersQueue.V1.StreamingRea",
+      "dClientMessageNew.CommitRequestH\000\022{\n!des" +
+      "troy_partition_stream_response\030\005 \001(\0132N.Y" +
       "db.PersQueue.V1.StreamingReadClientMessa" +
-      "geNew.DestroyReadStreamResponseH\000\022\\\n\021sto" +
-      "p_read_request\030\006 \001(\0132?.Ydb.PersQueue.V1." +
-      "StreamingReadClientMessageNew.StopReadRe" +
-      "questH\000\022`\n\023resume_read_request\030\007 \001(\0132A.Y" +
-      "db.PersQueue.V1.StreamingReadClientMessa" +
-      "geNew.ResumeReadRequestH\000\022m\n\032read_stream" +
-      "_status_request\030\010 \001(\0132G.Ydb.PersQueue.V1" +
-      ".StreamingReadClientMessageNew.ReadStrea",
-      "mStatusRequestH\000\022\\\n\021add_topic_request\030\t " +
-      "\001(\0132?.Ydb.PersQueue.V1.StreamingReadClie" +
-      "ntMessageNew.AddTopicRequestH\000\022b\n\024remove" +
-      "_topic_request\030\n \001(\0132B.Ydb.PersQueue.V1." +
-      "StreamingReadClientMessageNew.RemoveTopi" +
-      "cRequestH\000\022\r\n\005token\030\024 \001(\t\032\221\007\n\013InitReques" +
-      "t\022_\n\024topics_read_settings\030\001 \003(\0132A.Ydb.Pe" +
+      "geNew.DestroyPartitionStreamResponseH\000\022\\" +
+      "\n\021stop_read_request\030\006 \001(\0132?.Ydb.PersQueu" +
+      "e.V1.StreamingReadClientMessageNew.StopR" +
+      "eadRequestH\000\022`\n\023resume_read_request\030\007 \001(" +
+      "\0132A.Ydb.PersQueue.V1.StreamingReadClient" +
+      "MessageNew.ResumeReadRequestH\000\022w\n\037partit" +
+      "ion_stream_status_request\030\010 \001(\0132L.Ydb.Pe",
       "rsQueue.V1.StreamingReadClientMessageNew" +
-      ".TopicReadSettings\022\032\n\022read_only_original" +
-      "\030\002 \001(\010\022\020\n\010consumer\030\003 \001(\t\022\033\n\023max_lag_dura",
-      "tion_ms\030\004 \001(\003\022 \n\030start_from_written_at_m" +
-      "s\030\005 \001(\003\022*\n\"max_supported_block_format_ve" +
-      "rsion\030\006 \001(\003\022\033\n\023max_meta_cache_size\030\n \001(\003" +
-      "\022\022\n\nsession_id\030d \001(\t\022\032\n\022connection_attem" +
-      "pt\030e \001(\003\022P\n\005state\030f \001(\0132A.Ydb.PersQueue." +
-      "V1.StreamingReadClientMessageNew.InitReq" +
-      "uest.State\022\030\n\017idle_timeout_ms\030\310\001 \001(\003\032\316\003\n" +
-      "\005State\022n\n\023read_streams_states\030\001 \003(\0132Q.Yd" +
+      ".PartitionStreamStatusRequestH\000\022\\\n\021add_t" +
+      "opic_request\030\t \001(\0132?.Ydb.PersQueue.V1.St" +
+      "reamingReadClientMessageNew.AddTopicRequ" +
+      "estH\000\022b\n\024remove_topic_request\030\n \001(\0132B.Yd" +
       "b.PersQueue.V1.StreamingReadClientMessag" +
-      "eNew.InitRequest.State.ReadStreamState\032\324",
-      "\002\n\017ReadStreamState\0221\n\013read_stream\030\001 \001(\0132" +
-      "\034.Ydb.PersQueue.V1.ReadStream\022\023\n\013read_of" +
+      "eNew.RemoveTopicRequestH\000\022\r\n\005token\030\024 \001(\t" +
+      "\032\257\007\n\013InitRequest\022_\n\024topics_read_settings" +
+      "\030\001 \003(\0132A.Ydb.PersQueue.V1.StreamingReadC" +
+      "lientMessageNew.TopicReadSettings\022\032\n\022rea",
+      "d_only_original\030\002 \001(\010\022\020\n\010consumer\030\003 \001(\t\022" +
+      "\033\n\023max_lag_duration_ms\030\004 \001(\003\022 \n\030start_fr" +
+      "om_written_at_ms\030\005 \001(\003\022*\n\"max_supported_" +
+      "block_format_version\030\006 \001(\003\022\033\n\023max_meta_c" +
+      "ache_size\030\n \001(\003\022\022\n\nsession_id\030d \001(\t\022\032\n\022c" +
+      "onnection_attempt\030e \001(\003\022P\n\005state\030f \001(\0132A" +
+      ".Ydb.PersQueue.V1.StreamingReadClientMes" +
+      "sageNew.InitRequest.State\022\030\n\017idle_timeou" +
+      "t_ms\030\310\001 \001(\003\032\354\003\n\005State\022x\n\030partition_strea" +
+      "ms_states\030\001 \003(\0132V.Ydb.PersQueue.V1.Strea",
+      "mingReadClientMessageNew.InitRequest.Sta" +
+      "te.PartitionStreamState\032\350\002\n\024PartitionStr" +
+      "eamState\022;\n\020partition_stream\030\001 \001(\0132!.Ydb" +
+      ".PersQueue.V1.PartitionStream\022\023\n\013read_of" +
       "fset\030\002 \001(\003\0225\n\roffset_ranges\030\003 \003(\0132\036.Ydb." +
-      "PersQueue.V1.OffsetsRange\022h\n\006status\030\004 \001(" +
-      "\0162X.Ydb.PersQueue.V1.StreamingReadClient" +
-      "MessageNew.InitRequest.State.ReadStreamS" +
-      "tate.Status\"X\n\006Status\022\026\n\022STATUS_UNSPECIF" +
-      "IED\020\000\022\014\n\010CREATING\020\001\022\016\n\nDESTROYING\020\002\022\013\n\007R" +
-      "EADING\020\003\022\013\n\007STOPPED\020\004\0320\n\013ReadRequest\022!\n\031" +
-      "request_uncompressed_size\030\001 \001(\003\032z\n\030Creat",
-      "eReadStreamResponse\022\026\n\016read_stream_id\030\001 " +
-      "\001(\003\022\023\n\013read_offset\030\002 \001(\003\022\025\n\rcommit_offse" +
-      "t\030\003 \001(\003\022\032\n\022verify_read_offset\030\004 \001(\010\0323\n\031D" +
-      "estroyReadStreamResponse\022\026\n\016read_stream_" +
-      "id\030\001 \001(\003\032*\n\017StopReadRequest\022\027\n\017read_stre" +
-      "am_ids\030\001 \003(\003\032Z\n\021ResumeReadRequest\022\027\n\017rea" +
-      "d_stream_ids\030\001 \003(\003\022\024\n\014read_offsets\030\002 \003(\003" +
-      "\022\026\n\016resume_cookies\030\003 \003(\003\032a\n\rCommitReques" +
-      "t\022P\n\007commits\030\001 \003(\0132?.Ydb.PersQueue.V1.St" +
-      "reamingReadClientMessageNew.PartitionCom",
-      "mit\0321\n\027ReadStreamStatusRequest\022\026\n\016read_s" +
-      "tream_id\030\001 \001(\003\032q\n\017AddTopicRequest\022^\n\023top" +
-      "ic_read_settings\030\001 \001(\0132A.Ydb.PersQueue.V" +
-      "1.StreamingReadClientMessageNew.TopicRea" +
-      "dSettings\032#\n\022RemoveTopicRequest\022\r\n\005topic" +
-      "\030\001 \001(\t\032a\n\021TopicReadSettings\022\r\n\005topic\030\001 \001" +
-      "(\t\022\033\n\023partition_group_ids\030\002 \003(\003\022 \n\030start" +
-      "_from_written_at_ms\030\003 \001(\003\032Z\n\017PartitionCo" +
-      "mmit\022\026\n\016read_stream_id\030\001 \001(\003\022/\n\007offsets\030" +
-      "\002 \003(\0132\036.Ydb.PersQueue.V1.OffsetsRangeB\020\n",
-      "\016client_message\"\247\031\n\035StreamingReadServerM" +
-      "essageNew\022U\n\rinit_response\030\003 \001(\0132<.Ydb.P" +
-      "ersQueue.V1.StreamingReadServerMessageNe" +
-      "w.InitResponseH\000\022`\n\023batch_read_response\030" +
-      "\004 \001(\0132A.Ydb.PersQueue.V1.StreamingReadSe" +
-      "rverMessageNew.BatchReadResponseH\000\022m\n\032cr" +
-      "eate_read_stream_request\030\005 \001(\0132G.Ydb.Per" +
+      "PersQueue.V1.OffsetsRange\022m\n\006status\030\004 \001(" +
+      "\0162].Ydb.PersQueue.V1.StreamingReadClient" +
+      "MessageNew.InitRequest.State.PartitionSt" +
+      "reamState.Status\"X\n\006Status\022\026\n\022STATUS_UNS" +
+      "PECIFIED\020\000\022\014\n\010CREATING\020\001\022\016\n\nDESTROYING\020\002",
+      "\022\013\n\007READING\020\003\022\013\n\007STOPPED\020\004\0320\n\013ReadReques" +
+      "t\022!\n\031request_uncompressed_size\030\001 \001(\003\032\204\001\n" +
+      "\035CreatePartitionStreamResponse\022\033\n\023partit" +
+      "ion_stream_id\030\001 \001(\003\022\023\n\013read_offset\030\002 \001(\003" +
+      "\022\025\n\rcommit_offset\030\003 \001(\003\022\032\n\022verify_read_o" +
+      "ffset\030\004 \001(\010\032=\n\036DestroyPartitionStreamRes" +
+      "ponse\022\033\n\023partition_stream_id\030\001 \001(\003\032/\n\017St" +
+      "opReadRequest\022\034\n\024partition_stream_ids\030\001 " +
+      "\003(\003\032_\n\021ResumeReadRequest\022\034\n\024partition_st" +
+      "ream_ids\030\001 \003(\003\022\024\n\014read_offsets\030\002 \003(\003\022\026\n\016",
+      "resume_cookies\030\003 \003(\003\032a\n\rCommitRequest\022P\n" +
+      "\007commits\030\001 \003(\0132?.Ydb.PersQueue.V1.Stream" +
+      "ingReadClientMessageNew.PartitionCommit\032" +
+      ";\n\034PartitionStreamStatusRequest\022\033\n\023parti" +
+      "tion_stream_id\030\001 \001(\003\032q\n\017AddTopicRequest\022" +
+      "^\n\023topic_read_settings\030\001 \001(\0132A.Ydb.PersQ" +
+      "ueue.V1.StreamingReadClientMessageNew.To" +
+      "picReadSettings\032#\n\022RemoveTopicRequest\022\r\n" +
+      "\005topic\030\001 \001(\t\032a\n\021TopicReadSettings\022\r\n\005top" +
+      "ic\030\001 \001(\t\022\033\n\023partition_group_ids\030\002 \003(\003\022 \n",
+      "\030start_from_written_at_ms\030\003 \001(\003\032_\n\017Parti" +
+      "tionCommit\022\033\n\023partition_stream_id\030\001 \001(\003\022" +
+      "/\n\007offsets\030\002 \003(\0132\036.Ydb.PersQueue.V1.Offs" +
+      "etsRangeB\020\n\016client_message\"\370\031\n\035Streaming" +
+      "ReadServerMessageNew\022U\n\rinit_response\030\003 " +
+      "\001(\0132<.Ydb.PersQueue.V1.StreamingReadServ" +
+      "erMessageNew.InitResponseH\000\022`\n\023batch_rea" +
+      "d_response\030\004 \001(\0132A.Ydb.PersQueue.V1.Stre" +
+      "amingReadServerMessageNew.BatchReadRespo" +
+      "nseH\000\022w\n\037create_partition_stream_request",
+      "\030\005 \001(\0132L.Ydb.PersQueue.V1.StreamingReadS" +
+      "erverMessageNew.CreatePartitionStreamReq" +
+      "uestH\000\022y\n destroy_partition_stream_reque" +
+      "st\030\006 \001(\0132M.Ydb.PersQueue.V1.StreamingRea" +
+      "dServerMessageNew.DestroyPartitionStream" +
+      "RequestH\000\022Y\n\017commit_response\030\007 \001(\0132>.Ydb" +
+      ".PersQueue.V1.StreamingReadServerMessage" +
+      "New.CommitResponseH\000\022y\n partition_stream" +
+      "_status_response\030\010 \001(\0132M.Ydb.PersQueue.V" +
+      "1.StreamingReadServerMessageNew.Partitio",
+      "nStreamStatusResponseH\000\022^\n\022stop_read_res" +
+      "ponse\030\t \001(\0132@.Ydb.PersQueue.V1.Streaming" +
+      "ReadServerMessageNew.StopReadResponseH\000\022" +
+      "b\n\024resume_read_response\030\n \001(\0132B.Ydb.Pers" +
+      "Queue.V1.StreamingReadServerMessageNew.R" +
+      "esumeReadResponseH\000\022^\n\022add_topic_respons" +
+      "e\030\013 \001(\0132@.Ydb.PersQueue.V1.StreamingRead" +
+      "ServerMessageNew.AddTopicResponseH\000\022d\n\025r" +
+      "emove_topic_response\030\014 \001(\0132C.Ydb.PersQue" +
+      "ue.V1.StreamingReadServerMessageNew.Remo",
+      "veTopicResponseH\000\022)\n\006status\030\001 \001(\0162\031.Ydb." +
+      "StatusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Y" +
+      "db.Issue.IssueMessage\032\206\002\n\014InitResponse\022\022" +
+      "\n\nsession_id\030\001 \001(\t\022\202\001\n\035block_format_vers" +
+      "ion_by_topic\030\002 \003(\0132[.Ydb.PersQueue.V1.St" +
+      "reamingReadServerMessageNew.InitResponse" +
+      ".BlockFormatVersionByTopicEntry\022\033\n\023max_m" +
+      "eta_cache_size\030\n \001(\003\032@\n\036BlockFormatVersi" +
+      "onByTopicEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001" +
+      "(\003:\0028\001\032\211\001\n\034CreatePartitionStreamRequest\022",
+      ";\n\020partition_stream\030\001 \001(\0132!.Ydb.PersQueu" +
+      "e.V1.PartitionStream\022\030\n\020committed_offset" +
+      "\030\002 \001(\003\022\022\n\nend_offset\030\003 \001(\003\032h\n\035DestroyPar" +
+      "titionStreamRequest\022\033\n\023partition_stream_" +
+      "id\030\001 \001(\003\022\020\n\010graceful\030\002 \001(\010\022\030\n\020committed_" +
+      "offset\030\003 \001(\003\032\342\001\n\016CommitResponse\022}\n\034parti" +
+      "tions_committed_offsets\030\001 \003(\0132W.Ydb.Pers" +
+      "Queue.V1.StreamingReadServerMessageNew.C" +
+      "ommitResponse.PartitionCommittedOffset\032Q" +
+      "\n\030PartitionCommittedOffset\022\033\n\023partition_",
+      "stream_id\030\001 \001(\003\022\030\n\020committed_offset\030\002 \001(" +
+      "\003\032\376\010\n\021BatchReadResponse\022_\n\nskip_range\030\001 " +
+      "\003(\0132K.Ydb.PersQueue.V1.StreamingReadServ" +
+      "erMessageNew.BatchReadResponse.SkipRange" +
+      "\022c\n\npartitions\030\002 \003(\0132O.Ydb.PersQueue.V1." +
+      "StreamingReadServerMessageNew.BatchReadR" +
+      "esponse.PartitionData\032\304\006\n\rPartitionData\022" +
+      "\033\n\023partition_stream_id\030\001 \001(\003\022\017\n\007offsets\030" +
+      "\002 \003(\003\022\030\n\020sequence_numbers\030\003 \003(\003\022\025\n\rcreat" +
+      "ed_at_ms\030\004 \003(\003\022\025\n\rwritten_at_ms\030\005 \003(\003\022\031\n",
+      "\021message_group_ids\030\006 \003(\t\022 \n\030message_grou" +
+      "p_id_indexes\030\007 \003(\022\022\013\n\003ips\030\010 \003(\t\022\022\n\nip_in" +
+      "dexes\030\t \003(\022\022@\n\024message_session_meta\030\n \003(" +
+      "\0132\".Ydb.PersQueue.V1.SessionMetaValue\022$\n" +
+      "\034message_session_meta_indexes\030\013 \003(\022\022\025\n\rm" +
+      "essage_sizes\030\014 \003(\003\022\026\n\016blocks_offsets\030\r \003" +
+      "(\003\022\033\n\023blocks_part_numbers\030\016 \003(\003\022\035\n\025block" +
+      "s_message_counts\030\017 \003(\003\022!\n\031blocks_uncompr" +
+      "essed_sizes\030\020 \003(\003\022\026\n\016blocks_headers\030\021 \003(" +
+      "\014\022\023\n\013blocks_data\030\022 \003(\014\022\025\n\rresume_cookie\030",
+      "2 \001(\003\022w\n\017read_statistics\030d \001(\0132^.Ydb.Per" +
       "sQueue.V1.StreamingReadServerMessageNew." +
-      "CreateReadStreamRequestH\000\022o\n\033destroy_rea" +
-      "d_stream_request\030\006 \001(\0132H.Ydb.PersQueue.V",
-      "1.StreamingReadServerMessageNew.DestroyR" +
-      "eadStreamRequestH\000\022Y\n\017commit_response\030\007 " +
-      "\001(\0132>.Ydb.PersQueue.V1.StreamingReadServ" +
-      "erMessageNew.CommitResponseH\000\022o\n\033read_st" +
-      "ream_status_response\030\010 \001(\0132H.Ydb.PersQue" +
-      "ue.V1.StreamingReadServerMessageNew.Read" +
-      "StreamStatusResponseH\000\022^\n\022stop_read_resp" +
-      "onse\030\t \001(\0132@.Ydb.PersQueue.V1.StreamingR" +
-      "eadServerMessageNew.StopReadResponseH\000\022b" +
-      "\n\024resume_read_response\030\n \001(\0132B.Ydb.PersQ",
-      "ueue.V1.StreamingReadServerMessageNew.Re" +
-      "sumeReadResponseH\000\022^\n\022add_topic_response" +
-      "\030\013 \001(\0132@.Ydb.PersQueue.V1.StreamingReadS" +
-      "erverMessageNew.AddTopicResponseH\000\022d\n\025re" +
-      "move_topic_response\030\014 \001(\0132C.Ydb.PersQueu" +
-      "e.V1.StreamingReadServerMessageNew.Remov" +
-      "eTopicResponseH\000\022)\n\006status\030\001 \001(\0162\031.Ydb.S" +
-      "tatusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Yd" +
-      "b.Issue.IssueMessage\032\206\002\n\014InitResponse\022\022\n" +
-      "\nsession_id\030\001 \001(\t\022\202\001\n\035block_format_versi",
-      "on_by_topic\030\002 \003(\0132[.Ydb.PersQueue.V1.Str" +
-      "eamingReadServerMessageNew.InitResponse." +
-      "BlockFormatVersionByTopicEntry\022\033\n\023max_me" +
-      "ta_cache_size\030\n \001(\003\032@\n\036BlockFormatVersio" +
-      "nByTopicEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(" +
-      "\003:\0028\001\032z\n\027CreateReadStreamRequest\0221\n\013read" +
-      "_stream\030\001 \001(\0132\034.Ydb.PersQueue.V1.ReadStr" +
-      "eam\022\030\n\020committed_offset\030\002 \001(\003\022\022\n\nend_off" +
-      "set\030\003 \001(\003\032^\n\030DestroyReadStreamRequest\022\026\n" +
-      "\016read_stream_id\030\001 \001(\003\022\020\n\010graceful\030\002 \001(\010\022",
-      "\030\n\020committed_offset\030\003 \001(\003\032\335\001\n\016CommitResp" +
-      "onse\022}\n\034partitions_committed_offsets\030\001 \003" +
-      "(\0132W.Ydb.PersQueue.V1.StreamingReadServe" +
-      "rMessageNew.CommitResponse.PartitionComm" +
-      "ittedOffset\032L\n\030PartitionCommittedOffset\022" +
-      "\026\n\016read_stream_id\030\001 \001(\003\022\030\n\020committed_off" +
-      "set\030\002 \001(\003\032\364\010\n\021BatchReadResponse\022_\n\nskip_" +
-      "range\030\001 \003(\0132K.Ydb.PersQueue.V1.Streaming" +
-      "ReadServerMessageNew.BatchReadResponse.S" +
-      "kipRange\022c\n\npartitions\030\002 \003(\0132O.Ydb.PersQ",
-      "ueue.V1.StreamingReadServerMessageNew.Ba" +
-      "tchReadResponse.PartitionData\032\277\006\n\rPartit" +
-      "ionData\022\026\n\016read_stream_id\030\001 \001(\003\022\017\n\007offse" +
-      "ts\030\002 \003(\003\022\030\n\020sequence_numbers\030\003 \003(\003\022\025\n\rcr" +
-      "eated_at_ms\030\004 \003(\003\022\025\n\rwritten_at_ms\030\005 \003(\003" +
-      "\022\031\n\021message_group_ids\030\006 \003(\t\022 \n\030message_g" +
-      "roup_id_indexes\030\007 \003(\022\022\013\n\003ips\030\010 \003(\t\022\022\n\nip" +
-      "_indexes\030\t \003(\022\022@\n\024message_session_meta\030\n" +
-      " \003(\0132\".Ydb.PersQueue.V1.SessionMetaValue" +
-      "\022$\n\034message_session_meta_indexes\030\013 \003(\022\022\025",
-      "\n\rmessage_sizes\030\014 \003(\003\022\026\n\016blocks_offsets\030" +
-      "\r \003(\003\022\033\n\023blocks_part_numbers\030\016 \003(\003\022\035\n\025bl" +
-      "ocks_message_counts\030\017 \003(\003\022!\n\031blocks_unco" +
-      "mpressed_sizes\030\020 \003(\003\022\026\n\016blocks_headers\030\021" +
-      " \003(\014\022\023\n\013blocks_data\030\022 \003(\014\022\025\n\rresume_cook" +
-      "ie\0302 \001(\003\022w\n\017read_statistics\030d \001(\0132^.Ydb." +
-      "PersQueue.V1.StreamingReadServerMessageN" +
-      "ew.BatchReadResponse.PartitionData.ReadS" +
-      "tatistics\032\253\001\n\016ReadStatistics\022\030\n\020blobs_fr" +
-      "om_cache\030\001 \001(\003\022\027\n\017blobs_from_disk\030\002 \001(\003\022",
-      "\027\n\017bytes_from_head\030\003 \001(\003\022\030\n\020bytes_from_c" +
-      "ache\030\004 \001(\003\022\027\n\017bytes_from_disk\030\005 \001(\003\022\032\n\022r" +
-      "epack_duration_ms\030\006 \001(\003\032W\n\tSkipRange\022\026\n\016" +
-      "read_stream_id\030\001 \001(\003\0222\n\nskip_range\030\002 \001(\013" +
-      "2\036.Ydb.PersQueue.V1.OffsetsRange\032\201\001\n\030Rea" +
-      "dStreamStatusResponse\022\026\n\016read_stream_id\030" +
-      "\001 \001(\003\022\030\n\020committed_offset\030\002 \001(\003\022\022\n\nend_o" +
-      "ffset\030\003 \001(\003\022\037\n\027written_at_watermark_ms\030\004" +
-      " \001(\003\032\022\n\020StopReadResponse\032\024\n\022ResumeReadRe" +
-      "sponse\0320\n\020AddTopicResponse\022\034\n\024block_form",
-      "at_version\030\001 \001(\003\032\025\n\023RemoveTopicResponseB" +
-      "\020\n\016server_message\"\217\001\n\nReadStream\022\r\n\005topi" +
-      "c\030\001 \001(\t\022\017\n\007cluster\030\002 \001(\t\022\024\n\014partition_id" +
-      "\030\003 \001(\003\022\032\n\022partition_group_id\030\004 \001(\003\022\026\n\016re" +
-      "ad_stream_id\030\006 \001(\003\022\027\n\017connection_meta\030\007 " +
-      "\001(\014\"\274\020\n#MigrationStreamingReadClientMess" +
-      "age\022Y\n\014init_request\030\001 \001(\0132A.Ydb.PersQueu" +
-      "e.V1.MigrationStreamingReadClientMessage" +
-      ".InitRequestH\000\022J\n\004read\030\002 \001(\0132:.Ydb.PersQ" +
-      "ueue.V1.MigrationStreamingReadClientMess",
-      "age.ReadH\000\022U\n\nstart_read\030\003 \001(\0132?.Ydb.Per" +
-      "sQueue.V1.MigrationStreamingReadClientMe" +
-      "ssage.StartReadH\000\022N\n\006commit\030\004 \001(\0132<.Ydb." +
-      "PersQueue.V1.MigrationStreamingReadClien" +
-      "tMessage.CommitH\000\022R\n\010released\030\005 \001(\0132>.Yd" +
+      "BatchReadResponse.PartitionData.ReadStat" +
+      "istics\032\253\001\n\016ReadStatistics\022\030\n\020blobs_from_" +
+      "cache\030\001 \001(\003\022\027\n\017blobs_from_disk\030\002 \001(\003\022\027\n\017" +
+      "bytes_from_head\030\003 \001(\003\022\030\n\020bytes_from_cach" +
+      "e\030\004 \001(\003\022\027\n\017bytes_from_disk\030\005 \001(\003\022\032\n\022repa" +
+      "ck_duration_ms\030\006 \001(\003\032\\\n\tSkipRange\022\033\n\023par" +
+      "tition_stream_id\030\001 \001(\003\0222\n\nskip_range\030\002 \001" +
+      "(\0132\036.Ydb.PersQueue.V1.OffsetsRange\032\213\001\n\035P",
+      "artitionStreamStatusResponse\022\033\n\023partitio" +
+      "n_stream_id\030\001 \001(\003\022\030\n\020committed_offset\030\002 " +
+      "\001(\003\022\022\n\nend_offset\030\003 \001(\003\022\037\n\027written_at_wa" +
+      "termark_ms\030\004 \001(\003\032\022\n\020StopReadResponse\032\024\n\022" +
+      "ResumeReadResponse\0320\n\020AddTopicResponse\022\034" +
+      "\n\024block_format_version\030\001 \001(\003\032\025\n\023RemoveTo" +
+      "picResponseB\020\n\016server_message\"\231\001\n\017Partit" +
+      "ionStream\022\r\n\005topic\030\001 \001(\t\022\017\n\007cluster\030\002 \001(" +
+      "\t\022\024\n\014partition_id\030\003 \001(\003\022\032\n\022partition_gro" +
+      "up_id\030\004 \001(\003\022\033\n\023partition_stream_id\030\006 \001(\003",
+      "\022\027\n\017connection_meta\030\007 \001(\014\"\332\020\n#MigrationS" +
+      "treamingReadClientMessage\022Y\n\014init_reques" +
+      "t\030\001 \001(\0132A.Ydb.PersQueue.V1.MigrationStre" +
+      "amingReadClientMessage.InitRequestH\000\022J\n\004" +
+      "read\030\002 \001(\0132:.Ydb.PersQueue.V1.MigrationS" +
+      "treamingReadClientMessage.ReadH\000\022U\n\nstar" +
+      "t_read\030\003 \001(\0132?.Ydb.PersQueue.V1.Migratio" +
+      "nStreamingReadClientMessage.StartReadH\000\022" +
+      "N\n\006commit\030\004 \001(\0132<.Ydb.PersQueue.V1.Migra" +
+      "tionStreamingReadClientMessage.CommitH\000\022",
+      "R\n\010released\030\005 \001(\0132>.Ydb.PersQueue.V1.Mig" +
+      "rationStreamingReadClientMessage.Release" +
+      "dH\000\022N\n\006status\030\006 \001(\0132<.Ydb.PersQueue.V1.M" +
+      "igrationStreamingReadClientMessage.Statu" +
+      "sH\000\022\r\n\005token\030\024 \001(\014\032a\n\021TopicReadSettings\022" +
+      "\r\n\005topic\030\001 \001(\t\022\033\n\023partition_group_ids\030\002 " +
+      "\003(\003\022 \n\030start_from_written_at_ms\030\003 \001(\003\032\372\007" +
+      "\n\013InitRequest\022e\n\024topics_read_settings\030\001 " +
+      "\003(\0132G.Ydb.PersQueue.V1.MigrationStreamin" +
+      "gReadClientMessage.TopicReadSettings\022\032\n\022",
+      "read_only_original\030\002 \001(\010\022\020\n\010consumer\030\003 \001" +
+      "(\t\022\033\n\023max_lag_duration_ms\030\004 \001(\003\022 \n\030start" +
+      "_from_written_at_ms\030\005 \001(\003\022*\n\"max_support" +
+      "ed_block_format_version\030\006 \001(\003\022\033\n\023max_met" +
+      "a_cache_size\030\n \001(\003\022\022\n\nsession_id\030d \001(\t\022\032" +
+      "\n\022connection_attempt\030e \001(\003\022V\n\005state\030f \001(" +
+      "\0132G.Ydb.PersQueue.V1.MigrationStreamingR" +
+      "eadClientMessage.InitRequest.State\022\030\n\017id" +
+      "le_timeout_ms\030\310\001 \001(\003\0221\n\013read_params\030* \001(" +
+      "\0132\034.Ydb.PersQueue.V1.ReadParams\032\370\003\n\005Stat",
+      "e\022~\n\030partition_streams_states\030\001 \003(\0132\\.Yd" +
       "b.PersQueue.V1.MigrationStreamingReadCli" +
-      "entMessage.ReleasedH\000\022N\n\006status\030\006 \001(\0132<." +
-      "Ydb.PersQueue.V1.MigrationStreamingReadC" +
-      "lientMessage.StatusH\000\022\r\n\005token\030\024 \001(\014\032a\n\021" +
-      "TopicReadSettings\022\r\n\005topic\030\001 \001(\t\022\033\n\023part",
-      "ition_group_ids\030\002 \003(\003\022 \n\030start_from_writ" +
-      "ten_at_ms\030\003 \001(\003\032\334\007\n\013InitRequest\022e\n\024topic" +
-      "s_read_settings\030\001 \003(\0132G.Ydb.PersQueue.V1" +
-      ".MigrationStreamingReadClientMessage.Top" +
-      "icReadSettings\022\032\n\022read_only_original\030\002 \001" +
-      "(\010\022\020\n\010consumer\030\003 \001(\t\022\033\n\023max_lag_duration" +
-      "_ms\030\004 \001(\003\022 \n\030start_from_written_at_ms\030\005 " +
-      "\001(\003\022*\n\"max_supported_block_format_versio" +
-      "n\030\006 \001(\003\022\033\n\023max_meta_cache_size\030\n \001(\003\022\022\n\n" +
-      "session_id\030d \001(\t\022\032\n\022connection_attempt\030e",
-      " \001(\003\022V\n\005state\030f \001(\0132G.Ydb.PersQueue.V1.M" +
-      "igrationStreamingReadClientMessage.InitR" +
-      "equest.State\022\030\n\017idle_timeout_ms\030\310\001 \001(\003\0221" +
-      "\n\013read_params\030* \001(\0132\034.Ydb.PersQueue.V1.R" +
-      "eadParams\032\332\003\n\005State\022t\n\023read_streams_stat" +
-      "es\030\001 \003(\0132W.Ydb.PersQueue.V1.MigrationStr" +
-      "eamingReadClientMessage.InitRequest.Stat" +
-      "e.ReadStreamState\032\332\002\n\017ReadStreamState\0221\n" +
-      "\013read_stream\030\001 \001(\0132\034.Ydb.PersQueue.V1.Re" +
-      "adStream\022\023\n\013read_offset\030\002 \001(\003\0225\n\roffset_",
-      "ranges\030\003 \003(\0132\036.Ydb.PersQueue.V1.OffsetsR" +
-      "ange\022n\n\006status\030\004 \001(\0162^.Ydb.PersQueue.V1." +
-      "MigrationStreamingReadClientMessage.Init" +
-      "Request.State.ReadStreamState.Status\"X\n\006" +
-      "Status\022\026\n\022STATUS_UNSPECIFIED\020\000\022\014\n\010CREATI" +
-      "NG\020\001\022\016\n\nDESTROYING\020\002\022\013\n\007READING\020\003\022\013\n\007STO" +
-      "PPED\020\004\032\006\n\004Read\032\261\001\n\tStartRead\022%\n\005topic\030\001 " +
-      "\001(\0132\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster\030\002" +
-      " \001(\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001" +
-      "(\004\022\023\n\013read_offset\030\006 \001(\004\022\025\n\rcommit_offset",
-      "\030\007 \001(\004\022\032\n\022verify_read_offset\030\010 \001(\010\032h\n\010Re" +
-      "leased\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V1" +
-      ".Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003 \001(" +
-      "\004\022\021\n\tassign_id\030\005 \001(\004\0329\n\006Commit\022/\n\007cookie" +
-      "s\030\001 \003(\0132\036.Ydb.PersQueue.V1.CommitCookie\032" +
-      "f\n\006Status\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue" +
-      ".V1.Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003" +
-      " \001(\004\022\021\n\tassign_id\030\005 \001(\004B\t\n\007request\"\207\021\n#M" +
-      "igrationStreamingReadServerMessage\022)\n\006st" +
-      "atus\030\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n",
-      "\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMessage\022[" +
-      "\n\rinit_response\030\003 \001(\0132B.Ydb.PersQueue.V1" +
-      ".MigrationStreamingReadServerMessage.Ini" +
-      "tResponseH\000\022U\n\ndata_batch\030\004 \001(\0132?.Ydb.Pe" +
-      "rsQueue.V1.MigrationStreamingReadServerM" +
-      "essage.DataBatchH\000\022R\n\010assigned\030\005 \001(\0132>.Y" +
-      "db.PersQueue.V1.MigrationStreamingReadSe" +
-      "rverMessage.AssignedH\000\022P\n\007release\030\006 \001(\0132" +
-      "=.Ydb.PersQueue.V1.MigrationStreamingRea" +
-      "dServerMessage.ReleaseH\000\022T\n\tcommitted\030\007 ",
-      "\001(\0132?.Ydb.PersQueue.V1.MigrationStreamin" +
-      "gReadServerMessage.CommittedH\000\022a\n\020partit" +
-      "ion_status\030\010 \001(\0132E.Ydb.PersQueue.V1.Migr" +
-      "ationStreamingReadServerMessage.Partitio" +
-      "nStatusH\000\032\214\002\n\014InitResponse\022\022\n\nsession_id" +
-      "\030\001 \001(\t\022\210\001\n\035block_format_version_by_topic" +
-      "\030\002 \003(\0132a.Ydb.PersQueue.V1.MigrationStrea" +
-      "mingReadServerMessage.InitResponse.Block" +
-      "FormatVersionByTopicEntry\022\033\n\023max_meta_ca" +
-      "che_size\030\n \001(\003\032@\n\036BlockFormatVersionByTo",
-      "picEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\003:\0028\001" +
-      "\032\221\001\n\010Assigned\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQ" +
-      "ueue.V1.Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tpartiti" +
-      "on\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004\022\023\n\013read_offs" +
-      "et\030\006 \001(\004\022\022\n\nend_offset\030\007 \001(\004\032\230\001\n\007Release" +
+      "entMessage.InitRequest.State.PartitionSt" +
+      "reamState\032\356\002\n\024PartitionStreamState\022;\n\020pa" +
+      "rtition_stream\030\001 \001(\0132!.Ydb.PersQueue.V1." +
+      "PartitionStream\022\023\n\013read_offset\030\002 \001(\003\0225\n\r" +
+      "offset_ranges\030\003 \003(\0132\036.Ydb.PersQueue.V1.O" +
+      "ffsetsRange\022s\n\006status\030\004 \001(\0162c.Ydb.PersQu" +
+      "eue.V1.MigrationStreamingReadClientMessa" +
+      "ge.InitRequest.State.PartitionStreamStat",
+      "e.Status\"X\n\006Status\022\026\n\022STATUS_UNSPECIFIED" +
+      "\020\000\022\014\n\010CREATING\020\001\022\016\n\nDESTROYING\020\002\022\013\n\007READ" +
+      "ING\020\003\022\013\n\007STOPPED\020\004\032\006\n\004Read\032\261\001\n\tStartRead" +
       "\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022" +
       "\017\n\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\ta" +
-      "ssign_id\030\005 \001(\004\022\030\n\020forceful_release\030\006 \001(\010" +
-      "\022\025\n\rcommit_offset\030\007 \001(\004\032<\n\tCommitted\022/\n\007" +
-      "cookies\030\001 \003(\0132\036.Ydb.PersQueue.V1.CommitC",
-      "ookie\032\264\005\n\tDataBatch\022e\n\016partition_data\030\001 " +
-      "\003(\0132M.Ydb.PersQueue.V1.MigrationStreamin" +
-      "gReadServerMessage.DataBatch.PartitionDa" +
-      "ta\032g\n\013MessageData\022\016\n\006offset\030\001 \001(\004\022\016\n\006seq" +
-      "_no\030\002 \001(\004\022\033\n\023create_timestamp_ms\030\003 \001(\004\022\r" +
-      "\n\005codec\030\004 \001(\t\022\014\n\004data\030\005 \001(\014\032\327\001\n\005Batch\022\021\n" +
-      "\tsource_id\030\002 \001(\014\0220\n\014extra_fields\030\003 \003(\0132\032" +
-      ".Ydb.PersQueue.V1.KeyValue\022\032\n\022write_time" +
-      "stamp_ms\030\004 \001(\004\022\n\n\002ip\030\005 \001(\t\022a\n\014message_da" +
-      "ta\030\001 \003(\0132K.Ydb.PersQueue.V1.MigrationStr",
-      "eamingReadServerMessage.DataBatch.Messag" +
-      "eData\032\374\001\n\rPartitionData\022%\n\005topic\030\001 \001(\0132\026" +
-      ".Ydb.PersQueue.V1.Path\022\017\n\007cluster\030\002 \001(\t\022" +
-      "\021\n\tpartition\030\003 \001(\004\022V\n\007batches\030\004 \003(\0132E.Yd" +
-      "b.PersQueue.V1.MigrationStreamingReadSer" +
-      "verMessage.DataBatch.Batch\022.\n\006cookie\030\005 \001" +
-      "(\0132\036.Ydb.PersQueue.V1.CommitCookie\022\030\n\020de" +
-      "precated_topic\030\n \001(\t\032\271\001\n\017PartitionStatus" +
-      "\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022" +
-      "\017\n\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\ta",
-      "ssign_id\030\005 \001(\004\022\030\n\020committed_offset\030\006 \001(\004" +
-      "\022\022\n\nend_offset\030\007 \001(\004\022\032\n\022write_watermark_" +
-      "ms\030\010 \001(\004B\n\n\010response\"\271\001\n\017ReadInfoRequest" +
-      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
-      "ons.OperationParams\022&\n\006topics\030\002 \003(\0132\026.Yd" +
-      "b.PersQueue.V1.Path\022\031\n\021get_only_original" +
-      "\030\003 \001(\010\022(\n\010consumer\030\004 \001(\0132\026.Ydb.PersQueue" +
-      ".V1.Path\"@\n\020ReadInfoResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\241\006\n\016R" +
-      "eadInfoResult\022:\n\006topics\030\001 \003(\0132*.Ydb.Pers",
-      "Queue.V1.ReadInfoResult.TopicInfo\032\322\005\n\tTo" +
-      "picInfo\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V" +
-      "1.Path\022\017\n\007cluster\030\002 \001(\t\022)\n\006status\030\003 \001(\0162" +
-      "\031.Ydb.StatusIds.StatusCode\022\'\n\006issues\030\004 \003" +
-      "(\0132\027.Ydb.Issue.IssueMessage\022L\n\npartition" +
-      "s\030\005 \003(\01328.Ydb.PersQueue.V1.ReadInfoResul" +
-      "t.TopicInfo.PartitionInfo\032\352\003\n\rPartitionI" +
-      "nfo\022\021\n\tpartition\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031" +
-      ".Ydb.StatusIds.StatusCode\022\'\n\006issues\030\003 \003(" +
-      "\0132\027.Ydb.Issue.IssueMessage\022\024\n\014start_offs",
-      "et\030\004 \001(\004\022\022\n\nend_offset\030\005 \001(\004\022\025\n\rcommit_o" +
-      "ffset\030\006 \001(\004\022\032\n\022commit_time_lag_ms\030\007 \001(\004\022" +
-      "\023\n\013read_offset\030\010 \001(\004\022\030\n\020read_time_lag_ms" +
-      "\030\t \001(\004\022\022\n\nsession_id\030\n \001(\t\022\023\n\013client_nod" +
-      "e\030\013 \001(\t\022\022\n\nproxy_node\030\014 \001(\t\022\023\n\013tablet_no" +
-      "de\030\r \001(\t\022\021\n\tassign_id\030\016 \001(\004\022\033\n\023assign_ti" +
-      "mestamp_ms\030\017 \001(\004\022\030\n\020last_read_cookie\030\020 \001" +
-      "(\004\022\035\n\025committed_read_cookie\030\021 \001(\004\022+\n#out" +
-      "_of_order_read_cookies_to_commit\030\022 \003(\004\"[" +
-      "\n\020DropTopicRequest\0229\n\020operation_params\030\001",
-      " \001(\0132\037.Ydb.Operations.OperationParams\022\014\n" +
-      "\004path\030\002 \001(\t\"A\n\021DropTopicResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\021" +
-      "\n\017DropTopicResult\"\261\001\n\013Credentials\022\025\n\013oau" +
-      "th_token\030\001 \001(\tH\000\022\024\n\njwt_params\030\002 \001(\tH\000\0220" +
-      "\n\003iam\030\003 \001(\0132!.Ydb.PersQueue.V1.Credentia" +
-      "ls.IamH\000\0324\n\003Iam\022\020\n\010endpoint\030\001 \001(\t\022\033\n\023ser" +
-      "vice_account_key\030\002 \001(\tB\r\n\013credentials\"\206\n" +
-      "\n\rTopicSettings\022!\n\020partitions_count\030\001 \001(" +
-      "\005B\007\262\346*\003> 0\022$\n\023retention_period_ms\030\002 \001(\003B",
-      "\007\262\346*\003> 0\022@\n\020supported_format\030\003 \001(\0162&.Ydb" +
-      ".PersQueue.V1.TopicSettings.Format\022G\n\020su" +
-      "pported_codecs\030\004 \003(\0162%.Ydb.PersQueue.V1." +
-      "TopicSettings.CodecB\006\232\346*\002\030d\022,\n\032max_parti" +
-      "tion_storage_size\030\005 \001(\003B\010\262\346*\004>= 0\022+\n\031max" +
-      "_partition_write_speed\030\006 \001(\003B\010\262\346*\004>= 0\022+" +
-      "\n\031max_partition_write_burst\030\007 \001(\003B\010\262\346*\004>" +
-      "= 0\022\035\n\025client_write_disabled\030\010 \001(\010\022E\n\nre" +
-      "ad_rules\030\t \003(\0132(.Ydb.PersQueue.V1.TopicS" +
-      "ettings.ReadRuleB\007\232\346*\003\030\270\027\022C\n\nattributes\030",
-      "\n \003(\0132/.Ydb.PersQueue.V1.TopicSettings.A" +
-      "ttributesEntry\022L\n\022remote_mirror_rule\030\013 \001" +
-      "(\01320.Ydb.PersQueue.V1.TopicSettings.Remo" +
-      "teMirrorRule\032\221\002\n\010ReadRule\022\033\n\rconsumer_na" +
-      "me\030\001 \001(\tB\004\220\346*\001\022\021\n\timportant\030\002 \001(\010\022/\n\035sta" +
-      "rting_message_timestamp_ms\030\003 \001(\003B\010\262\346*\004>=" +
-      " 0\022@\n\020supported_format\030\004 \001(\0162&.Ydb.PersQ" +
-      "ueue.V1.TopicSettings.Format\022G\n\020supporte" +
-      "d_codecs\030\005 \003(\0162%.Ydb.PersQueue.V1.TopicS" +
-      "ettings.CodecB\006\232\346*\002\030d\022\031\n\007version\030\006 \001(\003B\010",
-      "\262\346*\004>= 0\0321\n\017AttributesEntry\022\013\n\003key\030\001 \001(\t" +
-      "\022\r\n\005value\030\002 \001(\t:\0028\001\032\306\001\n\020RemoteMirrorRule" +
-      "\022\020\n\010endpoint\030\001 \001(\t\022\022\n\ntopic_path\030\002 \001(\t\022\025" +
-      "\n\rconsumer_name\030\003 \001(\t\0222\n\013credentials\030\004 \001" +
-      "(\0132\035.Ydb.PersQueue.V1.Credentials\022/\n\035sta" +
-      "rting_message_timestamp_ms\030\005 \001(\003B\010\262\346*\004>=" +
-      " 0\022\020\n\010database\030\006 \001(\t\"1\n\006Format\022\026\n\022FORMAT" +
-      "_UNSPECIFIED\020\000\022\017\n\013FORMAT_BASE\020\001\"]\n\005Codec" +
-      "\022\025\n\021CODEC_UNSPECIFIED\020\000\022\r\n\tCODEC_RAW\020\001\022\016" +
-      "\n\nCODEC_GZIP\020\002\022\016\n\nCODEC_LZOP\020\003\022\016\n\nCODEC_",
-      "ZSTD\020\004\"\226\001\n\022CreateTopicRequest\0229\n\020operati" +
-      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
-      "onParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\0221\n\010settings" +
-      "\030\004 \001(\0132\037.Ydb.PersQueue.V1.TopicSettings\"" +
-      "C\n\023CreateTopicResponse\022,\n\toperation\030\001 \001(" +
-      "\0132\031.Ydb.Operations.Operation\"\023\n\021CreateTo" +
-      "picResult\"\225\001\n\021AlterTopicRequest\0229\n\020opera" +
-      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
-      "tionParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\0221\n\010settin" +
-      "gs\030\004 \001(\0132\037.Ydb.PersQueue.V1.TopicSetting",
-      "s\"B\n\022AlterTopicResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.Operation\"\022\n\020AlterTo" +
-      "picResult\"e\n\024DescribeTopicRequest\0229\n\020ope" +
-      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
-      "rationParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\"E\n\025Desc" +
-      "ribeTopicResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
-      "db.Operations.Operation\"i\n\023DescribeTopic" +
-      "Result\022\037\n\004self\030\001 \001(\0132\021.Ydb.Scheme.Entry\022" +
-      "1\n\010settings\030\002 \001(\0132\037.Ydb.PersQueue.V1.Top" +
-      "icSettingsB\035\n\030tech.ydb.persqueue\370\001",
-      "\001b\006proto3"
+      "ssign_id\030\005 \001(\004\022\023\n\013read_offset\030\006 \001(\004\022\025\n\rc" +
+      "ommit_offset\030\007 \001(\004\022\032\n\022verify_read_offset" +
+      "\030\010 \001(\010\032h\n\010Released\022%\n\005topic\030\001 \001(\0132\026.Ydb." +
+      "PersQueue.V1.Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tpa" +
+      "rtition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004\0329\n\006Comm",
+      "it\022/\n\007cookies\030\001 \003(\0132\036.Ydb.PersQueue.V1.C" +
+      "ommitCookie\032f\n\006Status\022%\n\005topic\030\001 \001(\0132\026.Y" +
+      "db.PersQueue.V1.Path\022\017\n\007cluster\030\002 \001(\t\022\021\n" +
+      "\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004B\t\n\007r" +
+      "equest\"\274\021\n#MigrationStreamingReadServerM" +
+      "essage\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.S" +
+      "tatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.Is" +
+      "sueMessage\022[\n\rinit_response\030\003 \001(\0132B.Ydb." +
+      "PersQueue.V1.MigrationStreamingReadServe" +
+      "rMessage.InitResponseH\000\022U\n\ndata_batch\030\004 ",
+      "\001(\0132?.Ydb.PersQueue.V1.MigrationStreamin" +
+      "gReadServerMessage.DataBatchH\000\022R\n\010assign" +
+      "ed\030\005 \001(\0132>.Ydb.PersQueue.V1.MigrationStr" +
+      "eamingReadServerMessage.AssignedH\000\022P\n\007re" +
+      "lease\030\006 \001(\0132=.Ydb.PersQueue.V1.Migration" +
+      "StreamingReadServerMessage.ReleaseH\000\022T\n\t" +
+      "committed\030\007 \001(\0132?.Ydb.PersQueue.V1.Migra" +
+      "tionStreamingReadServerMessage.Committed" +
+      "H\000\022a\n\020partition_status\030\010 \001(\0132E.Ydb.PersQ" +
+      "ueue.V1.MigrationStreamingReadServerMess",
+      "age.PartitionStatusH\000\032\214\002\n\014InitResponse\022\022" +
+      "\n\nsession_id\030\001 \001(\t\022\210\001\n\035block_format_vers" +
+      "ion_by_topic\030\002 \003(\0132a.Ydb.PersQueue.V1.Mi" +
+      "grationStreamingReadServerMessage.InitRe" +
+      "sponse.BlockFormatVersionByTopicEntry\022\033\n" +
+      "\023max_meta_cache_size\030\n \001(\003\032@\n\036BlockForma" +
+      "tVersionByTopicEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005val" +
+      "ue\030\002 \001(\003:\0028\001\032\221\001\n\010Assigned\022%\n\005topic\030\001 \001(\013" +
+      "2\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster\030\002 \001(" +
+      "\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004\022",
+      "\023\n\013read_offset\030\006 \001(\004\022\022\n\nend_offset\030\007 \001(\004" +
+      "\032\230\001\n\007Release\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQu" +
+      "eue.V1.Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tpartitio" +
+      "n\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004\022\030\n\020forceful_r" +
+      "elease\030\006 \001(\010\022\025\n\rcommit_offset\030\007 \001(\004\032<\n\tC" +
+      "ommitted\022/\n\007cookies\030\001 \003(\0132\036.Ydb.PersQueu" +
+      "e.V1.CommitCookie\032\351\005\n\tDataBatch\022e\n\016parti" +
+      "tion_data\030\001 \003(\0132M.Ydb.PersQueue.V1.Migra" +
+      "tionStreamingReadServerMessage.DataBatch" +
+      ".PartitionData\032\233\001\n\013MessageData\022\016\n\006offset",
+      "\030\001 \001(\004\022\016\n\006seq_no\030\002 \001(\004\022\033\n\023create_timesta" +
+      "mp_ms\030\003 \001(\004\022&\n\005codec\030\004 \001(\0162\027.Ydb.PersQue" +
+      "ue.V1.Codec\022\014\n\004data\030\005 \001(\014\022\031\n\021uncompresse" +
+      "d_size\030\006 \001(\004\032\327\001\n\005Batch\022\021\n\tsource_id\030\002 \001(" +
+      "\014\0220\n\014extra_fields\030\003 \003(\0132\032.Ydb.PersQueue." +
+      "V1.KeyValue\022\032\n\022write_timestamp_ms\030\004 \001(\004\022" +
+      "\n\n\002ip\030\005 \001(\t\022a\n\014message_data\030\001 \003(\0132K.Ydb." +
+      "PersQueue.V1.MigrationStreamingReadServe" +
+      "rMessage.DataBatch.MessageData\032\374\001\n\rParti" +
+      "tionData\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.",
+      "V1.Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003 " +
+      "\001(\004\022V\n\007batches\030\004 \003(\0132E.Ydb.PersQueue.V1." +
+      "MigrationStreamingReadServerMessage.Data" +
+      "Batch.Batch\022.\n\006cookie\030\005 \001(\0132\036.Ydb.PersQu" +
+      "eue.V1.CommitCookie\022\030\n\020deprecated_topic\030" +
+      "\n \001(\t\032\271\001\n\017PartitionStatus\022%\n\005topic\030\001 \001(\013" +
+      "2\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster\030\002 \001(" +
+      "\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004\022" +
+      "\030\n\020committed_offset\030\006 \001(\004\022\022\n\nend_offset\030" +
+      "\007 \001(\004\022\032\n\022write_watermark_ms\030\010 \001(\004B\n\n\010res",
+      "ponse\"\271\001\n\017ReadInfoRequest\0229\n\020operation_p" +
+      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
+      "rams\022&\n\006topics\030\002 \003(\0132\026.Ydb.PersQueue.V1." +
+      "Path\022\031\n\021get_only_original\030\003 \001(\010\022(\n\010consu" +
+      "mer\030\004 \001(\0132\026.Ydb.PersQueue.V1.Path\"@\n\020Rea" +
+      "dInfoResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
+      "perations.Operation\"\241\006\n\016ReadInfoResult\022:" +
+      "\n\006topics\030\001 \003(\0132*.Ydb.PersQueue.V1.ReadIn" +
+      "foResult.TopicInfo\032\322\005\n\tTopicInfo\022%\n\005topi" +
+      "c\030\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022\017\n\007clust",
+      "er\030\002 \001(\t\022)\n\006status\030\003 \001(\0162\031.Ydb.StatusIds" +
+      ".StatusCode\022\'\n\006issues\030\004 \003(\0132\027.Ydb.Issue." +
+      "IssueMessage\022L\n\npartitions\030\005 \003(\01328.Ydb.P" +
+      "ersQueue.V1.ReadInfoResult.TopicInfo.Par" +
+      "titionInfo\032\352\003\n\rPartitionInfo\022\021\n\tpartitio" +
+      "n\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031.Ydb.StatusIds." +
+      "StatusCode\022\'\n\006issues\030\003 \003(\0132\027.Ydb.Issue.I" +
+      "ssueMessage\022\024\n\014start_offset\030\004 \001(\004\022\022\n\nend" +
+      "_offset\030\005 \001(\004\022\025\n\rcommit_offset\030\006 \001(\004\022\032\n\022" +
+      "commit_time_lag_ms\030\007 \001(\004\022\023\n\013read_offset\030",
+      "\010 \001(\004\022\030\n\020read_time_lag_ms\030\t \001(\004\022\022\n\nsessi" +
+      "on_id\030\n \001(\t\022\023\n\013client_node\030\013 \001(\t\022\022\n\nprox" +
+      "y_node\030\014 \001(\t\022\023\n\013tablet_node\030\r \001(\t\022\021\n\tass" +
+      "ign_id\030\016 \001(\004\022\033\n\023assign_timestamp_ms\030\017 \001(" +
+      "\004\022\030\n\020last_read_cookie\030\020 \001(\004\022\035\n\025committed" +
+      "_read_cookie\030\021 \001(\004\022+\n#out_of_order_read_" +
+      "cookies_to_commit\030\022 \003(\004\"[\n\020DropTopicRequ" +
+      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\022\014\n\004path\030\002 \001(\t\"A\n\021" +
+      "DropTopicResponse\022,\n\toperation\030\001 \001(\0132\031.Y",
+      "db.Operations.Operation\"\021\n\017DropTopicResu" +
+      "lt\"\261\001\n\013Credentials\022\025\n\013oauth_token\030\001 \001(\tH" +
+      "\000\022\024\n\njwt_params\030\002 \001(\tH\000\0220\n\003iam\030\003 \001(\0132!.Y" +
+      "db.PersQueue.V1.Credentials.IamH\000\0324\n\003Iam" +
+      "\022\020\n\010endpoint\030\001 \001(\t\022\033\n\023service_account_ke" +
+      "y\030\002 \001(\tB\r\n\013credentials\"\213\t\n\rTopicSettings" +
+      "\022!\n\020partitions_count\030\001 \001(\005B\007\262\346*\003> 0\022$\n\023r" +
+      "etention_period_ms\030\002 \001(\003B\007\262\346*\003> 0\022@\n\020sup" +
+      "ported_format\030\003 \001(\0162&.Ydb.PersQueue.V1.T" +
+      "opicSettings.Format\0229\n\020supported_codecs\030",
+      "\004 \003(\0162\027.Ydb.PersQueue.V1.CodecB\006\232\346*\002\030d\022," +
+      "\n\032max_partition_storage_size\030\005 \001(\003B\010\262\346*\004" +
+      ">= 0\022+\n\031max_partition_write_speed\030\006 \001(\003B" +
+      "\010\262\346*\004>= 0\022+\n\031max_partition_write_burst\030\007" +
+      " \001(\003B\010\262\346*\004>= 0\022\035\n\025client_write_disabled\030" +
+      "\010 \001(\010\022E\n\nread_rules\030\t \003(\0132(.Ydb.PersQueu" +
+      "e.V1.TopicSettings.ReadRuleB\007\232\346*\003\030\270\027\022C\n\n" +
+      "attributes\030\n \003(\0132/.Ydb.PersQueue.V1.Topi" +
+      "cSettings.AttributesEntry\022L\n\022remote_mirr" +
+      "or_rule\030\013 \001(\01320.Ydb.PersQueue.V1.TopicSe",
+      "ttings.RemoteMirrorRule\032\203\002\n\010ReadRule\022\033\n\r" +
+      "consumer_name\030\001 \001(\tB\004\220\346*\001\022\021\n\timportant\030\002" +
+      " \001(\010\022/\n\035starting_message_timestamp_ms\030\003 " +
+      "\001(\003B\010\262\346*\004>= 0\022@\n\020supported_format\030\004 \001(\0162" +
+      "&.Ydb.PersQueue.V1.TopicSettings.Format\022" +
+      "9\n\020supported_codecs\030\005 \003(\0162\027.Ydb.PersQueu" +
+      "e.V1.CodecB\006\232\346*\002\030d\022\031\n\007version\030\006 \001(\003B\010\262\346*" +
+      "\004>= 0\0321\n\017AttributesEntry\022\013\n\003key\030\001 \001(\t\022\r\n" +
+      "\005value\030\002 \001(\t:\0028\001\032\306\001\n\020RemoteMirrorRule\022\020\n" +
+      "\010endpoint\030\001 \001(\t\022\022\n\ntopic_path\030\002 \001(\t\022\025\n\rc",
+      "onsumer_name\030\003 \001(\t\0222\n\013credentials\030\004 \001(\0132" +
+      "\035.Ydb.PersQueue.V1.Credentials\022/\n\035starti" +
+      "ng_message_timestamp_ms\030\005 \001(\003B\010\262\346*\004>= 0\022" +
+      "\020\n\010database\030\006 \001(\t\"1\n\006Format\022\026\n\022FORMAT_UN" +
+      "SPECIFIED\020\000\022\017\n\013FORMAT_BASE\020\001\"\226\001\n\022CreateT" +
+      "opicRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\022\022\n\004path\030\002" +
+      " \001(\tB\004\220\346*\001\0221\n\010settings\030\004 \001(\0132\037.Ydb.PersQ" +
+      "ueue.V1.TopicSettings\"C\n\023CreateTopicResp" +
+      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations",
+      ".Operation\"\023\n\021CreateTopicResult\"\225\001\n\021Alte" +
+      "rTopicRequest\0229\n\020operation_params\030\001 \001(\0132" +
+      "\037.Ydb.Operations.OperationParams\022\022\n\004path" +
+      "\030\002 \001(\tB\004\220\346*\001\0221\n\010settings\030\004 \001(\0132\037.Ydb.Per" +
+      "sQueue.V1.TopicSettings\"B\n\022AlterTopicRes" +
+      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
+      "s.Operation\"\022\n\020AlterTopicResult\"e\n\024Descr" +
+      "ibeTopicRequest\0229\n\020operation_params\030\001 \001(" +
+      "\0132\037.Ydb.Operations.OperationParams\022\022\n\004pa" +
+      "th\030\002 \001(\tB\004\220\346*\001\"E\n\025DescribeTopicResponse\022",
+      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
+      "ation\"i\n\023DescribeTopicResult\022\037\n\004self\030\001 \001" +
+      "(\0132\021.Ydb.Scheme.Entry\0221\n\010settings\030\002 \001(\0132" +
+      "\037.Ydb.PersQueue.V1.TopicSettings*]\n\005Code" +
+      "c\022\025\n\021CODEC_UNSPECIFIED\020\000\022\r\n\tCODEC_RAW\020\001\022" +
+      "\016\n\nCODEC_GZIP\020\002\022\016\n\nCODEC_LZOP\020\003\022\016\n\nCODEC" +
+      "_ZSTD\020\004B\035\n\030tech.ydb.persqueue\370\001\001b\006" +
+      "proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -97220,7 +97351,7 @@ public final class YdbPersqueueV1 {
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_descriptor,
-        new java.lang.String[] { "InitRequest", "ReadRequest", "CreateReadStreamResponse", "CommitRequest", "DestroyReadStreamResponse", "StopReadRequest", "ResumeReadRequest", "ReadStreamStatusRequest", "AddTopicRequest", "RemoveTopicRequest", "Token", "ClientMessage", });
+        new java.lang.String[] { "InitRequest", "ReadRequest", "CreatePartitionStreamResponse", "CommitRequest", "DestroyPartitionStreamResponse", "StopReadRequest", "ResumeReadRequest", "PartitionStreamStatusRequest", "AddTopicRequest", "RemoveTopicRequest", "Token", "ClientMessage", });
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_fieldAccessorTable = new
@@ -97232,55 +97363,55 @@ public final class YdbPersqueueV1 {
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_descriptor,
-        new java.lang.String[] { "ReadStreamsStates", });
-    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_ReadStreamState_descriptor =
+        new java.lang.String[] { "PartitionStreamsStates", });
+    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_PartitionStreamState_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_descriptor.getNestedTypes().get(0);
-    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_ReadStreamState_fieldAccessorTable = new
+    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_PartitionStreamState_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_ReadStreamState_descriptor,
-        new java.lang.String[] { "ReadStream", "ReadOffset", "OffsetRanges", "Status", });
+        internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_InitRequest_State_PartitionStreamState_descriptor,
+        new java.lang.String[] { "PartitionStream", "ReadOffset", "OffsetRanges", "Status", });
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadRequest_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_descriptor.getNestedTypes().get(1);
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadRequest_descriptor,
         new java.lang.String[] { "RequestUncompressedSize", });
-    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreateReadStreamResponse_descriptor =
+    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreatePartitionStreamResponse_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_descriptor.getNestedTypes().get(2);
-    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreateReadStreamResponse_fieldAccessorTable = new
+    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreatePartitionStreamResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreateReadStreamResponse_descriptor,
-        new java.lang.String[] { "ReadStreamId", "ReadOffset", "CommitOffset", "VerifyReadOffset", });
-    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyReadStreamResponse_descriptor =
+        internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CreatePartitionStreamResponse_descriptor,
+        new java.lang.String[] { "PartitionStreamId", "ReadOffset", "CommitOffset", "VerifyReadOffset", });
+    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyPartitionStreamResponse_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_descriptor.getNestedTypes().get(3);
-    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyReadStreamResponse_fieldAccessorTable = new
+    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyPartitionStreamResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyReadStreamResponse_descriptor,
-        new java.lang.String[] { "ReadStreamId", });
+        internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_DestroyPartitionStreamResponse_descriptor,
+        new java.lang.String[] { "PartitionStreamId", });
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_StopReadRequest_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_descriptor.getNestedTypes().get(4);
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_StopReadRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_StopReadRequest_descriptor,
-        new java.lang.String[] { "ReadStreamIds", });
+        new java.lang.String[] { "PartitionStreamIds", });
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ResumeReadRequest_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_descriptor.getNestedTypes().get(5);
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ResumeReadRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ResumeReadRequest_descriptor,
-        new java.lang.String[] { "ReadStreamIds", "ReadOffsets", "ResumeCookies", });
+        new java.lang.String[] { "PartitionStreamIds", "ReadOffsets", "ResumeCookies", });
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CommitRequest_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_descriptor.getNestedTypes().get(6);
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CommitRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_CommitRequest_descriptor,
         new java.lang.String[] { "Commits", });
-    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadStreamStatusRequest_descriptor =
+    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_PartitionStreamStatusRequest_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_descriptor.getNestedTypes().get(7);
-    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadStreamStatusRequest_fieldAccessorTable = new
+    internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_PartitionStreamStatusRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_ReadStreamStatusRequest_descriptor,
-        new java.lang.String[] { "ReadStreamId", });
+        internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_PartitionStreamStatusRequest_descriptor,
+        new java.lang.String[] { "PartitionStreamId", });
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_AddTopicRequest_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_descriptor.getNestedTypes().get(8);
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_AddTopicRequest_fieldAccessorTable = new
@@ -97304,13 +97435,13 @@ public final class YdbPersqueueV1 {
     internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_PartitionCommit_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingReadClientMessageNew_PartitionCommit_descriptor,
-        new java.lang.String[] { "ReadStreamId", "Offsets", });
+        new java.lang.String[] { "PartitionStreamId", "Offsets", });
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_descriptor,
-        new java.lang.String[] { "InitResponse", "BatchReadResponse", "CreateReadStreamRequest", "DestroyReadStreamRequest", "CommitResponse", "ReadStreamStatusResponse", "StopReadResponse", "ResumeReadResponse", "AddTopicResponse", "RemoveTopicResponse", "Status", "Issues", "ServerMessage", });
+        new java.lang.String[] { "InitResponse", "BatchReadResponse", "CreatePartitionStreamRequest", "DestroyPartitionStreamRequest", "CommitResponse", "PartitionStreamStatusResponse", "StopReadResponse", "ResumeReadResponse", "AddTopicResponse", "RemoveTopicResponse", "Status", "Issues", "ServerMessage", });
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_InitResponse_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_InitResponse_fieldAccessorTable = new
@@ -97323,18 +97454,18 @@ public final class YdbPersqueueV1 {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_InitResponse_BlockFormatVersionByTopicEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
-    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreateReadStreamRequest_descriptor =
+    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreatePartitionStreamRequest_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_descriptor.getNestedTypes().get(1);
-    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreateReadStreamRequest_fieldAccessorTable = new
+    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreatePartitionStreamRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreateReadStreamRequest_descriptor,
-        new java.lang.String[] { "ReadStream", "CommittedOffset", "EndOffset", });
-    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyReadStreamRequest_descriptor =
+        internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CreatePartitionStreamRequest_descriptor,
+        new java.lang.String[] { "PartitionStream", "CommittedOffset", "EndOffset", });
+    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyPartitionStreamRequest_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_descriptor.getNestedTypes().get(2);
-    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyReadStreamRequest_fieldAccessorTable = new
+    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyPartitionStreamRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyReadStreamRequest_descriptor,
-        new java.lang.String[] { "ReadStreamId", "Graceful", "CommittedOffset", });
+        internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_DestroyPartitionStreamRequest_descriptor,
+        new java.lang.String[] { "PartitionStreamId", "Graceful", "CommittedOffset", });
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CommitResponse_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_descriptor.getNestedTypes().get(3);
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CommitResponse_fieldAccessorTable = new
@@ -97346,7 +97477,7 @@ public final class YdbPersqueueV1 {
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CommitResponse_PartitionCommittedOffset_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_CommitResponse_PartitionCommittedOffset_descriptor,
-        new java.lang.String[] { "ReadStreamId", "CommittedOffset", });
+        new java.lang.String[] { "PartitionStreamId", "CommittedOffset", });
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_descriptor.getNestedTypes().get(4);
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_fieldAccessorTable = new
@@ -97358,7 +97489,7 @@ public final class YdbPersqueueV1 {
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_PartitionData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_PartitionData_descriptor,
-        new java.lang.String[] { "ReadStreamId", "Offsets", "SequenceNumbers", "CreatedAtMs", "WrittenAtMs", "MessageGroupIds", "MessageGroupIdIndexes", "Ips", "IpIndexes", "MessageSessionMeta", "MessageSessionMetaIndexes", "MessageSizes", "BlocksOffsets", "BlocksPartNumbers", "BlocksMessageCounts", "BlocksUncompressedSizes", "BlocksHeaders", "BlocksData", "ResumeCookie", "ReadStatistics", });
+        new java.lang.String[] { "PartitionStreamId", "Offsets", "SequenceNumbers", "CreatedAtMs", "WrittenAtMs", "MessageGroupIds", "MessageGroupIdIndexes", "Ips", "IpIndexes", "MessageSessionMeta", "MessageSessionMetaIndexes", "MessageSizes", "BlocksOffsets", "BlocksPartNumbers", "BlocksMessageCounts", "BlocksUncompressedSizes", "BlocksHeaders", "BlocksData", "ResumeCookie", "ReadStatistics", });
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_PartitionData_ReadStatistics_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_PartitionData_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_PartitionData_ReadStatistics_fieldAccessorTable = new
@@ -97370,13 +97501,13 @@ public final class YdbPersqueueV1 {
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_SkipRange_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_BatchReadResponse_SkipRange_descriptor,
-        new java.lang.String[] { "ReadStreamId", "SkipRange", });
-    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_ReadStreamStatusResponse_descriptor =
+        new java.lang.String[] { "PartitionStreamId", "SkipRange", });
+    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_PartitionStreamStatusResponse_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_descriptor.getNestedTypes().get(5);
-    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_ReadStreamStatusResponse_fieldAccessorTable = new
+    internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_PartitionStreamStatusResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_ReadStreamStatusResponse_descriptor,
-        new java.lang.String[] { "ReadStreamId", "CommittedOffset", "EndOffset", "WrittenAtWatermarkMs", });
+        internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_PartitionStreamStatusResponse_descriptor,
+        new java.lang.String[] { "PartitionStreamId", "CommittedOffset", "EndOffset", "WrittenAtWatermarkMs", });
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_StopReadResponse_descriptor =
       internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_descriptor.getNestedTypes().get(6);
     internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_StopReadResponse_fieldAccessorTable = new
@@ -97401,12 +97532,12 @@ public final class YdbPersqueueV1 {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_StreamingReadServerMessageNew_RemoveTopicResponse_descriptor,
         new java.lang.String[] { });
-    internal_static_Ydb_PersQueue_V1_ReadStream_descriptor =
+    internal_static_Ydb_PersQueue_V1_PartitionStream_descriptor =
       getDescriptor().getMessageTypes().get(10);
-    internal_static_Ydb_PersQueue_V1_ReadStream_fieldAccessorTable = new
+    internal_static_Ydb_PersQueue_V1_PartitionStream_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_PersQueue_V1_ReadStream_descriptor,
-        new java.lang.String[] { "Topic", "Cluster", "PartitionId", "PartitionGroupId", "ReadStreamId", "ConnectionMeta", });
+        internal_static_Ydb_PersQueue_V1_PartitionStream_descriptor,
+        new java.lang.String[] { "Topic", "Cluster", "PartitionId", "PartitionGroupId", "PartitionStreamId", "ConnectionMeta", });
     internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_descriptor =
       getDescriptor().getMessageTypes().get(11);
     internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_fieldAccessorTable = new
@@ -97430,13 +97561,13 @@ public final class YdbPersqueueV1 {
     internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_descriptor,
-        new java.lang.String[] { "ReadStreamsStates", });
-    internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_ReadStreamState_descriptor =
+        new java.lang.String[] { "PartitionStreamsStates", });
+    internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_PartitionStreamState_descriptor =
       internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_descriptor.getNestedTypes().get(0);
-    internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_ReadStreamState_fieldAccessorTable = new
+    internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_PartitionStreamState_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_ReadStreamState_descriptor,
-        new java.lang.String[] { "ReadStream", "ReadOffset", "OffsetRanges", "Status", });
+        internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_InitRequest_State_PartitionStreamState_descriptor,
+        new java.lang.String[] { "PartitionStream", "ReadOffset", "OffsetRanges", "Status", });
     internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_Read_descriptor =
       internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_descriptor.getNestedTypes().get(2);
     internal_static_Ydb_PersQueue_V1_MigrationStreamingReadClientMessage_Read_fieldAccessorTable = new
@@ -97514,7 +97645,7 @@ public final class YdbPersqueueV1 {
     internal_static_Ydb_PersQueue_V1_MigrationStreamingReadServerMessage_DataBatch_MessageData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_MigrationStreamingReadServerMessage_DataBatch_MessageData_descriptor,
-        new java.lang.String[] { "Offset", "SeqNo", "CreateTimestampMs", "Codec", "Data", });
+        new java.lang.String[] { "Offset", "SeqNo", "CreateTimestampMs", "Codec", "Data", "UncompressedSize", });
     internal_static_Ydb_PersQueue_V1_MigrationStreamingReadServerMessage_DataBatch_Batch_descriptor =
       internal_static_Ydb_PersQueue_V1_MigrationStreamingReadServerMessage_DataBatch_descriptor.getNestedTypes().get(1);
     internal_static_Ydb_PersQueue_V1_MigrationStreamingReadServerMessage_DataBatch_Batch_fieldAccessorTable = new

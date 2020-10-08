@@ -35,11 +35,6 @@ public final class YqlInternalProtos {
      * <code>.Ydb.FeatureFlag.Status use_new_engine = 2;</code>
      */
     tech.ydb.common.CommonProtos.FeatureFlag.Status getUseNewEngine();
-
-    /**
-     * <code>bool get_query_plan = 3;</code>
-     */
-    boolean getGetQueryPlan();
   }
   /**
    * Protobuf type {@code Ydb.YqlInternal.ExecQuerySettings}
@@ -56,7 +51,6 @@ public final class YqlInternalProtos {
     private ExecQuerySettings() {
       strictDml_ = 0;
       useNewEngine_ = 0;
-      getQueryPlan_ = false;
     }
 
     @java.lang.Override
@@ -97,11 +91,6 @@ public final class YqlInternalProtos {
               int rawValue = input.readEnum();
 
               useNewEngine_ = rawValue;
-              break;
-            }
-            case 24: {
-
-              getQueryPlan_ = input.readBool();
               break;
             }
           }
@@ -160,15 +149,6 @@ public final class YqlInternalProtos {
       return result == null ? tech.ydb.common.CommonProtos.FeatureFlag.Status.UNRECOGNIZED : result;
     }
 
-    public static final int GET_QUERY_PLAN_FIELD_NUMBER = 3;
-    private boolean getQueryPlan_;
-    /**
-     * <code>bool get_query_plan = 3;</code>
-     */
-    public boolean getGetQueryPlan() {
-      return getQueryPlan_;
-    }
-
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -187,9 +167,6 @@ public final class YqlInternalProtos {
       if (useNewEngine_ != tech.ydb.common.CommonProtos.FeatureFlag.Status.STATUS_UNSPECIFIED.getNumber()) {
         output.writeEnum(2, useNewEngine_);
       }
-      if (getQueryPlan_ != false) {
-        output.writeBool(3, getQueryPlan_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -205,10 +182,6 @@ public final class YqlInternalProtos {
       if (useNewEngine_ != tech.ydb.common.CommonProtos.FeatureFlag.Status.STATUS_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, useNewEngine_);
-      }
-      if (getQueryPlan_ != false) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(3, getQueryPlan_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -228,8 +201,6 @@ public final class YqlInternalProtos {
       boolean result = true;
       result = result && strictDml_ == other.strictDml_;
       result = result && useNewEngine_ == other.useNewEngine_;
-      result = result && (getGetQueryPlan()
-          == other.getGetQueryPlan());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -245,9 +216,6 @@ public final class YqlInternalProtos {
       hash = (53 * hash) + strictDml_;
       hash = (37 * hash) + USE_NEW_ENGINE_FIELD_NUMBER;
       hash = (53 * hash) + useNewEngine_;
-      hash = (37 * hash) + GET_QUERY_PLAN_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-          getGetQueryPlan());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -381,8 +349,6 @@ public final class YqlInternalProtos {
 
         useNewEngine_ = 0;
 
-        getQueryPlan_ = false;
-
         return this;
       }
 
@@ -407,7 +373,6 @@ public final class YqlInternalProtos {
         tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings result = new tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings(this);
         result.strictDml_ = strictDml_;
         result.useNewEngine_ = useNewEngine_;
-        result.getQueryPlan_ = getQueryPlan_;
         onBuilt();
         return result;
       }
@@ -454,9 +419,6 @@ public final class YqlInternalProtos {
         }
         if (other.useNewEngine_ != 0) {
           setUseNewEngineValue(other.getUseNewEngineValue());
-        }
-        if (other.getGetQueryPlan() != false) {
-          setGetQueryPlan(other.getGetQueryPlan());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -569,32 +531,6 @@ public final class YqlInternalProtos {
       public Builder clearUseNewEngine() {
         
         useNewEngine_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private boolean getQueryPlan_ ;
-      /**
-       * <code>bool get_query_plan = 3;</code>
-       */
-      public boolean getGetQueryPlan() {
-        return getQueryPlan_;
-      }
-      /**
-       * <code>bool get_query_plan = 3;</code>
-       */
-      public Builder setGetQueryPlan(boolean value) {
-        
-        getQueryPlan_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>bool get_query_plan = 3;</code>
-       */
-      public Builder clearGetQueryPlan() {
-        
-        getQueryPlan_ = false;
         onChanged();
         return this;
       }
@@ -5955,32 +5891,32 @@ public final class YqlInternalProtos {
       "blic/api/protos/ydb_operation.proto\032(kik" +
       "imr/public/api/protos/ydb_table.proto\032(k" +
       "ikimr/public/api/protos/ydb_value.proto\"" +
-      "\211\001\n\021ExecQuerySettings\022+\n\nstrict_dml\030\001 \001(" +
-      "\0162\027.Ydb.FeatureFlag.Status\022/\n\016use_new_en" +
-      "gine\030\002 \001(\0162\027.Ydb.FeatureFlag.Status\022\026\n\016g" +
-      "et_query_plan\030\003 \001(\010\"\372\002\n\027ExecDataQueryAst",
-      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\022\024\n\014cluster_na" +
-      "me\030\002 \001(\t\022\021\n\tquery_ast\030\003 \001(\t\022L\n\nparameter" +
-      "s\030\004 \003(\01328.Ydb.YqlInternal.ExecDataQueryA" +
-      "stRequest.ParametersEntry\0223\n\013tx_settings" +
-      "\030\005 \001(\0132\036.Ydb.Table.TransactionSettings\0224" +
-      "\n\010settings\030\006 \001(\0132\".Ydb.YqlInternal.ExecQ" +
-      "uerySettings\032B\n\017ParametersEntry\022\013\n\003key\030\001" +
-      " \001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.TypedValue:\0028\001" +
-      "\"H\n\030ExecDataQueryAstResponse\022,\n\toperatio",
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"d\n\026Ex" +
-      "ecDataQueryAstResult\022#\n\013result_sets\030\001 \003(" +
-      "\0132\016.Ydb.ResultSet\022\021\n\tquery_ast\030\002 \001(\t\022\022\n\n" +
-      "query_plan\030\003 \001(\t\"\200\001\n\032ExplainDataQueryAst" +
-      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\022\024\n\014cluster_na" +
-      "me\030\002 \001(\t\022\021\n\tquery_ast\030\003 \001(\t\"K\n\033ExplainDa" +
-      "taQueryAstResponse\022,\n\toperation\030\001 \001(\0132\031." +
-      "Ydb.Operations.Operation\"B\n\031ExplainDataQ" +
-      "ueryAstResult\022\021\n\tquery_ast\030\002 \001(\t\022\022\n\nquer",
-      "y_plan\030\003 \001(\tB3\n\033tech.ydb.yql_inter" +
-      "nalB\021YqlInternalProtos\370\001\001b\006proto3"
+      "w\n\021ExecQuerySettings\022+\n\nstrict_dml\030\001 \001(\016" +
+      "2\027.Ydb.FeatureFlag.Status\022/\n\016use_new_eng" +
+      "ine\030\002 \001(\0162\027.Ydb.FeatureFlag.StatusJ\004\010\003\020\004" +
+      "\"\372\002\n\027ExecDataQueryAstRequest\0229\n\020operatio",
+      "n_params\030\001 \001(\0132\037.Ydb.Operations.Operatio" +
+      "nParams\022\024\n\014cluster_name\030\002 \001(\t\022\021\n\tquery_a" +
+      "st\030\003 \001(\t\022L\n\nparameters\030\004 \003(\01328.Ydb.YqlIn" +
+      "ternal.ExecDataQueryAstRequest.Parameter" +
+      "sEntry\0223\n\013tx_settings\030\005 \001(\0132\036.Ydb.Table." +
+      "TransactionSettings\0224\n\010settings\030\006 \001(\0132\"." +
+      "Ydb.YqlInternal.ExecQuerySettings\032B\n\017Par" +
+      "ametersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\013" +
+      "2\017.Ydb.TypedValue:\0028\001\"H\n\030ExecDataQueryAs" +
+      "tResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera",
+      "tions.Operation\"d\n\026ExecDataQueryAstResul" +
+      "t\022#\n\013result_sets\030\001 \003(\0132\016.Ydb.ResultSet\022\021" +
+      "\n\tquery_ast\030\002 \001(\t\022\022\n\nquery_plan\030\003 \001(\t\"\200\001" +
+      "\n\032ExplainDataQueryAstRequest\0229\n\020operatio" +
+      "n_params\030\001 \001(\0132\037.Ydb.Operations.Operatio" +
+      "nParams\022\024\n\014cluster_name\030\002 \001(\t\022\021\n\tquery_a" +
+      "st\030\003 \001(\t\"K\n\033ExplainDataQueryAstResponse\022" +
+      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
+      "ation\"B\n\031ExplainDataQueryAstResult\022\021\n\tqu" +
+      "ery_ast\030\002 \001(\t\022\022\n\nquery_plan\030\003 \001(\tB3\n\033com",
+      ".yandex.ydb.yql_internalB\021YqlInternalPro" +
+      "tos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6003,7 +5939,7 @@ public final class YqlInternalProtos {
     internal_static_Ydb_YqlInternal_ExecQuerySettings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_YqlInternal_ExecQuerySettings_descriptor,
-        new java.lang.String[] { "StrictDml", "UseNewEngine", "GetQueryPlan", });
+        new java.lang.String[] { "StrictDml", "UseNewEngine", });
     internal_static_Ydb_YqlInternal_ExecDataQueryAstRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_Ydb_YqlInternal_ExecDataQueryAstRequest_fieldAccessorTable = new

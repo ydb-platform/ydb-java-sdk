@@ -4769,6 +4769,11 @@ public final class Persqueue {
        * <code>.NPersQueue.ECodec codec = 4;</code>
        */
       tech.ydb.persqueue.Persqueue.ECodec getCodec();
+
+      /**
+       * <code>uint32 uncompressed_size = 5;</code>
+       */
+      int getUncompressedSize();
     }
     /**
      * Protobuf type {@code NPersQueue.WriteRequest.Data}
@@ -4787,6 +4792,7 @@ public final class Persqueue {
         data_ = com.google.protobuf.ByteString.EMPTY;
         createTimeMs_ = 0L;
         codec_ = 0;
+        uncompressedSize_ = 0;
       }
 
       @java.lang.Override
@@ -4836,6 +4842,11 @@ public final class Persqueue {
                 int rawValue = input.readEnum();
 
                 codec_ = rawValue;
+                break;
+              }
+              case 40: {
+
+                uncompressedSize_ = input.readUInt32();
                 break;
               }
             }
@@ -4909,6 +4920,15 @@ public final class Persqueue {
         return result == null ? tech.ydb.persqueue.Persqueue.ECodec.UNRECOGNIZED : result;
       }
 
+      public static final int UNCOMPRESSED_SIZE_FIELD_NUMBER = 5;
+      private int uncompressedSize_;
+      /**
+       * <code>uint32 uncompressed_size = 5;</code>
+       */
+      public int getUncompressedSize() {
+        return uncompressedSize_;
+      }
+
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
@@ -4932,6 +4952,9 @@ public final class Persqueue {
         }
         if (codec_ != tech.ydb.persqueue.Persqueue.ECodec.RAW.getNumber()) {
           output.writeEnum(4, codec_);
+        }
+        if (uncompressedSize_ != 0) {
+          output.writeUInt32(5, uncompressedSize_);
         }
         unknownFields.writeTo(output);
       }
@@ -4957,6 +4980,10 @@ public final class Persqueue {
           size += com.google.protobuf.CodedOutputStream
             .computeEnumSize(4, codec_);
         }
+        if (uncompressedSize_ != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeUInt32Size(5, uncompressedSize_);
+        }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
         return size;
@@ -4980,6 +5007,8 @@ public final class Persqueue {
         result = result && (getCreateTimeMs()
             == other.getCreateTimeMs());
         result = result && codec_ == other.codec_;
+        result = result && (getUncompressedSize()
+            == other.getUncompressedSize());
         result = result && unknownFields.equals(other.unknownFields);
         return result;
       }
@@ -5001,6 +5030,8 @@ public final class Persqueue {
             getCreateTimeMs());
         hash = (37 * hash) + CODEC_FIELD_NUMBER;
         hash = (53 * hash) + codec_;
+        hash = (37 * hash) + UNCOMPRESSED_SIZE_FIELD_NUMBER;
+        hash = (53 * hash) + getUncompressedSize();
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -5138,6 +5169,8 @@ public final class Persqueue {
 
           codec_ = 0;
 
+          uncompressedSize_ = 0;
+
           return this;
         }
 
@@ -5164,6 +5197,7 @@ public final class Persqueue {
           result.data_ = data_;
           result.createTimeMs_ = createTimeMs_;
           result.codec_ = codec_;
+          result.uncompressedSize_ = uncompressedSize_;
           onBuilt();
           return result;
         }
@@ -5216,6 +5250,9 @@ public final class Persqueue {
           }
           if (other.codec_ != 0) {
             setCodecValue(other.getCodecValue());
+          }
+          if (other.getUncompressedSize() != 0) {
+            setUncompressedSize(other.getUncompressedSize());
           }
           this.mergeUnknownFields(other.unknownFields);
           onChanged();
@@ -5377,6 +5414,32 @@ public final class Persqueue {
         public Builder clearCodec() {
           
           codec_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private int uncompressedSize_ ;
+        /**
+         * <code>uint32 uncompressed_size = 5;</code>
+         */
+        public int getUncompressedSize() {
+          return uncompressedSize_;
+        }
+        /**
+         * <code>uint32 uncompressed_size = 5;</code>
+         */
+        public Builder setUncompressedSize(int value) {
+          
+          uncompressedSize_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>uint32 uncompressed_size = 5;</code>
+         */
+        public Builder clearUncompressedSize() {
+          
+          uncompressedSize_ = 0;
           onChanged();
           return this;
         }
@@ -19036,6 +19099,11 @@ public final class Persqueue {
      */
     com.google.protobuf.ByteString
         getIpBytes();
+
+    /**
+     * <code>uint32 uncompressed_size = 10;</code>
+     */
+    int getUncompressedSize();
   }
   /**
    * Protobuf type {@code NPersQueue.MessageMeta}
@@ -19056,6 +19124,7 @@ public final class Persqueue {
       writeTimeMs_ = 0L;
       codec_ = 0;
       ip_ = "";
+      uncompressedSize_ = 0;
     }
 
     @java.lang.Override
@@ -19129,6 +19198,11 @@ public final class Persqueue {
               java.lang.String s = input.readStringRequireUtf8();
 
               ip_ = s;
+              break;
+            }
+            case 80: {
+
+              uncompressedSize_ = input.readUInt32();
               break;
             }
           }
@@ -19262,6 +19336,15 @@ public final class Persqueue {
       }
     }
 
+    public static final int UNCOMPRESSED_SIZE_FIELD_NUMBER = 10;
+    private int uncompressedSize_;
+    /**
+     * <code>uint32 uncompressed_size = 10;</code>
+     */
+    public int getUncompressedSize() {
+      return uncompressedSize_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -19294,6 +19377,9 @@ public final class Persqueue {
       }
       if (!getIpBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 9, ip_);
+      }
+      if (uncompressedSize_ != 0) {
+        output.writeUInt32(10, uncompressedSize_);
       }
       unknownFields.writeTo(output);
     }
@@ -19330,6 +19416,10 @@ public final class Persqueue {
       if (!getIpBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, ip_);
       }
+      if (uncompressedSize_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(10, uncompressedSize_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -19362,6 +19452,8 @@ public final class Persqueue {
       result = result && codec_ == other.codec_;
       result = result && getIp()
           .equals(other.getIp());
+      result = result && (getUncompressedSize()
+          == other.getUncompressedSize());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -19392,6 +19484,8 @@ public final class Persqueue {
       hash = (53 * hash) + codec_;
       hash = (37 * hash) + IP_FIELD_NUMBER;
       hash = (53 * hash) + getIp().hashCode();
+      hash = (37 * hash) + UNCOMPRESSED_SIZE_FIELD_NUMBER;
+      hash = (53 * hash) + getUncompressedSize();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -19539,6 +19633,8 @@ public final class Persqueue {
 
         ip_ = "";
 
+        uncompressedSize_ = 0;
+
         return this;
       }
 
@@ -19572,6 +19668,7 @@ public final class Persqueue {
         }
         result.codec_ = codec_;
         result.ip_ = ip_;
+        result.uncompressedSize_ = uncompressedSize_;
         onBuilt();
         return result;
       }
@@ -19634,6 +19731,9 @@ public final class Persqueue {
         if (!other.getIp().isEmpty()) {
           ip_ = other.ip_;
           onChanged();
+        }
+        if (other.getUncompressedSize() != 0) {
+          setUncompressedSize(other.getUncompressedSize());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -19995,6 +20095,32 @@ public final class Persqueue {
   checkByteStringIsUtf8(value);
         
         ip_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int uncompressedSize_ ;
+      /**
+       * <code>uint32 uncompressed_size = 10;</code>
+       */
+      public int getUncompressedSize() {
+        return uncompressedSize_;
+      }
+      /**
+       * <code>uint32 uncompressed_size = 10;</code>
+       */
+      public Builder setUncompressedSize(int value) {
+        
+        uncompressedSize_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 uncompressed_size = 10;</code>
+       */
+      public Builder clearUncompressedSize() {
+        
+        uncompressedSize_ = 0;
         onChanged();
         return this;
       }
@@ -23743,6 +23869,11 @@ public final class Persqueue {
         long getCreateTimeMs();
 
         /**
+         * <code>uint64 uncompressed_size = 6;</code>
+         */
+        long getUncompressedSize();
+
+        /**
          * <code>bytes data = 1;</code>
          */
         com.google.protobuf.ByteString getData();
@@ -23764,6 +23895,7 @@ public final class Persqueue {
           offset_ = 0L;
           seqNo_ = 0L;
           createTimeMs_ = 0L;
+          uncompressedSize_ = 0L;
           data_ = com.google.protobuf.ByteString.EMPTY;
         }
 
@@ -23819,6 +23951,11 @@ public final class Persqueue {
                 case 40: {
 
                   createTimeMs_ = input.readUInt64();
+                  break;
+                }
+                case 48: {
+
+                  uncompressedSize_ = input.readUInt64();
                   break;
                 }
               }
@@ -23892,6 +24029,15 @@ public final class Persqueue {
           return createTimeMs_;
         }
 
+        public static final int UNCOMPRESSED_SIZE_FIELD_NUMBER = 6;
+        private long uncompressedSize_;
+        /**
+         * <code>uint64 uncompressed_size = 6;</code>
+         */
+        public long getUncompressedSize() {
+          return uncompressedSize_;
+        }
+
         public static final int DATA_FIELD_NUMBER = 1;
         private com.google.protobuf.ByteString data_;
         /**
@@ -23928,6 +24074,9 @@ public final class Persqueue {
           if (createTimeMs_ != 0L) {
             output.writeUInt64(5, createTimeMs_);
           }
+          if (uncompressedSize_ != 0L) {
+            output.writeUInt64(6, uncompressedSize_);
+          }
           unknownFields.writeTo(output);
         }
 
@@ -23956,6 +24105,10 @@ public final class Persqueue {
             size += com.google.protobuf.CodedOutputStream
               .computeUInt64Size(5, createTimeMs_);
           }
+          if (uncompressedSize_ != 0L) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeUInt64Size(6, uncompressedSize_);
+          }
           size += unknownFields.getSerializedSize();
           memoizedSize = size;
           return size;
@@ -23979,6 +24132,8 @@ public final class Persqueue {
               == other.getSeqNo());
           result = result && (getCreateTimeMs()
               == other.getCreateTimeMs());
+          result = result && (getUncompressedSize()
+              == other.getUncompressedSize());
           result = result && getData()
               .equals(other.getData());
           result = result && unknownFields.equals(other.unknownFields);
@@ -24003,6 +24158,9 @@ public final class Persqueue {
           hash = (37 * hash) + CREATE_TIME_MS_FIELD_NUMBER;
           hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
               getCreateTimeMs());
+          hash = (37 * hash) + UNCOMPRESSED_SIZE_FIELD_NUMBER;
+          hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+              getUncompressedSize());
           hash = (37 * hash) + DATA_FIELD_NUMBER;
           hash = (53 * hash) + getData().hashCode();
           hash = (29 * hash) + unknownFields.hashCode();
@@ -24142,6 +24300,8 @@ public final class Persqueue {
 
             createTimeMs_ = 0L;
 
+            uncompressedSize_ = 0L;
+
             data_ = com.google.protobuf.ByteString.EMPTY;
 
             return this;
@@ -24170,6 +24330,7 @@ public final class Persqueue {
             result.offset_ = offset_;
             result.seqNo_ = seqNo_;
             result.createTimeMs_ = createTimeMs_;
+            result.uncompressedSize_ = uncompressedSize_;
             result.data_ = data_;
             onBuilt();
             return result;
@@ -24223,6 +24384,9 @@ public final class Persqueue {
             }
             if (other.getCreateTimeMs() != 0L) {
               setCreateTimeMs(other.getCreateTimeMs());
+            }
+            if (other.getUncompressedSize() != 0L) {
+              setUncompressedSize(other.getUncompressedSize());
             }
             if (other.getData() != com.google.protobuf.ByteString.EMPTY) {
               setData(other.getData());
@@ -24384,6 +24548,32 @@ public final class Persqueue {
           public Builder clearCreateTimeMs() {
             
             createTimeMs_ = 0L;
+            onChanged();
+            return this;
+          }
+
+          private long uncompressedSize_ ;
+          /**
+           * <code>uint64 uncompressed_size = 6;</code>
+           */
+          public long getUncompressedSize() {
+            return uncompressedSize_;
+          }
+          /**
+           * <code>uint64 uncompressed_size = 6;</code>
+           */
+          public Builder setUncompressedSize(long value) {
+            
+            uncompressedSize_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>uint64 uncompressed_size = 6;</code>
+           */
+          public Builder clearUncompressedSize() {
+            
+            uncompressedSize_ = 0L;
             onChanged();
             return this;
           }
@@ -32597,7 +32787,7 @@ public final class Persqueue {
       "\022\r\n\005value\030\002 \001(\t\".\n\007MapType\022#\n\005items\030\001 \003(" +
       "\0132\024.NPersQueue.KeyValue\"Q\n\013Credentials\022\034" +
       "\n\022tvm_service_ticket\030\001 \001(\014H\000\022\025\n\013oauth_to",
-      "ken\030\002 \001(\014H\000B\r\n\013credentials\"\221\004\n\014WriteRequ" +
+      "ken\030\002 \001(\014H\000B\r\n\013credentials\"\254\004\n\014WriteRequ" +
       "est\022-\n\004init\030\001 \001(\0132\035.NPersQueue.WriteRequ" +
       "est.InitH\000\022-\n\004data\030\002 \001(\0132\035.NPersQueue.Wr" +
       "iteRequest.DataH\000\0228\n\ndata_batch\030\003 \001(\0132\"." +
@@ -32606,108 +32796,110 @@ public final class Persqueue {
       "s\032\224\001\n\004Init\022\r\n\005topic\030\001 \001(\t\022\021\n\tsource_id\030\002" +
       " \001(\014\022)\n\014extra_fields\030\007 \001(\0132\023.NPersQueue." +
       "MapType\022\024\n\014proxy_cookie\030\010 \001(\004\022\027\n\017partiti" +
-      "on_group\030\014 \001(\r\022\020\n\007version\030\347\007 \001(\t\032_\n\004Data",
+      "on_group\030\014 \001(\r\022\020\n\007version\030\347\007 \001(\t\032z\n\004Data",
       "\022\016\n\006seq_no\030\001 \001(\004\022\014\n\004data\030\002 \001(\014\022\026\n\016create" +
       "_time_ms\030\003 \001(\004\022!\n\005codec\030\004 \001(\0162\022.NPersQue" +
-      "ue.ECodec\0328\n\tDataBatch\022+\n\004data\030\001 \003(\0132\035.N" +
-      "PersQueue.WriteRequest.DataB\t\n\007request\"\206" +
-      "\005\n\rWriteResponse\022.\n\004init\030\001 \001(\0132\036.NPersQu" +
-      "eue.WriteResponse.InitH\000\022,\n\003ack\030\002 \001(\0132\035." +
-      "NPersQueue.WriteResponse.AckH\000\0227\n\tack_ba" +
-      "tch\030\004 \001(\0132\".NPersQueue.WriteResponse.Ack" +
-      "BatchH\000\022\"\n\005error\030\003 \001(\0132\021.NPersQueue.Erro" +
-      "rH\000\032P\n\004Init\022\022\n\nmax_seq_no\030\001 \001(\004\022\022\n\nsessi",
-      "on_id\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\r\022\r\n\005topic\030" +
-      "\004 \001(\t\032\207\001\n\004Stat\022\025\n\rwrite_time_ms\030\001 \001(\r\022(\n" +
-      " total_time_in_partition_queue_ms\030\002 \001(\r\022" +
-      " \n\030partition_quoted_time_ms\030\003 \001(\r\022\034\n\024top" +
-      "ic_quoted_time_ms\030\004 \001(\r\032l\n\003Ack\022\016\n\006seq_no" +
-      "\030\001 \001(\004\022\016\n\006offset\030\002 \001(\004\022\027\n\017already_writte" +
-      "n\030\003 \001(\010\022,\n\004stat\030\004 \001(\0132\036.NPersQueue.Write" +
-      "Response.Stat\032d\n\010AckBatch\022,\n\004stat\030\002 \001(\0132" +
-      "\036.NPersQueue.WriteResponse.Stat\022*\n\003ack\030\001" +
-      " \003(\0132\035.NPersQueue.WriteResponse.AckB\n\n\010r",
-      "esponse\"\253\t\n\013ReadRequest\022,\n\004init\030\001 \001(\0132\034." +
-      "NPersQueue.ReadRequest.InitH\000\022,\n\004read\030\002 " +
-      "\001(\0132\034.NPersQueue.ReadRequest.ReadH\000\0227\n\ns" +
-      "tart_read\030\003 \001(\0132!.NPersQueue.ReadRequest" +
-      ".StartReadH\000\0220\n\006commit\030\004 \001(\0132\036.NPersQueu" +
-      "e.ReadRequest.CommitH\000\0220\n\006status\030\005 \001(\0132\036" +
-      ".NPersQueue.ReadRequest.StatusH\000\022,\n\013cred" +
-      "entials\030\024 \001(\0132\027.NPersQueue.Credentials\032\304" +
-      "\003\n\004Init\022\016\n\006topics\030\001 \003(\t\022\027\n\017read_only_loc" +
-      "al\030\002 \001(\010\022\021\n\tclient_id\030\004 \001(\t\022 \n\030clientsid",
-      "e_locks_allowed\030\005 \001(\010\022\024\n\014proxy_cookie\030\006 " +
-      "\001(\004\022#\n\033balance_partition_right_now\030\010 \001(\010" +
-      "\022\030\n\020partition_groups\030\t \003(\r\022\030\n\020idle_timeo" +
-      "ut_sec\030\n \001(\r\022\032\n\022commit_interval_ms\030\014 \001(\r" +
-      "\022\037\n\027max_read_messages_count\030\016 \001(\r\022\025\n\rmax" +
-      "_read_size\030\017 \001(\r\022!\n\031max_read_partitions_" +
-      "count\030\020 \001(\r\022\027\n\017max_time_lag_ms\030\021 \001(\r\022\031\n\021" +
-      "read_timestamp_ms\030\022 \001(\004\022\030\n\020commits_disab" +
-      "led\030\023 \001(\010\022\020\n\007version\030\347\007 \001(\t\022\030\n\020protocol_" +
-      "version\030\r \001(\r\032{\n\004Read\022\021\n\tmax_count\030\001 \001(\r",
-      "\022\020\n\010max_size\030\002 \001(\r\022\032\n\022partitions_at_once" +
-      "\030\003 \001(\r\022\027\n\017max_time_lag_ms\030\005 \001(\r\022\031\n\021read_" +
-      "timestamp_ms\030\006 \001(\004\032\211\001\n\tStartRead\022\r\n\005topi" +
-      "c\030\001 \001(\t\022\021\n\tpartition\030\002 \001(\r\022\023\n\013read_offse" +
-      "t\030\003 \001(\004\022\032\n\022verify_read_offset\030\004 \001(\010\022\022\n\ng" +
-      "eneration\030\005 \001(\004\022\025\n\rcommit_offset\030\006 \001(\004\032\030" +
-      "\n\006Commit\022\016\n\006cookie\030\001 \003(\004\032>\n\006Status\022\022\n\nge" +
-      "neration\030\001 \001(\004\022\r\n\005topic\030\002 \001(\t\022\021\n\tpartiti" +
-      "on\030\003 \001(\r\"@\n\020EProtocolVersion\022\010\n\004Base\020\000\022\014" +
-      "\n\010Batching\020\001\022\024\n\020ReadParamsInInit\020\002B\t\n\007re",
-      "quest\"\271\001\n\013MessageMeta\022\021\n\tsource_id\030\001 \001(\014" +
-      "\022\016\n\006seq_no\030\002 \001(\004\022\026\n\016create_time_ms\030\003 \001(\004" +
-      "\022\025\n\rwrite_time_ms\030\004 \001(\004\022)\n\014extra_fields\030" +
-      "\007 \001(\0132\023.NPersQueue.MapType\022!\n\005codec\030\010 \001(" +
-      "\0162\022.NPersQueue.ECodec\022\n\n\002ip\030\t \001(\t\"\364\014\n\014Re" +
-      "adResponse\022-\n\004init\030\001 \001(\0132\035.NPersQueue.Re" +
-      "adResponse.InitH\000\022-\n\004data\030\002 \001(\0132\035.NPersQ" +
-      "ueue.ReadResponse.DataH\000\022<\n\014batched_data" +
-      "\030\007 \001(\0132$.NPersQueue.ReadResponse.Batched" +
-      "DataH\000\022\"\n\005error\030\003 \001(\0132\021.NPersQueue.Error",
-      "H\000\022-\n\004lock\030\004 \001(\0132\035.NPersQueue.ReadRespon" +
-      "se.LockH\000\0223\n\007release\030\005 \001(\0132 .NPersQueue." +
-      "ReadResponse.ReleaseH\000\0221\n\006commit\030\006 \001(\0132\037" +
-      ".NPersQueue.ReadResponse.CommitH\000\022D\n\020par" +
-      "tition_status\030\010 \001(\0132(.NPersQueue.ReadRes" +
-      "ponse.PartitionStatusH\000\032\032\n\004Init\022\022\n\nsessi" +
-      "on_id\030\002 \001(\t\032\257\002\n\004Data\022A\n\rmessage_batch\030\001 " +
-      "\003(\0132*.NPersQueue.ReadResponse.Data.Messa" +
-      "geBatch\022\016\n\006cookie\030\002 \001(\004\032j\n\007Message\022%\n\004me" +
-      "ta\030\001 \001(\0132\027.NPersQueue.MessageMeta\022\014\n\004dat",
-      "a\030\002 \001(\014\022\016\n\006offset\030\003 \001(\004\022\032\n\022broken_packed" +
-      "_data\030\004 \001(\014\032h\n\014MessageBatch\022\r\n\005topic\030\001 \001" +
-      "(\t\022\021\n\tpartition\030\002 \001(\r\0226\n\007message\030\003 \003(\0132%" +
-      ".NPersQueue.ReadResponse.Data.Message\032\202\004" +
-      "\n\013BatchedData\022\016\n\006cookie\030\002 \001(\004\022J\n\016partiti" +
-      "on_data\030\001 \003(\01322.NPersQueue.ReadResponse." +
-      "BatchedData.PartitionData\032v\n\013MessageData" +
-      "\022!\n\005codec\030\002 \001(\0162\022.NPersQueue.ECodec\022\016\n\006o" +
-      "ffset\030\003 \001(\004\022\016\n\006seq_no\030\004 \001(\004\022\026\n\016create_ti" +
-      "me_ms\030\005 \001(\004\022\014\n\004data\030\001 \001(\014\032\260\001\n\005Batch\022\021\n\ts",
-      "ource_id\030\002 \001(\014\022)\n\014extra_fields\030\003 \001(\0132\023.N" +
-      "PersQueue.MapType\022\025\n\rwrite_time_ms\030\004 \001(\004" +
-      "\022\n\n\002ip\030\005 \001(\t\022F\n\014message_data\030\001 \003(\01320.NPe" +
-      "rsQueue.ReadResponse.BatchedData.Message" +
-      "Data\032l\n\rPartitionData\022\r\n\005topic\030\002 \001(\t\022\021\n\t" +
-      "partition\030\003 \001(\r\0229\n\005batch\030\001 \003(\0132*.NPersQu" +
-      "eue.ReadResponse.BatchedData.Batch\032e\n\004Lo" +
-      "ck\022\r\n\005topic\030\001 \001(\t\022\021\n\tpartition\030\002 \001(\r\022\023\n\013" +
-      "read_offset\030\003 \001(\004\022\022\n\nend_offset\030\004 \001(\004\022\022\n" +
-      "\ngeneration\030\005 \001(\004\032S\n\007Release\022\r\n\005topic\030\001 ",
-      "\001(\t\022\021\n\tpartition\030\002 \001(\r\022\022\n\ncan_commit\030\003 \001" +
-      "(\010\022\022\n\ngeneration\030\004 \001(\004\032\030\n\006Commit\022\016\n\006cook" +
-      "ie\030\001 \003(\004\032\221\001\n\017PartitionStatus\022\022\n\ngenerati" +
-      "on\030\001 \001(\004\022\r\n\005topic\030\002 \001(\t\022\021\n\tpartition\030\003 \001" +
-      "(\r\022\030\n\020committed_offset\030\004 \001(\004\022\022\n\nend_offs" +
-      "et\030\005 \001(\004\022\032\n\022write_watermark_ms\030\006 \001(\004B\n\n\010" +
-      "response*<\n\006ECodec\022\007\n\003RAW\020\000\022\010\n\004GZIP\020\001\022\010\n" +
-      "\004LZOP\020\002\022\010\n\004ZSTD\020\003\022\013\n\007DEFAULT\020d:7\n\017Genera" +
-      "teYaStyle\022\034.google.protobuf.FileOptions\030" +
-      "\365\210\004 \001(\010B\035\n\030tech.ydb.persqueue\370\001\001b\006",
-      "proto3"
+      "ue.ECodec\022\031\n\021uncompressed_size\030\005 \001(\r\0328\n\t" +
+      "DataBatch\022+\n\004data\030\001 \003(\0132\035.NPersQueue.Wri" +
+      "teRequest.DataB\t\n\007request\"\206\005\n\rWriteRespo" +
+      "nse\022.\n\004init\030\001 \001(\0132\036.NPersQueue.WriteResp" +
+      "onse.InitH\000\022,\n\003ack\030\002 \001(\0132\035.NPersQueue.Wr" +
+      "iteResponse.AckH\000\0227\n\tack_batch\030\004 \001(\0132\".N" +
+      "PersQueue.WriteResponse.AckBatchH\000\022\"\n\005er" +
+      "ror\030\003 \001(\0132\021.NPersQueue.ErrorH\000\032P\n\004Init\022\022",
+      "\n\nmax_seq_no\030\001 \001(\004\022\022\n\nsession_id\030\002 \001(\t\022\021" +
+      "\n\tpartition\030\003 \001(\r\022\r\n\005topic\030\004 \001(\t\032\207\001\n\004Sta" +
+      "t\022\025\n\rwrite_time_ms\030\001 \001(\r\022(\n total_time_i" +
+      "n_partition_queue_ms\030\002 \001(\r\022 \n\030partition_" +
+      "quoted_time_ms\030\003 \001(\r\022\034\n\024topic_quoted_tim" +
+      "e_ms\030\004 \001(\r\032l\n\003Ack\022\016\n\006seq_no\030\001 \001(\004\022\016\n\006off" +
+      "set\030\002 \001(\004\022\027\n\017already_written\030\003 \001(\010\022,\n\004st" +
+      "at\030\004 \001(\0132\036.NPersQueue.WriteResponse.Stat" +
+      "\032d\n\010AckBatch\022,\n\004stat\030\002 \001(\0132\036.NPersQueue." +
+      "WriteResponse.Stat\022*\n\003ack\030\001 \003(\0132\035.NPersQ",
+      "ueue.WriteResponse.AckB\n\n\010response\"\253\t\n\013R" +
+      "eadRequest\022,\n\004init\030\001 \001(\0132\034.NPersQueue.Re" +
+      "adRequest.InitH\000\022,\n\004read\030\002 \001(\0132\034.NPersQu" +
+      "eue.ReadRequest.ReadH\000\0227\n\nstart_read\030\003 \001" +
+      "(\0132!.NPersQueue.ReadRequest.StartReadH\000\022" +
+      "0\n\006commit\030\004 \001(\0132\036.NPersQueue.ReadRequest" +
+      ".CommitH\000\0220\n\006status\030\005 \001(\0132\036.NPersQueue.R" +
+      "eadRequest.StatusH\000\022,\n\013credentials\030\024 \001(\013" +
+      "2\027.NPersQueue.Credentials\032\304\003\n\004Init\022\016\n\006to" +
+      "pics\030\001 \003(\t\022\027\n\017read_only_local\030\002 \001(\010\022\021\n\tc",
+      "lient_id\030\004 \001(\t\022 \n\030clientside_locks_allow" +
+      "ed\030\005 \001(\010\022\024\n\014proxy_cookie\030\006 \001(\004\022#\n\033balanc" +
+      "e_partition_right_now\030\010 \001(\010\022\030\n\020partition" +
+      "_groups\030\t \003(\r\022\030\n\020idle_timeout_sec\030\n \001(\r\022" +
+      "\032\n\022commit_interval_ms\030\014 \001(\r\022\037\n\027max_read_" +
+      "messages_count\030\016 \001(\r\022\025\n\rmax_read_size\030\017 " +
+      "\001(\r\022!\n\031max_read_partitions_count\030\020 \001(\r\022\027" +
+      "\n\017max_time_lag_ms\030\021 \001(\r\022\031\n\021read_timestam" +
+      "p_ms\030\022 \001(\004\022\030\n\020commits_disabled\030\023 \001(\010\022\020\n\007" +
+      "version\030\347\007 \001(\t\022\030\n\020protocol_version\030\r \001(\r",
+      "\032{\n\004Read\022\021\n\tmax_count\030\001 \001(\r\022\020\n\010max_size\030" +
+      "\002 \001(\r\022\032\n\022partitions_at_once\030\003 \001(\r\022\027\n\017max" +
+      "_time_lag_ms\030\005 \001(\r\022\031\n\021read_timestamp_ms\030" +
+      "\006 \001(\004\032\211\001\n\tStartRead\022\r\n\005topic\030\001 \001(\t\022\021\n\tpa" +
+      "rtition\030\002 \001(\r\022\023\n\013read_offset\030\003 \001(\004\022\032\n\022ve" +
+      "rify_read_offset\030\004 \001(\010\022\022\n\ngeneration\030\005 \001" +
+      "(\004\022\025\n\rcommit_offset\030\006 \001(\004\032\030\n\006Commit\022\016\n\006c" +
+      "ookie\030\001 \003(\004\032>\n\006Status\022\022\n\ngeneration\030\001 \001(" +
+      "\004\022\r\n\005topic\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\r\"@\n\020E" +
+      "ProtocolVersion\022\010\n\004Base\020\000\022\014\n\010Batching\020\001\022",
+      "\024\n\020ReadParamsInInit\020\002B\t\n\007request\"\324\001\n\013Mes" +
+      "sageMeta\022\021\n\tsource_id\030\001 \001(\014\022\016\n\006seq_no\030\002 " +
+      "\001(\004\022\026\n\016create_time_ms\030\003 \001(\004\022\025\n\rwrite_tim" +
+      "e_ms\030\004 \001(\004\022)\n\014extra_fields\030\007 \001(\0132\023.NPers" +
+      "Queue.MapType\022!\n\005codec\030\010 \001(\0162\022.NPersQueu" +
+      "e.ECodec\022\n\n\002ip\030\t \001(\t\022\031\n\021uncompressed_siz" +
+      "e\030\n \001(\r\"\220\r\n\014ReadResponse\022-\n\004init\030\001 \001(\0132\035" +
+      ".NPersQueue.ReadResponse.InitH\000\022-\n\004data\030" +
+      "\002 \001(\0132\035.NPersQueue.ReadResponse.DataH\000\022<" +
+      "\n\014batched_data\030\007 \001(\0132$.NPersQueue.ReadRe",
+      "sponse.BatchedDataH\000\022\"\n\005error\030\003 \001(\0132\021.NP" +
+      "ersQueue.ErrorH\000\022-\n\004lock\030\004 \001(\0132\035.NPersQu" +
+      "eue.ReadResponse.LockH\000\0223\n\007release\030\005 \001(\013" +
+      "2 .NPersQueue.ReadResponse.ReleaseH\000\0221\n\006" +
+      "commit\030\006 \001(\0132\037.NPersQueue.ReadResponse.C" +
+      "ommitH\000\022D\n\020partition_status\030\010 \001(\0132(.NPer" +
+      "sQueue.ReadResponse.PartitionStatusH\000\032\032\n" +
+      "\004Init\022\022\n\nsession_id\030\002 \001(\t\032\257\002\n\004Data\022A\n\rme" +
+      "ssage_batch\030\001 \003(\0132*.NPersQueue.ReadRespo" +
+      "nse.Data.MessageBatch\022\016\n\006cookie\030\002 \001(\004\032j\n",
+      "\007Message\022%\n\004meta\030\001 \001(\0132\027.NPersQueue.Mess" +
+      "ageMeta\022\014\n\004data\030\002 \001(\014\022\016\n\006offset\030\003 \001(\004\022\032\n" +
+      "\022broken_packed_data\030\004 \001(\014\032h\n\014MessageBatc" +
+      "h\022\r\n\005topic\030\001 \001(\t\022\021\n\tpartition\030\002 \001(\r\0226\n\007m" +
+      "essage\030\003 \003(\0132%.NPersQueue.ReadResponse.D" +
+      "ata.Message\032\236\004\n\013BatchedData\022\016\n\006cookie\030\002 " +
+      "\001(\004\022J\n\016partition_data\030\001 \003(\01322.NPersQueue" +
+      ".ReadResponse.BatchedData.PartitionData\032" +
+      "\221\001\n\013MessageData\022!\n\005codec\030\002 \001(\0162\022.NPersQu" +
+      "eue.ECodec\022\016\n\006offset\030\003 \001(\004\022\016\n\006seq_no\030\004 \001",
+      "(\004\022\026\n\016create_time_ms\030\005 \001(\004\022\031\n\021uncompress" +
+      "ed_size\030\006 \001(\004\022\014\n\004data\030\001 \001(\014\032\260\001\n\005Batch\022\021\n" +
+      "\tsource_id\030\002 \001(\014\022)\n\014extra_fields\030\003 \001(\0132\023" +
+      ".NPersQueue.MapType\022\025\n\rwrite_time_ms\030\004 \001" +
+      "(\004\022\n\n\002ip\030\005 \001(\t\022F\n\014message_data\030\001 \003(\01320.N" +
+      "PersQueue.ReadResponse.BatchedData.Messa" +
+      "geData\032l\n\rPartitionData\022\r\n\005topic\030\002 \001(\t\022\021" +
+      "\n\tpartition\030\003 \001(\r\0229\n\005batch\030\001 \003(\0132*.NPers" +
+      "Queue.ReadResponse.BatchedData.Batch\032e\n\004" +
+      "Lock\022\r\n\005topic\030\001 \001(\t\022\021\n\tpartition\030\002 \001(\r\022\023",
+      "\n\013read_offset\030\003 \001(\004\022\022\n\nend_offset\030\004 \001(\004\022" +
+      "\022\n\ngeneration\030\005 \001(\004\032S\n\007Release\022\r\n\005topic\030" +
+      "\001 \001(\t\022\021\n\tpartition\030\002 \001(\r\022\022\n\ncan_commit\030\003" +
+      " \001(\010\022\022\n\ngeneration\030\004 \001(\004\032\030\n\006Commit\022\016\n\006co" +
+      "okie\030\001 \003(\004\032\221\001\n\017PartitionStatus\022\022\n\ngenera" +
+      "tion\030\001 \001(\004\022\r\n\005topic\030\002 \001(\t\022\021\n\tpartition\030\003" +
+      " \001(\r\022\030\n\020committed_offset\030\004 \001(\004\022\022\n\nend_of" +
+      "fset\030\005 \001(\004\022\032\n\022write_watermark_ms\030\006 \001(\004B\n" +
+      "\n\010response*<\n\006ECodec\022\007\n\003RAW\020\000\022\010\n\004GZIP\020\001\022" +
+      "\010\n\004LZOP\020\002\022\010\n\004ZSTD\020\003\022\013\n\007DEFAULT\020d:7\n\017Gene",
+      "rateYaStyle\022\034.google.protobuf.FileOption" +
+      "s\030\365\210\004 \001(\010B\035\n\030tech.ydb.persqueue\370\001\001" +
+      "b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -32770,7 +32962,7 @@ public final class Persqueue {
     internal_static_NPersQueue_WriteRequest_Data_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NPersQueue_WriteRequest_Data_descriptor,
-        new java.lang.String[] { "SeqNo", "Data", "CreateTimeMs", "Codec", });
+        new java.lang.String[] { "SeqNo", "Data", "CreateTimeMs", "Codec", "UncompressedSize", });
     internal_static_NPersQueue_WriteRequest_DataBatch_descriptor =
       internal_static_NPersQueue_WriteRequest_descriptor.getNestedTypes().get(2);
     internal_static_NPersQueue_WriteRequest_DataBatch_fieldAccessorTable = new
@@ -32848,7 +33040,7 @@ public final class Persqueue {
     internal_static_NPersQueue_MessageMeta_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NPersQueue_MessageMeta_descriptor,
-        new java.lang.String[] { "SourceId", "SeqNo", "CreateTimeMs", "WriteTimeMs", "ExtraFields", "Codec", "Ip", });
+        new java.lang.String[] { "SourceId", "SeqNo", "CreateTimeMs", "WriteTimeMs", "ExtraFields", "Codec", "Ip", "UncompressedSize", });
     internal_static_NPersQueue_ReadResponse_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_NPersQueue_ReadResponse_fieldAccessorTable = new
@@ -32890,7 +33082,7 @@ public final class Persqueue {
     internal_static_NPersQueue_ReadResponse_BatchedData_MessageData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NPersQueue_ReadResponse_BatchedData_MessageData_descriptor,
-        new java.lang.String[] { "Codec", "Offset", "SeqNo", "CreateTimeMs", "Data", });
+        new java.lang.String[] { "Codec", "Offset", "SeqNo", "CreateTimeMs", "UncompressedSize", "Data", });
     internal_static_NPersQueue_ReadResponse_BatchedData_Batch_descriptor =
       internal_static_NPersQueue_ReadResponse_BatchedData_descriptor.getNestedTypes().get(1);
     internal_static_NPersQueue_ReadResponse_BatchedData_Batch_fieldAccessorTable = new

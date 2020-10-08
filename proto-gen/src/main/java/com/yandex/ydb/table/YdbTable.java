@@ -56719,6 +56719,14 @@ public final class YdbTable {
        * <code>STATS_COLLECTION_BASIC = 2;</code>
        */
       STATS_COLLECTION_BASIC(2),
+      /**
+       * <pre>
+       * Add execution stats and plan on top of STATS_COLLECTION_BASIC
+       * </pre>
+       *
+       * <code>STATS_COLLECTION_FULL = 3;</code>
+       */
+      STATS_COLLECTION_FULL(3),
       UNRECOGNIZED(-1),
       ;
 
@@ -56742,6 +56750,14 @@ public final class YdbTable {
        * <code>STATS_COLLECTION_BASIC = 2;</code>
        */
       public static final int STATS_COLLECTION_BASIC_VALUE = 2;
+      /**
+       * <pre>
+       * Add execution stats and plan on top of STATS_COLLECTION_BASIC
+       * </pre>
+       *
+       * <code>STATS_COLLECTION_FULL = 3;</code>
+       */
+      public static final int STATS_COLLECTION_FULL_VALUE = 3;
 
 
       public final int getNumber() {
@@ -56765,6 +56781,7 @@ public final class YdbTable {
           case 0: return STATS_COLLECTION_UNSPECIFIED;
           case 1: return STATS_COLLECTION_NONE;
           case 2: return STATS_COLLECTION_BASIC;
+          case 3: return STATS_COLLECTION_FULL;
           default: return null;
         }
       }
@@ -95764,6 +95781,15 @@ public final class YdbTable {
      * <code>.Ydb.Table.ExecuteScanQueryRequest.Mode mode = 6;</code>
      */
     tech.ydb.table.YdbTable.ExecuteScanQueryRequest.Mode getMode();
+
+    /**
+     * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 8;</code>
+     */
+    int getCollectStatsValue();
+    /**
+     * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 8;</code>
+     */
+    tech.ydb.table.YdbTable.QueryStatsCollection.Mode getCollectStats();
   }
   /**
    * Protobuf type {@code Ydb.Table.ExecuteScanQueryRequest}
@@ -95779,6 +95805,7 @@ public final class YdbTable {
     }
     private ExecuteScanQueryRequest() {
       mode_ = 0;
+      collectStats_ = 0;
     }
 
     @java.lang.Override
@@ -95841,6 +95868,12 @@ public final class YdbTable {
               mode_ = rawValue;
               break;
             }
+            case 64: {
+              int rawValue = input.readEnum();
+
+              collectStats_ = rawValue;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -95886,8 +95919,11 @@ public final class YdbTable {
        */
       MODE_UNSPECIFIED(0),
       /**
+       * <code>MODE_EXPLAIN = 1;</code>
+       */
+      MODE_EXPLAIN(1),
+      /**
        * <pre>
-       * MODE_EXPLAIN = 1;
        * MODE_PREPARE = 2;
        * </pre>
        *
@@ -95902,8 +95938,11 @@ public final class YdbTable {
        */
       public static final int MODE_UNSPECIFIED_VALUE = 0;
       /**
+       * <code>MODE_EXPLAIN = 1;</code>
+       */
+      public static final int MODE_EXPLAIN_VALUE = 1;
+      /**
        * <pre>
-       * MODE_EXPLAIN = 1;
        * MODE_PREPARE = 2;
        * </pre>
        *
@@ -95931,6 +95970,7 @@ public final class YdbTable {
       public static Mode forNumber(int value) {
         switch (value) {
           case 0: return MODE_UNSPECIFIED;
+          case 1: return MODE_EXPLAIN;
           case 3: return MODE_EXEC;
           default: return null;
         }
@@ -96098,6 +96138,22 @@ public final class YdbTable {
       return result == null ? tech.ydb.table.YdbTable.ExecuteScanQueryRequest.Mode.UNRECOGNIZED : result;
     }
 
+    public static final int COLLECT_STATS_FIELD_NUMBER = 8;
+    private int collectStats_;
+    /**
+     * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 8;</code>
+     */
+    public int getCollectStatsValue() {
+      return collectStats_;
+    }
+    /**
+     * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 8;</code>
+     */
+    public tech.ydb.table.YdbTable.QueryStatsCollection.Mode getCollectStats() {
+      tech.ydb.table.YdbTable.QueryStatsCollection.Mode result = tech.ydb.table.YdbTable.QueryStatsCollection.Mode.valueOf(collectStats_);
+      return result == null ? tech.ydb.table.YdbTable.QueryStatsCollection.Mode.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -96121,6 +96177,9 @@ public final class YdbTable {
           4);
       if (mode_ != tech.ydb.table.YdbTable.ExecuteScanQueryRequest.Mode.MODE_UNSPECIFIED.getNumber()) {
         output.writeEnum(6, mode_);
+      }
+      if (collectStats_ != tech.ydb.table.YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_UNSPECIFIED.getNumber()) {
+        output.writeEnum(8, collectStats_);
       }
       unknownFields.writeTo(output);
     }
@@ -96148,6 +96207,10 @@ public final class YdbTable {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(6, mode_);
       }
+      if (collectStats_ != tech.ydb.table.YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(8, collectStats_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -96172,6 +96235,7 @@ public final class YdbTable {
       result = result && internalGetParameters().equals(
           other.internalGetParameters());
       result = result && mode_ == other.mode_;
+      result = result && collectStats_ == other.collectStats_;
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -96193,6 +96257,8 @@ public final class YdbTable {
       }
       hash = (37 * hash) + MODE_FIELD_NUMBER;
       hash = (53 * hash) + mode_;
+      hash = (37 * hash) + COLLECT_STATS_FIELD_NUMBER;
+      hash = (53 * hash) + collectStats_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -96353,6 +96419,8 @@ public final class YdbTable {
         internalGetMutableParameters().clear();
         mode_ = 0;
 
+        collectStats_ = 0;
+
         return this;
       }
 
@@ -96385,6 +96453,7 @@ public final class YdbTable {
         result.parameters_ = internalGetParameters();
         result.parameters_.makeImmutable();
         result.mode_ = mode_;
+        result.collectStats_ = collectStats_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -96434,6 +96503,9 @@ public final class YdbTable {
             other.internalGetParameters());
         if (other.mode_ != 0) {
           setModeValue(other.getModeValue());
+        }
+        if (other.collectStats_ != 0) {
+          setCollectStatsValue(other.getCollectStatsValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -96743,6 +96815,50 @@ public final class YdbTable {
       public Builder clearMode() {
         
         mode_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int collectStats_ = 0;
+      /**
+       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 8;</code>
+       */
+      public int getCollectStatsValue() {
+        return collectStats_;
+      }
+      /**
+       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 8;</code>
+       */
+      public Builder setCollectStatsValue(int value) {
+        collectStats_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 8;</code>
+       */
+      public tech.ydb.table.YdbTable.QueryStatsCollection.Mode getCollectStats() {
+        tech.ydb.table.YdbTable.QueryStatsCollection.Mode result = tech.ydb.table.YdbTable.QueryStatsCollection.Mode.valueOf(collectStats_);
+        return result == null ? tech.ydb.table.YdbTable.QueryStatsCollection.Mode.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 8;</code>
+       */
+      public Builder setCollectStats(tech.ydb.table.YdbTable.QueryStatsCollection.Mode value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        collectStats_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 8;</code>
+       */
+      public Builder clearCollectStats() {
+        
+        collectStats_ = 0;
         onChanged();
         return this;
       }
@@ -97854,6 +97970,19 @@ public final class YdbTable {
      * <code>.Ydb.ResultSet result_set = 1;</code>
      */
     tech.ydb.ValueProtos.ResultSetOrBuilder getResultSetOrBuilder();
+
+    /**
+     * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+     */
+    boolean hasQueryStats();
+    /**
+     * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+     */
+    tech.ydb.YdbQueryStats.QueryStats getQueryStats();
+    /**
+     * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+     */
+    tech.ydb.YdbQueryStats.QueryStatsOrBuilder getQueryStatsOrBuilder();
   }
   /**
    * Protobuf type {@code Ydb.Table.ExecuteScanQueryPartialResult}
@@ -97911,6 +98040,19 @@ public final class YdbTable {
 
               break;
             }
+            case 50: {
+              tech.ydb.YdbQueryStats.QueryStats.Builder subBuilder = null;
+              if (queryStats_ != null) {
+                subBuilder = queryStats_.toBuilder();
+              }
+              queryStats_ = input.readMessage(tech.ydb.YdbQueryStats.QueryStats.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(queryStats_);
+                queryStats_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -97956,6 +98098,27 @@ public final class YdbTable {
       return getResultSet();
     }
 
+    public static final int QUERY_STATS_FIELD_NUMBER = 6;
+    private tech.ydb.YdbQueryStats.QueryStats queryStats_;
+    /**
+     * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+     */
+    public boolean hasQueryStats() {
+      return queryStats_ != null;
+    }
+    /**
+     * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+     */
+    public tech.ydb.YdbQueryStats.QueryStats getQueryStats() {
+      return queryStats_ == null ? tech.ydb.YdbQueryStats.QueryStats.getDefaultInstance() : queryStats_;
+    }
+    /**
+     * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+     */
+    public tech.ydb.YdbQueryStats.QueryStatsOrBuilder getQueryStatsOrBuilder() {
+      return getQueryStats();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -97971,6 +98134,9 @@ public final class YdbTable {
       if (resultSet_ != null) {
         output.writeMessage(1, getResultSet());
       }
+      if (queryStats_ != null) {
+        output.writeMessage(6, getQueryStats());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -97982,6 +98148,10 @@ public final class YdbTable {
       if (resultSet_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getResultSet());
+      }
+      if (queryStats_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, getQueryStats());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -98004,6 +98174,11 @@ public final class YdbTable {
         result = result && getResultSet()
             .equals(other.getResultSet());
       }
+      result = result && (hasQueryStats() == other.hasQueryStats());
+      if (hasQueryStats()) {
+        result = result && getQueryStats()
+            .equals(other.getQueryStats());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -98018,6 +98193,10 @@ public final class YdbTable {
       if (hasResultSet()) {
         hash = (37 * hash) + RESULT_SET_FIELD_NUMBER;
         hash = (53 * hash) + getResultSet().hashCode();
+      }
+      if (hasQueryStats()) {
+        hash = (37 * hash) + QUERY_STATS_FIELD_NUMBER;
+        hash = (53 * hash) + getQueryStats().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -98154,6 +98333,12 @@ public final class YdbTable {
           resultSet_ = null;
           resultSetBuilder_ = null;
         }
+        if (queryStatsBuilder_ == null) {
+          queryStats_ = null;
+        } else {
+          queryStats_ = null;
+          queryStatsBuilder_ = null;
+        }
         return this;
       }
 
@@ -98180,6 +98365,11 @@ public final class YdbTable {
           result.resultSet_ = resultSet_;
         } else {
           result.resultSet_ = resultSetBuilder_.build();
+        }
+        if (queryStatsBuilder_ == null) {
+          result.queryStats_ = queryStats_;
+        } else {
+          result.queryStats_ = queryStatsBuilder_.build();
         }
         onBuilt();
         return result;
@@ -98224,6 +98414,9 @@ public final class YdbTable {
         if (other == tech.ydb.table.YdbTable.ExecuteScanQueryPartialResult.getDefaultInstance()) return this;
         if (other.hasResultSet()) {
           mergeResultSet(other.getResultSet());
+        }
+        if (other.hasQueryStats()) {
+          mergeQueryStats(other.getQueryStats());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -98367,6 +98560,123 @@ public final class YdbTable {
           resultSet_ = null;
         }
         return resultSetBuilder_;
+      }
+
+      private tech.ydb.YdbQueryStats.QueryStats queryStats_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.YdbQueryStats.QueryStats, tech.ydb.YdbQueryStats.QueryStats.Builder, tech.ydb.YdbQueryStats.QueryStatsOrBuilder> queryStatsBuilder_;
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+       */
+      public boolean hasQueryStats() {
+        return queryStatsBuilder_ != null || queryStats_ != null;
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+       */
+      public tech.ydb.YdbQueryStats.QueryStats getQueryStats() {
+        if (queryStatsBuilder_ == null) {
+          return queryStats_ == null ? tech.ydb.YdbQueryStats.QueryStats.getDefaultInstance() : queryStats_;
+        } else {
+          return queryStatsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+       */
+      public Builder setQueryStats(tech.ydb.YdbQueryStats.QueryStats value) {
+        if (queryStatsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          queryStats_ = value;
+          onChanged();
+        } else {
+          queryStatsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+       */
+      public Builder setQueryStats(
+          tech.ydb.YdbQueryStats.QueryStats.Builder builderForValue) {
+        if (queryStatsBuilder_ == null) {
+          queryStats_ = builderForValue.build();
+          onChanged();
+        } else {
+          queryStatsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+       */
+      public Builder mergeQueryStats(tech.ydb.YdbQueryStats.QueryStats value) {
+        if (queryStatsBuilder_ == null) {
+          if (queryStats_ != null) {
+            queryStats_ =
+              tech.ydb.YdbQueryStats.QueryStats.newBuilder(queryStats_).mergeFrom(value).buildPartial();
+          } else {
+            queryStats_ = value;
+          }
+          onChanged();
+        } else {
+          queryStatsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+       */
+      public Builder clearQueryStats() {
+        if (queryStatsBuilder_ == null) {
+          queryStats_ = null;
+          onChanged();
+        } else {
+          queryStats_ = null;
+          queryStatsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+       */
+      public tech.ydb.YdbQueryStats.QueryStats.Builder getQueryStatsBuilder() {
+        
+        onChanged();
+        return getQueryStatsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+       */
+      public tech.ydb.YdbQueryStats.QueryStatsOrBuilder getQueryStatsOrBuilder() {
+        if (queryStatsBuilder_ != null) {
+          return queryStatsBuilder_.getMessageOrBuilder();
+        } else {
+          return queryStats_ == null ?
+              tech.ydb.YdbQueryStats.QueryStats.getDefaultInstance() : queryStats_;
+        }
+      }
+      /**
+       * <code>.Ydb.TableStats.QueryStats query_stats = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.YdbQueryStats.QueryStats, tech.ydb.YdbQueryStats.QueryStats.Builder, tech.ydb.YdbQueryStats.QueryStatsOrBuilder> 
+          getQueryStatsFieldBuilder() {
+        if (queryStatsBuilder_ == null) {
+          queryStatsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.YdbQueryStats.QueryStats, tech.ydb.YdbQueryStats.QueryStats.Builder, tech.ydb.YdbQueryStats.QueryStatsOrBuilder>(
+                  getQueryStats(),
+                  getParentForChildren(),
+                  isClean());
+          queryStats_ = null;
+        }
+        return queryStatsBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -99214,176 +99524,180 @@ public final class YdbTable {
       " \001(\tH\000\0222\n\010begin_tx\030\002 \001(\0132\036.Ydb.Table.Tra" +
       "nsactionSettingsH\000\022\021\n\tcommit_tx\030\n \001(\010B\r\n" +
       "\013tx_selector\")\n\020QueryCachePolicy\022\025\n\rkeep" +
-      "_in_cache\030\001 \001(\010\"w\n\024QueryStatsCollection\"" +
-      "_\n\004Mode\022 \n\034STATS_COLLECTION_UNSPECIFIED\020",
-      "\000\022\031\n\025STATS_COLLECTION_NONE\020\001\022\032\n\026STATS_CO" +
-      "LLECTION_BASIC\020\002\"\276\003\n\027ExecuteDataQueryReq" +
-      "uest\022\022\n\nsession_id\030\001 \001(\t\0221\n\ntx_control\030\002" +
-      " \001(\0132\035.Ydb.Table.TransactionControl\022\037\n\005q" +
-      "uery\030\003 \001(\0132\020.Ydb.Table.Query\022F\n\nparamete" +
-      "rs\030\004 \003(\01322.Ydb.Table.ExecuteDataQueryReq" +
-      "uest.ParametersEntry\0227\n\022query_cache_poli" +
-      "cy\030\005 \001(\0132\033.Ydb.Table.QueryCachePolicy\0229\n" +
-      "\020operation_params\030\006 \001(\0132\037.Ydb.Operations" +
-      ".OperationParams\022;\n\rcollect_stats\030\007 \001(\0162",
-      "$.Ydb.Table.QueryStatsCollection.Mode\032B\n" +
-      "\017ParametersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002" +
-      " \001(\0132\017.Ydb.TypedValue:\0028\001\"H\n\030ExecuteData" +
-      "QueryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
-      "perations.Operation\"|\n\031ExecuteSchemeQuer" +
-      "yRequest\022\022\n\nsession_id\030\001 \001(\t\022\020\n\010yql_text" +
-      "\030\002 \001(\t\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.O" +
-      "perations.OperationParams\"J\n\032ExecuteSche" +
-      "meQueryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
-      ".Operations.Operation\"\035\n\017TransactionMeta",
-      "\022\n\n\002id\030\001 \001(\t\"\237\001\n\tQueryMeta\022\n\n\002id\030\001 \001(\t\022C" +
-      "\n\020parameters_types\030\002 \003(\0132).Ydb.Table.Que" +
-      "ryMeta.ParametersTypesEntry\032A\n\024Parameter" +
-      "sTypesEntry\022\013\n\003key\030\001 \001(\t\022\030\n\005value\030\002 \001(\0132" +
-      "\t.Ydb.Type:\0028\001\"\301\001\n\022ExecuteQueryResult\022#\n" +
-      "\013result_sets\030\001 \003(\0132\016.Ydb.ResultSet\022+\n\007tx" +
-      "_meta\030\002 \001(\0132\032.Ydb.Table.TransactionMeta\022" +
-      "(\n\nquery_meta\030\003 \001(\0132\024.Ydb.Table.QueryMet" +
-      "a\022/\n\013query_stats\030\004 \001(\0132\032.Ydb.TableStats." +
-      "QueryStats\"z\n\027ExplainDataQueryRequest\022\022\n",
-      "\nsession_id\030\001 \001(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020o" +
-      "peration_params\030\003 \001(\0132\037.Ydb.Operations.O" +
-      "perationParams\"H\n\030ExplainDataQueryRespon" +
-      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
-      "peration\";\n\022ExplainQueryResult\022\021\n\tquery_" +
-      "ast\030\001 \001(\t\022\022\n\nquery_plan\030\002 \001(\t\"z\n\027Prepare" +
-      "DataQueryRequest\022\022\n\nsession_id\030\001 \001(\t\022\020\n\010" +
-      "yql_text\030\002 \001(\t\0229\n\020operation_params\030\003 \001(\013" +
-      "2\037.Ydb.Operations.OperationParams\"H\n\030Pre" +
-      "pareDataQueryResponse\022,\n\toperation\030\001 \001(\013",
-      "2\031.Ydb.Operations.Operation\"\267\001\n\022PrepareQ" +
-      "ueryResult\022\020\n\010query_id\030\001 \001(\t\022L\n\020paramete" +
-      "rs_types\030\002 \003(\01322.Ydb.Table.PrepareQueryR" +
-      "esult.ParametersTypesEntry\032A\n\024Parameters" +
-      "TypesEntry\022\013\n\003key\030\001 \001(\t\022\030\n\005value\030\002 \001(\0132\t" +
-      ".Ydb.Type:\0028\001\"a\n\020KeepAliveRequest\022\022\n\nses" +
-      "sion_id\030\001 \001(\t\0229\n\020operation_params\030\002 \001(\0132" +
-      "\037.Ydb.Operations.OperationParams\"A\n\021Keep" +
-      "AliveResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
-      "perations.Operation\"\267\001\n\017KeepAliveResult\022",
-      "@\n\016session_status\030\001 \001(\0162(.Ydb.Table.Keep" +
-      "AliveResult.SessionStatus\"b\n\rSessionStat" +
-      "us\022\036\n\032SESSION_STATUS_UNSPECIFIED\020\000\022\030\n\024SE" +
-      "SSION_STATUS_READY\020\001\022\027\n\023SESSION_STATUS_B" +
-      "USY\020\002\"\235\001\n\027BeginTransactionRequest\022\022\n\nses" +
-      "sion_id\030\001 \001(\t\0223\n\013tx_settings\030\002 \001(\0132\036.Ydb" +
-      ".Table.TransactionSettings\0229\n\020operation_" +
-      "params\030\003 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\"H\n\030BeginTransactionResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"",
-      "E\n\026BeginTransactionResult\022+\n\007tx_meta\030\001 \001" +
-      "(\0132\032.Ydb.Table.TransactionMeta\"\265\001\n\030Commi" +
-      "tTransactionRequest\022\022\n\nsession_id\030\001 \001(\t\022" +
-      "\r\n\005tx_id\030\002 \001(\t\0229\n\020operation_params\030\003 \001(\013" +
-      "2\037.Ydb.Operations.OperationParams\022;\n\rcol" +
-      "lect_stats\030\004 \001(\0162$.Ydb.Table.QueryStatsC" +
-      "ollection.Mode\"I\n\031CommitTransactionRespo" +
-      "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
-      "Operation\"J\n\027CommitTransactionResult\022/\n\013" +
-      "query_stats\030\001 \001(\0132\032.Ydb.TableStats.Query",
-      "Stats\"z\n\032RollbackTransactionRequest\022\022\n\ns" +
-      "ession_id\030\001 \001(\t\022\r\n\005tx_id\030\002 \001(\t\0229\n\020operat" +
-      "ion_params\030\003 \001(\0132\037.Ydb.Operations.Operat" +
-      "ionParams\"K\n\033RollbackTransactionResponse" +
-      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
-      "ration\"\230\001\n\030StoragePolicyDescription\022\014\n\004n" +
-      "ame\030\001 \001(\t\022?\n\006labels\030\002 \003(\0132/.Ydb.Table.St" +
-      "oragePolicyDescription.LabelsEntry\032-\n\013La" +
-      "belsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028" +
-      "\001\"\236\001\n\033CompactionPolicyDescription\022\014\n\004nam",
-      "e\030\001 \001(\t\022B\n\006labels\030\002 \003(\01322.Ydb.Table.Comp" +
-      "actionPolicyDescription.LabelsEntry\032-\n\013L" +
-      "abelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\002" +
-      "8\001\"\242\001\n\035PartitioningPolicyDescription\022\014\n\004" +
-      "name\030\001 \001(\t\022D\n\006labels\030\002 \003(\01324.Ydb.Table.P" +
-      "artitioningPolicyDescription.LabelsEntry" +
-      "\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 " +
-      "\001(\t:\0028\001\"\234\001\n\032ExecutionPolicyDescription\022\014" +
-      "\n\004name\030\001 \001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.Table" +
-      ".ExecutionPolicyDescription.LabelsEntry\032",
-      "-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001" +
-      "(\t:\0028\001\"\240\001\n\034ReplicationPolicyDescription\022" +
-      "\014\n\004name\030\001 \001(\t\022C\n\006labels\030\002 \003(\01323.Ydb.Tabl" +
-      "e.ReplicationPolicyDescription.LabelsEnt" +
-      "ry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030" +
-      "\002 \001(\t:\0028\001\"\230\001\n\030CachingPolicyDescription\022\014" +
-      "\n\004name\030\001 \001(\t\022?\n\006labels\030\002 \003(\0132/.Ydb.Table" +
-      ".CachingPolicyDescription.LabelsEntry\032-\n" +
-      "\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t" +
-      ":\0028\001\"\276\004\n\027TableProfileDescription\022\014\n\004name",
-      "\030\001 \001(\t\022>\n\006labels\030\002 \003(\0132..Ydb.Table.Table" +
-      "ProfileDescription.LabelsEntry\022\036\n\026defaul" +
-      "t_storage_policy\030\003 \001(\t\022 \n\030allowed_storag" +
-      "e_policies\030\004 \003(\t\022!\n\031default_compaction_p" +
-      "olicy\030\005 \001(\t\022#\n\033allowed_compaction_polici" +
-      "es\030\006 \003(\t\022#\n\033default_partitioning_policy\030" +
-      "\007 \001(\t\022%\n\035allowed_partitioning_policies\030\010" +
-      " \003(\t\022 \n\030default_execution_policy\030\t \001(\t\022\"" +
-      "\n\032allowed_execution_policies\030\n \003(\t\022\"\n\032de" +
-      "fault_replication_policy\030\013 \001(\t\022$\n\034allowe",
-      "d_replication_policies\030\014 \003(\t\022\036\n\026default_" +
-      "caching_policy\030\r \001(\t\022 \n\030allowed_caching_" +
-      "policies\030\016 \003(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001" +
-      "(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"X\n\033DescribeTableOp" +
-      "tionsRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
-      ".Ydb.Operations.OperationParams\"L\n\034Descr" +
-      "ibeTableOptionsResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.Operation\"\231\004\n\032Descri" +
-      "beTableOptionsResult\022A\n\025table_profile_pr" +
-      "esets\030\001 \003(\0132\".Ydb.Table.TableProfileDesc",
-      "ription\022C\n\026storage_policy_presets\030\002 \003(\0132" +
-      "#.Ydb.Table.StoragePolicyDescription\022I\n\031" +
-      "compaction_policy_presets\030\003 \003(\0132&.Ydb.Ta" +
-      "ble.CompactionPolicyDescription\022M\n\033parti" +
-      "tioning_policy_presets\030\004 \003(\0132(.Ydb.Table" +
-      ".PartitioningPolicyDescription\022G\n\030execut" +
-      "ion_policy_presets\030\005 \003(\0132%.Ydb.Table.Exe" +
-      "cutionPolicyDescription\022K\n\032replication_p" +
-      "olicy_presets\030\006 \003(\0132\'.Ydb.Table.Replicat" +
-      "ionPolicyDescription\022C\n\026caching_policy_p",
-      "resets\030\007 \003(\0132#.Ydb.Table.CachingPolicyDe" +
-      "scription\"\300\001\n\010KeyRange\022\"\n\007greater\030\001 \001(\0132" +
-      "\017.Ydb.TypedValueH\000\022+\n\020greater_or_equal\030\002" +
-      " \001(\0132\017.Ydb.TypedValueH\000\022\037\n\004less\030\003 \001(\0132\017." +
-      "Ydb.TypedValueH\001\022(\n\rless_or_equal\030\004 \001(\0132" +
-      "\017.Ydb.TypedValueH\001B\014\n\nfrom_boundB\n\n\010to_b" +
-      "ound\"\300\001\n\020ReadTableRequest\022\022\n\nsession_id\030" +
-      "\001 \001(\t\022\014\n\004path\030\002 \001(\t\022&\n\tkey_range\030\003 \001(\0132\023" +
-      ".Ydb.Table.KeyRange\022\017\n\007columns\030\004 \003(\t\022\017\n\007" +
-      "ordered\030\005 \001(\010\022\021\n\trow_limit\030\006 \001(\004\022-\n\014use_",
-      "snapshot\030\007 \001(\0162\027.Ydb.FeatureFlag.Status\"" +
-      "\223\001\n\021ReadTableResponse\022)\n\006status\030\001 \001(\0162\031." +
-      "Ydb.StatusIds.StatusCode\022\'\n\006issues\030\002 \003(\013" +
-      "2\027.Ydb.Issue.IssueMessage\022*\n\006result\030\003 \001(" +
-      "\0132\032.Ydb.Table.ReadTableResult\"5\n\017ReadTab" +
-      "leResult\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.Resul" +
-      "tSet\"|\n\021BulkUpsertRequest\022\r\n\005table\030\001 \001(\t" +
-      "\022\035\n\004rows\030\002 \001(\0132\017.Ydb.TypedValue\0229\n\020opera" +
-      "tion_params\030\003 \001(\0132\037.Ydb.Operations.Opera" +
-      "tionParams\"B\n\022BulkUpsertResponse\022,\n\toper",
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\022" +
-      "\n\020BulkUpsertResult\"\310\002\n\027ExecuteScanQueryR" +
-      "equest\022\037\n\005query\030\003 \001(\0132\020.Ydb.Table.Query\022" +
-      "F\n\nparameters\030\004 \003(\01322.Ydb.Table.ExecuteS" +
-      "canQueryRequest.ParametersEntry\0225\n\004mode\030" +
-      "\006 \001(\0162\'.Ydb.Table.ExecuteScanQueryReques" +
-      "t.Mode\032B\n\017ParametersEntry\022\013\n\003key\030\001 \001(\t\022\036" +
-      "\n\005value\030\002 \001(\0132\017.Ydb.TypedValue:\0028\001\"+\n\004Mo" +
-      "de\022\024\n\020MODE_UNSPECIFIED\020\000\022\r\n\tMODE_EXEC\020\003J" +
-      "\004\010\001\020\002J\004\010\002\020\003J\004\010\005\020\006J\004\010\007\020\010J\004\010\010\020\t\"\257\001\n\037Execut",
-      "eScanQueryPartialResponse\022)\n\006status\030\001 \001(" +
-      "\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006issues\030\002" +
-      " \003(\0132\027.Ydb.Issue.IssueMessage\0228\n\006result\030" +
-      "\003 \001(\0132(.Ydb.Table.ExecuteScanQueryPartia" +
-      "lResult\"a\n\035ExecuteScanQueryPartialResult" +
-      "\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultSetJ\004\010\002" +
-      "\020\003J\004\010\003\020\004J\004\010\004\020\005J\004\010\005\020\006J\004\010\006\020\007B\031\n\024com.yandex" +
-      ".ydb.table\370\001\001b\006proto3"
+      "_in_cache\030\001 \001(\010\"\222\001\n\024QueryStatsCollection" +
+      "\"z\n\004Mode\022 \n\034STATS_COLLECTION_UNSPECIFIED",
+      "\020\000\022\031\n\025STATS_COLLECTION_NONE\020\001\022\032\n\026STATS_C" +
+      "OLLECTION_BASIC\020\002\022\031\n\025STATS_COLLECTION_FU" +
+      "LL\020\003\"\276\003\n\027ExecuteDataQueryRequest\022\022\n\nsess" +
+      "ion_id\030\001 \001(\t\0221\n\ntx_control\030\002 \001(\0132\035.Ydb.T" +
+      "able.TransactionControl\022\037\n\005query\030\003 \001(\0132\020" +
+      ".Ydb.Table.Query\022F\n\nparameters\030\004 \003(\01322.Y" +
+      "db.Table.ExecuteDataQueryRequest.Paramet" +
+      "ersEntry\0227\n\022query_cache_policy\030\005 \001(\0132\033.Y" +
+      "db.Table.QueryCachePolicy\0229\n\020operation_p" +
+      "arams\030\006 \001(\0132\037.Ydb.Operations.OperationPa",
+      "rams\022;\n\rcollect_stats\030\007 \001(\0162$.Ydb.Table." +
+      "QueryStatsCollection.Mode\032B\n\017ParametersE" +
+      "ntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.T" +
+      "ypedValue:\0028\001\"H\n\030ExecuteDataQueryRespons" +
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
+      "eration\"|\n\031ExecuteSchemeQueryRequest\022\022\n\n" +
+      "session_id\030\001 \001(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020op" +
+      "eration_params\030\003 \001(\0132\037.Ydb.Operations.Op" +
+      "erationParams\"J\n\032ExecuteSchemeQueryRespo" +
+      "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.",
+      "Operation\"\035\n\017TransactionMeta\022\n\n\002id\030\001 \001(\t" +
+      "\"\237\001\n\tQueryMeta\022\n\n\002id\030\001 \001(\t\022C\n\020parameters" +
+      "_types\030\002 \003(\0132).Ydb.Table.QueryMeta.Param" +
+      "etersTypesEntry\032A\n\024ParametersTypesEntry\022" +
+      "\013\n\003key\030\001 \001(\t\022\030\n\005value\030\002 \001(\0132\t.Ydb.Type:\002" +
+      "8\001\"\301\001\n\022ExecuteQueryResult\022#\n\013result_sets" +
+      "\030\001 \003(\0132\016.Ydb.ResultSet\022+\n\007tx_meta\030\002 \001(\0132" +
+      "\032.Ydb.Table.TransactionMeta\022(\n\nquery_met" +
+      "a\030\003 \001(\0132\024.Ydb.Table.QueryMeta\022/\n\013query_s" +
+      "tats\030\004 \001(\0132\032.Ydb.TableStats.QueryStats\"z",
+      "\n\027ExplainDataQueryRequest\022\022\n\nsession_id\030" +
+      "\001 \001(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020operation_par" +
+      "ams\030\003 \001(\0132\037.Ydb.Operations.OperationPara" +
+      "ms\"H\n\030ExplainDataQueryResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\";\n\022" +
+      "ExplainQueryResult\022\021\n\tquery_ast\030\001 \001(\t\022\022\n" +
+      "\nquery_plan\030\002 \001(\t\"z\n\027PrepareDataQueryReq" +
+      "uest\022\022\n\nsession_id\030\001 \001(\t\022\020\n\010yql_text\030\002 \001" +
+      "(\t\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Opera" +
+      "tions.OperationParams\"H\n\030PrepareDataQuer",
+      "yResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.Operation\"\267\001\n\022PrepareQueryResult\022\020" +
+      "\n\010query_id\030\001 \001(\t\022L\n\020parameters_types\030\002 \003" +
+      "(\01322.Ydb.Table.PrepareQueryResult.Parame" +
+      "tersTypesEntry\032A\n\024ParametersTypesEntry\022\013" +
+      "\n\003key\030\001 \001(\t\022\030\n\005value\030\002 \001(\0132\t.Ydb.Type:\0028" +
+      "\001\"a\n\020KeepAliveRequest\022\022\n\nsession_id\030\001 \001(" +
+      "\t\0229\n\020operation_params\030\002 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\"A\n\021KeepAliveRespons" +
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op",
+      "eration\"\267\001\n\017KeepAliveResult\022@\n\016session_s" +
+      "tatus\030\001 \001(\0162(.Ydb.Table.KeepAliveResult." +
+      "SessionStatus\"b\n\rSessionStatus\022\036\n\032SESSIO" +
+      "N_STATUS_UNSPECIFIED\020\000\022\030\n\024SESSION_STATUS" +
+      "_READY\020\001\022\027\n\023SESSION_STATUS_BUSY\020\002\"\235\001\n\027Be" +
+      "ginTransactionRequest\022\022\n\nsession_id\030\001 \001(" +
+      "\t\0223\n\013tx_settings\030\002 \001(\0132\036.Ydb.Table.Trans" +
+      "actionSettings\0229\n\020operation_params\030\003 \001(\013" +
+      "2\037.Ydb.Operations.OperationParams\"H\n\030Beg" +
+      "inTransactionResponse\022,\n\toperation\030\001 \001(\013",
+      "2\031.Ydb.Operations.Operation\"E\n\026BeginTran" +
+      "sactionResult\022+\n\007tx_meta\030\001 \001(\0132\032.Ydb.Tab" +
+      "le.TransactionMeta\"\265\001\n\030CommitTransaction" +
+      "Request\022\022\n\nsession_id\030\001 \001(\t\022\r\n\005tx_id\030\002 \001" +
+      "(\t\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Opera" +
+      "tions.OperationParams\022;\n\rcollect_stats\030\004" +
+      " \001(\0162$.Ydb.Table.QueryStatsCollection.Mo" +
+      "de\"I\n\031CommitTransactionResponse\022,\n\topera" +
+      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"J\n" +
+      "\027CommitTransactionResult\022/\n\013query_stats\030",
+      "\001 \001(\0132\032.Ydb.TableStats.QueryStats\"z\n\032Rol" +
+      "lbackTransactionRequest\022\022\n\nsession_id\030\001 " +
+      "\001(\t\022\r\n\005tx_id\030\002 \001(\t\0229\n\020operation_params\030\003" +
+      " \001(\0132\037.Ydb.Operations.OperationParams\"K\n" +
+      "\033RollbackTransactionResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\230\001\n\030S" +
+      "toragePolicyDescription\022\014\n\004name\030\001 \001(\t\022?\n" +
+      "\006labels\030\002 \003(\0132/.Ydb.Table.StoragePolicyD" +
+      "escription.LabelsEntry\032-\n\013LabelsEntry\022\013\n" +
+      "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\236\001\n\033Compac",
+      "tionPolicyDescription\022\014\n\004name\030\001 \001(\t\022B\n\006l" +
+      "abels\030\002 \003(\01322.Ydb.Table.CompactionPolicy" +
+      "Description.LabelsEntry\032-\n\013LabelsEntry\022\013" +
+      "\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\242\001\n\035Parti" +
+      "tioningPolicyDescription\022\014\n\004name\030\001 \001(\t\022D" +
+      "\n\006labels\030\002 \003(\01324.Ydb.Table.PartitioningP" +
+      "olicyDescription.LabelsEntry\032-\n\013LabelsEn" +
+      "try\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001\n\032" +
+      "ExecutionPolicyDescription\022\014\n\004name\030\001 \001(\t" +
+      "\022A\n\006labels\030\002 \003(\01321.Ydb.Table.ExecutionPo",
+      "licyDescription.LabelsEntry\032-\n\013LabelsEnt" +
+      "ry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\240\001\n\034R" +
+      "eplicationPolicyDescription\022\014\n\004name\030\001 \001(" +
+      "\t\022C\n\006labels\030\002 \003(\01323.Ydb.Table.Replicatio" +
+      "nPolicyDescription.LabelsEntry\032-\n\013Labels" +
+      "Entry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\230\001" +
+      "\n\030CachingPolicyDescription\022\014\n\004name\030\001 \001(\t" +
+      "\022?\n\006labels\030\002 \003(\0132/.Ydb.Table.CachingPoli" +
+      "cyDescription.LabelsEntry\032-\n\013LabelsEntry" +
+      "\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\276\004\n\027Tab",
+      "leProfileDescription\022\014\n\004name\030\001 \001(\t\022>\n\006la" +
+      "bels\030\002 \003(\0132..Ydb.Table.TableProfileDescr" +
+      "iption.LabelsEntry\022\036\n\026default_storage_po" +
+      "licy\030\003 \001(\t\022 \n\030allowed_storage_policies\030\004" +
+      " \003(\t\022!\n\031default_compaction_policy\030\005 \001(\t\022" +
+      "#\n\033allowed_compaction_policies\030\006 \003(\t\022#\n\033" +
+      "default_partitioning_policy\030\007 \001(\t\022%\n\035all" +
+      "owed_partitioning_policies\030\010 \003(\t\022 \n\030defa" +
+      "ult_execution_policy\030\t \001(\t\022\"\n\032allowed_ex" +
+      "ecution_policies\030\n \003(\t\022\"\n\032default_replic",
+      "ation_policy\030\013 \001(\t\022$\n\034allowed_replicatio" +
+      "n_policies\030\014 \003(\t\022\036\n\026default_caching_poli" +
+      "cy\030\r \001(\t\022 \n\030allowed_caching_policies\030\016 \003" +
+      "(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030" +
+      "\002 \001(\t:\0028\001\"X\n\033DescribeTableOptionsRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\"L\n\034DescribeTableOpti" +
+      "onsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
+      "rations.Operation\"\231\004\n\032DescribeTableOptio" +
+      "nsResult\022A\n\025table_profile_presets\030\001 \003(\0132",
+      "\".Ydb.Table.TableProfileDescription\022C\n\026s" +
+      "torage_policy_presets\030\002 \003(\0132#.Ydb.Table." +
+      "StoragePolicyDescription\022I\n\031compaction_p" +
+      "olicy_presets\030\003 \003(\0132&.Ydb.Table.Compacti" +
+      "onPolicyDescription\022M\n\033partitioning_poli" +
+      "cy_presets\030\004 \003(\0132(.Ydb.Table.Partitionin" +
+      "gPolicyDescription\022G\n\030execution_policy_p" +
+      "resets\030\005 \003(\0132%.Ydb.Table.ExecutionPolicy" +
+      "Description\022K\n\032replication_policy_preset" +
+      "s\030\006 \003(\0132\'.Ydb.Table.ReplicationPolicyDes",
+      "cription\022C\n\026caching_policy_presets\030\007 \003(\013" +
+      "2#.Ydb.Table.CachingPolicyDescription\"\300\001" +
+      "\n\010KeyRange\022\"\n\007greater\030\001 \001(\0132\017.Ydb.TypedV" +
+      "alueH\000\022+\n\020greater_or_equal\030\002 \001(\0132\017.Ydb.T" +
+      "ypedValueH\000\022\037\n\004less\030\003 \001(\0132\017.Ydb.TypedVal" +
+      "ueH\001\022(\n\rless_or_equal\030\004 \001(\0132\017.Ydb.TypedV" +
+      "alueH\001B\014\n\nfrom_boundB\n\n\010to_bound\"\300\001\n\020Rea" +
+      "dTableRequest\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004pat" +
+      "h\030\002 \001(\t\022&\n\tkey_range\030\003 \001(\0132\023.Ydb.Table.K" +
+      "eyRange\022\017\n\007columns\030\004 \003(\t\022\017\n\007ordered\030\005 \001(",
+      "\010\022\021\n\trow_limit\030\006 \001(\004\022-\n\014use_snapshot\030\007 \001" +
+      "(\0162\027.Ydb.FeatureFlag.Status\"\223\001\n\021ReadTabl" +
+      "eResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusId" +
+      "s.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue" +
+      ".IssueMessage\022*\n\006result\030\003 \001(\0132\032.Ydb.Tabl" +
+      "e.ReadTableResult\"5\n\017ReadTableResult\022\"\n\n" +
+      "result_set\030\001 \001(\0132\016.Ydb.ResultSet\"|\n\021Bulk" +
+      "UpsertRequest\022\r\n\005table\030\001 \001(\t\022\035\n\004rows\030\002 \001" +
+      "(\0132\017.Ydb.TypedValue\0229\n\020operation_params\030" +
+      "\003 \001(\0132\037.Ydb.Operations.OperationParams\"B",
+      "\n\022BulkUpsertResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"\022\n\020BulkUpsert" +
+      "Result\"\221\003\n\027ExecuteScanQueryRequest\022\037\n\005qu" +
+      "ery\030\003 \001(\0132\020.Ydb.Table.Query\022F\n\nparameter" +
+      "s\030\004 \003(\01322.Ydb.Table.ExecuteScanQueryRequ" +
+      "est.ParametersEntry\0225\n\004mode\030\006 \001(\0162\'.Ydb." +
+      "Table.ExecuteScanQueryRequest.Mode\022;\n\rco" +
+      "llect_stats\030\010 \001(\0162$.Ydb.Table.QueryStats" +
+      "Collection.Mode\032B\n\017ParametersEntry\022\013\n\003ke" +
+      "y\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.TypedValue:",
+      "\0028\001\"=\n\004Mode\022\024\n\020MODE_UNSPECIFIED\020\000\022\020\n\014MOD" +
+      "E_EXPLAIN\020\001\022\r\n\tMODE_EXEC\020\003J\004\010\001\020\002J\004\010\002\020\003J\004" +
+      "\010\005\020\006J\004\010\007\020\010\"\257\001\n\037ExecuteScanQueryPartialRe" +
+      "sponse\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.S" +
+      "tatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.Is" +
+      "sueMessage\0228\n\006result\030\003 \001(\0132(.Ydb.Table.E" +
+      "xecuteScanQueryPartialResult\"\214\001\n\035Execute" +
+      "ScanQueryPartialResult\022\"\n\nresult_set\030\001 \001" +
+      "(\0132\016.Ydb.ResultSet\022/\n\013query_stats\030\006 \001(\0132" +
+      "\032.Ydb.TableStats.QueryStatsJ\004\010\002\020\003J\004\010\003\020\004J",
+      "\004\010\004\020\005J\004\010\005\020\006B\031\n\024tech.ydb.table\370\001\001b\006" +
+      "proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -100060,7 +100374,7 @@ public final class YdbTable {
     internal_static_Ydb_Table_ExecuteScanQueryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ExecuteScanQueryRequest_descriptor,
-        new java.lang.String[] { "Query", "Parameters", "Mode", });
+        new java.lang.String[] { "Query", "Parameters", "Mode", "CollectStats", });
     internal_static_Ydb_Table_ExecuteScanQueryRequest_ParametersEntry_descriptor =
       internal_static_Ydb_Table_ExecuteScanQueryRequest_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_Table_ExecuteScanQueryRequest_ParametersEntry_fieldAccessorTable = new
@@ -100078,7 +100392,7 @@ public final class YdbTable {
     internal_static_Ydb_Table_ExecuteScanQueryPartialResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_ExecuteScanQueryPartialResult_descriptor,
-        new java.lang.String[] { "ResultSet", });
+        new java.lang.String[] { "ResultSet", "QueryStats", });
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(tech.ydb.Validation.length);
