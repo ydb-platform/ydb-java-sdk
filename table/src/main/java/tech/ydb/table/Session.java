@@ -20,6 +20,7 @@ import tech.ydb.table.settings.CreateTableSettings;
 import tech.ydb.table.settings.DescribeTableSettings;
 import tech.ydb.table.settings.DropTableSettings;
 import tech.ydb.table.settings.ExecuteDataQuerySettings;
+import tech.ydb.table.settings.ExecuteScanQuerySettings;
 import tech.ydb.table.settings.ExecuteSchemeQuerySettings;
 import tech.ydb.table.settings.ExplainDataQuerySettings;
 import tech.ydb.table.settings.KeepAliveSessionSettings;
@@ -111,6 +112,8 @@ public interface Session {
     CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings);
 
     CompletableFuture<Status> readTable(String tablePath, ReadTableSettings settings, Consumer<ResultSetReader> fn);
+
+    CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings, Consumer<ResultSetReader> fn);
 
     CompletableFuture<Result<SessionStatus>> keepAlive(KeepAliveSessionSettings settings);
 

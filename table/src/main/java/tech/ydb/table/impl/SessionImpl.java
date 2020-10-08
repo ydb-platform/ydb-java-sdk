@@ -41,6 +41,7 @@ import tech.ydb.table.settings.CreateTableSettings;
 import tech.ydb.table.settings.DescribeTableSettings;
 import tech.ydb.table.settings.DropTableSettings;
 import tech.ydb.table.settings.ExecuteDataQuerySettings;
+import tech.ydb.table.settings.ExecuteScanQuerySettings;
 import tech.ydb.table.settings.ExecuteSchemeQuerySettings;
 import tech.ydb.table.settings.ExplainDataQuerySettings;
 import tech.ydb.table.settings.KeepAliveSessionSettings;
@@ -555,6 +556,48 @@ class SessionImpl implements Session {
         tableRpc.streamReadTable(request.build(), new StreamObserver<ReadTableResponse>() {
             @Override
             public void onNext(ReadTableResponse response) {
+                StatusIds.StatusCode statusCode = response.getStatus();
+                if (statusCode == StatusIds.StatusCode.SUCCESS) {
+                    try {
+                        fn.accept(ProtoValueReaders.forResultSet(response.getResult().getResultSet()));
+                    } catch (Throwable t) {
+                        promise.completeExceptionally(t);
+                    }
+                } else {
+                    Issue[] issues = Issue.fromPb(response.getIssuesList());
+                    StatusCode code = StatusCode.fromProto(statusCode);
+                    promise.complete(Status.of(code, issues));
+                }
+            }
+
+            @Override
+            public void onError(Status status) {
+                assert !status.isSuccess();
+                promise.complete(status);
+            }
+
+            @Override
+            public void onCompleted() {
+                promise.complete(Status.SUCCESS);
+            }
+        }, deadlineAfter);
+        return promise;
+    }
+
+    public CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings, Consumer<ResultSetReader> fn)
+    {
+        YdbTable.ExecuteScanQueryRequest request = YdbTable.ExecuteScanQueryRequest.newBuilder()
+                .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
+                .setMode(settings.getMode())
+                .putAllParameters(params.toPb())
+                .setCollectStats(settings.getCollectStats())
+                .build();
+
+        CompletableFuture<Status> promise = new CompletableFuture<>();
+        final long deadlineAfter = settings.getDeadlineAfter();
+        tableRpc.streamExecuteScanQuery(request, new StreamObserver<YdbTable.ExecuteScanQueryPartialResponse>() {
+            @Override
+            public void onNext(YdbTable.ExecuteScanQueryPartialResponse response) {
                 StatusIds.StatusCode statusCode = response.getStatus();
                 if (statusCode == StatusIds.StatusCode.SUCCESS) {
                     try {

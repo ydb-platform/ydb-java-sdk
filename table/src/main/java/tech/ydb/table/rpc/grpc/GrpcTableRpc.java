@@ -12,6 +12,7 @@ import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.RpcTransport;
 import tech.ydb.core.rpc.StreamObserver;
+import tech.ydb.table.YdbTable;
 import tech.ydb.table.YdbTable.ReadTableRequest;
 import tech.ydb.table.YdbTable.ReadTableResponse;
 import tech.ydb.table.rpc.TableRpc;
@@ -157,6 +158,11 @@ public final class GrpcTableRpc implements TableRpc {
     @Override
     public void streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer, long deadlineAfter) {
         transport.serverStreamCall(TableServiceGrpc.getStreamReadTableMethod(), request, observer, deadlineAfter);
+    }
+
+    @Override
+    public void streamExecuteScanQuery(YdbTable.ExecuteScanQueryRequest request, StreamObserver<YdbTable.ExecuteScanQueryPartialResponse> observer, long deadlineAfter) {
+        transport.serverStreamCall(TableServiceGrpc.getStreamExecuteScanQueryMethod(), request, observer, deadlineAfter);
     }
 
     @Override

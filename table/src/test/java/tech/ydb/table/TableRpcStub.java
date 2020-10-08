@@ -138,6 +138,12 @@ public class TableRpcStub implements TableRpc {
     }
 
     @Override
+    public void streamExecuteScanQuery(YdbTable.ExecuteScanQueryRequest request, StreamObserver<YdbTable.ExecuteScanQueryPartialResponse> observer, long deadlineAfter) {
+        Issue issue = Issue.of("streamExecuteScanQuery() is not implemented", ESeverityId.S_ERROR);
+        observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
+    }
+
+    @Override
     public String getDatabase() {
         return "";
     }
