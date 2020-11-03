@@ -26,6 +26,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.auth.NopAuthProvider;
 import tech.ydb.core.rpc.OperationTray;
+import tech.ydb.core.rpc.OutStreamObserver;
 import tech.ydb.core.rpc.RpcTransport;
 import tech.ydb.core.rpc.RpcTransportBuilder;
 import tech.ydb.core.rpc.StreamObserver;
@@ -193,6 +194,38 @@ public class GrpcTransport implements RpcTransport {
         sendOneRequest(call, request, new ServerStreamToObserver<>(observer, call));
     }
 
+    public <ReqT, RespT> OutStreamObserver<ReqT> bidirectionalStreamCall(
+        MethodDescriptor<ReqT, RespT> method,
+        StreamObserver<RespT> observer,
+        long deadlineAfter)
+    {
+        CallOptions callOptions = this.callOptions;
+        if (deadlineAfter > 0) {
+            final long now = System.nanoTime();
+            if (now >= deadlineAfter) {
+                observer.onError(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
+                return new OutStreamObserver<ReqT>() {
+                    @Override
+                    public void onNext(ReqT value) {
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                    }
+                };
+            }
+            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+        } else if (defautlReadTimeoutMillis > 0) {
+            callOptions = this.callOptions.withDeadlineAfter(defautlReadTimeoutMillis, TimeUnit.MILLISECONDS);
+        }
+        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+        return asyncBidiStreamingCall(call, observer);
+    }
+
     private static <ReqT, RespT> void sendOneRequest(
         ClientCall<ReqT, RespT> call,
         ReqT request,
@@ -211,6 +244,19 @@ public class GrpcTransport implements RpcTransport {
             }
             listener.onClose(Status.INTERNAL.withCause(t), null);
         }
+    }
+
+    private static <ReqT, RespT> OutStreamObserver<ReqT> asyncBidiStreamingCall(
+        ClientCall<ReqT, RespT> call,
+        StreamObserver<RespT> responseObserver)
+    {
+        AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter
+                = new AsyncBidiStreamingOutAdapter<>(call);
+        AsyncBidiStreamingInAdapter<ReqT, RespT> responseListener
+                = new AsyncBidiStreamingInAdapter<>(responseObserver, adapter);
+        call.start(responseListener, new Metadata());
+        responseListener.onStart();
+        return adapter;
     }
 
     @Override
