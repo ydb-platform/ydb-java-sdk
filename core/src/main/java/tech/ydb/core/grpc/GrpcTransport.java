@@ -30,6 +30,7 @@ import tech.ydb.core.rpc.OutStreamObserver;
 import tech.ydb.core.rpc.RpcTransport;
 import tech.ydb.core.rpc.RpcTransportBuilder;
 import tech.ydb.core.rpc.StreamObserver;
+import tech.ydb.core.ssl.YandexTrustManagerFactory;
 import com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
@@ -107,10 +108,9 @@ public class GrpcTransport implements RpcTransport {
     }
 
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
-        MethodDescriptor<ReqT, RespT> method,
-        ReqT request,
-        long deadlineAfter)
-    {
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            long deadlineAfter) {
         CallOptions callOptions = this.callOptions;
         if (deadlineAfter > 0) {
             final long now = System.nanoTime();
@@ -129,11 +129,10 @@ public class GrpcTransport implements RpcTransport {
     }
 
     public <ReqT, RespT> void unaryCall(
-        MethodDescriptor<ReqT, RespT> method,
-        ReqT request,
-        Consumer<Result<RespT>> consumer,
-        long deadlineAfter)
-    {
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            Consumer<Result<RespT>> consumer,
+            long deadlineAfter) {
         CallOptions callOptions = this.callOptions;
         if (deadlineAfter > 0) {
             final long now = System.nanoTime();
@@ -151,11 +150,10 @@ public class GrpcTransport implements RpcTransport {
     }
 
     public <ReqT, RespT> void unaryCall(
-        MethodDescriptor<ReqT, RespT> method,
-        ReqT request,
-        BiConsumer<RespT, Status> consumer,
-        long deadlineAfter)
-    {
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            BiConsumer<RespT, Status> consumer,
+            long deadlineAfter) {
         CallOptions callOptions = this.callOptions;
         if (deadlineAfter > 0) {
             final long now = System.nanoTime();
@@ -173,11 +171,10 @@ public class GrpcTransport implements RpcTransport {
     }
 
     public <ReqT, RespT> void serverStreamCall(
-        MethodDescriptor<ReqT, RespT> method,
-        ReqT request,
-        StreamObserver<RespT> observer,
-        long deadlineAfter)
-    {
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            StreamObserver<RespT> observer,
+            long deadlineAfter) {
         CallOptions callOptions = this.callOptions;
         if (deadlineAfter > 0) {
             final long now = System.nanoTime();
@@ -195,10 +192,9 @@ public class GrpcTransport implements RpcTransport {
     }
 
     public <ReqT, RespT> OutStreamObserver<ReqT> bidirectionalStreamCall(
-        MethodDescriptor<ReqT, RespT> method,
-        StreamObserver<RespT> observer,
-        long deadlineAfter)
-    {
+            MethodDescriptor<ReqT, RespT> method,
+            StreamObserver<RespT> observer,
+            long deadlineAfter) {
         CallOptions callOptions = this.callOptions;
         if (deadlineAfter > 0) {
             final long now = System.nanoTime();
@@ -227,10 +223,9 @@ public class GrpcTransport implements RpcTransport {
     }
 
     private static <ReqT, RespT> void sendOneRequest(
-        ClientCall<ReqT, RespT> call,
-        ReqT request,
-        ClientCall.Listener<RespT> listener)
-    {
+            ClientCall<ReqT, RespT> call,
+            ReqT request,
+            ClientCall.Listener<RespT> listener) {
         try {
             call.start(listener, new Metadata());
             call.request(1);
@@ -247,9 +242,8 @@ public class GrpcTransport implements RpcTransport {
     }
 
     private static <ReqT, RespT> OutStreamObserver<ReqT> asyncBidiStreamingCall(
-        ClientCall<ReqT, RespT> call,
-        StreamObserver<RespT> responseObserver)
-    {
+            ClientCall<ReqT, RespT> call,
+            StreamObserver<RespT> responseObserver) {
         AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter
                 = new AsyncBidiStreamingOutAdapter<>(call);
         AsyncBidiStreamingInAdapter<ReqT, RespT> responseListener
@@ -299,7 +293,9 @@ public class GrpcTransport implements RpcTransport {
                 @Override
                 public int getPriority() {
                     return 10;
-                };
+                }
+
+                ;
 
                 @Override
                 public String getPolicyName() {
@@ -316,44 +312,61 @@ public class GrpcTransport implements RpcTransport {
         final NettyChannelBuilder channelBuilder;
         if (endpoint != null) {
             channelBuilder = NettyChannelBuilder.forTarget(YdbNameResolver.makeTarget(endpoint, database))
-                .nameResolverFactory(YdbNameResolver.newFactory(
-                        builder.getAuthProvider(),
-                        builder.cert,
-                        builder.endpointsDiscoveryPeriod,
-                        builder.getCallExecutor(),
-                        builder.getChannelInitializer()))
-                .defaultLoadBalancingPolicy(defaultPolicy);
+                    .nameResolverFactory(YdbNameResolver.newFactory(
+                            builder.getAuthProvider(),
+                            builder.cert,
+                            builder.useTLS,
+                            builder.endpointsDiscoveryPeriod,
+                            builder.getCallExecutor(),
+                            builder.getChannelInitializer()))
+                    .defaultLoadBalancingPolicy(defaultPolicy);
         } else if (hosts.size() > 1) {
             channelBuilder = NettyChannelBuilder.forTarget(HostsNameResolver.makeTarget(hosts))
-                .nameResolverFactory(HostsNameResolver.newFactory(hosts, builder.getCallExecutor()))
-                .defaultLoadBalancingPolicy(defaultPolicy);
+                    .nameResolverFactory(HostsNameResolver.newFactory(hosts, builder.getCallExecutor()))
+                    .defaultLoadBalancingPolicy(defaultPolicy);
         } else {
             channelBuilder = NettyChannelBuilder.forAddress(
-                hosts.get(0).getHost(),
-                hosts.get(0).getPortOrDefault(DEFAULT_PORT));
+                    hosts.get(0).getHost(),
+                    hosts.get(0).getPortOrDefault(DEFAULT_PORT));
         }
 
-        if (builder.cert != null) {
-            channelBuilder
-                .negotiationType(NegotiationType.TLS)
-                .sslContext(createSslContext(builder.cert));
+        if (builder.useTLS) {
+            if (builder.cert != null) {
+                channelBuilder
+                        .negotiationType(NegotiationType.TLS)
+                        .sslContext(createSslContext(builder.cert));
+            } else {
+                channelBuilder
+                        .negotiationType(NegotiationType.TLS)
+                        .sslContext(createSslContext());
+            }
         } else {
             channelBuilder.negotiationType(NegotiationType.PLAINTEXT);
         }
 
         channelBuilder
-            .maxInboundMessageSize(64 << 20) // 64 MiB
-            .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
+                .maxInboundMessageSize(64 << 20) // 64 MiB
+                .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
 
         builder.getChannelInitializer().accept(channelBuilder);
         return channelBuilder.build();
     }
 
+    private static SslContext createSslContext() {
+        try {
+            return GrpcSslContexts.forClient()
+                    .trustManager(new YandexTrustManagerFactory(""))
+                    .build();
+        } catch (SSLException e) {
+            throw new RuntimeException("cannot create ssl context", e);
+        }
+    }
+
     private static SslContext createSslContext(byte[] cert) {
         try {
             return GrpcSslContexts.forClient()
-                .trustManager(new ByteArrayInputStream(cert))
-                .build();
+                    .trustManager(new ByteArrayInputStream(cert))
+                    .build();
         } catch (SSLException e) {
             throw new RuntimeException("cannot create ssl context", e);
         }
@@ -402,7 +415,9 @@ public class GrpcTransport implements RpcTransport {
         private String database;
         private final List<HostAndPort> hosts;
         private byte[] cert = null;
-        private Consumer<NettyChannelBuilder> channelInitializer = (cb) -> {};
+        private boolean useTLS = false;
+        private Consumer<NettyChannelBuilder> channelInitializer = (cb) -> {
+        };
         private String localDc;
         private Duration endpointsDiscoveryPeriod = Duration.ofSeconds(15);
 
@@ -453,7 +468,8 @@ public class GrpcTransport implements RpcTransport {
                     return arcadiaSourceUrl + "@" + arcadiaLastChangeNum;
                 }
 
-            } catch (Exception ex) { }
+            } catch (Exception ex) {
+            }
 
             return "unknown-version";
         }
@@ -471,11 +487,6 @@ public class GrpcTransport implements RpcTransport {
             return this;
         }
 
-        public Builder withSecureConnection(byte[] cert) {
-            this.cert = cert.clone();
-            return this;
-        }
-
         public Builder withLocalDataCenter(String dc) {
             this.localDc = dc;
             return this;
@@ -483,6 +494,17 @@ public class GrpcTransport implements RpcTransport {
 
         public Builder withEndpointsDiscoveryPeriod(Duration period) {
             this.endpointsDiscoveryPeriod = period;
+            return this;
+        }
+
+        public Builder withSecureConnection(byte[] cert) {
+            this.cert = cert.clone();
+            this.useTLS = true;
+            return this;
+        }
+
+        public Builder withSecureConnection() {
+            this.useTLS = true;
             return this;
         }
 

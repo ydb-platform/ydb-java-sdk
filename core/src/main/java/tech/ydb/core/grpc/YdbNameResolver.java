@@ -65,8 +65,7 @@ final class YdbNameResolver extends NameResolver {
             String authority,
             GrpcTransport transport,
             SynchronizationContext synchronizationContext,
-            Duration discoveryPeriod)
-    {
+            Duration discoveryPeriod) {
         this.database = database;
         this.authority = authority;
         this.transport = transport;
@@ -131,16 +130,16 @@ final class YdbNameResolver extends NameResolver {
                 if (!operation.getReady()) {
                     // TODO: wait deferred operations
                     String msg = "unable to resolve database " + database +
-                        ", got not ready operation, id: " + operation.getId() +
-                        ", status: " + operation.getStatus();
+                            ", got not ready operation, id: " + operation.getId() +
+                            ", status: " + operation.getStatus();
                     listener.onError(Status.INTERNAL.withDescription(msg));
                     return;
                 }
 
                 if (operation.getStatus() != StatusCode.SUCCESS) {
                     String msg = "unable to resolve database " + database +
-                        ", got non SUCCESS response, id: " + operation.getId() +
-                        ", status: " + operation.getStatus();
+                            ", got non SUCCESS response, id: " + operation.getId() +
+                            ", status: " + operation.getStatus();
                     listener.onError(Status.INTERNAL.withDescription(msg));
                     return;
                 }
@@ -170,7 +169,7 @@ final class YdbNameResolver extends NameResolver {
 
                 logger.info(String.format("ListEndpointsResult - %s)",
                         result.getEndpointsList().stream()
-                        .map(e -> String.format("{addr - %s, loc - %s}", e.getAddress(), e.getLocation()))
+                                .map(e -> String.format("{addr - %s, loc - %s}", e.getAddress(), e.getLocation()))
                                 .collect(Collectors.joining(","))));
 
                 List<EquivalentAddressGroup> groups = new ArrayList<>(endpointsCount);
@@ -197,7 +196,7 @@ final class YdbNameResolver extends NameResolver {
                         groups.add(createAddressGroup(e));
                     } catch (UnknownHostException x) {
                         String msg = "unable to resolve database " + database +
-                            ", got unknown hostname: " + e.getAddress();
+                                ", got unknown hostname: " + e.getAddress();
                         listener.onError(Status.UNAVAILABLE.withDescription(msg).withCause(x));
                         return;
                     }
@@ -239,18 +238,18 @@ final class YdbNameResolver extends NameResolver {
         }
 
         ListEndpointsRequest request = ListEndpointsRequest.newBuilder()
-            .setDatabase(database)
-            .build();
+                .setDatabase(database)
+                .build();
         transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), request, consumer, System.nanoTime() + discoveryPeriod.dividedBy(2).toNanos());
     }
 
     static Factory newFactory(
             AuthProvider authProvider,
             @Nullable byte[] cert,
+            boolean useTLS,
             Duration discoveryPeriod,
             Executor executor,
-            Consumer<NettyChannelBuilder> channelCustomizer)
-    {
+            Consumer<NettyChannelBuilder> channelCustomizer) {
         return new Factory() {
             @Nullable
             @Override
@@ -271,8 +270,12 @@ final class YdbNameResolver extends NameResolver {
                         .withCallExecutor(executor)
                         .withDataBase(database)
                         .withChannelInitializer(channelCustomizer);
-                if (cert != null) {
-                    transportBuilder.withSecureConnection(cert);
+                if (useTLS) {
+                    if (cert != null) {
+                        transportBuilder.withSecureConnection(cert);
+                    } else {
+                        transportBuilder.withSecureConnection();
+                    }
                 }
                 GrpcTransport transport = transportBuilder.build();
                 return new YdbNameResolver(database, authority, transport, helper.getSynchronizationContext(), discoveryPeriod);
