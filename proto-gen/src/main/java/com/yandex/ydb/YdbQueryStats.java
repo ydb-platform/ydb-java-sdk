@@ -3312,6 +3312,16 @@ public final class YdbQueryStats {
      */
     com.google.protobuf.ByteString
         getQueryPlanBytes();
+
+    /**
+     * <code>string query_ast = 5;</code>
+     */
+    java.lang.String getQueryAst();
+    /**
+     * <code>string query_ast = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getQueryAstBytes();
   }
   /**
    * Protobuf type {@code Ydb.TableStats.QueryStats}
@@ -3329,6 +3339,7 @@ public final class YdbQueryStats {
       queryPhases_ = java.util.Collections.emptyList();
       processCpuTimeUs_ = 0L;
       queryPlan_ = "";
+      queryAst_ = "";
     }
 
     @java.lang.Override
@@ -3390,6 +3401,12 @@ public final class YdbQueryStats {
               java.lang.String s = input.readStringRequireUtf8();
 
               queryPlan_ = s;
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              queryAst_ = s;
               break;
             }
           }
@@ -3539,6 +3556,40 @@ public final class YdbQueryStats {
       }
     }
 
+    public static final int QUERY_AST_FIELD_NUMBER = 5;
+    private volatile java.lang.Object queryAst_;
+    /**
+     * <code>string query_ast = 5;</code>
+     */
+    public java.lang.String getQueryAst() {
+      java.lang.Object ref = queryAst_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        queryAst_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string query_ast = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getQueryAstBytes() {
+      java.lang.Object ref = queryAst_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        queryAst_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -3563,6 +3614,9 @@ public final class YdbQueryStats {
       if (!getQueryPlanBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, queryPlan_);
       }
+      if (!getQueryAstBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, queryAst_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -3585,6 +3639,9 @@ public final class YdbQueryStats {
       }
       if (!getQueryPlanBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, queryPlan_);
+      }
+      if (!getQueryAstBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, queryAst_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3613,6 +3670,8 @@ public final class YdbQueryStats {
           == other.getProcessCpuTimeUs());
       result = result && getQueryPlan()
           .equals(other.getQueryPlan());
+      result = result && getQueryAst()
+          .equals(other.getQueryAst());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -3637,6 +3696,8 @@ public final class YdbQueryStats {
           getProcessCpuTimeUs());
       hash = (37 * hash) + QUERY_PLAN_FIELD_NUMBER;
       hash = (53 * hash) + getQueryPlan().hashCode();
+      hash = (37 * hash) + QUERY_AST_FIELD_NUMBER;
+      hash = (53 * hash) + getQueryAst().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3783,6 +3844,8 @@ public final class YdbQueryStats {
 
         queryPlan_ = "";
 
+        queryAst_ = "";
+
         return this;
       }
 
@@ -3823,6 +3886,7 @@ public final class YdbQueryStats {
         }
         result.processCpuTimeUs_ = processCpuTimeUs_;
         result.queryPlan_ = queryPlan_;
+        result.queryAst_ = queryAst_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3899,6 +3963,10 @@ public final class YdbQueryStats {
         }
         if (!other.getQueryPlan().isEmpty()) {
           queryPlan_ = other.queryPlan_;
+          onChanged();
+        }
+        if (!other.getQueryAst().isEmpty()) {
+          queryAst_ = other.queryAst_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -4452,6 +4520,75 @@ public final class YdbQueryStats {
         onChanged();
         return this;
       }
+
+      private java.lang.Object queryAst_ = "";
+      /**
+       * <code>string query_ast = 5;</code>
+       */
+      public java.lang.String getQueryAst() {
+        java.lang.Object ref = queryAst_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          queryAst_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string query_ast = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getQueryAstBytes() {
+        java.lang.Object ref = queryAst_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          queryAst_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string query_ast = 5;</code>
+       */
+      public Builder setQueryAst(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        queryAst_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string query_ast = 5;</code>
+       */
+      public Builder clearQueryAst() {
+        
+        queryAst_ = getDefaultInstance().getQueryAst();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string query_ast = 5;</code>
+       */
+      public Builder setQueryAstBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        queryAst_ = value;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -4548,12 +4685,13 @@ public final class YdbQueryStats {
       "ats.TableAccessStats\022\023\n\013cpu_time_us\030\003 \001(" +
       "\004\022\027\n\017affected_shards\030\004 \001(\004\"P\n\020Compilatio" +
       "nStats\022\022\n\nfrom_cache\030\001 \001(\010\022\023\n\013duration_u" +
-      "s\030\002 \001(\004\022\023\n\013cpu_time_us\030\003 \001(\004\"\253\001\n\nQuerySt" +
+      "s\030\002 \001(\004\022\023\n\013cpu_time_us\030\003 \001(\004\"\276\001\n\nQuerySt" +
       "ats\0225\n\014query_phases\030\001 \003(\0132\037.Ydb.TableSta" +
       "ts.QueryPhaseStats\0225\n\013compilation\030\002 \001(\0132" +
       " .Ydb.TableStats.CompilationStats\022\033\n\023pro" +
       "cess_cpu_time_us\030\003 \001(\004\022\022\n\nquery_plan\030\004 \001" +
-      "(\tB\023\n\016tech.ydb\370\001\001b\006proto3"
+      "(\t\022\021\n\tquery_ast\030\005 \001(\tB\023\n\016tech.ydb\370" +
+      "\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4596,7 +4734,7 @@ public final class YdbQueryStats {
     internal_static_Ydb_TableStats_QueryStats_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_TableStats_QueryStats_descriptor,
-        new java.lang.String[] { "QueryPhases", "Compilation", "ProcessCpuTimeUs", "QueryPlan", });
+        new java.lang.String[] { "QueryPhases", "Compilation", "ProcessCpuTimeUs", "QueryPlan", "QueryAst", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
