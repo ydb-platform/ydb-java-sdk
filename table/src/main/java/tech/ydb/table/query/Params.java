@@ -94,6 +94,27 @@ public interface Params {
     }
 
     /**
+     * Returns an immutable implementation of {@link Params} with nine parameters.
+     *
+     * @return non empty {@link Params} with five parameters
+     */
+    static Params of(
+            String name1, Value<?> value1,
+            String name2, Value<?> value2,
+            String name3, Value<?> value3,
+            String name4, Value<?> value4,
+            String name5, Value<?> value5,
+            String name6, Value<?> value6,
+            String name7, Value<?> value7,
+            String name8, Value<?> value8,
+            String name9, Value<?> value9)
+    {
+        return ParamsImmutableMap.create(
+                name1, value1, name2, value2, name3, value3, name4, value4, name5, value5,
+                name6, value6, name7, value7, name8, value8, name9, value9);
+    }
+
+    /**
      * Returns a mutable implementation of {@link Params} containing the same entries as given map.
      *
      * @param values    entries to be copied
