@@ -28,9 +28,13 @@ final class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<Resp
 
     @Override
     public void onMessage(RespT message) {
-        observer.onNext(message);
-        // request delivery of the next inbound message.
-        adapter.request(1);
+        try {
+            observer.onNext(message);
+            // request delivery of the next inbound message.
+            adapter.request(1);
+        } catch (Exception ex) {
+            adapter.cancel(ex.getMessage(), ex);
+        }
     }
 
     @Override

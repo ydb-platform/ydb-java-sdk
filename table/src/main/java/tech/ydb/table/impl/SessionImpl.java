@@ -562,6 +562,7 @@ class SessionImpl implements Session {
                         fn.accept(ProtoValueReaders.forResultSet(response.getResult().getResultSet()));
                     } catch (Throwable t) {
                         promise.completeExceptionally(t);
+                        throw new IllegalStateException(t);
                     }
                 } else {
                     Issue[] issues = Issue.fromPb(response.getIssuesList());
@@ -604,6 +605,7 @@ class SessionImpl implements Session {
                         fn.accept(ProtoValueReaders.forResultSet(response.getResult().getResultSet()));
                     } catch (Throwable t) {
                         promise.completeExceptionally(t);
+                        throw new IllegalStateException(t);
                     }
                 } else {
                     Issue[] issues = Issue.fromPb(response.getIssuesList());
