@@ -7196,6 +7196,24 @@ public final class YdbCms {
      */
     tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder();
 
+    /**
+     * <pre>
+     * Optional idempotency key
+     * </pre>
+     *
+     * <code>string idempotency_key = 9;</code>
+     */
+    java.lang.String getIdempotencyKey();
+    /**
+     * <pre>
+     * Optional idempotency key
+     * </pre>
+     *
+     * <code>string idempotency_key = 9;</code>
+     */
+    com.google.protobuf.ByteString
+        getIdempotencyKeyBytes();
+
     public tech.ydb.cms.YdbCms.CreateDatabaseRequest.ResourcesKindCase getResourcesKindCase();
   }
   /**
@@ -7219,6 +7237,7 @@ public final class YdbCms {
     private CreateDatabaseRequest() {
       path_ = "";
       attributes_ = java.util.Collections.emptyList();
+      idempotencyKey_ = "";
     }
 
     @java.lang.Override
@@ -7343,6 +7362,12 @@ public final class YdbCms {
                 schemaOperationQuotas_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 74: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              idempotencyKey_ = s;
               break;
             }
           }
@@ -7711,6 +7736,48 @@ public final class YdbCms {
       return getSchemaOperationQuotas();
     }
 
+    public static final int IDEMPOTENCY_KEY_FIELD_NUMBER = 9;
+    private volatile java.lang.Object idempotencyKey_;
+    /**
+     * <pre>
+     * Optional idempotency key
+     * </pre>
+     *
+     * <code>string idempotency_key = 9;</code>
+     */
+    public java.lang.String getIdempotencyKey() {
+      java.lang.Object ref = idempotencyKey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        idempotencyKey_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Optional idempotency key
+     * </pre>
+     *
+     * <code>string idempotency_key = 9;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIdempotencyKeyBytes() {
+      java.lang.Object ref = idempotencyKey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        idempotencyKey_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -7746,6 +7813,9 @@ public final class YdbCms {
       }
       if (schemaOperationQuotas_ != null) {
         output.writeMessage(8, getSchemaOperationQuotas());
+      }
+      if (!getIdempotencyKeyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, idempotencyKey_);
       }
       unknownFields.writeTo(output);
     }
@@ -7786,6 +7856,9 @@ public final class YdbCms {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, getSchemaOperationQuotas());
       }
+      if (!getIdempotencyKeyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, idempotencyKey_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -7821,6 +7894,8 @@ public final class YdbCms {
         result = result && getSchemaOperationQuotas()
             .equals(other.getSchemaOperationQuotas());
       }
+      result = result && getIdempotencyKey()
+          .equals(other.getIdempotencyKey());
       result = result && getResourcesKindCase().equals(
           other.getResourcesKindCase());
       if (!result) return false;
@@ -7869,6 +7944,8 @@ public final class YdbCms {
         hash = (37 * hash) + SCHEMA_OPERATION_QUOTAS_FIELD_NUMBER;
         hash = (53 * hash) + getSchemaOperationQuotas().hashCode();
       }
+      hash = (37 * hash) + IDEMPOTENCY_KEY_FIELD_NUMBER;
+      hash = (53 * hash) + getIdempotencyKey().hashCode();
       switch (resourcesKindCase_) {
         case 3:
           hash = (37 * hash) + RESOURCES_FIELD_NUMBER;
@@ -8047,6 +8124,8 @@ public final class YdbCms {
           schemaOperationQuotas_ = null;
           schemaOperationQuotasBuilder_ = null;
         }
+        idempotencyKey_ = "";
+
         resourcesKindCase_ = 0;
         resourcesKind_ = null;
         return this;
@@ -8119,6 +8198,7 @@ public final class YdbCms {
         } else {
           result.schemaOperationQuotas_ = schemaOperationQuotasBuilder_.build();
         }
+        result.idempotencyKey_ = idempotencyKey_;
         result.bitField0_ = to_bitField0_;
         result.resourcesKindCase_ = resourcesKindCase_;
         onBuilt();
@@ -8200,6 +8280,10 @@ public final class YdbCms {
         }
         if (other.hasSchemaOperationQuotas()) {
           mergeSchemaOperationQuotas(other.getSchemaOperationQuotas());
+        }
+        if (!other.getIdempotencyKey().isEmpty()) {
+          idempotencyKey_ = other.idempotencyKey_;
+          onChanged();
         }
         switch (other.getResourcesKindCase()) {
           case RESOURCES: {
@@ -9599,6 +9683,95 @@ public final class YdbCms {
           schemaOperationQuotas_ = null;
         }
         return schemaOperationQuotasBuilder_;
+      }
+
+      private java.lang.Object idempotencyKey_ = "";
+      /**
+       * <pre>
+       * Optional idempotency key
+       * </pre>
+       *
+       * <code>string idempotency_key = 9;</code>
+       */
+      public java.lang.String getIdempotencyKey() {
+        java.lang.Object ref = idempotencyKey_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          idempotencyKey_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Optional idempotency key
+       * </pre>
+       *
+       * <code>string idempotency_key = 9;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIdempotencyKeyBytes() {
+        java.lang.Object ref = idempotencyKey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          idempotencyKey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Optional idempotency key
+       * </pre>
+       *
+       * <code>string idempotency_key = 9;</code>
+       */
+      public Builder setIdempotencyKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        idempotencyKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional idempotency key
+       * </pre>
+       *
+       * <code>string idempotency_key = 9;</code>
+       */
+      public Builder clearIdempotencyKey() {
+        
+        idempotencyKey_ = getDefaultInstance().getIdempotencyKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional idempotency key
+       * </pre>
+       *
+       * <code>string idempotency_key = 9;</code>
+       */
+      public Builder setIdempotencyKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        idempotencyKey_ = value;
+        onChanged();
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -14660,6 +14833,24 @@ public final class YdbCms {
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
      */
     tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder();
+
+    /**
+     * <pre>
+     * Optional idempotency key
+     * </pre>
+     *
+     * <code>string idempotency_key = 10;</code>
+     */
+    java.lang.String getIdempotencyKey();
+    /**
+     * <pre>
+     * Optional idempotency key
+     * </pre>
+     *
+     * <code>string idempotency_key = 10;</code>
+     */
+    com.google.protobuf.ByteString
+        getIdempotencyKeyBytes();
   }
   /**
    * <pre>
@@ -14685,6 +14876,7 @@ public final class YdbCms {
       computationalUnitsToRegister_ = java.util.Collections.emptyList();
       computationalUnitsToDeregister_ = java.util.Collections.emptyList();
       generation_ = 0L;
+      idempotencyKey_ = "";
     }
 
     @java.lang.Override
@@ -14795,6 +14987,12 @@ public final class YdbCms {
                 schemaOperationQuotas_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 82: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              idempotencyKey_ = s;
               break;
             }
           }
@@ -15233,6 +15431,48 @@ public final class YdbCms {
       return getSchemaOperationQuotas();
     }
 
+    public static final int IDEMPOTENCY_KEY_FIELD_NUMBER = 10;
+    private volatile java.lang.Object idempotencyKey_;
+    /**
+     * <pre>
+     * Optional idempotency key
+     * </pre>
+     *
+     * <code>string idempotency_key = 10;</code>
+     */
+    public java.lang.String getIdempotencyKey() {
+      java.lang.Object ref = idempotencyKey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        idempotencyKey_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Optional idempotency key
+     * </pre>
+     *
+     * <code>string idempotency_key = 10;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIdempotencyKeyBytes() {
+      java.lang.Object ref = idempotencyKey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        idempotencyKey_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -15271,6 +15511,9 @@ public final class YdbCms {
       }
       if (schemaOperationQuotas_ != null) {
         output.writeMessage(9, getSchemaOperationQuotas());
+      }
+      if (!getIdempotencyKeyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 10, idempotencyKey_);
       }
       unknownFields.writeTo(output);
     }
@@ -15315,6 +15558,9 @@ public final class YdbCms {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, getSchemaOperationQuotas());
       }
+      if (!getIdempotencyKeyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, idempotencyKey_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -15355,6 +15601,8 @@ public final class YdbCms {
         result = result && getSchemaOperationQuotas()
             .equals(other.getSchemaOperationQuotas());
       }
+      result = result && getIdempotencyKey()
+          .equals(other.getIdempotencyKey());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -15399,6 +15647,8 @@ public final class YdbCms {
         hash = (37 * hash) + SCHEMA_OPERATION_QUOTAS_FIELD_NUMBER;
         hash = (53 * hash) + getSchemaOperationQuotas().hashCode();
       }
+      hash = (37 * hash) + IDEMPOTENCY_KEY_FIELD_NUMBER;
+      hash = (53 * hash) + getIdempotencyKey().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -15583,6 +15833,8 @@ public final class YdbCms {
           schemaOperationQuotas_ = null;
           schemaOperationQuotasBuilder_ = null;
         }
+        idempotencyKey_ = "";
+
         return this;
       }
 
@@ -15664,6 +15916,7 @@ public final class YdbCms {
         } else {
           result.schemaOperationQuotas_ = schemaOperationQuotasBuilder_.build();
         }
+        result.idempotencyKey_ = idempotencyKey_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -15848,6 +16101,10 @@ public final class YdbCms {
         }
         if (other.hasSchemaOperationQuotas()) {
           mergeSchemaOperationQuotas(other.getSchemaOperationQuotas());
+        }
+        if (!other.getIdempotencyKey().isEmpty()) {
+          idempotencyKey_ = other.idempotencyKey_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -17868,6 +18125,95 @@ public final class YdbCms {
           schemaOperationQuotas_ = null;
         }
         return schemaOperationQuotasBuilder_;
+      }
+
+      private java.lang.Object idempotencyKey_ = "";
+      /**
+       * <pre>
+       * Optional idempotency key
+       * </pre>
+       *
+       * <code>string idempotency_key = 10;</code>
+       */
+      public java.lang.String getIdempotencyKey() {
+        java.lang.Object ref = idempotencyKey_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          idempotencyKey_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Optional idempotency key
+       * </pre>
+       *
+       * <code>string idempotency_key = 10;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIdempotencyKeyBytes() {
+        java.lang.Object ref = idempotencyKey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          idempotencyKey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Optional idempotency key
+       * </pre>
+       *
+       * <code>string idempotency_key = 10;</code>
+       */
+      public Builder setIdempotencyKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        idempotencyKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional idempotency key
+       * </pre>
+       *
+       * <code>string idempotency_key = 10;</code>
+       */
+      public Builder clearIdempotencyKey() {
+        
+        idempotencyKey_ = getDefaultInstance().getIdempotencyKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional idempotency key
+       * </pre>
+       *
+       * <code>string idempotency_key = 10;</code>
+       */
+      public Builder setIdempotencyKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        idempotencyKey_ = value;
+        onChanged();
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -27330,7 +27676,7 @@ public final class YdbCms {
       "ationQuotas\022G\n\023leaky_bucket_quotas\030\001 \003(\013" +
       "2*.Ydb.Cms.SchemaOperationQuotas.LeakyBu" +
       "cket\032:\n\013LeakyBucket\022\023\n\013bucket_size\030\001 \001(\001" +
-      "\022\026\n\016bucket_seconds\030\002 \001(\004\"\235\003\n\025CreateDatab",
+      "\022\026\n\016bucket_seconds\030\002 \001(\004\"\266\003\n\025CreateDatab",
       "aseRequest\0229\n\020operation_params\030\001 \001(\0132\037.Y" +
       "db.Operations.OperationParams\022\014\n\004path\030\002 " +
       "\001(\t\022\'\n\tresources\030\003 \001(\0132\022.Ydb.Cms.Resourc" +
@@ -27340,76 +27686,77 @@ public final class YdbCms {
       "tions\030\004 \001(\0132\030.Ydb.Cms.DatabaseOptions\022&\n" +
       "\nattributes\030\005 \003(\0132\022.Ydb.Cms.Attribute\022?\n" +
       "\027schema_operation_quotas\030\010 \001(\0132\036.Ydb.Cms" +
-      ".SchemaOperationQuotasB\020\n\016resources_kind",
-      "\"F\n\026CreateDatabaseResponse\022,\n\toperation\030" +
-      "\001 \001(\0132\031.Ydb.Operations.Operation\"c\n\030GetD" +
-      "atabaseStatusRequest\022\014\n\004path\030\001 \001(\t\0229\n\020op" +
-      "eration_params\030\002 \001(\0132\037.Ydb.Operations.Op" +
-      "erationParams\"I\n\031GetDatabaseStatusRespon" +
-      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
-      "peration\"\302\004\n\027GetDatabaseStatusResult\022\014\n\004" +
-      "path\030\001 \001(\t\0225\n\005state\030\002 \001(\0162&.Ydb.Cms.GetD" +
-      "atabaseStatusResult.State\0220\n\022required_re" +
-      "sources\030\003 \001(\0132\022.Ydb.Cms.ResourcesH\000\0227\n\031r",
-      "equired_shared_resources\030\007 \001(\0132\022.Ydb.Cms" +
-      ".ResourcesH\000\022<\n\024serverless_resources\030\010 \001" +
-      "(\0132\034.Ydb.Cms.ServerlessResourcesH\000\022/\n\023al" +
-      "located_resources\030\004 \001(\0132\022.Ydb.Cms.Resour" +
-      "ces\022A\n\024registered_resources\030\005 \003(\0132#.Ydb." +
-      "Cms.AllocatedComputationalUnit\022\022\n\ngenera" +
-      "tion\030\006 \001(\004\022?\n\027schema_operation_quotas\030\t " +
-      "\001(\0132\036.Ydb.Cms.SchemaOperationQuotas\"^\n\005S" +
-      "tate\022\025\n\021STATE_UNSPECIFIED\020\000\022\014\n\010CREATING\020" +
-      "\001\022\013\n\007RUNNING\020\002\022\014\n\010REMOVING\020\003\022\025\n\021PENDING_",
-      "RESOURCES\020\004B\020\n\016resources_kind\"\214\004\n\024AlterD" +
-      "atabaseRequest\022\014\n\004path\030\001 \001(\t\022?\n\032computat" +
-      "ional_units_to_add\030\002 \003(\0132\033.Ydb.Cms.Compu" +
-      "tationalUnits\022B\n\035computational_units_to_" +
-      "remove\030\003 \003(\0132\033.Ydb.Cms.ComputationalUnit" +
-      "s\0223\n\024storage_units_to_add\030\004 \003(\0132\025.Ydb.Cm" +
-      "s.StorageUnits\022L\n\037computational_units_to" +
-      "_register\030\005 \003(\0132#.Ydb.Cms.AllocatedCompu" +
-      "tationalUnit\022N\n!computational_units_to_d" +
-      "eregister\030\006 \003(\0132#.Ydb.Cms.AllocatedCompu",
-      "tationalUnit\0229\n\020operation_params\030\007 \001(\0132\037" +
-      ".Ydb.Operations.OperationParams\022\022\n\ngener" +
-      "ation\030\010 \001(\004\022?\n\027schema_operation_quotas\030\t" +
-      " \001(\0132\036.Ydb.Cms.SchemaOperationQuotas\"E\n\025" +
-      "AlterDatabaseResponse\022,\n\toperation\030\001 \001(\013" +
-      "2\031.Ydb.Operations.Operation\"Q\n\024ListDatab" +
-      "asesRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
-      "Ydb.Operations.OperationParams\"E\n\025ListDa" +
-      "tabasesResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
-      ".Operations.Operation\"$\n\023ListDatabasesRe",
-      "sult\022\r\n\005paths\030\001 \003(\t\"`\n\025RemoveDatabaseReq" +
-      "uest\022\014\n\004path\030\001 \001(\t\0229\n\020operation_params\030\002" +
-      " \001(\0132\037.Ydb.Operations.OperationParams\"F\n" +
-      "\026RemoveDatabaseResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.Operation\"\222\001\n\026Storag" +
-      "eUnitDescription\022\014\n\004kind\030\001 \001(\t\022;\n\006labels" +
-      "\030\002 \003(\0132+.Ydb.Cms.StorageUnitDescription." +
-      "LabelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022" +
-      "\r\n\005value\030\002 \001(\t:\0028\001\"\234\001\n\033AvailabilityZoneD" +
-      "escription\022\014\n\004name\030\001 \001(\t\022@\n\006labels\030\002 \003(\013",
-      "20.Ydb.Cms.AvailabilityZoneDescription.L" +
-      "abelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r" +
-      "\n\005value\030\002 \001(\t:\0028\001\"\302\001\n\034ComputationalUnitD" +
-      "escription\022\014\n\004kind\030\001 \001(\t\022A\n\006labels\030\002 \003(\013" +
-      "21.Ydb.Cms.ComputationalUnitDescription." +
-      "LabelsEntry\022\"\n\032allowed_availability_zone" +
-      "s\030\003 \003(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005v" +
-      "alue\030\002 \001(\t:\0028\001\"[\n\036DescribeDatabaseOption" +
-      "sRequest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb" +
-      ".Operations.OperationParams\"O\n\037DescribeD",
-      "atabaseOptionsResponse\022,\n\toperation\030\001 \001(" +
-      "\0132\031.Ydb.Operations.Operation\"\335\001\n\035Describ" +
-      "eDatabaseOptionsResult\0226\n\rstorage_units\030" +
-      "\001 \003(\0132\037.Ydb.Cms.StorageUnitDescription\022@" +
-      "\n\022availability_zones\030\002 \003(\0132$.Ydb.Cms.Ava" +
-      "ilabilityZoneDescription\022B\n\023computationa" +
-      "l_units\030\003 \003(\0132%.Ydb.Cms.ComputationalUni" +
-      "tDescriptionB\027\n\022tech.ydb.cms\370\001\001b\006p" +
-      "roto3"
+      ".SchemaOperationQuotas\022\027\n\017idempotency_ke",
+      "y\030\t \001(\tB\020\n\016resources_kind\"F\n\026CreateDatab" +
+      "aseResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
+      "rations.Operation\"c\n\030GetDatabaseStatusRe" +
+      "quest\022\014\n\004path\030\001 \001(\t\0229\n\020operation_params\030" +
+      "\002 \001(\0132\037.Ydb.Operations.OperationParams\"I" +
+      "\n\031GetDatabaseStatusResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\302\004\n\027Ge" +
+      "tDatabaseStatusResult\022\014\n\004path\030\001 \001(\t\0225\n\005s" +
+      "tate\030\002 \001(\0162&.Ydb.Cms.GetDatabaseStatusRe" +
+      "sult.State\0220\n\022required_resources\030\003 \001(\0132\022",
+      ".Ydb.Cms.ResourcesH\000\0227\n\031required_shared_" +
+      "resources\030\007 \001(\0132\022.Ydb.Cms.ResourcesH\000\022<\n" +
+      "\024serverless_resources\030\010 \001(\0132\034.Ydb.Cms.Se" +
+      "rverlessResourcesH\000\022/\n\023allocated_resourc" +
+      "es\030\004 \001(\0132\022.Ydb.Cms.Resources\022A\n\024register" +
+      "ed_resources\030\005 \003(\0132#.Ydb.Cms.AllocatedCo" +
+      "mputationalUnit\022\022\n\ngeneration\030\006 \001(\004\022?\n\027s" +
+      "chema_operation_quotas\030\t \001(\0132\036.Ydb.Cms.S" +
+      "chemaOperationQuotas\"^\n\005State\022\025\n\021STATE_U" +
+      "NSPECIFIED\020\000\022\014\n\010CREATING\020\001\022\013\n\007RUNNING\020\002\022",
+      "\014\n\010REMOVING\020\003\022\025\n\021PENDING_RESOURCES\020\004B\020\n\016" +
+      "resources_kind\"\245\004\n\024AlterDatabaseRequest\022" +
+      "\014\n\004path\030\001 \001(\t\022?\n\032computational_units_to_" +
+      "add\030\002 \003(\0132\033.Ydb.Cms.ComputationalUnits\022B" +
+      "\n\035computational_units_to_remove\030\003 \003(\0132\033." +
+      "Ydb.Cms.ComputationalUnits\0223\n\024storage_un" +
+      "its_to_add\030\004 \003(\0132\025.Ydb.Cms.StorageUnits\022" +
+      "L\n\037computational_units_to_register\030\005 \003(\013" +
+      "2#.Ydb.Cms.AllocatedComputationalUnit\022N\n" +
+      "!computational_units_to_deregister\030\006 \003(\013",
+      "2#.Ydb.Cms.AllocatedComputationalUnit\0229\n" +
+      "\020operation_params\030\007 \001(\0132\037.Ydb.Operations" +
+      ".OperationParams\022\022\n\ngeneration\030\010 \001(\004\022?\n\027" +
+      "schema_operation_quotas\030\t \001(\0132\036.Ydb.Cms." +
+      "SchemaOperationQuotas\022\027\n\017idempotency_key" +
+      "\030\n \001(\t\"E\n\025AlterDatabaseResponse\022,\n\topera" +
+      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"Q\n" +
+      "\024ListDatabasesRequest\0229\n\020operation_param" +
+      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
+      "\"E\n\025ListDatabasesResponse\022,\n\toperation\030\001",
+      " \001(\0132\031.Ydb.Operations.Operation\"$\n\023ListD" +
+      "atabasesResult\022\r\n\005paths\030\001 \003(\t\"`\n\025RemoveD" +
+      "atabaseRequest\022\014\n\004path\030\001 \001(\t\0229\n\020operatio" +
+      "n_params\030\002 \001(\0132\037.Ydb.Operations.Operatio" +
+      "nParams\"F\n\026RemoveDatabaseResponse\022,\n\tope" +
+      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
+      "\222\001\n\026StorageUnitDescription\022\014\n\004kind\030\001 \001(\t" +
+      "\022;\n\006labels\030\002 \003(\0132+.Ydb.Cms.StorageUnitDe" +
+      "scription.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003" +
+      "key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001\n\033Availab",
+      "ilityZoneDescription\022\014\n\004name\030\001 \001(\t\022@\n\006la" +
+      "bels\030\002 \003(\01320.Ydb.Cms.AvailabilityZoneDes" +
+      "cription.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003k" +
+      "ey\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\302\001\n\034Computat" +
+      "ionalUnitDescription\022\014\n\004kind\030\001 \001(\t\022A\n\006la" +
+      "bels\030\002 \003(\01321.Ydb.Cms.ComputationalUnitDe" +
+      "scription.LabelsEntry\022\"\n\032allowed_availab" +
+      "ility_zones\030\003 \003(\t\032-\n\013LabelsEntry\022\013\n\003key\030" +
+      "\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"[\n\036DescribeData" +
+      "baseOptionsRequest\0229\n\020operation_params\030\001",
+      " \001(\0132\037.Ydb.Operations.OperationParams\"O\n" +
+      "\037DescribeDatabaseOptionsResponse\022,\n\toper" +
+      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\335" +
+      "\001\n\035DescribeDatabaseOptionsResult\0226\n\rstor" +
+      "age_units\030\001 \003(\0132\037.Ydb.Cms.StorageUnitDes" +
+      "cription\022@\n\022availability_zones\030\002 \003(\0132$.Y" +
+      "db.Cms.AvailabilityZoneDescription\022B\n\023co" +
+      "mputational_units\030\003 \003(\0132%.Ydb.Cms.Comput" +
+      "ationalUnitDescriptionB\027\n\022tech.ydb" +
+      ".cms\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -27483,7 +27830,7 @@ public final class YdbCms {
     internal_static_Ydb_Cms_CreateDatabaseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Path", "Resources", "SharedResources", "ServerlessResources", "Options", "Attributes", "SchemaOperationQuotas", "ResourcesKind", });
+        new java.lang.String[] { "OperationParams", "Path", "Resources", "SharedResources", "ServerlessResources", "Options", "Attributes", "SchemaOperationQuotas", "IdempotencyKey", "ResourcesKind", });
     internal_static_Ydb_Cms_CreateDatabaseResponse_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Cms_CreateDatabaseResponse_fieldAccessorTable = new
@@ -27513,7 +27860,7 @@ public final class YdbCms {
     internal_static_Ydb_Cms_AlterDatabaseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor,
-        new java.lang.String[] { "Path", "ComputationalUnitsToAdd", "ComputationalUnitsToRemove", "StorageUnitsToAdd", "ComputationalUnitsToRegister", "ComputationalUnitsToDeregister", "OperationParams", "Generation", "SchemaOperationQuotas", });
+        new java.lang.String[] { "Path", "ComputationalUnitsToAdd", "ComputationalUnitsToRemove", "StorageUnitsToAdd", "ComputationalUnitsToRegister", "ComputationalUnitsToDeregister", "OperationParams", "Generation", "SchemaOperationQuotas", "IdempotencyKey", });
     internal_static_Ydb_Cms_AlterDatabaseResponse_descriptor =
       getDescriptor().getMessageTypes().get(14);
     internal_static_Ydb_Cms_AlterDatabaseResponse_fieldAccessorTable = new
