@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -99,33 +100,34 @@ final class YdbNameResolver extends NameResolver {
 
     @Override
     public void refresh() {
-        if (scheduledHandle != null) {
-            scheduledHandle.cancel();
-            scheduledHandle = null;
-        }
+        cancelScheduledRefresh();
         resolve();
     }
 
     @Override
     public void shutdown() {
-        if (scheduledHandle != null) {
-            scheduledHandle.cancel();
-            scheduledHandle = null;
-        }
+        cancelScheduledRefresh();
         transport.close();
         shutdown = true;
     }
 
+    private void cancelScheduledRefresh() {
+        if (scheduledHandle != null) {
+            scheduledHandle.cancel();
+            scheduledHandle = null;
+        }
+    }
+
     private void resolve() {
         listEndpoints((response, status) -> {
-            if (!status.isOk()) {
-                listener.onError(status.augmentDescription("unable to resolve database " + database + ", network issue"));
-                return;
-            }
-
-            logger.log(Level.INFO, String.format("response METHOD_LIST_ENDPOINTS - %s", response.toString()));
-
             try {
+                if (!status.isOk()) {
+                    listener.onError(status.augmentDescription("unable to resolve database " + database + ", network issue"));
+                    return;
+                }
+
+                logger.log(Level.FINE, String.format("response METHOD_LIST_ENDPOINTS - %s", response.toString()));
+
                 Operation operation = response.getOperation();
                 if (!operation.getReady()) {
                     // TODO: wait deferred operations
@@ -146,20 +148,6 @@ final class YdbNameResolver extends NameResolver {
 
                 ListEndpointsResult result = Operations.unpackResult(operation, ListEndpointsResult.class);
 
-                /*
-                     ---EXAMPLE---
-                * METHOD_LIST_ENDPOINTS
-                *
-                * result = {DiscoveryProtos$ListEndpointsResult@9576} "endpoints {
-                 bitField0_ = 0
-                 endpoints_ = {Collections$UnmodifiableRandomAccessList@9597}  size = 6
-                 selfLocation_ = "SAS"
-                 memoizedIsInitialized = 1
-                 unknownFields = {UnknownFieldSet@9420} ""
-                 memoizedSize = -1
-                 memoizedHashCode = 0
-                 */
-
                 int endpointsCount = result.getEndpointsCount();
                 if (endpointsCount == 0) {
                     String msg = "unable to resolve database " + database + ", got empty list of endpoints";
@@ -167,31 +155,13 @@ final class YdbNameResolver extends NameResolver {
                     return;
                 }
 
-                logger.info(String.format("ListEndpointsResult - %s)",
+                logger.fine(String.format("ListEndpointsResult - %s)",
                         result.getEndpointsList().stream()
                                 .map(e -> String.format("{addr - %s, loc - %s}", e.getAddress(), e.getLocation()))
                                 .collect(Collectors.joining(","))));
 
                 List<EquivalentAddressGroup> groups = new ArrayList<>(endpointsCount);
-                for (int i = 0; i < endpointsCount; i++) {
-                    EndpointInfo e = result.getEndpoints(i);
-
-                    /*
-                     ---EXAMPLE---
-                    * e = {DiscoveryProtos$EndpointInfo@9601} "address: "ydb-eu-man-1022.search.yandex.net"\nport: 31011\nlocation: "MAN"\n"
-                     bitField0_ = 0
-                     address_ = "ydb-eu-man-1022.search.yandex.net"
-                     port_ = 31011
-                     loadFactor_ = 0.0
-                     ssl_ = false
-                     service_ = {LazyStringArrayList@9762}  size = 0
-                     location_ = "MAN"
-                     memoizedIsInitialized = -1
-                     unknownFields = {UnknownFieldSet@9420} ""
-                     memoizedSize = -1
-                     memoizedHashCode = 0
-                     */
-
+                for (EndpointInfo e : result.getEndpointsList()) {
                     try {
                         groups.add(createAddressGroup(e));
                     } catch (UnknownHostException x) {
@@ -206,14 +176,26 @@ final class YdbNameResolver extends NameResolver {
             } catch (Throwable t) {
                 String msg = "unable to resolve database " + database + ", unhandled exception";
                 listener.onError(Status.UNAVAILABLE.withDescription(msg).withCause(t));
+            } finally {
+                scheduleNextDiscovery();
             }
         });
+    }
 
-        scheduledHandle = Async.runAfter((timeout) -> {
-            if (!timeout.isCancelled()) {
-                synchronizationContext.execute(this::refresh);
-            }
-        }, discoveryPeriod.toMillis(), TimeUnit.MILLISECONDS);
+    private void scheduleNextDiscovery() {
+        synchronizationContext.execute(() -> {
+            cancelScheduledRefresh();
+            scheduledHandle = Async.runAfter((timeout) -> {
+                if (!timeout.isCancelled()) {
+                    synchronizationContext.execute(this::refresh);
+                }
+            }, randomDelay(discoveryPeriod.toMillis()), TimeUnit.MILLISECONDS);
+        });
+    }
+
+    private long randomDelay(long delayMillis) {
+        long half = delayMillis / 2;
+        return half + ThreadLocalRandom.current().nextLong(half);
     }
 
     // TODO: resolve name asynchronously
