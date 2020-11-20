@@ -11,6 +11,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.rpc.OperationTray;
+import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.table.YdbTable.AlterTableRequest;
 import tech.ydb.table.YdbTable.AlterTableResponse;
@@ -132,15 +133,17 @@ public class TableRpcStub implements TableRpc {
     }
 
     @Override
-    public void streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer, long deadlineAfter) {
+    public StreamControl streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer, long deadlineAfter) {
         Issue issue = Issue.of("streamReadTable() is not implemented", ESeverityId.S_ERROR);
         observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
+        return () -> {};
     }
 
     @Override
-    public void streamExecuteScanQuery(YdbTable.ExecuteScanQueryRequest request, StreamObserver<YdbTable.ExecuteScanQueryPartialResponse> observer, long deadlineAfter) {
+    public StreamControl streamExecuteScanQuery(YdbTable.ExecuteScanQueryRequest request, StreamObserver<YdbTable.ExecuteScanQueryPartialResponse> observer, long deadlineAfter) {
         Issue issue = Issue.of("streamExecuteScanQuery() is not implemented", ESeverityId.S_ERROR);
         observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
+        return () -> {};
     }
 
     @Override

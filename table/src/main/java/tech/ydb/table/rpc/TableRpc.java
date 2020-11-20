@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.rpc.Rpc;
+import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse;
 import tech.ydb.table.YdbTable.ExecuteScanQueryRequest;
@@ -133,11 +134,11 @@ public interface TableRpc extends Rpc {
     /**
      * Streaming read table.
      */
-    void streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer, long deadlineAfter);
+    StreamControl streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer, long deadlineAfter);
 
     /**
      * Streaming execute scan query.
      */
-    void streamExecuteScanQuery(ExecuteScanQueryRequest request, StreamObserver<ExecuteScanQueryPartialResponse> observer, long deadlineAfter);
+    StreamControl streamExecuteScanQuery(ExecuteScanQueryRequest request, StreamObserver<ExecuteScanQueryPartialResponse> observer, long deadlineAfter);
 }
 

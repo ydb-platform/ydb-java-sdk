@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
@@ -29,6 +30,7 @@ import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.OutStreamObserver;
 import tech.ydb.core.rpc.RpcTransport;
 import tech.ydb.core.rpc.RpcTransportBuilder;
+import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.core.ssl.YandexTrustManagerFactory;
 import com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId;
@@ -170,7 +172,7 @@ public class GrpcTransport implements RpcTransport {
         sendOneRequest(call, request, new UnaryStreamToBiConsumer<>(consumer));
     }
 
-    public <ReqT, RespT> void serverStreamCall(
+    public <ReqT, RespT> StreamControl serverStreamCall(
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             StreamObserver<RespT> observer,
@@ -180,7 +182,7 @@ public class GrpcTransport implements RpcTransport {
             final long now = System.nanoTime();
             if (now >= deadlineAfter) {
                 observer.onError(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
-                return;
+                return () -> {};
             }
             callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
         } else if (defautlReadTimeoutMillis > 0) {
@@ -189,6 +191,9 @@ public class GrpcTransport implements RpcTransport {
 
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
         sendOneRequest(call, request, new ServerStreamToObserver<>(observer, call));
+        return () -> {
+            call.cancel("Cancelled on user request", new CancellationException());
+        };
     }
 
     public <ReqT, RespT> OutStreamObserver<ReqT> bidirectionalStreamCall(

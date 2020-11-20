@@ -1,6 +1,7 @@
 package tech.ydb.table.impl;
 
 import java.util.Map;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.function.Consumer;
@@ -15,6 +16,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.rpc.OperationTray;
+import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionStatus;
@@ -553,7 +555,7 @@ class SessionImpl implements Session {
 
         final long deadlineAfter = settings.getDeadlineAfter();
         CompletableFuture<Status> promise = new CompletableFuture<>();
-        tableRpc.streamReadTable(request.build(), new StreamObserver<ReadTableResponse>() {
+        StreamControl control = tableRpc.streamReadTable(request.build(), new StreamObserver<ReadTableResponse>() {
             @Override
             public void onNext(ReadTableResponse response) {
                 StatusIds.StatusCode statusCode = response.getStatus();
@@ -582,7 +584,11 @@ class SessionImpl implements Session {
                 promise.complete(Status.SUCCESS);
             }
         }, deadlineAfter);
-        return promise;
+        return promise.whenComplete((status, ex) -> {
+            if (ex instanceof CancellationException) {
+                control.cancel();
+            }
+        });
     }
 
     public CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings, Consumer<ResultSetReader> fn)
@@ -596,7 +602,7 @@ class SessionImpl implements Session {
 
         CompletableFuture<Status> promise = new CompletableFuture<>();
         final long deadlineAfter = settings.getDeadlineAfter();
-        tableRpc.streamExecuteScanQuery(request, new StreamObserver<YdbTable.ExecuteScanQueryPartialResponse>() {
+        StreamControl control = tableRpc.streamExecuteScanQuery(request, new StreamObserver<YdbTable.ExecuteScanQueryPartialResponse>() {
             @Override
             public void onNext(YdbTable.ExecuteScanQueryPartialResponse response) {
                 StatusIds.StatusCode statusCode = response.getStatus();
@@ -625,7 +631,11 @@ class SessionImpl implements Session {
                 promise.complete(Status.SUCCESS);
             }
         }, deadlineAfter);
-        return promise;
+        return promise.whenComplete((status, ex) -> {
+            if (ex instanceof CancellationException) {
+                control.cancel();
+            }
+        });
     }
 
     public CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings) {
