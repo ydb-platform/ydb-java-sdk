@@ -7,11 +7,11 @@ import java.net.URI;
 import java.net.UnknownHostException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,16 +19,11 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import tech.ydb.OperationProtos.Operation;
-import tech.ydb.StatusCodesProtos.StatusIds.StatusCode;
-import tech.ydb.core.Operations;
+import tech.ydb.core.Result;
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.utils.Async;
 import tech.ydb.discovery.DiscoveryProtos.EndpointInfo;
-import tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest;
-import tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse;
 import tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult;
-import tech.ydb.discovery.v1.DiscoveryServiceGrpc;
 import io.grpc.Attributes;
 import io.grpc.EquivalentAddressGroup;
 import io.grpc.NameResolver;
@@ -52,7 +47,7 @@ final class YdbNameResolver extends NameResolver {
 
     private final String database;
     private final String authority;
-    private final GrpcTransport transport;
+    private final GrpcDiscoveryRpc discoveryRpc;
 
     private Listener listener;
     private volatile boolean shutdown = false;
@@ -64,12 +59,12 @@ final class YdbNameResolver extends NameResolver {
     private YdbNameResolver(
             String database,
             String authority,
-            GrpcTransport transport,
+            GrpcDiscoveryRpc discoveryRpc,
             SynchronizationContext synchronizationContext,
             Duration discoveryPeriod) {
         this.database = database;
         this.authority = authority;
-        this.transport = transport;
+        this.discoveryRpc = discoveryRpc;
         this.synchronizationContext = synchronizationContext;
         if (discoveryPeriod.toMillis() < 5000) {
             discoveryPeriod = Duration.ofSeconds(5);
@@ -107,7 +102,7 @@ final class YdbNameResolver extends NameResolver {
     @Override
     public void shutdown() {
         cancelScheduledRefresh();
-        transport.close();
+        discoveryRpc.close();
         shutdown = true;
     }
 
@@ -119,67 +114,63 @@ final class YdbNameResolver extends NameResolver {
     }
 
     private void resolve() {
-        listEndpoints((response, status) -> {
-            try {
-                if (!status.isOk()) {
-                    listener.onError(status.augmentDescription("unable to resolve database " + database + ", network issue"));
-                    return;
-                }
+        if (shutdown) {
+            return;
+        }
 
-                logger.log(Level.FINE, String.format("response METHOD_LIST_ENDPOINTS - %s", response.toString()));
-
-                Operation operation = response.getOperation();
-                if (!operation.getReady()) {
-                    // TODO: wait deferred operations
-                    String msg = "unable to resolve database " + database +
-                            ", got not ready operation, id: " + operation.getId() +
-                            ", status: " + operation.getStatus();
-                    listener.onError(Status.INTERNAL.withDescription(msg));
-                    return;
-                }
-
-                if (operation.getStatus() != StatusCode.SUCCESS) {
-                    String msg = "unable to resolve database " + database +
-                            ", got non SUCCESS response, id: " + operation.getId() +
-                            ", status: " + operation.getStatus();
-                    listener.onError(Status.INTERNAL.withDescription(msg));
-                    return;
-                }
-
-                ListEndpointsResult result = Operations.unpackResult(operation, ListEndpointsResult.class);
-
-                int endpointsCount = result.getEndpointsCount();
-                if (endpointsCount == 0) {
-                    String msg = "unable to resolve database " + database + ", got empty list of endpoints";
-                    listener.onError(Status.UNAVAILABLE.withDescription(msg));
-                    return;
-                }
-
-                logger.fine(String.format("ListEndpointsResult - %s)",
-                        result.getEndpointsList().stream()
-                                .map(e -> String.format("{addr - %s, loc - %s}", e.getAddress(), e.getLocation()))
-                                .collect(Collectors.joining(","))));
-
-                List<EquivalentAddressGroup> groups = new ArrayList<>(endpointsCount);
-                for (EndpointInfo e : result.getEndpointsList()) {
-                    try {
-                        groups.add(createAddressGroup(e));
-                    } catch (UnknownHostException x) {
-                        String msg = "unable to resolve database " + database +
-                                ", got unknown hostname: " + e.getAddress();
-                        listener.onError(Status.UNAVAILABLE.withDescription(msg).withCause(x));
+        discoveryRpc.listEndpoints(database, System.nanoTime() + discoveryPeriod.dividedBy(2).toNanos())
+                .thenAccept(result -> {
+                    ListEndpointsResult response = ensureSuccessResolved(result);
+                    if (response == null) {
                         return;
                     }
-                }
 
-                listener.onAddresses(groups, Attributes.EMPTY);
-            } catch (Throwable t) {
-                String msg = "unable to resolve database " + database + ", unhandled exception";
-                listener.onError(Status.UNAVAILABLE.withDescription(msg).withCause(t));
-            } finally {
-                scheduleNextDiscovery();
-            }
-        });
+                    List<EquivalentAddressGroup> groups = new ArrayList<>(response.getEndpointsCount());
+                    for (EndpointInfo e : response.getEndpointsList()) {
+                        try {
+                            groups.add(createAddressGroup(e));
+                        } catch (UnknownHostException x) {
+                            String msg = "unable to resolve database " + database +
+                                    ", got unknown hostname: " + e.getAddress();
+                            listener.onError(Status.UNAVAILABLE.withDescription(msg).withCause(x));
+                            return;
+                        }
+                    }
+
+                    listener.onAddresses(groups, Attributes.EMPTY);
+                })
+                .exceptionally(e -> {
+                    String msg = "unable to resolve database " + database + ", unhandled exception";
+                    listener.onError(Status.UNAVAILABLE.withDescription(msg).withCause(e));
+                    scheduleNextDiscovery();
+                    return null;
+                });
+    }
+
+    private ListEndpointsResult ensureSuccessResolved(Result<ListEndpointsResult> result) {
+        if (!result.isSuccess()) {
+            String msg = "unable to resolve database " + database +
+                    ", got non SUCCESS response: " + result.getCode() +
+                    ", issues: " + Arrays.toString(result.getIssues());
+            listener.onError(Status.UNAVAILABLE.withDescription(msg));
+            return null;
+        }
+
+        ListEndpointsResult response = result.expect("listEndpoints()");
+        logger.log(Level.FINE, String.format("response METHOD_LIST_ENDPOINTS - %s", response.toString()));
+        if (response.getEndpointsCount() == 0) {
+            String msg = "unable to resolve database " + database + ", got empty list of endpoints";
+            listener.onError(Status.UNAVAILABLE.withDescription(msg));
+            return null;
+        }
+
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(String.format("ListEndpointsResult - %s)",
+                    response.getEndpointsList().stream()
+                            .map(e -> String.format("{addr - %s, loc - %s}", e.getAddress(), e.getLocation()))
+                            .collect(Collectors.joining(","))));
+        }
+        return response;
     }
 
     private void scheduleNextDiscovery() {
@@ -212,17 +203,6 @@ final class YdbNameResolver extends NameResolver {
         }
         return new EquivalentAddressGroup(socketAddresses,
                 Attributes.newBuilder().set(LOCATION_ATTR, endpoint.getLocation()).build());
-    }
-
-    private void listEndpoints(BiConsumer<ListEndpointsResponse, Status> consumer) {
-        if (shutdown) {
-            return;
-        }
-
-        ListEndpointsRequest request = ListEndpointsRequest.newBuilder()
-                .setDatabase(database)
-                .build();
-        transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), request, consumer, System.nanoTime() + discoveryPeriod.dividedBy(2).toNanos());
     }
 
     static Factory newFactory(
@@ -260,7 +240,8 @@ final class YdbNameResolver extends NameResolver {
                     }
                 }
                 GrpcTransport transport = transportBuilder.build();
-                return new YdbNameResolver(database, authority, transport, helper.getSynchronizationContext(), discoveryPeriod);
+                GrpcDiscoveryRpc rpc = new GrpcDiscoveryRpc(transport);
+                return new YdbNameResolver(database, authority, rpc, helper.getSynchronizationContext(), discoveryPeriod);
             }
 
             @Override
