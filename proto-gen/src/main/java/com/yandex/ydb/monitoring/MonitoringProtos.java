@@ -13209,9 +13209,14 @@ public final class MonitoringProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>uint32 id = 1;</code>
+     * <code>string id = 1;</code>
      */
-    int getId();
+    java.lang.String getId();
+    /**
+     * <code>string id = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getIdBytes();
 
     /**
      * <code>.Ydb.Monitoring.LocationStorageVDisk vdisk = 2;</code>
@@ -13239,7 +13244,7 @@ public final class MonitoringProtos {
       super(builder);
     }
     private LocationStorageGroup() {
-      id_ = 0;
+      id_ = "";
     }
 
     @java.lang.Override
@@ -13270,9 +13275,10 @@ public final class MonitoringProtos {
               }
               break;
             }
-            case 8: {
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              id_ = input.readUInt32();
+              id_ = s;
               break;
             }
             case 18: {
@@ -13313,12 +13319,37 @@ public final class MonitoringProtos {
     }
 
     public static final int ID_FIELD_NUMBER = 1;
-    private int id_;
+    private volatile java.lang.Object id_;
     /**
-     * <code>uint32 id = 1;</code>
+     * <code>string id = 1;</code>
      */
-    public int getId() {
-      return id_;
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        id_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string id = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIdBytes() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int VDISK_FIELD_NUMBER = 2;
@@ -13354,8 +13385,8 @@ public final class MonitoringProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (id_ != 0) {
-        output.writeUInt32(1, id_);
+      if (!getIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, id_);
       }
       if (vdisk_ != null) {
         output.writeMessage(2, getVdisk());
@@ -13368,9 +13399,8 @@ public final class MonitoringProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (id_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(1, id_);
+      if (!getIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, id_);
       }
       if (vdisk_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -13392,8 +13422,8 @@ public final class MonitoringProtos {
       tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup other = (tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup) obj;
 
       boolean result = true;
-      result = result && (getId()
-          == other.getId());
+      result = result && getId()
+          .equals(other.getId());
       result = result && (hasVdisk() == other.hasVdisk());
       if (hasVdisk()) {
         result = result && getVdisk()
@@ -13411,7 +13441,7 @@ public final class MonitoringProtos {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ID_FIELD_NUMBER;
-      hash = (53 * hash) + getId();
+      hash = (53 * hash) + getId().hashCode();
       if (hasVdisk()) {
         hash = (37 * hash) + VDISK_FIELD_NUMBER;
         hash = (53 * hash) + getVdisk().hashCode();
@@ -13545,7 +13575,7 @@ public final class MonitoringProtos {
       }
       public Builder clear() {
         super.clear();
-        id_ = 0;
+        id_ = "";
 
         if (vdiskBuilder_ == null) {
           vdisk_ = null;
@@ -13622,8 +13652,9 @@ public final class MonitoringProtos {
 
       public Builder mergeFrom(tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup other) {
         if (other == tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup.getDefaultInstance()) return this;
-        if (other.getId() != 0) {
-          setId(other.getId());
+        if (!other.getId().isEmpty()) {
+          id_ = other.id_;
+          onChanged();
         }
         if (other.hasVdisk()) {
           mergeVdisk(other.getVdisk());
@@ -13655,28 +13686,71 @@ public final class MonitoringProtos {
         return this;
       }
 
-      private int id_ ;
+      private java.lang.Object id_ = "";
       /**
-       * <code>uint32 id = 1;</code>
+       * <code>string id = 1;</code>
        */
-      public int getId() {
-        return id_;
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          id_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>uint32 id = 1;</code>
+       * <code>string id = 1;</code>
        */
-      public Builder setId(int value) {
-        
+      public com.google.protobuf.ByteString
+          getIdBytes() {
+        java.lang.Object ref = id_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          id_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string id = 1;</code>
+       */
+      public Builder setId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         id_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>uint32 id = 1;</code>
+       * <code>string id = 1;</code>
        */
       public Builder clearId() {
         
-        id_ = 0;
+        id_ = getDefaultInstance().getId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string id = 1;</code>
+       */
+      public Builder setIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        id_ = value;
         onChanged();
         return this;
       }
@@ -17346,6 +17420,528 @@ public final class MonitoringProtos {
 
   }
 
+  public interface LocationDatabaseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Monitoring.LocationDatabase)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string name = 1;</code>
+     */
+    java.lang.String getName();
+    /**
+     * <code>string name = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+  }
+  /**
+   * Protobuf type {@code Ydb.Monitoring.LocationDatabase}
+   */
+  public  static final class LocationDatabase extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Monitoring.LocationDatabase)
+      LocationDatabaseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use LocationDatabase.newBuilder() to construct.
+    private LocationDatabase(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private LocationDatabase() {
+      name_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private LocationDatabase(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              name_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationDatabase_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationDatabase_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.monitoring.MonitoringProtos.LocationDatabase.class, tech.ydb.monitoring.MonitoringProtos.LocationDatabase.Builder.class);
+    }
+
+    public static final int NAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object name_;
+    /**
+     * <code>string name = 1;</code>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        name_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string name = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.monitoring.MonitoringProtos.LocationDatabase)) {
+        return super.equals(obj);
+      }
+      tech.ydb.monitoring.MonitoringProtos.LocationDatabase other = (tech.ydb.monitoring.MonitoringProtos.LocationDatabase) obj;
+
+      boolean result = true;
+      result = result && getName()
+          .equals(other.getName());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getName().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.monitoring.MonitoringProtos.LocationDatabase parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.LocationDatabase parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.LocationDatabase parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.LocationDatabase parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.LocationDatabase parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.LocationDatabase parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.LocationDatabase parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.LocationDatabase parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.LocationDatabase parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.LocationDatabase parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.LocationDatabase parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.LocationDatabase parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.LocationDatabase prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Monitoring.LocationDatabase}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Monitoring.LocationDatabase)
+        tech.ydb.monitoring.MonitoringProtos.LocationDatabaseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationDatabase_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationDatabase_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.monitoring.MonitoringProtos.LocationDatabase.class, tech.ydb.monitoring.MonitoringProtos.LocationDatabase.Builder.class);
+      }
+
+      // Construct using tech.ydb.monitoring.MonitoringProtos.LocationDatabase.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        name_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationDatabase_descriptor;
+      }
+
+      public tech.ydb.monitoring.MonitoringProtos.LocationDatabase getDefaultInstanceForType() {
+        return tech.ydb.monitoring.MonitoringProtos.LocationDatabase.getDefaultInstance();
+      }
+
+      public tech.ydb.monitoring.MonitoringProtos.LocationDatabase build() {
+        tech.ydb.monitoring.MonitoringProtos.LocationDatabase result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.monitoring.MonitoringProtos.LocationDatabase buildPartial() {
+        tech.ydb.monitoring.MonitoringProtos.LocationDatabase result = new tech.ydb.monitoring.MonitoringProtos.LocationDatabase(this);
+        result.name_ = name_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.monitoring.MonitoringProtos.LocationDatabase) {
+          return mergeFrom((tech.ydb.monitoring.MonitoringProtos.LocationDatabase)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.monitoring.MonitoringProtos.LocationDatabase other) {
+        if (other == tech.ydb.monitoring.MonitoringProtos.LocationDatabase.getDefaultInstance()) return this;
+        if (!other.getName().isEmpty()) {
+          name_ = other.name_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.monitoring.MonitoringProtos.LocationDatabase parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.monitoring.MonitoringProtos.LocationDatabase) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object name_ = "";
+      /**
+       * <code>string name = 1;</code>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string name = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string name = 1;</code>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string name = 1;</code>
+       */
+      public Builder clearName() {
+        
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string name = 1;</code>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Monitoring.LocationDatabase)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Monitoring.LocationDatabase)
+    private static final tech.ydb.monitoring.MonitoringProtos.LocationDatabase DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.monitoring.MonitoringProtos.LocationDatabase();
+    }
+
+    public static tech.ydb.monitoring.MonitoringProtos.LocationDatabase getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<LocationDatabase>
+        PARSER = new com.google.protobuf.AbstractParser<LocationDatabase>() {
+      public LocationDatabase parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new LocationDatabase(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<LocationDatabase> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<LocationDatabase> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.monitoring.MonitoringProtos.LocationDatabase getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface LocationOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.Monitoring.Location)
       com.google.protobuf.MessageOrBuilder {
@@ -17375,6 +17971,19 @@ public final class MonitoringProtos {
      * <code>.Ydb.Monitoring.LocationCompute compute = 2;</code>
      */
     tech.ydb.monitoring.MonitoringProtos.LocationComputeOrBuilder getComputeOrBuilder();
+
+    /**
+     * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+     */
+    boolean hasDatabase();
+    /**
+     * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+     */
+    tech.ydb.monitoring.MonitoringProtos.LocationDatabase getDatabase();
+    /**
+     * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+     */
+    tech.ydb.monitoring.MonitoringProtos.LocationDatabaseOrBuilder getDatabaseOrBuilder();
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.Location}
@@ -17445,6 +18054,19 @@ public final class MonitoringProtos {
 
               break;
             }
+            case 26: {
+              tech.ydb.monitoring.MonitoringProtos.LocationDatabase.Builder subBuilder = null;
+              if (database_ != null) {
+                subBuilder = database_.toBuilder();
+              }
+              database_ = input.readMessage(tech.ydb.monitoring.MonitoringProtos.LocationDatabase.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(database_);
+                database_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -17511,6 +18133,27 @@ public final class MonitoringProtos {
       return getCompute();
     }
 
+    public static final int DATABASE_FIELD_NUMBER = 3;
+    private tech.ydb.monitoring.MonitoringProtos.LocationDatabase database_;
+    /**
+     * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+     */
+    public boolean hasDatabase() {
+      return database_ != null;
+    }
+    /**
+     * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+     */
+    public tech.ydb.monitoring.MonitoringProtos.LocationDatabase getDatabase() {
+      return database_ == null ? tech.ydb.monitoring.MonitoringProtos.LocationDatabase.getDefaultInstance() : database_;
+    }
+    /**
+     * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+     */
+    public tech.ydb.monitoring.MonitoringProtos.LocationDatabaseOrBuilder getDatabaseOrBuilder() {
+      return getDatabase();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -17529,6 +18172,9 @@ public final class MonitoringProtos {
       if (compute_ != null) {
         output.writeMessage(2, getCompute());
       }
+      if (database_ != null) {
+        output.writeMessage(3, getDatabase());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -17544,6 +18190,10 @@ public final class MonitoringProtos {
       if (compute_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getCompute());
+      }
+      if (database_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getDatabase());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -17571,6 +18221,11 @@ public final class MonitoringProtos {
         result = result && getCompute()
             .equals(other.getCompute());
       }
+      result = result && (hasDatabase() == other.hasDatabase());
+      if (hasDatabase()) {
+        result = result && getDatabase()
+            .equals(other.getDatabase());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -17589,6 +18244,10 @@ public final class MonitoringProtos {
       if (hasCompute()) {
         hash = (37 * hash) + COMPUTE_FIELD_NUMBER;
         hash = (53 * hash) + getCompute().hashCode();
+      }
+      if (hasDatabase()) {
+        hash = (37 * hash) + DATABASE_FIELD_NUMBER;
+        hash = (53 * hash) + getDatabase().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -17731,6 +18390,12 @@ public final class MonitoringProtos {
           compute_ = null;
           computeBuilder_ = null;
         }
+        if (databaseBuilder_ == null) {
+          database_ = null;
+        } else {
+          database_ = null;
+          databaseBuilder_ = null;
+        }
         return this;
       }
 
@@ -17762,6 +18427,11 @@ public final class MonitoringProtos {
           result.compute_ = compute_;
         } else {
           result.compute_ = computeBuilder_.build();
+        }
+        if (databaseBuilder_ == null) {
+          result.database_ = database_;
+        } else {
+          result.database_ = databaseBuilder_.build();
         }
         onBuilt();
         return result;
@@ -17809,6 +18479,9 @@ public final class MonitoringProtos {
         }
         if (other.hasCompute()) {
           mergeCompute(other.getCompute());
+        }
+        if (other.hasDatabase()) {
+          mergeDatabase(other.getDatabase());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -18070,6 +18743,123 @@ public final class MonitoringProtos {
         }
         return computeBuilder_;
       }
+
+      private tech.ydb.monitoring.MonitoringProtos.LocationDatabase database_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.monitoring.MonitoringProtos.LocationDatabase, tech.ydb.monitoring.MonitoringProtos.LocationDatabase.Builder, tech.ydb.monitoring.MonitoringProtos.LocationDatabaseOrBuilder> databaseBuilder_;
+      /**
+       * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+       */
+      public boolean hasDatabase() {
+        return databaseBuilder_ != null || database_ != null;
+      }
+      /**
+       * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+       */
+      public tech.ydb.monitoring.MonitoringProtos.LocationDatabase getDatabase() {
+        if (databaseBuilder_ == null) {
+          return database_ == null ? tech.ydb.monitoring.MonitoringProtos.LocationDatabase.getDefaultInstance() : database_;
+        } else {
+          return databaseBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+       */
+      public Builder setDatabase(tech.ydb.monitoring.MonitoringProtos.LocationDatabase value) {
+        if (databaseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          database_ = value;
+          onChanged();
+        } else {
+          databaseBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+       */
+      public Builder setDatabase(
+          tech.ydb.monitoring.MonitoringProtos.LocationDatabase.Builder builderForValue) {
+        if (databaseBuilder_ == null) {
+          database_ = builderForValue.build();
+          onChanged();
+        } else {
+          databaseBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+       */
+      public Builder mergeDatabase(tech.ydb.monitoring.MonitoringProtos.LocationDatabase value) {
+        if (databaseBuilder_ == null) {
+          if (database_ != null) {
+            database_ =
+              tech.ydb.monitoring.MonitoringProtos.LocationDatabase.newBuilder(database_).mergeFrom(value).buildPartial();
+          } else {
+            database_ = value;
+          }
+          onChanged();
+        } else {
+          databaseBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+       */
+      public Builder clearDatabase() {
+        if (databaseBuilder_ == null) {
+          database_ = null;
+          onChanged();
+        } else {
+          database_ = null;
+          databaseBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+       */
+      public tech.ydb.monitoring.MonitoringProtos.LocationDatabase.Builder getDatabaseBuilder() {
+        
+        onChanged();
+        return getDatabaseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+       */
+      public tech.ydb.monitoring.MonitoringProtos.LocationDatabaseOrBuilder getDatabaseOrBuilder() {
+        if (databaseBuilder_ != null) {
+          return databaseBuilder_.getMessageOrBuilder();
+        } else {
+          return database_ == null ?
+              tech.ydb.monitoring.MonitoringProtos.LocationDatabase.getDefaultInstance() : database_;
+        }
+      }
+      /**
+       * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.monitoring.MonitoringProtos.LocationDatabase, tech.ydb.monitoring.MonitoringProtos.LocationDatabase.Builder, tech.ydb.monitoring.MonitoringProtos.LocationDatabaseOrBuilder> 
+          getDatabaseFieldBuilder() {
+        if (databaseBuilder_ == null) {
+          databaseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.monitoring.MonitoringProtos.LocationDatabase, tech.ydb.monitoring.MonitoringProtos.LocationDatabase.Builder, tech.ydb.monitoring.MonitoringProtos.LocationDatabaseOrBuilder>(
+                  getDatabase(),
+                  getParentForChildren(),
+                  isClean());
+          database_ = null;
+        }
+        return databaseBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -18124,36 +18914,65 @@ public final class MonitoringProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.Ydb.Monitoring.StatusFlag.Status status = 1;</code>
+     * <code>string id = 1;</code>
+     */
+    java.lang.String getId();
+    /**
+     * <code>string id = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getIdBytes();
+
+    /**
+     * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
      */
     int getStatusValue();
     /**
-     * <code>.Ydb.Monitoring.StatusFlag.Status status = 1;</code>
+     * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getStatus();
 
     /**
-     * <code>string message = 2;</code>
+     * <code>string message = 3;</code>
      */
     java.lang.String getMessage();
     /**
-     * <code>string message = 2;</code>
+     * <code>string message = 3;</code>
      */
     com.google.protobuf.ByteString
         getMessageBytes();
 
     /**
-     * <code>.Ydb.Monitoring.Location location = 3;</code>
+     * <code>.Ydb.Monitoring.Location location = 4;</code>
      */
     boolean hasLocation();
     /**
-     * <code>.Ydb.Monitoring.Location location = 3;</code>
+     * <code>.Ydb.Monitoring.Location location = 4;</code>
      */
     tech.ydb.monitoring.MonitoringProtos.Location getLocation();
     /**
-     * <code>.Ydb.Monitoring.Location location = 3;</code>
+     * <code>.Ydb.Monitoring.Location location = 4;</code>
      */
     tech.ydb.monitoring.MonitoringProtos.LocationOrBuilder getLocationOrBuilder();
+
+    /**
+     * <code>repeated string reason = 5;</code>
+     */
+    java.util.List<java.lang.String>
+        getReasonList();
+    /**
+     * <code>repeated string reason = 5;</code>
+     */
+    int getReasonCount();
+    /**
+     * <code>repeated string reason = 5;</code>
+     */
+    java.lang.String getReason(int index);
+    /**
+     * <code>repeated string reason = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getReasonBytes(int index);
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.IssueLog}
@@ -18168,8 +18987,10 @@ public final class MonitoringProtos {
       super(builder);
     }
     private IssueLog() {
+      id_ = "";
       status_ = 0;
       message_ = "";
+      reason_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -18200,19 +19021,25 @@ public final class MonitoringProtos {
               }
               break;
             }
-            case 8: {
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              id_ = s;
+              break;
+            }
+            case 16: {
               int rawValue = input.readEnum();
 
               status_ = rawValue;
               break;
             }
-            case 18: {
+            case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
               message_ = s;
               break;
             }
-            case 26: {
+            case 34: {
               tech.ydb.monitoring.MonitoringProtos.Location.Builder subBuilder = null;
               if (location_ != null) {
                 subBuilder = location_.toBuilder();
@@ -18225,6 +19052,15 @@ public final class MonitoringProtos {
 
               break;
             }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                reason_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              reason_.add(s);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -18233,6 +19069,9 @@ public final class MonitoringProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+          reason_ = reason_.getUnmodifiableView();
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -18249,26 +19088,61 @@ public final class MonitoringProtos {
               tech.ydb.monitoring.MonitoringProtos.IssueLog.class, tech.ydb.monitoring.MonitoringProtos.IssueLog.Builder.class);
     }
 
-    public static final int STATUS_FIELD_NUMBER = 1;
+    private int bitField0_;
+    public static final int ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object id_;
+    /**
+     * <code>string id = 1;</code>
+     */
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        id_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string id = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIdBytes() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int STATUS_FIELD_NUMBER = 2;
     private int status_;
     /**
-     * <code>.Ydb.Monitoring.StatusFlag.Status status = 1;</code>
+     * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
      */
     public int getStatusValue() {
       return status_;
     }
     /**
-     * <code>.Ydb.Monitoring.StatusFlag.Status status = 1;</code>
+     * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
      */
     public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getStatus() {
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(status_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
 
-    public static final int MESSAGE_FIELD_NUMBER = 2;
+    public static final int MESSAGE_FIELD_NUMBER = 3;
     private volatile java.lang.Object message_;
     /**
-     * <code>string message = 2;</code>
+     * <code>string message = 3;</code>
      */
     public java.lang.String getMessage() {
       java.lang.Object ref = message_;
@@ -18283,7 +19157,7 @@ public final class MonitoringProtos {
       }
     }
     /**
-     * <code>string message = 2;</code>
+     * <code>string message = 3;</code>
      */
     public com.google.protobuf.ByteString
         getMessageBytes() {
@@ -18299,25 +19173,54 @@ public final class MonitoringProtos {
       }
     }
 
-    public static final int LOCATION_FIELD_NUMBER = 3;
+    public static final int LOCATION_FIELD_NUMBER = 4;
     private tech.ydb.monitoring.MonitoringProtos.Location location_;
     /**
-     * <code>.Ydb.Monitoring.Location location = 3;</code>
+     * <code>.Ydb.Monitoring.Location location = 4;</code>
      */
     public boolean hasLocation() {
       return location_ != null;
     }
     /**
-     * <code>.Ydb.Monitoring.Location location = 3;</code>
+     * <code>.Ydb.Monitoring.Location location = 4;</code>
      */
     public tech.ydb.monitoring.MonitoringProtos.Location getLocation() {
       return location_ == null ? tech.ydb.monitoring.MonitoringProtos.Location.getDefaultInstance() : location_;
     }
     /**
-     * <code>.Ydb.Monitoring.Location location = 3;</code>
+     * <code>.Ydb.Monitoring.Location location = 4;</code>
      */
     public tech.ydb.monitoring.MonitoringProtos.LocationOrBuilder getLocationOrBuilder() {
       return getLocation();
+    }
+
+    public static final int REASON_FIELD_NUMBER = 5;
+    private com.google.protobuf.LazyStringList reason_;
+    /**
+     * <code>repeated string reason = 5;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getReasonList() {
+      return reason_;
+    }
+    /**
+     * <code>repeated string reason = 5;</code>
+     */
+    public int getReasonCount() {
+      return reason_.size();
+    }
+    /**
+     * <code>repeated string reason = 5;</code>
+     */
+    public java.lang.String getReason(int index) {
+      return reason_.get(index);
+    }
+    /**
+     * <code>repeated string reason = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getReasonBytes(int index) {
+      return reason_.getByteString(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -18332,14 +19235,20 @@ public final class MonitoringProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (!getIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, id_);
+      }
       if (status_ != tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNSPECIFIED.getNumber()) {
-        output.writeEnum(1, status_);
+        output.writeEnum(2, status_);
       }
       if (!getMessageBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, message_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, message_);
       }
       if (location_ != null) {
-        output.writeMessage(3, getLocation());
+        output.writeMessage(4, getLocation());
+      }
+      for (int i = 0; i < reason_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, reason_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -18349,16 +19258,27 @@ public final class MonitoringProtos {
       if (size != -1) return size;
 
       size = 0;
+      if (!getIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, id_);
+      }
       if (status_ != tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, status_);
+          .computeEnumSize(2, status_);
       }
       if (!getMessageBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, message_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, message_);
       }
       if (location_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getLocation());
+          .computeMessageSize(4, getLocation());
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < reason_.size(); i++) {
+          dataSize += computeStringSizeNoTag(reason_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getReasonList().size();
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -18376,6 +19296,8 @@ public final class MonitoringProtos {
       tech.ydb.monitoring.MonitoringProtos.IssueLog other = (tech.ydb.monitoring.MonitoringProtos.IssueLog) obj;
 
       boolean result = true;
+      result = result && getId()
+          .equals(other.getId());
       result = result && status_ == other.status_;
       result = result && getMessage()
           .equals(other.getMessage());
@@ -18384,6 +19306,8 @@ public final class MonitoringProtos {
         result = result && getLocation()
             .equals(other.getLocation());
       }
+      result = result && getReasonList()
+          .equals(other.getReasonList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -18395,6 +19319,8 @@ public final class MonitoringProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId().hashCode();
       hash = (37 * hash) + STATUS_FIELD_NUMBER;
       hash = (53 * hash) + status_;
       hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
@@ -18402,6 +19328,10 @@ public final class MonitoringProtos {
       if (hasLocation()) {
         hash = (37 * hash) + LOCATION_FIELD_NUMBER;
         hash = (53 * hash) + getLocation().hashCode();
+      }
+      if (getReasonCount() > 0) {
+        hash = (37 * hash) + REASON_FIELD_NUMBER;
+        hash = (53 * hash) + getReasonList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -18532,6 +19462,8 @@ public final class MonitoringProtos {
       }
       public Builder clear() {
         super.clear();
+        id_ = "";
+
         status_ = 0;
 
         message_ = "";
@@ -18542,6 +19474,8 @@ public final class MonitoringProtos {
           location_ = null;
           locationBuilder_ = null;
         }
+        reason_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -18564,6 +19498,9 @@ public final class MonitoringProtos {
 
       public tech.ydb.monitoring.MonitoringProtos.IssueLog buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.IssueLog result = new tech.ydb.monitoring.MonitoringProtos.IssueLog(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        result.id_ = id_;
         result.status_ = status_;
         result.message_ = message_;
         if (locationBuilder_ == null) {
@@ -18571,6 +19508,12 @@ public final class MonitoringProtos {
         } else {
           result.location_ = locationBuilder_.build();
         }
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          reason_ = reason_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000010);
+        }
+        result.reason_ = reason_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -18612,6 +19555,10 @@ public final class MonitoringProtos {
 
       public Builder mergeFrom(tech.ydb.monitoring.MonitoringProtos.IssueLog other) {
         if (other == tech.ydb.monitoring.MonitoringProtos.IssueLog.getDefaultInstance()) return this;
+        if (!other.getId().isEmpty()) {
+          id_ = other.id_;
+          onChanged();
+        }
         if (other.status_ != 0) {
           setStatusValue(other.getStatusValue());
         }
@@ -18621,6 +19568,16 @@ public final class MonitoringProtos {
         }
         if (other.hasLocation()) {
           mergeLocation(other.getLocation());
+        }
+        if (!other.reason_.isEmpty()) {
+          if (reason_.isEmpty()) {
+            reason_ = other.reason_;
+            bitField0_ = (bitField0_ & ~0x00000010);
+          } else {
+            ensureReasonIsMutable();
+            reason_.addAll(other.reason_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -18648,16 +19605,86 @@ public final class MonitoringProtos {
         }
         return this;
       }
+      private int bitField0_;
+
+      private java.lang.Object id_ = "";
+      /**
+       * <code>string id = 1;</code>
+       */
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          id_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string id = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIdBytes() {
+        java.lang.Object ref = id_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          id_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string id = 1;</code>
+       */
+      public Builder setId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string id = 1;</code>
+       */
+      public Builder clearId() {
+        
+        id_ = getDefaultInstance().getId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string id = 1;</code>
+       */
+      public Builder setIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
 
       private int status_ = 0;
       /**
-       * <code>.Ydb.Monitoring.StatusFlag.Status status = 1;</code>
+       * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
        */
       public int getStatusValue() {
         return status_;
       }
       /**
-       * <code>.Ydb.Monitoring.StatusFlag.Status status = 1;</code>
+       * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
        */
       public Builder setStatusValue(int value) {
         status_ = value;
@@ -18665,14 +19692,14 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.StatusFlag.Status status = 1;</code>
+       * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
        */
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getStatus() {
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(status_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
-       * <code>.Ydb.Monitoring.StatusFlag.Status status = 1;</code>
+       * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
        */
       public Builder setStatus(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -18684,7 +19711,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.StatusFlag.Status status = 1;</code>
+       * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
        */
       public Builder clearStatus() {
         
@@ -18695,7 +19722,7 @@ public final class MonitoringProtos {
 
       private java.lang.Object message_ = "";
       /**
-       * <code>string message = 2;</code>
+       * <code>string message = 3;</code>
        */
       public java.lang.String getMessage() {
         java.lang.Object ref = message_;
@@ -18710,7 +19737,7 @@ public final class MonitoringProtos {
         }
       }
       /**
-       * <code>string message = 2;</code>
+       * <code>string message = 3;</code>
        */
       public com.google.protobuf.ByteString
           getMessageBytes() {
@@ -18726,7 +19753,7 @@ public final class MonitoringProtos {
         }
       }
       /**
-       * <code>string message = 2;</code>
+       * <code>string message = 3;</code>
        */
       public Builder setMessage(
           java.lang.String value) {
@@ -18739,7 +19766,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>string message = 2;</code>
+       * <code>string message = 3;</code>
        */
       public Builder clearMessage() {
         
@@ -18748,7 +19775,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>string message = 2;</code>
+       * <code>string message = 3;</code>
        */
       public Builder setMessageBytes(
           com.google.protobuf.ByteString value) {
@@ -18766,13 +19793,13 @@ public final class MonitoringProtos {
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.Location, tech.ydb.monitoring.MonitoringProtos.Location.Builder, tech.ydb.monitoring.MonitoringProtos.LocationOrBuilder> locationBuilder_;
       /**
-       * <code>.Ydb.Monitoring.Location location = 3;</code>
+       * <code>.Ydb.Monitoring.Location location = 4;</code>
        */
       public boolean hasLocation() {
         return locationBuilder_ != null || location_ != null;
       }
       /**
-       * <code>.Ydb.Monitoring.Location location = 3;</code>
+       * <code>.Ydb.Monitoring.Location location = 4;</code>
        */
       public tech.ydb.monitoring.MonitoringProtos.Location getLocation() {
         if (locationBuilder_ == null) {
@@ -18782,7 +19809,7 @@ public final class MonitoringProtos {
         }
       }
       /**
-       * <code>.Ydb.Monitoring.Location location = 3;</code>
+       * <code>.Ydb.Monitoring.Location location = 4;</code>
        */
       public Builder setLocation(tech.ydb.monitoring.MonitoringProtos.Location value) {
         if (locationBuilder_ == null) {
@@ -18798,7 +19825,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.Location location = 3;</code>
+       * <code>.Ydb.Monitoring.Location location = 4;</code>
        */
       public Builder setLocation(
           tech.ydb.monitoring.MonitoringProtos.Location.Builder builderForValue) {
@@ -18812,7 +19839,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.Location location = 3;</code>
+       * <code>.Ydb.Monitoring.Location location = 4;</code>
        */
       public Builder mergeLocation(tech.ydb.monitoring.MonitoringProtos.Location value) {
         if (locationBuilder_ == null) {
@@ -18830,7 +19857,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.Location location = 3;</code>
+       * <code>.Ydb.Monitoring.Location location = 4;</code>
        */
       public Builder clearLocation() {
         if (locationBuilder_ == null) {
@@ -18844,7 +19871,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.Location location = 3;</code>
+       * <code>.Ydb.Monitoring.Location location = 4;</code>
        */
       public tech.ydb.monitoring.MonitoringProtos.Location.Builder getLocationBuilder() {
         
@@ -18852,7 +19879,7 @@ public final class MonitoringProtos {
         return getLocationFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.Monitoring.Location location = 3;</code>
+       * <code>.Ydb.Monitoring.Location location = 4;</code>
        */
       public tech.ydb.monitoring.MonitoringProtos.LocationOrBuilder getLocationOrBuilder() {
         if (locationBuilder_ != null) {
@@ -18863,7 +19890,7 @@ public final class MonitoringProtos {
         }
       }
       /**
-       * <code>.Ydb.Monitoring.Location location = 3;</code>
+       * <code>.Ydb.Monitoring.Location location = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.Location, tech.ydb.monitoring.MonitoringProtos.Location.Builder, tech.ydb.monitoring.MonitoringProtos.LocationOrBuilder> 
@@ -18877,6 +19904,100 @@ public final class MonitoringProtos {
           location_ = null;
         }
         return locationBuilder_;
+      }
+
+      private com.google.protobuf.LazyStringList reason_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureReasonIsMutable() {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+          reason_ = new com.google.protobuf.LazyStringArrayList(reason_);
+          bitField0_ |= 0x00000010;
+         }
+      }
+      /**
+       * <code>repeated string reason = 5;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getReasonList() {
+        return reason_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string reason = 5;</code>
+       */
+      public int getReasonCount() {
+        return reason_.size();
+      }
+      /**
+       * <code>repeated string reason = 5;</code>
+       */
+      public java.lang.String getReason(int index) {
+        return reason_.get(index);
+      }
+      /**
+       * <code>repeated string reason = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getReasonBytes(int index) {
+        return reason_.getByteString(index);
+      }
+      /**
+       * <code>repeated string reason = 5;</code>
+       */
+      public Builder setReason(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureReasonIsMutable();
+        reason_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string reason = 5;</code>
+       */
+      public Builder addReason(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureReasonIsMutable();
+        reason_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string reason = 5;</code>
+       */
+      public Builder addAllReason(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureReasonIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, reason_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string reason = 5;</code>
+       */
+      public Builder clearReason() {
+        reason_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string reason = 5;</code>
+       */
+      public Builder addReasonBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureReasonIsMutable();
+        reason_.add(value);
+        onChanged();
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -20951,6 +22072,11 @@ public final class MonitoringProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Monitoring_LocationCompute_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Monitoring_LocationDatabase_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Monitoring_LocationDatabase_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Monitoring_Location_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -21031,7 +22157,7 @@ public final class MonitoringProtos {
       "\n\024LocationStorageVDisk\022\n\n\002id\030\001 \001(\t\0223\n\005pd",
       "isk\030\002 \001(\0132$.Ydb.Monitoring.LocationStora" +
       "gePDisk\"W\n\024LocationStorageGroup\022\n\n\002id\030\001 " +
-      "\001(\r\0223\n\005vdisk\030\002 \001(\0132$.Ydb.Monitoring.Loca" +
+      "\001(\t\0223\n\005vdisk\030\002 \001(\0132$.Ydb.Monitoring.Loca" +
       "tionStorageVDisk\"X\n\023LocationStoragePool\022" +
       "\014\n\004name\030\001 \001(\t\0223\n\005group\030\002 \001(\0132$.Ydb.Monit" +
       "oring.LocationStorageGroup\"p\n\017LocationSt" +
@@ -21043,23 +22169,26 @@ public final class MonitoringProtos {
       "node\030\001 \001(\0132\034.Ydb.Monitoring.LocationNode" +
       "\0221\n\004pool\030\002 \001(\0132#.Ydb.Monitoring.Location" +
       "ComputePool\0225\n\006tablet\030\003 \001(\0132%.Ydb.Monito" +
-      "ring.LocationComputeTablet\"n\n\010Location\0220" +
-      "\n\007storage\030\001 \001(\0132\037.Ydb.Monitoring.Locatio" +
-      "nStorage\0220\n\007compute\030\002 \001(\0132\037.Ydb.Monitori" +
-      "ng.LocationCompute\"z\n\010IssueLog\0221\n\006status" +
-      "\030\001 \001(\0162!.Ydb.Monitoring.StatusFlag.Statu" +
-      "s\022\017\n\007message\030\002 \001(\t\022*\n\010location\030\003 \001(\0132\030.Y",
-      "db.Monitoring.Location\"\244\001\n\016DatabaseStatu" +
-      "s\0222\n\007overall\030\001 \001(\0162!.Ydb.Monitoring.Stat" +
-      "usFlag.Status\022.\n\007storage\030\002 \001(\0132\035.Ydb.Mon" +
-      "itoring.StorageStatus\022.\n\007compute\030\003 \001(\0132\035" +
-      ".Ydb.Monitoring.ComputeStatus\"\264\001\n\017SelfCh" +
-      "eckResult\022;\n\021self_check_result\030\001 \001(\0162 .Y" +
-      "db.Monitoring.SelfCheck.Result\022+\n\tissue_" +
-      "log\030\002 \003(\0132\030.Ydb.Monitoring.IssueLog\0227\n\017d" +
-      "atabase_status\030\003 \001(\0132\036.Ydb.Monitoring.Da" +
-      "tabaseStatusB0\n\031tech.ydb.monitorin",
-      "gB\020MonitoringProtos\370\001\001b\006proto3"
+      "ring.LocationComputeTablet\" \n\020LocationDa" +
+      "tabase\022\014\n\004name\030\001 \001(\t\"\242\001\n\010Location\0220\n\007sto" +
+      "rage\030\001 \001(\0132\037.Ydb.Monitoring.LocationStor" +
+      "age\0220\n\007compute\030\002 \001(\0132\037.Ydb.Monitoring.Lo" +
+      "cationCompute\0222\n\010database\030\003 \001(\0132 .Ydb.Mo" +
+      "nitoring.LocationDatabase\"\226\001\n\010IssueLog\022\n",
+      "\n\002id\030\001 \001(\t\0221\n\006status\030\002 \001(\0162!.Ydb.Monitor" +
+      "ing.StatusFlag.Status\022\017\n\007message\030\003 \001(\t\022*" +
+      "\n\010location\030\004 \001(\0132\030.Ydb.Monitoring.Locati" +
+      "on\022\016\n\006reason\030\005 \003(\t\"\244\001\n\016DatabaseStatus\0222\n" +
+      "\007overall\030\001 \001(\0162!.Ydb.Monitoring.StatusFl" +
+      "ag.Status\022.\n\007storage\030\002 \001(\0132\035.Ydb.Monitor" +
+      "ing.StorageStatus\022.\n\007compute\030\003 \001(\0132\035.Ydb" +
+      ".Monitoring.ComputeStatus\"\264\001\n\017SelfCheckR" +
+      "esult\022;\n\021self_check_result\030\001 \001(\0162 .Ydb.M" +
+      "onitoring.SelfCheck.Result\022+\n\tissue_log\030",
+      "\002 \003(\0132\030.Ydb.Monitoring.IssueLog\0227\n\017datab" +
+      "ase_status\030\003 \001(\0132\036.Ydb.Monitoring.Databa" +
+      "seStatusB0\n\031tech.ydb.monitoringB\020M" +
+      "onitoringProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -21212,26 +22341,32 @@ public final class MonitoringProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Monitoring_LocationCompute_descriptor,
         new java.lang.String[] { "Node", "Pool", "Tablet", });
-    internal_static_Ydb_Monitoring_Location_descriptor =
+    internal_static_Ydb_Monitoring_LocationDatabase_descriptor =
       getDescriptor().getMessageTypes().get(23);
+    internal_static_Ydb_Monitoring_LocationDatabase_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Monitoring_LocationDatabase_descriptor,
+        new java.lang.String[] { "Name", });
+    internal_static_Ydb_Monitoring_Location_descriptor =
+      getDescriptor().getMessageTypes().get(24);
     internal_static_Ydb_Monitoring_Location_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Monitoring_Location_descriptor,
-        new java.lang.String[] { "Storage", "Compute", });
+        new java.lang.String[] { "Storage", "Compute", "Database", });
     internal_static_Ydb_Monitoring_IssueLog_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_Ydb_Monitoring_IssueLog_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Monitoring_IssueLog_descriptor,
-        new java.lang.String[] { "Status", "Message", "Location", });
+        new java.lang.String[] { "Id", "Status", "Message", "Location", "Reason", });
     internal_static_Ydb_Monitoring_DatabaseStatus_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_Ydb_Monitoring_DatabaseStatus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Monitoring_DatabaseStatus_descriptor,
         new java.lang.String[] { "Overall", "Storage", "Compute", });
     internal_static_Ydb_Monitoring_SelfCheckResult_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_Ydb_Monitoring_SelfCheckResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Monitoring_SelfCheckResult_descriptor,
