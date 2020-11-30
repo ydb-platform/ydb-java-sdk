@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.table.Session;
 import tech.ydb.table.TableClient;
@@ -75,7 +76,11 @@ final class TableClientImpl implements TableClient {
         return sessionPool.acquire(timeout)
             .handle((s, t) -> {
                 if (t == null) return Result.success(s);
-                return Result.error("cannot acquire session from pool", t);
+                if (t instanceof UnexpectedResultException) {
+                    return Result.fail(((UnexpectedResultException) t).getStatusCode(), ((UnexpectedResultException) t).getIssues());
+                } else {
+                    return Result.error("cannot acquire session from pool", t);
+                }
             });
     }
 
