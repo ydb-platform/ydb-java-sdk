@@ -126,6 +126,7 @@ public class GrpcTransport implements RpcTransport {
 
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+        logger.log(Level.FINEST, String.format("Call: method: `%s', request: `%s', channel: `%s'", method, request, channel.authority()));
         sendOneRequest(call, request, new UnaryStreamToFuture<>(promise));
         return promise;
     }
@@ -148,6 +149,7 @@ public class GrpcTransport implements RpcTransport {
         }
 
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+        logger.log(Level.FINEST, String.format("Call: method: `%s', request: `%s', channel: `%s'", method, request, channel.authority()));
         sendOneRequest(call, request, new UnaryStreamToConsumer<>(consumer));
     }
 
@@ -169,6 +171,7 @@ public class GrpcTransport implements RpcTransport {
         }
 
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+        logger.log(Level.FINEST, String.format("Call: method: `%s', request: `%s', channel: `%s'", method, request, channel.authority()));
         sendOneRequest(call, request, new UnaryStreamToBiConsumer<>(consumer));
     }
 

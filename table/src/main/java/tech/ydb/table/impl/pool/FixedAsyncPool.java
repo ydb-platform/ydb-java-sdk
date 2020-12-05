@@ -103,6 +103,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             if (count < maxSize && acquiredObjectsCount.compareAndSet(count, count + 1)) {
                 assert count >= 0;
                 doAcquireOrCreate(promise, deadlineAfter);
+                logger.log(Level.FINEST, "Acquiring object, current acquired objects count: {0}", acquiredObjectsCount.get());
                 return promise;
             }
 
@@ -116,6 +117,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                     pendingAcquireCount.decrementAndGet();
                     promise.completeExceptionally(new IllegalStateException("too many outstanding acquire operations"));
                 }
+                logger.log(Level.FINEST, "Acquire: current pending acquire count: {0}", pendingAcquireCount.get());
             }
         } catch (Throwable cause) {
             promise.completeExceptionally(cause);
@@ -144,6 +146,8 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             logger.log(Level.FINE, "Destroy {0} because invalid state");
             handler.destroy(object);
         }
+
+        logger.log(Level.FINEST, "Object released, current acquired objects count: {0}", acquiredObjectsCount.get());
 
         runPendingAcquireTasks();
     }
@@ -244,6 +248,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         PendingAcquireTask task = pendingAcquireTasks.poll();
         if (task != null && task.timeout.cancel()) {
             pendingAcquireCount.decrementAndGet();
+            logger.log(Level.FINEST, "Move object to pending task: current pending acquire count: {0}", pendingAcquireCount.get());
             onAcquire(task.promise, object, null);
             return true;
         }
@@ -266,6 +271,9 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                 break;
             }
         }
+
+        logger.log(Level.FINEST, () -> String.format("Run pending: current pending/acquired count: %d/%d",
+                pendingAcquireCount.get(), acquiredObjectsCount.get()));
 
         // we should never have a negative values
         assert pendingAcquireCount.get() >= 0;

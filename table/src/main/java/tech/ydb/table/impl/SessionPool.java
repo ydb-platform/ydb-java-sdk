@@ -88,6 +88,7 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
         return idlePool.acquire(timeout)
             .thenCompose(s -> {
                 if (s.switchState(State.IDLE, State.ACTIVE)) {
+                    logger.log(Level.FINEST, "session `{0}' acquired", s);
                     return CompletableFuture.completedFuture(s);
                 } else {
                     release(s);
@@ -108,6 +109,7 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
             }
         } else {
             idlePool.release(session);
+            logger.log(Level.FINEST, "session `{0}' released", session);
         }
     }
 
