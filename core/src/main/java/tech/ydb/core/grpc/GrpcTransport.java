@@ -11,8 +11,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -54,6 +52,8 @@ import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.ssl.SslContext;
 import io.netty.util.internal.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -69,7 +69,7 @@ public class GrpcTransport implements RpcTransport {
 
     public static final int DEFAULT_PORT = 2135;
 
-    private static final Logger logger = Logger.getLogger(GrpcTransport.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
 
     private final ManagedChannel realChannel;
     private final Channel channel;
@@ -126,7 +126,7 @@ public class GrpcTransport implements RpcTransport {
 
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-        logger.log(Level.FINEST, String.format("Call: method: `%s', request: `%s', channel: `%s'", method, request, channel.authority()));
+        logger.debug("Call: method: `{}', request: `{}', channel: `{}'", method, request, channel.authority());
         sendOneRequest(call, request, new UnaryStreamToFuture<>(promise));
         return promise;
     }
@@ -149,7 +149,7 @@ public class GrpcTransport implements RpcTransport {
         }
 
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-        logger.log(Level.FINEST, String.format("Call: method: `%s', request: `%s', channel: `%s'", method, request, channel.authority()));
+        logger.debug("Call: method: `{}', request: `{}', channel: `{}'", method, request, channel.authority());
         sendOneRequest(call, request, new UnaryStreamToConsumer<>(consumer));
     }
 
@@ -171,7 +171,7 @@ public class GrpcTransport implements RpcTransport {
         }
 
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-        logger.log(Level.FINEST, String.format("Call: method: `%s', request: `%s', channel: `%s'", method, request, channel.authority()));
+        logger.debug("Call: method: `{}', request: `{}', channel: `{}'", method, request, channel.authority());
         sendOneRequest(call, request, new UnaryStreamToBiConsumer<>(consumer));
     }
 
@@ -243,7 +243,8 @@ public class GrpcTransport implements RpcTransport {
             try {
                 call.cancel(null, t);
             } catch (Throwable ex) {
-                logger.log(Level.SEVERE, "Exception encountered while closing the call", ex);
+                logger.error
+                        ("Exception encountered while closing the call", ex);
             }
             listener.onClose(Status.INTERNAL.withCause(t), null);
         }

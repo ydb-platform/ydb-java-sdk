@@ -13,8 +13,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
@@ -32,6 +30,8 @@ import io.grpc.SynchronizationContext;
 import io.grpc.internal.GrpcUtil;
 import io.grpc.netty.NettyChannelBuilder;
 import io.netty.util.Timeout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -40,7 +40,7 @@ import io.netty.util.Timeout;
  */
 final class YdbNameResolver extends NameResolver {
 
-    private static final Logger logger = Logger.getLogger(YdbNameResolver.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(YdbNameResolver.class);
 
     private static final String SCHEME = "ydb";
     public static final Attributes.Key<String> LOCATION_ATTR = Attributes.Key.create("loc");
@@ -157,18 +157,18 @@ final class YdbNameResolver extends NameResolver {
         }
 
         ListEndpointsResult response = result.expect("listEndpoints()");
-        logger.log(Level.FINE, String.format("response METHOD_LIST_ENDPOINTS - %s", response.toString()));
+        logger.debug("response METHOD_LIST_ENDPOINTS - {}", response.toString());
         if (response.getEndpointsCount() == 0) {
             String msg = "unable to resolve database " + database + ", got empty list of endpoints";
             listener.onError(Status.UNAVAILABLE.withDescription(msg));
             return null;
         }
 
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine(String.format("ListEndpointsResult - %s)",
+        if (logger.isDebugEnabled()) {
+            logger.debug("ListEndpointsResult - {}",
                     response.getEndpointsList().stream()
                             .map(e -> String.format("{addr - %s, loc - %s}", e.getAddress(), e.getLocation()))
-                            .collect(Collectors.joining(","))));
+                            .collect(Collectors.joining(",")));
         }
         return response;
     }

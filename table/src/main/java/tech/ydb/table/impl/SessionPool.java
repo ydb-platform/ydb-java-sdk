@@ -3,8 +3,6 @@ package tech.ydb.table.impl;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import tech.ydb.table.SessionStatus;
 import tech.ydb.table.impl.SessionImpl.State;
@@ -13,13 +11,14 @@ import tech.ydb.table.impl.pool.PooledObjectHandler;
 import tech.ydb.table.impl.pool.SettlersPool;
 import tech.ydb.table.settings.CreateSessionSettings;
 import tech.ydb.table.stats.SessionPoolStats;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sergey Polovko
  */
 final class SessionPool implements PooledObjectHandler<SessionImpl> {
-    private static final Logger logger = Logger.getLogger(SessionPool.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(SessionPool.class);
 
     private final TableClientImpl tableClient;
 
@@ -88,7 +87,7 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
         return idlePool.acquire(timeout)
             .thenCompose(s -> {
                 if (s.switchState(State.IDLE, State.ACTIVE)) {
-                    logger.log(Level.FINEST, "session `{0}' acquired", s);
+                    logger.debug("session `{0}' acquired", s);
                     return CompletableFuture.completedFuture(s);
                 } else {
                     release(s);
@@ -103,13 +102,13 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
     void release(SessionImpl session) {
         if (session.switchState(State.DISCONNECTED, State.IDLE)) {
             if (!settlersPool.offerIfHaveSpace(session)) {
-                logger.log(Level.FINE, "Destroy {0} because settlers pool overflow", session);
+                logger.debug("Destroy {} because settlers pool overflow", session);
                 session.close(); // do not await session to be closed
                 idlePool.release(session);
             }
         } else {
             idlePool.release(session);
-            logger.log(Level.FINEST, "session `{0}' released", session);
+            logger.debug("session `{}' released", session);
         }
     }
 

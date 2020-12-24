@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
@@ -21,13 +20,15 @@ import io.grpc.Attributes;
 import io.grpc.EquivalentAddressGroup;
 import io.grpc.NameResolver;
 import io.grpc.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
  * @author Sergey Polovko
  */
 final class HostsNameResolver extends NameResolver {
-    private static final Logger logger = Logger.getLogger(YdbNameResolver.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(YdbNameResolver.class);
 
     private static final String SCHEME = "ydb-hosts";
 
@@ -80,7 +81,7 @@ final class HostsNameResolver extends NameResolver {
                     latestSuccessResolving.put(host, group);
                     groups.add(group);
                 } catch (UnknownHostException e) {
-                    logger.warning(e.getMessage());
+                    logger.warn(e.getMessage());
                     EquivalentAddressGroup prevResolved = latestSuccessResolving.get(host);
                     if (prevResolved != null) {
                         groups.add(prevResolved);

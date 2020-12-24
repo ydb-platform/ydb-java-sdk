@@ -15,12 +15,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import tech.ydb.core.utils.Async;
 import io.netty.util.Timeout;
 import io.netty.util.TimerTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static java.util.concurrent.CompletableFuture.allOf;
 import static java.util.concurrent.CompletableFuture.completedFuture;
@@ -30,7 +30,7 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
  * @author Sergey Polovko
  */
 public final class FixedAsyncPool<T> implements AsyncPool<T> {
-    private static final Logger logger = Logger.getLogger(FixedAsyncPool.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(FixedAsyncPool.class);
 
     private final Deque<PooledObject<T>> objects = new LinkedList<>();
     private final AtomicInteger acquiredObjectsCount = new AtomicInteger(0);
@@ -103,7 +103,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             if (count < maxSize && acquiredObjectsCount.compareAndSet(count, count + 1)) {
                 assert count >= 0;
                 doAcquireOrCreate(promise, deadlineAfter);
-                logger.log(Level.FINEST, "Acquiring object, current acquired objects count: {0}", acquiredObjectsCount.get());
+                logger.debug("Acquiring object, current acquired objects count: {}", acquiredObjectsCount.get());
                 return promise;
             }
 
@@ -117,7 +117,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                     pendingAcquireCount.decrementAndGet();
                     promise.completeExceptionally(new IllegalStateException("too many outstanding acquire operations"));
                 }
-                logger.log(Level.FINEST, "Acquire: current pending acquire count: {0}", pendingAcquireCount.get());
+                logger.debug("Acquire: current pending acquire count: {}", pendingAcquireCount.get());
             }
         } catch (Throwable cause) {
             promise.completeExceptionally(cause);
@@ -129,7 +129,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
     public void release(T object) {
         if (closed.get()) {
             // Since the pool is closed, we have no choice but to close the channel
-            logger.log(Level.FINE, "Destroy {0} because pool already closed", object);
+            logger.debug("Destroy {} because pool already closed", object);
             handler.destroy(object);
             throw new IllegalStateException("pool was closed");
         }
@@ -143,11 +143,11 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             acquiredObjectsCount.decrementAndGet();
         } else {
             acquiredObjectsCount.decrementAndGet();
-            logger.log(Level.FINE, "Destroy {0} because invalid state");
+            logger.debug("Destroy {} because invalid state", object);
             handler.destroy(object);
         }
 
-        logger.log(Level.FINEST, "Object released, current acquired objects count: {0}", acquiredObjectsCount.get());
+        logger.debug("Object released, current acquired objects count: {}", acquiredObjectsCount.get());
 
         runPendingAcquireTasks();
     }
@@ -159,7 +159,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
     void offerOrDestroy(T object) {
         if (closed.get()) {
             // Since the pool is closed, we have no choice but to close the channel
-            logger.log(Level.FINE, "Destroy {0} because pool already closed", object);
+            logger.debug("Destroy {} because pool already closed", object);
             handler.destroy(object);
             throw new IllegalStateException("pool was closed");
         }
@@ -172,7 +172,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                 return;
             }
         }
-        logger.log(Level.FINE, "Destroy {0} because max pool size already reached", object);
+        logger.debug("Destroy {} because max pool size already reached", object);
         handler.destroy(object);
     }
 
@@ -201,7 +201,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
 
             CompletableFuture<T> future = handler.create(deadlineAfter)
                 .thenApply(o -> {
-                    logger.log(Level.FINE, "Created {0}", o);
+                    logger.debug("Created {}", o);
                     return o;
                 });
             if (future.isDone() && !future.isCompletedExceptionally()) {
@@ -232,7 +232,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         if (closed.get()) {
             // destroy object because pool was already closed
             if (error == null) {
-                logger.log(Level.FINE, "Destroy {0} because pool already closed", object);
+                logger.debug("Destroy {} because pool already closed", object);
                 handler.destroy(object);
             }
             promise.completeExceptionally(new IllegalStateException("pool was closed"));
@@ -248,7 +248,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         PendingAcquireTask task = pendingAcquireTasks.poll();
         if (task != null && task.timeout.cancel()) {
             pendingAcquireCount.decrementAndGet();
-            logger.log(Level.FINEST, "Move object to pending task: current pending acquire count: {0}", pendingAcquireCount.get());
+            logger.debug("Move object to pending task: current pending acquire count: {}", pendingAcquireCount.get());
             onAcquire(task.promise, object, null);
             return true;
         }
@@ -272,8 +272,8 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             }
         }
 
-        logger.log(Level.FINEST, () -> String.format("Run pending: current pending/acquired count: %d/%d",
-                pendingAcquireCount.get(), acquiredObjectsCount.get()));
+        logger.debug("Run pending: current pending/acquired count: {}/{}",
+                pendingAcquireCount.get(), acquiredObjectsCount.get());
 
         // we should never have a negative values
         assert pendingAcquireCount.get() >= 0;
@@ -298,7 +298,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         PooledObject<T> object;
         while ((object = pollObject()) != null) {
             // avoid simultaneous session destruction
-            logger.log(Level.FINE, "Destroy {0} because pool is closed", object);
+            logger.debug("Destroy {} because pool is closed", object);
             CompletableFuture<Void> future = handler.destroy(object.getValue());
             try {
                 // do not wait forever to prevent process hangup on exit
@@ -404,10 +404,10 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                     PooledObject<T> o = it.next();
                     long idleTime = nowMillis - o.getPooledAt();
                     if (idleTime >= maxIdleTimeMillis && objects.size() > minSize) {
-                        if (logger.isLoggable(Level.FINE)) {
-                            logger.log(Level.FINE,
-                                "Destroy {0} because idle time {1} >= max idle time {2}",
-                                new Object[]{o.getValue(), idleTime, maxIdleTimeMillis});
+                        if (logger.isDebugEnabled()) {
+                            logger.debug(
+                                "Destroy {} because idle time {} >= max idle time {}",
+                                o.getValue(), idleTime, maxIdleTimeMillis);
                         }
                         toDestroy.add(o);
                         it.remove();

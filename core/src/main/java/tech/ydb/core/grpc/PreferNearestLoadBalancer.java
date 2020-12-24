@@ -29,8 +29,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
@@ -49,6 +47,8 @@ import io.grpc.Metadata;
 import io.grpc.Status;
 import io.grpc.internal.GrpcAttributes;
 import io.grpc.internal.ServiceConfigUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.grpc.ConnectivityState.CONNECTING;
@@ -68,7 +68,7 @@ import static io.grpc.ConnectivityState.TRANSIENT_FAILURE;
 
 public class PreferNearestLoadBalancer extends LoadBalancer {
 
-    private final static Logger logger = Logger.getLogger(PreferNearestLoadBalancer.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(PreferNearestLoadBalancer.class);
 
     static final Attributes.Key<Ref<ConnectivityStateInfo>> STATE_INFO =
             Attributes.Key.create("state-info");
@@ -107,7 +107,7 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
         Set<EquivalentAddressGroup> addedAddrs = setsDifference(latestAddrs, currentAddrs);
         Set<EquivalentAddressGroup> removedAddrs = setsDifference(currentAddrs, latestAddrs);
 
-        logger.log(Level.CONFIG, String.format("handle resolved address groups attr - %s",  attributes.toString()));
+        logger.info(String.format("handle resolved address groups attr - %s",  attributes.toString()));
 
         Map<String, ?> serviceConfig =
                 attributes.get(GrpcAttributes.NAME_RESOLVER_SERVICE_CONFIG);
@@ -272,15 +272,15 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
                         .get(YdbNameResolver.LOCATION_ATTR).equalsIgnoreCase(localDc)).count();
 
                 int startIndex = random.nextInt(localDcCount == 0 ? 1 : localDcCount);
-                logger.log(Level.INFO, String.format("update balancing state preferLocalDc %d first - %s",
+                logger.info(String.format("update balancing state preferLocalDc %d first - %s",
                         localDcCount, activeList.get(startIndex).getAddresses().toString()));
                 updateBalancingState(READY, new ReadyPicker(activeList, startIndex, localDcCount == 0 ? activeList.size() : localDcCount, stickinessState));
             } else {
                 int startIndex = random.nextInt(activeList.size());
-                logger.log(Level.INFO, String.format("update balancing state first - %s", activeList.get(startIndex).getAddresses().toString()));
+                logger.info(String.format("update balancing state first - %s", activeList.get(startIndex).getAddresses().toString()));
                 updateBalancingState(READY, new ReadyPicker(activeList, startIndex, activeList.size(), stickinessState));
             }
-            logger.log(Level.INFO, String.format("update balancing state list - %s",
+            logger.info(String.format("update balancing state list - %s",
                     activeList.stream().map(s -> s.getAddresses().toString()).collect(Collectors.joining(","))));
         }
     }
