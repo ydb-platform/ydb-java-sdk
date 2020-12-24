@@ -25,15 +25,19 @@ public final class YdbLongTxV1 {
     java.lang.String[] descriptorData = {
       "\n1kikimr/public/api/grpc/draft/ydb_long_" +
       "tx_v1.proto\022\rYdb.LongTx.V1\0320kikimr/publi" +
-      "c/api/protos/draft/ydb_long_tx.proto2\223\002\n" +
-      "\rLongTxService\022B\n\007BeginTx\022\032.Ydb.LongTx.B" +
-      "eginTxRequest\032\033.Ydb.LongTx.BeginTxRespon" +
-      "se\022E\n\010CommitTx\022\033.Ydb.LongTx.CommitTxRequ" +
-      "est\032\034.Ydb.LongTx.CommitTxResponse\022<\n\005Wri" +
-      "te\022\030.Ydb.LongTx.WriteRequest\032\031.Ydb.LongT" +
-      "x.WriteResponse\0229\n\004Read\022\027.Ydb.LongTx.Rea" +
-      "dRequest\032\030.Ydb.LongTx.ReadResponseB\033\n\031co",
-      "m.yandex.ydb.long_tx.v1b\006proto3"
+      "c/api/protos/draft/ydb_long_tx.proto2\226\003\n" +
+      "\rLongTxService\022T\n\007BeginTx\022#.Ydb.LongTx.B" +
+      "eginTransactionRequest\032$.Ydb.LongTx.Begi" +
+      "nTransactionResponse\022W\n\010CommitTx\022$.Ydb.L" +
+      "ongTx.CommitTransactionRequest\032%.Ydb.Lon" +
+      "gTx.CommitTransactionResponse\022]\n\nRollbac" +
+      "kTx\022&.Ydb.LongTx.RollbackTransactionRequ" +
+      "est\032\'.Ydb.LongTx.RollbackTransactionResp",
+      "onse\022<\n\005Write\022\030.Ydb.LongTx.WriteRequest\032" +
+      "\031.Ydb.LongTx.WriteResponse\0229\n\004Read\022\027.Ydb" +
+      ".LongTx.ReadRequest\032\030.Ydb.LongTx.ReadRes" +
+      "ponseB\033\n\031tech.ydb.long_tx.v1b\006prot" +
+      "o3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

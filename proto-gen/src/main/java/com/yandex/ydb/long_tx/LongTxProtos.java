@@ -14,3085 +14,6 @@ public final class LongTxProtos {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-  public interface SnapshotOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.Snapshot)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>uint64 plan_step = 1;</code>
-     */
-    long getPlanStep();
-
-    /**
-     * <code>uint64 tx_id = 2;</code>
-     */
-    long getTxId();
-  }
-  /**
-   * Protobuf type {@code Ydb.LongTx.Snapshot}
-   */
-  public  static final class Snapshot extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.LongTx.Snapshot)
-      SnapshotOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use Snapshot.newBuilder() to construct.
-    private Snapshot(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private Snapshot() {
-      planStep_ = 0L;
-      txId_ = 0L;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private Snapshot(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-
-              planStep_ = input.readUInt64();
-              break;
-            }
-            case 16: {
-
-              txId_ = input.readUInt64();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_Snapshot_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_Snapshot_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.long_tx.LongTxProtos.Snapshot.class, tech.ydb.long_tx.LongTxProtos.Snapshot.Builder.class);
-    }
-
-    public static final int PLAN_STEP_FIELD_NUMBER = 1;
-    private long planStep_;
-    /**
-     * <code>uint64 plan_step = 1;</code>
-     */
-    public long getPlanStep() {
-      return planStep_;
-    }
-
-    public static final int TX_ID_FIELD_NUMBER = 2;
-    private long txId_;
-    /**
-     * <code>uint64 tx_id = 2;</code>
-     */
-    public long getTxId() {
-      return txId_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (planStep_ != 0L) {
-        output.writeUInt64(1, planStep_);
-      }
-      if (txId_ != 0L) {
-        output.writeUInt64(2, txId_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (planStep_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(1, planStep_);
-      }
-      if (txId_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(2, txId_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.Snapshot)) {
-        return super.equals(obj);
-      }
-      tech.ydb.long_tx.LongTxProtos.Snapshot other = (tech.ydb.long_tx.LongTxProtos.Snapshot) obj;
-
-      boolean result = true;
-      result = result && (getPlanStep()
-          == other.getPlanStep());
-      result = result && (getTxId()
-          == other.getTxId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + PLAN_STEP_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getPlanStep());
-      hash = (37 * hash) + TX_ID_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getTxId());
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.long_tx.LongTxProtos.Snapshot parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.Snapshot parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.Snapshot parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.Snapshot parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.Snapshot parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.Snapshot parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.Snapshot parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.Snapshot parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.Snapshot parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.Snapshot parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.Snapshot parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.Snapshot parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.Snapshot prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code Ydb.LongTx.Snapshot}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.Snapshot)
-        tech.ydb.long_tx.LongTxProtos.SnapshotOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_Snapshot_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_Snapshot_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.long_tx.LongTxProtos.Snapshot.class, tech.ydb.long_tx.LongTxProtos.Snapshot.Builder.class);
-      }
-
-      // Construct using tech.ydb.long_tx.LongTxProtos.Snapshot.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        planStep_ = 0L;
-
-        txId_ = 0L;
-
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_Snapshot_descriptor;
-      }
-
-      public tech.ydb.long_tx.LongTxProtos.Snapshot getDefaultInstanceForType() {
-        return tech.ydb.long_tx.LongTxProtos.Snapshot.getDefaultInstance();
-      }
-
-      public tech.ydb.long_tx.LongTxProtos.Snapshot build() {
-        tech.ydb.long_tx.LongTxProtos.Snapshot result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public tech.ydb.long_tx.LongTxProtos.Snapshot buildPartial() {
-        tech.ydb.long_tx.LongTxProtos.Snapshot result = new tech.ydb.long_tx.LongTxProtos.Snapshot(this);
-        result.planStep_ = planStep_;
-        result.txId_ = txId_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.long_tx.LongTxProtos.Snapshot) {
-          return mergeFrom((tech.ydb.long_tx.LongTxProtos.Snapshot)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.Snapshot other) {
-        if (other == tech.ydb.long_tx.LongTxProtos.Snapshot.getDefaultInstance()) return this;
-        if (other.getPlanStep() != 0L) {
-          setPlanStep(other.getPlanStep());
-        }
-        if (other.getTxId() != 0L) {
-          setTxId(other.getTxId());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.long_tx.LongTxProtos.Snapshot parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.long_tx.LongTxProtos.Snapshot) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private long planStep_ ;
-      /**
-       * <code>uint64 plan_step = 1;</code>
-       */
-      public long getPlanStep() {
-        return planStep_;
-      }
-      /**
-       * <code>uint64 plan_step = 1;</code>
-       */
-      public Builder setPlanStep(long value) {
-        
-        planStep_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 plan_step = 1;</code>
-       */
-      public Builder clearPlanStep() {
-        
-        planStep_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private long txId_ ;
-      /**
-       * <code>uint64 tx_id = 2;</code>
-       */
-      public long getTxId() {
-        return txId_;
-      }
-      /**
-       * <code>uint64 tx_id = 2;</code>
-       */
-      public Builder setTxId(long value) {
-        
-        txId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 tx_id = 2;</code>
-       */
-      public Builder clearTxId() {
-        
-        txId_ = 0L;
-        onChanged();
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.Snapshot)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.LongTx.Snapshot)
-    private static final tech.ydb.long_tx.LongTxProtos.Snapshot DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.Snapshot();
-    }
-
-    public static tech.ydb.long_tx.LongTxProtos.Snapshot getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<Snapshot>
-        PARSER = new com.google.protobuf.AbstractParser<Snapshot>() {
-      public Snapshot parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Snapshot(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<Snapshot> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<Snapshot> getParserForType() {
-      return PARSER;
-    }
-
-    public tech.ydb.long_tx.LongTxProtos.Snapshot getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface LongTxIdOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.LongTxId)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>uint64 initiator = 1;</code>
-     */
-    long getInitiator();
-
-    /**
-     * <code>uint64 write_id = 2;</code>
-     */
-    long getWriteId();
-
-    /**
-     * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-     */
-    boolean hasSnapshot();
-    /**
-     * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-     */
-    tech.ydb.long_tx.LongTxProtos.Snapshot getSnapshot();
-    /**
-     * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-     */
-    tech.ydb.long_tx.LongTxProtos.SnapshotOrBuilder getSnapshotOrBuilder();
-  }
-  /**
-   * Protobuf type {@code Ydb.LongTx.LongTxId}
-   */
-  public  static final class LongTxId extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.LongTx.LongTxId)
-      LongTxIdOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use LongTxId.newBuilder() to construct.
-    private LongTxId(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private LongTxId() {
-      initiator_ = 0L;
-      writeId_ = 0L;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private LongTxId(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-
-              initiator_ = input.readUInt64();
-              break;
-            }
-            case 16: {
-
-              writeId_ = input.readUInt64();
-              break;
-            }
-            case 26: {
-              tech.ydb.long_tx.LongTxProtos.Snapshot.Builder subBuilder = null;
-              if (snapshot_ != null) {
-                subBuilder = snapshot_.toBuilder();
-              }
-              snapshot_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.Snapshot.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(snapshot_);
-                snapshot_ = subBuilder.buildPartial();
-              }
-
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTxId_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTxId_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.long_tx.LongTxProtos.LongTxId.class, tech.ydb.long_tx.LongTxProtos.LongTxId.Builder.class);
-    }
-
-    public static final int INITIATOR_FIELD_NUMBER = 1;
-    private long initiator_;
-    /**
-     * <code>uint64 initiator = 1;</code>
-     */
-    public long getInitiator() {
-      return initiator_;
-    }
-
-    public static final int WRITE_ID_FIELD_NUMBER = 2;
-    private long writeId_;
-    /**
-     * <code>uint64 write_id = 2;</code>
-     */
-    public long getWriteId() {
-      return writeId_;
-    }
-
-    public static final int SNAPSHOT_FIELD_NUMBER = 3;
-    private tech.ydb.long_tx.LongTxProtos.Snapshot snapshot_;
-    /**
-     * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-     */
-    public boolean hasSnapshot() {
-      return snapshot_ != null;
-    }
-    /**
-     * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-     */
-    public tech.ydb.long_tx.LongTxProtos.Snapshot getSnapshot() {
-      return snapshot_ == null ? tech.ydb.long_tx.LongTxProtos.Snapshot.getDefaultInstance() : snapshot_;
-    }
-    /**
-     * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-     */
-    public tech.ydb.long_tx.LongTxProtos.SnapshotOrBuilder getSnapshotOrBuilder() {
-      return getSnapshot();
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (initiator_ != 0L) {
-        output.writeUInt64(1, initiator_);
-      }
-      if (writeId_ != 0L) {
-        output.writeUInt64(2, writeId_);
-      }
-      if (snapshot_ != null) {
-        output.writeMessage(3, getSnapshot());
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (initiator_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(1, initiator_);
-      }
-      if (writeId_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(2, writeId_);
-      }
-      if (snapshot_ != null) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getSnapshot());
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.LongTxId)) {
-        return super.equals(obj);
-      }
-      tech.ydb.long_tx.LongTxProtos.LongTxId other = (tech.ydb.long_tx.LongTxProtos.LongTxId) obj;
-
-      boolean result = true;
-      result = result && (getInitiator()
-          == other.getInitiator());
-      result = result && (getWriteId()
-          == other.getWriteId());
-      result = result && (hasSnapshot() == other.hasSnapshot());
-      if (hasSnapshot()) {
-        result = result && getSnapshot()
-            .equals(other.getSnapshot());
-      }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + INITIATOR_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getInitiator());
-      hash = (37 * hash) + WRITE_ID_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getWriteId());
-      if (hasSnapshot()) {
-        hash = (37 * hash) + SNAPSHOT_FIELD_NUMBER;
-        hash = (53 * hash) + getSnapshot().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.long_tx.LongTxProtos.LongTxId parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTxId parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTxId parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTxId parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTxId parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTxId parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTxId parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTxId parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTxId parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTxId parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTxId parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTxId parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.LongTxId prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code Ydb.LongTx.LongTxId}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.LongTxId)
-        tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTxId_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTxId_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.long_tx.LongTxProtos.LongTxId.class, tech.ydb.long_tx.LongTxProtos.LongTxId.Builder.class);
-      }
-
-      // Construct using tech.ydb.long_tx.LongTxProtos.LongTxId.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        initiator_ = 0L;
-
-        writeId_ = 0L;
-
-        if (snapshotBuilder_ == null) {
-          snapshot_ = null;
-        } else {
-          snapshot_ = null;
-          snapshotBuilder_ = null;
-        }
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTxId_descriptor;
-      }
-
-      public tech.ydb.long_tx.LongTxProtos.LongTxId getDefaultInstanceForType() {
-        return tech.ydb.long_tx.LongTxProtos.LongTxId.getDefaultInstance();
-      }
-
-      public tech.ydb.long_tx.LongTxProtos.LongTxId build() {
-        tech.ydb.long_tx.LongTxProtos.LongTxId result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public tech.ydb.long_tx.LongTxProtos.LongTxId buildPartial() {
-        tech.ydb.long_tx.LongTxProtos.LongTxId result = new tech.ydb.long_tx.LongTxProtos.LongTxId(this);
-        result.initiator_ = initiator_;
-        result.writeId_ = writeId_;
-        if (snapshotBuilder_ == null) {
-          result.snapshot_ = snapshot_;
-        } else {
-          result.snapshot_ = snapshotBuilder_.build();
-        }
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.long_tx.LongTxProtos.LongTxId) {
-          return mergeFrom((tech.ydb.long_tx.LongTxProtos.LongTxId)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.LongTxId other) {
-        if (other == tech.ydb.long_tx.LongTxProtos.LongTxId.getDefaultInstance()) return this;
-        if (other.getInitiator() != 0L) {
-          setInitiator(other.getInitiator());
-        }
-        if (other.getWriteId() != 0L) {
-          setWriteId(other.getWriteId());
-        }
-        if (other.hasSnapshot()) {
-          mergeSnapshot(other.getSnapshot());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.long_tx.LongTxProtos.LongTxId parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.long_tx.LongTxProtos.LongTxId) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private long initiator_ ;
-      /**
-       * <code>uint64 initiator = 1;</code>
-       */
-      public long getInitiator() {
-        return initiator_;
-      }
-      /**
-       * <code>uint64 initiator = 1;</code>
-       */
-      public Builder setInitiator(long value) {
-        
-        initiator_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 initiator = 1;</code>
-       */
-      public Builder clearInitiator() {
-        
-        initiator_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private long writeId_ ;
-      /**
-       * <code>uint64 write_id = 2;</code>
-       */
-      public long getWriteId() {
-        return writeId_;
-      }
-      /**
-       * <code>uint64 write_id = 2;</code>
-       */
-      public Builder setWriteId(long value) {
-        
-        writeId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 write_id = 2;</code>
-       */
-      public Builder clearWriteId() {
-        
-        writeId_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private tech.ydb.long_tx.LongTxProtos.Snapshot snapshot_ = null;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.Snapshot, tech.ydb.long_tx.LongTxProtos.Snapshot.Builder, tech.ydb.long_tx.LongTxProtos.SnapshotOrBuilder> snapshotBuilder_;
-      /**
-       * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-       */
-      public boolean hasSnapshot() {
-        return snapshotBuilder_ != null || snapshot_ != null;
-      }
-      /**
-       * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.Snapshot getSnapshot() {
-        if (snapshotBuilder_ == null) {
-          return snapshot_ == null ? tech.ydb.long_tx.LongTxProtos.Snapshot.getDefaultInstance() : snapshot_;
-        } else {
-          return snapshotBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-       */
-      public Builder setSnapshot(tech.ydb.long_tx.LongTxProtos.Snapshot value) {
-        if (snapshotBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          snapshot_ = value;
-          onChanged();
-        } else {
-          snapshotBuilder_.setMessage(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-       */
-      public Builder setSnapshot(
-          tech.ydb.long_tx.LongTxProtos.Snapshot.Builder builderForValue) {
-        if (snapshotBuilder_ == null) {
-          snapshot_ = builderForValue.build();
-          onChanged();
-        } else {
-          snapshotBuilder_.setMessage(builderForValue.build());
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-       */
-      public Builder mergeSnapshot(tech.ydb.long_tx.LongTxProtos.Snapshot value) {
-        if (snapshotBuilder_ == null) {
-          if (snapshot_ != null) {
-            snapshot_ =
-              tech.ydb.long_tx.LongTxProtos.Snapshot.newBuilder(snapshot_).mergeFrom(value).buildPartial();
-          } else {
-            snapshot_ = value;
-          }
-          onChanged();
-        } else {
-          snapshotBuilder_.mergeFrom(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-       */
-      public Builder clearSnapshot() {
-        if (snapshotBuilder_ == null) {
-          snapshot_ = null;
-          onChanged();
-        } else {
-          snapshot_ = null;
-          snapshotBuilder_ = null;
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.Snapshot.Builder getSnapshotBuilder() {
-        
-        onChanged();
-        return getSnapshotFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.SnapshotOrBuilder getSnapshotOrBuilder() {
-        if (snapshotBuilder_ != null) {
-          return snapshotBuilder_.getMessageOrBuilder();
-        } else {
-          return snapshot_ == null ?
-              tech.ydb.long_tx.LongTxProtos.Snapshot.getDefaultInstance() : snapshot_;
-        }
-      }
-      /**
-       * <code>.Ydb.LongTx.Snapshot snapshot = 3;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.Snapshot, tech.ydb.long_tx.LongTxProtos.Snapshot.Builder, tech.ydb.long_tx.LongTxProtos.SnapshotOrBuilder> 
-          getSnapshotFieldBuilder() {
-        if (snapshotBuilder_ == null) {
-          snapshotBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.Snapshot, tech.ydb.long_tx.LongTxProtos.Snapshot.Builder, tech.ydb.long_tx.LongTxProtos.SnapshotOrBuilder>(
-                  getSnapshot(),
-                  getParentForChildren(),
-                  isClean());
-          snapshot_ = null;
-        }
-        return snapshotBuilder_;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.LongTxId)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.LongTx.LongTxId)
-    private static final tech.ydb.long_tx.LongTxProtos.LongTxId DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.LongTxId();
-    }
-
-    public static tech.ydb.long_tx.LongTxProtos.LongTxId getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<LongTxId>
-        PARSER = new com.google.protobuf.AbstractParser<LongTxId>() {
-      public LongTxId parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LongTxId(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<LongTxId> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<LongTxId> getParserForType() {
-      return PARSER;
-    }
-
-    public tech.ydb.long_tx.LongTxProtos.LongTxId getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface LongTxOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.LongTx)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-     */
-    boolean hasId();
-    /**
-     * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-     */
-    tech.ydb.long_tx.LongTxProtos.LongTxId getId();
-    /**
-     * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-     */
-    tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder getIdOrBuilder();
-
-    /**
-     * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-     */
-    java.util.List<tech.ydb.long_tx.LongTxProtos.LongTx.Table> 
-        getTablesList();
-    /**
-     * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-     */
-    tech.ydb.long_tx.LongTxProtos.LongTx.Table getTables(int index);
-    /**
-     * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-     */
-    int getTablesCount();
-    /**
-     * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-     */
-    java.util.List<? extends tech.ydb.long_tx.LongTxProtos.LongTx.TableOrBuilder> 
-        getTablesOrBuilderList();
-    /**
-     * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-     */
-    tech.ydb.long_tx.LongTxProtos.LongTx.TableOrBuilder getTablesOrBuilder(
-        int index);
-
-    /**
-     * <code>string signature = 3;</code>
-     */
-    java.lang.String getSignature();
-    /**
-     * <code>string signature = 3;</code>
-     */
-    com.google.protobuf.ByteString
-        getSignatureBytes();
-  }
-  /**
-   * <pre>
-   * LongTxId + metadata + signature
-   * </pre>
-   *
-   * Protobuf type {@code Ydb.LongTx.LongTx}
-   */
-  public  static final class LongTx extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.LongTx.LongTx)
-      LongTxOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use LongTx.newBuilder() to construct.
-    private LongTx(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private LongTx() {
-      tables_ = java.util.Collections.emptyList();
-      signature_ = "";
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private LongTx(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              tech.ydb.long_tx.LongTxProtos.LongTxId.Builder subBuilder = null;
-              if (id_ != null) {
-                subBuilder = id_.toBuilder();
-              }
-              id_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.LongTxId.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(id_);
-                id_ = subBuilder.buildPartial();
-              }
-
-              break;
-            }
-            case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                tables_ = new java.util.ArrayList<tech.ydb.long_tx.LongTxProtos.LongTx.Table>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              tables_.add(
-                  input.readMessage(tech.ydb.long_tx.LongTxProtos.LongTx.Table.parser(), extensionRegistry));
-              break;
-            }
-            case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              signature_ = s;
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          tables_ = java.util.Collections.unmodifiableList(tables_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTx_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTx_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.long_tx.LongTxProtos.LongTx.class, tech.ydb.long_tx.LongTxProtos.LongTx.Builder.class);
-    }
-
-    public interface TableOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:Ydb.LongTx.LongTx.Table)
-        com.google.protobuf.MessageOrBuilder {
-
-      /**
-       * <code>string path = 1;</code>
-       */
-      java.lang.String getPath();
-      /**
-       * <code>string path = 1;</code>
-       */
-      com.google.protobuf.ByteString
-          getPathBytes();
-
-      /**
-       * <code>uint64 id = 2;</code>
-       */
-      long getId();
-
-      /**
-       * <code>repeated uint64 shards = 3;</code>
-       */
-      java.util.List<java.lang.Long> getShardsList();
-      /**
-       * <code>repeated uint64 shards = 3;</code>
-       */
-      int getShardsCount();
-      /**
-       * <code>repeated uint64 shards = 3;</code>
-       */
-      long getShards(int index);
-    }
-    /**
-     * Protobuf type {@code Ydb.LongTx.LongTx.Table}
-     */
-    public  static final class Table extends
-        com.google.protobuf.GeneratedMessageV3 implements
-        // @@protoc_insertion_point(message_implements:Ydb.LongTx.LongTx.Table)
-        TableOrBuilder {
-    private static final long serialVersionUID = 0L;
-      // Use Table.newBuilder() to construct.
-      private Table(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-        super(builder);
-      }
-      private Table() {
-        path_ = "";
-        id_ = 0L;
-        shards_ = java.util.Collections.emptyList();
-      }
-
-      @java.lang.Override
-      public final com.google.protobuf.UnknownFieldSet
-      getUnknownFields() {
-        return this.unknownFields;
-      }
-      private Table(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        this();
-        int mutable_bitField0_ = 0;
-        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-            com.google.protobuf.UnknownFieldSet.newBuilder();
-        try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
-              case 10: {
-                java.lang.String s = input.readStringRequireUtf8();
-
-                path_ = s;
-                break;
-              }
-              case 16: {
-
-                id_ = input.readUInt64();
-                break;
-              }
-              case 24: {
-                if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                  shards_ = new java.util.ArrayList<java.lang.Long>();
-                  mutable_bitField0_ |= 0x00000004;
-                }
-                shards_.add(input.readUInt64());
-                break;
-              }
-              case 26: {
-                int length = input.readRawVarint32();
-                int limit = input.pushLimit(length);
-                if (!((mutable_bitField0_ & 0x00000004) == 0x00000004) && input.getBytesUntilLimit() > 0) {
-                  shards_ = new java.util.ArrayList<java.lang.Long>();
-                  mutable_bitField0_ |= 0x00000004;
-                }
-                while (input.getBytesUntilLimit() > 0) {
-                  shards_.add(input.readUInt64());
-                }
-                input.popLimit(limit);
-                break;
-              }
-            }
-          }
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(this);
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(
-              e).setUnfinishedMessage(this);
-        } finally {
-          if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-            shards_ = java.util.Collections.unmodifiableList(shards_);
-          }
-          this.unknownFields = unknownFields.build();
-          makeExtensionsImmutable();
-        }
-      }
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTx_Table_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTx_Table_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.long_tx.LongTxProtos.LongTx.Table.class, tech.ydb.long_tx.LongTxProtos.LongTx.Table.Builder.class);
-      }
-
-      private int bitField0_;
-      public static final int PATH_FIELD_NUMBER = 1;
-      private volatile java.lang.Object path_;
-      /**
-       * <code>string path = 1;</code>
-       */
-      public java.lang.String getPath() {
-        java.lang.Object ref = path_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          path_ = s;
-          return s;
-        }
-      }
-      /**
-       * <code>string path = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getPathBytes() {
-        java.lang.Object ref = path_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          path_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      public static final int ID_FIELD_NUMBER = 2;
-      private long id_;
-      /**
-       * <code>uint64 id = 2;</code>
-       */
-      public long getId() {
-        return id_;
-      }
-
-      public static final int SHARDS_FIELD_NUMBER = 3;
-      private java.util.List<java.lang.Long> shards_;
-      /**
-       * <code>repeated uint64 shards = 3;</code>
-       */
-      public java.util.List<java.lang.Long>
-          getShardsList() {
-        return shards_;
-      }
-      /**
-       * <code>repeated uint64 shards = 3;</code>
-       */
-      public int getShardsCount() {
-        return shards_.size();
-      }
-      /**
-       * <code>repeated uint64 shards = 3;</code>
-       */
-      public long getShards(int index) {
-        return shards_.get(index);
-      }
-      private int shardsMemoizedSerializedSize = -1;
-
-      private byte memoizedIsInitialized = -1;
-      public final boolean isInitialized() {
-        byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
-
-        memoizedIsInitialized = 1;
-        return true;
-      }
-
-      public void writeTo(com.google.protobuf.CodedOutputStream output)
-                          throws java.io.IOException {
-        getSerializedSize();
-        if (!getPathBytes().isEmpty()) {
-          com.google.protobuf.GeneratedMessageV3.writeString(output, 1, path_);
-        }
-        if (id_ != 0L) {
-          output.writeUInt64(2, id_);
-        }
-        if (getShardsList().size() > 0) {
-          output.writeUInt32NoTag(26);
-          output.writeUInt32NoTag(shardsMemoizedSerializedSize);
-        }
-        for (int i = 0; i < shards_.size(); i++) {
-          output.writeUInt64NoTag(shards_.get(i));
-        }
-        unknownFields.writeTo(output);
-      }
-
-      public int getSerializedSize() {
-        int size = memoizedSize;
-        if (size != -1) return size;
-
-        size = 0;
-        if (!getPathBytes().isEmpty()) {
-          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, path_);
-        }
-        if (id_ != 0L) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeUInt64Size(2, id_);
-        }
-        {
-          int dataSize = 0;
-          for (int i = 0; i < shards_.size(); i++) {
-            dataSize += com.google.protobuf.CodedOutputStream
-              .computeUInt64SizeNoTag(shards_.get(i));
-          }
-          size += dataSize;
-          if (!getShardsList().isEmpty()) {
-            size += 1;
-            size += com.google.protobuf.CodedOutputStream
-                .computeInt32SizeNoTag(dataSize);
-          }
-          shardsMemoizedSerializedSize = dataSize;
-        }
-        size += unknownFields.getSerializedSize();
-        memoizedSize = size;
-        return size;
-      }
-
-      @java.lang.Override
-      public boolean equals(final java.lang.Object obj) {
-        if (obj == this) {
-         return true;
-        }
-        if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.LongTx.Table)) {
-          return super.equals(obj);
-        }
-        tech.ydb.long_tx.LongTxProtos.LongTx.Table other = (tech.ydb.long_tx.LongTxProtos.LongTx.Table) obj;
-
-        boolean result = true;
-        result = result && getPath()
-            .equals(other.getPath());
-        result = result && (getId()
-            == other.getId());
-        result = result && getShardsList()
-            .equals(other.getShardsList());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
-      }
-
-      @java.lang.Override
-      public int hashCode() {
-        if (memoizedHashCode != 0) {
-          return memoizedHashCode;
-        }
-        int hash = 41;
-        hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + PATH_FIELD_NUMBER;
-        hash = (53 * hash) + getPath().hashCode();
-        hash = (37 * hash) + ID_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getId());
-        if (getShardsCount() > 0) {
-          hash = (37 * hash) + SHARDS_FIELD_NUMBER;
-          hash = (53 * hash) + getShardsList().hashCode();
-        }
-        hash = (29 * hash) + unknownFields.hashCode();
-        memoizedHashCode = hash;
-        return hash;
-      }
-
-      public static tech.ydb.long_tx.LongTxProtos.LongTx.Table parseFrom(
-          java.nio.ByteBuffer data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.LongTx.Table parseFrom(
-          java.nio.ByteBuffer data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.LongTx.Table parseFrom(
-          com.google.protobuf.ByteString data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.LongTx.Table parseFrom(
-          com.google.protobuf.ByteString data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.LongTx.Table parseFrom(byte[] data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.LongTx.Table parseFrom(
-          byte[] data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.LongTx.Table parseFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseWithIOException(PARSER, input);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.LongTx.Table parseFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseWithIOException(PARSER, input, extensionRegistry);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.LongTx.Table parseDelimitedFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseDelimitedWithIOException(PARSER, input);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.LongTx.Table parseDelimitedFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.LongTx.Table parseFrom(
-          com.google.protobuf.CodedInputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseWithIOException(PARSER, input);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.LongTx.Table parseFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseWithIOException(PARSER, input, extensionRegistry);
-      }
-
-      public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder() {
-        return DEFAULT_INSTANCE.toBuilder();
-      }
-      public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.LongTx.Table prototype) {
-        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-      }
-      public Builder toBuilder() {
-        return this == DEFAULT_INSTANCE
-            ? new Builder() : new Builder().mergeFrom(this);
-      }
-
-      @java.lang.Override
-      protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        Builder builder = new Builder(parent);
-        return builder;
-      }
-      /**
-       * Protobuf type {@code Ydb.LongTx.LongTx.Table}
-       */
-      public static final class Builder extends
-          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:Ydb.LongTx.LongTx.Table)
-          tech.ydb.long_tx.LongTxProtos.LongTx.TableOrBuilder {
-        public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-          return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTx_Table_descriptor;
-        }
-
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-          return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTx_Table_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                  tech.ydb.long_tx.LongTxProtos.LongTx.Table.class, tech.ydb.long_tx.LongTxProtos.LongTx.Table.Builder.class);
-        }
-
-        // Construct using tech.ydb.long_tx.LongTxProtos.LongTx.Table.newBuilder()
-        private Builder() {
-          maybeForceBuilderInitialization();
-        }
-
-        private Builder(
-            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-          super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessageV3
-                  .alwaysUseFieldBuilders) {
-          }
-        }
-        public Builder clear() {
-          super.clear();
-          path_ = "";
-
-          id_ = 0L;
-
-          shards_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
-          return this;
-        }
-
-        public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-          return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTx_Table_descriptor;
-        }
-
-        public tech.ydb.long_tx.LongTxProtos.LongTx.Table getDefaultInstanceForType() {
-          return tech.ydb.long_tx.LongTxProtos.LongTx.Table.getDefaultInstance();
-        }
-
-        public tech.ydb.long_tx.LongTxProtos.LongTx.Table build() {
-          tech.ydb.long_tx.LongTxProtos.LongTx.Table result = buildPartial();
-          if (!result.isInitialized()) {
-            throw newUninitializedMessageException(result);
-          }
-          return result;
-        }
-
-        public tech.ydb.long_tx.LongTxProtos.LongTx.Table buildPartial() {
-          tech.ydb.long_tx.LongTxProtos.LongTx.Table result = new tech.ydb.long_tx.LongTxProtos.LongTx.Table(this);
-          int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
-          result.path_ = path_;
-          result.id_ = id_;
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
-            shards_ = java.util.Collections.unmodifiableList(shards_);
-            bitField0_ = (bitField0_ & ~0x00000004);
-          }
-          result.shards_ = shards_;
-          result.bitField0_ = to_bitField0_;
-          onBuilt();
-          return result;
-        }
-
-        public Builder clone() {
-          return (Builder) super.clone();
-        }
-        public Builder setField(
-            com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
-          return (Builder) super.setField(field, value);
-        }
-        public Builder clearField(
-            com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
-        }
-        public Builder clearOneof(
-            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
-        }
-        public Builder setRepeatedField(
-            com.google.protobuf.Descriptors.FieldDescriptor field,
-            int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
-        }
-        public Builder addRepeatedField(
-            com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
-        }
-        public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof tech.ydb.long_tx.LongTxProtos.LongTx.Table) {
-            return mergeFrom((tech.ydb.long_tx.LongTxProtos.LongTx.Table)other);
-          } else {
-            super.mergeFrom(other);
-            return this;
-          }
-        }
-
-        public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.LongTx.Table other) {
-          if (other == tech.ydb.long_tx.LongTxProtos.LongTx.Table.getDefaultInstance()) return this;
-          if (!other.getPath().isEmpty()) {
-            path_ = other.path_;
-            onChanged();
-          }
-          if (other.getId() != 0L) {
-            setId(other.getId());
-          }
-          if (!other.shards_.isEmpty()) {
-            if (shards_.isEmpty()) {
-              shards_ = other.shards_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-            } else {
-              ensureShardsIsMutable();
-              shards_.addAll(other.shards_);
-            }
-            onChanged();
-          }
-          this.mergeUnknownFields(other.unknownFields);
-          onChanged();
-          return this;
-        }
-
-        public final boolean isInitialized() {
-          return true;
-        }
-
-        public Builder mergeFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          tech.ydb.long_tx.LongTxProtos.LongTx.Table parsedMessage = null;
-          try {
-            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (tech.ydb.long_tx.LongTxProtos.LongTx.Table) e.getUnfinishedMessage();
-            throw e.unwrapIOException();
-          } finally {
-            if (parsedMessage != null) {
-              mergeFrom(parsedMessage);
-            }
-          }
-          return this;
-        }
-        private int bitField0_;
-
-        private java.lang.Object path_ = "";
-        /**
-         * <code>string path = 1;</code>
-         */
-        public java.lang.String getPath() {
-          java.lang.Object ref = path_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            path_ = s;
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>string path = 1;</code>
-         */
-        public com.google.protobuf.ByteString
-            getPathBytes() {
-          java.lang.Object ref = path_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            path_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>string path = 1;</code>
-         */
-        public Builder setPath(
-            java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  
-          path_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string path = 1;</code>
-         */
-        public Builder clearPath() {
-          
-          path_ = getDefaultInstance().getPath();
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string path = 1;</code>
-         */
-        public Builder setPathBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-          
-          path_ = value;
-          onChanged();
-          return this;
-        }
-
-        private long id_ ;
-        /**
-         * <code>uint64 id = 2;</code>
-         */
-        public long getId() {
-          return id_;
-        }
-        /**
-         * <code>uint64 id = 2;</code>
-         */
-        public Builder setId(long value) {
-          
-          id_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>uint64 id = 2;</code>
-         */
-        public Builder clearId() {
-          
-          id_ = 0L;
-          onChanged();
-          return this;
-        }
-
-        private java.util.List<java.lang.Long> shards_ = java.util.Collections.emptyList();
-        private void ensureShardsIsMutable() {
-          if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-            shards_ = new java.util.ArrayList<java.lang.Long>(shards_);
-            bitField0_ |= 0x00000004;
-           }
-        }
-        /**
-         * <code>repeated uint64 shards = 3;</code>
-         */
-        public java.util.List<java.lang.Long>
-            getShardsList() {
-          return java.util.Collections.unmodifiableList(shards_);
-        }
-        /**
-         * <code>repeated uint64 shards = 3;</code>
-         */
-        public int getShardsCount() {
-          return shards_.size();
-        }
-        /**
-         * <code>repeated uint64 shards = 3;</code>
-         */
-        public long getShards(int index) {
-          return shards_.get(index);
-        }
-        /**
-         * <code>repeated uint64 shards = 3;</code>
-         */
-        public Builder setShards(
-            int index, long value) {
-          ensureShardsIsMutable();
-          shards_.set(index, value);
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>repeated uint64 shards = 3;</code>
-         */
-        public Builder addShards(long value) {
-          ensureShardsIsMutable();
-          shards_.add(value);
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>repeated uint64 shards = 3;</code>
-         */
-        public Builder addAllShards(
-            java.lang.Iterable<? extends java.lang.Long> values) {
-          ensureShardsIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, shards_);
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>repeated uint64 shards = 3;</code>
-         */
-        public Builder clearShards() {
-          shards_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
-          onChanged();
-          return this;
-        }
-        public final Builder setUnknownFields(
-            final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
-        }
-
-        public final Builder mergeUnknownFields(
-            final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.mergeUnknownFields(unknownFields);
-        }
-
-
-        // @@protoc_insertion_point(builder_scope:Ydb.LongTx.LongTx.Table)
-      }
-
-      // @@protoc_insertion_point(class_scope:Ydb.LongTx.LongTx.Table)
-      private static final tech.ydb.long_tx.LongTxProtos.LongTx.Table DEFAULT_INSTANCE;
-      static {
-        DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.LongTx.Table();
-      }
-
-      public static tech.ydb.long_tx.LongTxProtos.LongTx.Table getDefaultInstance() {
-        return DEFAULT_INSTANCE;
-      }
-
-      private static final com.google.protobuf.Parser<Table>
-          PARSER = new com.google.protobuf.AbstractParser<Table>() {
-        public Table parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Table(input, extensionRegistry);
-        }
-      };
-
-      public static com.google.protobuf.Parser<Table> parser() {
-        return PARSER;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Parser<Table> getParserForType() {
-        return PARSER;
-      }
-
-      public tech.ydb.long_tx.LongTxProtos.LongTx.Table getDefaultInstanceForType() {
-        return DEFAULT_INSTANCE;
-      }
-
-    }
-
-    private int bitField0_;
-    public static final int ID_FIELD_NUMBER = 1;
-    private tech.ydb.long_tx.LongTxProtos.LongTxId id_;
-    /**
-     * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-     */
-    public boolean hasId() {
-      return id_ != null;
-    }
-    /**
-     * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-     */
-    public tech.ydb.long_tx.LongTxProtos.LongTxId getId() {
-      return id_ == null ? tech.ydb.long_tx.LongTxProtos.LongTxId.getDefaultInstance() : id_;
-    }
-    /**
-     * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-     */
-    public tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder getIdOrBuilder() {
-      return getId();
-    }
-
-    public static final int TABLES_FIELD_NUMBER = 2;
-    private java.util.List<tech.ydb.long_tx.LongTxProtos.LongTx.Table> tables_;
-    /**
-     * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-     */
-    public java.util.List<tech.ydb.long_tx.LongTxProtos.LongTx.Table> getTablesList() {
-      return tables_;
-    }
-    /**
-     * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-     */
-    public java.util.List<? extends tech.ydb.long_tx.LongTxProtos.LongTx.TableOrBuilder> 
-        getTablesOrBuilderList() {
-      return tables_;
-    }
-    /**
-     * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-     */
-    public int getTablesCount() {
-      return tables_.size();
-    }
-    /**
-     * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-     */
-    public tech.ydb.long_tx.LongTxProtos.LongTx.Table getTables(int index) {
-      return tables_.get(index);
-    }
-    /**
-     * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-     */
-    public tech.ydb.long_tx.LongTxProtos.LongTx.TableOrBuilder getTablesOrBuilder(
-        int index) {
-      return tables_.get(index);
-    }
-
-    public static final int SIGNATURE_FIELD_NUMBER = 3;
-    private volatile java.lang.Object signature_;
-    /**
-     * <code>string signature = 3;</code>
-     */
-    public java.lang.String getSignature() {
-      java.lang.Object ref = signature_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        signature_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string signature = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-        getSignatureBytes() {
-      java.lang.Object ref = signature_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        signature_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (id_ != null) {
-        output.writeMessage(1, getId());
-      }
-      for (int i = 0; i < tables_.size(); i++) {
-        output.writeMessage(2, tables_.get(i));
-      }
-      if (!getSignatureBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, signature_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (id_ != null) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getId());
-      }
-      for (int i = 0; i < tables_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, tables_.get(i));
-      }
-      if (!getSignatureBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, signature_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.LongTx)) {
-        return super.equals(obj);
-      }
-      tech.ydb.long_tx.LongTxProtos.LongTx other = (tech.ydb.long_tx.LongTxProtos.LongTx) obj;
-
-      boolean result = true;
-      result = result && (hasId() == other.hasId());
-      if (hasId()) {
-        result = result && getId()
-            .equals(other.getId());
-      }
-      result = result && getTablesList()
-          .equals(other.getTablesList());
-      result = result && getSignature()
-          .equals(other.getSignature());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasId()) {
-        hash = (37 * hash) + ID_FIELD_NUMBER;
-        hash = (53 * hash) + getId().hashCode();
-      }
-      if (getTablesCount() > 0) {
-        hash = (37 * hash) + TABLES_FIELD_NUMBER;
-        hash = (53 * hash) + getTablesList().hashCode();
-      }
-      hash = (37 * hash) + SIGNATURE_FIELD_NUMBER;
-      hash = (53 * hash) + getSignature().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.long_tx.LongTxProtos.LongTx parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTx parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTx parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTx parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTx parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTx parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTx parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTx parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTx parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTx parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTx parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.long_tx.LongTxProtos.LongTx parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.LongTx prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * <pre>
-     * LongTxId + metadata + signature
-     * </pre>
-     *
-     * Protobuf type {@code Ydb.LongTx.LongTx}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.LongTx)
-        tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTx_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTx_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.long_tx.LongTxProtos.LongTx.class, tech.ydb.long_tx.LongTxProtos.LongTx.Builder.class);
-      }
-
-      // Construct using tech.ydb.long_tx.LongTxProtos.LongTx.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-          getTablesFieldBuilder();
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        if (idBuilder_ == null) {
-          id_ = null;
-        } else {
-          id_ = null;
-          idBuilder_ = null;
-        }
-        if (tablesBuilder_ == null) {
-          tables_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-        } else {
-          tablesBuilder_.clear();
-        }
-        signature_ = "";
-
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_LongTx_descriptor;
-      }
-
-      public tech.ydb.long_tx.LongTxProtos.LongTx getDefaultInstanceForType() {
-        return tech.ydb.long_tx.LongTxProtos.LongTx.getDefaultInstance();
-      }
-
-      public tech.ydb.long_tx.LongTxProtos.LongTx build() {
-        tech.ydb.long_tx.LongTxProtos.LongTx result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public tech.ydb.long_tx.LongTxProtos.LongTx buildPartial() {
-        tech.ydb.long_tx.LongTxProtos.LongTx result = new tech.ydb.long_tx.LongTxProtos.LongTx(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (idBuilder_ == null) {
-          result.id_ = id_;
-        } else {
-          result.id_ = idBuilder_.build();
-        }
-        if (tablesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
-            tables_ = java.util.Collections.unmodifiableList(tables_);
-            bitField0_ = (bitField0_ & ~0x00000002);
-          }
-          result.tables_ = tables_;
-        } else {
-          result.tables_ = tablesBuilder_.build();
-        }
-        result.signature_ = signature_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.long_tx.LongTxProtos.LongTx) {
-          return mergeFrom((tech.ydb.long_tx.LongTxProtos.LongTx)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.LongTx other) {
-        if (other == tech.ydb.long_tx.LongTxProtos.LongTx.getDefaultInstance()) return this;
-        if (other.hasId()) {
-          mergeId(other.getId());
-        }
-        if (tablesBuilder_ == null) {
-          if (!other.tables_.isEmpty()) {
-            if (tables_.isEmpty()) {
-              tables_ = other.tables_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-            } else {
-              ensureTablesIsMutable();
-              tables_.addAll(other.tables_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.tables_.isEmpty()) {
-            if (tablesBuilder_.isEmpty()) {
-              tablesBuilder_.dispose();
-              tablesBuilder_ = null;
-              tables_ = other.tables_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-              tablesBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getTablesFieldBuilder() : null;
-            } else {
-              tablesBuilder_.addAllMessages(other.tables_);
-            }
-          }
-        }
-        if (!other.getSignature().isEmpty()) {
-          signature_ = other.signature_;
-          onChanged();
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.long_tx.LongTxProtos.LongTx parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.long_tx.LongTxProtos.LongTx) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private tech.ydb.long_tx.LongTxProtos.LongTxId id_ = null;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTxId, tech.ydb.long_tx.LongTxProtos.LongTxId.Builder, tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder> idBuilder_;
-      /**
-       * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-       */
-      public boolean hasId() {
-        return idBuilder_ != null || id_ != null;
-      }
-      /**
-       * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.LongTxId getId() {
-        if (idBuilder_ == null) {
-          return id_ == null ? tech.ydb.long_tx.LongTxProtos.LongTxId.getDefaultInstance() : id_;
-        } else {
-          return idBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-       */
-      public Builder setId(tech.ydb.long_tx.LongTxProtos.LongTxId value) {
-        if (idBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          id_ = value;
-          onChanged();
-        } else {
-          idBuilder_.setMessage(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-       */
-      public Builder setId(
-          tech.ydb.long_tx.LongTxProtos.LongTxId.Builder builderForValue) {
-        if (idBuilder_ == null) {
-          id_ = builderForValue.build();
-          onChanged();
-        } else {
-          idBuilder_.setMessage(builderForValue.build());
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-       */
-      public Builder mergeId(tech.ydb.long_tx.LongTxProtos.LongTxId value) {
-        if (idBuilder_ == null) {
-          if (id_ != null) {
-            id_ =
-              tech.ydb.long_tx.LongTxProtos.LongTxId.newBuilder(id_).mergeFrom(value).buildPartial();
-          } else {
-            id_ = value;
-          }
-          onChanged();
-        } else {
-          idBuilder_.mergeFrom(value);
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-       */
-      public Builder clearId() {
-        if (idBuilder_ == null) {
-          id_ = null;
-          onChanged();
-        } else {
-          id_ = null;
-          idBuilder_ = null;
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.LongTxId.Builder getIdBuilder() {
-        
-        onChanged();
-        return getIdFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder getIdOrBuilder() {
-        if (idBuilder_ != null) {
-          return idBuilder_.getMessageOrBuilder();
-        } else {
-          return id_ == null ?
-              tech.ydb.long_tx.LongTxProtos.LongTxId.getDefaultInstance() : id_;
-        }
-      }
-      /**
-       * <code>.Ydb.LongTx.LongTxId id = 1;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTxId, tech.ydb.long_tx.LongTxProtos.LongTxId.Builder, tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder> 
-          getIdFieldBuilder() {
-        if (idBuilder_ == null) {
-          idBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.LongTxId, tech.ydb.long_tx.LongTxProtos.LongTxId.Builder, tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder>(
-                  getId(),
-                  getParentForChildren(),
-                  isClean());
-          id_ = null;
-        }
-        return idBuilder_;
-      }
-
-      private java.util.List<tech.ydb.long_tx.LongTxProtos.LongTx.Table> tables_ =
-        java.util.Collections.emptyList();
-      private void ensureTablesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          tables_ = new java.util.ArrayList<tech.ydb.long_tx.LongTxProtos.LongTx.Table>(tables_);
-          bitField0_ |= 0x00000002;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTx.Table, tech.ydb.long_tx.LongTxProtos.LongTx.Table.Builder, tech.ydb.long_tx.LongTxProtos.LongTx.TableOrBuilder> tablesBuilder_;
-
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public java.util.List<tech.ydb.long_tx.LongTxProtos.LongTx.Table> getTablesList() {
-        if (tablesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(tables_);
-        } else {
-          return tablesBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public int getTablesCount() {
-        if (tablesBuilder_ == null) {
-          return tables_.size();
-        } else {
-          return tablesBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.LongTx.Table getTables(int index) {
-        if (tablesBuilder_ == null) {
-          return tables_.get(index);
-        } else {
-          return tablesBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public Builder setTables(
-          int index, tech.ydb.long_tx.LongTxProtos.LongTx.Table value) {
-        if (tablesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTablesIsMutable();
-          tables_.set(index, value);
-          onChanged();
-        } else {
-          tablesBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public Builder setTables(
-          int index, tech.ydb.long_tx.LongTxProtos.LongTx.Table.Builder builderForValue) {
-        if (tablesBuilder_ == null) {
-          ensureTablesIsMutable();
-          tables_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          tablesBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public Builder addTables(tech.ydb.long_tx.LongTxProtos.LongTx.Table value) {
-        if (tablesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTablesIsMutable();
-          tables_.add(value);
-          onChanged();
-        } else {
-          tablesBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public Builder addTables(
-          int index, tech.ydb.long_tx.LongTxProtos.LongTx.Table value) {
-        if (tablesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTablesIsMutable();
-          tables_.add(index, value);
-          onChanged();
-        } else {
-          tablesBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public Builder addTables(
-          tech.ydb.long_tx.LongTxProtos.LongTx.Table.Builder builderForValue) {
-        if (tablesBuilder_ == null) {
-          ensureTablesIsMutable();
-          tables_.add(builderForValue.build());
-          onChanged();
-        } else {
-          tablesBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public Builder addTables(
-          int index, tech.ydb.long_tx.LongTxProtos.LongTx.Table.Builder builderForValue) {
-        if (tablesBuilder_ == null) {
-          ensureTablesIsMutable();
-          tables_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          tablesBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public Builder addAllTables(
-          java.lang.Iterable<? extends tech.ydb.long_tx.LongTxProtos.LongTx.Table> values) {
-        if (tablesBuilder_ == null) {
-          ensureTablesIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, tables_);
-          onChanged();
-        } else {
-          tablesBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public Builder clearTables() {
-        if (tablesBuilder_ == null) {
-          tables_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-          onChanged();
-        } else {
-          tablesBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public Builder removeTables(int index) {
-        if (tablesBuilder_ == null) {
-          ensureTablesIsMutable();
-          tables_.remove(index);
-          onChanged();
-        } else {
-          tablesBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.LongTx.Table.Builder getTablesBuilder(
-          int index) {
-        return getTablesFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.LongTx.TableOrBuilder getTablesOrBuilder(
-          int index) {
-        if (tablesBuilder_ == null) {
-          return tables_.get(index);  } else {
-          return tablesBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public java.util.List<? extends tech.ydb.long_tx.LongTxProtos.LongTx.TableOrBuilder> 
-           getTablesOrBuilderList() {
-        if (tablesBuilder_ != null) {
-          return tablesBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(tables_);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.LongTx.Table.Builder addTablesBuilder() {
-        return getTablesFieldBuilder().addBuilder(
-            tech.ydb.long_tx.LongTxProtos.LongTx.Table.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.LongTx.Table.Builder addTablesBuilder(
-          int index) {
-        return getTablesFieldBuilder().addBuilder(
-            index, tech.ydb.long_tx.LongTxProtos.LongTx.Table.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.LongTx.Table tables = 2;</code>
-       */
-      public java.util.List<tech.ydb.long_tx.LongTxProtos.LongTx.Table.Builder> 
-           getTablesBuilderList() {
-        return getTablesFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTx.Table, tech.ydb.long_tx.LongTxProtos.LongTx.Table.Builder, tech.ydb.long_tx.LongTxProtos.LongTx.TableOrBuilder> 
-          getTablesFieldBuilder() {
-        if (tablesBuilder_ == null) {
-          tablesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.LongTx.Table, tech.ydb.long_tx.LongTxProtos.LongTx.Table.Builder, tech.ydb.long_tx.LongTxProtos.LongTx.TableOrBuilder>(
-                  tables_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
-                  getParentForChildren(),
-                  isClean());
-          tables_ = null;
-        }
-        return tablesBuilder_;
-      }
-
-      private java.lang.Object signature_ = "";
-      /**
-       * <code>string signature = 3;</code>
-       */
-      public java.lang.String getSignature() {
-        java.lang.Object ref = signature_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          signature_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string signature = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-          getSignatureBytes() {
-        java.lang.Object ref = signature_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          signature_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string signature = 3;</code>
-       */
-      public Builder setSignature(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        signature_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string signature = 3;</code>
-       */
-      public Builder clearSignature() {
-        
-        signature_ = getDefaultInstance().getSignature();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string signature = 3;</code>
-       */
-      public Builder setSignatureBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        signature_ = value;
-        onChanged();
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.LongTx)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.LongTx.LongTx)
-    private static final tech.ydb.long_tx.LongTxProtos.LongTx DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.LongTx();
-    }
-
-    public static tech.ydb.long_tx.LongTxProtos.LongTx getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<LongTx>
-        PARSER = new com.google.protobuf.AbstractParser<LongTx>() {
-      public LongTx parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LongTx(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<LongTx> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<LongTx> getParserForType() {
-      return PARSER;
-    }
-
-    public tech.ydb.long_tx.LongTxProtos.LongTx getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface DataOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.LongTx.Data)
       com.google.protobuf.MessageOrBuilder {
@@ -3748,8 +669,525 @@ public final class LongTxProtos {
 
   }
 
-  public interface BeginTxRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.BeginTxRequest)
+  public interface TransactionMetaOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.TransactionMeta)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>bytes long_tx_id = 1;</code>
+     */
+    com.google.protobuf.ByteString getLongTxId();
+
+    /**
+     * <code>bytes routes = 2;</code>
+     */
+    com.google.protobuf.ByteString getRoutes();
+  }
+  /**
+   * Protobuf type {@code Ydb.LongTx.TransactionMeta}
+   */
+  public  static final class TransactionMeta extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.LongTx.TransactionMeta)
+      TransactionMetaOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use TransactionMeta.newBuilder() to construct.
+    private TransactionMeta(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private TransactionMeta() {
+      longTxId_ = com.google.protobuf.ByteString.EMPTY;
+      routes_ = com.google.protobuf.ByteString.EMPTY;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TransactionMeta(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+
+              longTxId_ = input.readBytes();
+              break;
+            }
+            case 18: {
+
+              routes_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_TransactionMeta_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_TransactionMeta_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.class, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder.class);
+    }
+
+    public static final int LONG_TX_ID_FIELD_NUMBER = 1;
+    private com.google.protobuf.ByteString longTxId_;
+    /**
+     * <code>bytes long_tx_id = 1;</code>
+     */
+    public com.google.protobuf.ByteString getLongTxId() {
+      return longTxId_;
+    }
+
+    public static final int ROUTES_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString routes_;
+    /**
+     * <code>bytes routes = 2;</code>
+     */
+    public com.google.protobuf.ByteString getRoutes() {
+      return routes_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!longTxId_.isEmpty()) {
+        output.writeBytes(1, longTxId_);
+      }
+      if (!routes_.isEmpty()) {
+        output.writeBytes(2, routes_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!longTxId_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, longTxId_);
+      }
+      if (!routes_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, routes_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.TransactionMeta)) {
+        return super.equals(obj);
+      }
+      tech.ydb.long_tx.LongTxProtos.TransactionMeta other = (tech.ydb.long_tx.LongTxProtos.TransactionMeta) obj;
+
+      boolean result = true;
+      result = result && getLongTxId()
+          .equals(other.getLongTxId());
+      result = result && getRoutes()
+          .equals(other.getRoutes());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + LONG_TX_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getLongTxId().hashCode();
+      hash = (37 * hash) + ROUTES_FIELD_NUMBER;
+      hash = (53 * hash) + getRoutes().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.long_tx.LongTxProtos.TransactionMeta parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.TransactionMeta parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.TransactionMeta parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.TransactionMeta parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.TransactionMeta parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.TransactionMeta parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.TransactionMeta parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.TransactionMeta parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.TransactionMeta parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.TransactionMeta parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.TransactionMeta parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.TransactionMeta parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.TransactionMeta prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.LongTx.TransactionMeta}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.TransactionMeta)
+        tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_TransactionMeta_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_TransactionMeta_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.long_tx.LongTxProtos.TransactionMeta.class, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder.class);
+      }
+
+      // Construct using tech.ydb.long_tx.LongTxProtos.TransactionMeta.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        longTxId_ = com.google.protobuf.ByteString.EMPTY;
+
+        routes_ = com.google.protobuf.ByteString.EMPTY;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_TransactionMeta_descriptor;
+      }
+
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta getDefaultInstanceForType() {
+        return tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance();
+      }
+
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta build() {
+        tech.ydb.long_tx.LongTxProtos.TransactionMeta result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta buildPartial() {
+        tech.ydb.long_tx.LongTxProtos.TransactionMeta result = new tech.ydb.long_tx.LongTxProtos.TransactionMeta(this);
+        result.longTxId_ = longTxId_;
+        result.routes_ = routes_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.long_tx.LongTxProtos.TransactionMeta) {
+          return mergeFrom((tech.ydb.long_tx.LongTxProtos.TransactionMeta)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.TransactionMeta other) {
+        if (other == tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance()) return this;
+        if (other.getLongTxId() != com.google.protobuf.ByteString.EMPTY) {
+          setLongTxId(other.getLongTxId());
+        }
+        if (other.getRoutes() != com.google.protobuf.ByteString.EMPTY) {
+          setRoutes(other.getRoutes());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.long_tx.LongTxProtos.TransactionMeta parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.long_tx.LongTxProtos.TransactionMeta) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private com.google.protobuf.ByteString longTxId_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>bytes long_tx_id = 1;</code>
+       */
+      public com.google.protobuf.ByteString getLongTxId() {
+        return longTxId_;
+      }
+      /**
+       * <code>bytes long_tx_id = 1;</code>
+       */
+      public Builder setLongTxId(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        longTxId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bytes long_tx_id = 1;</code>
+       */
+      public Builder clearLongTxId() {
+        
+        longTxId_ = getDefaultInstance().getLongTxId();
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString routes_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>bytes routes = 2;</code>
+       */
+      public com.google.protobuf.ByteString getRoutes() {
+        return routes_;
+      }
+      /**
+       * <code>bytes routes = 2;</code>
+       */
+      public Builder setRoutes(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        routes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bytes routes = 2;</code>
+       */
+      public Builder clearRoutes() {
+        
+        routes_ = getDefaultInstance().getRoutes();
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.TransactionMeta)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.LongTx.TransactionMeta)
+    private static final tech.ydb.long_tx.LongTxProtos.TransactionMeta DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.TransactionMeta();
+    }
+
+    public static tech.ydb.long_tx.LongTxProtos.TransactionMeta getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<TransactionMeta>
+        PARSER = new com.google.protobuf.AbstractParser<TransactionMeta>() {
+      public TransactionMeta parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new TransactionMeta(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<TransactionMeta> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TransactionMeta> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.long_tx.LongTxProtos.TransactionMeta getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BeginTransactionRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.BeginTransactionRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -3766,48 +1204,48 @@ public final class LongTxProtos {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
-     * <code>.Ydb.LongTx.BeginTxRequest.TxTypeId tx_type = 2;</code>
+     * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
      */
     int getTxTypeValue();
     /**
-     * <code>.Ydb.LongTx.BeginTxRequest.TxTypeId tx_type = 2;</code>
+     * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.BeginTxRequest.TxTypeId getTxType();
+    tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId getTxType();
 
     /**
-     * <code>repeated string tables = 3;</code>
+     * <code>repeated string paths = 3;</code>
      */
     java.util.List<java.lang.String>
-        getTablesList();
+        getPathsList();
     /**
-     * <code>repeated string tables = 3;</code>
+     * <code>repeated string paths = 3;</code>
      */
-    int getTablesCount();
+    int getPathsCount();
     /**
-     * <code>repeated string tables = 3;</code>
+     * <code>repeated string paths = 3;</code>
      */
-    java.lang.String getTables(int index);
+    java.lang.String getPaths(int index);
     /**
-     * <code>repeated string tables = 3;</code>
+     * <code>repeated string paths = 3;</code>
      */
     com.google.protobuf.ByteString
-        getTablesBytes(int index);
+        getPathsBytes(int index);
   }
   /**
-   * Protobuf type {@code Ydb.LongTx.BeginTxRequest}
+   * Protobuf type {@code Ydb.LongTx.BeginTransactionRequest}
    */
-  public  static final class BeginTxRequest extends
+  public  static final class BeginTransactionRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.LongTx.BeginTxRequest)
-      BeginTxRequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:Ydb.LongTx.BeginTransactionRequest)
+      BeginTransactionRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use BeginTxRequest.newBuilder() to construct.
-    private BeginTxRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use BeginTransactionRequest.newBuilder() to construct.
+    private BeginTransactionRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private BeginTxRequest() {
+    private BeginTransactionRequest() {
       txType_ = 0;
-      tables_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      paths_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -3815,7 +1253,7 @@ public final class LongTxProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private BeginTxRequest(
+    private BeginTransactionRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3860,10 +1298,10 @@ public final class LongTxProtos {
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
               if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                tables_ = new com.google.protobuf.LazyStringArrayList();
+                paths_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000004;
               }
-              tables_.add(s);
+              paths_.add(s);
               break;
             }
           }
@@ -3875,7 +1313,7 @@ public final class LongTxProtos {
             e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          tables_ = tables_.getUnmodifiableView();
+          paths_ = paths_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -3883,18 +1321,18 @@ public final class LongTxProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxRequest_descriptor;
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxRequest_fieldAccessorTable
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              tech.ydb.long_tx.LongTxProtos.BeginTxRequest.class, tech.ydb.long_tx.LongTxProtos.BeginTxRequest.Builder.class);
+              tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.class, tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.Builder.class);
     }
 
     /**
-     * Protobuf enum {@code Ydb.LongTx.BeginTxRequest.TxTypeId}
+     * Protobuf enum {@code Ydb.LongTx.BeginTransactionRequest.TxTypeId}
      */
     public enum TxTypeId
         implements com.google.protobuf.ProtocolMessageEnum {
@@ -3908,8 +1346,8 @@ public final class LongTxProtos {
       WRITE(1),
       /**
        * <pre>
-       *  READ_STREAM             = 0x0003;
-       *  READ_WITH_COMMIT        = 0x0004;
+       *UPDATE                = 0x0003;
+       *DELETE                = 0x0004;
        * </pre>
        *
        * <code>READ = 2;</code>
@@ -3928,8 +1366,8 @@ public final class LongTxProtos {
       public static final int WRITE_VALUE = 1;
       /**
        * <pre>
-       *  READ_STREAM             = 0x0003;
-       *  READ_WITH_COMMIT        = 0x0004;
+       *UPDATE                = 0x0003;
+       *DELETE                = 0x0004;
        * </pre>
        *
        * <code>READ = 2;</code>
@@ -3984,7 +1422,7 @@ public final class LongTxProtos {
       }
       public static final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptor() {
-        return tech.ydb.long_tx.LongTxProtos.BeginTxRequest.getDescriptor().getEnumTypes().get(0);
+        return tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.getDescriptor().getEnumTypes().get(0);
       }
 
       private static final TxTypeId[] VALUES = values();
@@ -4007,7 +1445,7 @@ public final class LongTxProtos {
         this.value = value;
       }
 
-      // @@protoc_insertion_point(enum_scope:Ydb.LongTx.BeginTxRequest.TxTypeId)
+      // @@protoc_insertion_point(enum_scope:Ydb.LongTx.BeginTransactionRequest.TxTypeId)
     }
 
     private int bitField0_;
@@ -4035,46 +1473,46 @@ public final class LongTxProtos {
     public static final int TX_TYPE_FIELD_NUMBER = 2;
     private int txType_;
     /**
-     * <code>.Ydb.LongTx.BeginTxRequest.TxTypeId tx_type = 2;</code>
+     * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
      */
     public int getTxTypeValue() {
       return txType_;
     }
     /**
-     * <code>.Ydb.LongTx.BeginTxRequest.TxTypeId tx_type = 2;</code>
+     * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.BeginTxRequest.TxTypeId getTxType() {
-      tech.ydb.long_tx.LongTxProtos.BeginTxRequest.TxTypeId result = tech.ydb.long_tx.LongTxProtos.BeginTxRequest.TxTypeId.valueOf(txType_);
-      return result == null ? tech.ydb.long_tx.LongTxProtos.BeginTxRequest.TxTypeId.UNRECOGNIZED : result;
+    public tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId getTxType() {
+      tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId result = tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId.valueOf(txType_);
+      return result == null ? tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId.UNRECOGNIZED : result;
     }
 
-    public static final int TABLES_FIELD_NUMBER = 3;
-    private com.google.protobuf.LazyStringList tables_;
+    public static final int PATHS_FIELD_NUMBER = 3;
+    private com.google.protobuf.LazyStringList paths_;
     /**
-     * <code>repeated string tables = 3;</code>
+     * <code>repeated string paths = 3;</code>
      */
     public com.google.protobuf.ProtocolStringList
-        getTablesList() {
-      return tables_;
+        getPathsList() {
+      return paths_;
     }
     /**
-     * <code>repeated string tables = 3;</code>
+     * <code>repeated string paths = 3;</code>
      */
-    public int getTablesCount() {
-      return tables_.size();
+    public int getPathsCount() {
+      return paths_.size();
     }
     /**
-     * <code>repeated string tables = 3;</code>
+     * <code>repeated string paths = 3;</code>
      */
-    public java.lang.String getTables(int index) {
-      return tables_.get(index);
+    public java.lang.String getPaths(int index) {
+      return paths_.get(index);
     }
     /**
-     * <code>repeated string tables = 3;</code>
+     * <code>repeated string paths = 3;</code>
      */
     public com.google.protobuf.ByteString
-        getTablesBytes(int index) {
-      return tables_.getByteString(index);
+        getPathsBytes(int index) {
+      return paths_.getByteString(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -4092,11 +1530,11 @@ public final class LongTxProtos {
       if (operationParams_ != null) {
         output.writeMessage(1, getOperationParams());
       }
-      if (txType_ != tech.ydb.long_tx.LongTxProtos.BeginTxRequest.TxTypeId.TX_TYPE_ID_UNSPECIFIED.getNumber()) {
+      if (txType_ != tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId.TX_TYPE_ID_UNSPECIFIED.getNumber()) {
         output.writeEnum(2, txType_);
       }
-      for (int i = 0; i < tables_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, tables_.getRaw(i));
+      for (int i = 0; i < paths_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, paths_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -4110,17 +1548,17 @@ public final class LongTxProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getOperationParams());
       }
-      if (txType_ != tech.ydb.long_tx.LongTxProtos.BeginTxRequest.TxTypeId.TX_TYPE_ID_UNSPECIFIED.getNumber()) {
+      if (txType_ != tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId.TX_TYPE_ID_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, txType_);
       }
       {
         int dataSize = 0;
-        for (int i = 0; i < tables_.size(); i++) {
-          dataSize += computeStringSizeNoTag(tables_.getRaw(i));
+        for (int i = 0; i < paths_.size(); i++) {
+          dataSize += computeStringSizeNoTag(paths_.getRaw(i));
         }
         size += dataSize;
-        size += 1 * getTablesList().size();
+        size += 1 * getPathsList().size();
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4132,10 +1570,10 @@ public final class LongTxProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.BeginTxRequest)) {
+      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest)) {
         return super.equals(obj);
       }
-      tech.ydb.long_tx.LongTxProtos.BeginTxRequest other = (tech.ydb.long_tx.LongTxProtos.BeginTxRequest) obj;
+      tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest other = (tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest) obj;
 
       boolean result = true;
       result = result && (hasOperationParams() == other.hasOperationParams());
@@ -4144,8 +1582,8 @@ public final class LongTxProtos {
             .equals(other.getOperationParams());
       }
       result = result && txType_ == other.txType_;
-      result = result && getTablesList()
-          .equals(other.getTablesList());
+      result = result && getPathsList()
+          .equals(other.getPathsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -4163,78 +1601,78 @@ public final class LongTxProtos {
       }
       hash = (37 * hash) + TX_TYPE_FIELD_NUMBER;
       hash = (53 * hash) + txType_;
-      if (getTablesCount() > 0) {
-        hash = (37 * hash) + TABLES_FIELD_NUMBER;
-        hash = (53 * hash) + getTablesList().hashCode();
+      if (getPathsCount() > 0) {
+        hash = (37 * hash) + PATHS_FIELD_NUMBER;
+        hash = (53 * hash) + getPathsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxRequest parseFrom(byte[] data)
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxRequest parseFrom(java.io.InputStream input)
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxRequest parseDelimitedFrom(java.io.InputStream input)
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxRequest parseDelimitedFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -4246,7 +1684,7 @@ public final class LongTxProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.BeginTxRequest prototype) {
+    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -4261,25 +1699,25 @@ public final class LongTxProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code Ydb.LongTx.BeginTxRequest}
+     * Protobuf type {@code Ydb.LongTx.BeginTransactionRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.BeginTxRequest)
-        tech.ydb.long_tx.LongTxProtos.BeginTxRequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.BeginTransactionRequest)
+        tech.ydb.long_tx.LongTxProtos.BeginTransactionRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxRequest_descriptor;
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxRequest_fieldAccessorTable
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.long_tx.LongTxProtos.BeginTxRequest.class, tech.ydb.long_tx.LongTxProtos.BeginTxRequest.Builder.class);
+                tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.class, tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.Builder.class);
       }
 
-      // Construct using tech.ydb.long_tx.LongTxProtos.BeginTxRequest.newBuilder()
+      // Construct using tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -4304,30 +1742,30 @@ public final class LongTxProtos {
         }
         txType_ = 0;
 
-        tables_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        paths_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxRequest_descriptor;
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionRequest_descriptor;
       }
 
-      public tech.ydb.long_tx.LongTxProtos.BeginTxRequest getDefaultInstanceForType() {
-        return tech.ydb.long_tx.LongTxProtos.BeginTxRequest.getDefaultInstance();
+      public tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest getDefaultInstanceForType() {
+        return tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.getDefaultInstance();
       }
 
-      public tech.ydb.long_tx.LongTxProtos.BeginTxRequest build() {
-        tech.ydb.long_tx.LongTxProtos.BeginTxRequest result = buildPartial();
+      public tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest build() {
+        tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public tech.ydb.long_tx.LongTxProtos.BeginTxRequest buildPartial() {
-        tech.ydb.long_tx.LongTxProtos.BeginTxRequest result = new tech.ydb.long_tx.LongTxProtos.BeginTxRequest(this);
+      public tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest buildPartial() {
+        tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest result = new tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (operationParamsBuilder_ == null) {
@@ -4337,10 +1775,10 @@ public final class LongTxProtos {
         }
         result.txType_ = txType_;
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          tables_ = tables_.getUnmodifiableView();
+          paths_ = paths_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000004);
         }
-        result.tables_ = tables_;
+        result.paths_ = paths_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4373,29 +1811,29 @@ public final class LongTxProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.long_tx.LongTxProtos.BeginTxRequest) {
-          return mergeFrom((tech.ydb.long_tx.LongTxProtos.BeginTxRequest)other);
+        if (other instanceof tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest) {
+          return mergeFrom((tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.BeginTxRequest other) {
-        if (other == tech.ydb.long_tx.LongTxProtos.BeginTxRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest other) {
+        if (other == tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.getDefaultInstance()) return this;
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
         }
         if (other.txType_ != 0) {
           setTxTypeValue(other.getTxTypeValue());
         }
-        if (!other.tables_.isEmpty()) {
-          if (tables_.isEmpty()) {
-            tables_ = other.tables_;
+        if (!other.paths_.isEmpty()) {
+          if (paths_.isEmpty()) {
+            paths_ = other.paths_;
             bitField0_ = (bitField0_ & ~0x00000004);
           } else {
-            ensureTablesIsMutable();
-            tables_.addAll(other.tables_);
+            ensurePathsIsMutable();
+            paths_.addAll(other.paths_);
           }
           onChanged();
         }
@@ -4412,11 +1850,11 @@ public final class LongTxProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        tech.ydb.long_tx.LongTxProtos.BeginTxRequest parsedMessage = null;
+        tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.long_tx.LongTxProtos.BeginTxRequest) e.getUnfinishedMessage();
+          parsedMessage = (tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -4546,13 +1984,13 @@ public final class LongTxProtos {
 
       private int txType_ = 0;
       /**
-       * <code>.Ydb.LongTx.BeginTxRequest.TxTypeId tx_type = 2;</code>
+       * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
        */
       public int getTxTypeValue() {
         return txType_;
       }
       /**
-       * <code>.Ydb.LongTx.BeginTxRequest.TxTypeId tx_type = 2;</code>
+       * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
        */
       public Builder setTxTypeValue(int value) {
         txType_ = value;
@@ -4560,16 +1998,16 @@ public final class LongTxProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.BeginTxRequest.TxTypeId tx_type = 2;</code>
+       * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.BeginTxRequest.TxTypeId getTxType() {
-        tech.ydb.long_tx.LongTxProtos.BeginTxRequest.TxTypeId result = tech.ydb.long_tx.LongTxProtos.BeginTxRequest.TxTypeId.valueOf(txType_);
-        return result == null ? tech.ydb.long_tx.LongTxProtos.BeginTxRequest.TxTypeId.UNRECOGNIZED : result;
+      public tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId getTxType() {
+        tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId result = tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId.valueOf(txType_);
+        return result == null ? tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId.UNRECOGNIZED : result;
       }
       /**
-       * <code>.Ydb.LongTx.BeginTxRequest.TxTypeId tx_type = 2;</code>
+       * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
        */
-      public Builder setTxType(tech.ydb.long_tx.LongTxProtos.BeginTxRequest.TxTypeId value) {
+      public Builder setTxType(tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -4579,7 +2017,7 @@ public final class LongTxProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.BeginTxRequest.TxTypeId tx_type = 2;</code>
+       * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
        */
       public Builder clearTxType() {
         
@@ -4588,96 +2026,96 @@ public final class LongTxProtos {
         return this;
       }
 
-      private com.google.protobuf.LazyStringList tables_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      private void ensureTablesIsMutable() {
+      private com.google.protobuf.LazyStringList paths_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensurePathsIsMutable() {
         if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          tables_ = new com.google.protobuf.LazyStringArrayList(tables_);
+          paths_ = new com.google.protobuf.LazyStringArrayList(paths_);
           bitField0_ |= 0x00000004;
          }
       }
       /**
-       * <code>repeated string tables = 3;</code>
+       * <code>repeated string paths = 3;</code>
        */
       public com.google.protobuf.ProtocolStringList
-          getTablesList() {
-        return tables_.getUnmodifiableView();
+          getPathsList() {
+        return paths_.getUnmodifiableView();
       }
       /**
-       * <code>repeated string tables = 3;</code>
+       * <code>repeated string paths = 3;</code>
        */
-      public int getTablesCount() {
-        return tables_.size();
+      public int getPathsCount() {
+        return paths_.size();
       }
       /**
-       * <code>repeated string tables = 3;</code>
+       * <code>repeated string paths = 3;</code>
        */
-      public java.lang.String getTables(int index) {
-        return tables_.get(index);
+      public java.lang.String getPaths(int index) {
+        return paths_.get(index);
       }
       /**
-       * <code>repeated string tables = 3;</code>
+       * <code>repeated string paths = 3;</code>
        */
       public com.google.protobuf.ByteString
-          getTablesBytes(int index) {
-        return tables_.getByteString(index);
+          getPathsBytes(int index) {
+        return paths_.getByteString(index);
       }
       /**
-       * <code>repeated string tables = 3;</code>
+       * <code>repeated string paths = 3;</code>
        */
-      public Builder setTables(
+      public Builder setPaths(
           int index, java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  ensureTablesIsMutable();
-        tables_.set(index, value);
+  ensurePathsIsMutable();
+        paths_.set(index, value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string tables = 3;</code>
+       * <code>repeated string paths = 3;</code>
        */
-      public Builder addTables(
+      public Builder addPaths(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  ensureTablesIsMutable();
-        tables_.add(value);
+  ensurePathsIsMutable();
+        paths_.add(value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string tables = 3;</code>
+       * <code>repeated string paths = 3;</code>
        */
-      public Builder addAllTables(
+      public Builder addAllPaths(
           java.lang.Iterable<java.lang.String> values) {
-        ensureTablesIsMutable();
+        ensurePathsIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, tables_);
+            values, paths_);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string tables = 3;</code>
+       * <code>repeated string paths = 3;</code>
        */
-      public Builder clearTables() {
-        tables_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      public Builder clearPaths() {
+        paths_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string tables = 3;</code>
+       * <code>repeated string paths = 3;</code>
        */
-      public Builder addTablesBytes(
+      public Builder addPathsBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        ensureTablesIsMutable();
-        tables_.add(value);
+        ensurePathsIsMutable();
+        paths_.add(value);
         onChanged();
         return this;
       }
@@ -4692,74 +2130,86 @@ public final class LongTxProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.BeginTxRequest)
+      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.BeginTransactionRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:Ydb.LongTx.BeginTxRequest)
-    private static final tech.ydb.long_tx.LongTxProtos.BeginTxRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Ydb.LongTx.BeginTransactionRequest)
+    private static final tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.BeginTxRequest();
+      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest();
     }
 
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxRequest getDefaultInstance() {
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<BeginTxRequest>
-        PARSER = new com.google.protobuf.AbstractParser<BeginTxRequest>() {
-      public BeginTxRequest parsePartialFrom(
+    private static final com.google.protobuf.Parser<BeginTransactionRequest>
+        PARSER = new com.google.protobuf.AbstractParser<BeginTransactionRequest>() {
+      public BeginTransactionRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new BeginTxRequest(input, extensionRegistry);
+          return new BeginTransactionRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<BeginTxRequest> parser() {
+    public static com.google.protobuf.Parser<BeginTransactionRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<BeginTxRequest> getParserForType() {
+    public com.google.protobuf.Parser<BeginTransactionRequest> getParserForType() {
       return PARSER;
     }
 
-    public tech.ydb.long_tx.LongTxProtos.BeginTxRequest getDefaultInstanceForType() {
+    public tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface BeginTxResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.BeginTxResult)
+  public interface BeginTransactionResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.BeginTransactionResult)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+     * <pre>
+     * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+     * </pre>
+     *
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    boolean hasTx();
+    boolean hasTxMeta();
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+     * <pre>
+     * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+     * </pre>
+     *
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.LongTx getTx();
+    tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta();
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+     * <pre>
+     * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+     * </pre>
+     *
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder getTxOrBuilder();
+    tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder();
   }
   /**
-   * Protobuf type {@code Ydb.LongTx.BeginTxResult}
+   * Protobuf type {@code Ydb.LongTx.BeginTransactionResult}
    */
-  public  static final class BeginTxResult extends
+  public  static final class BeginTransactionResult extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.LongTx.BeginTxResult)
-      BeginTxResultOrBuilder {
+      // @@protoc_insertion_point(message_implements:Ydb.LongTx.BeginTransactionResult)
+      BeginTransactionResultOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use BeginTxResult.newBuilder() to construct.
-    private BeginTxResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use BeginTransactionResult.newBuilder() to construct.
+    private BeginTransactionResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private BeginTxResult() {
+    private BeginTransactionResult() {
     }
 
     @java.lang.Override
@@ -4767,7 +2217,7 @@ public final class LongTxProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private BeginTxResult(
+    private BeginTransactionResult(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -4791,14 +2241,14 @@ public final class LongTxProtos {
               break;
             }
             case 10: {
-              tech.ydb.long_tx.LongTxProtos.LongTx.Builder subBuilder = null;
-              if (tx_ != null) {
-                subBuilder = tx_.toBuilder();
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder subBuilder = null;
+              if (txMeta_ != null) {
+                subBuilder = txMeta_.toBuilder();
               }
-              tx_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.LongTx.parser(), extensionRegistry);
+              txMeta_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.TransactionMeta.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(tx_);
-                tx_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(txMeta_);
+                txMeta_ = subBuilder.buildPartial();
               }
 
               break;
@@ -4817,35 +2267,47 @@ public final class LongTxProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxResult_descriptor;
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResult_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxResult_fieldAccessorTable
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              tech.ydb.long_tx.LongTxProtos.BeginTxResult.class, tech.ydb.long_tx.LongTxProtos.BeginTxResult.Builder.class);
+              tech.ydb.long_tx.LongTxProtos.BeginTransactionResult.class, tech.ydb.long_tx.LongTxProtos.BeginTransactionResult.Builder.class);
     }
 
-    public static final int TX_FIELD_NUMBER = 1;
-    private tech.ydb.long_tx.LongTxProtos.LongTx tx_;
+    public static final int TX_META_FIELD_NUMBER = 1;
+    private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_;
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+     * <pre>
+     * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+     * </pre>
+     *
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    public boolean hasTx() {
-      return tx_ != null;
+    public boolean hasTxMeta() {
+      return txMeta_ != null;
     }
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+     * <pre>
+     * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+     * </pre>
+     *
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.LongTx getTx() {
-      return tx_ == null ? tech.ydb.long_tx.LongTxProtos.LongTx.getDefaultInstance() : tx_;
+    public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+      return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
     }
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+     * <pre>
+     * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+     * </pre>
+     *
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder getTxOrBuilder() {
-      return getTx();
+    public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+      return getTxMeta();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -4860,8 +2322,8 @@ public final class LongTxProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (tx_ != null) {
-        output.writeMessage(1, getTx());
+      if (txMeta_ != null) {
+        output.writeMessage(1, getTxMeta());
       }
       unknownFields.writeTo(output);
     }
@@ -4871,9 +2333,9 @@ public final class LongTxProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (tx_ != null) {
+      if (txMeta_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getTx());
+          .computeMessageSize(1, getTxMeta());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4885,16 +2347,16 @@ public final class LongTxProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.BeginTxResult)) {
+      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.BeginTransactionResult)) {
         return super.equals(obj);
       }
-      tech.ydb.long_tx.LongTxProtos.BeginTxResult other = (tech.ydb.long_tx.LongTxProtos.BeginTxResult) obj;
+      tech.ydb.long_tx.LongTxProtos.BeginTransactionResult other = (tech.ydb.long_tx.LongTxProtos.BeginTransactionResult) obj;
 
       boolean result = true;
-      result = result && (hasTx() == other.hasTx());
-      if (hasTx()) {
-        result = result && getTx()
-            .equals(other.getTx());
+      result = result && (hasTxMeta() == other.hasTxMeta());
+      if (hasTxMeta()) {
+        result = result && getTxMeta()
+            .equals(other.getTxMeta());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -4907,78 +2369,78 @@ public final class LongTxProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasTx()) {
-        hash = (37 * hash) + TX_FIELD_NUMBER;
-        hash = (53 * hash) + getTx().hashCode();
+      if (hasTxMeta()) {
+        hash = (37 * hash) + TX_META_FIELD_NUMBER;
+        hash = (53 * hash) + getTxMeta().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResult parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResult parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResult parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResult parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResult parseFrom(byte[] data)
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResult parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResult parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResult parseFrom(java.io.InputStream input)
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResult parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResult parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResult parseDelimitedFrom(java.io.InputStream input)
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResult parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResult parseDelimitedFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResult parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResult parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResult parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -4990,7 +2452,7 @@ public final class LongTxProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.BeginTxResult prototype) {
+    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.BeginTransactionResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -5005,25 +2467,25 @@ public final class LongTxProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code Ydb.LongTx.BeginTxResult}
+     * Protobuf type {@code Ydb.LongTx.BeginTransactionResult}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.BeginTxResult)
-        tech.ydb.long_tx.LongTxProtos.BeginTxResultOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.BeginTransactionResult)
+        tech.ydb.long_tx.LongTxProtos.BeginTransactionResultOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxResult_descriptor;
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResult_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxResult_fieldAccessorTable
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResult_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.long_tx.LongTxProtos.BeginTxResult.class, tech.ydb.long_tx.LongTxProtos.BeginTxResult.Builder.class);
+                tech.ydb.long_tx.LongTxProtos.BeginTransactionResult.class, tech.ydb.long_tx.LongTxProtos.BeginTransactionResult.Builder.class);
       }
 
-      // Construct using tech.ydb.long_tx.LongTxProtos.BeginTxResult.newBuilder()
+      // Construct using tech.ydb.long_tx.LongTxProtos.BeginTransactionResult.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -5040,38 +2502,38 @@ public final class LongTxProtos {
       }
       public Builder clear() {
         super.clear();
-        if (txBuilder_ == null) {
-          tx_ = null;
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
         } else {
-          tx_ = null;
-          txBuilder_ = null;
+          txMeta_ = null;
+          txMetaBuilder_ = null;
         }
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxResult_descriptor;
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResult_descriptor;
       }
 
-      public tech.ydb.long_tx.LongTxProtos.BeginTxResult getDefaultInstanceForType() {
-        return tech.ydb.long_tx.LongTxProtos.BeginTxResult.getDefaultInstance();
+      public tech.ydb.long_tx.LongTxProtos.BeginTransactionResult getDefaultInstanceForType() {
+        return tech.ydb.long_tx.LongTxProtos.BeginTransactionResult.getDefaultInstance();
       }
 
-      public tech.ydb.long_tx.LongTxProtos.BeginTxResult build() {
-        tech.ydb.long_tx.LongTxProtos.BeginTxResult result = buildPartial();
+      public tech.ydb.long_tx.LongTxProtos.BeginTransactionResult build() {
+        tech.ydb.long_tx.LongTxProtos.BeginTransactionResult result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public tech.ydb.long_tx.LongTxProtos.BeginTxResult buildPartial() {
-        tech.ydb.long_tx.LongTxProtos.BeginTxResult result = new tech.ydb.long_tx.LongTxProtos.BeginTxResult(this);
-        if (txBuilder_ == null) {
-          result.tx_ = tx_;
+      public tech.ydb.long_tx.LongTxProtos.BeginTransactionResult buildPartial() {
+        tech.ydb.long_tx.LongTxProtos.BeginTransactionResult result = new tech.ydb.long_tx.LongTxProtos.BeginTransactionResult(this);
+        if (txMetaBuilder_ == null) {
+          result.txMeta_ = txMeta_;
         } else {
-          result.tx_ = txBuilder_.build();
+          result.txMeta_ = txMetaBuilder_.build();
         }
         onBuilt();
         return result;
@@ -5104,18 +2566,18 @@ public final class LongTxProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.long_tx.LongTxProtos.BeginTxResult) {
-          return mergeFrom((tech.ydb.long_tx.LongTxProtos.BeginTxResult)other);
+        if (other instanceof tech.ydb.long_tx.LongTxProtos.BeginTransactionResult) {
+          return mergeFrom((tech.ydb.long_tx.LongTxProtos.BeginTransactionResult)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.BeginTxResult other) {
-        if (other == tech.ydb.long_tx.LongTxProtos.BeginTxResult.getDefaultInstance()) return this;
-        if (other.hasTx()) {
-          mergeTx(other.getTx());
+      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.BeginTransactionResult other) {
+        if (other == tech.ydb.long_tx.LongTxProtos.BeginTransactionResult.getDefaultInstance()) return this;
+        if (other.hasTxMeta()) {
+          mergeTxMeta(other.getTxMeta());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -5130,11 +2592,11 @@ public final class LongTxProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        tech.ydb.long_tx.LongTxProtos.BeginTxResult parsedMessage = null;
+        tech.ydb.long_tx.LongTxProtos.BeginTransactionResult parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.long_tx.LongTxProtos.BeginTxResult) e.getUnfinishedMessage();
+          parsedMessage = (tech.ydb.long_tx.LongTxProtos.BeginTransactionResult) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -5144,121 +2606,157 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.long_tx.LongTxProtos.LongTx tx_ = null;
+      private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTx, tech.ydb.long_tx.LongTxProtos.LongTx.Builder, tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder> txBuilder_;
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> txMetaBuilder_;
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+       * <pre>
+       * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+       * </pre>
+       *
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public boolean hasTx() {
-        return txBuilder_ != null || tx_ != null;
+      public boolean hasTxMeta() {
+        return txMetaBuilder_ != null || txMeta_ != null;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+       * <pre>
+       * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+       * </pre>
+       *
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTx getTx() {
-        if (txBuilder_ == null) {
-          return tx_ == null ? tech.ydb.long_tx.LongTxProtos.LongTx.getDefaultInstance() : tx_;
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+        if (txMetaBuilder_ == null) {
+          return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
         } else {
-          return txBuilder_.getMessage();
+          return txMetaBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+       * <pre>
+       * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+       * </pre>
+       *
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder setTx(tech.ydb.long_tx.LongTxProtos.LongTx value) {
-        if (txBuilder_ == null) {
+      public Builder setTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          tx_ = value;
+          txMeta_ = value;
           onChanged();
         } else {
-          txBuilder_.setMessage(value);
+          txMetaBuilder_.setMessage(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+       * <pre>
+       * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+       * </pre>
+       *
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder setTx(
-          tech.ydb.long_tx.LongTxProtos.LongTx.Builder builderForValue) {
-        if (txBuilder_ == null) {
-          tx_ = builderForValue.build();
+      public Builder setTxMeta(
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder builderForValue) {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = builderForValue.build();
           onChanged();
         } else {
-          txBuilder_.setMessage(builderForValue.build());
+          txMetaBuilder_.setMessage(builderForValue.build());
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+       * <pre>
+       * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+       * </pre>
+       *
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder mergeTx(tech.ydb.long_tx.LongTxProtos.LongTx value) {
-        if (txBuilder_ == null) {
-          if (tx_ != null) {
-            tx_ =
-              tech.ydb.long_tx.LongTxProtos.LongTx.newBuilder(tx_).mergeFrom(value).buildPartial();
+      public Builder mergeTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
+          if (txMeta_ != null) {
+            txMeta_ =
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.newBuilder(txMeta_).mergeFrom(value).buildPartial();
           } else {
-            tx_ = value;
+            txMeta_ = value;
           }
           onChanged();
         } else {
-          txBuilder_.mergeFrom(value);
+          txMetaBuilder_.mergeFrom(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+       * <pre>
+       * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+       * </pre>
+       *
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder clearTx() {
-        if (txBuilder_ == null) {
-          tx_ = null;
+      public Builder clearTxMeta() {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
           onChanged();
         } else {
-          tx_ = null;
-          txBuilder_ = null;
+          txMeta_ = null;
+          txMetaBuilder_ = null;
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+       * <pre>
+       * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+       * </pre>
+       *
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTx.Builder getTxBuilder() {
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder getTxMetaBuilder() {
         
         onChanged();
-        return getTxFieldBuilder().getBuilder();
+        return getTxMetaFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+       * <pre>
+       * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+       * </pre>
+       *
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder getTxOrBuilder() {
-        if (txBuilder_ != null) {
-          return txBuilder_.getMessageOrBuilder();
+      public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+        if (txMetaBuilder_ != null) {
+          return txMetaBuilder_.getMessageOrBuilder();
         } else {
-          return tx_ == null ?
-              tech.ydb.long_tx.LongTxProtos.LongTx.getDefaultInstance() : tx_;
+          return txMeta_ == null ?
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
         }
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 1;</code>
+       * <pre>
+       * Full transaction metadata required for other requests. Other results could contain long_tx_id only.
+       * </pre>
+       *
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTx, tech.ydb.long_tx.LongTxProtos.LongTx.Builder, tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder> 
-          getTxFieldBuilder() {
-        if (txBuilder_ == null) {
-          txBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.LongTx, tech.ydb.long_tx.LongTxProtos.LongTx.Builder, tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder>(
-                  getTx(),
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> 
+          getTxMetaFieldBuilder() {
+        if (txMetaBuilder_ == null) {
+          txMetaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder>(
+                  getTxMeta(),
                   getParentForChildren(),
                   isClean());
-          tx_ = null;
+          txMeta_ = null;
         }
-        return txBuilder_;
+        return txMetaBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -5271,46 +2769,46 @@ public final class LongTxProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.BeginTxResult)
+      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.BeginTransactionResult)
     }
 
-    // @@protoc_insertion_point(class_scope:Ydb.LongTx.BeginTxResult)
-    private static final tech.ydb.long_tx.LongTxProtos.BeginTxResult DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Ydb.LongTx.BeginTransactionResult)
+    private static final tech.ydb.long_tx.LongTxProtos.BeginTransactionResult DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.BeginTxResult();
+      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.BeginTransactionResult();
     }
 
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResult getDefaultInstance() {
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResult getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<BeginTxResult>
-        PARSER = new com.google.protobuf.AbstractParser<BeginTxResult>() {
-      public BeginTxResult parsePartialFrom(
+    private static final com.google.protobuf.Parser<BeginTransactionResult>
+        PARSER = new com.google.protobuf.AbstractParser<BeginTransactionResult>() {
+      public BeginTransactionResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new BeginTxResult(input, extensionRegistry);
+          return new BeginTransactionResult(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<BeginTxResult> parser() {
+    public static com.google.protobuf.Parser<BeginTransactionResult> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<BeginTxResult> getParserForType() {
+    public com.google.protobuf.Parser<BeginTransactionResult> getParserForType() {
       return PARSER;
     }
 
-    public tech.ydb.long_tx.LongTxProtos.BeginTxResult getDefaultInstanceForType() {
+    public tech.ydb.long_tx.LongTxProtos.BeginTransactionResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface BeginTxResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.BeginTxResponse)
+  public interface BeginTransactionResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.BeginTransactionResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -5327,18 +2825,18 @@ public final class LongTxProtos {
     tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
   }
   /**
-   * Protobuf type {@code Ydb.LongTx.BeginTxResponse}
+   * Protobuf type {@code Ydb.LongTx.BeginTransactionResponse}
    */
-  public  static final class BeginTxResponse extends
+  public  static final class BeginTransactionResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.LongTx.BeginTxResponse)
-      BeginTxResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:Ydb.LongTx.BeginTransactionResponse)
+      BeginTransactionResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use BeginTxResponse.newBuilder() to construct.
-    private BeginTxResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use BeginTransactionResponse.newBuilder() to construct.
+    private BeginTransactionResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private BeginTxResponse() {
+    private BeginTransactionResponse() {
     }
 
     @java.lang.Override
@@ -5346,7 +2844,7 @@ public final class LongTxProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private BeginTxResponse(
+    private BeginTransactionResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -5396,14 +2894,14 @@ public final class LongTxProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxResponse_descriptor;
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxResponse_fieldAccessorTable
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              tech.ydb.long_tx.LongTxProtos.BeginTxResponse.class, tech.ydb.long_tx.LongTxProtos.BeginTxResponse.Builder.class);
+              tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse.class, tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse.Builder.class);
     }
 
     public static final int OPERATION_FIELD_NUMBER = 1;
@@ -5464,10 +2962,10 @@ public final class LongTxProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.BeginTxResponse)) {
+      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse)) {
         return super.equals(obj);
       }
-      tech.ydb.long_tx.LongTxProtos.BeginTxResponse other = (tech.ydb.long_tx.LongTxProtos.BeginTxResponse) obj;
+      tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse other = (tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse) obj;
 
       boolean result = true;
       result = result && (hasOperation() == other.hasOperation());
@@ -5495,69 +2993,69 @@ public final class LongTxProtos {
       return hash;
     }
 
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResponse parseFrom(byte[] data)
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResponse parseFrom(java.io.InputStream input)
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResponse parseDelimitedFrom(java.io.InputStream input)
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResponse parseDelimitedFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -5569,7 +3067,7 @@ public final class LongTxProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.BeginTxResponse prototype) {
+    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -5584,25 +3082,25 @@ public final class LongTxProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code Ydb.LongTx.BeginTxResponse}
+     * Protobuf type {@code Ydb.LongTx.BeginTransactionResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.BeginTxResponse)
-        tech.ydb.long_tx.LongTxProtos.BeginTxResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.BeginTransactionResponse)
+        tech.ydb.long_tx.LongTxProtos.BeginTransactionResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxResponse_descriptor;
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxResponse_fieldAccessorTable
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.long_tx.LongTxProtos.BeginTxResponse.class, tech.ydb.long_tx.LongTxProtos.BeginTxResponse.Builder.class);
+                tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse.class, tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse.Builder.class);
       }
 
-      // Construct using tech.ydb.long_tx.LongTxProtos.BeginTxResponse.newBuilder()
+      // Construct using tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -5630,23 +3128,23 @@ public final class LongTxProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTxResponse_descriptor;
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResponse_descriptor;
       }
 
-      public tech.ydb.long_tx.LongTxProtos.BeginTxResponse getDefaultInstanceForType() {
-        return tech.ydb.long_tx.LongTxProtos.BeginTxResponse.getDefaultInstance();
+      public tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse getDefaultInstanceForType() {
+        return tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse.getDefaultInstance();
       }
 
-      public tech.ydb.long_tx.LongTxProtos.BeginTxResponse build() {
-        tech.ydb.long_tx.LongTxProtos.BeginTxResponse result = buildPartial();
+      public tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse build() {
+        tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public tech.ydb.long_tx.LongTxProtos.BeginTxResponse buildPartial() {
-        tech.ydb.long_tx.LongTxProtos.BeginTxResponse result = new tech.ydb.long_tx.LongTxProtos.BeginTxResponse(this);
+      public tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse buildPartial() {
+        tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse result = new tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse(this);
         if (operationBuilder_ == null) {
           result.operation_ = operation_;
         } else {
@@ -5683,16 +3181,16 @@ public final class LongTxProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.long_tx.LongTxProtos.BeginTxResponse) {
-          return mergeFrom((tech.ydb.long_tx.LongTxProtos.BeginTxResponse)other);
+        if (other instanceof tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse) {
+          return mergeFrom((tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.BeginTxResponse other) {
-        if (other == tech.ydb.long_tx.LongTxProtos.BeginTxResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse other) {
+        if (other == tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse.getDefaultInstance()) return this;
         if (other.hasOperation()) {
           mergeOperation(other.getOperation());
         }
@@ -5709,11 +3207,11 @@ public final class LongTxProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        tech.ydb.long_tx.LongTxProtos.BeginTxResponse parsedMessage = null;
+        tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.long_tx.LongTxProtos.BeginTxResponse) e.getUnfinishedMessage();
+          parsedMessage = (tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -5850,46 +3348,46 @@ public final class LongTxProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.BeginTxResponse)
+      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.BeginTransactionResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:Ydb.LongTx.BeginTxResponse)
-    private static final tech.ydb.long_tx.LongTxProtos.BeginTxResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Ydb.LongTx.BeginTransactionResponse)
+    private static final tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.BeginTxResponse();
+      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse();
     }
 
-    public static tech.ydb.long_tx.LongTxProtos.BeginTxResponse getDefaultInstance() {
+    public static tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<BeginTxResponse>
-        PARSER = new com.google.protobuf.AbstractParser<BeginTxResponse>() {
-      public BeginTxResponse parsePartialFrom(
+    private static final com.google.protobuf.Parser<BeginTransactionResponse>
+        PARSER = new com.google.protobuf.AbstractParser<BeginTransactionResponse>() {
+      public BeginTransactionResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new BeginTxResponse(input, extensionRegistry);
+          return new BeginTransactionResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<BeginTxResponse> parser() {
+    public static com.google.protobuf.Parser<BeginTransactionResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<BeginTxResponse> getParserForType() {
+    public com.google.protobuf.Parser<BeginTransactionResponse> getParserForType() {
       return PARSER;
     }
 
-    public tech.ydb.long_tx.LongTxProtos.BeginTxResponse getDefaultInstanceForType() {
+    public tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface CommitTxRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.CommitTxRequest)
+  public interface CommitTransactionRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.CommitTransactionRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -5906,37 +3404,31 @@ public final class LongTxProtos {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    boolean hasTx();
+    boolean hasTxMeta();
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.LongTx getTx();
+    tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta();
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder getTxOrBuilder();
-
-    /**
-     * <code>bool abort = 3;</code>
-     */
-    boolean getAbort();
+    tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder();
   }
   /**
-   * Protobuf type {@code Ydb.LongTx.CommitTxRequest}
+   * Protobuf type {@code Ydb.LongTx.CommitTransactionRequest}
    */
-  public  static final class CommitTxRequest extends
+  public  static final class CommitTransactionRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.LongTx.CommitTxRequest)
-      CommitTxRequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:Ydb.LongTx.CommitTransactionRequest)
+      CommitTransactionRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use CommitTxRequest.newBuilder() to construct.
-    private CommitTxRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use CommitTransactionRequest.newBuilder() to construct.
+    private CommitTransactionRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private CommitTxRequest() {
-      abort_ = false;
+    private CommitTransactionRequest() {
     }
 
     @java.lang.Override
@@ -5944,7 +3436,7 @@ public final class LongTxProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private CommitTxRequest(
+    private CommitTransactionRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -5981,21 +3473,16 @@ public final class LongTxProtos {
               break;
             }
             case 18: {
-              tech.ydb.long_tx.LongTxProtos.LongTx.Builder subBuilder = null;
-              if (tx_ != null) {
-                subBuilder = tx_.toBuilder();
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder subBuilder = null;
+              if (txMeta_ != null) {
+                subBuilder = txMeta_.toBuilder();
               }
-              tx_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.LongTx.parser(), extensionRegistry);
+              txMeta_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.TransactionMeta.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(tx_);
-                tx_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(txMeta_);
+                txMeta_ = subBuilder.buildPartial();
               }
 
-              break;
-            }
-            case 24: {
-
-              abort_ = input.readBool();
               break;
             }
           }
@@ -6012,14 +3499,14 @@ public final class LongTxProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxRequest_descriptor;
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxRequest_fieldAccessorTable
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              tech.ydb.long_tx.LongTxProtos.CommitTxRequest.class, tech.ydb.long_tx.LongTxProtos.CommitTxRequest.Builder.class);
+              tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest.class, tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest.Builder.class);
     }
 
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
@@ -6043,34 +3530,25 @@ public final class LongTxProtos {
       return getOperationParams();
     }
 
-    public static final int TX_FIELD_NUMBER = 2;
-    private tech.ydb.long_tx.LongTxProtos.LongTx tx_;
+    public static final int TX_META_FIELD_NUMBER = 2;
+    private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_;
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    public boolean hasTx() {
-      return tx_ != null;
+    public boolean hasTxMeta() {
+      return txMeta_ != null;
     }
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.LongTx getTx() {
-      return tx_ == null ? tech.ydb.long_tx.LongTxProtos.LongTx.getDefaultInstance() : tx_;
+    public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+      return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
     }
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder getTxOrBuilder() {
-      return getTx();
-    }
-
-    public static final int ABORT_FIELD_NUMBER = 3;
-    private boolean abort_;
-    /**
-     * <code>bool abort = 3;</code>
-     */
-    public boolean getAbort() {
-      return abort_;
+    public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+      return getTxMeta();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -6088,11 +3566,8 @@ public final class LongTxProtos {
       if (operationParams_ != null) {
         output.writeMessage(1, getOperationParams());
       }
-      if (tx_ != null) {
-        output.writeMessage(2, getTx());
-      }
-      if (abort_ != false) {
-        output.writeBool(3, abort_);
+      if (txMeta_ != null) {
+        output.writeMessage(2, getTxMeta());
       }
       unknownFields.writeTo(output);
     }
@@ -6106,13 +3581,9 @@ public final class LongTxProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getOperationParams());
       }
-      if (tx_ != null) {
+      if (txMeta_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getTx());
-      }
-      if (abort_ != false) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(3, abort_);
+          .computeMessageSize(2, getTxMeta());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6124,10 +3595,10 @@ public final class LongTxProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.CommitTxRequest)) {
+      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest)) {
         return super.equals(obj);
       }
-      tech.ydb.long_tx.LongTxProtos.CommitTxRequest other = (tech.ydb.long_tx.LongTxProtos.CommitTxRequest) obj;
+      tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest other = (tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest) obj;
 
       boolean result = true;
       result = result && (hasOperationParams() == other.hasOperationParams());
@@ -6135,13 +3606,11 @@ public final class LongTxProtos {
         result = result && getOperationParams()
             .equals(other.getOperationParams());
       }
-      result = result && (hasTx() == other.hasTx());
-      if (hasTx()) {
-        result = result && getTx()
-            .equals(other.getTx());
+      result = result && (hasTxMeta() == other.hasTxMeta());
+      if (hasTxMeta()) {
+        result = result && getTxMeta()
+            .equals(other.getTxMeta());
       }
-      result = result && (getAbort()
-          == other.getAbort());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -6157,81 +3626,78 @@ public final class LongTxProtos {
         hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
         hash = (53 * hash) + getOperationParams().hashCode();
       }
-      if (hasTx()) {
-        hash = (37 * hash) + TX_FIELD_NUMBER;
-        hash = (53 * hash) + getTx().hashCode();
+      if (hasTxMeta()) {
+        hash = (37 * hash) + TX_META_FIELD_NUMBER;
+        hash = (53 * hash) + getTxMeta().hashCode();
       }
-      hash = (37 * hash) + ABORT_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-          getAbort());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxRequest parseFrom(byte[] data)
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxRequest parseFrom(java.io.InputStream input)
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxRequest parseDelimitedFrom(java.io.InputStream input)
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxRequest parseDelimitedFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxRequest parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -6243,7 +3709,7 @@ public final class LongTxProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.CommitTxRequest prototype) {
+    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -6258,25 +3724,25 @@ public final class LongTxProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code Ydb.LongTx.CommitTxRequest}
+     * Protobuf type {@code Ydb.LongTx.CommitTransactionRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.CommitTxRequest)
-        tech.ydb.long_tx.LongTxProtos.CommitTxRequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.CommitTransactionRequest)
+        tech.ydb.long_tx.LongTxProtos.CommitTransactionRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxRequest_descriptor;
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxRequest_fieldAccessorTable
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.long_tx.LongTxProtos.CommitTxRequest.class, tech.ydb.long_tx.LongTxProtos.CommitTxRequest.Builder.class);
+                tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest.class, tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest.Builder.class);
       }
 
-      // Construct using tech.ydb.long_tx.LongTxProtos.CommitTxRequest.newBuilder()
+      // Construct using tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -6299,47 +3765,44 @@ public final class LongTxProtos {
           operationParams_ = null;
           operationParamsBuilder_ = null;
         }
-        if (txBuilder_ == null) {
-          tx_ = null;
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
         } else {
-          tx_ = null;
-          txBuilder_ = null;
+          txMeta_ = null;
+          txMetaBuilder_ = null;
         }
-        abort_ = false;
-
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxRequest_descriptor;
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionRequest_descriptor;
       }
 
-      public tech.ydb.long_tx.LongTxProtos.CommitTxRequest getDefaultInstanceForType() {
-        return tech.ydb.long_tx.LongTxProtos.CommitTxRequest.getDefaultInstance();
+      public tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest getDefaultInstanceForType() {
+        return tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest.getDefaultInstance();
       }
 
-      public tech.ydb.long_tx.LongTxProtos.CommitTxRequest build() {
-        tech.ydb.long_tx.LongTxProtos.CommitTxRequest result = buildPartial();
+      public tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest build() {
+        tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public tech.ydb.long_tx.LongTxProtos.CommitTxRequest buildPartial() {
-        tech.ydb.long_tx.LongTxProtos.CommitTxRequest result = new tech.ydb.long_tx.LongTxProtos.CommitTxRequest(this);
+      public tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest buildPartial() {
+        tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest result = new tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest(this);
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
-        if (txBuilder_ == null) {
-          result.tx_ = tx_;
+        if (txMetaBuilder_ == null) {
+          result.txMeta_ = txMeta_;
         } else {
-          result.tx_ = txBuilder_.build();
+          result.txMeta_ = txMetaBuilder_.build();
         }
-        result.abort_ = abort_;
         onBuilt();
         return result;
       }
@@ -6371,24 +3834,21 @@ public final class LongTxProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.long_tx.LongTxProtos.CommitTxRequest) {
-          return mergeFrom((tech.ydb.long_tx.LongTxProtos.CommitTxRequest)other);
+        if (other instanceof tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest) {
+          return mergeFrom((tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.CommitTxRequest other) {
-        if (other == tech.ydb.long_tx.LongTxProtos.CommitTxRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest other) {
+        if (other == tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest.getDefaultInstance()) return this;
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
         }
-        if (other.hasTx()) {
-          mergeTx(other.getTx());
-        }
-        if (other.getAbort() != false) {
-          setAbort(other.getAbort());
+        if (other.hasTxMeta()) {
+          mergeTxMeta(other.getTxMeta());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -6403,11 +3863,11 @@ public final class LongTxProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        tech.ydb.long_tx.LongTxProtos.CommitTxRequest parsedMessage = null;
+        tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.long_tx.LongTxProtos.CommitTxRequest) e.getUnfinishedMessage();
+          parsedMessage = (tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -6534,147 +3994,121 @@ public final class LongTxProtos {
         return operationParamsBuilder_;
       }
 
-      private tech.ydb.long_tx.LongTxProtos.LongTx tx_ = null;
+      private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTx, tech.ydb.long_tx.LongTxProtos.LongTx.Builder, tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder> txBuilder_;
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> txMetaBuilder_;
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public boolean hasTx() {
-        return txBuilder_ != null || tx_ != null;
+      public boolean hasTxMeta() {
+        return txMetaBuilder_ != null || txMeta_ != null;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTx getTx() {
-        if (txBuilder_ == null) {
-          return tx_ == null ? tech.ydb.long_tx.LongTxProtos.LongTx.getDefaultInstance() : tx_;
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+        if (txMetaBuilder_ == null) {
+          return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
         } else {
-          return txBuilder_.getMessage();
+          return txMetaBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public Builder setTx(tech.ydb.long_tx.LongTxProtos.LongTx value) {
-        if (txBuilder_ == null) {
+      public Builder setTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          tx_ = value;
+          txMeta_ = value;
           onChanged();
         } else {
-          txBuilder_.setMessage(value);
+          txMetaBuilder_.setMessage(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public Builder setTx(
-          tech.ydb.long_tx.LongTxProtos.LongTx.Builder builderForValue) {
-        if (txBuilder_ == null) {
-          tx_ = builderForValue.build();
+      public Builder setTxMeta(
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder builderForValue) {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = builderForValue.build();
           onChanged();
         } else {
-          txBuilder_.setMessage(builderForValue.build());
+          txMetaBuilder_.setMessage(builderForValue.build());
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public Builder mergeTx(tech.ydb.long_tx.LongTxProtos.LongTx value) {
-        if (txBuilder_ == null) {
-          if (tx_ != null) {
-            tx_ =
-              tech.ydb.long_tx.LongTxProtos.LongTx.newBuilder(tx_).mergeFrom(value).buildPartial();
+      public Builder mergeTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
+          if (txMeta_ != null) {
+            txMeta_ =
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.newBuilder(txMeta_).mergeFrom(value).buildPartial();
           } else {
-            tx_ = value;
+            txMeta_ = value;
           }
           onChanged();
         } else {
-          txBuilder_.mergeFrom(value);
+          txMetaBuilder_.mergeFrom(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public Builder clearTx() {
-        if (txBuilder_ == null) {
-          tx_ = null;
+      public Builder clearTxMeta() {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
           onChanged();
         } else {
-          tx_ = null;
-          txBuilder_ = null;
+          txMeta_ = null;
+          txMetaBuilder_ = null;
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTx.Builder getTxBuilder() {
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder getTxMetaBuilder() {
         
         onChanged();
-        return getTxFieldBuilder().getBuilder();
+        return getTxMetaFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder getTxOrBuilder() {
-        if (txBuilder_ != null) {
-          return txBuilder_.getMessageOrBuilder();
+      public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+        if (txMetaBuilder_ != null) {
+          return txMetaBuilder_.getMessageOrBuilder();
         } else {
-          return tx_ == null ?
-              tech.ydb.long_tx.LongTxProtos.LongTx.getDefaultInstance() : tx_;
+          return txMeta_ == null ?
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
         }
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTx, tech.ydb.long_tx.LongTxProtos.LongTx.Builder, tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder> 
-          getTxFieldBuilder() {
-        if (txBuilder_ == null) {
-          txBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.LongTx, tech.ydb.long_tx.LongTxProtos.LongTx.Builder, tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder>(
-                  getTx(),
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> 
+          getTxMetaFieldBuilder() {
+        if (txMetaBuilder_ == null) {
+          txMetaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder>(
+                  getTxMeta(),
                   getParentForChildren(),
                   isClean());
-          tx_ = null;
+          txMeta_ = null;
         }
-        return txBuilder_;
-      }
-
-      private boolean abort_ ;
-      /**
-       * <code>bool abort = 3;</code>
-       */
-      public boolean getAbort() {
-        return abort_;
-      }
-      /**
-       * <code>bool abort = 3;</code>
-       */
-      public Builder setAbort(boolean value) {
-        
-        abort_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>bool abort = 3;</code>
-       */
-      public Builder clearAbort() {
-        
-        abort_ = false;
-        onChanged();
-        return this;
+        return txMetaBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -6687,80 +4121,74 @@ public final class LongTxProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.CommitTxRequest)
+      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.CommitTransactionRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:Ydb.LongTx.CommitTxRequest)
-    private static final tech.ydb.long_tx.LongTxProtos.CommitTxRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Ydb.LongTx.CommitTransactionRequest)
+    private static final tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.CommitTxRequest();
+      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest();
     }
 
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxRequest getDefaultInstance() {
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<CommitTxRequest>
-        PARSER = new com.google.protobuf.AbstractParser<CommitTxRequest>() {
-      public CommitTxRequest parsePartialFrom(
+    private static final com.google.protobuf.Parser<CommitTransactionRequest>
+        PARSER = new com.google.protobuf.AbstractParser<CommitTransactionRequest>() {
+      public CommitTransactionRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CommitTxRequest(input, extensionRegistry);
+          return new CommitTransactionRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<CommitTxRequest> parser() {
+    public static com.google.protobuf.Parser<CommitTransactionRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<CommitTxRequest> getParserForType() {
+    public com.google.protobuf.Parser<CommitTransactionRequest> getParserForType() {
       return PARSER;
     }
 
-    public tech.ydb.long_tx.LongTxProtos.CommitTxRequest getDefaultInstanceForType() {
+    public tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface CommitTxResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.CommitTxResult)
+  public interface CommitTransactionResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.CommitTransactionResult)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    boolean hasTx();
+    boolean hasTxMeta();
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.LongTxId getTx();
+    tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta();
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder getTxOrBuilder();
-
-    /**
-     * <code>bool abort = 2;</code>
-     */
-    boolean getAbort();
+    tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder();
   }
   /**
-   * Protobuf type {@code Ydb.LongTx.CommitTxResult}
+   * Protobuf type {@code Ydb.LongTx.CommitTransactionResult}
    */
-  public  static final class CommitTxResult extends
+  public  static final class CommitTransactionResult extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.LongTx.CommitTxResult)
-      CommitTxResultOrBuilder {
+      // @@protoc_insertion_point(message_implements:Ydb.LongTx.CommitTransactionResult)
+      CommitTransactionResultOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use CommitTxResult.newBuilder() to construct.
-    private CommitTxResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use CommitTransactionResult.newBuilder() to construct.
+    private CommitTransactionResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private CommitTxResult() {
-      abort_ = false;
+    private CommitTransactionResult() {
     }
 
     @java.lang.Override
@@ -6768,7 +4196,7 @@ public final class LongTxProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private CommitTxResult(
+    private CommitTransactionResult(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -6792,21 +4220,16 @@ public final class LongTxProtos {
               break;
             }
             case 10: {
-              tech.ydb.long_tx.LongTxProtos.LongTxId.Builder subBuilder = null;
-              if (tx_ != null) {
-                subBuilder = tx_.toBuilder();
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder subBuilder = null;
+              if (txMeta_ != null) {
+                subBuilder = txMeta_.toBuilder();
               }
-              tx_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.LongTxId.parser(), extensionRegistry);
+              txMeta_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.TransactionMeta.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(tx_);
-                tx_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(txMeta_);
+                txMeta_ = subBuilder.buildPartial();
               }
 
-              break;
-            }
-            case 16: {
-
-              abort_ = input.readBool();
               break;
             }
           }
@@ -6823,44 +4246,35 @@ public final class LongTxProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxResult_descriptor;
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResult_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxResult_fieldAccessorTable
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              tech.ydb.long_tx.LongTxProtos.CommitTxResult.class, tech.ydb.long_tx.LongTxProtos.CommitTxResult.Builder.class);
+              tech.ydb.long_tx.LongTxProtos.CommitTransactionResult.class, tech.ydb.long_tx.LongTxProtos.CommitTransactionResult.Builder.class);
     }
 
-    public static final int TX_FIELD_NUMBER = 1;
-    private tech.ydb.long_tx.LongTxProtos.LongTxId tx_;
+    public static final int TX_META_FIELD_NUMBER = 1;
+    private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_;
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    public boolean hasTx() {
-      return tx_ != null;
+    public boolean hasTxMeta() {
+      return txMeta_ != null;
     }
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.LongTxId getTx() {
-      return tx_ == null ? tech.ydb.long_tx.LongTxProtos.LongTxId.getDefaultInstance() : tx_;
+    public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+      return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
     }
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder getTxOrBuilder() {
-      return getTx();
-    }
-
-    public static final int ABORT_FIELD_NUMBER = 2;
-    private boolean abort_;
-    /**
-     * <code>bool abort = 2;</code>
-     */
-    public boolean getAbort() {
-      return abort_;
+    public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+      return getTxMeta();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -6875,11 +4289,8 @@ public final class LongTxProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (tx_ != null) {
-        output.writeMessage(1, getTx());
-      }
-      if (abort_ != false) {
-        output.writeBool(2, abort_);
+      if (txMeta_ != null) {
+        output.writeMessage(1, getTxMeta());
       }
       unknownFields.writeTo(output);
     }
@@ -6889,13 +4300,9 @@ public final class LongTxProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (tx_ != null) {
+      if (txMeta_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getTx());
-      }
-      if (abort_ != false) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(2, abort_);
+          .computeMessageSize(1, getTxMeta());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6907,19 +4314,17 @@ public final class LongTxProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.CommitTxResult)) {
+      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.CommitTransactionResult)) {
         return super.equals(obj);
       }
-      tech.ydb.long_tx.LongTxProtos.CommitTxResult other = (tech.ydb.long_tx.LongTxProtos.CommitTxResult) obj;
+      tech.ydb.long_tx.LongTxProtos.CommitTransactionResult other = (tech.ydb.long_tx.LongTxProtos.CommitTransactionResult) obj;
 
       boolean result = true;
-      result = result && (hasTx() == other.hasTx());
-      if (hasTx()) {
-        result = result && getTx()
-            .equals(other.getTx());
+      result = result && (hasTxMeta() == other.hasTxMeta());
+      if (hasTxMeta()) {
+        result = result && getTxMeta()
+            .equals(other.getTxMeta());
       }
-      result = result && (getAbort()
-          == other.getAbort());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -6931,81 +4336,78 @@ public final class LongTxProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasTx()) {
-        hash = (37 * hash) + TX_FIELD_NUMBER;
-        hash = (53 * hash) + getTx().hashCode();
+      if (hasTxMeta()) {
+        hash = (37 * hash) + TX_META_FIELD_NUMBER;
+        hash = (53 * hash) + getTxMeta().hashCode();
       }
-      hash = (37 * hash) + ABORT_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-          getAbort());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResult parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResult parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResult parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResult parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResult parseFrom(byte[] data)
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResult parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResult parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResult parseFrom(java.io.InputStream input)
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResult parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResult parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResult parseDelimitedFrom(java.io.InputStream input)
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResult parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResult parseDelimitedFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResult parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResult parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResult parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResult parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -7017,7 +4419,7 @@ public final class LongTxProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.CommitTxResult prototype) {
+    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.CommitTransactionResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -7032,25 +4434,25 @@ public final class LongTxProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code Ydb.LongTx.CommitTxResult}
+     * Protobuf type {@code Ydb.LongTx.CommitTransactionResult}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.CommitTxResult)
-        tech.ydb.long_tx.LongTxProtos.CommitTxResultOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.CommitTransactionResult)
+        tech.ydb.long_tx.LongTxProtos.CommitTransactionResultOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxResult_descriptor;
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResult_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxResult_fieldAccessorTable
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResult_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.long_tx.LongTxProtos.CommitTxResult.class, tech.ydb.long_tx.LongTxProtos.CommitTxResult.Builder.class);
+                tech.ydb.long_tx.LongTxProtos.CommitTransactionResult.class, tech.ydb.long_tx.LongTxProtos.CommitTransactionResult.Builder.class);
       }
 
-      // Construct using tech.ydb.long_tx.LongTxProtos.CommitTxResult.newBuilder()
+      // Construct using tech.ydb.long_tx.LongTxProtos.CommitTransactionResult.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -7067,42 +4469,39 @@ public final class LongTxProtos {
       }
       public Builder clear() {
         super.clear();
-        if (txBuilder_ == null) {
-          tx_ = null;
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
         } else {
-          tx_ = null;
-          txBuilder_ = null;
+          txMeta_ = null;
+          txMetaBuilder_ = null;
         }
-        abort_ = false;
-
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxResult_descriptor;
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResult_descriptor;
       }
 
-      public tech.ydb.long_tx.LongTxProtos.CommitTxResult getDefaultInstanceForType() {
-        return tech.ydb.long_tx.LongTxProtos.CommitTxResult.getDefaultInstance();
+      public tech.ydb.long_tx.LongTxProtos.CommitTransactionResult getDefaultInstanceForType() {
+        return tech.ydb.long_tx.LongTxProtos.CommitTransactionResult.getDefaultInstance();
       }
 
-      public tech.ydb.long_tx.LongTxProtos.CommitTxResult build() {
-        tech.ydb.long_tx.LongTxProtos.CommitTxResult result = buildPartial();
+      public tech.ydb.long_tx.LongTxProtos.CommitTransactionResult build() {
+        tech.ydb.long_tx.LongTxProtos.CommitTransactionResult result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public tech.ydb.long_tx.LongTxProtos.CommitTxResult buildPartial() {
-        tech.ydb.long_tx.LongTxProtos.CommitTxResult result = new tech.ydb.long_tx.LongTxProtos.CommitTxResult(this);
-        if (txBuilder_ == null) {
-          result.tx_ = tx_;
+      public tech.ydb.long_tx.LongTxProtos.CommitTransactionResult buildPartial() {
+        tech.ydb.long_tx.LongTxProtos.CommitTransactionResult result = new tech.ydb.long_tx.LongTxProtos.CommitTransactionResult(this);
+        if (txMetaBuilder_ == null) {
+          result.txMeta_ = txMeta_;
         } else {
-          result.tx_ = txBuilder_.build();
+          result.txMeta_ = txMetaBuilder_.build();
         }
-        result.abort_ = abort_;
         onBuilt();
         return result;
       }
@@ -7134,21 +4533,18 @@ public final class LongTxProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.long_tx.LongTxProtos.CommitTxResult) {
-          return mergeFrom((tech.ydb.long_tx.LongTxProtos.CommitTxResult)other);
+        if (other instanceof tech.ydb.long_tx.LongTxProtos.CommitTransactionResult) {
+          return mergeFrom((tech.ydb.long_tx.LongTxProtos.CommitTransactionResult)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.CommitTxResult other) {
-        if (other == tech.ydb.long_tx.LongTxProtos.CommitTxResult.getDefaultInstance()) return this;
-        if (other.hasTx()) {
-          mergeTx(other.getTx());
-        }
-        if (other.getAbort() != false) {
-          setAbort(other.getAbort());
+      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.CommitTransactionResult other) {
+        if (other == tech.ydb.long_tx.LongTxProtos.CommitTransactionResult.getDefaultInstance()) return this;
+        if (other.hasTxMeta()) {
+          mergeTxMeta(other.getTxMeta());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -7163,11 +4559,11 @@ public final class LongTxProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        tech.ydb.long_tx.LongTxProtos.CommitTxResult parsedMessage = null;
+        tech.ydb.long_tx.LongTxProtos.CommitTransactionResult parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.long_tx.LongTxProtos.CommitTxResult) e.getUnfinishedMessage();
+          parsedMessage = (tech.ydb.long_tx.LongTxProtos.CommitTransactionResult) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -7177,147 +4573,121 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.long_tx.LongTxProtos.LongTxId tx_ = null;
+      private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTxId, tech.ydb.long_tx.LongTxProtos.LongTxId.Builder, tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder> txBuilder_;
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> txMetaBuilder_;
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public boolean hasTx() {
-        return txBuilder_ != null || tx_ != null;
+      public boolean hasTxMeta() {
+        return txMetaBuilder_ != null || txMeta_ != null;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTxId getTx() {
-        if (txBuilder_ == null) {
-          return tx_ == null ? tech.ydb.long_tx.LongTxProtos.LongTxId.getDefaultInstance() : tx_;
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+        if (txMetaBuilder_ == null) {
+          return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
         } else {
-          return txBuilder_.getMessage();
+          return txMetaBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder setTx(tech.ydb.long_tx.LongTxProtos.LongTxId value) {
-        if (txBuilder_ == null) {
+      public Builder setTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          tx_ = value;
+          txMeta_ = value;
           onChanged();
         } else {
-          txBuilder_.setMessage(value);
+          txMetaBuilder_.setMessage(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder setTx(
-          tech.ydb.long_tx.LongTxProtos.LongTxId.Builder builderForValue) {
-        if (txBuilder_ == null) {
-          tx_ = builderForValue.build();
+      public Builder setTxMeta(
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder builderForValue) {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = builderForValue.build();
           onChanged();
         } else {
-          txBuilder_.setMessage(builderForValue.build());
+          txMetaBuilder_.setMessage(builderForValue.build());
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder mergeTx(tech.ydb.long_tx.LongTxProtos.LongTxId value) {
-        if (txBuilder_ == null) {
-          if (tx_ != null) {
-            tx_ =
-              tech.ydb.long_tx.LongTxProtos.LongTxId.newBuilder(tx_).mergeFrom(value).buildPartial();
+      public Builder mergeTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
+          if (txMeta_ != null) {
+            txMeta_ =
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.newBuilder(txMeta_).mergeFrom(value).buildPartial();
           } else {
-            tx_ = value;
+            txMeta_ = value;
           }
           onChanged();
         } else {
-          txBuilder_.mergeFrom(value);
+          txMetaBuilder_.mergeFrom(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder clearTx() {
-        if (txBuilder_ == null) {
-          tx_ = null;
+      public Builder clearTxMeta() {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
           onChanged();
         } else {
-          tx_ = null;
-          txBuilder_ = null;
+          txMeta_ = null;
+          txMetaBuilder_ = null;
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTxId.Builder getTxBuilder() {
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder getTxMetaBuilder() {
         
         onChanged();
-        return getTxFieldBuilder().getBuilder();
+        return getTxMetaFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder getTxOrBuilder() {
-        if (txBuilder_ != null) {
-          return txBuilder_.getMessageOrBuilder();
+      public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+        if (txMetaBuilder_ != null) {
+          return txMetaBuilder_.getMessageOrBuilder();
         } else {
-          return tx_ == null ?
-              tech.ydb.long_tx.LongTxProtos.LongTxId.getDefaultInstance() : tx_;
+          return txMeta_ == null ?
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
         }
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTxId, tech.ydb.long_tx.LongTxProtos.LongTxId.Builder, tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder> 
-          getTxFieldBuilder() {
-        if (txBuilder_ == null) {
-          txBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.LongTxId, tech.ydb.long_tx.LongTxProtos.LongTxId.Builder, tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder>(
-                  getTx(),
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> 
+          getTxMetaFieldBuilder() {
+        if (txMetaBuilder_ == null) {
+          txMetaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder>(
+                  getTxMeta(),
                   getParentForChildren(),
                   isClean());
-          tx_ = null;
+          txMeta_ = null;
         }
-        return txBuilder_;
-      }
-
-      private boolean abort_ ;
-      /**
-       * <code>bool abort = 2;</code>
-       */
-      public boolean getAbort() {
-        return abort_;
-      }
-      /**
-       * <code>bool abort = 2;</code>
-       */
-      public Builder setAbort(boolean value) {
-        
-        abort_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>bool abort = 2;</code>
-       */
-      public Builder clearAbort() {
-        
-        abort_ = false;
-        onChanged();
-        return this;
+        return txMetaBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -7330,46 +4700,46 @@ public final class LongTxProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.CommitTxResult)
+      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.CommitTransactionResult)
     }
 
-    // @@protoc_insertion_point(class_scope:Ydb.LongTx.CommitTxResult)
-    private static final tech.ydb.long_tx.LongTxProtos.CommitTxResult DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Ydb.LongTx.CommitTransactionResult)
+    private static final tech.ydb.long_tx.LongTxProtos.CommitTransactionResult DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.CommitTxResult();
+      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.CommitTransactionResult();
     }
 
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResult getDefaultInstance() {
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResult getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<CommitTxResult>
-        PARSER = new com.google.protobuf.AbstractParser<CommitTxResult>() {
-      public CommitTxResult parsePartialFrom(
+    private static final com.google.protobuf.Parser<CommitTransactionResult>
+        PARSER = new com.google.protobuf.AbstractParser<CommitTransactionResult>() {
+      public CommitTransactionResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CommitTxResult(input, extensionRegistry);
+          return new CommitTransactionResult(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<CommitTxResult> parser() {
+    public static com.google.protobuf.Parser<CommitTransactionResult> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<CommitTxResult> getParserForType() {
+    public com.google.protobuf.Parser<CommitTransactionResult> getParserForType() {
       return PARSER;
     }
 
-    public tech.ydb.long_tx.LongTxProtos.CommitTxResult getDefaultInstanceForType() {
+    public tech.ydb.long_tx.LongTxProtos.CommitTransactionResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface CommitTxResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.CommitTxResponse)
+  public interface CommitTransactionResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.CommitTransactionResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -7386,18 +4756,18 @@ public final class LongTxProtos {
     tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
   }
   /**
-   * Protobuf type {@code Ydb.LongTx.CommitTxResponse}
+   * Protobuf type {@code Ydb.LongTx.CommitTransactionResponse}
    */
-  public  static final class CommitTxResponse extends
+  public  static final class CommitTransactionResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.LongTx.CommitTxResponse)
-      CommitTxResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:Ydb.LongTx.CommitTransactionResponse)
+      CommitTransactionResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use CommitTxResponse.newBuilder() to construct.
-    private CommitTxResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use CommitTransactionResponse.newBuilder() to construct.
+    private CommitTransactionResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private CommitTxResponse() {
+    private CommitTransactionResponse() {
     }
 
     @java.lang.Override
@@ -7405,7 +4775,7 @@ public final class LongTxProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private CommitTxResponse(
+    private CommitTransactionResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -7455,14 +4825,14 @@ public final class LongTxProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxResponse_descriptor;
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxResponse_fieldAccessorTable
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              tech.ydb.long_tx.LongTxProtos.CommitTxResponse.class, tech.ydb.long_tx.LongTxProtos.CommitTxResponse.Builder.class);
+              tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse.class, tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse.Builder.class);
     }
 
     public static final int OPERATION_FIELD_NUMBER = 1;
@@ -7523,10 +4893,10 @@ public final class LongTxProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.CommitTxResponse)) {
+      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse)) {
         return super.equals(obj);
       }
-      tech.ydb.long_tx.LongTxProtos.CommitTxResponse other = (tech.ydb.long_tx.LongTxProtos.CommitTxResponse) obj;
+      tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse other = (tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse) obj;
 
       boolean result = true;
       result = result && (hasOperation() == other.hasOperation());
@@ -7554,69 +4924,69 @@ public final class LongTxProtos {
       return hash;
     }
 
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResponse parseFrom(byte[] data)
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResponse parseFrom(java.io.InputStream input)
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResponse parseDelimitedFrom(java.io.InputStream input)
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResponse parseDelimitedFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResponse parseFrom(
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -7628,7 +4998,7 @@ public final class LongTxProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.CommitTxResponse prototype) {
+    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -7643,25 +5013,25 @@ public final class LongTxProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code Ydb.LongTx.CommitTxResponse}
+     * Protobuf type {@code Ydb.LongTx.CommitTransactionResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.CommitTxResponse)
-        tech.ydb.long_tx.LongTxProtos.CommitTxResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.CommitTransactionResponse)
+        tech.ydb.long_tx.LongTxProtos.CommitTransactionResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxResponse_descriptor;
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxResponse_fieldAccessorTable
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.long_tx.LongTxProtos.CommitTxResponse.class, tech.ydb.long_tx.LongTxProtos.CommitTxResponse.Builder.class);
+                tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse.class, tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse.Builder.class);
       }
 
-      // Construct using tech.ydb.long_tx.LongTxProtos.CommitTxResponse.newBuilder()
+      // Construct using tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -7689,23 +5059,23 @@ public final class LongTxProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTxResponse_descriptor;
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResponse_descriptor;
       }
 
-      public tech.ydb.long_tx.LongTxProtos.CommitTxResponse getDefaultInstanceForType() {
-        return tech.ydb.long_tx.LongTxProtos.CommitTxResponse.getDefaultInstance();
+      public tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse getDefaultInstanceForType() {
+        return tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse.getDefaultInstance();
       }
 
-      public tech.ydb.long_tx.LongTxProtos.CommitTxResponse build() {
-        tech.ydb.long_tx.LongTxProtos.CommitTxResponse result = buildPartial();
+      public tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse build() {
+        tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public tech.ydb.long_tx.LongTxProtos.CommitTxResponse buildPartial() {
-        tech.ydb.long_tx.LongTxProtos.CommitTxResponse result = new tech.ydb.long_tx.LongTxProtos.CommitTxResponse(this);
+      public tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse buildPartial() {
+        tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse result = new tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse(this);
         if (operationBuilder_ == null) {
           result.operation_ = operation_;
         } else {
@@ -7742,16 +5112,16 @@ public final class LongTxProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.long_tx.LongTxProtos.CommitTxResponse) {
-          return mergeFrom((tech.ydb.long_tx.LongTxProtos.CommitTxResponse)other);
+        if (other instanceof tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse) {
+          return mergeFrom((tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.CommitTxResponse other) {
-        if (other == tech.ydb.long_tx.LongTxProtos.CommitTxResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse other) {
+        if (other == tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse.getDefaultInstance()) return this;
         if (other.hasOperation()) {
           mergeOperation(other.getOperation());
         }
@@ -7768,11 +5138,11 @@ public final class LongTxProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        tech.ydb.long_tx.LongTxProtos.CommitTxResponse parsedMessage = null;
+        tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.long_tx.LongTxProtos.CommitTxResponse) e.getUnfinishedMessage();
+          parsedMessage = (tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -7909,39 +5279,1970 @@ public final class LongTxProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.CommitTxResponse)
+      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.CommitTransactionResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:Ydb.LongTx.CommitTxResponse)
-    private static final tech.ydb.long_tx.LongTxProtos.CommitTxResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Ydb.LongTx.CommitTransactionResponse)
+    private static final tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.CommitTxResponse();
+      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse();
     }
 
-    public static tech.ydb.long_tx.LongTxProtos.CommitTxResponse getDefaultInstance() {
+    public static tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<CommitTxResponse>
-        PARSER = new com.google.protobuf.AbstractParser<CommitTxResponse>() {
-      public CommitTxResponse parsePartialFrom(
+    private static final com.google.protobuf.Parser<CommitTransactionResponse>
+        PARSER = new com.google.protobuf.AbstractParser<CommitTransactionResponse>() {
+      public CommitTransactionResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CommitTxResponse(input, extensionRegistry);
+          return new CommitTransactionResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<CommitTxResponse> parser() {
+    public static com.google.protobuf.Parser<CommitTransactionResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<CommitTxResponse> getParserForType() {
+    public com.google.protobuf.Parser<CommitTransactionResponse> getParserForType() {
       return PARSER;
     }
 
-    public tech.ydb.long_tx.LongTxProtos.CommitTxResponse getDefaultInstanceForType() {
+    public tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface RollbackTransactionRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.RollbackTransactionRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+     */
+    boolean hasTxMeta();
+    /**
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+     */
+    tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta();
+    /**
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+     */
+    tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.LongTx.RollbackTransactionRequest}
+   */
+  public  static final class RollbackTransactionRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.LongTx.RollbackTransactionRequest)
+      RollbackTransactionRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RollbackTransactionRequest.newBuilder() to construct.
+    private RollbackTransactionRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RollbackTransactionRequest() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RollbackTransactionRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder subBuilder = null;
+              if (txMeta_ != null) {
+                subBuilder = txMeta_.toBuilder();
+              }
+              txMeta_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.TransactionMeta.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(txMeta_);
+                txMeta_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest.class, tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest.Builder.class);
+    }
+
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int TX_META_FIELD_NUMBER = 2;
+    private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_;
+    /**
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+     */
+    public boolean hasTxMeta() {
+      return txMeta_ != null;
+    }
+    /**
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+     */
+    public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+      return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
+    }
+    /**
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+     */
+    public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+      return getTxMeta();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operationParams_ != null) {
+        output.writeMessage(1, getOperationParams());
+      }
+      if (txMeta_ != null) {
+        output.writeMessage(2, getTxMeta());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperationParams());
+      }
+      if (txMeta_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getTxMeta());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest)) {
+        return super.equals(obj);
+      }
+      tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest other = (tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest) obj;
+
+      boolean result = true;
+      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams()) {
+        result = result && getOperationParams()
+            .equals(other.getOperationParams());
+      }
+      result = result && (hasTxMeta() == other.hasTxMeta());
+      if (hasTxMeta()) {
+        result = result && getTxMeta()
+            .equals(other.getTxMeta());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      if (hasTxMeta()) {
+        hash = (37 * hash) + TX_META_FIELD_NUMBER;
+        hash = (53 * hash) + getTxMeta().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.LongTx.RollbackTransactionRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.RollbackTransactionRequest)
+        tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest.class, tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest.Builder.class);
+      }
+
+      // Construct using tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
+        } else {
+          txMeta_ = null;
+          txMetaBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionRequest_descriptor;
+      }
+
+      public tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest getDefaultInstanceForType() {
+        return tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest.getDefaultInstance();
+      }
+
+      public tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest build() {
+        tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest buildPartial() {
+        tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest result = new tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest(this);
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        if (txMetaBuilder_ == null) {
+          result.txMeta_ = txMeta_;
+        } else {
+          result.txMeta_ = txMetaBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest) {
+          return mergeFrom((tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest other) {
+        if (other == tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest.getDefaultInstance()) return this;
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        if (other.hasTxMeta()) {
+          mergeTxMeta(other.getTxMeta());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
+      private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> txMetaBuilder_;
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+       */
+      public boolean hasTxMeta() {
+        return txMetaBuilder_ != null || txMeta_ != null;
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+       */
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+        if (txMetaBuilder_ == null) {
+          return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
+        } else {
+          return txMetaBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+       */
+      public Builder setTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          txMeta_ = value;
+          onChanged();
+        } else {
+          txMetaBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+       */
+      public Builder setTxMeta(
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder builderForValue) {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = builderForValue.build();
+          onChanged();
+        } else {
+          txMetaBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+       */
+      public Builder mergeTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
+          if (txMeta_ != null) {
+            txMeta_ =
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.newBuilder(txMeta_).mergeFrom(value).buildPartial();
+          } else {
+            txMeta_ = value;
+          }
+          onChanged();
+        } else {
+          txMetaBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+       */
+      public Builder clearTxMeta() {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
+          onChanged();
+        } else {
+          txMeta_ = null;
+          txMetaBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+       */
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder getTxMetaBuilder() {
+        
+        onChanged();
+        return getTxMetaFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+       */
+      public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+        if (txMetaBuilder_ != null) {
+          return txMetaBuilder_.getMessageOrBuilder();
+        } else {
+          return txMeta_ == null ?
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
+        }
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> 
+          getTxMetaFieldBuilder() {
+        if (txMetaBuilder_ == null) {
+          txMetaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder>(
+                  getTxMeta(),
+                  getParentForChildren(),
+                  isClean());
+          txMeta_ = null;
+        }
+        return txMetaBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.RollbackTransactionRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.LongTx.RollbackTransactionRequest)
+    private static final tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest();
+    }
+
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RollbackTransactionRequest>
+        PARSER = new com.google.protobuf.AbstractParser<RollbackTransactionRequest>() {
+      public RollbackTransactionRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new RollbackTransactionRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RollbackTransactionRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RollbackTransactionRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface RollbackTransactionResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.RollbackTransactionResult)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+     */
+    boolean hasTxMeta();
+    /**
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+     */
+    tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta();
+    /**
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+     */
+    tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.LongTx.RollbackTransactionResult}
+   */
+  public  static final class RollbackTransactionResult extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.LongTx.RollbackTransactionResult)
+      RollbackTransactionResultOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RollbackTransactionResult.newBuilder() to construct.
+    private RollbackTransactionResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RollbackTransactionResult() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RollbackTransactionResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder subBuilder = null;
+              if (txMeta_ != null) {
+                subBuilder = txMeta_.toBuilder();
+              }
+              txMeta_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.TransactionMeta.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(txMeta_);
+                txMeta_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResult_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult.class, tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult.Builder.class);
+    }
+
+    public static final int TX_META_FIELD_NUMBER = 1;
+    private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_;
+    /**
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+     */
+    public boolean hasTxMeta() {
+      return txMeta_ != null;
+    }
+    /**
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+     */
+    public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+      return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
+    }
+    /**
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+     */
+    public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+      return getTxMeta();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (txMeta_ != null) {
+        output.writeMessage(1, getTxMeta());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (txMeta_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getTxMeta());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult)) {
+        return super.equals(obj);
+      }
+      tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult other = (tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult) obj;
+
+      boolean result = true;
+      result = result && (hasTxMeta() == other.hasTxMeta());
+      if (hasTxMeta()) {
+        result = result && getTxMeta()
+            .equals(other.getTxMeta());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasTxMeta()) {
+        hash = (37 * hash) + TX_META_FIELD_NUMBER;
+        hash = (53 * hash) + getTxMeta().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.LongTx.RollbackTransactionResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.RollbackTransactionResult)
+        tech.ydb.long_tx.LongTxProtos.RollbackTransactionResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResult_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult.class, tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult.Builder.class);
+      }
+
+      // Construct using tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
+        } else {
+          txMeta_ = null;
+          txMetaBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResult_descriptor;
+      }
+
+      public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult getDefaultInstanceForType() {
+        return tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult.getDefaultInstance();
+      }
+
+      public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult build() {
+        tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult buildPartial() {
+        tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult result = new tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult(this);
+        if (txMetaBuilder_ == null) {
+          result.txMeta_ = txMeta_;
+        } else {
+          result.txMeta_ = txMetaBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult) {
+          return mergeFrom((tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult other) {
+        if (other == tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult.getDefaultInstance()) return this;
+        if (other.hasTxMeta()) {
+          mergeTxMeta(other.getTxMeta());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> txMetaBuilder_;
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+       */
+      public boolean hasTxMeta() {
+        return txMetaBuilder_ != null || txMeta_ != null;
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+       */
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+        if (txMetaBuilder_ == null) {
+          return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
+        } else {
+          return txMetaBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+       */
+      public Builder setTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          txMeta_ = value;
+          onChanged();
+        } else {
+          txMetaBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+       */
+      public Builder setTxMeta(
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder builderForValue) {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = builderForValue.build();
+          onChanged();
+        } else {
+          txMetaBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+       */
+      public Builder mergeTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
+          if (txMeta_ != null) {
+            txMeta_ =
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.newBuilder(txMeta_).mergeFrom(value).buildPartial();
+          } else {
+            txMeta_ = value;
+          }
+          onChanged();
+        } else {
+          txMetaBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+       */
+      public Builder clearTxMeta() {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
+          onChanged();
+        } else {
+          txMeta_ = null;
+          txMetaBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+       */
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder getTxMetaBuilder() {
+        
+        onChanged();
+        return getTxMetaFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+       */
+      public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+        if (txMetaBuilder_ != null) {
+          return txMetaBuilder_.getMessageOrBuilder();
+        } else {
+          return txMeta_ == null ?
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
+        }
+      }
+      /**
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> 
+          getTxMetaFieldBuilder() {
+        if (txMetaBuilder_ == null) {
+          txMetaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder>(
+                  getTxMeta(),
+                  getParentForChildren(),
+                  isClean());
+          txMeta_ = null;
+        }
+        return txMetaBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.RollbackTransactionResult)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.LongTx.RollbackTransactionResult)
+    private static final tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult();
+    }
+
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RollbackTransactionResult>
+        PARSER = new com.google.protobuf.AbstractParser<RollbackTransactionResult>() {
+      public RollbackTransactionResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new RollbackTransactionResult(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RollbackTransactionResult> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RollbackTransactionResult> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface RollbackTransactionResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.LongTx.RollbackTransactionResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    boolean hasOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.LongTx.RollbackTransactionResponse}
+   */
+  public  static final class RollbackTransactionResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.LongTx.RollbackTransactionResponse)
+      RollbackTransactionResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RollbackTransactionResponse.newBuilder() to construct.
+    private RollbackTransactionResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RollbackTransactionResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RollbackTransactionResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse.class, tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse)) {
+        return super.equals(obj);
+      }
+      tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse other = (tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse) obj;
+
+      boolean result = true;
+      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation()) {
+        result = result && getOperation()
+            .equals(other.getOperation());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.LongTx.RollbackTransactionResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.LongTx.RollbackTransactionResponse)
+        tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse.class, tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse.Builder.class);
+      }
+
+      // Construct using tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResponse_descriptor;
+      }
+
+      public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse getDefaultInstanceForType() {
+        return tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse.getDefaultInstance();
+      }
+
+      public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse build() {
+        tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse buildPartial() {
+        tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse result = new tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse) {
+          return mergeFrom((tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse other) {
+        if (other == tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.LongTx.RollbackTransactionResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.LongTx.RollbackTransactionResponse)
+    private static final tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse();
+    }
+
+    public static tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RollbackTransactionResponse>
+        PARSER = new com.google.protobuf.AbstractParser<RollbackTransactionResponse>() {
+      public RollbackTransactionResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new RollbackTransactionResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RollbackTransactionResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RollbackTransactionResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -7965,32 +7266,37 @@ public final class LongTxProtos {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    boolean hasTx();
+    boolean hasTxMeta();
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.LongTx getTx();
+    tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta();
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder getTxOrBuilder();
+    tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder();
 
     /**
-     * <code>string table = 3;</code>
+     * <code>string path = 3;</code>
      */
-    java.lang.String getTable();
+    java.lang.String getPath();
     /**
-     * <code>string table = 3;</code>
+     * <code>string path = 3;</code>
      */
     com.google.protobuf.ByteString
-        getTableBytes();
+        getPathBytes();
 
     /**
-     * <code>uint32 chunk = 4;</code>
+     * <code>string dedup_id = 4;</code>
      */
-    int getChunk();
+    java.lang.String getDedupId();
+    /**
+     * <code>string dedup_id = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getDedupIdBytes();
 
     /**
      * <code>.Ydb.LongTx.Data data = 5;</code>
@@ -8018,8 +7324,8 @@ public final class LongTxProtos {
       super(builder);
     }
     private WriteRequest() {
-      table_ = "";
-      chunk_ = 0;
+      path_ = "";
+      dedupId_ = "";
     }
 
     @java.lang.Override
@@ -8064,14 +7370,14 @@ public final class LongTxProtos {
               break;
             }
             case 18: {
-              tech.ydb.long_tx.LongTxProtos.LongTx.Builder subBuilder = null;
-              if (tx_ != null) {
-                subBuilder = tx_.toBuilder();
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder subBuilder = null;
+              if (txMeta_ != null) {
+                subBuilder = txMeta_.toBuilder();
               }
-              tx_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.LongTx.parser(), extensionRegistry);
+              txMeta_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.TransactionMeta.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(tx_);
-                tx_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(txMeta_);
+                txMeta_ = subBuilder.buildPartial();
               }
 
               break;
@@ -8079,12 +7385,13 @@ public final class LongTxProtos {
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              table_ = s;
+              path_ = s;
               break;
             }
-            case 32: {
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              chunk_ = input.readUInt32();
+              dedupId_ = s;
               break;
             }
             case 42: {
@@ -8145,68 +7452,93 @@ public final class LongTxProtos {
       return getOperationParams();
     }
 
-    public static final int TX_FIELD_NUMBER = 2;
-    private tech.ydb.long_tx.LongTxProtos.LongTx tx_;
+    public static final int TX_META_FIELD_NUMBER = 2;
+    private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_;
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    public boolean hasTx() {
-      return tx_ != null;
+    public boolean hasTxMeta() {
+      return txMeta_ != null;
     }
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.LongTx getTx() {
-      return tx_ == null ? tech.ydb.long_tx.LongTxProtos.LongTx.getDefaultInstance() : tx_;
+    public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+      return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
     }
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder getTxOrBuilder() {
-      return getTx();
+    public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+      return getTxMeta();
     }
 
-    public static final int TABLE_FIELD_NUMBER = 3;
-    private volatile java.lang.Object table_;
+    public static final int PATH_FIELD_NUMBER = 3;
+    private volatile java.lang.Object path_;
     /**
-     * <code>string table = 3;</code>
+     * <code>string path = 3;</code>
      */
-    public java.lang.String getTable() {
-      java.lang.Object ref = table_;
+    public java.lang.String getPath() {
+      java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        table_ = s;
+        path_ = s;
         return s;
       }
     }
     /**
-     * <code>string table = 3;</code>
+     * <code>string path = 3;</code>
      */
     public com.google.protobuf.ByteString
-        getTableBytes() {
-      java.lang.Object ref = table_;
+        getPathBytes() {
+      java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        table_ = b;
+        path_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    public static final int CHUNK_FIELD_NUMBER = 4;
-    private int chunk_;
+    public static final int DEDUP_ID_FIELD_NUMBER = 4;
+    private volatile java.lang.Object dedupId_;
     /**
-     * <code>uint32 chunk = 4;</code>
+     * <code>string dedup_id = 4;</code>
      */
-    public int getChunk() {
-      return chunk_;
+    public java.lang.String getDedupId() {
+      java.lang.Object ref = dedupId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        dedupId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string dedup_id = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDedupIdBytes() {
+      java.lang.Object ref = dedupId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        dedupId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int DATA_FIELD_NUMBER = 5;
@@ -8245,14 +7577,14 @@ public final class LongTxProtos {
       if (operationParams_ != null) {
         output.writeMessage(1, getOperationParams());
       }
-      if (tx_ != null) {
-        output.writeMessage(2, getTx());
+      if (txMeta_ != null) {
+        output.writeMessage(2, getTxMeta());
       }
-      if (!getTableBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, table_);
+      if (!getPathBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, path_);
       }
-      if (chunk_ != 0) {
-        output.writeUInt32(4, chunk_);
+      if (!getDedupIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, dedupId_);
       }
       if (data_ != null) {
         output.writeMessage(5, getData());
@@ -8269,16 +7601,15 @@ public final class LongTxProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getOperationParams());
       }
-      if (tx_ != null) {
+      if (txMeta_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getTx());
+          .computeMessageSize(2, getTxMeta());
       }
-      if (!getTableBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, table_);
+      if (!getPathBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, path_);
       }
-      if (chunk_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(4, chunk_);
+      if (!getDedupIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, dedupId_);
       }
       if (data_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -8305,15 +7636,15 @@ public final class LongTxProtos {
         result = result && getOperationParams()
             .equals(other.getOperationParams());
       }
-      result = result && (hasTx() == other.hasTx());
-      if (hasTx()) {
-        result = result && getTx()
-            .equals(other.getTx());
+      result = result && (hasTxMeta() == other.hasTxMeta());
+      if (hasTxMeta()) {
+        result = result && getTxMeta()
+            .equals(other.getTxMeta());
       }
-      result = result && getTable()
-          .equals(other.getTable());
-      result = result && (getChunk()
-          == other.getChunk());
+      result = result && getPath()
+          .equals(other.getPath());
+      result = result && getDedupId()
+          .equals(other.getDedupId());
       result = result && (hasData() == other.hasData());
       if (hasData()) {
         result = result && getData()
@@ -8334,14 +7665,14 @@ public final class LongTxProtos {
         hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
         hash = (53 * hash) + getOperationParams().hashCode();
       }
-      if (hasTx()) {
-        hash = (37 * hash) + TX_FIELD_NUMBER;
-        hash = (53 * hash) + getTx().hashCode();
+      if (hasTxMeta()) {
+        hash = (37 * hash) + TX_META_FIELD_NUMBER;
+        hash = (53 * hash) + getTxMeta().hashCode();
       }
-      hash = (37 * hash) + TABLE_FIELD_NUMBER;
-      hash = (53 * hash) + getTable().hashCode();
-      hash = (37 * hash) + CHUNK_FIELD_NUMBER;
-      hash = (53 * hash) + getChunk();
+      hash = (37 * hash) + PATH_FIELD_NUMBER;
+      hash = (53 * hash) + getPath().hashCode();
+      hash = (37 * hash) + DEDUP_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getDedupId().hashCode();
       if (hasData()) {
         hash = (37 * hash) + DATA_FIELD_NUMBER;
         hash = (53 * hash) + getData().hashCode();
@@ -8481,15 +7812,15 @@ public final class LongTxProtos {
           operationParams_ = null;
           operationParamsBuilder_ = null;
         }
-        if (txBuilder_ == null) {
-          tx_ = null;
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
         } else {
-          tx_ = null;
-          txBuilder_ = null;
+          txMeta_ = null;
+          txMetaBuilder_ = null;
         }
-        table_ = "";
+        path_ = "";
 
-        chunk_ = 0;
+        dedupId_ = "";
 
         if (dataBuilder_ == null) {
           data_ = null;
@@ -8524,13 +7855,13 @@ public final class LongTxProtos {
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
-        if (txBuilder_ == null) {
-          result.tx_ = tx_;
+        if (txMetaBuilder_ == null) {
+          result.txMeta_ = txMeta_;
         } else {
-          result.tx_ = txBuilder_.build();
+          result.txMeta_ = txMetaBuilder_.build();
         }
-        result.table_ = table_;
-        result.chunk_ = chunk_;
+        result.path_ = path_;
+        result.dedupId_ = dedupId_;
         if (dataBuilder_ == null) {
           result.data_ = data_;
         } else {
@@ -8580,15 +7911,16 @@ public final class LongTxProtos {
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
         }
-        if (other.hasTx()) {
-          mergeTx(other.getTx());
+        if (other.hasTxMeta()) {
+          mergeTxMeta(other.getTxMeta());
         }
-        if (!other.getTable().isEmpty()) {
-          table_ = other.table_;
+        if (!other.getPath().isEmpty()) {
+          path_ = other.path_;
           onChanged();
         }
-        if (other.getChunk() != 0) {
-          setChunk(other.getChunk());
+        if (!other.getDedupId().isEmpty()) {
+          dedupId_ = other.dedupId_;
+          onChanged();
         }
         if (other.hasData()) {
           mergeData(other.getData());
@@ -8737,214 +8069,257 @@ public final class LongTxProtos {
         return operationParamsBuilder_;
       }
 
-      private tech.ydb.long_tx.LongTxProtos.LongTx tx_ = null;
+      private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTx, tech.ydb.long_tx.LongTxProtos.LongTx.Builder, tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder> txBuilder_;
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> txMetaBuilder_;
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public boolean hasTx() {
-        return txBuilder_ != null || tx_ != null;
+      public boolean hasTxMeta() {
+        return txMetaBuilder_ != null || txMeta_ != null;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTx getTx() {
-        if (txBuilder_ == null) {
-          return tx_ == null ? tech.ydb.long_tx.LongTxProtos.LongTx.getDefaultInstance() : tx_;
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+        if (txMetaBuilder_ == null) {
+          return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
         } else {
-          return txBuilder_.getMessage();
+          return txMetaBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public Builder setTx(tech.ydb.long_tx.LongTxProtos.LongTx value) {
-        if (txBuilder_ == null) {
+      public Builder setTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          tx_ = value;
+          txMeta_ = value;
           onChanged();
         } else {
-          txBuilder_.setMessage(value);
+          txMetaBuilder_.setMessage(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public Builder setTx(
-          tech.ydb.long_tx.LongTxProtos.LongTx.Builder builderForValue) {
-        if (txBuilder_ == null) {
-          tx_ = builderForValue.build();
+      public Builder setTxMeta(
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder builderForValue) {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = builderForValue.build();
           onChanged();
         } else {
-          txBuilder_.setMessage(builderForValue.build());
+          txMetaBuilder_.setMessage(builderForValue.build());
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public Builder mergeTx(tech.ydb.long_tx.LongTxProtos.LongTx value) {
-        if (txBuilder_ == null) {
-          if (tx_ != null) {
-            tx_ =
-              tech.ydb.long_tx.LongTxProtos.LongTx.newBuilder(tx_).mergeFrom(value).buildPartial();
+      public Builder mergeTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
+          if (txMeta_ != null) {
+            txMeta_ =
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.newBuilder(txMeta_).mergeFrom(value).buildPartial();
           } else {
-            tx_ = value;
+            txMeta_ = value;
           }
           onChanged();
         } else {
-          txBuilder_.mergeFrom(value);
+          txMetaBuilder_.mergeFrom(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public Builder clearTx() {
-        if (txBuilder_ == null) {
-          tx_ = null;
+      public Builder clearTxMeta() {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
           onChanged();
         } else {
-          tx_ = null;
-          txBuilder_ = null;
+          txMeta_ = null;
+          txMetaBuilder_ = null;
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTx.Builder getTxBuilder() {
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder getTxMetaBuilder() {
         
         onChanged();
-        return getTxFieldBuilder().getBuilder();
+        return getTxMetaFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder getTxOrBuilder() {
-        if (txBuilder_ != null) {
-          return txBuilder_.getMessageOrBuilder();
+      public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+        if (txMetaBuilder_ != null) {
+          return txMetaBuilder_.getMessageOrBuilder();
         } else {
-          return tx_ == null ?
-              tech.ydb.long_tx.LongTxProtos.LongTx.getDefaultInstance() : tx_;
+          return txMeta_ == null ?
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
         }
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTx, tech.ydb.long_tx.LongTxProtos.LongTx.Builder, tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder> 
-          getTxFieldBuilder() {
-        if (txBuilder_ == null) {
-          txBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.LongTx, tech.ydb.long_tx.LongTxProtos.LongTx.Builder, tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder>(
-                  getTx(),
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> 
+          getTxMetaFieldBuilder() {
+        if (txMetaBuilder_ == null) {
+          txMetaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder>(
+                  getTxMeta(),
                   getParentForChildren(),
                   isClean());
-          tx_ = null;
+          txMeta_ = null;
         }
-        return txBuilder_;
+        return txMetaBuilder_;
       }
 
-      private java.lang.Object table_ = "";
+      private java.lang.Object path_ = "";
       /**
-       * <code>string table = 3;</code>
+       * <code>string path = 3;</code>
        */
-      public java.lang.String getTable() {
-        java.lang.Object ref = table_;
+      public java.lang.String getPath() {
+        java.lang.Object ref = path_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          table_ = s;
+          path_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string table = 3;</code>
+       * <code>string path = 3;</code>
        */
       public com.google.protobuf.ByteString
-          getTableBytes() {
-        java.lang.Object ref = table_;
+          getPathBytes() {
+        java.lang.Object ref = path_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          table_ = b;
+          path_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string table = 3;</code>
+       * <code>string path = 3;</code>
        */
-      public Builder setTable(
+      public Builder setPath(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        table_ = value;
+        path_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string table = 3;</code>
+       * <code>string path = 3;</code>
        */
-      public Builder clearTable() {
+      public Builder clearPath() {
         
-        table_ = getDefaultInstance().getTable();
+        path_ = getDefaultInstance().getPath();
         onChanged();
         return this;
       }
       /**
-       * <code>string table = 3;</code>
+       * <code>string path = 3;</code>
        */
-      public Builder setTableBytes(
+      public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        table_ = value;
+        path_ = value;
         onChanged();
         return this;
       }
 
-      private int chunk_ ;
+      private java.lang.Object dedupId_ = "";
       /**
-       * <code>uint32 chunk = 4;</code>
+       * <code>string dedup_id = 4;</code>
        */
-      public int getChunk() {
-        return chunk_;
+      public java.lang.String getDedupId() {
+        java.lang.Object ref = dedupId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          dedupId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>uint32 chunk = 4;</code>
+       * <code>string dedup_id = 4;</code>
        */
-      public Builder setChunk(int value) {
-        
-        chunk_ = value;
+      public com.google.protobuf.ByteString
+          getDedupIdBytes() {
+        java.lang.Object ref = dedupId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          dedupId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string dedup_id = 4;</code>
+       */
+      public Builder setDedupId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        dedupId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>uint32 chunk = 4;</code>
+       * <code>string dedup_id = 4;</code>
        */
-      public Builder clearChunk() {
+      public Builder clearDedupId() {
         
-        chunk_ = 0;
+        dedupId_ = getDefaultInstance().getDedupId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string dedup_id = 4;</code>
+       */
+      public Builder setDedupIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        dedupId_ = value;
         onChanged();
         return this;
       }
@@ -9119,32 +8494,37 @@ public final class LongTxProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    boolean hasTx();
+    boolean hasTxMeta();
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.LongTxId getTx();
+    tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta();
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder getTxOrBuilder();
+    tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder();
 
     /**
-     * <code>string table = 2;</code>
+     * <code>string path = 2;</code>
      */
-    java.lang.String getTable();
+    java.lang.String getPath();
     /**
-     * <code>string table = 2;</code>
+     * <code>string path = 2;</code>
      */
     com.google.protobuf.ByteString
-        getTableBytes();
+        getPathBytes();
 
     /**
-     * <code>uint32 chunk = 3;</code>
+     * <code>string dedup_id = 3;</code>
      */
-    int getChunk();
+    java.lang.String getDedupId();
+    /**
+     * <code>string dedup_id = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getDedupIdBytes();
   }
   /**
    * Protobuf type {@code Ydb.LongTx.WriteResult}
@@ -9159,8 +8539,8 @@ public final class LongTxProtos {
       super(builder);
     }
     private WriteResult() {
-      table_ = "";
-      chunk_ = 0;
+      path_ = "";
+      dedupId_ = "";
     }
 
     @java.lang.Override
@@ -9192,14 +8572,14 @@ public final class LongTxProtos {
               break;
             }
             case 10: {
-              tech.ydb.long_tx.LongTxProtos.LongTxId.Builder subBuilder = null;
-              if (tx_ != null) {
-                subBuilder = tx_.toBuilder();
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder subBuilder = null;
+              if (txMeta_ != null) {
+                subBuilder = txMeta_.toBuilder();
               }
-              tx_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.LongTxId.parser(), extensionRegistry);
+              txMeta_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.TransactionMeta.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(tx_);
-                tx_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(txMeta_);
+                txMeta_ = subBuilder.buildPartial();
               }
 
               break;
@@ -9207,12 +8587,13 @@ public final class LongTxProtos {
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              table_ = s;
+              path_ = s;
               break;
             }
-            case 24: {
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              chunk_ = input.readUInt32();
+              dedupId_ = s;
               break;
             }
           }
@@ -9239,68 +8620,93 @@ public final class LongTxProtos {
               tech.ydb.long_tx.LongTxProtos.WriteResult.class, tech.ydb.long_tx.LongTxProtos.WriteResult.Builder.class);
     }
 
-    public static final int TX_FIELD_NUMBER = 1;
-    private tech.ydb.long_tx.LongTxProtos.LongTxId tx_;
+    public static final int TX_META_FIELD_NUMBER = 1;
+    private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_;
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    public boolean hasTx() {
-      return tx_ != null;
+    public boolean hasTxMeta() {
+      return txMeta_ != null;
     }
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.LongTxId getTx() {
-      return tx_ == null ? tech.ydb.long_tx.LongTxProtos.LongTxId.getDefaultInstance() : tx_;
+    public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+      return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
     }
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder getTxOrBuilder() {
-      return getTx();
+    public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+      return getTxMeta();
     }
 
-    public static final int TABLE_FIELD_NUMBER = 2;
-    private volatile java.lang.Object table_;
+    public static final int PATH_FIELD_NUMBER = 2;
+    private volatile java.lang.Object path_;
     /**
-     * <code>string table = 2;</code>
+     * <code>string path = 2;</code>
      */
-    public java.lang.String getTable() {
-      java.lang.Object ref = table_;
+    public java.lang.String getPath() {
+      java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        table_ = s;
+        path_ = s;
         return s;
       }
     }
     /**
-     * <code>string table = 2;</code>
+     * <code>string path = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getTableBytes() {
-      java.lang.Object ref = table_;
+        getPathBytes() {
+      java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        table_ = b;
+        path_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    public static final int CHUNK_FIELD_NUMBER = 3;
-    private int chunk_;
+    public static final int DEDUP_ID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object dedupId_;
     /**
-     * <code>uint32 chunk = 3;</code>
+     * <code>string dedup_id = 3;</code>
      */
-    public int getChunk() {
-      return chunk_;
+    public java.lang.String getDedupId() {
+      java.lang.Object ref = dedupId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        dedupId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string dedup_id = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDedupIdBytes() {
+      java.lang.Object ref = dedupId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        dedupId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -9315,14 +8721,14 @@ public final class LongTxProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (tx_ != null) {
-        output.writeMessage(1, getTx());
+      if (txMeta_ != null) {
+        output.writeMessage(1, getTxMeta());
       }
-      if (!getTableBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, table_);
+      if (!getPathBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, path_);
       }
-      if (chunk_ != 0) {
-        output.writeUInt32(3, chunk_);
+      if (!getDedupIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, dedupId_);
       }
       unknownFields.writeTo(output);
     }
@@ -9332,16 +8738,15 @@ public final class LongTxProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (tx_ != null) {
+      if (txMeta_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getTx());
+          .computeMessageSize(1, getTxMeta());
       }
-      if (!getTableBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, table_);
+      if (!getPathBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, path_);
       }
-      if (chunk_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(3, chunk_);
+      if (!getDedupIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, dedupId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -9359,15 +8764,15 @@ public final class LongTxProtos {
       tech.ydb.long_tx.LongTxProtos.WriteResult other = (tech.ydb.long_tx.LongTxProtos.WriteResult) obj;
 
       boolean result = true;
-      result = result && (hasTx() == other.hasTx());
-      if (hasTx()) {
-        result = result && getTx()
-            .equals(other.getTx());
+      result = result && (hasTxMeta() == other.hasTxMeta());
+      if (hasTxMeta()) {
+        result = result && getTxMeta()
+            .equals(other.getTxMeta());
       }
-      result = result && getTable()
-          .equals(other.getTable());
-      result = result && (getChunk()
-          == other.getChunk());
+      result = result && getPath()
+          .equals(other.getPath());
+      result = result && getDedupId()
+          .equals(other.getDedupId());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -9379,14 +8784,14 @@ public final class LongTxProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasTx()) {
-        hash = (37 * hash) + TX_FIELD_NUMBER;
-        hash = (53 * hash) + getTx().hashCode();
+      if (hasTxMeta()) {
+        hash = (37 * hash) + TX_META_FIELD_NUMBER;
+        hash = (53 * hash) + getTxMeta().hashCode();
       }
-      hash = (37 * hash) + TABLE_FIELD_NUMBER;
-      hash = (53 * hash) + getTable().hashCode();
-      hash = (37 * hash) + CHUNK_FIELD_NUMBER;
-      hash = (53 * hash) + getChunk();
+      hash = (37 * hash) + PATH_FIELD_NUMBER;
+      hash = (53 * hash) + getPath().hashCode();
+      hash = (37 * hash) + DEDUP_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getDedupId().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -9516,15 +8921,15 @@ public final class LongTxProtos {
       }
       public Builder clear() {
         super.clear();
-        if (txBuilder_ == null) {
-          tx_ = null;
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
         } else {
-          tx_ = null;
-          txBuilder_ = null;
+          txMeta_ = null;
+          txMetaBuilder_ = null;
         }
-        table_ = "";
+        path_ = "";
 
-        chunk_ = 0;
+        dedupId_ = "";
 
         return this;
       }
@@ -9548,13 +8953,13 @@ public final class LongTxProtos {
 
       public tech.ydb.long_tx.LongTxProtos.WriteResult buildPartial() {
         tech.ydb.long_tx.LongTxProtos.WriteResult result = new tech.ydb.long_tx.LongTxProtos.WriteResult(this);
-        if (txBuilder_ == null) {
-          result.tx_ = tx_;
+        if (txMetaBuilder_ == null) {
+          result.txMeta_ = txMeta_;
         } else {
-          result.tx_ = txBuilder_.build();
+          result.txMeta_ = txMetaBuilder_.build();
         }
-        result.table_ = table_;
-        result.chunk_ = chunk_;
+        result.path_ = path_;
+        result.dedupId_ = dedupId_;
         onBuilt();
         return result;
       }
@@ -9596,15 +9001,16 @@ public final class LongTxProtos {
 
       public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.WriteResult other) {
         if (other == tech.ydb.long_tx.LongTxProtos.WriteResult.getDefaultInstance()) return this;
-        if (other.hasTx()) {
-          mergeTx(other.getTx());
+        if (other.hasTxMeta()) {
+          mergeTxMeta(other.getTxMeta());
         }
-        if (!other.getTable().isEmpty()) {
-          table_ = other.table_;
+        if (!other.getPath().isEmpty()) {
+          path_ = other.path_;
           onChanged();
         }
-        if (other.getChunk() != 0) {
-          setChunk(other.getChunk());
+        if (!other.getDedupId().isEmpty()) {
+          dedupId_ = other.dedupId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -9633,214 +9039,257 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.long_tx.LongTxProtos.LongTxId tx_ = null;
+      private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTxId, tech.ydb.long_tx.LongTxProtos.LongTxId.Builder, tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder> txBuilder_;
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> txMetaBuilder_;
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public boolean hasTx() {
-        return txBuilder_ != null || tx_ != null;
+      public boolean hasTxMeta() {
+        return txMetaBuilder_ != null || txMeta_ != null;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTxId getTx() {
-        if (txBuilder_ == null) {
-          return tx_ == null ? tech.ydb.long_tx.LongTxProtos.LongTxId.getDefaultInstance() : tx_;
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+        if (txMetaBuilder_ == null) {
+          return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
         } else {
-          return txBuilder_.getMessage();
+          return txMetaBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder setTx(tech.ydb.long_tx.LongTxProtos.LongTxId value) {
-        if (txBuilder_ == null) {
+      public Builder setTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          tx_ = value;
+          txMeta_ = value;
           onChanged();
         } else {
-          txBuilder_.setMessage(value);
+          txMetaBuilder_.setMessage(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder setTx(
-          tech.ydb.long_tx.LongTxProtos.LongTxId.Builder builderForValue) {
-        if (txBuilder_ == null) {
-          tx_ = builderForValue.build();
+      public Builder setTxMeta(
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder builderForValue) {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = builderForValue.build();
           onChanged();
         } else {
-          txBuilder_.setMessage(builderForValue.build());
+          txMetaBuilder_.setMessage(builderForValue.build());
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder mergeTx(tech.ydb.long_tx.LongTxProtos.LongTxId value) {
-        if (txBuilder_ == null) {
-          if (tx_ != null) {
-            tx_ =
-              tech.ydb.long_tx.LongTxProtos.LongTxId.newBuilder(tx_).mergeFrom(value).buildPartial();
+      public Builder mergeTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
+          if (txMeta_ != null) {
+            txMeta_ =
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.newBuilder(txMeta_).mergeFrom(value).buildPartial();
           } else {
-            tx_ = value;
+            txMeta_ = value;
           }
           onChanged();
         } else {
-          txBuilder_.mergeFrom(value);
+          txMetaBuilder_.mergeFrom(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder clearTx() {
-        if (txBuilder_ == null) {
-          tx_ = null;
+      public Builder clearTxMeta() {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
           onChanged();
         } else {
-          tx_ = null;
-          txBuilder_ = null;
+          txMeta_ = null;
+          txMetaBuilder_ = null;
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTxId.Builder getTxBuilder() {
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder getTxMetaBuilder() {
         
         onChanged();
-        return getTxFieldBuilder().getBuilder();
+        return getTxMetaFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder getTxOrBuilder() {
-        if (txBuilder_ != null) {
-          return txBuilder_.getMessageOrBuilder();
+      public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+        if (txMetaBuilder_ != null) {
+          return txMetaBuilder_.getMessageOrBuilder();
         } else {
-          return tx_ == null ?
-              tech.ydb.long_tx.LongTxProtos.LongTxId.getDefaultInstance() : tx_;
+          return txMeta_ == null ?
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
         }
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTxId, tech.ydb.long_tx.LongTxProtos.LongTxId.Builder, tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder> 
-          getTxFieldBuilder() {
-        if (txBuilder_ == null) {
-          txBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.LongTxId, tech.ydb.long_tx.LongTxProtos.LongTxId.Builder, tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder>(
-                  getTx(),
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> 
+          getTxMetaFieldBuilder() {
+        if (txMetaBuilder_ == null) {
+          txMetaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder>(
+                  getTxMeta(),
                   getParentForChildren(),
                   isClean());
-          tx_ = null;
+          txMeta_ = null;
         }
-        return txBuilder_;
+        return txMetaBuilder_;
       }
 
-      private java.lang.Object table_ = "";
+      private java.lang.Object path_ = "";
       /**
-       * <code>string table = 2;</code>
+       * <code>string path = 2;</code>
        */
-      public java.lang.String getTable() {
-        java.lang.Object ref = table_;
+      public java.lang.String getPath() {
+        java.lang.Object ref = path_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          table_ = s;
+          path_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string table = 2;</code>
+       * <code>string path = 2;</code>
        */
       public com.google.protobuf.ByteString
-          getTableBytes() {
-        java.lang.Object ref = table_;
+          getPathBytes() {
+        java.lang.Object ref = path_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          table_ = b;
+          path_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string table = 2;</code>
+       * <code>string path = 2;</code>
        */
-      public Builder setTable(
+      public Builder setPath(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        table_ = value;
+        path_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string table = 2;</code>
+       * <code>string path = 2;</code>
        */
-      public Builder clearTable() {
+      public Builder clearPath() {
         
-        table_ = getDefaultInstance().getTable();
+        path_ = getDefaultInstance().getPath();
         onChanged();
         return this;
       }
       /**
-       * <code>string table = 2;</code>
+       * <code>string path = 2;</code>
        */
-      public Builder setTableBytes(
+      public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        table_ = value;
+        path_ = value;
         onChanged();
         return this;
       }
 
-      private int chunk_ ;
+      private java.lang.Object dedupId_ = "";
       /**
-       * <code>uint32 chunk = 3;</code>
+       * <code>string dedup_id = 3;</code>
        */
-      public int getChunk() {
-        return chunk_;
+      public java.lang.String getDedupId() {
+        java.lang.Object ref = dedupId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          dedupId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>uint32 chunk = 3;</code>
+       * <code>string dedup_id = 3;</code>
        */
-      public Builder setChunk(int value) {
-        
-        chunk_ = value;
+      public com.google.protobuf.ByteString
+          getDedupIdBytes() {
+        java.lang.Object ref = dedupId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          dedupId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string dedup_id = 3;</code>
+       */
+      public Builder setDedupId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        dedupId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>uint32 chunk = 3;</code>
+       * <code>string dedup_id = 3;</code>
        */
-      public Builder clearChunk() {
+      public Builder clearDedupId() {
         
-        chunk_ = 0;
+        dedupId_ = getDefaultInstance().getDedupId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string dedup_id = 3;</code>
+       */
+      public Builder setDedupIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        dedupId_ = value;
         onChanged();
         return this;
       }
@@ -10490,45 +9939,44 @@ public final class LongTxProtos {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    boolean hasTx();
+    boolean hasTxMeta();
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.LongTx getTx();
+    tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta();
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder getTxOrBuilder();
+    tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder();
 
     /**
-     * <code>string table = 3;</code>
+     * <code>string path = 3;</code>
      */
-    java.lang.String getTable();
+    java.lang.String getPath();
     /**
-     * <code>string table = 3;</code>
+     * <code>string path = 3;</code>
      */
     com.google.protobuf.ByteString
-        getTableBytes();
+        getPathBytes();
 
     /**
-     * <code>uint32 chunk = 4;</code>
+     * <code>string sql = 11;</code>
      */
-    int getChunk();
+    java.lang.String getSql();
+    /**
+     * <code>string sql = 11;</code>
+     */
+    com.google.protobuf.ByteString
+        getSqlBytes();
 
     /**
-     * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
+     * <code>bytes generated = 12;</code>
      */
-    boolean hasQuery();
-    /**
-     * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
-     */
-    tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery getQuery();
-    /**
-     * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
-     */
-    tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQueryOrBuilder getQueryOrBuilder();
+    com.google.protobuf.ByteString getGenerated();
+
+    public tech.ydb.long_tx.LongTxProtos.ReadRequest.QueryCase getQueryCase();
   }
   /**
    * Protobuf type {@code Ydb.LongTx.ReadRequest}
@@ -10543,8 +9991,7 @@ public final class LongTxProtos {
       super(builder);
     }
     private ReadRequest() {
-      table_ = "";
-      chunk_ = 0;
+      path_ = "";
     }
 
     @java.lang.Override
@@ -10589,14 +10036,14 @@ public final class LongTxProtos {
               break;
             }
             case 18: {
-              tech.ydb.long_tx.LongTxProtos.LongTx.Builder subBuilder = null;
-              if (tx_ != null) {
-                subBuilder = tx_.toBuilder();
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder subBuilder = null;
+              if (txMeta_ != null) {
+                subBuilder = txMeta_.toBuilder();
               }
-              tx_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.LongTx.parser(), extensionRegistry);
+              txMeta_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.TransactionMeta.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(tx_);
-                tx_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(txMeta_);
+                txMeta_ = subBuilder.buildPartial();
               }
 
               break;
@@ -10604,25 +10051,18 @@ public final class LongTxProtos {
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              table_ = s;
+              path_ = s;
               break;
             }
-            case 32: {
-
-              chunk_ = input.readUInt32();
+            case 90: {
+              java.lang.String s = input.readStringRequireUtf8();
+              queryCase_ = 11;
+              query_ = s;
               break;
             }
-            case 42: {
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Builder subBuilder = null;
-              if (query_ != null) {
-                subBuilder = query_.toBuilder();
-              }
-              query_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(query_);
-                query_ = subBuilder.buildPartial();
-              }
-
+            case 98: {
+              queryCase_ = 12;
+              query_ = input.readBytes();
               break;
             }
           }
@@ -10649,3586 +10089,42 @@ public final class LongTxProtos {
               tech.ydb.long_tx.LongTxProtos.ReadRequest.class, tech.ydb.long_tx.LongTxProtos.ReadRequest.Builder.class);
     }
 
-    public interface SelectQueryOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:Ydb.LongTx.ReadRequest.SelectQuery)
-        com.google.protobuf.MessageOrBuilder {
-
-      /**
-       * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-       */
-      java.util.List<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn> 
-          getSelectList();
-      /**
-       * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-       */
-      tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn getSelect(int index);
-      /**
-       * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-       */
-      int getSelectCount();
-      /**
-       * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-       */
-      java.util.List<? extends tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder> 
-          getSelectOrBuilderList();
-      /**
-       * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-       */
-      tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder getSelectOrBuilder(
-          int index);
-
-      /**
-       * <pre>
-       *repeated NamedColumn group_by = 3;
-       *Function having = 4;
-       *repeated NamedColumn order_by = 5;
-       *uint64 limit = 6;
-       *uint64 offset = 7;
-       * </pre>
-       *
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-       */
-      boolean hasWhere();
-      /**
-       * <pre>
-       *repeated NamedColumn group_by = 3;
-       *Function having = 4;
-       *repeated NamedColumn order_by = 5;
-       *uint64 limit = 6;
-       *uint64 offset = 7;
-       * </pre>
-       *
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-       */
-      tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function getWhere();
-      /**
-       * <pre>
-       *repeated NamedColumn group_by = 3;
-       *Function having = 4;
-       *repeated NamedColumn order_by = 5;
-       *uint64 limit = 6;
-       *uint64 offset = 7;
-       * </pre>
-       *
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-       */
-      tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.FunctionOrBuilder getWhereOrBuilder();
-    }
-    /**
-     * Protobuf type {@code Ydb.LongTx.ReadRequest.SelectQuery}
-     */
-    public  static final class SelectQuery extends
-        com.google.protobuf.GeneratedMessageV3 implements
-        // @@protoc_insertion_point(message_implements:Ydb.LongTx.ReadRequest.SelectQuery)
-        SelectQueryOrBuilder {
-    private static final long serialVersionUID = 0L;
-      // Use SelectQuery.newBuilder() to construct.
-      private SelectQuery(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-        super(builder);
-      }
-      private SelectQuery() {
-        select_ = java.util.Collections.emptyList();
-      }
-
-      @java.lang.Override
-      public final com.google.protobuf.UnknownFieldSet
-      getUnknownFields() {
-        return this.unknownFields;
-      }
-      private SelectQuery(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        this();
-        int mutable_bitField0_ = 0;
-        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-            com.google.protobuf.UnknownFieldSet.newBuilder();
-        try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
-              case 10: {
-                if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                  select_ = new java.util.ArrayList<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn>();
-                  mutable_bitField0_ |= 0x00000001;
-                }
-                select_.add(
-                    input.readMessage(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.parser(), extensionRegistry));
-                break;
-              }
-              case 18: {
-                tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Builder subBuilder = null;
-                if (where_ != null) {
-                  subBuilder = where_.toBuilder();
-                }
-                where_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.parser(), extensionRegistry);
-                if (subBuilder != null) {
-                  subBuilder.mergeFrom(where_);
-                  where_ = subBuilder.buildPartial();
-                }
-
-                break;
-              }
-            }
-          }
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(this);
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(
-              e).setUnfinishedMessage(this);
-        } finally {
-          if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-            select_ = java.util.Collections.unmodifiableList(select_);
-          }
-          this.unknownFields = unknownFields.build();
-          makeExtensionsImmutable();
-        }
-      }
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.class, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Builder.class);
-      }
-
-      public interface NamedColumnOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn)
-          com.google.protobuf.MessageOrBuilder {
-
-        /**
-         * <code>string name = 1;</code>
-         */
-        java.lang.String getName();
-        /**
-         * <code>string name = 1;</code>
-         */
-        com.google.protobuf.ByteString
-            getNameBytes();
-
-        /**
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-         */
-        boolean hasFunction();
-        /**
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-         */
-        tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function getFunction();
-        /**
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-         */
-        tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.FunctionOrBuilder getFunctionOrBuilder();
+    private int queryCase_ = 0;
+    private java.lang.Object query_;
+    public enum QueryCase
+        implements com.google.protobuf.Internal.EnumLite {
+      SQL(11),
+      GENERATED(12),
+      QUERY_NOT_SET(0);
+      private final int value;
+      private QueryCase(int value) {
+        this.value = value;
       }
       /**
-       * <pre>
-       * Column name without an alias or function with an alias.
-       * We disallow unnamed functions cause they lead to troubles in result column naming.
-       * We disallow syntax aliases for columns. Every column is addressed by its unique (not qualified) name.
-       * </pre>
-       *
-       * Protobuf type {@code Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn}
+       * @deprecated Use {@link #forNumber(int)} instead.
        */
-      public  static final class NamedColumn extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn)
-          NamedColumnOrBuilder {
-      private static final long serialVersionUID = 0L;
-        // Use NamedColumn.newBuilder() to construct.
-        private NamedColumn(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-          super(builder);
-        }
-        private NamedColumn() {
-          name_ = "";
-        }
-
-        @java.lang.Override
-        public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-          return this.unknownFields;
-        }
-        private NamedColumn(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          this();
-          int mutable_bitField0_ = 0;
-          com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
-          try {
-            boolean done = false;
-            while (!done) {
-              int tag = input.readTag();
-              switch (tag) {
-                case 0:
-                  done = true;
-                  break;
-                default: {
-                  if (!parseUnknownFieldProto3(
-                      input, unknownFields, extensionRegistry, tag)) {
-                    done = true;
-                  }
-                  break;
-                }
-                case 10: {
-                  java.lang.String s = input.readStringRequireUtf8();
-
-                  name_ = s;
-                  break;
-                }
-                case 18: {
-                  tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Builder subBuilder = null;
-                  if (function_ != null) {
-                    subBuilder = function_.toBuilder();
-                  }
-                  function_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.parser(), extensionRegistry);
-                  if (subBuilder != null) {
-                    subBuilder.mergeFrom(function_);
-                    function_ = subBuilder.buildPartial();
-                  }
-
-                  break;
-                }
-              }
-            }
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            throw e.setUnfinishedMessage(this);
-          } catch (java.io.IOException e) {
-            throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
-          } finally {
-            this.unknownFields = unknownFields.build();
-            makeExtensionsImmutable();
-          }
-        }
-        public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-          return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_NamedColumn_descriptor;
-        }
-
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-          return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_NamedColumn_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                  tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.class, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder.class);
-        }
-
-        public static final int NAME_FIELD_NUMBER = 1;
-        private volatile java.lang.Object name_;
-        /**
-         * <code>string name = 1;</code>
-         */
-        public java.lang.String getName() {
-          java.lang.Object ref = name_;
-          if (ref instanceof java.lang.String) {
-            return (java.lang.String) ref;
-          } else {
-            com.google.protobuf.ByteString bs = 
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            name_ = s;
-            return s;
-          }
-        }
-        /**
-         * <code>string name = 1;</code>
-         */
-        public com.google.protobuf.ByteString
-            getNameBytes() {
-          java.lang.Object ref = name_;
-          if (ref instanceof java.lang.String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            name_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-
-        public static final int FUNCTION_FIELD_NUMBER = 2;
-        private tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function function_;
-        /**
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-         */
-        public boolean hasFunction() {
-          return function_ != null;
-        }
-        /**
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-         */
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function getFunction() {
-          return function_ == null ? tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.getDefaultInstance() : function_;
-        }
-        /**
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-         */
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.FunctionOrBuilder getFunctionOrBuilder() {
-          return getFunction();
-        }
-
-        private byte memoizedIsInitialized = -1;
-        public final boolean isInitialized() {
-          byte isInitialized = memoizedIsInitialized;
-          if (isInitialized == 1) return true;
-          if (isInitialized == 0) return false;
-
-          memoizedIsInitialized = 1;
-          return true;
-        }
-
-        public void writeTo(com.google.protobuf.CodedOutputStream output)
-                            throws java.io.IOException {
-          if (!getNameBytes().isEmpty()) {
-            com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
-          }
-          if (function_ != null) {
-            output.writeMessage(2, getFunction());
-          }
-          unknownFields.writeTo(output);
-        }
-
-        public int getSerializedSize() {
-          int size = memoizedSize;
-          if (size != -1) return size;
-
-          size = 0;
-          if (!getNameBytes().isEmpty()) {
-            size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
-          }
-          if (function_ != null) {
-            size += com.google.protobuf.CodedOutputStream
-              .computeMessageSize(2, getFunction());
-          }
-          size += unknownFields.getSerializedSize();
-          memoizedSize = size;
-          return size;
-        }
-
-        @java.lang.Override
-        public boolean equals(final java.lang.Object obj) {
-          if (obj == this) {
-           return true;
-          }
-          if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn)) {
-            return super.equals(obj);
-          }
-          tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn other = (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn) obj;
-
-          boolean result = true;
-          result = result && getName()
-              .equals(other.getName());
-          result = result && (hasFunction() == other.hasFunction());
-          if (hasFunction()) {
-            result = result && getFunction()
-                .equals(other.getFunction());
-          }
-          result = result && unknownFields.equals(other.unknownFields);
-          return result;
-        }
-
-        @java.lang.Override
-        public int hashCode() {
-          if (memoizedHashCode != 0) {
-            return memoizedHashCode;
-          }
-          int hash = 41;
-          hash = (19 * hash) + getDescriptor().hashCode();
-          hash = (37 * hash) + NAME_FIELD_NUMBER;
-          hash = (53 * hash) + getName().hashCode();
-          if (hasFunction()) {
-            hash = (37 * hash) + FUNCTION_FIELD_NUMBER;
-            hash = (53 * hash) + getFunction().hashCode();
-          }
-          hash = (29 * hash) + unknownFields.hashCode();
-          memoizedHashCode = hash;
-          return hash;
-        }
-
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn parseFrom(
-            java.nio.ByteBuffer data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return PARSER.parseFrom(data);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn parseFrom(
-            java.nio.ByteBuffer data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return PARSER.parseFrom(data, extensionRegistry);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return PARSER.parseFrom(data);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return PARSER.parseFrom(data, extensionRegistry);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return PARSER.parseFrom(data);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return PARSER.parseFrom(data, extensionRegistry);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
-          return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
-          return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
-          return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
-        }
-
-        public Builder newBuilderForType() { return newBuilder(); }
-        public static Builder newBuilder() {
-          return DEFAULT_INSTANCE.toBuilder();
-        }
-        public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn prototype) {
-          return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-        }
-        public Builder toBuilder() {
-          return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
-        }
-
-        @java.lang.Override
-        protected Builder newBuilderForType(
-            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-          Builder builder = new Builder(parent);
-          return builder;
-        }
-        /**
-         * <pre>
-         * Column name without an alias or function with an alias.
-         * We disallow unnamed functions cause they lead to troubles in result column naming.
-         * We disallow syntax aliases for columns. Every column is addressed by its unique (not qualified) name.
-         * </pre>
-         *
-         * Protobuf type {@code Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn}
-         */
-        public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn)
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder {
-          public static final com.google.protobuf.Descriptors.Descriptor
-              getDescriptor() {
-            return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_NamedColumn_descriptor;
-          }
-
-          protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-              internalGetFieldAccessorTable() {
-            return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_NamedColumn_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                    tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.class, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder.class);
-          }
-
-          // Construct using tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.newBuilder()
-          private Builder() {
-            maybeForceBuilderInitialization();
-          }
-
-          private Builder(
-              com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-            super(parent);
-            maybeForceBuilderInitialization();
-          }
-          private void maybeForceBuilderInitialization() {
-            if (com.google.protobuf.GeneratedMessageV3
-                    .alwaysUseFieldBuilders) {
-            }
-          }
-          public Builder clear() {
-            super.clear();
-            name_ = "";
-
-            if (functionBuilder_ == null) {
-              function_ = null;
-            } else {
-              function_ = null;
-              functionBuilder_ = null;
-            }
-            return this;
-          }
-
-          public com.google.protobuf.Descriptors.Descriptor
-              getDescriptorForType() {
-            return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_NamedColumn_descriptor;
-          }
-
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn getDefaultInstanceForType() {
-            return tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.getDefaultInstance();
-          }
-
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn build() {
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn result = buildPartial();
-            if (!result.isInitialized()) {
-              throw newUninitializedMessageException(result);
-            }
-            return result;
-          }
-
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn buildPartial() {
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn result = new tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn(this);
-            result.name_ = name_;
-            if (functionBuilder_ == null) {
-              result.function_ = function_;
-            } else {
-              result.function_ = functionBuilder_.build();
-            }
-            onBuilt();
-            return result;
-          }
-
-          public Builder clone() {
-            return (Builder) super.clone();
-          }
-          public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              java.lang.Object value) {
-            return (Builder) super.setField(field, value);
-          }
-          public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
-            return (Builder) super.clearField(field);
-          }
-          public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-            return (Builder) super.clearOneof(oneof);
-          }
-          public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, java.lang.Object value) {
-            return (Builder) super.setRepeatedField(field, index, value);
-          }
-          public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              java.lang.Object value) {
-            return (Builder) super.addRepeatedField(field, value);
-          }
-          public Builder mergeFrom(com.google.protobuf.Message other) {
-            if (other instanceof tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn) {
-              return mergeFrom((tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn)other);
-            } else {
-              super.mergeFrom(other);
-              return this;
-            }
-          }
-
-          public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn other) {
-            if (other == tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.getDefaultInstance()) return this;
-            if (!other.getName().isEmpty()) {
-              name_ = other.name_;
-              onChanged();
-            }
-            if (other.hasFunction()) {
-              mergeFunction(other.getFunction());
-            }
-            this.mergeUnknownFields(other.unknownFields);
-            onChanged();
-            return this;
-          }
-
-          public final boolean isInitialized() {
-            return true;
-          }
-
-          public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn parsedMessage = null;
-            try {
-              parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-              parsedMessage = (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn) e.getUnfinishedMessage();
-              throw e.unwrapIOException();
-            } finally {
-              if (parsedMessage != null) {
-                mergeFrom(parsedMessage);
-              }
-            }
-            return this;
-          }
-
-          private java.lang.Object name_ = "";
-          /**
-           * <code>string name = 1;</code>
-           */
-          public java.lang.String getName() {
-            java.lang.Object ref = name_;
-            if (!(ref instanceof java.lang.String)) {
-              com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-              java.lang.String s = bs.toStringUtf8();
-              name_ = s;
-              return s;
-            } else {
-              return (java.lang.String) ref;
-            }
-          }
-          /**
-           * <code>string name = 1;</code>
-           */
-          public com.google.protobuf.ByteString
-              getNameBytes() {
-            java.lang.Object ref = name_;
-            if (ref instanceof String) {
-              com.google.protobuf.ByteString b = 
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                      (java.lang.String) ref);
-              name_ = b;
-              return b;
-            } else {
-              return (com.google.protobuf.ByteString) ref;
-            }
-          }
-          /**
-           * <code>string name = 1;</code>
-           */
-          public Builder setName(
-              java.lang.String value) {
-            if (value == null) {
-    throw new NullPointerException();
-  }
-  
-            name_ = value;
-            onChanged();
-            return this;
-          }
-          /**
-           * <code>string name = 1;</code>
-           */
-          public Builder clearName() {
-            
-            name_ = getDefaultInstance().getName();
-            onChanged();
-            return this;
-          }
-          /**
-           * <code>string name = 1;</code>
-           */
-          public Builder setNameBytes(
-              com.google.protobuf.ByteString value) {
-            if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-            
-            name_ = value;
-            onChanged();
-            return this;
-          }
-
-          private tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function function_ = null;
-          private com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.FunctionOrBuilder> functionBuilder_;
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-           */
-          public boolean hasFunction() {
-            return functionBuilder_ != null || function_ != null;
-          }
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-           */
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function getFunction() {
-            if (functionBuilder_ == null) {
-              return function_ == null ? tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.getDefaultInstance() : function_;
-            } else {
-              return functionBuilder_.getMessage();
-            }
-          }
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-           */
-          public Builder setFunction(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function value) {
-            if (functionBuilder_ == null) {
-              if (value == null) {
-                throw new NullPointerException();
-              }
-              function_ = value;
-              onChanged();
-            } else {
-              functionBuilder_.setMessage(value);
-            }
-
-            return this;
-          }
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-           */
-          public Builder setFunction(
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Builder builderForValue) {
-            if (functionBuilder_ == null) {
-              function_ = builderForValue.build();
-              onChanged();
-            } else {
-              functionBuilder_.setMessage(builderForValue.build());
-            }
-
-            return this;
-          }
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-           */
-          public Builder mergeFunction(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function value) {
-            if (functionBuilder_ == null) {
-              if (function_ != null) {
-                function_ =
-                  tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.newBuilder(function_).mergeFrom(value).buildPartial();
-              } else {
-                function_ = value;
-              }
-              onChanged();
-            } else {
-              functionBuilder_.mergeFrom(value);
-            }
-
-            return this;
-          }
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-           */
-          public Builder clearFunction() {
-            if (functionBuilder_ == null) {
-              function_ = null;
-              onChanged();
-            } else {
-              function_ = null;
-              functionBuilder_ = null;
-            }
-
-            return this;
-          }
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-           */
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Builder getFunctionBuilder() {
-            
-            onChanged();
-            return getFunctionFieldBuilder().getBuilder();
-          }
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-           */
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.FunctionOrBuilder getFunctionOrBuilder() {
-            if (functionBuilder_ != null) {
-              return functionBuilder_.getMessageOrBuilder();
-            } else {
-              return function_ == null ?
-                  tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.getDefaultInstance() : function_;
-            }
-          }
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function function = 2;</code>
-           */
-          private com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.FunctionOrBuilder> 
-              getFunctionFieldBuilder() {
-            if (functionBuilder_ == null) {
-              functionBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-                  tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.FunctionOrBuilder>(
-                      getFunction(),
-                      getParentForChildren(),
-                      isClean());
-              function_ = null;
-            }
-            return functionBuilder_;
-          }
-          public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
-            return super.setUnknownFieldsProto3(unknownFields);
-          }
-
-          public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
-            return super.mergeUnknownFields(unknownFields);
-          }
-
-
-          // @@protoc_insertion_point(builder_scope:Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn)
-        }
-
-        // @@protoc_insertion_point(class_scope:Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn)
-        private static final tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn DEFAULT_INSTANCE;
-        static {
-          DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn();
-        }
-
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn getDefaultInstance() {
-          return DEFAULT_INSTANCE;
-        }
-
-        private static final com.google.protobuf.Parser<NamedColumn>
-            PARSER = new com.google.protobuf.AbstractParser<NamedColumn>() {
-          public NamedColumn parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-              return new NamedColumn(input, extensionRegistry);
-          }
-        };
-
-        public static com.google.protobuf.Parser<NamedColumn> parser() {
-          return PARSER;
-        }
-
-        @java.lang.Override
-        public com.google.protobuf.Parser<NamedColumn> getParserForType() {
-          return PARSER;
-        }
-
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn getDefaultInstanceForType() {
-          return DEFAULT_INSTANCE;
-        }
-
+      @java.lang.Deprecated
+      public static QueryCase valueOf(int value) {
+        return forNumber(value);
       }
 
-      public interface FunctionOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:Ydb.LongTx.ReadRequest.SelectQuery.Function)
-          com.google.protobuf.MessageOrBuilder {
-
-        /**
-         * <code>string name = 1;</code>
-         */
-        java.lang.String getName();
-        /**
-         * <code>string name = 1;</code>
-         */
-        com.google.protobuf.ByteString
-            getNameBytes();
-
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-         */
-        java.util.List<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument> 
-            getArgumentsList();
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-         */
-        tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument getArguments(int index);
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-         */
-        int getArgumentsCount();
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-         */
-        java.util.List<? extends tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.ArgumentOrBuilder> 
-            getArgumentsOrBuilderList();
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-         */
-        tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.ArgumentOrBuilder getArgumentsOrBuilder(
-            int index);
+      public static QueryCase forNumber(int value) {
+        switch (value) {
+          case 11: return SQL;
+          case 12: return GENERATED;
+          case 0: return QUERY_NOT_SET;
+          default: return null;
+        }
       }
-      /**
-       * Protobuf type {@code Ydb.LongTx.ReadRequest.SelectQuery.Function}
-       */
-      public  static final class Function extends
-          com.google.protobuf.GeneratedMessageV3 implements
-          // @@protoc_insertion_point(message_implements:Ydb.LongTx.ReadRequest.SelectQuery.Function)
-          FunctionOrBuilder {
-      private static final long serialVersionUID = 0L;
-        // Use Function.newBuilder() to construct.
-        private Function(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-          super(builder);
-        }
-        private Function() {
-          name_ = "";
-          arguments_ = java.util.Collections.emptyList();
-        }
-
-        @java.lang.Override
-        public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-          return this.unknownFields;
-        }
-        private Function(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          this();
-          int mutable_bitField0_ = 0;
-          com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-              com.google.protobuf.UnknownFieldSet.newBuilder();
-          try {
-            boolean done = false;
-            while (!done) {
-              int tag = input.readTag();
-              switch (tag) {
-                case 0:
-                  done = true;
-                  break;
-                default: {
-                  if (!parseUnknownFieldProto3(
-                      input, unknownFields, extensionRegistry, tag)) {
-                    done = true;
-                  }
-                  break;
-                }
-                case 10: {
-                  java.lang.String s = input.readStringRequireUtf8();
-
-                  name_ = s;
-                  break;
-                }
-                case 18: {
-                  if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                    arguments_ = new java.util.ArrayList<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument>();
-                    mutable_bitField0_ |= 0x00000002;
-                  }
-                  arguments_.add(
-                      input.readMessage(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.parser(), extensionRegistry));
-                  break;
-                }
-              }
-            }
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            throw e.setUnfinishedMessage(this);
-          } catch (java.io.IOException e) {
-            throw new com.google.protobuf.InvalidProtocolBufferException(
-                e).setUnfinishedMessage(this);
-          } finally {
-            if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-              arguments_ = java.util.Collections.unmodifiableList(arguments_);
-            }
-            this.unknownFields = unknownFields.build();
-            makeExtensionsImmutable();
-          }
-        }
-        public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-          return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_descriptor;
-        }
-
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-          return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                  tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.class, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Builder.class);
-        }
-
-        public interface ArgumentOrBuilder extends
-            // @@protoc_insertion_point(interface_extends:Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument)
-            com.google.protobuf.MessageOrBuilder {
-
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-           */
-          boolean hasColumn();
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-           */
-          tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn getColumn();
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-           */
-          tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder getColumnOrBuilder();
-
-          /**
-           * <code>.Ydb.TypedValue value = 2;</code>
-           */
-          boolean hasValue();
-          /**
-           * <code>.Ydb.TypedValue value = 2;</code>
-           */
-          tech.ydb.ValueProtos.TypedValue getValue();
-          /**
-           * <code>.Ydb.TypedValue value = 2;</code>
-           */
-          tech.ydb.ValueProtos.TypedValueOrBuilder getValueOrBuilder();
-
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.ArgumentCase getArgumentCase();
-        }
-        /**
-         * Protobuf type {@code Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument}
-         */
-        public  static final class Argument extends
-            com.google.protobuf.GeneratedMessageV3 implements
-            // @@protoc_insertion_point(message_implements:Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument)
-            ArgumentOrBuilder {
-        private static final long serialVersionUID = 0L;
-          // Use Argument.newBuilder() to construct.
-          private Argument(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-            super(builder);
-          }
-          private Argument() {
-          }
-
-          @java.lang.Override
-          public final com.google.protobuf.UnknownFieldSet
-          getUnknownFields() {
-            return this.unknownFields;
-          }
-          private Argument(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-            this();
-            int mutable_bitField0_ = 0;
-            com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-                com.google.protobuf.UnknownFieldSet.newBuilder();
-            try {
-              boolean done = false;
-              while (!done) {
-                int tag = input.readTag();
-                switch (tag) {
-                  case 0:
-                    done = true;
-                    break;
-                  default: {
-                    if (!parseUnknownFieldProto3(
-                        input, unknownFields, extensionRegistry, tag)) {
-                      done = true;
-                    }
-                    break;
-                  }
-                  case 10: {
-                    tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder subBuilder = null;
-                    if (argumentCase_ == 1) {
-                      subBuilder = ((tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn) argument_).toBuilder();
-                    }
-                    argument_ =
-                        input.readMessage(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.parser(), extensionRegistry);
-                    if (subBuilder != null) {
-                      subBuilder.mergeFrom((tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn) argument_);
-                      argument_ = subBuilder.buildPartial();
-                    }
-                    argumentCase_ = 1;
-                    break;
-                  }
-                  case 18: {
-                    tech.ydb.ValueProtos.TypedValue.Builder subBuilder = null;
-                    if (argumentCase_ == 2) {
-                      subBuilder = ((tech.ydb.ValueProtos.TypedValue) argument_).toBuilder();
-                    }
-                    argument_ =
-                        input.readMessage(tech.ydb.ValueProtos.TypedValue.parser(), extensionRegistry);
-                    if (subBuilder != null) {
-                      subBuilder.mergeFrom((tech.ydb.ValueProtos.TypedValue) argument_);
-                      argument_ = subBuilder.buildPartial();
-                    }
-                    argumentCase_ = 2;
-                    break;
-                  }
-                }
-              }
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-              throw e.setUnfinishedMessage(this);
-            } catch (java.io.IOException e) {
-              throw new com.google.protobuf.InvalidProtocolBufferException(
-                  e).setUnfinishedMessage(this);
-            } finally {
-              this.unknownFields = unknownFields.build();
-              makeExtensionsImmutable();
-            }
-          }
-          public static final com.google.protobuf.Descriptors.Descriptor
-              getDescriptor() {
-            return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_Argument_descriptor;
-          }
-
-          protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-              internalGetFieldAccessorTable() {
-            return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_Argument_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                    tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.class, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.Builder.class);
-          }
-
-          private int argumentCase_ = 0;
-          private java.lang.Object argument_;
-          public enum ArgumentCase
-              implements com.google.protobuf.Internal.EnumLite {
-            COLUMN(1),
-            VALUE(2),
-            ARGUMENT_NOT_SET(0);
-            private final int value;
-            private ArgumentCase(int value) {
-              this.value = value;
-            }
-            /**
-             * @deprecated Use {@link #forNumber(int)} instead.
-             */
-            @java.lang.Deprecated
-            public static ArgumentCase valueOf(int value) {
-              return forNumber(value);
-            }
-
-            public static ArgumentCase forNumber(int value) {
-              switch (value) {
-                case 1: return COLUMN;
-                case 2: return VALUE;
-                case 0: return ARGUMENT_NOT_SET;
-                default: return null;
-              }
-            }
-            public int getNumber() {
-              return this.value;
-            }
-          };
-
-          public ArgumentCase
-          getArgumentCase() {
-            return ArgumentCase.forNumber(
-                argumentCase_);
-          }
-
-          public static final int COLUMN_FIELD_NUMBER = 1;
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-           */
-          public boolean hasColumn() {
-            return argumentCase_ == 1;
-          }
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-           */
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn getColumn() {
-            if (argumentCase_ == 1) {
-               return (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn) argument_;
-            }
-            return tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.getDefaultInstance();
-          }
-          /**
-           * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-           */
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder getColumnOrBuilder() {
-            if (argumentCase_ == 1) {
-               return (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn) argument_;
-            }
-            return tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.getDefaultInstance();
-          }
-
-          public static final int VALUE_FIELD_NUMBER = 2;
-          /**
-           * <code>.Ydb.TypedValue value = 2;</code>
-           */
-          public boolean hasValue() {
-            return argumentCase_ == 2;
-          }
-          /**
-           * <code>.Ydb.TypedValue value = 2;</code>
-           */
-          public tech.ydb.ValueProtos.TypedValue getValue() {
-            if (argumentCase_ == 2) {
-               return (tech.ydb.ValueProtos.TypedValue) argument_;
-            }
-            return tech.ydb.ValueProtos.TypedValue.getDefaultInstance();
-          }
-          /**
-           * <code>.Ydb.TypedValue value = 2;</code>
-           */
-          public tech.ydb.ValueProtos.TypedValueOrBuilder getValueOrBuilder() {
-            if (argumentCase_ == 2) {
-               return (tech.ydb.ValueProtos.TypedValue) argument_;
-            }
-            return tech.ydb.ValueProtos.TypedValue.getDefaultInstance();
-          }
-
-          private byte memoizedIsInitialized = -1;
-          public final boolean isInitialized() {
-            byte isInitialized = memoizedIsInitialized;
-            if (isInitialized == 1) return true;
-            if (isInitialized == 0) return false;
-
-            memoizedIsInitialized = 1;
-            return true;
-          }
-
-          public void writeTo(com.google.protobuf.CodedOutputStream output)
-                              throws java.io.IOException {
-            if (argumentCase_ == 1) {
-              output.writeMessage(1, (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn) argument_);
-            }
-            if (argumentCase_ == 2) {
-              output.writeMessage(2, (tech.ydb.ValueProtos.TypedValue) argument_);
-            }
-            unknownFields.writeTo(output);
-          }
-
-          public int getSerializedSize() {
-            int size = memoizedSize;
-            if (size != -1) return size;
-
-            size = 0;
-            if (argumentCase_ == 1) {
-              size += com.google.protobuf.CodedOutputStream
-                .computeMessageSize(1, (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn) argument_);
-            }
-            if (argumentCase_ == 2) {
-              size += com.google.protobuf.CodedOutputStream
-                .computeMessageSize(2, (tech.ydb.ValueProtos.TypedValue) argument_);
-            }
-            size += unknownFields.getSerializedSize();
-            memoizedSize = size;
-            return size;
-          }
-
-          @java.lang.Override
-          public boolean equals(final java.lang.Object obj) {
-            if (obj == this) {
-             return true;
-            }
-            if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument)) {
-              return super.equals(obj);
-            }
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument other = (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument) obj;
-
-            boolean result = true;
-            result = result && getArgumentCase().equals(
-                other.getArgumentCase());
-            if (!result) return false;
-            switch (argumentCase_) {
-              case 1:
-                result = result && getColumn()
-                    .equals(other.getColumn());
-                break;
-              case 2:
-                result = result && getValue()
-                    .equals(other.getValue());
-                break;
-              case 0:
-              default:
-            }
-            result = result && unknownFields.equals(other.unknownFields);
-            return result;
-          }
-
-          @java.lang.Override
-          public int hashCode() {
-            if (memoizedHashCode != 0) {
-              return memoizedHashCode;
-            }
-            int hash = 41;
-            hash = (19 * hash) + getDescriptor().hashCode();
-            switch (argumentCase_) {
-              case 1:
-                hash = (37 * hash) + COLUMN_FIELD_NUMBER;
-                hash = (53 * hash) + getColumn().hashCode();
-                break;
-              case 2:
-                hash = (37 * hash) + VALUE_FIELD_NUMBER;
-                hash = (53 * hash) + getValue().hashCode();
-                break;
-              case 0:
-              default:
-            }
-            hash = (29 * hash) + unknownFields.hashCode();
-            memoizedHashCode = hash;
-            return hash;
-          }
-
-          public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument parseFrom(
-              java.nio.ByteBuffer data)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data);
-          }
-          public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument parseFrom(
-              java.nio.ByteBuffer data,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data, extensionRegistry);
-          }
-          public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument parseFrom(
-              com.google.protobuf.ByteString data)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data);
-          }
-          public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument parseFrom(
-              com.google.protobuf.ByteString data,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data, extensionRegistry);
-          }
-          public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument parseFrom(byte[] data)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data);
-          }
-          public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument parseFrom(
-              byte[] data,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-            return PARSER.parseFrom(data, extensionRegistry);
-          }
-          public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument parseFrom(java.io.InputStream input)
-              throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                .parseWithIOException(PARSER, input);
-          }
-          public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument parseFrom(
-              java.io.InputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                .parseWithIOException(PARSER, input, extensionRegistry);
-          }
-          public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument parseDelimitedFrom(java.io.InputStream input)
-              throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                .parseDelimitedWithIOException(PARSER, input);
-          }
-          public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument parseDelimitedFrom(
-              java.io.InputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-          }
-          public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument parseFrom(
-              com.google.protobuf.CodedInputStream input)
-              throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                .parseWithIOException(PARSER, input);
-          }
-          public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument parseFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-            return com.google.protobuf.GeneratedMessageV3
-                .parseWithIOException(PARSER, input, extensionRegistry);
-          }
-
-          public Builder newBuilderForType() { return newBuilder(); }
-          public static Builder newBuilder() {
-            return DEFAULT_INSTANCE.toBuilder();
-          }
-          public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument prototype) {
-            return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-          }
-          public Builder toBuilder() {
-            return this == DEFAULT_INSTANCE
-                ? new Builder() : new Builder().mergeFrom(this);
-          }
-
-          @java.lang.Override
-          protected Builder newBuilderForType(
-              com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-            Builder builder = new Builder(parent);
-            return builder;
-          }
-          /**
-           * Protobuf type {@code Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument}
-           */
-          public static final class Builder extends
-              com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-              // @@protoc_insertion_point(builder_implements:Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument)
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.ArgumentOrBuilder {
-            public static final com.google.protobuf.Descriptors.Descriptor
-                getDescriptor() {
-              return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_Argument_descriptor;
-            }
-
-            protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-                internalGetFieldAccessorTable() {
-              return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_Argument_fieldAccessorTable
-                  .ensureFieldAccessorsInitialized(
-                      tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.class, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.Builder.class);
-            }
-
-            // Construct using tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.newBuilder()
-            private Builder() {
-              maybeForceBuilderInitialization();
-            }
-
-            private Builder(
-                com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-              super(parent);
-              maybeForceBuilderInitialization();
-            }
-            private void maybeForceBuilderInitialization() {
-              if (com.google.protobuf.GeneratedMessageV3
-                      .alwaysUseFieldBuilders) {
-              }
-            }
-            public Builder clear() {
-              super.clear();
-              argumentCase_ = 0;
-              argument_ = null;
-              return this;
-            }
-
-            public com.google.protobuf.Descriptors.Descriptor
-                getDescriptorForType() {
-              return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_Argument_descriptor;
-            }
-
-            public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument getDefaultInstanceForType() {
-              return tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.getDefaultInstance();
-            }
-
-            public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument build() {
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument result = buildPartial();
-              if (!result.isInitialized()) {
-                throw newUninitializedMessageException(result);
-              }
-              return result;
-            }
-
-            public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument buildPartial() {
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument result = new tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument(this);
-              if (argumentCase_ == 1) {
-                if (columnBuilder_ == null) {
-                  result.argument_ = argument_;
-                } else {
-                  result.argument_ = columnBuilder_.build();
-                }
-              }
-              if (argumentCase_ == 2) {
-                if (valueBuilder_ == null) {
-                  result.argument_ = argument_;
-                } else {
-                  result.argument_ = valueBuilder_.build();
-                }
-              }
-              result.argumentCase_ = argumentCase_;
-              onBuilt();
-              return result;
-            }
-
-            public Builder clone() {
-              return (Builder) super.clone();
-            }
-            public Builder setField(
-                com.google.protobuf.Descriptors.FieldDescriptor field,
-                java.lang.Object value) {
-              return (Builder) super.setField(field, value);
-            }
-            public Builder clearField(
-                com.google.protobuf.Descriptors.FieldDescriptor field) {
-              return (Builder) super.clearField(field);
-            }
-            public Builder clearOneof(
-                com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-              return (Builder) super.clearOneof(oneof);
-            }
-            public Builder setRepeatedField(
-                com.google.protobuf.Descriptors.FieldDescriptor field,
-                int index, java.lang.Object value) {
-              return (Builder) super.setRepeatedField(field, index, value);
-            }
-            public Builder addRepeatedField(
-                com.google.protobuf.Descriptors.FieldDescriptor field,
-                java.lang.Object value) {
-              return (Builder) super.addRepeatedField(field, value);
-            }
-            public Builder mergeFrom(com.google.protobuf.Message other) {
-              if (other instanceof tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument) {
-                return mergeFrom((tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument)other);
-              } else {
-                super.mergeFrom(other);
-                return this;
-              }
-            }
-
-            public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument other) {
-              if (other == tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.getDefaultInstance()) return this;
-              switch (other.getArgumentCase()) {
-                case COLUMN: {
-                  mergeColumn(other.getColumn());
-                  break;
-                }
-                case VALUE: {
-                  mergeValue(other.getValue());
-                  break;
-                }
-                case ARGUMENT_NOT_SET: {
-                  break;
-                }
-              }
-              this.mergeUnknownFields(other.unknownFields);
-              onChanged();
-              return this;
-            }
-
-            public final boolean isInitialized() {
-              return true;
-            }
-
-            public Builder mergeFrom(
-                com.google.protobuf.CodedInputStream input,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws java.io.IOException {
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument parsedMessage = null;
-              try {
-                parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-              } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-                parsedMessage = (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument) e.getUnfinishedMessage();
-                throw e.unwrapIOException();
-              } finally {
-                if (parsedMessage != null) {
-                  mergeFrom(parsedMessage);
-                }
-              }
-              return this;
-            }
-            private int argumentCase_ = 0;
-            private java.lang.Object argument_;
-            public ArgumentCase
-                getArgumentCase() {
-              return ArgumentCase.forNumber(
-                  argumentCase_);
-            }
-
-            public Builder clearArgument() {
-              argumentCase_ = 0;
-              argument_ = null;
-              onChanged();
-              return this;
-            }
-
-
-            private com.google.protobuf.SingleFieldBuilderV3<
-                tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder> columnBuilder_;
-            /**
-             * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-             */
-            public boolean hasColumn() {
-              return argumentCase_ == 1;
-            }
-            /**
-             * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-             */
-            public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn getColumn() {
-              if (columnBuilder_ == null) {
-                if (argumentCase_ == 1) {
-                  return (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn) argument_;
-                }
-                return tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.getDefaultInstance();
-              } else {
-                if (argumentCase_ == 1) {
-                  return columnBuilder_.getMessage();
-                }
-                return tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.getDefaultInstance();
-              }
-            }
-            /**
-             * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-             */
-            public Builder setColumn(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn value) {
-              if (columnBuilder_ == null) {
-                if (value == null) {
-                  throw new NullPointerException();
-                }
-                argument_ = value;
-                onChanged();
-              } else {
-                columnBuilder_.setMessage(value);
-              }
-              argumentCase_ = 1;
-              return this;
-            }
-            /**
-             * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-             */
-            public Builder setColumn(
-                tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder builderForValue) {
-              if (columnBuilder_ == null) {
-                argument_ = builderForValue.build();
-                onChanged();
-              } else {
-                columnBuilder_.setMessage(builderForValue.build());
-              }
-              argumentCase_ = 1;
-              return this;
-            }
-            /**
-             * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-             */
-            public Builder mergeColumn(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn value) {
-              if (columnBuilder_ == null) {
-                if (argumentCase_ == 1 &&
-                    argument_ != tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.getDefaultInstance()) {
-                  argument_ = tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.newBuilder((tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn) argument_)
-                      .mergeFrom(value).buildPartial();
-                } else {
-                  argument_ = value;
-                }
-                onChanged();
-              } else {
-                if (argumentCase_ == 1) {
-                  columnBuilder_.mergeFrom(value);
-                }
-                columnBuilder_.setMessage(value);
-              }
-              argumentCase_ = 1;
-              return this;
-            }
-            /**
-             * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-             */
-            public Builder clearColumn() {
-              if (columnBuilder_ == null) {
-                if (argumentCase_ == 1) {
-                  argumentCase_ = 0;
-                  argument_ = null;
-                  onChanged();
-                }
-              } else {
-                if (argumentCase_ == 1) {
-                  argumentCase_ = 0;
-                  argument_ = null;
-                }
-                columnBuilder_.clear();
-              }
-              return this;
-            }
-            /**
-             * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-             */
-            public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder getColumnBuilder() {
-              return getColumnFieldBuilder().getBuilder();
-            }
-            /**
-             * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-             */
-            public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder getColumnOrBuilder() {
-              if ((argumentCase_ == 1) && (columnBuilder_ != null)) {
-                return columnBuilder_.getMessageOrBuilder();
-              } else {
-                if (argumentCase_ == 1) {
-                  return (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn) argument_;
-                }
-                return tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.getDefaultInstance();
-              }
-            }
-            /**
-             * <code>.Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn column = 1;</code>
-             */
-            private com.google.protobuf.SingleFieldBuilderV3<
-                tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder> 
-                getColumnFieldBuilder() {
-              if (columnBuilder_ == null) {
-                if (!(argumentCase_ == 1)) {
-                  argument_ = tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.getDefaultInstance();
-                }
-                columnBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-                    tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder>(
-                        (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn) argument_,
-                        getParentForChildren(),
-                        isClean());
-                argument_ = null;
-              }
-              argumentCase_ = 1;
-              onChanged();;
-              return columnBuilder_;
-            }
-
-            private com.google.protobuf.SingleFieldBuilderV3<
-                tech.ydb.ValueProtos.TypedValue, tech.ydb.ValueProtos.TypedValue.Builder, tech.ydb.ValueProtos.TypedValueOrBuilder> valueBuilder_;
-            /**
-             * <code>.Ydb.TypedValue value = 2;</code>
-             */
-            public boolean hasValue() {
-              return argumentCase_ == 2;
-            }
-            /**
-             * <code>.Ydb.TypedValue value = 2;</code>
-             */
-            public tech.ydb.ValueProtos.TypedValue getValue() {
-              if (valueBuilder_ == null) {
-                if (argumentCase_ == 2) {
-                  return (tech.ydb.ValueProtos.TypedValue) argument_;
-                }
-                return tech.ydb.ValueProtos.TypedValue.getDefaultInstance();
-              } else {
-                if (argumentCase_ == 2) {
-                  return valueBuilder_.getMessage();
-                }
-                return tech.ydb.ValueProtos.TypedValue.getDefaultInstance();
-              }
-            }
-            /**
-             * <code>.Ydb.TypedValue value = 2;</code>
-             */
-            public Builder setValue(tech.ydb.ValueProtos.TypedValue value) {
-              if (valueBuilder_ == null) {
-                if (value == null) {
-                  throw new NullPointerException();
-                }
-                argument_ = value;
-                onChanged();
-              } else {
-                valueBuilder_.setMessage(value);
-              }
-              argumentCase_ = 2;
-              return this;
-            }
-            /**
-             * <code>.Ydb.TypedValue value = 2;</code>
-             */
-            public Builder setValue(
-                tech.ydb.ValueProtos.TypedValue.Builder builderForValue) {
-              if (valueBuilder_ == null) {
-                argument_ = builderForValue.build();
-                onChanged();
-              } else {
-                valueBuilder_.setMessage(builderForValue.build());
-              }
-              argumentCase_ = 2;
-              return this;
-            }
-            /**
-             * <code>.Ydb.TypedValue value = 2;</code>
-             */
-            public Builder mergeValue(tech.ydb.ValueProtos.TypedValue value) {
-              if (valueBuilder_ == null) {
-                if (argumentCase_ == 2 &&
-                    argument_ != tech.ydb.ValueProtos.TypedValue.getDefaultInstance()) {
-                  argument_ = tech.ydb.ValueProtos.TypedValue.newBuilder((tech.ydb.ValueProtos.TypedValue) argument_)
-                      .mergeFrom(value).buildPartial();
-                } else {
-                  argument_ = value;
-                }
-                onChanged();
-              } else {
-                if (argumentCase_ == 2) {
-                  valueBuilder_.mergeFrom(value);
-                }
-                valueBuilder_.setMessage(value);
-              }
-              argumentCase_ = 2;
-              return this;
-            }
-            /**
-             * <code>.Ydb.TypedValue value = 2;</code>
-             */
-            public Builder clearValue() {
-              if (valueBuilder_ == null) {
-                if (argumentCase_ == 2) {
-                  argumentCase_ = 0;
-                  argument_ = null;
-                  onChanged();
-                }
-              } else {
-                if (argumentCase_ == 2) {
-                  argumentCase_ = 0;
-                  argument_ = null;
-                }
-                valueBuilder_.clear();
-              }
-              return this;
-            }
-            /**
-             * <code>.Ydb.TypedValue value = 2;</code>
-             */
-            public tech.ydb.ValueProtos.TypedValue.Builder getValueBuilder() {
-              return getValueFieldBuilder().getBuilder();
-            }
-            /**
-             * <code>.Ydb.TypedValue value = 2;</code>
-             */
-            public tech.ydb.ValueProtos.TypedValueOrBuilder getValueOrBuilder() {
-              if ((argumentCase_ == 2) && (valueBuilder_ != null)) {
-                return valueBuilder_.getMessageOrBuilder();
-              } else {
-                if (argumentCase_ == 2) {
-                  return (tech.ydb.ValueProtos.TypedValue) argument_;
-                }
-                return tech.ydb.ValueProtos.TypedValue.getDefaultInstance();
-              }
-            }
-            /**
-             * <code>.Ydb.TypedValue value = 2;</code>
-             */
-            private com.google.protobuf.SingleFieldBuilderV3<
-                tech.ydb.ValueProtos.TypedValue, tech.ydb.ValueProtos.TypedValue.Builder, tech.ydb.ValueProtos.TypedValueOrBuilder> 
-                getValueFieldBuilder() {
-              if (valueBuilder_ == null) {
-                if (!(argumentCase_ == 2)) {
-                  argument_ = tech.ydb.ValueProtos.TypedValue.getDefaultInstance();
-                }
-                valueBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-                    tech.ydb.ValueProtos.TypedValue, tech.ydb.ValueProtos.TypedValue.Builder, tech.ydb.ValueProtos.TypedValueOrBuilder>(
-                        (tech.ydb.ValueProtos.TypedValue) argument_,
-                        getParentForChildren(),
-                        isClean());
-                argument_ = null;
-              }
-              argumentCase_ = 2;
-              onChanged();;
-              return valueBuilder_;
-            }
-            public final Builder setUnknownFields(
-                final com.google.protobuf.UnknownFieldSet unknownFields) {
-              return super.setUnknownFieldsProto3(unknownFields);
-            }
-
-            public final Builder mergeUnknownFields(
-                final com.google.protobuf.UnknownFieldSet unknownFields) {
-              return super.mergeUnknownFields(unknownFields);
-            }
-
-
-            // @@protoc_insertion_point(builder_scope:Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument)
-          }
-
-          // @@protoc_insertion_point(class_scope:Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument)
-          private static final tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument DEFAULT_INSTANCE;
-          static {
-            DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument();
-          }
-
-          public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument getDefaultInstance() {
-            return DEFAULT_INSTANCE;
-          }
-
-          private static final com.google.protobuf.Parser<Argument>
-              PARSER = new com.google.protobuf.AbstractParser<Argument>() {
-            public Argument parsePartialFrom(
-                com.google.protobuf.CodedInputStream input,
-                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws com.google.protobuf.InvalidProtocolBufferException {
-                return new Argument(input, extensionRegistry);
-            }
-          };
-
-          public static com.google.protobuf.Parser<Argument> parser() {
-            return PARSER;
-          }
-
-          @java.lang.Override
-          public com.google.protobuf.Parser<Argument> getParserForType() {
-            return PARSER;
-          }
-
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument getDefaultInstanceForType() {
-            return DEFAULT_INSTANCE;
-          }
-
-        }
-
-        private int bitField0_;
-        public static final int NAME_FIELD_NUMBER = 1;
-        private volatile java.lang.Object name_;
-        /**
-         * <code>string name = 1;</code>
-         */
-        public java.lang.String getName() {
-          java.lang.Object ref = name_;
-          if (ref instanceof java.lang.String) {
-            return (java.lang.String) ref;
-          } else {
-            com.google.protobuf.ByteString bs = 
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            name_ = s;
-            return s;
-          }
-        }
-        /**
-         * <code>string name = 1;</code>
-         */
-        public com.google.protobuf.ByteString
-            getNameBytes() {
-          java.lang.Object ref = name_;
-          if (ref instanceof java.lang.String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            name_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-
-        public static final int ARGUMENTS_FIELD_NUMBER = 2;
-        private java.util.List<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument> arguments_;
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-         */
-        public java.util.List<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument> getArgumentsList() {
-          return arguments_;
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-         */
-        public java.util.List<? extends tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.ArgumentOrBuilder> 
-            getArgumentsOrBuilderList() {
-          return arguments_;
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-         */
-        public int getArgumentsCount() {
-          return arguments_.size();
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-         */
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument getArguments(int index) {
-          return arguments_.get(index);
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-         */
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.ArgumentOrBuilder getArgumentsOrBuilder(
-            int index) {
-          return arguments_.get(index);
-        }
-
-        private byte memoizedIsInitialized = -1;
-        public final boolean isInitialized() {
-          byte isInitialized = memoizedIsInitialized;
-          if (isInitialized == 1) return true;
-          if (isInitialized == 0) return false;
-
-          memoizedIsInitialized = 1;
-          return true;
-        }
-
-        public void writeTo(com.google.protobuf.CodedOutputStream output)
-                            throws java.io.IOException {
-          if (!getNameBytes().isEmpty()) {
-            com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
-          }
-          for (int i = 0; i < arguments_.size(); i++) {
-            output.writeMessage(2, arguments_.get(i));
-          }
-          unknownFields.writeTo(output);
-        }
-
-        public int getSerializedSize() {
-          int size = memoizedSize;
-          if (size != -1) return size;
-
-          size = 0;
-          if (!getNameBytes().isEmpty()) {
-            size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
-          }
-          for (int i = 0; i < arguments_.size(); i++) {
-            size += com.google.protobuf.CodedOutputStream
-              .computeMessageSize(2, arguments_.get(i));
-          }
-          size += unknownFields.getSerializedSize();
-          memoizedSize = size;
-          return size;
-        }
-
-        @java.lang.Override
-        public boolean equals(final java.lang.Object obj) {
-          if (obj == this) {
-           return true;
-          }
-          if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function)) {
-            return super.equals(obj);
-          }
-          tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function other = (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function) obj;
-
-          boolean result = true;
-          result = result && getName()
-              .equals(other.getName());
-          result = result && getArgumentsList()
-              .equals(other.getArgumentsList());
-          result = result && unknownFields.equals(other.unknownFields);
-          return result;
-        }
-
-        @java.lang.Override
-        public int hashCode() {
-          if (memoizedHashCode != 0) {
-            return memoizedHashCode;
-          }
-          int hash = 41;
-          hash = (19 * hash) + getDescriptor().hashCode();
-          hash = (37 * hash) + NAME_FIELD_NUMBER;
-          hash = (53 * hash) + getName().hashCode();
-          if (getArgumentsCount() > 0) {
-            hash = (37 * hash) + ARGUMENTS_FIELD_NUMBER;
-            hash = (53 * hash) + getArgumentsList().hashCode();
-          }
-          hash = (29 * hash) + unknownFields.hashCode();
-          memoizedHashCode = hash;
-          return hash;
-        }
-
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function parseFrom(
-            java.nio.ByteBuffer data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return PARSER.parseFrom(data);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function parseFrom(
-            java.nio.ByteBuffer data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return PARSER.parseFrom(data, extensionRegistry);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function parseFrom(
-            com.google.protobuf.ByteString data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return PARSER.parseFrom(data);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function parseFrom(
-            com.google.protobuf.ByteString data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return PARSER.parseFrom(data, extensionRegistry);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function parseFrom(byte[] data)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return PARSER.parseFrom(data);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function parseFrom(
-            byte[] data,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          return PARSER.parseFrom(data, extensionRegistry);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function parseFrom(java.io.InputStream input)
-            throws java.io.IOException {
-          return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function parseFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function parseDelimitedFrom(java.io.InputStream input)
-            throws java.io.IOException {
-          return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function parseDelimitedFrom(
-            java.io.InputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          return com.google.protobuf.GeneratedMessageV3
-              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function parseFrom(
-            com.google.protobuf.CodedInputStream input)
-            throws java.io.IOException {
-          return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input);
-        }
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function parseFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          return com.google.protobuf.GeneratedMessageV3
-              .parseWithIOException(PARSER, input, extensionRegistry);
-        }
-
-        public Builder newBuilderForType() { return newBuilder(); }
-        public static Builder newBuilder() {
-          return DEFAULT_INSTANCE.toBuilder();
-        }
-        public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function prototype) {
-          return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-        }
-        public Builder toBuilder() {
-          return this == DEFAULT_INSTANCE
-              ? new Builder() : new Builder().mergeFrom(this);
-        }
-
-        @java.lang.Override
-        protected Builder newBuilderForType(
-            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-          Builder builder = new Builder(parent);
-          return builder;
-        }
-        /**
-         * Protobuf type {@code Ydb.LongTx.ReadRequest.SelectQuery.Function}
-         */
-        public static final class Builder extends
-            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-            // @@protoc_insertion_point(builder_implements:Ydb.LongTx.ReadRequest.SelectQuery.Function)
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.FunctionOrBuilder {
-          public static final com.google.protobuf.Descriptors.Descriptor
-              getDescriptor() {
-            return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_descriptor;
-          }
-
-          protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-              internalGetFieldAccessorTable() {
-            return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_fieldAccessorTable
-                .ensureFieldAccessorsInitialized(
-                    tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.class, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Builder.class);
-          }
-
-          // Construct using tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.newBuilder()
-          private Builder() {
-            maybeForceBuilderInitialization();
-          }
-
-          private Builder(
-              com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-            super(parent);
-            maybeForceBuilderInitialization();
-          }
-          private void maybeForceBuilderInitialization() {
-            if (com.google.protobuf.GeneratedMessageV3
-                    .alwaysUseFieldBuilders) {
-              getArgumentsFieldBuilder();
-            }
-          }
-          public Builder clear() {
-            super.clear();
-            name_ = "";
-
-            if (argumentsBuilder_ == null) {
-              arguments_ = java.util.Collections.emptyList();
-              bitField0_ = (bitField0_ & ~0x00000002);
-            } else {
-              argumentsBuilder_.clear();
-            }
-            return this;
-          }
-
-          public com.google.protobuf.Descriptors.Descriptor
-              getDescriptorForType() {
-            return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_descriptor;
-          }
-
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function getDefaultInstanceForType() {
-            return tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.getDefaultInstance();
-          }
-
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function build() {
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function result = buildPartial();
-            if (!result.isInitialized()) {
-              throw newUninitializedMessageException(result);
-            }
-            return result;
-          }
-
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function buildPartial() {
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function result = new tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function(this);
-            int from_bitField0_ = bitField0_;
-            int to_bitField0_ = 0;
-            result.name_ = name_;
-            if (argumentsBuilder_ == null) {
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
-                arguments_ = java.util.Collections.unmodifiableList(arguments_);
-                bitField0_ = (bitField0_ & ~0x00000002);
-              }
-              result.arguments_ = arguments_;
-            } else {
-              result.arguments_ = argumentsBuilder_.build();
-            }
-            result.bitField0_ = to_bitField0_;
-            onBuilt();
-            return result;
-          }
-
-          public Builder clone() {
-            return (Builder) super.clone();
-          }
-          public Builder setField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              java.lang.Object value) {
-            return (Builder) super.setField(field, value);
-          }
-          public Builder clearField(
-              com.google.protobuf.Descriptors.FieldDescriptor field) {
-            return (Builder) super.clearField(field);
-          }
-          public Builder clearOneof(
-              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-            return (Builder) super.clearOneof(oneof);
-          }
-          public Builder setRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              int index, java.lang.Object value) {
-            return (Builder) super.setRepeatedField(field, index, value);
-          }
-          public Builder addRepeatedField(
-              com.google.protobuf.Descriptors.FieldDescriptor field,
-              java.lang.Object value) {
-            return (Builder) super.addRepeatedField(field, value);
-          }
-          public Builder mergeFrom(com.google.protobuf.Message other) {
-            if (other instanceof tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function) {
-              return mergeFrom((tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function)other);
-            } else {
-              super.mergeFrom(other);
-              return this;
-            }
-          }
-
-          public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function other) {
-            if (other == tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.getDefaultInstance()) return this;
-            if (!other.getName().isEmpty()) {
-              name_ = other.name_;
-              onChanged();
-            }
-            if (argumentsBuilder_ == null) {
-              if (!other.arguments_.isEmpty()) {
-                if (arguments_.isEmpty()) {
-                  arguments_ = other.arguments_;
-                  bitField0_ = (bitField0_ & ~0x00000002);
-                } else {
-                  ensureArgumentsIsMutable();
-                  arguments_.addAll(other.arguments_);
-                }
-                onChanged();
-              }
-            } else {
-              if (!other.arguments_.isEmpty()) {
-                if (argumentsBuilder_.isEmpty()) {
-                  argumentsBuilder_.dispose();
-                  argumentsBuilder_ = null;
-                  arguments_ = other.arguments_;
-                  bitField0_ = (bitField0_ & ~0x00000002);
-                  argumentsBuilder_ = 
-                    com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                       getArgumentsFieldBuilder() : null;
-                } else {
-                  argumentsBuilder_.addAllMessages(other.arguments_);
-                }
-              }
-            }
-            this.mergeUnknownFields(other.unknownFields);
-            onChanged();
-            return this;
-          }
-
-          public final boolean isInitialized() {
-            return true;
-          }
-
-          public Builder mergeFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws java.io.IOException {
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function parsedMessage = null;
-            try {
-              parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-              parsedMessage = (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function) e.getUnfinishedMessage();
-              throw e.unwrapIOException();
-            } finally {
-              if (parsedMessage != null) {
-                mergeFrom(parsedMessage);
-              }
-            }
-            return this;
-          }
-          private int bitField0_;
-
-          private java.lang.Object name_ = "";
-          /**
-           * <code>string name = 1;</code>
-           */
-          public java.lang.String getName() {
-            java.lang.Object ref = name_;
-            if (!(ref instanceof java.lang.String)) {
-              com.google.protobuf.ByteString bs =
-                  (com.google.protobuf.ByteString) ref;
-              java.lang.String s = bs.toStringUtf8();
-              name_ = s;
-              return s;
-            } else {
-              return (java.lang.String) ref;
-            }
-          }
-          /**
-           * <code>string name = 1;</code>
-           */
-          public com.google.protobuf.ByteString
-              getNameBytes() {
-            java.lang.Object ref = name_;
-            if (ref instanceof String) {
-              com.google.protobuf.ByteString b = 
-                  com.google.protobuf.ByteString.copyFromUtf8(
-                      (java.lang.String) ref);
-              name_ = b;
-              return b;
-            } else {
-              return (com.google.protobuf.ByteString) ref;
-            }
-          }
-          /**
-           * <code>string name = 1;</code>
-           */
-          public Builder setName(
-              java.lang.String value) {
-            if (value == null) {
-    throw new NullPointerException();
-  }
-  
-            name_ = value;
-            onChanged();
-            return this;
-          }
-          /**
-           * <code>string name = 1;</code>
-           */
-          public Builder clearName() {
-            
-            name_ = getDefaultInstance().getName();
-            onChanged();
-            return this;
-          }
-          /**
-           * <code>string name = 1;</code>
-           */
-          public Builder setNameBytes(
-              com.google.protobuf.ByteString value) {
-            if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-            
-            name_ = value;
-            onChanged();
-            return this;
-          }
-
-          private java.util.List<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument> arguments_ =
-            java.util.Collections.emptyList();
-          private void ensureArgumentsIsMutable() {
-            if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-              arguments_ = new java.util.ArrayList<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument>(arguments_);
-              bitField0_ |= 0x00000002;
-             }
-          }
-
-          private com.google.protobuf.RepeatedFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.ArgumentOrBuilder> argumentsBuilder_;
-
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public java.util.List<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument> getArgumentsList() {
-            if (argumentsBuilder_ == null) {
-              return java.util.Collections.unmodifiableList(arguments_);
-            } else {
-              return argumentsBuilder_.getMessageList();
-            }
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public int getArgumentsCount() {
-            if (argumentsBuilder_ == null) {
-              return arguments_.size();
-            } else {
-              return argumentsBuilder_.getCount();
-            }
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument getArguments(int index) {
-            if (argumentsBuilder_ == null) {
-              return arguments_.get(index);
-            } else {
-              return argumentsBuilder_.getMessage(index);
-            }
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public Builder setArguments(
-              int index, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument value) {
-            if (argumentsBuilder_ == null) {
-              if (value == null) {
-                throw new NullPointerException();
-              }
-              ensureArgumentsIsMutable();
-              arguments_.set(index, value);
-              onChanged();
-            } else {
-              argumentsBuilder_.setMessage(index, value);
-            }
-            return this;
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public Builder setArguments(
-              int index, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.Builder builderForValue) {
-            if (argumentsBuilder_ == null) {
-              ensureArgumentsIsMutable();
-              arguments_.set(index, builderForValue.build());
-              onChanged();
-            } else {
-              argumentsBuilder_.setMessage(index, builderForValue.build());
-            }
-            return this;
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public Builder addArguments(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument value) {
-            if (argumentsBuilder_ == null) {
-              if (value == null) {
-                throw new NullPointerException();
-              }
-              ensureArgumentsIsMutable();
-              arguments_.add(value);
-              onChanged();
-            } else {
-              argumentsBuilder_.addMessage(value);
-            }
-            return this;
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public Builder addArguments(
-              int index, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument value) {
-            if (argumentsBuilder_ == null) {
-              if (value == null) {
-                throw new NullPointerException();
-              }
-              ensureArgumentsIsMutable();
-              arguments_.add(index, value);
-              onChanged();
-            } else {
-              argumentsBuilder_.addMessage(index, value);
-            }
-            return this;
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public Builder addArguments(
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.Builder builderForValue) {
-            if (argumentsBuilder_ == null) {
-              ensureArgumentsIsMutable();
-              arguments_.add(builderForValue.build());
-              onChanged();
-            } else {
-              argumentsBuilder_.addMessage(builderForValue.build());
-            }
-            return this;
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public Builder addArguments(
-              int index, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.Builder builderForValue) {
-            if (argumentsBuilder_ == null) {
-              ensureArgumentsIsMutable();
-              arguments_.add(index, builderForValue.build());
-              onChanged();
-            } else {
-              argumentsBuilder_.addMessage(index, builderForValue.build());
-            }
-            return this;
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public Builder addAllArguments(
-              java.lang.Iterable<? extends tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument> values) {
-            if (argumentsBuilder_ == null) {
-              ensureArgumentsIsMutable();
-              com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                  values, arguments_);
-              onChanged();
-            } else {
-              argumentsBuilder_.addAllMessages(values);
-            }
-            return this;
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public Builder clearArguments() {
-            if (argumentsBuilder_ == null) {
-              arguments_ = java.util.Collections.emptyList();
-              bitField0_ = (bitField0_ & ~0x00000002);
-              onChanged();
-            } else {
-              argumentsBuilder_.clear();
-            }
-            return this;
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public Builder removeArguments(int index) {
-            if (argumentsBuilder_ == null) {
-              ensureArgumentsIsMutable();
-              arguments_.remove(index);
-              onChanged();
-            } else {
-              argumentsBuilder_.remove(index);
-            }
-            return this;
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.Builder getArgumentsBuilder(
-              int index) {
-            return getArgumentsFieldBuilder().getBuilder(index);
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.ArgumentOrBuilder getArgumentsOrBuilder(
-              int index) {
-            if (argumentsBuilder_ == null) {
-              return arguments_.get(index);  } else {
-              return argumentsBuilder_.getMessageOrBuilder(index);
-            }
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public java.util.List<? extends tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.ArgumentOrBuilder> 
-               getArgumentsOrBuilderList() {
-            if (argumentsBuilder_ != null) {
-              return argumentsBuilder_.getMessageOrBuilderList();
-            } else {
-              return java.util.Collections.unmodifiableList(arguments_);
-            }
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.Builder addArgumentsBuilder() {
-            return getArgumentsFieldBuilder().addBuilder(
-                tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.getDefaultInstance());
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.Builder addArgumentsBuilder(
-              int index) {
-            return getArgumentsFieldBuilder().addBuilder(
-                index, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.getDefaultInstance());
-          }
-          /**
-           * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.Function.Argument arguments = 2;</code>
-           */
-          public java.util.List<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.Builder> 
-               getArgumentsBuilderList() {
-            return getArgumentsFieldBuilder().getBuilderList();
-          }
-          private com.google.protobuf.RepeatedFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.ArgumentOrBuilder> 
-              getArgumentsFieldBuilder() {
-            if (argumentsBuilder_ == null) {
-              argumentsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-                  tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Argument.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.ArgumentOrBuilder>(
-                      arguments_,
-                      ((bitField0_ & 0x00000002) == 0x00000002),
-                      getParentForChildren(),
-                      isClean());
-              arguments_ = null;
-            }
-            return argumentsBuilder_;
-          }
-          public final Builder setUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
-            return super.setUnknownFieldsProto3(unknownFields);
-          }
-
-          public final Builder mergeUnknownFields(
-              final com.google.protobuf.UnknownFieldSet unknownFields) {
-            return super.mergeUnknownFields(unknownFields);
-          }
-
-
-          // @@protoc_insertion_point(builder_scope:Ydb.LongTx.ReadRequest.SelectQuery.Function)
-        }
-
-        // @@protoc_insertion_point(class_scope:Ydb.LongTx.ReadRequest.SelectQuery.Function)
-        private static final tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function DEFAULT_INSTANCE;
-        static {
-          DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function();
-        }
-
-        public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function getDefaultInstance() {
-          return DEFAULT_INSTANCE;
-        }
-
-        private static final com.google.protobuf.Parser<Function>
-            PARSER = new com.google.protobuf.AbstractParser<Function>() {
-          public Function parsePartialFrom(
-              com.google.protobuf.CodedInputStream input,
-              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-              throws com.google.protobuf.InvalidProtocolBufferException {
-              return new Function(input, extensionRegistry);
-          }
-        };
-
-        public static com.google.protobuf.Parser<Function> parser() {
-          return PARSER;
-        }
-
-        @java.lang.Override
-        public com.google.protobuf.Parser<Function> getParserForType() {
-          return PARSER;
-        }
-
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function getDefaultInstanceForType() {
-          return DEFAULT_INSTANCE;
-        }
-
+      public int getNumber() {
+        return this.value;
       }
+    };
 
-      private int bitField0_;
-      public static final int SELECT_FIELD_NUMBER = 1;
-      private java.util.List<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn> select_;
-      /**
-       * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-       */
-      public java.util.List<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn> getSelectList() {
-        return select_;
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-       */
-      public java.util.List<? extends tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder> 
-          getSelectOrBuilderList() {
-        return select_;
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-       */
-      public int getSelectCount() {
-        return select_.size();
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn getSelect(int index) {
-        return select_.get(index);
-      }
-      /**
-       * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder getSelectOrBuilder(
-          int index) {
-        return select_.get(index);
-      }
-
-      public static final int WHERE_FIELD_NUMBER = 2;
-      private tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function where_;
-      /**
-       * <pre>
-       *repeated NamedColumn group_by = 3;
-       *Function having = 4;
-       *repeated NamedColumn order_by = 5;
-       *uint64 limit = 6;
-       *uint64 offset = 7;
-       * </pre>
-       *
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-       */
-      public boolean hasWhere() {
-        return where_ != null;
-      }
-      /**
-       * <pre>
-       *repeated NamedColumn group_by = 3;
-       *Function having = 4;
-       *repeated NamedColumn order_by = 5;
-       *uint64 limit = 6;
-       *uint64 offset = 7;
-       * </pre>
-       *
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function getWhere() {
-        return where_ == null ? tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.getDefaultInstance() : where_;
-      }
-      /**
-       * <pre>
-       *repeated NamedColumn group_by = 3;
-       *Function having = 4;
-       *repeated NamedColumn order_by = 5;
-       *uint64 limit = 6;
-       *uint64 offset = 7;
-       * </pre>
-       *
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.FunctionOrBuilder getWhereOrBuilder() {
-        return getWhere();
-      }
-
-      private byte memoizedIsInitialized = -1;
-      public final boolean isInitialized() {
-        byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
-
-        memoizedIsInitialized = 1;
-        return true;
-      }
-
-      public void writeTo(com.google.protobuf.CodedOutputStream output)
-                          throws java.io.IOException {
-        for (int i = 0; i < select_.size(); i++) {
-          output.writeMessage(1, select_.get(i));
-        }
-        if (where_ != null) {
-          output.writeMessage(2, getWhere());
-        }
-        unknownFields.writeTo(output);
-      }
-
-      public int getSerializedSize() {
-        int size = memoizedSize;
-        if (size != -1) return size;
-
-        size = 0;
-        for (int i = 0; i < select_.size(); i++) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(1, select_.get(i));
-        }
-        if (where_ != null) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(2, getWhere());
-        }
-        size += unknownFields.getSerializedSize();
-        memoizedSize = size;
-        return size;
-      }
-
-      @java.lang.Override
-      public boolean equals(final java.lang.Object obj) {
-        if (obj == this) {
-         return true;
-        }
-        if (!(obj instanceof tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery)) {
-          return super.equals(obj);
-        }
-        tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery other = (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery) obj;
-
-        boolean result = true;
-        result = result && getSelectList()
-            .equals(other.getSelectList());
-        result = result && (hasWhere() == other.hasWhere());
-        if (hasWhere()) {
-          result = result && getWhere()
-              .equals(other.getWhere());
-        }
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
-      }
-
-      @java.lang.Override
-      public int hashCode() {
-        if (memoizedHashCode != 0) {
-          return memoizedHashCode;
-        }
-        int hash = 41;
-        hash = (19 * hash) + getDescriptor().hashCode();
-        if (getSelectCount() > 0) {
-          hash = (37 * hash) + SELECT_FIELD_NUMBER;
-          hash = (53 * hash) + getSelectList().hashCode();
-        }
-        if (hasWhere()) {
-          hash = (37 * hash) + WHERE_FIELD_NUMBER;
-          hash = (53 * hash) + getWhere().hashCode();
-        }
-        hash = (29 * hash) + unknownFields.hashCode();
-        memoizedHashCode = hash;
-        return hash;
-      }
-
-      public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery parseFrom(
-          java.nio.ByteBuffer data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery parseFrom(
-          java.nio.ByteBuffer data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery parseFrom(
-          com.google.protobuf.ByteString data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery parseFrom(
-          com.google.protobuf.ByteString data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery parseFrom(byte[] data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery parseFrom(
-          byte[] data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery parseFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseWithIOException(PARSER, input);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery parseFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseWithIOException(PARSER, input, extensionRegistry);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery parseDelimitedFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseDelimitedWithIOException(PARSER, input);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery parseDelimitedFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery parseFrom(
-          com.google.protobuf.CodedInputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseWithIOException(PARSER, input);
-      }
-      public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery parseFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseWithIOException(PARSER, input, extensionRegistry);
-      }
-
-      public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder() {
-        return DEFAULT_INSTANCE.toBuilder();
-      }
-      public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery prototype) {
-        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-      }
-      public Builder toBuilder() {
-        return this == DEFAULT_INSTANCE
-            ? new Builder() : new Builder().mergeFrom(this);
-      }
-
-      @java.lang.Override
-      protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        Builder builder = new Builder(parent);
-        return builder;
-      }
-      /**
-       * Protobuf type {@code Ydb.LongTx.ReadRequest.SelectQuery}
-       */
-      public static final class Builder extends
-          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:Ydb.LongTx.ReadRequest.SelectQuery)
-          tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQueryOrBuilder {
-        public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-          return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_descriptor;
-        }
-
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-          return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                  tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.class, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Builder.class);
-        }
-
-        // Construct using tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.newBuilder()
-        private Builder() {
-          maybeForceBuilderInitialization();
-        }
-
-        private Builder(
-            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-          super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessageV3
-                  .alwaysUseFieldBuilders) {
-            getSelectFieldBuilder();
-          }
-        }
-        public Builder clear() {
-          super.clear();
-          if (selectBuilder_ == null) {
-            select_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00000001);
-          } else {
-            selectBuilder_.clear();
-          }
-          if (whereBuilder_ == null) {
-            where_ = null;
-          } else {
-            where_ = null;
-            whereBuilder_ = null;
-          }
-          return this;
-        }
-
-        public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-          return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_SelectQuery_descriptor;
-        }
-
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery getDefaultInstanceForType() {
-          return tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.getDefaultInstance();
-        }
-
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery build() {
-          tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery result = buildPartial();
-          if (!result.isInitialized()) {
-            throw newUninitializedMessageException(result);
-          }
-          return result;
-        }
-
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery buildPartial() {
-          tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery result = new tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery(this);
-          int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
-          if (selectBuilder_ == null) {
-            if (((bitField0_ & 0x00000001) == 0x00000001)) {
-              select_ = java.util.Collections.unmodifiableList(select_);
-              bitField0_ = (bitField0_ & ~0x00000001);
-            }
-            result.select_ = select_;
-          } else {
-            result.select_ = selectBuilder_.build();
-          }
-          if (whereBuilder_ == null) {
-            result.where_ = where_;
-          } else {
-            result.where_ = whereBuilder_.build();
-          }
-          result.bitField0_ = to_bitField0_;
-          onBuilt();
-          return result;
-        }
-
-        public Builder clone() {
-          return (Builder) super.clone();
-        }
-        public Builder setField(
-            com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
-          return (Builder) super.setField(field, value);
-        }
-        public Builder clearField(
-            com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
-        }
-        public Builder clearOneof(
-            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
-        }
-        public Builder setRepeatedField(
-            com.google.protobuf.Descriptors.FieldDescriptor field,
-            int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
-        }
-        public Builder addRepeatedField(
-            com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
-        }
-        public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery) {
-            return mergeFrom((tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery)other);
-          } else {
-            super.mergeFrom(other);
-            return this;
-          }
-        }
-
-        public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery other) {
-          if (other == tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.getDefaultInstance()) return this;
-          if (selectBuilder_ == null) {
-            if (!other.select_.isEmpty()) {
-              if (select_.isEmpty()) {
-                select_ = other.select_;
-                bitField0_ = (bitField0_ & ~0x00000001);
-              } else {
-                ensureSelectIsMutable();
-                select_.addAll(other.select_);
-              }
-              onChanged();
-            }
-          } else {
-            if (!other.select_.isEmpty()) {
-              if (selectBuilder_.isEmpty()) {
-                selectBuilder_.dispose();
-                selectBuilder_ = null;
-                select_ = other.select_;
-                bitField0_ = (bitField0_ & ~0x00000001);
-                selectBuilder_ = 
-                  com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                     getSelectFieldBuilder() : null;
-              } else {
-                selectBuilder_.addAllMessages(other.select_);
-              }
-            }
-          }
-          if (other.hasWhere()) {
-            mergeWhere(other.getWhere());
-          }
-          this.mergeUnknownFields(other.unknownFields);
-          onChanged();
-          return this;
-        }
-
-        public final boolean isInitialized() {
-          return true;
-        }
-
-        public Builder mergeFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery parsedMessage = null;
-          try {
-            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery) e.getUnfinishedMessage();
-            throw e.unwrapIOException();
-          } finally {
-            if (parsedMessage != null) {
-              mergeFrom(parsedMessage);
-            }
-          }
-          return this;
-        }
-        private int bitField0_;
-
-        private java.util.List<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn> select_ =
-          java.util.Collections.emptyList();
-        private void ensureSelectIsMutable() {
-          if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-            select_ = new java.util.ArrayList<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn>(select_);
-            bitField0_ |= 0x00000001;
-           }
-        }
-
-        private com.google.protobuf.RepeatedFieldBuilderV3<
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder> selectBuilder_;
-
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public java.util.List<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn> getSelectList() {
-          if (selectBuilder_ == null) {
-            return java.util.Collections.unmodifiableList(select_);
-          } else {
-            return selectBuilder_.getMessageList();
-          }
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public int getSelectCount() {
-          if (selectBuilder_ == null) {
-            return select_.size();
-          } else {
-            return selectBuilder_.getCount();
-          }
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn getSelect(int index) {
-          if (selectBuilder_ == null) {
-            return select_.get(index);
-          } else {
-            return selectBuilder_.getMessage(index);
-          }
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public Builder setSelect(
-            int index, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn value) {
-          if (selectBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureSelectIsMutable();
-            select_.set(index, value);
-            onChanged();
-          } else {
-            selectBuilder_.setMessage(index, value);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public Builder setSelect(
-            int index, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder builderForValue) {
-          if (selectBuilder_ == null) {
-            ensureSelectIsMutable();
-            select_.set(index, builderForValue.build());
-            onChanged();
-          } else {
-            selectBuilder_.setMessage(index, builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public Builder addSelect(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn value) {
-          if (selectBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureSelectIsMutable();
-            select_.add(value);
-            onChanged();
-          } else {
-            selectBuilder_.addMessage(value);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public Builder addSelect(
-            int index, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn value) {
-          if (selectBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            ensureSelectIsMutable();
-            select_.add(index, value);
-            onChanged();
-          } else {
-            selectBuilder_.addMessage(index, value);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public Builder addSelect(
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder builderForValue) {
-          if (selectBuilder_ == null) {
-            ensureSelectIsMutable();
-            select_.add(builderForValue.build());
-            onChanged();
-          } else {
-            selectBuilder_.addMessage(builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public Builder addSelect(
-            int index, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder builderForValue) {
-          if (selectBuilder_ == null) {
-            ensureSelectIsMutable();
-            select_.add(index, builderForValue.build());
-            onChanged();
-          } else {
-            selectBuilder_.addMessage(index, builderForValue.build());
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public Builder addAllSelect(
-            java.lang.Iterable<? extends tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn> values) {
-          if (selectBuilder_ == null) {
-            ensureSelectIsMutable();
-            com.google.protobuf.AbstractMessageLite.Builder.addAll(
-                values, select_);
-            onChanged();
-          } else {
-            selectBuilder_.addAllMessages(values);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public Builder clearSelect() {
-          if (selectBuilder_ == null) {
-            select_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00000001);
-            onChanged();
-          } else {
-            selectBuilder_.clear();
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public Builder removeSelect(int index) {
-          if (selectBuilder_ == null) {
-            ensureSelectIsMutable();
-            select_.remove(index);
-            onChanged();
-          } else {
-            selectBuilder_.remove(index);
-          }
-          return this;
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder getSelectBuilder(
-            int index) {
-          return getSelectFieldBuilder().getBuilder(index);
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder getSelectOrBuilder(
-            int index) {
-          if (selectBuilder_ == null) {
-            return select_.get(index);  } else {
-            return selectBuilder_.getMessageOrBuilder(index);
-          }
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public java.util.List<? extends tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder> 
-             getSelectOrBuilderList() {
-          if (selectBuilder_ != null) {
-            return selectBuilder_.getMessageOrBuilderList();
-          } else {
-            return java.util.Collections.unmodifiableList(select_);
-          }
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder addSelectBuilder() {
-          return getSelectFieldBuilder().addBuilder(
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.getDefaultInstance());
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder addSelectBuilder(
-            int index) {
-          return getSelectFieldBuilder().addBuilder(
-              index, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.getDefaultInstance());
-        }
-        /**
-         * <code>repeated .Ydb.LongTx.ReadRequest.SelectQuery.NamedColumn select = 1;</code>
-         */
-        public java.util.List<tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder> 
-             getSelectBuilderList() {
-          return getSelectFieldBuilder().getBuilderList();
-        }
-        private com.google.protobuf.RepeatedFieldBuilderV3<
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder> 
-            getSelectFieldBuilder() {
-          if (selectBuilder_ == null) {
-            selectBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-                tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumn.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.NamedColumnOrBuilder>(
-                    select_,
-                    ((bitField0_ & 0x00000001) == 0x00000001),
-                    getParentForChildren(),
-                    isClean());
-            select_ = null;
-          }
-          return selectBuilder_;
-        }
-
-        private tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function where_ = null;
-        private com.google.protobuf.SingleFieldBuilderV3<
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.FunctionOrBuilder> whereBuilder_;
-        /**
-         * <pre>
-         *repeated NamedColumn group_by = 3;
-         *Function having = 4;
-         *repeated NamedColumn order_by = 5;
-         *uint64 limit = 6;
-         *uint64 offset = 7;
-         * </pre>
-         *
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-         */
-        public boolean hasWhere() {
-          return whereBuilder_ != null || where_ != null;
-        }
-        /**
-         * <pre>
-         *repeated NamedColumn group_by = 3;
-         *Function having = 4;
-         *repeated NamedColumn order_by = 5;
-         *uint64 limit = 6;
-         *uint64 offset = 7;
-         * </pre>
-         *
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-         */
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function getWhere() {
-          if (whereBuilder_ == null) {
-            return where_ == null ? tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.getDefaultInstance() : where_;
-          } else {
-            return whereBuilder_.getMessage();
-          }
-        }
-        /**
-         * <pre>
-         *repeated NamedColumn group_by = 3;
-         *Function having = 4;
-         *repeated NamedColumn order_by = 5;
-         *uint64 limit = 6;
-         *uint64 offset = 7;
-         * </pre>
-         *
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-         */
-        public Builder setWhere(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function value) {
-          if (whereBuilder_ == null) {
-            if (value == null) {
-              throw new NullPointerException();
-            }
-            where_ = value;
-            onChanged();
-          } else {
-            whereBuilder_.setMessage(value);
-          }
-
-          return this;
-        }
-        /**
-         * <pre>
-         *repeated NamedColumn group_by = 3;
-         *Function having = 4;
-         *repeated NamedColumn order_by = 5;
-         *uint64 limit = 6;
-         *uint64 offset = 7;
-         * </pre>
-         *
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-         */
-        public Builder setWhere(
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Builder builderForValue) {
-          if (whereBuilder_ == null) {
-            where_ = builderForValue.build();
-            onChanged();
-          } else {
-            whereBuilder_.setMessage(builderForValue.build());
-          }
-
-          return this;
-        }
-        /**
-         * <pre>
-         *repeated NamedColumn group_by = 3;
-         *Function having = 4;
-         *repeated NamedColumn order_by = 5;
-         *uint64 limit = 6;
-         *uint64 offset = 7;
-         * </pre>
-         *
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-         */
-        public Builder mergeWhere(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function value) {
-          if (whereBuilder_ == null) {
-            if (where_ != null) {
-              where_ =
-                tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.newBuilder(where_).mergeFrom(value).buildPartial();
-            } else {
-              where_ = value;
-            }
-            onChanged();
-          } else {
-            whereBuilder_.mergeFrom(value);
-          }
-
-          return this;
-        }
-        /**
-         * <pre>
-         *repeated NamedColumn group_by = 3;
-         *Function having = 4;
-         *repeated NamedColumn order_by = 5;
-         *uint64 limit = 6;
-         *uint64 offset = 7;
-         * </pre>
-         *
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-         */
-        public Builder clearWhere() {
-          if (whereBuilder_ == null) {
-            where_ = null;
-            onChanged();
-          } else {
-            where_ = null;
-            whereBuilder_ = null;
-          }
-
-          return this;
-        }
-        /**
-         * <pre>
-         *repeated NamedColumn group_by = 3;
-         *Function having = 4;
-         *repeated NamedColumn order_by = 5;
-         *uint64 limit = 6;
-         *uint64 offset = 7;
-         * </pre>
-         *
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-         */
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Builder getWhereBuilder() {
-          
-          onChanged();
-          return getWhereFieldBuilder().getBuilder();
-        }
-        /**
-         * <pre>
-         *repeated NamedColumn group_by = 3;
-         *Function having = 4;
-         *repeated NamedColumn order_by = 5;
-         *uint64 limit = 6;
-         *uint64 offset = 7;
-         * </pre>
-         *
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-         */
-        public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.FunctionOrBuilder getWhereOrBuilder() {
-          if (whereBuilder_ != null) {
-            return whereBuilder_.getMessageOrBuilder();
-          } else {
-            return where_ == null ?
-                tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.getDefaultInstance() : where_;
-          }
-        }
-        /**
-         * <pre>
-         *repeated NamedColumn group_by = 3;
-         *Function having = 4;
-         *repeated NamedColumn order_by = 5;
-         *uint64 limit = 6;
-         *uint64 offset = 7;
-         * </pre>
-         *
-         * <code>.Ydb.LongTx.ReadRequest.SelectQuery.Function where = 2;</code>
-         */
-        private com.google.protobuf.SingleFieldBuilderV3<
-            tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.FunctionOrBuilder> 
-            getWhereFieldBuilder() {
-          if (whereBuilder_ == null) {
-            whereBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-                tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Function.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.FunctionOrBuilder>(
-                    getWhere(),
-                    getParentForChildren(),
-                    isClean());
-            where_ = null;
-          }
-          return whereBuilder_;
-        }
-        public final Builder setUnknownFields(
-            final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
-        }
-
-        public final Builder mergeUnknownFields(
-            final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.mergeUnknownFields(unknownFields);
-        }
-
-
-        // @@protoc_insertion_point(builder_scope:Ydb.LongTx.ReadRequest.SelectQuery)
-      }
-
-      // @@protoc_insertion_point(class_scope:Ydb.LongTx.ReadRequest.SelectQuery)
-      private static final tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery DEFAULT_INSTANCE;
-      static {
-        DEFAULT_INSTANCE = new tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery();
-      }
-
-      public static tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery getDefaultInstance() {
-        return DEFAULT_INSTANCE;
-      }
-
-      private static final com.google.protobuf.Parser<SelectQuery>
-          PARSER = new com.google.protobuf.AbstractParser<SelectQuery>() {
-        public SelectQuery parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-            return new SelectQuery(input, extensionRegistry);
-        }
-      };
-
-      public static com.google.protobuf.Parser<SelectQuery> parser() {
-        return PARSER;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Parser<SelectQuery> getParserForType() {
-        return PARSER;
-      }
-
-      public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery getDefaultInstanceForType() {
-        return DEFAULT_INSTANCE;
-      }
-
+    public QueryCase
+    getQueryCase() {
+      return QueryCase.forNumber(
+          queryCase_);
     }
 
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
@@ -14252,89 +10148,113 @@ public final class LongTxProtos {
       return getOperationParams();
     }
 
-    public static final int TX_FIELD_NUMBER = 2;
-    private tech.ydb.long_tx.LongTxProtos.LongTx tx_;
+    public static final int TX_META_FIELD_NUMBER = 2;
+    private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_;
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    public boolean hasTx() {
-      return tx_ != null;
+    public boolean hasTxMeta() {
+      return txMeta_ != null;
     }
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.LongTx getTx() {
-      return tx_ == null ? tech.ydb.long_tx.LongTxProtos.LongTx.getDefaultInstance() : tx_;
+    public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+      return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
     }
     /**
-     * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder getTxOrBuilder() {
-      return getTx();
+    public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+      return getTxMeta();
     }
 
-    public static final int TABLE_FIELD_NUMBER = 3;
-    private volatile java.lang.Object table_;
+    public static final int PATH_FIELD_NUMBER = 3;
+    private volatile java.lang.Object path_;
     /**
-     * <code>string table = 3;</code>
+     * <code>string path = 3;</code>
      */
-    public java.lang.String getTable() {
-      java.lang.Object ref = table_;
+    public java.lang.String getPath() {
+      java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        table_ = s;
+        path_ = s;
         return s;
       }
     }
     /**
-     * <code>string table = 3;</code>
+     * <code>string path = 3;</code>
      */
     public com.google.protobuf.ByteString
-        getTableBytes() {
-      java.lang.Object ref = table_;
+        getPathBytes() {
+      java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        table_ = b;
+        path_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    public static final int CHUNK_FIELD_NUMBER = 4;
-    private int chunk_;
+    public static final int SQL_FIELD_NUMBER = 11;
     /**
-     * <code>uint32 chunk = 4;</code>
+     * <code>string sql = 11;</code>
      */
-    public int getChunk() {
-      return chunk_;
+    public java.lang.String getSql() {
+      java.lang.Object ref = "";
+      if (queryCase_ == 11) {
+        ref = query_;
+      }
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (queryCase_ == 11) {
+          query_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>string sql = 11;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSqlBytes() {
+      java.lang.Object ref = "";
+      if (queryCase_ == 11) {
+        ref = query_;
+      }
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        if (queryCase_ == 11) {
+          query_ = b;
+        }
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
-    public static final int QUERY_FIELD_NUMBER = 5;
-    private tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery query_;
+    public static final int GENERATED_FIELD_NUMBER = 12;
     /**
-     * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
+     * <code>bytes generated = 12;</code>
      */
-    public boolean hasQuery() {
-      return query_ != null;
-    }
-    /**
-     * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
-     */
-    public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery getQuery() {
-      return query_ == null ? tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.getDefaultInstance() : query_;
-    }
-    /**
-     * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
-     */
-    public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQueryOrBuilder getQueryOrBuilder() {
-      return getQuery();
+    public com.google.protobuf.ByteString getGenerated() {
+      if (queryCase_ == 12) {
+        return (com.google.protobuf.ByteString) query_;
+      }
+      return com.google.protobuf.ByteString.EMPTY;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -14352,17 +10272,18 @@ public final class LongTxProtos {
       if (operationParams_ != null) {
         output.writeMessage(1, getOperationParams());
       }
-      if (tx_ != null) {
-        output.writeMessage(2, getTx());
+      if (txMeta_ != null) {
+        output.writeMessage(2, getTxMeta());
       }
-      if (!getTableBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, table_);
+      if (!getPathBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, path_);
       }
-      if (chunk_ != 0) {
-        output.writeUInt32(4, chunk_);
+      if (queryCase_ == 11) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 11, query_);
       }
-      if (query_ != null) {
-        output.writeMessage(5, getQuery());
+      if (queryCase_ == 12) {
+        output.writeBytes(
+            12, (com.google.protobuf.ByteString) query_);
       }
       unknownFields.writeTo(output);
     }
@@ -14376,20 +10297,20 @@ public final class LongTxProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getOperationParams());
       }
-      if (tx_ != null) {
+      if (txMeta_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getTx());
+          .computeMessageSize(2, getTxMeta());
       }
-      if (!getTableBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, table_);
+      if (!getPathBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, path_);
       }
-      if (chunk_ != 0) {
+      if (queryCase_ == 11) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(11, query_);
+      }
+      if (queryCase_ == 12) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(4, chunk_);
-      }
-      if (query_ != null) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, getQuery());
+          .computeBytesSize(
+              12, (com.google.protobuf.ByteString) query_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -14412,19 +10333,27 @@ public final class LongTxProtos {
         result = result && getOperationParams()
             .equals(other.getOperationParams());
       }
-      result = result && (hasTx() == other.hasTx());
-      if (hasTx()) {
-        result = result && getTx()
-            .equals(other.getTx());
+      result = result && (hasTxMeta() == other.hasTxMeta());
+      if (hasTxMeta()) {
+        result = result && getTxMeta()
+            .equals(other.getTxMeta());
       }
-      result = result && getTable()
-          .equals(other.getTable());
-      result = result && (getChunk()
-          == other.getChunk());
-      result = result && (hasQuery() == other.hasQuery());
-      if (hasQuery()) {
-        result = result && getQuery()
-            .equals(other.getQuery());
+      result = result && getPath()
+          .equals(other.getPath());
+      result = result && getQueryCase().equals(
+          other.getQueryCase());
+      if (!result) return false;
+      switch (queryCase_) {
+        case 11:
+          result = result && getSql()
+              .equals(other.getSql());
+          break;
+        case 12:
+          result = result && getGenerated()
+              .equals(other.getGenerated());
+          break;
+        case 0:
+        default:
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -14441,17 +10370,23 @@ public final class LongTxProtos {
         hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
         hash = (53 * hash) + getOperationParams().hashCode();
       }
-      if (hasTx()) {
-        hash = (37 * hash) + TX_FIELD_NUMBER;
-        hash = (53 * hash) + getTx().hashCode();
+      if (hasTxMeta()) {
+        hash = (37 * hash) + TX_META_FIELD_NUMBER;
+        hash = (53 * hash) + getTxMeta().hashCode();
       }
-      hash = (37 * hash) + TABLE_FIELD_NUMBER;
-      hash = (53 * hash) + getTable().hashCode();
-      hash = (37 * hash) + CHUNK_FIELD_NUMBER;
-      hash = (53 * hash) + getChunk();
-      if (hasQuery()) {
-        hash = (37 * hash) + QUERY_FIELD_NUMBER;
-        hash = (53 * hash) + getQuery().hashCode();
+      hash = (37 * hash) + PATH_FIELD_NUMBER;
+      hash = (53 * hash) + getPath().hashCode();
+      switch (queryCase_) {
+        case 11:
+          hash = (37 * hash) + SQL_FIELD_NUMBER;
+          hash = (53 * hash) + getSql().hashCode();
+          break;
+        case 12:
+          hash = (37 * hash) + GENERATED_FIELD_NUMBER;
+          hash = (53 * hash) + getGenerated().hashCode();
+          break;
+        case 0:
+        default:
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -14588,22 +10523,16 @@ public final class LongTxProtos {
           operationParams_ = null;
           operationParamsBuilder_ = null;
         }
-        if (txBuilder_ == null) {
-          tx_ = null;
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
         } else {
-          tx_ = null;
-          txBuilder_ = null;
+          txMeta_ = null;
+          txMetaBuilder_ = null;
         }
-        table_ = "";
+        path_ = "";
 
-        chunk_ = 0;
-
-        if (queryBuilder_ == null) {
-          query_ = null;
-        } else {
-          query_ = null;
-          queryBuilder_ = null;
-        }
+        queryCase_ = 0;
+        query_ = null;
         return this;
       }
 
@@ -14631,18 +10560,19 @@ public final class LongTxProtos {
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
-        if (txBuilder_ == null) {
-          result.tx_ = tx_;
+        if (txMetaBuilder_ == null) {
+          result.txMeta_ = txMeta_;
         } else {
-          result.tx_ = txBuilder_.build();
+          result.txMeta_ = txMetaBuilder_.build();
         }
-        result.table_ = table_;
-        result.chunk_ = chunk_;
-        if (queryBuilder_ == null) {
+        result.path_ = path_;
+        if (queryCase_ == 11) {
           result.query_ = query_;
-        } else {
-          result.query_ = queryBuilder_.build();
         }
+        if (queryCase_ == 12) {
+          result.query_ = query_;
+        }
+        result.queryCase_ = queryCase_;
         onBuilt();
         return result;
       }
@@ -14687,18 +10617,27 @@ public final class LongTxProtos {
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
         }
-        if (other.hasTx()) {
-          mergeTx(other.getTx());
+        if (other.hasTxMeta()) {
+          mergeTxMeta(other.getTxMeta());
         }
-        if (!other.getTable().isEmpty()) {
-          table_ = other.table_;
+        if (!other.getPath().isEmpty()) {
+          path_ = other.path_;
           onChanged();
         }
-        if (other.getChunk() != 0) {
-          setChunk(other.getChunk());
-        }
-        if (other.hasQuery()) {
-          mergeQuery(other.getQuery());
+        switch (other.getQueryCase()) {
+          case SQL: {
+            queryCase_ = 11;
+            query_ = other.query_;
+            onChanged();
+            break;
+          }
+          case GENERATED: {
+            setGenerated(other.getGenerated());
+            break;
+          }
+          case QUERY_NOT_SET: {
+            break;
+          }
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -14726,6 +10665,21 @@ public final class LongTxProtos {
         }
         return this;
       }
+      private int queryCase_ = 0;
+      private java.lang.Object query_;
+      public QueryCase
+          getQueryCase() {
+        return QueryCase.forNumber(
+            queryCase_);
+      }
+
+      public Builder clearQuery() {
+        queryCase_ = 0;
+        query_ = null;
+        onChanged();
+        return this;
+      }
+
 
       private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -14844,333 +10798,303 @@ public final class LongTxProtos {
         return operationParamsBuilder_;
       }
 
-      private tech.ydb.long_tx.LongTxProtos.LongTx tx_ = null;
+      private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTx, tech.ydb.long_tx.LongTxProtos.LongTx.Builder, tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder> txBuilder_;
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> txMetaBuilder_;
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public boolean hasTx() {
-        return txBuilder_ != null || tx_ != null;
+      public boolean hasTxMeta() {
+        return txMetaBuilder_ != null || txMeta_ != null;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTx getTx() {
-        if (txBuilder_ == null) {
-          return tx_ == null ? tech.ydb.long_tx.LongTxProtos.LongTx.getDefaultInstance() : tx_;
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+        if (txMetaBuilder_ == null) {
+          return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
         } else {
-          return txBuilder_.getMessage();
+          return txMetaBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public Builder setTx(tech.ydb.long_tx.LongTxProtos.LongTx value) {
-        if (txBuilder_ == null) {
+      public Builder setTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          tx_ = value;
+          txMeta_ = value;
           onChanged();
         } else {
-          txBuilder_.setMessage(value);
+          txMetaBuilder_.setMessage(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public Builder setTx(
-          tech.ydb.long_tx.LongTxProtos.LongTx.Builder builderForValue) {
-        if (txBuilder_ == null) {
-          tx_ = builderForValue.build();
+      public Builder setTxMeta(
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder builderForValue) {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = builderForValue.build();
           onChanged();
         } else {
-          txBuilder_.setMessage(builderForValue.build());
+          txMetaBuilder_.setMessage(builderForValue.build());
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public Builder mergeTx(tech.ydb.long_tx.LongTxProtos.LongTx value) {
-        if (txBuilder_ == null) {
-          if (tx_ != null) {
-            tx_ =
-              tech.ydb.long_tx.LongTxProtos.LongTx.newBuilder(tx_).mergeFrom(value).buildPartial();
+      public Builder mergeTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
+          if (txMeta_ != null) {
+            txMeta_ =
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.newBuilder(txMeta_).mergeFrom(value).buildPartial();
           } else {
-            tx_ = value;
+            txMeta_ = value;
           }
           onChanged();
         } else {
-          txBuilder_.mergeFrom(value);
+          txMetaBuilder_.mergeFrom(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public Builder clearTx() {
-        if (txBuilder_ == null) {
-          tx_ = null;
+      public Builder clearTxMeta() {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
           onChanged();
         } else {
-          tx_ = null;
-          txBuilder_ = null;
+          txMeta_ = null;
+          txMetaBuilder_ = null;
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTx.Builder getTxBuilder() {
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder getTxMetaBuilder() {
         
         onChanged();
-        return getTxFieldBuilder().getBuilder();
+        return getTxMetaFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder getTxOrBuilder() {
-        if (txBuilder_ != null) {
-          return txBuilder_.getMessageOrBuilder();
+      public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+        if (txMetaBuilder_ != null) {
+          return txMetaBuilder_.getMessageOrBuilder();
         } else {
-          return tx_ == null ?
-              tech.ydb.long_tx.LongTxProtos.LongTx.getDefaultInstance() : tx_;
+          return txMeta_ == null ?
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
         }
       }
       /**
-       * <code>.Ydb.LongTx.LongTx tx = 2;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTx, tech.ydb.long_tx.LongTxProtos.LongTx.Builder, tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder> 
-          getTxFieldBuilder() {
-        if (txBuilder_ == null) {
-          txBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.LongTx, tech.ydb.long_tx.LongTxProtos.LongTx.Builder, tech.ydb.long_tx.LongTxProtos.LongTxOrBuilder>(
-                  getTx(),
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> 
+          getTxMetaFieldBuilder() {
+        if (txMetaBuilder_ == null) {
+          txMetaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder>(
+                  getTxMeta(),
                   getParentForChildren(),
                   isClean());
-          tx_ = null;
+          txMeta_ = null;
         }
-        return txBuilder_;
+        return txMetaBuilder_;
       }
 
-      private java.lang.Object table_ = "";
+      private java.lang.Object path_ = "";
       /**
-       * <code>string table = 3;</code>
+       * <code>string path = 3;</code>
        */
-      public java.lang.String getTable() {
-        java.lang.Object ref = table_;
+      public java.lang.String getPath() {
+        java.lang.Object ref = path_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          table_ = s;
+          path_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string table = 3;</code>
+       * <code>string path = 3;</code>
        */
       public com.google.protobuf.ByteString
-          getTableBytes() {
-        java.lang.Object ref = table_;
+          getPathBytes() {
+        java.lang.Object ref = path_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          table_ = b;
+          path_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string table = 3;</code>
+       * <code>string path = 3;</code>
        */
-      public Builder setTable(
+      public Builder setPath(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        table_ = value;
+        path_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string table = 3;</code>
+       * <code>string path = 3;</code>
        */
-      public Builder clearTable() {
+      public Builder clearPath() {
         
-        table_ = getDefaultInstance().getTable();
+        path_ = getDefaultInstance().getPath();
         onChanged();
         return this;
       }
       /**
-       * <code>string table = 3;</code>
+       * <code>string path = 3;</code>
        */
-      public Builder setTableBytes(
+      public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        table_ = value;
+        path_ = value;
         onChanged();
         return this;
       }
 
-      private int chunk_ ;
       /**
-       * <code>uint32 chunk = 4;</code>
+       * <code>string sql = 11;</code>
        */
-      public int getChunk() {
-        return chunk_;
-      }
-      /**
-       * <code>uint32 chunk = 4;</code>
-       */
-      public Builder setChunk(int value) {
-        
-        chunk_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint32 chunk = 4;</code>
-       */
-      public Builder clearChunk() {
-        
-        chunk_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery query_ = null;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQueryOrBuilder> queryBuilder_;
-      /**
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
-       */
-      public boolean hasQuery() {
-        return queryBuilder_ != null || query_ != null;
-      }
-      /**
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery getQuery() {
-        if (queryBuilder_ == null) {
-          return query_ == null ? tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.getDefaultInstance() : query_;
-        } else {
-          return queryBuilder_.getMessage();
+      public java.lang.String getSql() {
+        java.lang.Object ref = "";
+        if (queryCase_ == 11) {
+          ref = query_;
         }
-      }
-      /**
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
-       */
-      public Builder setQuery(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery value) {
-        if (queryBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (queryCase_ == 11) {
+            query_ = s;
           }
-          query_ = value;
-          onChanged();
+          return s;
         } else {
-          queryBuilder_.setMessage(value);
+          return (java.lang.String) ref;
         }
-
-        return this;
       }
       /**
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
+       * <code>string sql = 11;</code>
        */
-      public Builder setQuery(
-          tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Builder builderForValue) {
-        if (queryBuilder_ == null) {
-          query_ = builderForValue.build();
-          onChanged();
-        } else {
-          queryBuilder_.setMessage(builderForValue.build());
+      public com.google.protobuf.ByteString
+          getSqlBytes() {
+        java.lang.Object ref = "";
+        if (queryCase_ == 11) {
+          ref = query_;
         }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
-       */
-      public Builder mergeQuery(tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery value) {
-        if (queryBuilder_ == null) {
-          if (query_ != null) {
-            query_ =
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.newBuilder(query_).mergeFrom(value).buildPartial();
-          } else {
-            query_ = value;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          if (queryCase_ == 11) {
+            query_ = b;
           }
-          onChanged();
+          return b;
         } else {
-          queryBuilder_.mergeFrom(value);
+          return (com.google.protobuf.ByteString) ref;
         }
-
-        return this;
       }
       /**
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
+       * <code>string sql = 11;</code>
        */
-      public Builder clearQuery() {
-        if (queryBuilder_ == null) {
-          query_ = null;
-          onChanged();
-        } else {
-          query_ = null;
-          queryBuilder_ = null;
-        }
-
-        return this;
-      }
-      /**
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
-       */
-      public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Builder getQueryBuilder() {
-        
+      public Builder setSql(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  queryCase_ = 11;
+        query_ = value;
         onChanged();
-        return getQueryFieldBuilder().getBuilder();
+        return this;
       }
       /**
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
+       * <code>string sql = 11;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQueryOrBuilder getQueryOrBuilder() {
-        if (queryBuilder_ != null) {
-          return queryBuilder_.getMessageOrBuilder();
-        } else {
-          return query_ == null ?
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.getDefaultInstance() : query_;
-        }
-      }
-      /**
-       * <code>.Ydb.LongTx.ReadRequest.SelectQuery query = 5;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQueryOrBuilder> 
-          getQueryFieldBuilder() {
-        if (queryBuilder_ == null) {
-          queryBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQuery.Builder, tech.ydb.long_tx.LongTxProtos.ReadRequest.SelectQueryOrBuilder>(
-                  getQuery(),
-                  getParentForChildren(),
-                  isClean());
+      public Builder clearSql() {
+        if (queryCase_ == 11) {
+          queryCase_ = 0;
           query_ = null;
+          onChanged();
         }
-        return queryBuilder_;
+        return this;
+      }
+      /**
+       * <code>string sql = 11;</code>
+       */
+      public Builder setSqlBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        queryCase_ = 11;
+        query_ = value;
+        onChanged();
+        return this;
+      }
+
+      /**
+       * <code>bytes generated = 12;</code>
+       */
+      public com.google.protobuf.ByteString getGenerated() {
+        if (queryCase_ == 12) {
+          return (com.google.protobuf.ByteString) query_;
+        }
+        return com.google.protobuf.ByteString.EMPTY;
+      }
+      /**
+       * <code>bytes generated = 12;</code>
+       */
+      public Builder setGenerated(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  queryCase_ = 12;
+        query_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bytes generated = 12;</code>
+       */
+      public Builder clearGenerated() {
+        if (queryCase_ == 12) {
+          queryCase_ = 0;
+          query_ = null;
+          onChanged();
+        }
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -15226,43 +11150,48 @@ public final class LongTxProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    boolean hasTx();
+    boolean hasTxMeta();
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.LongTxId getTx();
+    tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta();
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder getTxOrBuilder();
+    tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder();
 
     /**
-     * <code>string table = 2;</code>
+     * <code>string path = 2;</code>
      */
-    java.lang.String getTable();
+    java.lang.String getPath();
     /**
-     * <code>string table = 2;</code>
+     * <code>string path = 2;</code>
      */
     com.google.protobuf.ByteString
-        getTableBytes();
+        getPathBytes();
 
     /**
-     * <code>uint32 chunk = 3;</code>
+     * <code>uint64 chunk = 3;</code>
      */
-    int getChunk();
+    long getChunk();
 
     /**
-     * <code>.Ydb.LongTx.Data data = 4;</code>
+     * <code>bool finished = 4;</code>
+     */
+    boolean getFinished();
+
+    /**
+     * <code>.Ydb.LongTx.Data data = 5;</code>
      */
     boolean hasData();
     /**
-     * <code>.Ydb.LongTx.Data data = 4;</code>
+     * <code>.Ydb.LongTx.Data data = 5;</code>
      */
     tech.ydb.long_tx.LongTxProtos.Data getData();
     /**
-     * <code>.Ydb.LongTx.Data data = 4;</code>
+     * <code>.Ydb.LongTx.Data data = 5;</code>
      */
     tech.ydb.long_tx.LongTxProtos.DataOrBuilder getDataOrBuilder();
   }
@@ -15279,8 +11208,9 @@ public final class LongTxProtos {
       super(builder);
     }
     private ReadResult() {
-      table_ = "";
-      chunk_ = 0;
+      path_ = "";
+      chunk_ = 0L;
+      finished_ = false;
     }
 
     @java.lang.Override
@@ -15312,14 +11242,14 @@ public final class LongTxProtos {
               break;
             }
             case 10: {
-              tech.ydb.long_tx.LongTxProtos.LongTxId.Builder subBuilder = null;
-              if (tx_ != null) {
-                subBuilder = tx_.toBuilder();
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder subBuilder = null;
+              if (txMeta_ != null) {
+                subBuilder = txMeta_.toBuilder();
               }
-              tx_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.LongTxId.parser(), extensionRegistry);
+              txMeta_ = input.readMessage(tech.ydb.long_tx.LongTxProtos.TransactionMeta.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(tx_);
-                tx_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(txMeta_);
+                txMeta_ = subBuilder.buildPartial();
               }
 
               break;
@@ -15327,15 +11257,20 @@ public final class LongTxProtos {
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              table_ = s;
+              path_ = s;
               break;
             }
             case 24: {
 
-              chunk_ = input.readUInt32();
+              chunk_ = input.readUInt64();
               break;
             }
-            case 34: {
+            case 32: {
+
+              finished_ = input.readBool();
+              break;
+            }
+            case 42: {
               tech.ydb.long_tx.LongTxProtos.Data.Builder subBuilder = null;
               if (data_ != null) {
                 subBuilder = data_.toBuilder();
@@ -15372,55 +11307,55 @@ public final class LongTxProtos {
               tech.ydb.long_tx.LongTxProtos.ReadResult.class, tech.ydb.long_tx.LongTxProtos.ReadResult.Builder.class);
     }
 
-    public static final int TX_FIELD_NUMBER = 1;
-    private tech.ydb.long_tx.LongTxProtos.LongTxId tx_;
+    public static final int TX_META_FIELD_NUMBER = 1;
+    private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_;
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    public boolean hasTx() {
-      return tx_ != null;
+    public boolean hasTxMeta() {
+      return txMeta_ != null;
     }
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.LongTxId getTx() {
-      return tx_ == null ? tech.ydb.long_tx.LongTxProtos.LongTxId.getDefaultInstance() : tx_;
+    public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+      return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
     }
     /**
-     * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+     * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
      */
-    public tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder getTxOrBuilder() {
-      return getTx();
+    public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+      return getTxMeta();
     }
 
-    public static final int TABLE_FIELD_NUMBER = 2;
-    private volatile java.lang.Object table_;
+    public static final int PATH_FIELD_NUMBER = 2;
+    private volatile java.lang.Object path_;
     /**
-     * <code>string table = 2;</code>
+     * <code>string path = 2;</code>
      */
-    public java.lang.String getTable() {
-      java.lang.Object ref = table_;
+    public java.lang.String getPath() {
+      java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        table_ = s;
+        path_ = s;
         return s;
       }
     }
     /**
-     * <code>string table = 2;</code>
+     * <code>string path = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getTableBytes() {
-      java.lang.Object ref = table_;
+        getPathBytes() {
+      java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        table_ = b;
+        path_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -15428,30 +11363,39 @@ public final class LongTxProtos {
     }
 
     public static final int CHUNK_FIELD_NUMBER = 3;
-    private int chunk_;
+    private long chunk_;
     /**
-     * <code>uint32 chunk = 3;</code>
+     * <code>uint64 chunk = 3;</code>
      */
-    public int getChunk() {
+    public long getChunk() {
       return chunk_;
     }
 
-    public static final int DATA_FIELD_NUMBER = 4;
+    public static final int FINISHED_FIELD_NUMBER = 4;
+    private boolean finished_;
+    /**
+     * <code>bool finished = 4;</code>
+     */
+    public boolean getFinished() {
+      return finished_;
+    }
+
+    public static final int DATA_FIELD_NUMBER = 5;
     private tech.ydb.long_tx.LongTxProtos.Data data_;
     /**
-     * <code>.Ydb.LongTx.Data data = 4;</code>
+     * <code>.Ydb.LongTx.Data data = 5;</code>
      */
     public boolean hasData() {
       return data_ != null;
     }
     /**
-     * <code>.Ydb.LongTx.Data data = 4;</code>
+     * <code>.Ydb.LongTx.Data data = 5;</code>
      */
     public tech.ydb.long_tx.LongTxProtos.Data getData() {
       return data_ == null ? tech.ydb.long_tx.LongTxProtos.Data.getDefaultInstance() : data_;
     }
     /**
-     * <code>.Ydb.LongTx.Data data = 4;</code>
+     * <code>.Ydb.LongTx.Data data = 5;</code>
      */
     public tech.ydb.long_tx.LongTxProtos.DataOrBuilder getDataOrBuilder() {
       return getData();
@@ -15469,17 +11413,20 @@ public final class LongTxProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (tx_ != null) {
-        output.writeMessage(1, getTx());
+      if (txMeta_ != null) {
+        output.writeMessage(1, getTxMeta());
       }
-      if (!getTableBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, table_);
+      if (!getPathBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, path_);
       }
-      if (chunk_ != 0) {
-        output.writeUInt32(3, chunk_);
+      if (chunk_ != 0L) {
+        output.writeUInt64(3, chunk_);
+      }
+      if (finished_ != false) {
+        output.writeBool(4, finished_);
       }
       if (data_ != null) {
-        output.writeMessage(4, getData());
+        output.writeMessage(5, getData());
       }
       unknownFields.writeTo(output);
     }
@@ -15489,20 +11436,24 @@ public final class LongTxProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (tx_ != null) {
+      if (txMeta_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getTx());
+          .computeMessageSize(1, getTxMeta());
       }
-      if (!getTableBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, table_);
+      if (!getPathBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, path_);
       }
-      if (chunk_ != 0) {
+      if (chunk_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(3, chunk_);
+          .computeUInt64Size(3, chunk_);
+      }
+      if (finished_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, finished_);
       }
       if (data_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, getData());
+          .computeMessageSize(5, getData());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -15520,15 +11471,17 @@ public final class LongTxProtos {
       tech.ydb.long_tx.LongTxProtos.ReadResult other = (tech.ydb.long_tx.LongTxProtos.ReadResult) obj;
 
       boolean result = true;
-      result = result && (hasTx() == other.hasTx());
-      if (hasTx()) {
-        result = result && getTx()
-            .equals(other.getTx());
+      result = result && (hasTxMeta() == other.hasTxMeta());
+      if (hasTxMeta()) {
+        result = result && getTxMeta()
+            .equals(other.getTxMeta());
       }
-      result = result && getTable()
-          .equals(other.getTable());
+      result = result && getPath()
+          .equals(other.getPath());
       result = result && (getChunk()
           == other.getChunk());
+      result = result && (getFinished()
+          == other.getFinished());
       result = result && (hasData() == other.hasData());
       if (hasData()) {
         result = result && getData()
@@ -15545,14 +11498,18 @@ public final class LongTxProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasTx()) {
-        hash = (37 * hash) + TX_FIELD_NUMBER;
-        hash = (53 * hash) + getTx().hashCode();
+      if (hasTxMeta()) {
+        hash = (37 * hash) + TX_META_FIELD_NUMBER;
+        hash = (53 * hash) + getTxMeta().hashCode();
       }
-      hash = (37 * hash) + TABLE_FIELD_NUMBER;
-      hash = (53 * hash) + getTable().hashCode();
+      hash = (37 * hash) + PATH_FIELD_NUMBER;
+      hash = (53 * hash) + getPath().hashCode();
       hash = (37 * hash) + CHUNK_FIELD_NUMBER;
-      hash = (53 * hash) + getChunk();
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getChunk());
+      hash = (37 * hash) + FINISHED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getFinished());
       if (hasData()) {
         hash = (37 * hash) + DATA_FIELD_NUMBER;
         hash = (53 * hash) + getData().hashCode();
@@ -15686,15 +11643,17 @@ public final class LongTxProtos {
       }
       public Builder clear() {
         super.clear();
-        if (txBuilder_ == null) {
-          tx_ = null;
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
         } else {
-          tx_ = null;
-          txBuilder_ = null;
+          txMeta_ = null;
+          txMetaBuilder_ = null;
         }
-        table_ = "";
+        path_ = "";
 
-        chunk_ = 0;
+        chunk_ = 0L;
+
+        finished_ = false;
 
         if (dataBuilder_ == null) {
           data_ = null;
@@ -15724,13 +11683,14 @@ public final class LongTxProtos {
 
       public tech.ydb.long_tx.LongTxProtos.ReadResult buildPartial() {
         tech.ydb.long_tx.LongTxProtos.ReadResult result = new tech.ydb.long_tx.LongTxProtos.ReadResult(this);
-        if (txBuilder_ == null) {
-          result.tx_ = tx_;
+        if (txMetaBuilder_ == null) {
+          result.txMeta_ = txMeta_;
         } else {
-          result.tx_ = txBuilder_.build();
+          result.txMeta_ = txMetaBuilder_.build();
         }
-        result.table_ = table_;
+        result.path_ = path_;
         result.chunk_ = chunk_;
+        result.finished_ = finished_;
         if (dataBuilder_ == null) {
           result.data_ = data_;
         } else {
@@ -15777,15 +11737,18 @@ public final class LongTxProtos {
 
       public Builder mergeFrom(tech.ydb.long_tx.LongTxProtos.ReadResult other) {
         if (other == tech.ydb.long_tx.LongTxProtos.ReadResult.getDefaultInstance()) return this;
-        if (other.hasTx()) {
-          mergeTx(other.getTx());
+        if (other.hasTxMeta()) {
+          mergeTxMeta(other.getTxMeta());
         }
-        if (!other.getTable().isEmpty()) {
-          table_ = other.table_;
+        if (!other.getPath().isEmpty()) {
+          path_ = other.path_;
           onChanged();
         }
-        if (other.getChunk() != 0) {
+        if (other.getChunk() != 0L) {
           setChunk(other.getChunk());
+        }
+        if (other.getFinished() != false) {
+          setFinished(other.getFinished());
         }
         if (other.hasData()) {
           mergeData(other.getData());
@@ -15817,214 +11780,240 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.long_tx.LongTxProtos.LongTxId tx_ = null;
+      private tech.ydb.long_tx.LongTxProtos.TransactionMeta txMeta_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTxId, tech.ydb.long_tx.LongTxProtos.LongTxId.Builder, tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder> txBuilder_;
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> txMetaBuilder_;
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public boolean hasTx() {
-        return txBuilder_ != null || tx_ != null;
+      public boolean hasTxMeta() {
+        return txMetaBuilder_ != null || txMeta_ != null;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTxId getTx() {
-        if (txBuilder_ == null) {
-          return tx_ == null ? tech.ydb.long_tx.LongTxProtos.LongTxId.getDefaultInstance() : tx_;
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta getTxMeta() {
+        if (txMetaBuilder_ == null) {
+          return txMeta_ == null ? tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
         } else {
-          return txBuilder_.getMessage();
+          return txMetaBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder setTx(tech.ydb.long_tx.LongTxProtos.LongTxId value) {
-        if (txBuilder_ == null) {
+      public Builder setTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          tx_ = value;
+          txMeta_ = value;
           onChanged();
         } else {
-          txBuilder_.setMessage(value);
+          txMetaBuilder_.setMessage(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder setTx(
-          tech.ydb.long_tx.LongTxProtos.LongTxId.Builder builderForValue) {
-        if (txBuilder_ == null) {
-          tx_ = builderForValue.build();
+      public Builder setTxMeta(
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder builderForValue) {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = builderForValue.build();
           onChanged();
         } else {
-          txBuilder_.setMessage(builderForValue.build());
+          txMetaBuilder_.setMessage(builderForValue.build());
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder mergeTx(tech.ydb.long_tx.LongTxProtos.LongTxId value) {
-        if (txBuilder_ == null) {
-          if (tx_ != null) {
-            tx_ =
-              tech.ydb.long_tx.LongTxProtos.LongTxId.newBuilder(tx_).mergeFrom(value).buildPartial();
+      public Builder mergeTxMeta(tech.ydb.long_tx.LongTxProtos.TransactionMeta value) {
+        if (txMetaBuilder_ == null) {
+          if (txMeta_ != null) {
+            txMeta_ =
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.newBuilder(txMeta_).mergeFrom(value).buildPartial();
           } else {
-            tx_ = value;
+            txMeta_ = value;
           }
           onChanged();
         } else {
-          txBuilder_.mergeFrom(value);
+          txMetaBuilder_.mergeFrom(value);
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public Builder clearTx() {
-        if (txBuilder_ == null) {
-          tx_ = null;
+      public Builder clearTxMeta() {
+        if (txMetaBuilder_ == null) {
+          txMeta_ = null;
           onChanged();
         } else {
-          tx_ = null;
-          txBuilder_ = null;
+          txMeta_ = null;
+          txMetaBuilder_ = null;
         }
 
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTxId.Builder getTxBuilder() {
+      public tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder getTxMetaBuilder() {
         
         onChanged();
-        return getTxFieldBuilder().getBuilder();
+        return getTxMetaFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
-      public tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder getTxOrBuilder() {
-        if (txBuilder_ != null) {
-          return txBuilder_.getMessageOrBuilder();
+      public tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder getTxMetaOrBuilder() {
+        if (txMetaBuilder_ != null) {
+          return txMetaBuilder_.getMessageOrBuilder();
         } else {
-          return tx_ == null ?
-              tech.ydb.long_tx.LongTxProtos.LongTxId.getDefaultInstance() : tx_;
+          return txMeta_ == null ?
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta.getDefaultInstance() : txMeta_;
         }
       }
       /**
-       * <code>.Ydb.LongTx.LongTxId tx = 1;</code>
+       * <code>.Ydb.LongTx.TransactionMeta tx_meta = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.long_tx.LongTxProtos.LongTxId, tech.ydb.long_tx.LongTxProtos.LongTxId.Builder, tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder> 
-          getTxFieldBuilder() {
-        if (txBuilder_ == null) {
-          txBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.long_tx.LongTxProtos.LongTxId, tech.ydb.long_tx.LongTxProtos.LongTxId.Builder, tech.ydb.long_tx.LongTxProtos.LongTxIdOrBuilder>(
-                  getTx(),
+          tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder> 
+          getTxMetaFieldBuilder() {
+        if (txMetaBuilder_ == null) {
+          txMetaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.long_tx.LongTxProtos.TransactionMeta, tech.ydb.long_tx.LongTxProtos.TransactionMeta.Builder, tech.ydb.long_tx.LongTxProtos.TransactionMetaOrBuilder>(
+                  getTxMeta(),
                   getParentForChildren(),
                   isClean());
-          tx_ = null;
+          txMeta_ = null;
         }
-        return txBuilder_;
+        return txMetaBuilder_;
       }
 
-      private java.lang.Object table_ = "";
+      private java.lang.Object path_ = "";
       /**
-       * <code>string table = 2;</code>
+       * <code>string path = 2;</code>
        */
-      public java.lang.String getTable() {
-        java.lang.Object ref = table_;
+      public java.lang.String getPath() {
+        java.lang.Object ref = path_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          table_ = s;
+          path_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string table = 2;</code>
+       * <code>string path = 2;</code>
        */
       public com.google.protobuf.ByteString
-          getTableBytes() {
-        java.lang.Object ref = table_;
+          getPathBytes() {
+        java.lang.Object ref = path_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          table_ = b;
+          path_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string table = 2;</code>
+       * <code>string path = 2;</code>
        */
-      public Builder setTable(
+      public Builder setPath(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        table_ = value;
+        path_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string table = 2;</code>
+       * <code>string path = 2;</code>
        */
-      public Builder clearTable() {
+      public Builder clearPath() {
         
-        table_ = getDefaultInstance().getTable();
+        path_ = getDefaultInstance().getPath();
         onChanged();
         return this;
       }
       /**
-       * <code>string table = 2;</code>
+       * <code>string path = 2;</code>
        */
-      public Builder setTableBytes(
+      public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        table_ = value;
+        path_ = value;
         onChanged();
         return this;
       }
 
-      private int chunk_ ;
+      private long chunk_ ;
       /**
-       * <code>uint32 chunk = 3;</code>
+       * <code>uint64 chunk = 3;</code>
        */
-      public int getChunk() {
+      public long getChunk() {
         return chunk_;
       }
       /**
-       * <code>uint32 chunk = 3;</code>
+       * <code>uint64 chunk = 3;</code>
        */
-      public Builder setChunk(int value) {
+      public Builder setChunk(long value) {
         
         chunk_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>uint32 chunk = 3;</code>
+       * <code>uint64 chunk = 3;</code>
        */
       public Builder clearChunk() {
         
-        chunk_ = 0;
+        chunk_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private boolean finished_ ;
+      /**
+       * <code>bool finished = 4;</code>
+       */
+      public boolean getFinished() {
+        return finished_;
+      }
+      /**
+       * <code>bool finished = 4;</code>
+       */
+      public Builder setFinished(boolean value) {
+        
+        finished_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool finished = 4;</code>
+       */
+      public Builder clearFinished() {
+        
+        finished_ = false;
         onChanged();
         return this;
       }
@@ -16033,13 +12022,13 @@ public final class LongTxProtos {
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.long_tx.LongTxProtos.Data, tech.ydb.long_tx.LongTxProtos.Data.Builder, tech.ydb.long_tx.LongTxProtos.DataOrBuilder> dataBuilder_;
       /**
-       * <code>.Ydb.LongTx.Data data = 4;</code>
+       * <code>.Ydb.LongTx.Data data = 5;</code>
        */
       public boolean hasData() {
         return dataBuilder_ != null || data_ != null;
       }
       /**
-       * <code>.Ydb.LongTx.Data data = 4;</code>
+       * <code>.Ydb.LongTx.Data data = 5;</code>
        */
       public tech.ydb.long_tx.LongTxProtos.Data getData() {
         if (dataBuilder_ == null) {
@@ -16049,7 +12038,7 @@ public final class LongTxProtos {
         }
       }
       /**
-       * <code>.Ydb.LongTx.Data data = 4;</code>
+       * <code>.Ydb.LongTx.Data data = 5;</code>
        */
       public Builder setData(tech.ydb.long_tx.LongTxProtos.Data value) {
         if (dataBuilder_ == null) {
@@ -16065,7 +12054,7 @@ public final class LongTxProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.Data data = 4;</code>
+       * <code>.Ydb.LongTx.Data data = 5;</code>
        */
       public Builder setData(
           tech.ydb.long_tx.LongTxProtos.Data.Builder builderForValue) {
@@ -16079,7 +12068,7 @@ public final class LongTxProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.Data data = 4;</code>
+       * <code>.Ydb.LongTx.Data data = 5;</code>
        */
       public Builder mergeData(tech.ydb.long_tx.LongTxProtos.Data value) {
         if (dataBuilder_ == null) {
@@ -16097,7 +12086,7 @@ public final class LongTxProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.Data data = 4;</code>
+       * <code>.Ydb.LongTx.Data data = 5;</code>
        */
       public Builder clearData() {
         if (dataBuilder_ == null) {
@@ -16111,7 +12100,7 @@ public final class LongTxProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LongTx.Data data = 4;</code>
+       * <code>.Ydb.LongTx.Data data = 5;</code>
        */
       public tech.ydb.long_tx.LongTxProtos.Data.Builder getDataBuilder() {
         
@@ -16119,7 +12108,7 @@ public final class LongTxProtos {
         return getDataFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.LongTx.Data data = 4;</code>
+       * <code>.Ydb.LongTx.Data data = 5;</code>
        */
       public tech.ydb.long_tx.LongTxProtos.DataOrBuilder getDataOrBuilder() {
         if (dataBuilder_ != null) {
@@ -16130,7 +12119,7 @@ public final class LongTxProtos {
         }
       }
       /**
-       * <code>.Ydb.LongTx.Data data = 4;</code>
+       * <code>.Ydb.LongTx.Data data = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.long_tx.LongTxProtos.Data, tech.ydb.long_tx.LongTxProtos.Data.Builder, tech.ydb.long_tx.LongTxProtos.DataOrBuilder> 
@@ -16774,60 +12763,60 @@ public final class LongTxProtos {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LongTx_Snapshot_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LongTx_Snapshot_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LongTx_LongTxId_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LongTx_LongTxId_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LongTx_LongTx_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LongTx_LongTx_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LongTx_LongTx_Table_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LongTx_LongTx_Table_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_LongTx_Data_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_LongTx_Data_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LongTx_BeginTxRequest_descriptor;
+    internal_static_Ydb_LongTx_TransactionMeta_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LongTx_BeginTxRequest_fieldAccessorTable;
+      internal_static_Ydb_LongTx_TransactionMeta_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LongTx_BeginTxResult_descriptor;
+    internal_static_Ydb_LongTx_BeginTransactionRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LongTx_BeginTxResult_fieldAccessorTable;
+      internal_static_Ydb_LongTx_BeginTransactionRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LongTx_BeginTxResponse_descriptor;
+    internal_static_Ydb_LongTx_BeginTransactionResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LongTx_BeginTxResponse_fieldAccessorTable;
+      internal_static_Ydb_LongTx_BeginTransactionResult_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LongTx_CommitTxRequest_descriptor;
+    internal_static_Ydb_LongTx_BeginTransactionResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LongTx_CommitTxRequest_fieldAccessorTable;
+      internal_static_Ydb_LongTx_BeginTransactionResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LongTx_CommitTxResult_descriptor;
+    internal_static_Ydb_LongTx_CommitTransactionRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LongTx_CommitTxResult_fieldAccessorTable;
+      internal_static_Ydb_LongTx_CommitTransactionRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LongTx_CommitTxResponse_descriptor;
+    internal_static_Ydb_LongTx_CommitTransactionResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LongTx_CommitTxResponse_fieldAccessorTable;
+      internal_static_Ydb_LongTx_CommitTransactionResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_LongTx_CommitTransactionResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_LongTx_CommitTransactionResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_LongTx_RollbackTransactionRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_LongTx_RollbackTransactionRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_LongTx_RollbackTransactionResult_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_LongTx_RollbackTransactionResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_LongTx_RollbackTransactionResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_LongTx_RollbackTransactionResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_LongTx_WriteRequest_descriptor;
   private static final 
@@ -16849,26 +12838,6 @@ public final class LongTxProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_LongTx_ReadRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LongTx_ReadRequest_SelectQuery_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LongTx_ReadRequest_SelectQuery_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LongTx_ReadRequest_SelectQuery_NamedColumn_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LongTx_ReadRequest_SelectQuery_NamedColumn_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_Argument_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_Argument_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_LongTx_ReadResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -16889,62 +12858,54 @@ public final class LongTxProtos {
     java.lang.String[] descriptorData = {
       "\n0kikimr/public/api/protos/draft/ydb_lon" +
       "g_tx.proto\022\nYdb.LongTx\032,kikimr/public/ap" +
-      "i/protos/ydb_operation.proto\032(kikimr/pub" +
-      "lic/api/protos/ydb_value.proto\",\n\010Snapsh" +
-      "ot\022\021\n\tplan_step\030\001 \001(\004\022\r\n\005tx_id\030\002 \001(\004\"W\n\010" +
-      "LongTxId\022\021\n\tinitiator\030\001 \001(\004\022\020\n\010write_id\030" +
-      "\002 \001(\004\022&\n\010snapshot\030\003 \001(\0132\024.Ydb.LongTx.Sna" +
-      "pshot\"\232\001\n\006LongTx\022 \n\002id\030\001 \001(\0132\024.Ydb.LongT" +
-      "x.LongTxId\022(\n\006tables\030\002 \003(\0132\030.Ydb.LongTx." +
-      "LongTx.Table\022\021\n\tsignature\030\003 \001(\t\0321\n\005Table",
-      "\022\014\n\004path\030\001 \001(\t\022\n\n\002id\030\002 \001(\004\022\016\n\006shards\030\003 \003" +
-      "(\004\"m\n\004Data\022\'\n\006format\030\001 \001(\0162\027.Ydb.LongTx." +
-      "Data.Format\022\014\n\004data\030\002 \001(\014\".\n\006Format\022\026\n\022F" +
-      "ORMAT_UNSPECIFIED\020\000\022\014\n\010YDB_ROWS\020\001\"\316\001\n\016Be" +
-      "ginTxRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
-      ".Ydb.Operations.OperationParams\0224\n\007tx_ty" +
-      "pe\030\002 \001(\0162#.Ydb.LongTx.BeginTxRequest.TxT" +
-      "ypeId\022\016\n\006tables\030\003 \003(\t\";\n\010TxTypeId\022\032\n\026TX_" +
-      "TYPE_ID_UNSPECIFIED\020\000\022\t\n\005WRITE\020\001\022\010\n\004READ" +
-      "\020\002\"/\n\rBeginTxResult\022\036\n\002tx\030\001 \001(\0132\022.Ydb.Lo",
-      "ngTx.LongTx\"?\n\017BeginTxResponse\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"{\n\017" +
-      "CommitTxRequest\0229\n\020operation_params\030\001 \001(" +
-      "\0132\037.Ydb.Operations.OperationParams\022\036\n\002tx" +
-      "\030\002 \001(\0132\022.Ydb.LongTx.LongTx\022\r\n\005abort\030\003 \001(" +
-      "\010\"A\n\016CommitTxResult\022 \n\002tx\030\001 \001(\0132\024.Ydb.Lo" +
-      "ngTx.LongTxId\022\r\n\005abort\030\002 \001(\010\"@\n\020CommitTx" +
-      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
-      "ions.Operation\"\247\001\n\014WriteRequest\0229\n\020opera" +
-      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera",
-      "tionParams\022\036\n\002tx\030\002 \001(\0132\022.Ydb.LongTx.Long" +
-      "Tx\022\r\n\005table\030\003 \001(\t\022\r\n\005chunk\030\004 \001(\r\022\036\n\004data" +
-      "\030\005 \001(\0132\020.Ydb.LongTx.Data\"M\n\013WriteResult\022" +
-      " \n\002tx\030\001 \001(\0132\024.Ydb.LongTx.LongTxId\022\r\n\005tab" +
-      "le\030\002 \001(\t\022\r\n\005chunk\030\003 \001(\r\"=\n\rWriteResponse" +
-      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
-      "ration\"\207\005\n\013ReadRequest\0229\n\020operation_para" +
+      "i/protos/ydb_operation.proto\"m\n\004Data\022\'\n\006" +
+      "format\030\001 \001(\0162\027.Ydb.LongTx.Data.Format\022\014\n" +
+      "\004data\030\002 \001(\014\".\n\006Format\022\026\n\022FORMAT_UNSPECIF" +
+      "IED\020\000\022\014\n\010YDB_ROWS\020\001\"5\n\017TransactionMeta\022\022" +
+      "\n\nlong_tx_id\030\001 \001(\014\022\016\n\006routes\030\002 \001(\014\"\337\001\n\027B" +
+      "eginTransactionRequest\0229\n\020operation_para" +
       "ms\030\001 \001(\0132\037.Ydb.Operations.OperationParam" +
-      "s\022\036\n\002tx\030\002 \001(\0132\022.Ydb.LongTx.LongTx\022\r\n\005tab" +
-      "le\030\003 \001(\t\022\r\n\005chunk\030\004 \001(\r\0222\n\005query\030\005 \001(\0132#",
-      ".Ydb.LongTx.ReadRequest.SelectQuery\032\312\003\n\013" +
-      "SelectQuery\022?\n\006select\030\001 \003(\0132/.Ydb.LongTx" +
-      ".ReadRequest.SelectQuery.NamedColumn\022;\n\005" +
-      "where\030\002 \001(\0132,.Ydb.LongTx.ReadRequest.Sel" +
-      "ectQuery.Function\032[\n\013NamedColumn\022\014\n\004name" +
-      "\030\001 \001(\t\022>\n\010function\030\002 \001(\0132,.Ydb.LongTx.Re" +
-      "adRequest.SelectQuery.Function\032\337\001\n\010Funct" +
-      "ion\022\014\n\004name\030\001 \001(\t\022H\n\targuments\030\002 \003(\01325.Y" +
-      "db.LongTx.ReadRequest.SelectQuery.Functi" +
-      "on.Argument\032{\n\010Argument\022A\n\006column\030\001 \001(\0132",
-      "/.Ydb.LongTx.ReadRequest.SelectQuery.Nam" +
-      "edColumnH\000\022 \n\005value\030\002 \001(\0132\017.Ydb.TypedVal" +
-      "ueH\000B\n\n\010argument\"l\n\nReadResult\022 \n\002tx\030\001 \001" +
-      "(\0132\024.Ydb.LongTx.LongTxId\022\r\n\005table\030\002 \001(\t\022" +
-      "\r\n\005chunk\030\003 \001(\r\022\036\n\004data\030\004 \001(\0132\020.Ydb.LongT" +
-      "x.Data\"<\n\014ReadResponse\022,\n\toperation\030\001 \001(" +
-      "\0132\031.Ydb.Operations.OperationB)\n\026com.yand" +
-      "ex.ydb.long_txB\014LongTxProtos\370\001\001b\006proto3"
+      "s\022=\n\007tx_type\030\002 \001(\0162,.Ydb.LongTx.BeginTra",
+      "nsactionRequest.TxTypeId\022\r\n\005paths\030\003 \003(\t\"" +
+      ";\n\010TxTypeId\022\032\n\026TX_TYPE_ID_UNSPECIFIED\020\000\022" +
+      "\t\n\005WRITE\020\001\022\010\n\004READ\020\002\"F\n\026BeginTransaction" +
+      "Result\022,\n\007tx_meta\030\001 \001(\0132\033.Ydb.LongTx.Tra" +
+      "nsactionMeta\"H\n\030BeginTransactionResponse" +
+      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
+      "ration\"\203\001\n\030CommitTransactionRequest\0229\n\020o" +
+      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
+      "perationParams\022,\n\007tx_meta\030\002 \001(\0132\033.Ydb.Lo" +
+      "ngTx.TransactionMeta\"G\n\027CommitTransactio",
+      "nResult\022,\n\007tx_meta\030\001 \001(\0132\033.Ydb.LongTx.Tr" +
+      "ansactionMeta\"I\n\031CommitTransactionRespon" +
+      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
+      "peration\"\205\001\n\032RollbackTransactionRequest\022" +
+      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\022,\n\007tx_meta\030\002 \001(\0132\033.Yd" +
+      "b.LongTx.TransactionMeta\"I\n\031RollbackTran" +
+      "sactionResult\022,\n\007tx_meta\030\001 \001(\0132\033.Ydb.Lon" +
+      "gTx.TransactionMeta\"K\n\033RollbackTransacti" +
+      "onResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper",
+      "ations.Operation\"\267\001\n\014WriteRequest\0229\n\020ope" +
+      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
+      "rationParams\022,\n\007tx_meta\030\002 \001(\0132\033.Ydb.Long" +
+      "Tx.TransactionMeta\022\014\n\004path\030\003 \001(\t\022\020\n\010dedu" +
+      "p_id\030\004 \001(\t\022\036\n\004data\030\005 \001(\0132\020.Ydb.LongTx.Da" +
+      "ta\"[\n\013WriteResult\022,\n\007tx_meta\030\001 \001(\0132\033.Ydb" +
+      ".LongTx.TransactionMeta\022\014\n\004path\030\002 \001(\t\022\020\n" +
+      "\010dedup_id\030\003 \001(\t\"=\n\rWriteResponse\022,\n\toper" +
+      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\261" +
+      "\001\n\013ReadRequest\0229\n\020operation_params\030\001 \001(\013",
+      "2\037.Ydb.Operations.OperationParams\022,\n\007tx_" +
+      "meta\030\002 \001(\0132\033.Ydb.LongTx.TransactionMeta\022" +
+      "\014\n\004path\030\003 \001(\t\022\r\n\003sql\030\013 \001(\tH\000\022\023\n\tgenerate" +
+      "d\030\014 \001(\014H\000B\007\n\005query\"\211\001\n\nReadResult\022,\n\007tx_" +
+      "meta\030\001 \001(\0132\033.Ydb.LongTx.TransactionMeta\022" +
+      "\014\n\004path\030\002 \001(\t\022\r\n\005chunk\030\003 \001(\004\022\020\n\010finished" +
+      "\030\004 \001(\010\022\036\n\004data\030\005 \001(\0132\020.Ydb.LongTx.Data\"<" +
+      "\n\014ReadResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
+      "Operations.OperationB)\n\026tech.ydb.l" +
+      "ong_txB\014LongTxProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -16958,136 +12919,110 @@ public final class LongTxProtos {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
-          tech.ydb.ValueProtos.getDescriptor(),
         }, assigner);
-    internal_static_Ydb_LongTx_Snapshot_descriptor =
-      getDescriptor().getMessageTypes().get(0);
-    internal_static_Ydb_LongTx_Snapshot_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LongTx_Snapshot_descriptor,
-        new java.lang.String[] { "PlanStep", "TxId", });
-    internal_static_Ydb_LongTx_LongTxId_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_Ydb_LongTx_LongTxId_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LongTx_LongTxId_descriptor,
-        new java.lang.String[] { "Initiator", "WriteId", "Snapshot", });
-    internal_static_Ydb_LongTx_LongTx_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_Ydb_LongTx_LongTx_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LongTx_LongTx_descriptor,
-        new java.lang.String[] { "Id", "Tables", "Signature", });
-    internal_static_Ydb_LongTx_LongTx_Table_descriptor =
-      internal_static_Ydb_LongTx_LongTx_descriptor.getNestedTypes().get(0);
-    internal_static_Ydb_LongTx_LongTx_Table_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LongTx_LongTx_Table_descriptor,
-        new java.lang.String[] { "Path", "Id", "Shards", });
     internal_static_Ydb_LongTx_Data_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_LongTx_Data_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LongTx_Data_descriptor,
         new java.lang.String[] { "Format", "Data", });
-    internal_static_Ydb_LongTx_BeginTxRequest_descriptor =
+    internal_static_Ydb_LongTx_TransactionMeta_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_Ydb_LongTx_TransactionMeta_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_LongTx_TransactionMeta_descriptor,
+        new java.lang.String[] { "LongTxId", "Routes", });
+    internal_static_Ydb_LongTx_BeginTransactionRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_Ydb_LongTx_BeginTransactionRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_LongTx_BeginTransactionRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "TxType", "Paths", });
+    internal_static_Ydb_LongTx_BeginTransactionResult_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_Ydb_LongTx_BeginTransactionResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_LongTx_BeginTransactionResult_descriptor,
+        new java.lang.String[] { "TxMeta", });
+    internal_static_Ydb_LongTx_BeginTransactionResponse_descriptor =
       getDescriptor().getMessageTypes().get(4);
-    internal_static_Ydb_LongTx_BeginTxRequest_fieldAccessorTable = new
+    internal_static_Ydb_LongTx_BeginTransactionResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LongTx_BeginTxRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "TxType", "Tables", });
-    internal_static_Ydb_LongTx_BeginTxResult_descriptor =
-      getDescriptor().getMessageTypes().get(5);
-    internal_static_Ydb_LongTx_BeginTxResult_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LongTx_BeginTxResult_descriptor,
-        new java.lang.String[] { "Tx", });
-    internal_static_Ydb_LongTx_BeginTxResponse_descriptor =
-      getDescriptor().getMessageTypes().get(6);
-    internal_static_Ydb_LongTx_BeginTxResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LongTx_BeginTxResponse_descriptor,
+        internal_static_Ydb_LongTx_BeginTransactionResponse_descriptor,
         new java.lang.String[] { "Operation", });
-    internal_static_Ydb_LongTx_CommitTxRequest_descriptor =
+    internal_static_Ydb_LongTx_CommitTransactionRequest_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_Ydb_LongTx_CommitTransactionRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_LongTx_CommitTransactionRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "TxMeta", });
+    internal_static_Ydb_LongTx_CommitTransactionResult_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_Ydb_LongTx_CommitTransactionResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_LongTx_CommitTransactionResult_descriptor,
+        new java.lang.String[] { "TxMeta", });
+    internal_static_Ydb_LongTx_CommitTransactionResponse_descriptor =
       getDescriptor().getMessageTypes().get(7);
-    internal_static_Ydb_LongTx_CommitTxRequest_fieldAccessorTable = new
+    internal_static_Ydb_LongTx_CommitTransactionResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LongTx_CommitTxRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Tx", "Abort", });
-    internal_static_Ydb_LongTx_CommitTxResult_descriptor =
+        internal_static_Ydb_LongTx_CommitTransactionResponse_descriptor,
+        new java.lang.String[] { "Operation", });
+    internal_static_Ydb_LongTx_RollbackTransactionRequest_descriptor =
       getDescriptor().getMessageTypes().get(8);
-    internal_static_Ydb_LongTx_CommitTxResult_fieldAccessorTable = new
+    internal_static_Ydb_LongTx_RollbackTransactionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LongTx_CommitTxResult_descriptor,
-        new java.lang.String[] { "Tx", "Abort", });
-    internal_static_Ydb_LongTx_CommitTxResponse_descriptor =
+        internal_static_Ydb_LongTx_RollbackTransactionRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "TxMeta", });
+    internal_static_Ydb_LongTx_RollbackTransactionResult_descriptor =
       getDescriptor().getMessageTypes().get(9);
-    internal_static_Ydb_LongTx_CommitTxResponse_fieldAccessorTable = new
+    internal_static_Ydb_LongTx_RollbackTransactionResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LongTx_CommitTxResponse_descriptor,
+        internal_static_Ydb_LongTx_RollbackTransactionResult_descriptor,
+        new java.lang.String[] { "TxMeta", });
+    internal_static_Ydb_LongTx_RollbackTransactionResponse_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_Ydb_LongTx_RollbackTransactionResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_LongTx_RollbackTransactionResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_LongTx_WriteRequest_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_Ydb_LongTx_WriteRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LongTx_WriteRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Tx", "Table", "Chunk", "Data", });
+        new java.lang.String[] { "OperationParams", "TxMeta", "Path", "DedupId", "Data", });
     internal_static_Ydb_LongTx_WriteResult_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_Ydb_LongTx_WriteResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LongTx_WriteResult_descriptor,
-        new java.lang.String[] { "Tx", "Table", "Chunk", });
+        new java.lang.String[] { "TxMeta", "Path", "DedupId", });
     internal_static_Ydb_LongTx_WriteResponse_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_Ydb_LongTx_WriteResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LongTx_WriteResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_LongTx_ReadRequest_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_Ydb_LongTx_ReadRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LongTx_ReadRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Tx", "Table", "Chunk", "Query", });
-    internal_static_Ydb_LongTx_ReadRequest_SelectQuery_descriptor =
-      internal_static_Ydb_LongTx_ReadRequest_descriptor.getNestedTypes().get(0);
-    internal_static_Ydb_LongTx_ReadRequest_SelectQuery_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LongTx_ReadRequest_SelectQuery_descriptor,
-        new java.lang.String[] { "Select", "Where", });
-    internal_static_Ydb_LongTx_ReadRequest_SelectQuery_NamedColumn_descriptor =
-      internal_static_Ydb_LongTx_ReadRequest_SelectQuery_descriptor.getNestedTypes().get(0);
-    internal_static_Ydb_LongTx_ReadRequest_SelectQuery_NamedColumn_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LongTx_ReadRequest_SelectQuery_NamedColumn_descriptor,
-        new java.lang.String[] { "Name", "Function", });
-    internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_descriptor =
-      internal_static_Ydb_LongTx_ReadRequest_SelectQuery_descriptor.getNestedTypes().get(1);
-    internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_descriptor,
-        new java.lang.String[] { "Name", "Arguments", });
-    internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_Argument_descriptor =
-      internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_descriptor.getNestedTypes().get(0);
-    internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_Argument_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LongTx_ReadRequest_SelectQuery_Function_Argument_descriptor,
-        new java.lang.String[] { "Column", "Value", "Argument", });
+        new java.lang.String[] { "OperationParams", "TxMeta", "Path", "Sql", "Generated", "Query", });
     internal_static_Ydb_LongTx_ReadResult_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_Ydb_LongTx_ReadResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LongTx_ReadResult_descriptor,
-        new java.lang.String[] { "Tx", "Table", "Chunk", "Data", });
+        new java.lang.String[] { "TxMeta", "Path", "Chunk", "Finished", "Data", });
     internal_static_Ydb_LongTx_ReadResponse_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_Ydb_LongTx_ReadResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LongTx_ReadResponse_descriptor,
         new java.lang.String[] { "Operation", });
     tech.ydb.OperationProtos.getDescriptor();
-    tech.ydb.ValueProtos.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

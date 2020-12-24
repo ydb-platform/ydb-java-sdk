@@ -27,29 +27,29 @@ public final class LongTxServiceGrpc {
   public static final String SERVICE_NAME = "Ydb.LongTx.V1.LongTxService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.BeginTxRequest,
-      tech.ydb.long_tx.LongTxProtos.BeginTxResponse> getBeginTxMethod;
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest,
+      tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse> getBeginTxMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "BeginTx",
-      requestType = tech.ydb.long_tx.LongTxProtos.BeginTxRequest.class,
-      responseType = tech.ydb.long_tx.LongTxProtos.BeginTxResponse.class,
+      requestType = tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.class,
+      responseType = tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.BeginTxRequest,
-      tech.ydb.long_tx.LongTxProtos.BeginTxResponse> getBeginTxMethod() {
-    io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.BeginTxRequest, tech.ydb.long_tx.LongTxProtos.BeginTxResponse> getBeginTxMethod;
+  public static io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest,
+      tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse> getBeginTxMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest, tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse> getBeginTxMethod;
     if ((getBeginTxMethod = LongTxServiceGrpc.getBeginTxMethod) == null) {
       synchronized (LongTxServiceGrpc.class) {
         if ((getBeginTxMethod = LongTxServiceGrpc.getBeginTxMethod) == null) {
           LongTxServiceGrpc.getBeginTxMethod = getBeginTxMethod =
-              io.grpc.MethodDescriptor.<tech.ydb.long_tx.LongTxProtos.BeginTxRequest, tech.ydb.long_tx.LongTxProtos.BeginTxResponse>newBuilder()
+              io.grpc.MethodDescriptor.<tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest, tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "BeginTx"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  tech.ydb.long_tx.LongTxProtos.BeginTxRequest.getDefaultInstance()))
+                  tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  tech.ydb.long_tx.LongTxProtos.BeginTxResponse.getDefaultInstance()))
+                  tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse.getDefaultInstance()))
               .setSchemaDescriptor(new LongTxServiceMethodDescriptorSupplier("BeginTx"))
               .build();
         }
@@ -58,35 +58,66 @@ public final class LongTxServiceGrpc {
     return getBeginTxMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.CommitTxRequest,
-      tech.ydb.long_tx.LongTxProtos.CommitTxResponse> getCommitTxMethod;
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest,
+      tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse> getCommitTxMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "CommitTx",
-      requestType = tech.ydb.long_tx.LongTxProtos.CommitTxRequest.class,
-      responseType = tech.ydb.long_tx.LongTxProtos.CommitTxResponse.class,
+      requestType = tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest.class,
+      responseType = tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.CommitTxRequest,
-      tech.ydb.long_tx.LongTxProtos.CommitTxResponse> getCommitTxMethod() {
-    io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.CommitTxRequest, tech.ydb.long_tx.LongTxProtos.CommitTxResponse> getCommitTxMethod;
+  public static io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest,
+      tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse> getCommitTxMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest, tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse> getCommitTxMethod;
     if ((getCommitTxMethod = LongTxServiceGrpc.getCommitTxMethod) == null) {
       synchronized (LongTxServiceGrpc.class) {
         if ((getCommitTxMethod = LongTxServiceGrpc.getCommitTxMethod) == null) {
           LongTxServiceGrpc.getCommitTxMethod = getCommitTxMethod =
-              io.grpc.MethodDescriptor.<tech.ydb.long_tx.LongTxProtos.CommitTxRequest, tech.ydb.long_tx.LongTxProtos.CommitTxResponse>newBuilder()
+              io.grpc.MethodDescriptor.<tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest, tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CommitTx"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  tech.ydb.long_tx.LongTxProtos.CommitTxRequest.getDefaultInstance()))
+                  tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  tech.ydb.long_tx.LongTxProtos.CommitTxResponse.getDefaultInstance()))
+                  tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse.getDefaultInstance()))
               .setSchemaDescriptor(new LongTxServiceMethodDescriptorSupplier("CommitTx"))
               .build();
         }
       }
     }
     return getCommitTxMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest,
+      tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse> getRollbackTxMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "RollbackTx",
+      requestType = tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest.class,
+      responseType = tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest,
+      tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse> getRollbackTxMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest, tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse> getRollbackTxMethod;
+    if ((getRollbackTxMethod = LongTxServiceGrpc.getRollbackTxMethod) == null) {
+      synchronized (LongTxServiceGrpc.class) {
+        if ((getRollbackTxMethod = LongTxServiceGrpc.getRollbackTxMethod) == null) {
+          LongTxServiceGrpc.getRollbackTxMethod = getRollbackTxMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest, tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "RollbackTx"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new LongTxServiceMethodDescriptorSupplier("RollbackTx"))
+              .build();
+        }
+      }
+    }
+    return getRollbackTxMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<tech.ydb.long_tx.LongTxProtos.WriteRequest,
@@ -201,16 +232,23 @@ public final class LongTxServiceGrpc {
 
     /**
      */
-    public void beginTx(tech.ydb.long_tx.LongTxProtos.BeginTxRequest request,
-        io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.BeginTxResponse> responseObserver) {
+    public void beginTx(tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getBeginTxMethod(), responseObserver);
     }
 
     /**
      */
-    public void commitTx(tech.ydb.long_tx.LongTxProtos.CommitTxRequest request,
-        io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.CommitTxResponse> responseObserver) {
+    public void commitTx(tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getCommitTxMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void rollbackTx(tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getRollbackTxMethod(), responseObserver);
     }
 
     /**
@@ -222,7 +260,7 @@ public final class LongTxServiceGrpc {
 
     /**
      * <pre>
-     *  rpc ReadStream(ReadStreamRequest) returns (stream ReadStreamResponse);
+     *  rpc ResolveNodes(ResolveNodesRequest) returns (stream ResolveNodesResponse);
      * </pre>
      */
     public void read(tech.ydb.long_tx.LongTxProtos.ReadRequest request,
@@ -236,16 +274,23 @@ public final class LongTxServiceGrpc {
             getBeginTxMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                tech.ydb.long_tx.LongTxProtos.BeginTxRequest,
-                tech.ydb.long_tx.LongTxProtos.BeginTxResponse>(
+                tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest,
+                tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse>(
                   this, METHODID_BEGIN_TX)))
           .addMethod(
             getCommitTxMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                tech.ydb.long_tx.LongTxProtos.CommitTxRequest,
-                tech.ydb.long_tx.LongTxProtos.CommitTxResponse>(
+                tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest,
+                tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse>(
                   this, METHODID_COMMIT_TX)))
+          .addMethod(
+            getRollbackTxMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest,
+                tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse>(
+                  this, METHODID_ROLLBACK_TX)))
           .addMethod(
             getWriteMethod(),
             asyncUnaryCall(
@@ -280,18 +325,26 @@ public final class LongTxServiceGrpc {
 
     /**
      */
-    public void beginTx(tech.ydb.long_tx.LongTxProtos.BeginTxRequest request,
-        io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.BeginTxResponse> responseObserver) {
+    public void beginTx(tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getBeginTxMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void commitTx(tech.ydb.long_tx.LongTxProtos.CommitTxRequest request,
-        io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.CommitTxResponse> responseObserver) {
+    public void commitTx(tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getCommitTxMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void rollbackTx(tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getRollbackTxMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -304,7 +357,7 @@ public final class LongTxServiceGrpc {
 
     /**
      * <pre>
-     *  rpc ReadStream(ReadStreamRequest) returns (stream ReadStreamResponse);
+     *  rpc ResolveNodes(ResolveNodesRequest) returns (stream ResolveNodesResponse);
      * </pre>
      */
     public void read(tech.ydb.long_tx.LongTxProtos.ReadRequest request,
@@ -330,16 +383,23 @@ public final class LongTxServiceGrpc {
 
     /**
      */
-    public tech.ydb.long_tx.LongTxProtos.BeginTxResponse beginTx(tech.ydb.long_tx.LongTxProtos.BeginTxRequest request) {
+    public tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse beginTx(tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest request) {
       return blockingUnaryCall(
           getChannel(), getBeginTxMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public tech.ydb.long_tx.LongTxProtos.CommitTxResponse commitTx(tech.ydb.long_tx.LongTxProtos.CommitTxRequest request) {
+    public tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse commitTx(tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest request) {
       return blockingUnaryCall(
           getChannel(), getCommitTxMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse rollbackTx(tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getRollbackTxMethod(), getCallOptions(), request);
     }
 
     /**
@@ -351,7 +411,7 @@ public final class LongTxServiceGrpc {
 
     /**
      * <pre>
-     *  rpc ReadStream(ReadStreamRequest) returns (stream ReadStreamResponse);
+     *  rpc ResolveNodes(ResolveNodesRequest) returns (stream ResolveNodesResponse);
      * </pre>
      */
     public tech.ydb.long_tx.LongTxProtos.ReadResponse read(tech.ydb.long_tx.LongTxProtos.ReadRequest request) {
@@ -376,18 +436,26 @@ public final class LongTxServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.long_tx.LongTxProtos.BeginTxResponse> beginTx(
-        tech.ydb.long_tx.LongTxProtos.BeginTxRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse> beginTx(
+        tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getBeginTxMethod(), getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.long_tx.LongTxProtos.CommitTxResponse> commitTx(
-        tech.ydb.long_tx.LongTxProtos.CommitTxRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse> commitTx(
+        tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getCommitTxMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse> rollbackTx(
+        tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getRollbackTxMethod(), getCallOptions()), request);
     }
 
     /**
@@ -400,7 +468,7 @@ public final class LongTxServiceGrpc {
 
     /**
      * <pre>
-     *  rpc ReadStream(ReadStreamRequest) returns (stream ReadStreamResponse);
+     *  rpc ResolveNodes(ResolveNodesRequest) returns (stream ResolveNodesResponse);
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<tech.ydb.long_tx.LongTxProtos.ReadResponse> read(
@@ -412,8 +480,9 @@ public final class LongTxServiceGrpc {
 
   private static final int METHODID_BEGIN_TX = 0;
   private static final int METHODID_COMMIT_TX = 1;
-  private static final int METHODID_WRITE = 2;
-  private static final int METHODID_READ = 3;
+  private static final int METHODID_ROLLBACK_TX = 2;
+  private static final int METHODID_WRITE = 3;
+  private static final int METHODID_READ = 4;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -433,12 +502,16 @@ public final class LongTxServiceGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_BEGIN_TX:
-          serviceImpl.beginTx((tech.ydb.long_tx.LongTxProtos.BeginTxRequest) request,
-              (io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.BeginTxResponse>) responseObserver);
+          serviceImpl.beginTx((tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse>) responseObserver);
           break;
         case METHODID_COMMIT_TX:
-          serviceImpl.commitTx((tech.ydb.long_tx.LongTxProtos.CommitTxRequest) request,
-              (io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.CommitTxResponse>) responseObserver);
+          serviceImpl.commitTx((tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse>) responseObserver);
+          break;
+        case METHODID_ROLLBACK_TX:
+          serviceImpl.rollbackTx((tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse>) responseObserver);
           break;
         case METHODID_WRITE:
           serviceImpl.write((tech.ydb.long_tx.LongTxProtos.WriteRequest) request,
@@ -511,6 +584,7 @@ public final class LongTxServiceGrpc {
               .setSchemaDescriptor(new LongTxServiceFileDescriptorSupplier())
               .addMethod(getBeginTxMethod())
               .addMethod(getCommitTxMethod())
+              .addMethod(getRollbackTxMethod())
               .addMethod(getWriteMethod())
               .addMethod(getReadMethod())
               .build();

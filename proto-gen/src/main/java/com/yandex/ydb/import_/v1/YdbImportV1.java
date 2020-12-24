@@ -25,10 +25,12 @@ public final class YdbImportV1 {
     java.lang.String[] descriptorData = {
       "\n*kikimr/public/api/grpc/ydb_import_v1.p" +
       "roto\022\rYdb.Import.V1\032)kikimr/public/api/p" +
-      "rotos/ydb_import.proto2b\n\rImportService\022" +
-      "Q\n\014ImportFromS3\022\037.Ydb.Import.ImportFromS" +
-      "3Request\032 .Ydb.Import.ImportFromS3Respon" +
-      "seB\033\n\031tech.ydb.import_.v1b\006proto3"
+      "rotos/ydb_import.proto2\257\001\n\rImportService" +
+      "\022Q\n\014ImportFromS3\022\037.Ydb.Import.ImportFrom" +
+      "S3Request\032 .Ydb.Import.ImportFromS3Respo" +
+      "nse\022K\n\nImportData\022\035.Ydb.Import.ImportDat" +
+      "aRequest\032\036.Ydb.Import.ImportDataResponse" +
+      "B\033\n\031tech.ydb.import_.v1b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

@@ -25,11 +25,13 @@ public final class YdbScriptingV1 {
     java.lang.String[] descriptorData = {
       "\n-kikimr/public/api/grpc/ydb_scripting_v" +
       "1.proto\022\020Ydb.Scripting.V1\032,kikimr/public" +
-      "/api/protos/ydb_scripting.proto2e\n\020Scrip" +
-      "tingService\022Q\n\nExecuteYql\022 .Ydb.Scriptin" +
-      "g.ExecuteYqlRequest\032!.Ydb.Scripting.Exec" +
-      "uteYqlResponseB\035\n\033tech.ydb.scripti" +
-      "ng.v1b\006proto3"
+      "/api/protos/ydb_scripting.proto2\270\001\n\020Scri" +
+      "ptingService\022Q\n\nExecuteYql\022 .Ydb.Scripti" +
+      "ng.ExecuteYqlRequest\032!.Ydb.Scripting.Exe" +
+      "cuteYqlResponse\022Q\n\nExplainYql\022 .Ydb.Scri" +
+      "pting.ExplainYqlRequest\032!.Ydb.Scripting." +
+      "ExplainYqlResponseB\035\n\033tech.ydb.scr" +
+      "ipting.v1b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

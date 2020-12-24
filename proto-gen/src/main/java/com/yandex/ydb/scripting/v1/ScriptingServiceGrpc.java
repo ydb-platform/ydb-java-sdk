@@ -58,6 +58,37 @@ public final class ScriptingServiceGrpc {
     return getExecuteYqlMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest,
+      tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse> getExplainYqlMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ExplainYql",
+      requestType = tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.class,
+      responseType = tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest,
+      tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse> getExplainYqlMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest, tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse> getExplainYqlMethod;
+    if ((getExplainYqlMethod = ScriptingServiceGrpc.getExplainYqlMethod) == null) {
+      synchronized (ScriptingServiceGrpc.class) {
+        if ((getExplainYqlMethod = ScriptingServiceGrpc.getExplainYqlMethod) == null) {
+          ScriptingServiceGrpc.getExplainYqlMethod = getExplainYqlMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest, tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ExplainYql"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ScriptingServiceMethodDescriptorSupplier("ExplainYql"))
+              .build();
+        }
+      }
+    }
+    return getExplainYqlMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -113,6 +144,13 @@ public final class ScriptingServiceGrpc {
       asyncUnimplementedUnaryCall(getExecuteYqlMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void explainYql(tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getExplainYqlMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -122,6 +160,13 @@ public final class ScriptingServiceGrpc {
                 tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest,
                 tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse>(
                   this, METHODID_EXECUTE_YQL)))
+          .addMethod(
+            getExplainYqlMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest,
+                tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse>(
+                  this, METHODID_EXPLAIN_YQL)))
           .build();
     }
   }
@@ -147,6 +192,14 @@ public final class ScriptingServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getExecuteYqlMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void explainYql(tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getExplainYqlMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -168,6 +221,13 @@ public final class ScriptingServiceGrpc {
     public tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse executeYql(tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest request) {
       return blockingUnaryCall(
           getChannel(), getExecuteYqlMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse explainYql(tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getExplainYqlMethod(), getCallOptions(), request);
     }
   }
 
@@ -192,9 +252,18 @@ public final class ScriptingServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getExecuteYqlMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse> explainYql(
+        tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getExplainYqlMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_EXECUTE_YQL = 0;
+  private static final int METHODID_EXPLAIN_YQL = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -216,6 +285,10 @@ public final class ScriptingServiceGrpc {
         case METHODID_EXECUTE_YQL:
           serviceImpl.executeYql((tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest) request,
               (io.grpc.stub.StreamObserver<tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse>) responseObserver);
+          break;
+        case METHODID_EXPLAIN_YQL:
+          serviceImpl.explainYql((tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -279,6 +352,7 @@ public final class ScriptingServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new ScriptingServiceFileDescriptorSupplier())
               .addMethod(getExecuteYqlMethod())
+              .addMethod(getExplainYqlMethod())
               .build();
         }
       }

@@ -58,6 +58,37 @@ public final class ImportServiceGrpc {
     return getImportFromS3Method;
   }
 
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.import_.YdbImport.ImportDataRequest,
+      tech.ydb.import_.YdbImport.ImportDataResponse> getImportDataMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ImportData",
+      requestType = tech.ydb.import_.YdbImport.ImportDataRequest.class,
+      responseType = tech.ydb.import_.YdbImport.ImportDataResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.import_.YdbImport.ImportDataRequest,
+      tech.ydb.import_.YdbImport.ImportDataResponse> getImportDataMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.import_.YdbImport.ImportDataRequest, tech.ydb.import_.YdbImport.ImportDataResponse> getImportDataMethod;
+    if ((getImportDataMethod = ImportServiceGrpc.getImportDataMethod) == null) {
+      synchronized (ImportServiceGrpc.class) {
+        if ((getImportDataMethod = ImportServiceGrpc.getImportDataMethod) == null) {
+          ImportServiceGrpc.getImportDataMethod = getImportDataMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.import_.YdbImport.ImportDataRequest, tech.ydb.import_.YdbImport.ImportDataResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ImportData"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.import_.YdbImport.ImportDataRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.import_.YdbImport.ImportDataResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new ImportServiceMethodDescriptorSupplier("ImportData"))
+              .build();
+        }
+      }
+    }
+    return getImportDataMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -117,6 +148,17 @@ public final class ImportServiceGrpc {
       asyncUnimplementedUnaryCall(getImportFromS3Method(), responseObserver);
     }
 
+    /**
+     * <pre>
+     * Writes data to a table.
+     * Method accepts serialized data in the selected format and writes it non-transactionally.
+     * </pre>
+     */
+    public void importData(tech.ydb.import_.YdbImport.ImportDataRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.import_.YdbImport.ImportDataResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getImportDataMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -126,6 +168,13 @@ public final class ImportServiceGrpc {
                 tech.ydb.import_.YdbImport.ImportFromS3Request,
                 tech.ydb.import_.YdbImport.ImportFromS3Response>(
                   this, METHODID_IMPORT_FROM_S3)))
+          .addMethod(
+            getImportDataMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.import_.YdbImport.ImportDataRequest,
+                tech.ydb.import_.YdbImport.ImportDataResponse>(
+                  this, METHODID_IMPORT_DATA)))
           .build();
     }
   }
@@ -155,6 +204,18 @@ public final class ImportServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getImportFromS3Method(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     * Writes data to a table.
+     * Method accepts serialized data in the selected format and writes it non-transactionally.
+     * </pre>
+     */
+    public void importData(tech.ydb.import_.YdbImport.ImportDataRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.import_.YdbImport.ImportDataResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getImportDataMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -180,6 +241,17 @@ public final class ImportServiceGrpc {
     public tech.ydb.import_.YdbImport.ImportFromS3Response importFromS3(tech.ydb.import_.YdbImport.ImportFromS3Request request) {
       return blockingUnaryCall(
           getChannel(), getImportFromS3Method(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Writes data to a table.
+     * Method accepts serialized data in the selected format and writes it non-transactionally.
+     * </pre>
+     */
+    public tech.ydb.import_.YdbImport.ImportDataResponse importData(tech.ydb.import_.YdbImport.ImportDataRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getImportDataMethod(), getCallOptions(), request);
     }
   }
 
@@ -208,9 +280,22 @@ public final class ImportServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getImportFromS3Method(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     * Writes data to a table.
+     * Method accepts serialized data in the selected format and writes it non-transactionally.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.import_.YdbImport.ImportDataResponse> importData(
+        tech.ydb.import_.YdbImport.ImportDataRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getImportDataMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_IMPORT_FROM_S3 = 0;
+  private static final int METHODID_IMPORT_DATA = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -232,6 +317,10 @@ public final class ImportServiceGrpc {
         case METHODID_IMPORT_FROM_S3:
           serviceImpl.importFromS3((tech.ydb.import_.YdbImport.ImportFromS3Request) request,
               (io.grpc.stub.StreamObserver<tech.ydb.import_.YdbImport.ImportFromS3Response>) responseObserver);
+          break;
+        case METHODID_IMPORT_DATA:
+          serviceImpl.importData((tech.ydb.import_.YdbImport.ImportDataRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.import_.YdbImport.ImportDataResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -295,6 +384,7 @@ public final class ImportServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new ImportServiceFileDescriptorSupplier())
               .addMethod(getImportFromS3Method())
+              .addMethod(getImportDataMethod())
               .build();
         }
       }
