@@ -6820,6 +6820,25 @@ public final class YdbImport {
   public interface YdbDumpFormatOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.Import.YdbDumpFormat)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated string columns = 1;</code>
+     */
+    java.util.List<java.lang.String>
+        getColumnsList();
+    /**
+     * <code>repeated string columns = 1;</code>
+     */
+    int getColumnsCount();
+    /**
+     * <code>repeated string columns = 1;</code>
+     */
+    java.lang.String getColumns(int index);
+    /**
+     * <code>repeated string columns = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getColumnsBytes(int index);
   }
   /**
    * <pre>
@@ -6838,6 +6857,7 @@ public final class YdbImport {
       super(builder);
     }
     private YdbDumpFormat() {
+      columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -6850,6 +6870,7 @@ public final class YdbImport {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -6867,6 +6888,15 @@ public final class YdbImport {
               }
               break;
             }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                columns_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              columns_.add(s);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -6875,6 +6905,9 @@ public final class YdbImport {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          columns_ = columns_.getUnmodifiableView();
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -6891,6 +6924,35 @@ public final class YdbImport {
               tech.ydb.import_.YdbImport.YdbDumpFormat.class, tech.ydb.import_.YdbImport.YdbDumpFormat.Builder.class);
     }
 
+    public static final int COLUMNS_FIELD_NUMBER = 1;
+    private com.google.protobuf.LazyStringList columns_;
+    /**
+     * <code>repeated string columns = 1;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getColumnsList() {
+      return columns_;
+    }
+    /**
+     * <code>repeated string columns = 1;</code>
+     */
+    public int getColumnsCount() {
+      return columns_.size();
+    }
+    /**
+     * <code>repeated string columns = 1;</code>
+     */
+    public java.lang.String getColumns(int index) {
+      return columns_.get(index);
+    }
+    /**
+     * <code>repeated string columns = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getColumnsBytes(int index) {
+      return columns_.getByteString(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -6903,6 +6965,9 @@ public final class YdbImport {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      for (int i = 0; i < columns_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, columns_.getRaw(i));
+      }
       unknownFields.writeTo(output);
     }
 
@@ -6911,6 +6976,14 @@ public final class YdbImport {
       if (size != -1) return size;
 
       size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < columns_.size(); i++) {
+          dataSize += computeStringSizeNoTag(columns_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getColumnsList().size();
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -6927,6 +7000,8 @@ public final class YdbImport {
       tech.ydb.import_.YdbImport.YdbDumpFormat other = (tech.ydb.import_.YdbImport.YdbDumpFormat) obj;
 
       boolean result = true;
+      result = result && getColumnsList()
+          .equals(other.getColumnsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -6938,6 +7013,10 @@ public final class YdbImport {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      if (getColumnsCount() > 0) {
+        hash = (37 * hash) + COLUMNS_FIELD_NUMBER;
+        hash = (53 * hash) + getColumnsList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7071,6 +7150,8 @@ public final class YdbImport {
       }
       public Builder clear() {
         super.clear();
+        columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -7093,6 +7174,12 @@ public final class YdbImport {
 
       public tech.ydb.import_.YdbImport.YdbDumpFormat buildPartial() {
         tech.ydb.import_.YdbImport.YdbDumpFormat result = new tech.ydb.import_.YdbImport.YdbDumpFormat(this);
+        int from_bitField0_ = bitField0_;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          columns_ = columns_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.columns_ = columns_;
         onBuilt();
         return result;
       }
@@ -7134,6 +7221,16 @@ public final class YdbImport {
 
       public Builder mergeFrom(tech.ydb.import_.YdbImport.YdbDumpFormat other) {
         if (other == tech.ydb.import_.YdbImport.YdbDumpFormat.getDefaultInstance()) return this;
+        if (!other.columns_.isEmpty()) {
+          if (columns_.isEmpty()) {
+            columns_ = other.columns_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureColumnsIsMutable();
+            columns_.addAll(other.columns_);
+          }
+          onChanged();
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -7158,6 +7255,101 @@ public final class YdbImport {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.LazyStringList columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureColumnsIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          columns_ = new com.google.protobuf.LazyStringArrayList(columns_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <code>repeated string columns = 1;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getColumnsList() {
+        return columns_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string columns = 1;</code>
+       */
+      public int getColumnsCount() {
+        return columns_.size();
+      }
+      /**
+       * <code>repeated string columns = 1;</code>
+       */
+      public java.lang.String getColumns(int index) {
+        return columns_.get(index);
+      }
+      /**
+       * <code>repeated string columns = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getColumnsBytes(int index) {
+        return columns_.getByteString(index);
+      }
+      /**
+       * <code>repeated string columns = 1;</code>
+       */
+      public Builder setColumns(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureColumnsIsMutable();
+        columns_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string columns = 1;</code>
+       */
+      public Builder addColumns(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureColumnsIsMutable();
+        columns_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string columns = 1;</code>
+       */
+      public Builder addAllColumns(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureColumnsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, columns_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string columns = 1;</code>
+       */
+      public Builder clearColumns() {
+        columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string columns = 1;</code>
+       */
+      public Builder addColumnsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureColumnsIsMutable();
+        columns_.add(value);
+        onChanged();
         return this;
       }
       public final Builder setUnknownFields(
@@ -7204,528 +7396,6 @@ public final class YdbImport {
     }
 
     public tech.ydb.import_.YdbImport.YdbDumpFormat getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface DsvFormatOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Import.DsvFormat)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>string delimiter = 1;</code>
-     */
-    java.lang.String getDelimiter();
-    /**
-     * <code>string delimiter = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getDelimiterBytes();
-  }
-  /**
-   * Protobuf type {@code Ydb.Import.DsvFormat}
-   */
-  public  static final class DsvFormat extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Import.DsvFormat)
-      DsvFormatOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use DsvFormat.newBuilder() to construct.
-    private DsvFormat(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private DsvFormat() {
-      delimiter_ = "";
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private DsvFormat(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              delimiter_ = s;
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.import_.YdbImport.internal_static_Ydb_Import_DsvFormat_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.import_.YdbImport.internal_static_Ydb_Import_DsvFormat_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.import_.YdbImport.DsvFormat.class, tech.ydb.import_.YdbImport.DsvFormat.Builder.class);
-    }
-
-    public static final int DELIMITER_FIELD_NUMBER = 1;
-    private volatile java.lang.Object delimiter_;
-    /**
-     * <code>string delimiter = 1;</code>
-     */
-    public java.lang.String getDelimiter() {
-      java.lang.Object ref = delimiter_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        delimiter_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string delimiter = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getDelimiterBytes() {
-      java.lang.Object ref = delimiter_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        delimiter_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (!getDelimiterBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, delimiter_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (!getDelimiterBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, delimiter_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.import_.YdbImport.DsvFormat)) {
-        return super.equals(obj);
-      }
-      tech.ydb.import_.YdbImport.DsvFormat other = (tech.ydb.import_.YdbImport.DsvFormat) obj;
-
-      boolean result = true;
-      result = result && getDelimiter()
-          .equals(other.getDelimiter());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + DELIMITER_FIELD_NUMBER;
-      hash = (53 * hash) + getDelimiter().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.import_.YdbImport.DsvFormat parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.import_.YdbImport.DsvFormat parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.import_.YdbImport.DsvFormat parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.import_.YdbImport.DsvFormat parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.import_.YdbImport.DsvFormat parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.import_.YdbImport.DsvFormat parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.import_.YdbImport.DsvFormat parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.import_.YdbImport.DsvFormat parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.import_.YdbImport.DsvFormat parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.import_.YdbImport.DsvFormat parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.import_.YdbImport.DsvFormat parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.import_.YdbImport.DsvFormat parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.import_.YdbImport.DsvFormat prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code Ydb.Import.DsvFormat}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Import.DsvFormat)
-        tech.ydb.import_.YdbImport.DsvFormatOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.import_.YdbImport.internal_static_Ydb_Import_DsvFormat_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.import_.YdbImport.internal_static_Ydb_Import_DsvFormat_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.import_.YdbImport.DsvFormat.class, tech.ydb.import_.YdbImport.DsvFormat.Builder.class);
-      }
-
-      // Construct using tech.ydb.import_.YdbImport.DsvFormat.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        delimiter_ = "";
-
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.import_.YdbImport.internal_static_Ydb_Import_DsvFormat_descriptor;
-      }
-
-      public tech.ydb.import_.YdbImport.DsvFormat getDefaultInstanceForType() {
-        return tech.ydb.import_.YdbImport.DsvFormat.getDefaultInstance();
-      }
-
-      public tech.ydb.import_.YdbImport.DsvFormat build() {
-        tech.ydb.import_.YdbImport.DsvFormat result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public tech.ydb.import_.YdbImport.DsvFormat buildPartial() {
-        tech.ydb.import_.YdbImport.DsvFormat result = new tech.ydb.import_.YdbImport.DsvFormat(this);
-        result.delimiter_ = delimiter_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.import_.YdbImport.DsvFormat) {
-          return mergeFrom((tech.ydb.import_.YdbImport.DsvFormat)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.import_.YdbImport.DsvFormat other) {
-        if (other == tech.ydb.import_.YdbImport.DsvFormat.getDefaultInstance()) return this;
-        if (!other.getDelimiter().isEmpty()) {
-          delimiter_ = other.delimiter_;
-          onChanged();
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.import_.YdbImport.DsvFormat parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.import_.YdbImport.DsvFormat) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private java.lang.Object delimiter_ = "";
-      /**
-       * <code>string delimiter = 1;</code>
-       */
-      public java.lang.String getDelimiter() {
-        java.lang.Object ref = delimiter_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          delimiter_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string delimiter = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getDelimiterBytes() {
-        java.lang.Object ref = delimiter_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          delimiter_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string delimiter = 1;</code>
-       */
-      public Builder setDelimiter(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        delimiter_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string delimiter = 1;</code>
-       */
-      public Builder clearDelimiter() {
-        
-        delimiter_ = getDefaultInstance().getDelimiter();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string delimiter = 1;</code>
-       */
-      public Builder setDelimiterBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        delimiter_ = value;
-        onChanged();
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.Import.DsvFormat)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.Import.DsvFormat)
-    private static final tech.ydb.import_.YdbImport.DsvFormat DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.import_.YdbImport.DsvFormat();
-    }
-
-    public static tech.ydb.import_.YdbImport.DsvFormat getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<DsvFormat>
-        PARSER = new com.google.protobuf.AbstractParser<DsvFormat>() {
-      public DsvFormat parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DsvFormat(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<DsvFormat> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<DsvFormat> getParserForType() {
-      return PARSER;
-    }
-
-    public tech.ydb.import_.YdbImport.DsvFormat getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -8154,7 +7824,7 @@ public final class YdbImport {
      * <pre>
      * Data serialized in the selected format. Restrictions:
      * - sorted by primary key;
-     * - all keys must be from the same shard;
+     * - all keys must be from the same partition;
      * - table has no global secondary indexes;
      * - size of serialized data is limited to 8 MB.
      * </pre>
@@ -8187,31 +7857,6 @@ public final class YdbImport {
      * <code>.Ydb.Import.YdbDumpFormat ydb_dump = 4;</code>
      */
     tech.ydb.import_.YdbImport.YdbDumpFormatOrBuilder getYdbDumpOrBuilder();
-
-    /**
-     * <pre>
-     * Delimiter-separated values
-     * </pre>
-     *
-     * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-     */
-    boolean hasDsv();
-    /**
-     * <pre>
-     * Delimiter-separated values
-     * </pre>
-     *
-     * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-     */
-    tech.ydb.import_.YdbImport.DsvFormat getDsv();
-    /**
-     * <pre>
-     * Delimiter-separated values
-     * </pre>
-     *
-     * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-     */
-    tech.ydb.import_.YdbImport.DsvFormatOrBuilder getDsvOrBuilder();
 
     public tech.ydb.import_.YdbImport.ImportDataRequest.FormatCase getFormatCase();
   }
@@ -8298,20 +7943,6 @@ public final class YdbImport {
               formatCase_ = 4;
               break;
             }
-            case 42: {
-              tech.ydb.import_.YdbImport.DsvFormat.Builder subBuilder = null;
-              if (formatCase_ == 5) {
-                subBuilder = ((tech.ydb.import_.YdbImport.DsvFormat) format_).toBuilder();
-              }
-              format_ =
-                  input.readMessage(tech.ydb.import_.YdbImport.DsvFormat.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((tech.ydb.import_.YdbImport.DsvFormat) format_);
-                format_ = subBuilder.buildPartial();
-              }
-              formatCase_ = 5;
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8341,7 +7972,6 @@ public final class YdbImport {
     public enum FormatCase
         implements com.google.protobuf.Internal.EnumLite {
       YDB_DUMP(4),
-      DSV(5),
       FORMAT_NOT_SET(0);
       private final int value;
       private FormatCase(int value) {
@@ -8358,7 +7988,6 @@ public final class YdbImport {
       public static FormatCase forNumber(int value) {
         switch (value) {
           case 4: return YDB_DUMP;
-          case 5: return DSV;
           case 0: return FORMAT_NOT_SET;
           default: return null;
         }
@@ -8443,7 +8072,7 @@ public final class YdbImport {
      * <pre>
      * Data serialized in the selected format. Restrictions:
      * - sorted by primary key;
-     * - all keys must be from the same shard;
+     * - all keys must be from the same partition;
      * - table has no global secondary indexes;
      * - size of serialized data is limited to 8 MB.
      * </pre>
@@ -8492,44 +8121,6 @@ public final class YdbImport {
       return tech.ydb.import_.YdbImport.YdbDumpFormat.getDefaultInstance();
     }
 
-    public static final int DSV_FIELD_NUMBER = 5;
-    /**
-     * <pre>
-     * Delimiter-separated values
-     * </pre>
-     *
-     * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-     */
-    public boolean hasDsv() {
-      return formatCase_ == 5;
-    }
-    /**
-     * <pre>
-     * Delimiter-separated values
-     * </pre>
-     *
-     * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-     */
-    public tech.ydb.import_.YdbImport.DsvFormat getDsv() {
-      if (formatCase_ == 5) {
-         return (tech.ydb.import_.YdbImport.DsvFormat) format_;
-      }
-      return tech.ydb.import_.YdbImport.DsvFormat.getDefaultInstance();
-    }
-    /**
-     * <pre>
-     * Delimiter-separated values
-     * </pre>
-     *
-     * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-     */
-    public tech.ydb.import_.YdbImport.DsvFormatOrBuilder getDsvOrBuilder() {
-      if (formatCase_ == 5) {
-         return (tech.ydb.import_.YdbImport.DsvFormat) format_;
-      }
-      return tech.ydb.import_.YdbImport.DsvFormat.getDefaultInstance();
-    }
-
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -8554,9 +8145,6 @@ public final class YdbImport {
       if (formatCase_ == 4) {
         output.writeMessage(4, (tech.ydb.import_.YdbImport.YdbDumpFormat) format_);
       }
-      if (formatCase_ == 5) {
-        output.writeMessage(5, (tech.ydb.import_.YdbImport.DsvFormat) format_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -8579,10 +8167,6 @@ public final class YdbImport {
       if (formatCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, (tech.ydb.import_.YdbImport.YdbDumpFormat) format_);
-      }
-      if (formatCase_ == 5) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, (tech.ydb.import_.YdbImport.DsvFormat) format_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -8617,10 +8201,6 @@ public final class YdbImport {
           result = result && getYdbDump()
               .equals(other.getYdbDump());
           break;
-        case 5:
-          result = result && getDsv()
-              .equals(other.getDsv());
-          break;
         case 0:
         default:
       }
@@ -8647,10 +8227,6 @@ public final class YdbImport {
         case 4:
           hash = (37 * hash) + YDB_DUMP_FIELD_NUMBER;
           hash = (53 * hash) + getYdbDump().hashCode();
-          break;
-        case 5:
-          hash = (37 * hash) + DSV_FIELD_NUMBER;
-          hash = (53 * hash) + getDsv().hashCode();
           break;
         case 0:
         default:
@@ -8832,13 +8408,6 @@ public final class YdbImport {
             result.format_ = ydbDumpBuilder_.build();
           }
         }
-        if (formatCase_ == 5) {
-          if (dsvBuilder_ == null) {
-            result.format_ = format_;
-          } else {
-            result.format_ = dsvBuilder_.build();
-          }
-        }
         result.formatCase_ = formatCase_;
         onBuilt();
         return result;
@@ -8894,10 +8463,6 @@ public final class YdbImport {
         switch (other.getFormatCase()) {
           case YDB_DUMP: {
             mergeYdbDump(other.getYdbDump());
-            break;
-          }
-          case DSV: {
-            mergeDsv(other.getDsv());
             break;
           }
           case FORMAT_NOT_SET: {
@@ -9157,7 +8722,7 @@ public final class YdbImport {
        * <pre>
        * Data serialized in the selected format. Restrictions:
        * - sorted by primary key;
-       * - all keys must be from the same shard;
+       * - all keys must be from the same partition;
        * - table has no global secondary indexes;
        * - size of serialized data is limited to 8 MB.
        * </pre>
@@ -9171,7 +8736,7 @@ public final class YdbImport {
        * <pre>
        * Data serialized in the selected format. Restrictions:
        * - sorted by primary key;
-       * - all keys must be from the same shard;
+       * - all keys must be from the same partition;
        * - table has no global secondary indexes;
        * - size of serialized data is limited to 8 MB.
        * </pre>
@@ -9191,7 +8756,7 @@ public final class YdbImport {
        * <pre>
        * Data serialized in the selected format. Restrictions:
        * - sorted by primary key;
-       * - all keys must be from the same shard;
+       * - all keys must be from the same partition;
        * - table has no global secondary indexes;
        * - size of serialized data is limited to 8 MB.
        * </pre>
@@ -9375,178 +8940,6 @@ public final class YdbImport {
         formatCase_ = 4;
         onChanged();;
         return ydbDumpBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.import_.YdbImport.DsvFormat, tech.ydb.import_.YdbImport.DsvFormat.Builder, tech.ydb.import_.YdbImport.DsvFormatOrBuilder> dsvBuilder_;
-      /**
-       * <pre>
-       * Delimiter-separated values
-       * </pre>
-       *
-       * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-       */
-      public boolean hasDsv() {
-        return formatCase_ == 5;
-      }
-      /**
-       * <pre>
-       * Delimiter-separated values
-       * </pre>
-       *
-       * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-       */
-      public tech.ydb.import_.YdbImport.DsvFormat getDsv() {
-        if (dsvBuilder_ == null) {
-          if (formatCase_ == 5) {
-            return (tech.ydb.import_.YdbImport.DsvFormat) format_;
-          }
-          return tech.ydb.import_.YdbImport.DsvFormat.getDefaultInstance();
-        } else {
-          if (formatCase_ == 5) {
-            return dsvBuilder_.getMessage();
-          }
-          return tech.ydb.import_.YdbImport.DsvFormat.getDefaultInstance();
-        }
-      }
-      /**
-       * <pre>
-       * Delimiter-separated values
-       * </pre>
-       *
-       * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-       */
-      public Builder setDsv(tech.ydb.import_.YdbImport.DsvFormat value) {
-        if (dsvBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          format_ = value;
-          onChanged();
-        } else {
-          dsvBuilder_.setMessage(value);
-        }
-        formatCase_ = 5;
-        return this;
-      }
-      /**
-       * <pre>
-       * Delimiter-separated values
-       * </pre>
-       *
-       * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-       */
-      public Builder setDsv(
-          tech.ydb.import_.YdbImport.DsvFormat.Builder builderForValue) {
-        if (dsvBuilder_ == null) {
-          format_ = builderForValue.build();
-          onChanged();
-        } else {
-          dsvBuilder_.setMessage(builderForValue.build());
-        }
-        formatCase_ = 5;
-        return this;
-      }
-      /**
-       * <pre>
-       * Delimiter-separated values
-       * </pre>
-       *
-       * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-       */
-      public Builder mergeDsv(tech.ydb.import_.YdbImport.DsvFormat value) {
-        if (dsvBuilder_ == null) {
-          if (formatCase_ == 5 &&
-              format_ != tech.ydb.import_.YdbImport.DsvFormat.getDefaultInstance()) {
-            format_ = tech.ydb.import_.YdbImport.DsvFormat.newBuilder((tech.ydb.import_.YdbImport.DsvFormat) format_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            format_ = value;
-          }
-          onChanged();
-        } else {
-          if (formatCase_ == 5) {
-            dsvBuilder_.mergeFrom(value);
-          }
-          dsvBuilder_.setMessage(value);
-        }
-        formatCase_ = 5;
-        return this;
-      }
-      /**
-       * <pre>
-       * Delimiter-separated values
-       * </pre>
-       *
-       * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-       */
-      public Builder clearDsv() {
-        if (dsvBuilder_ == null) {
-          if (formatCase_ == 5) {
-            formatCase_ = 0;
-            format_ = null;
-            onChanged();
-          }
-        } else {
-          if (formatCase_ == 5) {
-            formatCase_ = 0;
-            format_ = null;
-          }
-          dsvBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <pre>
-       * Delimiter-separated values
-       * </pre>
-       *
-       * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-       */
-      public tech.ydb.import_.YdbImport.DsvFormat.Builder getDsvBuilder() {
-        return getDsvFieldBuilder().getBuilder();
-      }
-      /**
-       * <pre>
-       * Delimiter-separated values
-       * </pre>
-       *
-       * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-       */
-      public tech.ydb.import_.YdbImport.DsvFormatOrBuilder getDsvOrBuilder() {
-        if ((formatCase_ == 5) && (dsvBuilder_ != null)) {
-          return dsvBuilder_.getMessageOrBuilder();
-        } else {
-          if (formatCase_ == 5) {
-            return (tech.ydb.import_.YdbImport.DsvFormat) format_;
-          }
-          return tech.ydb.import_.YdbImport.DsvFormat.getDefaultInstance();
-        }
-      }
-      /**
-       * <pre>
-       * Delimiter-separated values
-       * </pre>
-       *
-       * <code>.Ydb.Import.DsvFormat dsv = 5;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.import_.YdbImport.DsvFormat, tech.ydb.import_.YdbImport.DsvFormat.Builder, tech.ydb.import_.YdbImport.DsvFormatOrBuilder> 
-          getDsvFieldBuilder() {
-        if (dsvBuilder_ == null) {
-          if (!(formatCase_ == 5)) {
-            format_ = tech.ydb.import_.YdbImport.DsvFormat.getDefaultInstance();
-          }
-          dsvBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.import_.YdbImport.DsvFormat, tech.ydb.import_.YdbImport.DsvFormat.Builder, tech.ydb.import_.YdbImport.DsvFormatOrBuilder>(
-                  (tech.ydb.import_.YdbImport.DsvFormat) format_,
-                  getParentForChildren(),
-                  isClean());
-          format_ = null;
-        }
-        formatCase_ = 5;
-        onChanged();;
-        return dsvBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -10282,11 +9675,6 @@ public final class YdbImport {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Import_YdbDumpFormat_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Import_DsvFormat_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Import_DsvFormat_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Import_ImportDataResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -10344,17 +9732,16 @@ public final class YdbImport {
       "b.Operations.OperationParams\0228\n\010settings" +
       "\030\002 \001(\0132 .Ydb.Import.ImportFromS3Settings" +
       "B\004\220\346*\001\"D\n\024ImportFromS3Response\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\017\n\r" +
-      "YdbDumpFormat\"\036\n\tDsvFormat\022\021\n\tdelimiter\030" +
-      "\001 \001(\t\"\022\n\020ImportDataResult\"\324\001\n\021ImportData" +
-      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\022\014\n\004path\030\002 \001(\t" +
-      "\022\027\n\004data\030\003 \001(\014B\t\242\346*\005\030\200\200\200\004\022-\n\010ydb_dump\030\004 ",
-      "\001(\0132\031.Ydb.Import.YdbDumpFormatH\000\022$\n\003dsv\030" +
-      "\005 \001(\0132\025.Ydb.Import.DsvFormatH\000B\010\n\006format" +
-      "\"B\n\022ImportDataResponse\022,\n\toperation\030\001 \001(" +
-      "\0132\031.Ydb.Operations.OperationB\033\n\026com.yand" +
-      "ex.ydb.import_\370\001\001b\006proto3"
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\" \n\r" +
+      "YdbDumpFormat\022\017\n\007columns\030\001 \003(\t\"\022\n\020Import" +
+      "DataResult\"\256\001\n\021ImportDataRequest\0229\n\020oper" +
+      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
+      "ationParams\022\014\n\004path\030\002 \001(\t\022\027\n\004data\030\003 \001(\014B" +
+      "\t\242\346*\005\030\200\200\200\004\022-\n\010ydb_dump\030\004 \001(\0132\031.Ydb.Impor",
+      "t.YdbDumpFormatH\000B\010\n\006format\"B\n\022ImportDat" +
+      "aResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.OperationB\033\n\026tech.ydb.import" +
+      "_\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -10424,27 +9811,21 @@ public final class YdbImport {
     internal_static_Ydb_Import_YdbDumpFormat_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Import_YdbDumpFormat_descriptor,
-        new java.lang.String[] { });
-    internal_static_Ydb_Import_DsvFormat_descriptor =
-      getDescriptor().getMessageTypes().get(8);
-    internal_static_Ydb_Import_DsvFormat_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Import_DsvFormat_descriptor,
-        new java.lang.String[] { "Delimiter", });
+        new java.lang.String[] { "Columns", });
     internal_static_Ydb_Import_ImportDataResult_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Ydb_Import_ImportDataResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Import_ImportDataResult_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_Import_ImportDataRequest_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Import_ImportDataRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Import_ImportDataRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Path", "Data", "YdbDump", "Dsv", "Format", });
+        new java.lang.String[] { "OperationParams", "Path", "Data", "YdbDump", "Format", });
     internal_static_Ydb_Import_ImportDataResponse_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_Ydb_Import_ImportDataResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Import_ImportDataResponse_descriptor,
