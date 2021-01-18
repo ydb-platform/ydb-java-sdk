@@ -1,16 +1,19 @@
 package tech.ydb.table.settings;
 
 import java.time.Duration;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 
 /**
  * @author Sergey Polovko
  */
-class RequestSettings<Self extends RequestSettings> {
+public class RequestSettings<Self extends RequestSettings> {
 
     private String traceId;
     private long deadlineAfter;
+    private Duration operationTimeout;
+    private Duration cancelAfter;
 
     public String getTraceId() {
         return traceId;
@@ -53,5 +56,23 @@ class RequestSettings<Self extends RequestSettings> {
     @SuppressWarnings("unchecked")
     private Self self() {
         return (Self) this;
+    }
+
+    public Optional<Duration> getOperationTimeout() {
+        return Optional.ofNullable(operationTimeout);
+    }
+
+    public Self setOperationTimeout(Duration operationTimeout) {
+        this.operationTimeout = operationTimeout;
+        return self();
+    }
+
+    public Optional<Duration> getCancelAfter() {
+        return Optional.ofNullable(cancelAfter);
+    }
+
+    public Self setCancelAfter(Duration cancelAfter) {
+        this.cancelAfter = cancelAfter;
+        return self();
     }
 }

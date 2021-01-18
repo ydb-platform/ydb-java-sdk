@@ -56,6 +56,7 @@ import tech.ydb.table.settings.StoragePolicy;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TransactionMode;
 import tech.ydb.table.transaction.TxControl;
+import tech.ydb.table.utils.OperationParamUtils;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
@@ -122,6 +123,7 @@ class SessionImpl implements Session {
         YdbTable.CreateTableRequest.Builder request = YdbTable.CreateTableRequest.newBuilder()
             .setSessionId(id)
             .setPath(path)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .addAllPrimaryKey(tableDescriptions.getPrimaryKeys());
 
         for (TableColumn column : tableDescriptions.getColumns()) {
@@ -243,6 +245,7 @@ class SessionImpl implements Session {
         YdbTable.DropTableRequest request = YdbTable.DropTableRequest.newBuilder()
             .setSessionId(id)
             .setPath(path)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
         final long deadlineAfter = settings.getDeadlineAfter();
@@ -259,7 +262,8 @@ class SessionImpl implements Session {
     public CompletableFuture<Status> alterTable(String path, AlterTableSettings settings) {
         YdbTable.AlterTableRequest.Builder builder = YdbTable.AlterTableRequest.newBuilder()
             .setSessionId(id)
-            .setPath(path);
+            .setPath(path)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings));
 
         settings.forEachAddColumn((name, type) -> {
             builder.addAddColumns(YdbTable.ColumnMeta.newBuilder()
@@ -286,6 +290,7 @@ class SessionImpl implements Session {
             .setSessionId(id)
             .setSourcePath(src)
             .setDestinationPath(dst)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
         final long deadlineAfter = settings.getDeadlineAfter();
@@ -303,6 +308,7 @@ class SessionImpl implements Session {
         YdbTable.DescribeTableRequest request = YdbTable.DescribeTableRequest.newBuilder()
             .setSessionId(id)
             .setPath(path)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
         final long deadlineAfter = settings.getDeadlineAfter();
@@ -363,6 +369,7 @@ class SessionImpl implements Session {
 
         YdbTable.ExecuteDataQueryRequest.Builder request = YdbTable.ExecuteDataQueryRequest.newBuilder()
             .setSessionId(id)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .setTxControl(txControl.toPb())
             .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
             .putAllParameters(params.toPb());
@@ -408,6 +415,7 @@ class SessionImpl implements Session {
     {
         YdbTable.ExecuteDataQueryRequest.Builder request = YdbTable.ExecuteDataQueryRequest.newBuilder()
             .setSessionId(id)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .setTxControl(txControl.toPb());
 
         request.getQueryBuilder().setId(queryId);
@@ -437,6 +445,7 @@ class SessionImpl implements Session {
     public CompletableFuture<Result<DataQuery>> prepareDataQuery(String query, PrepareDataQuerySettings settings) {
         YdbTable.PrepareDataQueryRequest.Builder request = YdbTable.PrepareDataQueryRequest.newBuilder()
             .setSessionId(id)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .setYqlText(query);
 
         final boolean keepInQueryCache = (queryCache != null) && settings.isKeepInQueryCache();
@@ -466,6 +475,7 @@ class SessionImpl implements Session {
     public CompletableFuture<Status> executeSchemeQuery(String query, ExecuteSchemeQuerySettings settings) {
         YdbTable.ExecuteSchemeQueryRequest request = YdbTable.ExecuteSchemeQueryRequest.newBuilder()
             .setSessionId(id)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .setYqlText(query)
             .build();
 
@@ -483,6 +493,7 @@ class SessionImpl implements Session {
     public CompletableFuture<Result<ExplainDataQueryResult>> explainDataQuery(String query, ExplainDataQuerySettings settings) {
         YdbTable.ExplainDataQueryRequest request = YdbTable.ExplainDataQueryRequest.newBuilder()
             .setSessionId(id)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .setYqlText(query)
             .build();
 
@@ -504,6 +515,7 @@ class SessionImpl implements Session {
     public CompletableFuture<Result<Transaction>> beginTransaction(TransactionMode transactionMode, BeginTxSettings settings) {
         YdbTable.BeginTransactionRequest request = YdbTable.BeginTransactionRequest.newBuilder()
             .setSessionId(id)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .setTxSettings(txSettings(transactionMode))
             .build();
 
@@ -641,6 +653,7 @@ class SessionImpl implements Session {
     public CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings) {
         YdbTable.CommitTransactionRequest request = YdbTable.CommitTransactionRequest.newBuilder()
             .setSessionId(id)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .setTxId(txId)
             .build();
 
@@ -658,6 +671,7 @@ class SessionImpl implements Session {
     public CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings) {
         YdbTable.RollbackTransactionRequest request = YdbTable.RollbackTransactionRequest.newBuilder()
             .setSessionId(id)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .setTxId(txId)
             .build();
 
@@ -676,6 +690,7 @@ class SessionImpl implements Session {
     public CompletableFuture<Result<SessionStatus>> keepAlive(KeepAliveSessionSettings settings) {
         YdbTable.KeepAliveRequest request = YdbTable.KeepAliveRequest.newBuilder()
             .setSessionId(id)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
         final long deadlineAfter = settings.getDeadlineAfter();
@@ -723,6 +738,7 @@ class SessionImpl implements Session {
     public CompletableFuture<Status> close(CloseSessionSettings settings) {
         YdbTable.DeleteSessionRequest request = YdbTable.DeleteSessionRequest.newBuilder()
             .setSessionId(id)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
         final long deadlineAfter = settings.getDeadlineAfter();
