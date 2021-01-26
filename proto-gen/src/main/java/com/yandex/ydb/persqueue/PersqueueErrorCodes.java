@@ -40,6 +40,10 @@ public final class PersqueueErrorCodes {
      */
     WRONG_COOKIE(4),
     /**
+     * <code>SOURCEID_DELETED = 24;</code>
+     */
+    SOURCEID_DELETED(24),
+    /**
      * <code>WRITE_ERROR_PARTITION_IS_FULL = 5;</code>
      */
     WRITE_ERROR_PARTITION_IS_FULL(5),
@@ -154,6 +158,10 @@ public final class PersqueueErrorCodes {
      * <code>WRONG_COOKIE = 4;</code>
      */
     public static final int WRONG_COOKIE_VALUE = 4;
+    /**
+     * <code>SOURCEID_DELETED = 24;</code>
+     */
+    public static final int SOURCEID_DELETED_VALUE = 24;
     /**
      * <code>WRITE_ERROR_PARTITION_IS_FULL = 5;</code>
      */
@@ -271,6 +279,7 @@ public final class PersqueueErrorCodes {
         case 2: return OVERLOAD;
         case 3: return BAD_REQUEST;
         case 4: return WRONG_COOKIE;
+        case 24: return SOURCEID_DELETED;
         case 5: return WRITE_ERROR_PARTITION_IS_FULL;
         case 15: return WRITE_ERROR_DISK_IS_FULL;
         case 19: return WRITE_ERROR_BAD_OFFSET;
@@ -354,23 +363,23 @@ public final class PersqueueErrorCodes {
     java.lang.String[] descriptorData = {
       "\n:kikimr/public/api/protos/draft/persque" +
       "ue_error_codes.proto\022\025NPersQueue.NErrorC" +
-      "ode*\331\004\n\nEErrorCode\022\006\n\002OK\020\000\022\020\n\014INITIALIZI" +
+      "ode*\357\004\n\nEErrorCode\022\006\n\002OK\020\000\022\020\n\014INITIALIZI" +
       "NG\020\001\022\014\n\010OVERLOAD\020\002\022\017\n\013BAD_REQUEST\020\003\022\020\n\014W" +
-      "RONG_COOKIE\020\004\022!\n\035WRITE_ERROR_PARTITION_I" +
-      "S_FULL\020\005\022\034\n\030WRITE_ERROR_DISK_IS_FULL\020\017\022\032" +
-      "\n\026WRITE_ERROR_BAD_OFFSET\020\023\022!\n\035CREATE_SES" +
-      "SION_ALREADY_LOCKED\020\006\022\035\n\031DELETE_SESSION_" +
-      "NO_SESSION\020\007\022\032\n\026READ_ERROR_IN_PROGRESS\020\010" +
-      "\022\031\n\025READ_ERROR_NO_SESSION\020\t\022\020\n\014READ_TIME",
-      "OUT\020\n\022\037\n\033READ_ERROR_TOO_SMALL_OFFSET\020\013\022\035" +
-      "\n\031READ_ERROR_TOO_BIG_OFFSET\020\014\022%\n!SET_OFF" +
-      "SET_ERROR_COMMIT_TO_FUTURE\020\r\022\025\n\021TABLET_I" +
-      "S_DROPPED\020\016\022\021\n\rREAD_NOT_DONE\020\020\022\021\n\rUNKNOW" +
-      "N_TOPIC\020\021\022\021\n\rACCESS_DENIED\020\022\022\024\n\020CLUSTER_" +
-      "DISABLED\020\024\022\032\n\026WRONG_PARTITION_NUMBER\020\025\022\022" +
-      "\n\016CREATE_TIMEOUT\020\026\022\020\n\014IDLE_TIMEOUT\020\027\022\t\n\005" +
-      "ERROR\020dB\032\n\030tech.ydb.persqueueb\006pro" +
-      "to3"
+      "RONG_COOKIE\020\004\022\024\n\020SOURCEID_DELETED\020\030\022!\n\035W" +
+      "RITE_ERROR_PARTITION_IS_FULL\020\005\022\034\n\030WRITE_" +
+      "ERROR_DISK_IS_FULL\020\017\022\032\n\026WRITE_ERROR_BAD_" +
+      "OFFSET\020\023\022!\n\035CREATE_SESSION_ALREADY_LOCKE" +
+      "D\020\006\022\035\n\031DELETE_SESSION_NO_SESSION\020\007\022\032\n\026RE" +
+      "AD_ERROR_IN_PROGRESS\020\010\022\031\n\025READ_ERROR_NO_",
+      "SESSION\020\t\022\020\n\014READ_TIMEOUT\020\n\022\037\n\033READ_ERRO" +
+      "R_TOO_SMALL_OFFSET\020\013\022\035\n\031READ_ERROR_TOO_B" +
+      "IG_OFFSET\020\014\022%\n!SET_OFFSET_ERROR_COMMIT_T" +
+      "O_FUTURE\020\r\022\025\n\021TABLET_IS_DROPPED\020\016\022\021\n\rREA" +
+      "D_NOT_DONE\020\020\022\021\n\rUNKNOWN_TOPIC\020\021\022\021\n\rACCES" +
+      "S_DENIED\020\022\022\024\n\020CLUSTER_DISABLED\020\024\022\032\n\026WRON" +
+      "G_PARTITION_NUMBER\020\025\022\022\n\016CREATE_TIMEOUT\020\026" +
+      "\022\020\n\014IDLE_TIMEOUT\020\027\022\t\n\005ERROR\020dB\032\n\030com.yan" +
+      "dex.ydb.persqueueb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

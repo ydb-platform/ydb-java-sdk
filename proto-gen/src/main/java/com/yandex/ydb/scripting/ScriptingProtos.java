@@ -2799,32 +2799,40 @@ public final class ScriptingProtos {
     public enum Mode
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
-       * <code>PARSE = 0;</code>
+       * <code>MODE_UNSPECIFIED = 0;</code>
        */
-      PARSE(0),
+      MODE_UNSPECIFIED(0),
       /**
-       * <code>VALIDATE = 1;</code>
+       * <pre>
+       * PARSE = 1;
+       * </pre>
+       *
+       * <code>VALIDATE = 2;</code>
        */
-      VALIDATE(1),
+      VALIDATE(2),
       /**
-       * <code>PLAN = 2;</code>
+       * <code>PLAN = 3;</code>
        */
-      PLAN(2),
+      PLAN(3),
       UNRECOGNIZED(-1),
       ;
 
       /**
-       * <code>PARSE = 0;</code>
+       * <code>MODE_UNSPECIFIED = 0;</code>
        */
-      public static final int PARSE_VALUE = 0;
+      public static final int MODE_UNSPECIFIED_VALUE = 0;
       /**
-       * <code>VALIDATE = 1;</code>
+       * <pre>
+       * PARSE = 1;
+       * </pre>
+       *
+       * <code>VALIDATE = 2;</code>
        */
-      public static final int VALIDATE_VALUE = 1;
+      public static final int VALIDATE_VALUE = 2;
       /**
-       * <code>PLAN = 2;</code>
+       * <code>PLAN = 3;</code>
        */
-      public static final int PLAN_VALUE = 2;
+      public static final int PLAN_VALUE = 3;
 
 
       public final int getNumber() {
@@ -2845,9 +2853,9 @@ public final class ScriptingProtos {
 
       public static Mode forNumber(int value) {
         switch (value) {
-          case 0: return PARSE;
-          case 1: return VALIDATE;
-          case 2: return PLAN;
+          case 0: return MODE_UNSPECIFIED;
+          case 2: return VALIDATE;
+          case 3: return PLAN;
           default: return null;
         }
       }
@@ -2989,7 +2997,7 @@ public final class ScriptingProtos {
       if (!getScriptBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, script_);
       }
-      if (mode_ != tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode.PARSE.getNumber()) {
+      if (mode_ != tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode.MODE_UNSPECIFIED.getNumber()) {
         output.writeEnum(3, mode_);
       }
       unknownFields.writeTo(output);
@@ -3007,7 +3015,7 @@ public final class ScriptingProtos {
       if (!getScriptBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, script_);
       }
-      if (mode_ != tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode.PARSE.getNumber()) {
+      if (mode_ != tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode.MODE_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, mode_);
       }
@@ -5056,20 +5064,20 @@ public final class ScriptingProtos {
       "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
       "ion\"h\n\020ExecuteYqlResult\022#\n\013result_sets\030\001" +
       " \003(\0132\016.Ydb.ResultSet\022/\n\013query_stats\030\002 \001(" +
-      "\0132\032.Ydb.TableStats.QueryStats\"\276\001\n\021Explai" +
+      "\0132\032.Ydb.TableStats.QueryStats\"\311\001\n\021Explai" +
       "nYqlRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
       "Ydb.Operations.OperationParams\022\016\n\006script",
       "\030\002 \001(\t\0223\n\004mode\030\003 \001(\0162%.Ydb.Scripting.Exp" +
-      "lainYqlRequest.Mode\")\n\004Mode\022\t\n\005PARSE\020\000\022\014" +
-      "\n\010VALIDATE\020\001\022\010\n\004PLAN\020\002\"B\n\022ExplainYqlResp" +
-      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
-      ".Operation\"\263\001\n\020ExplainYqlResult\022N\n\020param" +
-      "eters_types\030\001 \003(\01324.Ydb.Scripting.Explai" +
-      "nYqlResult.ParametersTypesEntry\022\014\n\004plan\030" +
-      "\002 \001(\t\032A\n\024ParametersTypesEntry\022\013\n\003key\030\001 \001" +
-      "(\t\022\030\n\005value\030\002 \001(\0132\t.Ydb.Type:\0028\001B.\n\030com." +
-      "yandex.ydb.scriptingB\017ScriptingProtos\370\001\001",
-      "b\006proto3"
+      "lainYqlRequest.Mode\"4\n\004Mode\022\024\n\020MODE_UNSP" +
+      "ECIFIED\020\000\022\014\n\010VALIDATE\020\002\022\010\n\004PLAN\020\003\"B\n\022Exp" +
+      "lainYqlResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\"\263\001\n\020ExplainYqlResu" +
+      "lt\022N\n\020parameters_types\030\001 \003(\01324.Ydb.Scrip" +
+      "ting.ExplainYqlResult.ParametersTypesEnt" +
+      "ry\022\014\n\004plan\030\002 \001(\t\032A\n\024ParametersTypesEntry" +
+      "\022\013\n\003key\030\001 \001(\t\022\030\n\005value\030\002 \001(\0132\t.Ydb.Type:" +
+      "\0028\001B.\n\030tech.ydb.scriptingB\017Scripti",
+      "ngProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

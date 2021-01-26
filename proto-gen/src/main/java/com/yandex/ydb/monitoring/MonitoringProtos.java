@@ -14,6 +14,539 @@ public final class MonitoringProtos {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
+  public interface StatusFlagOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Monitoring.StatusFlag)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code Ydb.Monitoring.StatusFlag}
+   */
+  public  static final class StatusFlag extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Monitoring.StatusFlag)
+      StatusFlagOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use StatusFlag.newBuilder() to construct.
+    private StatusFlag(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private StatusFlag() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private StatusFlag(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.monitoring.MonitoringProtos.StatusFlag.class, tech.ydb.monitoring.MonitoringProtos.StatusFlag.Builder.class);
+    }
+
+    /**
+     * <pre>
+     * Describes the general state of a component.
+     * From GREEN to RED, where GREEN is good, and RED is bad.
+     * GREY means that the corresponding status is unknown.
+     * </pre>
+     *
+     * Protobuf enum {@code Ydb.Monitoring.StatusFlag.Status}
+     */
+    public enum Status
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>UNSPECIFIED = 0;</code>
+       */
+      UNSPECIFIED(0),
+      /**
+       * <code>GREY = 1;</code>
+       */
+      GREY(1),
+      /**
+       * <code>GREEN = 2;</code>
+       */
+      GREEN(2),
+      /**
+       * <code>BLUE = 3;</code>
+       */
+      BLUE(3),
+      /**
+       * <code>YELLOW = 4;</code>
+       */
+      YELLOW(4),
+      /**
+       * <code>ORANGE = 5;</code>
+       */
+      ORANGE(5),
+      /**
+       * <code>RED = 6;</code>
+       */
+      RED(6),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>UNSPECIFIED = 0;</code>
+       */
+      public static final int UNSPECIFIED_VALUE = 0;
+      /**
+       * <code>GREY = 1;</code>
+       */
+      public static final int GREY_VALUE = 1;
+      /**
+       * <code>GREEN = 2;</code>
+       */
+      public static final int GREEN_VALUE = 2;
+      /**
+       * <code>BLUE = 3;</code>
+       */
+      public static final int BLUE_VALUE = 3;
+      /**
+       * <code>YELLOW = 4;</code>
+       */
+      public static final int YELLOW_VALUE = 4;
+      /**
+       * <code>ORANGE = 5;</code>
+       */
+      public static final int ORANGE_VALUE = 5;
+      /**
+       * <code>RED = 6;</code>
+       */
+      public static final int RED_VALUE = 6;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static Status valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static Status forNumber(int value) {
+        switch (value) {
+          case 0: return UNSPECIFIED;
+          case 1: return GREY;
+          case 2: return GREEN;
+          case 3: return BLUE;
+          case 4: return YELLOW;
+          case 5: return ORANGE;
+          case 6: return RED;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Status>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          Status> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Status>() {
+              public Status findValueByNumber(int number) {
+                return Status.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return tech.ydb.monitoring.MonitoringProtos.StatusFlag.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final Status[] VALUES = values();
+
+      public static Status valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private Status(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:Ydb.Monitoring.StatusFlag.Status)
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.monitoring.MonitoringProtos.StatusFlag)) {
+        return super.equals(obj);
+      }
+      tech.ydb.monitoring.MonitoringProtos.StatusFlag other = (tech.ydb.monitoring.MonitoringProtos.StatusFlag) obj;
+
+      boolean result = true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.StatusFlag prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.Monitoring.StatusFlag}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Monitoring.StatusFlag)
+        tech.ydb.monitoring.MonitoringProtos.StatusFlagOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.monitoring.MonitoringProtos.StatusFlag.class, tech.ydb.monitoring.MonitoringProtos.StatusFlag.Builder.class);
+      }
+
+      // Construct using tech.ydb.monitoring.MonitoringProtos.StatusFlag.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_descriptor;
+      }
+
+      public tech.ydb.monitoring.MonitoringProtos.StatusFlag getDefaultInstanceForType() {
+        return tech.ydb.monitoring.MonitoringProtos.StatusFlag.getDefaultInstance();
+      }
+
+      public tech.ydb.monitoring.MonitoringProtos.StatusFlag build() {
+        tech.ydb.monitoring.MonitoringProtos.StatusFlag result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.monitoring.MonitoringProtos.StatusFlag buildPartial() {
+        tech.ydb.monitoring.MonitoringProtos.StatusFlag result = new tech.ydb.monitoring.MonitoringProtos.StatusFlag(this);
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.monitoring.MonitoringProtos.StatusFlag) {
+          return mergeFrom((tech.ydb.monitoring.MonitoringProtos.StatusFlag)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.monitoring.MonitoringProtos.StatusFlag other) {
+        if (other == tech.ydb.monitoring.MonitoringProtos.StatusFlag.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.monitoring.MonitoringProtos.StatusFlag parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.monitoring.MonitoringProtos.StatusFlag) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Monitoring.StatusFlag)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Monitoring.StatusFlag)
+    private static final tech.ydb.monitoring.MonitoringProtos.StatusFlag DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.monitoring.MonitoringProtos.StatusFlag();
+    }
+
+    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<StatusFlag>
+        PARSER = new com.google.protobuf.AbstractParser<StatusFlag>() {
+      public StatusFlag parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new StatusFlag(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<StatusFlag> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<StatusFlag> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.monitoring.MonitoringProtos.StatusFlag getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface SelfCheckRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.Monitoring.SelfCheckRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -35,6 +568,15 @@ public final class MonitoringProtos {
      * <code>bool return_verbose_status = 2;</code>
      */
     boolean getReturnVerboseStatus();
+
+    /**
+     * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+     */
+    int getMinimumStatusValue();
+    /**
+     * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+     */
+    tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getMinimumStatus();
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.SelfCheckRequest}
@@ -50,6 +592,7 @@ public final class MonitoringProtos {
     }
     private SelfCheckRequest() {
       returnVerboseStatus_ = false;
+      minimumStatus_ = 0;
     }
 
     @java.lang.Override
@@ -96,6 +639,12 @@ public final class MonitoringProtos {
             case 16: {
 
               returnVerboseStatus_ = input.readBool();
+              break;
+            }
+            case 24: {
+              int rawValue = input.readEnum();
+
+              minimumStatus_ = rawValue;
               break;
             }
           }
@@ -152,6 +701,22 @@ public final class MonitoringProtos {
       return returnVerboseStatus_;
     }
 
+    public static final int MINIMUM_STATUS_FIELD_NUMBER = 3;
+    private int minimumStatus_;
+    /**
+     * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+     */
+    public int getMinimumStatusValue() {
+      return minimumStatus_;
+    }
+    /**
+     * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+     */
+    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getMinimumStatus() {
+      tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(minimumStatus_);
+      return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -170,6 +735,9 @@ public final class MonitoringProtos {
       if (returnVerboseStatus_ != false) {
         output.writeBool(2, returnVerboseStatus_);
       }
+      if (minimumStatus_ != tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNSPECIFIED.getNumber()) {
+        output.writeEnum(3, minimumStatus_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -185,6 +753,10 @@ public final class MonitoringProtos {
       if (returnVerboseStatus_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, returnVerboseStatus_);
+      }
+      if (minimumStatus_ != tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, minimumStatus_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -209,6 +781,7 @@ public final class MonitoringProtos {
       }
       result = result && (getReturnVerboseStatus()
           == other.getReturnVerboseStatus());
+      result = result && minimumStatus_ == other.minimumStatus_;
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -227,6 +800,8 @@ public final class MonitoringProtos {
       hash = (37 * hash) + RETURN_VERBOSE_STATUS_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getReturnVerboseStatus());
+      hash = (37 * hash) + MINIMUM_STATUS_FIELD_NUMBER;
+      hash = (53 * hash) + minimumStatus_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -364,6 +939,8 @@ public final class MonitoringProtos {
         }
         returnVerboseStatus_ = false;
 
+        minimumStatus_ = 0;
+
         return this;
       }
 
@@ -392,6 +969,7 @@ public final class MonitoringProtos {
           result.operationParams_ = operationParamsBuilder_.build();
         }
         result.returnVerboseStatus_ = returnVerboseStatus_;
+        result.minimumStatus_ = minimumStatus_;
         onBuilt();
         return result;
       }
@@ -438,6 +1016,9 @@ public final class MonitoringProtos {
         }
         if (other.getReturnVerboseStatus() != false) {
           setReturnVerboseStatus(other.getReturnVerboseStatus());
+        }
+        if (other.minimumStatus_ != 0) {
+          setMinimumStatusValue(other.getMinimumStatusValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -605,6 +1186,50 @@ public final class MonitoringProtos {
       public Builder clearReturnVerboseStatus() {
         
         returnVerboseStatus_ = false;
+        onChanged();
+        return this;
+      }
+
+      private int minimumStatus_ = 0;
+      /**
+       * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+       */
+      public int getMinimumStatusValue() {
+        return minimumStatus_;
+      }
+      /**
+       * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+       */
+      public Builder setMinimumStatusValue(int value) {
+        minimumStatus_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+       */
+      public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getMinimumStatus() {
+        tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(minimumStatus_);
+        return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+       */
+      public Builder setMinimumStatus(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        minimumStatus_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+       */
+      public Builder clearMinimumStatus() {
+        
+        minimumStatus_ = 0;
         onChanged();
         return this;
       }
@@ -1291,539 +1916,6 @@ public final class MonitoringProtos {
     }
 
     public tech.ydb.monitoring.MonitoringProtos.SelfCheckResponse getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface StatusFlagOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Monitoring.StatusFlag)
-      com.google.protobuf.MessageOrBuilder {
-  }
-  /**
-   * Protobuf type {@code Ydb.Monitoring.StatusFlag}
-   */
-  public  static final class StatusFlag extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Monitoring.StatusFlag)
-      StatusFlagOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use StatusFlag.newBuilder() to construct.
-    private StatusFlag(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private StatusFlag() {
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private StatusFlag(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.monitoring.MonitoringProtos.StatusFlag.class, tech.ydb.monitoring.MonitoringProtos.StatusFlag.Builder.class);
-    }
-
-    /**
-     * <pre>
-     * Describes the general state of a component.
-     * From GREEN to RED, where GREEN is good, and RED is bad.
-     * GREY means that the corresponding status is unknown.
-     * </pre>
-     *
-     * Protobuf enum {@code Ydb.Monitoring.StatusFlag.Status}
-     */
-    public enum Status
-        implements com.google.protobuf.ProtocolMessageEnum {
-      /**
-       * <code>UNSPECIFIED = 0;</code>
-       */
-      UNSPECIFIED(0),
-      /**
-       * <code>GREY = 1;</code>
-       */
-      GREY(1),
-      /**
-       * <code>GREEN = 2;</code>
-       */
-      GREEN(2),
-      /**
-       * <code>BLUE = 3;</code>
-       */
-      BLUE(3),
-      /**
-       * <code>YELLOW = 4;</code>
-       */
-      YELLOW(4),
-      /**
-       * <code>ORANGE = 5;</code>
-       */
-      ORANGE(5),
-      /**
-       * <code>RED = 6;</code>
-       */
-      RED(6),
-      UNRECOGNIZED(-1),
-      ;
-
-      /**
-       * <code>UNSPECIFIED = 0;</code>
-       */
-      public static final int UNSPECIFIED_VALUE = 0;
-      /**
-       * <code>GREY = 1;</code>
-       */
-      public static final int GREY_VALUE = 1;
-      /**
-       * <code>GREEN = 2;</code>
-       */
-      public static final int GREEN_VALUE = 2;
-      /**
-       * <code>BLUE = 3;</code>
-       */
-      public static final int BLUE_VALUE = 3;
-      /**
-       * <code>YELLOW = 4;</code>
-       */
-      public static final int YELLOW_VALUE = 4;
-      /**
-       * <code>ORANGE = 5;</code>
-       */
-      public static final int ORANGE_VALUE = 5;
-      /**
-       * <code>RED = 6;</code>
-       */
-      public static final int RED_VALUE = 6;
-
-
-      public final int getNumber() {
-        if (this == UNRECOGNIZED) {
-          throw new java.lang.IllegalArgumentException(
-              "Can't get the number of an unknown enum value.");
-        }
-        return value;
-      }
-
-      /**
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static Status valueOf(int value) {
-        return forNumber(value);
-      }
-
-      public static Status forNumber(int value) {
-        switch (value) {
-          case 0: return UNSPECIFIED;
-          case 1: return GREY;
-          case 2: return GREEN;
-          case 3: return BLUE;
-          case 4: return YELLOW;
-          case 5: return ORANGE;
-          case 6: return RED;
-          default: return null;
-        }
-      }
-
-      public static com.google.protobuf.Internal.EnumLiteMap<Status>
-          internalGetValueMap() {
-        return internalValueMap;
-      }
-      private static final com.google.protobuf.Internal.EnumLiteMap<
-          Status> internalValueMap =
-            new com.google.protobuf.Internal.EnumLiteMap<Status>() {
-              public Status findValueByNumber(int number) {
-                return Status.forNumber(number);
-              }
-            };
-
-      public final com.google.protobuf.Descriptors.EnumValueDescriptor
-          getValueDescriptor() {
-        return getDescriptor().getValues().get(ordinal());
-      }
-      public final com.google.protobuf.Descriptors.EnumDescriptor
-          getDescriptorForType() {
-        return getDescriptor();
-      }
-      public static final com.google.protobuf.Descriptors.EnumDescriptor
-          getDescriptor() {
-        return tech.ydb.monitoring.MonitoringProtos.StatusFlag.getDescriptor().getEnumTypes().get(0);
-      }
-
-      private static final Status[] VALUES = values();
-
-      public static Status valueOf(
-          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-        if (desc.getType() != getDescriptor()) {
-          throw new java.lang.IllegalArgumentException(
-            "EnumValueDescriptor is not for this type.");
-        }
-        if (desc.getIndex() == -1) {
-          return UNRECOGNIZED;
-        }
-        return VALUES[desc.getIndex()];
-      }
-
-      private final int value;
-
-      private Status(int value) {
-        this.value = value;
-      }
-
-      // @@protoc_insertion_point(enum_scope:Ydb.Monitoring.StatusFlag.Status)
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.monitoring.MonitoringProtos.StatusFlag)) {
-        return super.equals(obj);
-      }
-      tech.ydb.monitoring.MonitoringProtos.StatusFlag other = (tech.ydb.monitoring.MonitoringProtos.StatusFlag) obj;
-
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.StatusFlag prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code Ydb.Monitoring.StatusFlag}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Monitoring.StatusFlag)
-        tech.ydb.monitoring.MonitoringProtos.StatusFlagOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.monitoring.MonitoringProtos.StatusFlag.class, tech.ydb.monitoring.MonitoringProtos.StatusFlag.Builder.class);
-      }
-
-      // Construct using tech.ydb.monitoring.MonitoringProtos.StatusFlag.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_descriptor;
-      }
-
-      public tech.ydb.monitoring.MonitoringProtos.StatusFlag getDefaultInstanceForType() {
-        return tech.ydb.monitoring.MonitoringProtos.StatusFlag.getDefaultInstance();
-      }
-
-      public tech.ydb.monitoring.MonitoringProtos.StatusFlag build() {
-        tech.ydb.monitoring.MonitoringProtos.StatusFlag result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public tech.ydb.monitoring.MonitoringProtos.StatusFlag buildPartial() {
-        tech.ydb.monitoring.MonitoringProtos.StatusFlag result = new tech.ydb.monitoring.MonitoringProtos.StatusFlag(this);
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.monitoring.MonitoringProtos.StatusFlag) {
-          return mergeFrom((tech.ydb.monitoring.MonitoringProtos.StatusFlag)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.monitoring.MonitoringProtos.StatusFlag other) {
-        if (other == tech.ydb.monitoring.MonitoringProtos.StatusFlag.getDefaultInstance()) return this;
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.monitoring.MonitoringProtos.StatusFlag parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.monitoring.MonitoringProtos.StatusFlag) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.Monitoring.StatusFlag)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.Monitoring.StatusFlag)
-    private static final tech.ydb.monitoring.MonitoringProtos.StatusFlag DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.monitoring.MonitoringProtos.StatusFlag();
-    }
-
-    public static tech.ydb.monitoring.MonitoringProtos.StatusFlag getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<StatusFlag>
-        PARSER = new com.google.protobuf.AbstractParser<StatusFlag>() {
-      public StatusFlag parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StatusFlag(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<StatusFlag> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<StatusFlag> getParserForType() {
-      return PARSER;
-    }
-
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -20053,37 +20145,47 @@ public final class MonitoringProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * <code>string name = 1;</code>
+     */
+    java.lang.String getName();
+    /**
+     * <code>string name = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    /**
+     * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
      */
     int getOverallValue();
     /**
-     * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall();
 
     /**
-     * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+     * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
      */
     boolean hasStorage();
     /**
-     * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+     * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
      */
     tech.ydb.monitoring.MonitoringProtos.StorageStatus getStorage();
     /**
-     * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+     * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
      */
     tech.ydb.monitoring.MonitoringProtos.StorageStatusOrBuilder getStorageOrBuilder();
 
     /**
-     * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+     * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
      */
     boolean hasCompute();
     /**
-     * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+     * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
      */
     tech.ydb.monitoring.MonitoringProtos.ComputeStatus getCompute();
     /**
-     * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+     * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
      */
     tech.ydb.monitoring.MonitoringProtos.ComputeStatusOrBuilder getComputeOrBuilder();
   }
@@ -20100,6 +20202,7 @@ public final class MonitoringProtos {
       super(builder);
     }
     private DatabaseStatus() {
+      name_ = "";
       overall_ = 0;
     }
 
@@ -20131,13 +20234,19 @@ public final class MonitoringProtos {
               }
               break;
             }
-            case 8: {
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              name_ = s;
+              break;
+            }
+            case 16: {
               int rawValue = input.readEnum();
 
               overall_ = rawValue;
               break;
             }
-            case 18: {
+            case 26: {
               tech.ydb.monitoring.MonitoringProtos.StorageStatus.Builder subBuilder = null;
               if (storage_ != null) {
                 subBuilder = storage_.toBuilder();
@@ -20150,7 +20259,7 @@ public final class MonitoringProtos {
 
               break;
             }
-            case 26: {
+            case 34: {
               tech.ydb.monitoring.MonitoringProtos.ComputeStatus.Builder subBuilder = null;
               if (compute_ != null) {
                 subBuilder = compute_.toBuilder();
@@ -20187,59 +20296,93 @@ public final class MonitoringProtos {
               tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.class, tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder.class);
     }
 
-    public static final int OVERALL_FIELD_NUMBER = 1;
+    public static final int NAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object name_;
+    /**
+     * <code>string name = 1;</code>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        name_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string name = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int OVERALL_FIELD_NUMBER = 2;
     private int overall_;
     /**
-     * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
      */
     public int getOverallValue() {
       return overall_;
     }
     /**
-     * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
      */
     public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
 
-    public static final int STORAGE_FIELD_NUMBER = 2;
+    public static final int STORAGE_FIELD_NUMBER = 3;
     private tech.ydb.monitoring.MonitoringProtos.StorageStatus storage_;
     /**
-     * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+     * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
      */
     public boolean hasStorage() {
       return storage_ != null;
     }
     /**
-     * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+     * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
      */
     public tech.ydb.monitoring.MonitoringProtos.StorageStatus getStorage() {
       return storage_ == null ? tech.ydb.monitoring.MonitoringProtos.StorageStatus.getDefaultInstance() : storage_;
     }
     /**
-     * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+     * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
      */
     public tech.ydb.monitoring.MonitoringProtos.StorageStatusOrBuilder getStorageOrBuilder() {
       return getStorage();
     }
 
-    public static final int COMPUTE_FIELD_NUMBER = 3;
+    public static final int COMPUTE_FIELD_NUMBER = 4;
     private tech.ydb.monitoring.MonitoringProtos.ComputeStatus compute_;
     /**
-     * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+     * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
      */
     public boolean hasCompute() {
       return compute_ != null;
     }
     /**
-     * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+     * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
      */
     public tech.ydb.monitoring.MonitoringProtos.ComputeStatus getCompute() {
       return compute_ == null ? tech.ydb.monitoring.MonitoringProtos.ComputeStatus.getDefaultInstance() : compute_;
     }
     /**
-     * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+     * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
      */
     public tech.ydb.monitoring.MonitoringProtos.ComputeStatusOrBuilder getComputeOrBuilder() {
       return getCompute();
@@ -20257,14 +20400,17 @@ public final class MonitoringProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (!getNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
+      }
       if (overall_ != tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNSPECIFIED.getNumber()) {
-        output.writeEnum(1, overall_);
+        output.writeEnum(2, overall_);
       }
       if (storage_ != null) {
-        output.writeMessage(2, getStorage());
+        output.writeMessage(3, getStorage());
       }
       if (compute_ != null) {
-        output.writeMessage(3, getCompute());
+        output.writeMessage(4, getCompute());
       }
       unknownFields.writeTo(output);
     }
@@ -20274,17 +20420,20 @@ public final class MonitoringProtos {
       if (size != -1) return size;
 
       size = 0;
+      if (!getNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
+      }
       if (overall_ != tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, overall_);
+          .computeEnumSize(2, overall_);
       }
       if (storage_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getStorage());
+          .computeMessageSize(3, getStorage());
       }
       if (compute_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getCompute());
+          .computeMessageSize(4, getCompute());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -20302,6 +20451,8 @@ public final class MonitoringProtos {
       tech.ydb.monitoring.MonitoringProtos.DatabaseStatus other = (tech.ydb.monitoring.MonitoringProtos.DatabaseStatus) obj;
 
       boolean result = true;
+      result = result && getName()
+          .equals(other.getName());
       result = result && overall_ == other.overall_;
       result = result && (hasStorage() == other.hasStorage());
       if (hasStorage()) {
@@ -20324,6 +20475,8 @@ public final class MonitoringProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getName().hashCode();
       hash = (37 * hash) + OVERALL_FIELD_NUMBER;
       hash = (53 * hash) + overall_;
       if (hasStorage()) {
@@ -20463,6 +20616,8 @@ public final class MonitoringProtos {
       }
       public Builder clear() {
         super.clear();
+        name_ = "";
+
         overall_ = 0;
 
         if (storageBuilder_ == null) {
@@ -20499,6 +20654,7 @@ public final class MonitoringProtos {
 
       public tech.ydb.monitoring.MonitoringProtos.DatabaseStatus buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.DatabaseStatus result = new tech.ydb.monitoring.MonitoringProtos.DatabaseStatus(this);
+        result.name_ = name_;
         result.overall_ = overall_;
         if (storageBuilder_ == null) {
           result.storage_ = storage_;
@@ -20551,6 +20707,10 @@ public final class MonitoringProtos {
 
       public Builder mergeFrom(tech.ydb.monitoring.MonitoringProtos.DatabaseStatus other) {
         if (other == tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.getDefaultInstance()) return this;
+        if (!other.getName().isEmpty()) {
+          name_ = other.name_;
+          onChanged();
+        }
         if (other.overall_ != 0) {
           setOverallValue(other.getOverallValue());
         }
@@ -20587,15 +20747,84 @@ public final class MonitoringProtos {
         return this;
       }
 
+      private java.lang.Object name_ = "";
+      /**
+       * <code>string name = 1;</code>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string name = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string name = 1;</code>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string name = 1;</code>
+       */
+      public Builder clearName() {
+        
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string name = 1;</code>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
       private int overall_ = 0;
       /**
-       * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
        */
       public int getOverallValue() {
         return overall_;
       }
       /**
-       * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
        */
       public Builder setOverallValue(int value) {
         overall_ = value;
@@ -20603,14 +20832,14 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
        */
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
-       * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
        */
       public Builder setOverall(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -20622,7 +20851,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
        */
       public Builder clearOverall() {
         
@@ -20635,13 +20864,13 @@ public final class MonitoringProtos {
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.StorageStatus, tech.ydb.monitoring.MonitoringProtos.StorageStatus.Builder, tech.ydb.monitoring.MonitoringProtos.StorageStatusOrBuilder> storageBuilder_;
       /**
-       * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+       * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
        */
       public boolean hasStorage() {
         return storageBuilder_ != null || storage_ != null;
       }
       /**
-       * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+       * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
        */
       public tech.ydb.monitoring.MonitoringProtos.StorageStatus getStorage() {
         if (storageBuilder_ == null) {
@@ -20651,7 +20880,7 @@ public final class MonitoringProtos {
         }
       }
       /**
-       * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+       * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
        */
       public Builder setStorage(tech.ydb.monitoring.MonitoringProtos.StorageStatus value) {
         if (storageBuilder_ == null) {
@@ -20667,7 +20896,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+       * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
        */
       public Builder setStorage(
           tech.ydb.monitoring.MonitoringProtos.StorageStatus.Builder builderForValue) {
@@ -20681,7 +20910,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+       * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
        */
       public Builder mergeStorage(tech.ydb.monitoring.MonitoringProtos.StorageStatus value) {
         if (storageBuilder_ == null) {
@@ -20699,7 +20928,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+       * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
        */
       public Builder clearStorage() {
         if (storageBuilder_ == null) {
@@ -20713,7 +20942,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+       * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
        */
       public tech.ydb.monitoring.MonitoringProtos.StorageStatus.Builder getStorageBuilder() {
         
@@ -20721,7 +20950,7 @@ public final class MonitoringProtos {
         return getStorageFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+       * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
        */
       public tech.ydb.monitoring.MonitoringProtos.StorageStatusOrBuilder getStorageOrBuilder() {
         if (storageBuilder_ != null) {
@@ -20732,7 +20961,7 @@ public final class MonitoringProtos {
         }
       }
       /**
-       * <code>.Ydb.Monitoring.StorageStatus storage = 2;</code>
+       * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.StorageStatus, tech.ydb.monitoring.MonitoringProtos.StorageStatus.Builder, tech.ydb.monitoring.MonitoringProtos.StorageStatusOrBuilder> 
@@ -20752,13 +20981,13 @@ public final class MonitoringProtos {
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.ComputeStatus, tech.ydb.monitoring.MonitoringProtos.ComputeStatus.Builder, tech.ydb.monitoring.MonitoringProtos.ComputeStatusOrBuilder> computeBuilder_;
       /**
-       * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+       * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
        */
       public boolean hasCompute() {
         return computeBuilder_ != null || compute_ != null;
       }
       /**
-       * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+       * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
        */
       public tech.ydb.monitoring.MonitoringProtos.ComputeStatus getCompute() {
         if (computeBuilder_ == null) {
@@ -20768,7 +20997,7 @@ public final class MonitoringProtos {
         }
       }
       /**
-       * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+       * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
        */
       public Builder setCompute(tech.ydb.monitoring.MonitoringProtos.ComputeStatus value) {
         if (computeBuilder_ == null) {
@@ -20784,7 +21013,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+       * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
        */
       public Builder setCompute(
           tech.ydb.monitoring.MonitoringProtos.ComputeStatus.Builder builderForValue) {
@@ -20798,7 +21027,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+       * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
        */
       public Builder mergeCompute(tech.ydb.monitoring.MonitoringProtos.ComputeStatus value) {
         if (computeBuilder_ == null) {
@@ -20816,7 +21045,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+       * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
        */
       public Builder clearCompute() {
         if (computeBuilder_ == null) {
@@ -20830,7 +21059,7 @@ public final class MonitoringProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+       * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
        */
       public tech.ydb.monitoring.MonitoringProtos.ComputeStatus.Builder getComputeBuilder() {
         
@@ -20838,7 +21067,7 @@ public final class MonitoringProtos {
         return getComputeFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+       * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
        */
       public tech.ydb.monitoring.MonitoringProtos.ComputeStatusOrBuilder getComputeOrBuilder() {
         if (computeBuilder_ != null) {
@@ -20849,7 +21078,7 @@ public final class MonitoringProtos {
         }
       }
       /**
-       * <code>.Ydb.Monitoring.ComputeStatus compute = 3;</code>
+       * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.ComputeStatus, tech.ydb.monitoring.MonitoringProtos.ComputeStatus.Builder, tech.ydb.monitoring.MonitoringProtos.ComputeStatusOrBuilder> 
@@ -20951,17 +21180,28 @@ public final class MonitoringProtos {
         int index);
 
     /**
-     * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+     * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
      */
-    boolean hasDatabaseStatus();
+    java.util.List<tech.ydb.monitoring.MonitoringProtos.DatabaseStatus> 
+        getDatabaseStatusList();
     /**
-     * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+     * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
      */
-    tech.ydb.monitoring.MonitoringProtos.DatabaseStatus getDatabaseStatus();
+    tech.ydb.monitoring.MonitoringProtos.DatabaseStatus getDatabaseStatus(int index);
     /**
-     * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+     * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
      */
-    tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder getDatabaseStatusOrBuilder();
+    int getDatabaseStatusCount();
+    /**
+     * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+     */
+    java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder> 
+        getDatabaseStatusOrBuilderList();
+    /**
+     * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+     */
+    tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder getDatabaseStatusOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.SelfCheckResult}
@@ -20978,6 +21218,7 @@ public final class MonitoringProtos {
     private SelfCheckResult() {
       selfCheckResult_ = 0;
       issueLog_ = java.util.Collections.emptyList();
+      databaseStatus_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -21024,16 +21265,12 @@ public final class MonitoringProtos {
               break;
             }
             case 26: {
-              tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder subBuilder = null;
-              if (databaseStatus_ != null) {
-                subBuilder = databaseStatus_.toBuilder();
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                databaseStatus_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.DatabaseStatus>();
+                mutable_bitField0_ |= 0x00000004;
               }
-              databaseStatus_ = input.readMessage(tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(databaseStatus_);
-                databaseStatus_ = subBuilder.buildPartial();
-              }
-
+              databaseStatus_.add(
+                  input.readMessage(tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.parser(), extensionRegistry));
               break;
             }
           }
@@ -21046,6 +21283,9 @@ public final class MonitoringProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           issueLog_ = java.util.Collections.unmodifiableList(issueLog_);
+        }
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          databaseStatus_ = java.util.Collections.unmodifiableList(databaseStatus_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -21116,24 +21356,38 @@ public final class MonitoringProtos {
     }
 
     public static final int DATABASE_STATUS_FIELD_NUMBER = 3;
-    private tech.ydb.monitoring.MonitoringProtos.DatabaseStatus databaseStatus_;
+    private java.util.List<tech.ydb.monitoring.MonitoringProtos.DatabaseStatus> databaseStatus_;
     /**
-     * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+     * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
      */
-    public boolean hasDatabaseStatus() {
-      return databaseStatus_ != null;
+    public java.util.List<tech.ydb.monitoring.MonitoringProtos.DatabaseStatus> getDatabaseStatusList() {
+      return databaseStatus_;
     }
     /**
-     * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+     * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
      */
-    public tech.ydb.monitoring.MonitoringProtos.DatabaseStatus getDatabaseStatus() {
-      return databaseStatus_ == null ? tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.getDefaultInstance() : databaseStatus_;
+    public java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder> 
+        getDatabaseStatusOrBuilderList() {
+      return databaseStatus_;
     }
     /**
-     * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+     * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
      */
-    public tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder getDatabaseStatusOrBuilder() {
-      return getDatabaseStatus();
+    public int getDatabaseStatusCount() {
+      return databaseStatus_.size();
+    }
+    /**
+     * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+     */
+    public tech.ydb.monitoring.MonitoringProtos.DatabaseStatus getDatabaseStatus(int index) {
+      return databaseStatus_.get(index);
+    }
+    /**
+     * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+     */
+    public tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder getDatabaseStatusOrBuilder(
+        int index) {
+      return databaseStatus_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -21154,8 +21408,8 @@ public final class MonitoringProtos {
       for (int i = 0; i < issueLog_.size(); i++) {
         output.writeMessage(2, issueLog_.get(i));
       }
-      if (databaseStatus_ != null) {
-        output.writeMessage(3, getDatabaseStatus());
+      for (int i = 0; i < databaseStatus_.size(); i++) {
+        output.writeMessage(3, databaseStatus_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -21173,9 +21427,9 @@ public final class MonitoringProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, issueLog_.get(i));
       }
-      if (databaseStatus_ != null) {
+      for (int i = 0; i < databaseStatus_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getDatabaseStatus());
+          .computeMessageSize(3, databaseStatus_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -21196,11 +21450,8 @@ public final class MonitoringProtos {
       result = result && selfCheckResult_ == other.selfCheckResult_;
       result = result && getIssueLogList()
           .equals(other.getIssueLogList());
-      result = result && (hasDatabaseStatus() == other.hasDatabaseStatus());
-      if (hasDatabaseStatus()) {
-        result = result && getDatabaseStatus()
-            .equals(other.getDatabaseStatus());
-      }
+      result = result && getDatabaseStatusList()
+          .equals(other.getDatabaseStatusList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -21218,9 +21469,9 @@ public final class MonitoringProtos {
         hash = (37 * hash) + ISSUE_LOG_FIELD_NUMBER;
         hash = (53 * hash) + getIssueLogList().hashCode();
       }
-      if (hasDatabaseStatus()) {
+      if (getDatabaseStatusCount() > 0) {
         hash = (37 * hash) + DATABASE_STATUS_FIELD_NUMBER;
-        hash = (53 * hash) + getDatabaseStatus().hashCode();
+        hash = (53 * hash) + getDatabaseStatusList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -21348,6 +21599,7 @@ public final class MonitoringProtos {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getIssueLogFieldBuilder();
+          getDatabaseStatusFieldBuilder();
         }
       }
       public Builder clear() {
@@ -21361,10 +21613,10 @@ public final class MonitoringProtos {
           issueLogBuilder_.clear();
         }
         if (databaseStatusBuilder_ == null) {
-          databaseStatus_ = null;
+          databaseStatus_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
-          databaseStatus_ = null;
-          databaseStatusBuilder_ = null;
+          databaseStatusBuilder_.clear();
         }
         return this;
       }
@@ -21401,6 +21653,10 @@ public final class MonitoringProtos {
           result.issueLog_ = issueLogBuilder_.build();
         }
         if (databaseStatusBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            databaseStatus_ = java.util.Collections.unmodifiableList(databaseStatus_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
           result.databaseStatus_ = databaseStatus_;
         } else {
           result.databaseStatus_ = databaseStatusBuilder_.build();
@@ -21476,8 +21732,31 @@ public final class MonitoringProtos {
             }
           }
         }
-        if (other.hasDatabaseStatus()) {
-          mergeDatabaseStatus(other.getDatabaseStatus());
+        if (databaseStatusBuilder_ == null) {
+          if (!other.databaseStatus_.isEmpty()) {
+            if (databaseStatus_.isEmpty()) {
+              databaseStatus_ = other.databaseStatus_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureDatabaseStatusIsMutable();
+              databaseStatus_.addAll(other.databaseStatus_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.databaseStatus_.isEmpty()) {
+            if (databaseStatusBuilder_.isEmpty()) {
+              databaseStatusBuilder_.dispose();
+              databaseStatusBuilder_ = null;
+              databaseStatus_ = other.databaseStatus_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              databaseStatusBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getDatabaseStatusFieldBuilder() : null;
+            } else {
+              databaseStatusBuilder_.addAllMessages(other.databaseStatus_);
+            }
+          }
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -21791,116 +22070,239 @@ public final class MonitoringProtos {
         return issueLogBuilder_;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.DatabaseStatus databaseStatus_ = null;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.monitoring.MonitoringProtos.DatabaseStatus, tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder, tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder> databaseStatusBuilder_;
-      /**
-       * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
-       */
-      public boolean hasDatabaseStatus() {
-        return databaseStatusBuilder_ != null || databaseStatus_ != null;
+      private java.util.List<tech.ydb.monitoring.MonitoringProtos.DatabaseStatus> databaseStatus_ =
+        java.util.Collections.emptyList();
+      private void ensureDatabaseStatusIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          databaseStatus_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.DatabaseStatus>(databaseStatus_);
+          bitField0_ |= 0x00000004;
+         }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.monitoring.MonitoringProtos.DatabaseStatus, tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder, tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder> databaseStatusBuilder_;
+
       /**
-       * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
        */
-      public tech.ydb.monitoring.MonitoringProtos.DatabaseStatus getDatabaseStatus() {
+      public java.util.List<tech.ydb.monitoring.MonitoringProtos.DatabaseStatus> getDatabaseStatusList() {
         if (databaseStatusBuilder_ == null) {
-          return databaseStatus_ == null ? tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.getDefaultInstance() : databaseStatus_;
+          return java.util.Collections.unmodifiableList(databaseStatus_);
         } else {
-          return databaseStatusBuilder_.getMessage();
+          return databaseStatusBuilder_.getMessageList();
         }
       }
       /**
-       * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
        */
-      public Builder setDatabaseStatus(tech.ydb.monitoring.MonitoringProtos.DatabaseStatus value) {
+      public int getDatabaseStatusCount() {
+        if (databaseStatusBuilder_ == null) {
+          return databaseStatus_.size();
+        } else {
+          return databaseStatusBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       */
+      public tech.ydb.monitoring.MonitoringProtos.DatabaseStatus getDatabaseStatus(int index) {
+        if (databaseStatusBuilder_ == null) {
+          return databaseStatus_.get(index);
+        } else {
+          return databaseStatusBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       */
+      public Builder setDatabaseStatus(
+          int index, tech.ydb.monitoring.MonitoringProtos.DatabaseStatus value) {
         if (databaseStatusBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          databaseStatus_ = value;
+          ensureDatabaseStatusIsMutable();
+          databaseStatus_.set(index, value);
           onChanged();
         } else {
-          databaseStatusBuilder_.setMessage(value);
+          databaseStatusBuilder_.setMessage(index, value);
         }
-
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
        */
       public Builder setDatabaseStatus(
+          int index, tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder builderForValue) {
+        if (databaseStatusBuilder_ == null) {
+          ensureDatabaseStatusIsMutable();
+          databaseStatus_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          databaseStatusBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       */
+      public Builder addDatabaseStatus(tech.ydb.monitoring.MonitoringProtos.DatabaseStatus value) {
+        if (databaseStatusBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDatabaseStatusIsMutable();
+          databaseStatus_.add(value);
+          onChanged();
+        } else {
+          databaseStatusBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       */
+      public Builder addDatabaseStatus(
+          int index, tech.ydb.monitoring.MonitoringProtos.DatabaseStatus value) {
+        if (databaseStatusBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDatabaseStatusIsMutable();
+          databaseStatus_.add(index, value);
+          onChanged();
+        } else {
+          databaseStatusBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       */
+      public Builder addDatabaseStatus(
           tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder builderForValue) {
         if (databaseStatusBuilder_ == null) {
-          databaseStatus_ = builderForValue.build();
+          ensureDatabaseStatusIsMutable();
+          databaseStatus_.add(builderForValue.build());
           onChanged();
         } else {
-          databaseStatusBuilder_.setMessage(builderForValue.build());
+          databaseStatusBuilder_.addMessage(builderForValue.build());
         }
-
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
        */
-      public Builder mergeDatabaseStatus(tech.ydb.monitoring.MonitoringProtos.DatabaseStatus value) {
+      public Builder addDatabaseStatus(
+          int index, tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder builderForValue) {
         if (databaseStatusBuilder_ == null) {
-          if (databaseStatus_ != null) {
-            databaseStatus_ =
-              tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.newBuilder(databaseStatus_).mergeFrom(value).buildPartial();
-          } else {
-            databaseStatus_ = value;
-          }
+          ensureDatabaseStatusIsMutable();
+          databaseStatus_.add(index, builderForValue.build());
           onChanged();
         } else {
-          databaseStatusBuilder_.mergeFrom(value);
+          databaseStatusBuilder_.addMessage(index, builderForValue.build());
         }
-
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       */
+      public Builder addAllDatabaseStatus(
+          java.lang.Iterable<? extends tech.ydb.monitoring.MonitoringProtos.DatabaseStatus> values) {
+        if (databaseStatusBuilder_ == null) {
+          ensureDatabaseStatusIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, databaseStatus_);
+          onChanged();
+        } else {
+          databaseStatusBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
        */
       public Builder clearDatabaseStatus() {
         if (databaseStatusBuilder_ == null) {
-          databaseStatus_ = null;
+          databaseStatus_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
-          databaseStatus_ = null;
-          databaseStatusBuilder_ = null;
+          databaseStatusBuilder_.clear();
         }
-
         return this;
       }
       /**
-       * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
        */
-      public tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder getDatabaseStatusBuilder() {
-        
-        onChanged();
-        return getDatabaseStatusFieldBuilder().getBuilder();
+      public Builder removeDatabaseStatus(int index) {
+        if (databaseStatusBuilder_ == null) {
+          ensureDatabaseStatusIsMutable();
+          databaseStatus_.remove(index);
+          onChanged();
+        } else {
+          databaseStatusBuilder_.remove(index);
+        }
+        return this;
       }
       /**
-       * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
        */
-      public tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder getDatabaseStatusOrBuilder() {
-        if (databaseStatusBuilder_ != null) {
-          return databaseStatusBuilder_.getMessageOrBuilder();
-        } else {
-          return databaseStatus_ == null ?
-              tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.getDefaultInstance() : databaseStatus_;
+      public tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder getDatabaseStatusBuilder(
+          int index) {
+        return getDatabaseStatusFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       */
+      public tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder getDatabaseStatusOrBuilder(
+          int index) {
+        if (databaseStatusBuilder_ == null) {
+          return databaseStatus_.get(index);  } else {
+          return databaseStatusBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>.Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<
+      public java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder> 
+           getDatabaseStatusOrBuilderList() {
+        if (databaseStatusBuilder_ != null) {
+          return databaseStatusBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(databaseStatus_);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       */
+      public tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder addDatabaseStatusBuilder() {
+        return getDatabaseStatusFieldBuilder().addBuilder(
+            tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       */
+      public tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder addDatabaseStatusBuilder(
+          int index) {
+        return getDatabaseStatusFieldBuilder().addBuilder(
+            index, tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
+       */
+      public java.util.List<tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder> 
+           getDatabaseStatusBuilderList() {
+        return getDatabaseStatusFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.DatabaseStatus, tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder, tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder> 
           getDatabaseStatusFieldBuilder() {
         if (databaseStatusBuilder_ == null) {
-          databaseStatusBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          databaseStatusBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.monitoring.MonitoringProtos.DatabaseStatus, tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder, tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder>(
-                  getDatabaseStatus(),
+                  databaseStatus_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
                   isClean());
           databaseStatus_ = null;
@@ -21957,6 +22359,11 @@ public final class MonitoringProtos {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Monitoring_StatusFlag_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Monitoring_StatusFlag_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Monitoring_SelfCheckRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -21966,11 +22373,6 @@ public final class MonitoringProtos {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Monitoring_SelfCheckResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Monitoring_StatusFlag_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Monitoring_StatusFlag_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Monitoring_SelfCheck_descriptor;
   private static final 
@@ -22107,88 +22509,90 @@ public final class MonitoringProtos {
     java.lang.String[] descriptorData = {
       "\n-kikimr/public/api/protos/ydb_monitorin" +
       "g.proto\022\016Ydb.Monitoring\032,kikimr/public/a" +
-      "pi/protos/ydb_operation.proto\"l\n\020SelfChe" +
-      "ckRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\022\035\n\025return_v" +
-      "erbose_status\030\002 \001(\010\"A\n\021SelfCheckResponse" +
-      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
-      "ration\"g\n\nStatusFlag\"Y\n\006Status\022\017\n\013UNSPEC" +
-      "IFIED\020\000\022\010\n\004GREY\020\001\022\t\n\005GREEN\020\002\022\010\n\004BLUE\020\003\022\n" +
-      "\n\006YELLOW\020\004\022\n\n\006ORANGE\020\005\022\007\n\003RED\020\006\"g\n\tSelfC",
-      "heck\"Z\n\006Result\022\017\n\013UNSPECIFIED\020\000\022\010\n\004GOOD\020" +
-      "\001\022\014\n\010DEGRADED\020\002\022\030\n\024MAINTENANCE_REQUIRED\020" +
-      "\003\022\r\n\tEMERGENCY\020\004\"T\n\022StoragePDiskStatus\022\n" +
-      "\n\002id\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.Monito" +
-      "ring.StatusFlag.Status\"\300\001\n\022StorageVDiskS" +
-      "tatus\022\n\n\002id\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb" +
-      ".Monitoring.StatusFlag.Status\0227\n\014vdisk_s" +
-      "tatus\030\003 \001(\0162!.Ydb.Monitoring.StatusFlag." +
-      "Status\0221\n\005pdisk\030\004 \001(\0132\".Ydb.Monitoring.S" +
-      "toragePDiskStatus\"\210\001\n\022StorageGroupStatus",
-      "\022\n\n\002id\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.Moni" +
-      "toring.StatusFlag.Status\0222\n\006vdisks\030\003 \003(\013" +
-      "2\".Ydb.Monitoring.StorageVDiskStatus\"\207\001\n" +
-      "\021StoragePoolStatus\022\n\n\002id\030\001 \001(\t\0222\n\007overal" +
+      "pi/protos/ydb_operation.proto\"g\n\nStatusF" +
+      "lag\"Y\n\006Status\022\017\n\013UNSPECIFIED\020\000\022\010\n\004GREY\020\001" +
+      "\022\t\n\005GREEN\020\002\022\010\n\004BLUE\020\003\022\n\n\006YELLOW\020\004\022\n\n\006ORA" +
+      "NGE\020\005\022\007\n\003RED\020\006\"\247\001\n\020SelfCheckRequest\0229\n\020o" +
+      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
+      "perationParams\022\035\n\025return_verbose_status\030" +
+      "\002 \001(\010\0229\n\016minimum_status\030\003 \001(\0162!.Ydb.Moni" +
+      "toring.StatusFlag.Status\"A\n\021SelfCheckRes",
+      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
+      "s.Operation\"g\n\tSelfCheck\"Z\n\006Result\022\017\n\013UN" +
+      "SPECIFIED\020\000\022\010\n\004GOOD\020\001\022\014\n\010DEGRADED\020\002\022\030\n\024M" +
+      "AINTENANCE_REQUIRED\020\003\022\r\n\tEMERGENCY\020\004\"T\n\022" +
+      "StoragePDiskStatus\022\n\n\002id\030\001 \001(\t\0222\n\007overal" +
       "l\030\002 \001(\0162!.Ydb.Monitoring.StatusFlag.Stat" +
-      "us\0222\n\006groups\030\003 \003(\0132\".Ydb.Monitoring.Stor" +
-      "ageGroupStatus\"u\n\rStorageStatus\0222\n\007overa" +
-      "ll\030\001 \001(\0162!.Ydb.Monitoring.StatusFlag.Sta" +
-      "tus\0220\n\005pools\030\002 \003(\0132!.Ydb.Monitoring.Stor" +
-      "agePoolStatus\"u\n\023ComputeTabletStatus\0222\n\007",
-      "overall\030\001 \001(\0162!.Ydb.Monitoring.StatusFla" +
-      "g.Status\022\014\n\004type\030\002 \001(\t\022\r\n\005state\030\003 \001(\t\022\r\n" +
-      "\005count\030\004 \001(\r\"c\n\020ThreadPoolStatus\0222\n\007over" +
-      "all\030\001 \001(\0162!.Ydb.Monitoring.StatusFlag.St" +
-      "atus\022\014\n\004name\030\002 \001(\t\022\r\n\005usage\030\003 \001(\002\"d\n\021Loa" +
-      "dAverageStatus\0222\n\007overall\030\001 \001(\0162!.Ydb.Mo" +
-      "nitoring.StatusFlag.Status\022\014\n\004load\030\002 \001(\002" +
-      "\022\r\n\005cores\030\003 \001(\r\"\353\001\n\021ComputeNodeStatus\022\n\n" +
-      "\002id\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.Monitor" +
-      "ing.StatusFlag.Status\0224\n\007tablets\030\003 \003(\0132#",
-      ".Ydb.Monitoring.ComputeTabletStatus\022/\n\005p" +
-      "ools\030\004 \003(\0132 .Ydb.Monitoring.ThreadPoolSt" +
-      "atus\022/\n\004load\030\005 \001(\0132!.Ydb.Monitoring.Load" +
-      "AverageStatus\"u\n\rComputeStatus\0222\n\007overal" +
-      "l\030\001 \001(\0162!.Ydb.Monitoring.StatusFlag.Stat" +
-      "us\0220\n\005nodes\030\002 \003(\0132!.Ydb.Monitoring.Compu" +
-      "teNodeStatus\"6\n\014LocationNode\022\n\n\002id\030\001 \001(\r" +
-      "\022\014\n\004host\030\002 \001(\t\022\014\n\004port\030\003 \001(\r\"0\n\024Location" +
-      "StoragePDisk\022\n\n\002id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\"W" +
-      "\n\024LocationStorageVDisk\022\n\n\002id\030\001 \001(\t\0223\n\005pd",
-      "isk\030\002 \001(\0132$.Ydb.Monitoring.LocationStora" +
-      "gePDisk\"W\n\024LocationStorageGroup\022\n\n\002id\030\001 " +
-      "\001(\t\0223\n\005vdisk\030\002 \001(\0132$.Ydb.Monitoring.Loca" +
-      "tionStorageVDisk\"X\n\023LocationStoragePool\022" +
-      "\014\n\004name\030\001 \001(\t\0223\n\005group\030\002 \001(\0132$.Ydb.Monit" +
-      "oring.LocationStorageGroup\"p\n\017LocationSt" +
-      "orage\022*\n\004node\030\001 \001(\0132\034.Ydb.Monitoring.Loc" +
-      "ationNode\0221\n\004pool\030\002 \001(\0132#.Ydb.Monitoring" +
-      ".LocationStoragePool\"#\n\023LocationComputeP" +
-      "ool\022\014\n\004name\030\001 \001(\t\"%\n\025LocationComputeTabl",
-      "et\022\014\n\004type\030\001 \001(\t\"\247\001\n\017LocationCompute\022*\n\004" +
-      "node\030\001 \001(\0132\034.Ydb.Monitoring.LocationNode" +
-      "\0221\n\004pool\030\002 \001(\0132#.Ydb.Monitoring.Location" +
-      "ComputePool\0225\n\006tablet\030\003 \001(\0132%.Ydb.Monito" +
-      "ring.LocationComputeTablet\" \n\020LocationDa" +
-      "tabase\022\014\n\004name\030\001 \001(\t\"\242\001\n\010Location\0220\n\007sto" +
-      "rage\030\001 \001(\0132\037.Ydb.Monitoring.LocationStor" +
-      "age\0220\n\007compute\030\002 \001(\0132\037.Ydb.Monitoring.Lo" +
-      "cationCompute\0222\n\010database\030\003 \001(\0132 .Ydb.Mo" +
-      "nitoring.LocationDatabase\"\226\001\n\010IssueLog\022\n",
-      "\n\002id\030\001 \001(\t\0221\n\006status\030\002 \001(\0162!.Ydb.Monitor" +
-      "ing.StatusFlag.Status\022\017\n\007message\030\003 \001(\t\022*" +
-      "\n\010location\030\004 \001(\0132\030.Ydb.Monitoring.Locati" +
-      "on\022\016\n\006reason\030\005 \003(\t\"\244\001\n\016DatabaseStatus\0222\n" +
-      "\007overall\030\001 \001(\0162!.Ydb.Monitoring.StatusFl" +
-      "ag.Status\022.\n\007storage\030\002 \001(\0132\035.Ydb.Monitor" +
-      "ing.StorageStatus\022.\n\007compute\030\003 \001(\0132\035.Ydb" +
-      ".Monitoring.ComputeStatus\"\264\001\n\017SelfCheckR" +
-      "esult\022;\n\021self_check_result\030\001 \001(\0162 .Ydb.M" +
-      "onitoring.SelfCheck.Result\022+\n\tissue_log\030",
-      "\002 \003(\0132\030.Ydb.Monitoring.IssueLog\0227\n\017datab" +
-      "ase_status\030\003 \001(\0132\036.Ydb.Monitoring.Databa" +
-      "seStatusB0\n\031tech.ydb.monitoringB\020M" +
-      "onitoringProtos\370\001\001b\006proto3"
+      "us\"\300\001\n\022StorageVDiskStatus\022\n\n\002id\030\001 \001(\t\0222\n" +
+      "\007overall\030\002 \001(\0162!.Ydb.Monitoring.StatusFl" +
+      "ag.Status\0227\n\014vdisk_status\030\003 \001(\0162!.Ydb.Mo" +
+      "nitoring.StatusFlag.Status\0221\n\005pdisk\030\004 \001(",
+      "\0132\".Ydb.Monitoring.StoragePDiskStatus\"\210\001" +
+      "\n\022StorageGroupStatus\022\n\n\002id\030\001 \001(\t\0222\n\007over" +
+      "all\030\002 \001(\0162!.Ydb.Monitoring.StatusFlag.St" +
+      "atus\0222\n\006vdisks\030\003 \003(\0132\".Ydb.Monitoring.St" +
+      "orageVDiskStatus\"\207\001\n\021StoragePoolStatus\022\n" +
+      "\n\002id\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.Monito" +
+      "ring.StatusFlag.Status\0222\n\006groups\030\003 \003(\0132\"" +
+      ".Ydb.Monitoring.StorageGroupStatus\"u\n\rSt" +
+      "orageStatus\0222\n\007overall\030\001 \001(\0162!.Ydb.Monit" +
+      "oring.StatusFlag.Status\0220\n\005pools\030\002 \003(\0132!",
+      ".Ydb.Monitoring.StoragePoolStatus\"u\n\023Com" +
+      "puteTabletStatus\0222\n\007overall\030\001 \001(\0162!.Ydb." +
+      "Monitoring.StatusFlag.Status\022\014\n\004type\030\002 \001" +
+      "(\t\022\r\n\005state\030\003 \001(\t\022\r\n\005count\030\004 \001(\r\"c\n\020Thre" +
+      "adPoolStatus\0222\n\007overall\030\001 \001(\0162!.Ydb.Moni" +
+      "toring.StatusFlag.Status\022\014\n\004name\030\002 \001(\t\022\r" +
+      "\n\005usage\030\003 \001(\002\"d\n\021LoadAverageStatus\0222\n\007ov" +
+      "erall\030\001 \001(\0162!.Ydb.Monitoring.StatusFlag." +
+      "Status\022\014\n\004load\030\002 \001(\002\022\r\n\005cores\030\003 \001(\r\"\353\001\n\021" +
+      "ComputeNodeStatus\022\n\n\002id\030\001 \001(\t\0222\n\007overall",
+      "\030\002 \001(\0162!.Ydb.Monitoring.StatusFlag.Statu" +
+      "s\0224\n\007tablets\030\003 \003(\0132#.Ydb.Monitoring.Comp" +
+      "uteTabletStatus\022/\n\005pools\030\004 \003(\0132 .Ydb.Mon" +
+      "itoring.ThreadPoolStatus\022/\n\004load\030\005 \001(\0132!" +
+      ".Ydb.Monitoring.LoadAverageStatus\"u\n\rCom" +
+      "puteStatus\0222\n\007overall\030\001 \001(\0162!.Ydb.Monito" +
+      "ring.StatusFlag.Status\0220\n\005nodes\030\002 \003(\0132!." +
+      "Ydb.Monitoring.ComputeNodeStatus\"6\n\014Loca" +
+      "tionNode\022\n\n\002id\030\001 \001(\r\022\014\n\004host\030\002 \001(\t\022\014\n\004po" +
+      "rt\030\003 \001(\r\"0\n\024LocationStoragePDisk\022\n\n\002id\030\001",
+      " \001(\t\022\014\n\004path\030\002 \001(\t\"W\n\024LocationStorageVDi" +
+      "sk\022\n\n\002id\030\001 \001(\t\0223\n\005pdisk\030\002 \001(\0132$.Ydb.Moni" +
+      "toring.LocationStoragePDisk\"W\n\024LocationS" +
+      "torageGroup\022\n\n\002id\030\001 \001(\t\0223\n\005vdisk\030\002 \001(\0132$" +
+      ".Ydb.Monitoring.LocationStorageVDisk\"X\n\023" +
+      "LocationStoragePool\022\014\n\004name\030\001 \001(\t\0223\n\005gro" +
+      "up\030\002 \001(\0132$.Ydb.Monitoring.LocationStorag" +
+      "eGroup\"p\n\017LocationStorage\022*\n\004node\030\001 \001(\0132" +
+      "\034.Ydb.Monitoring.LocationNode\0221\n\004pool\030\002 " +
+      "\001(\0132#.Ydb.Monitoring.LocationStoragePool",
+      "\"#\n\023LocationComputePool\022\014\n\004name\030\001 \001(\t\"%\n" +
+      "\025LocationComputeTablet\022\014\n\004type\030\001 \001(\t\"\247\001\n" +
+      "\017LocationCompute\022*\n\004node\030\001 \001(\0132\034.Ydb.Mon" +
+      "itoring.LocationNode\0221\n\004pool\030\002 \001(\0132#.Ydb" +
+      ".Monitoring.LocationComputePool\0225\n\006table" +
+      "t\030\003 \001(\0132%.Ydb.Monitoring.LocationCompute" +
+      "Tablet\" \n\020LocationDatabase\022\014\n\004name\030\001 \001(\t" +
+      "\"\242\001\n\010Location\0220\n\007storage\030\001 \001(\0132\037.Ydb.Mon" +
+      "itoring.LocationStorage\0220\n\007compute\030\002 \001(\013" +
+      "2\037.Ydb.Monitoring.LocationCompute\0222\n\010dat",
+      "abase\030\003 \001(\0132 .Ydb.Monitoring.LocationDat" +
+      "abase\"\226\001\n\010IssueLog\022\n\n\002id\030\001 \001(\t\0221\n\006status" +
+      "\030\002 \001(\0162!.Ydb.Monitoring.StatusFlag.Statu" +
+      "s\022\017\n\007message\030\003 \001(\t\022*\n\010location\030\004 \001(\0132\030.Y" +
+      "db.Monitoring.Location\022\016\n\006reason\030\005 \003(\t\"\262" +
+      "\001\n\016DatabaseStatus\022\014\n\004name\030\001 \001(\t\0222\n\007overa" +
+      "ll\030\002 \001(\0162!.Ydb.Monitoring.StatusFlag.Sta" +
+      "tus\022.\n\007storage\030\003 \001(\0132\035.Ydb.Monitoring.St" +
+      "orageStatus\022.\n\007compute\030\004 \001(\0132\035.Ydb.Monit" +
+      "oring.ComputeStatus\"\264\001\n\017SelfCheckResult\022",
+      ";\n\021self_check_result\030\001 \001(\0162 .Ydb.Monitor" +
+      "ing.SelfCheck.Result\022+\n\tissue_log\030\002 \003(\0132" +
+      "\030.Ydb.Monitoring.IssueLog\0227\n\017database_st" +
+      "atus\030\003 \003(\0132\036.Ydb.Monitoring.DatabaseStat" +
+      "usB0\n\031tech.ydb.monitoringB\020Monitor" +
+      "ingProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -22203,24 +22607,24 @@ public final class MonitoringProtos {
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
         }, assigner);
-    internal_static_Ydb_Monitoring_SelfCheckRequest_descriptor =
-      getDescriptor().getMessageTypes().get(0);
-    internal_static_Ydb_Monitoring_SelfCheckRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Monitoring_SelfCheckRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "ReturnVerboseStatus", });
-    internal_static_Ydb_Monitoring_SelfCheckResponse_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_Ydb_Monitoring_SelfCheckResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Monitoring_SelfCheckResponse_descriptor,
-        new java.lang.String[] { "Operation", });
     internal_static_Ydb_Monitoring_StatusFlag_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_Monitoring_StatusFlag_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Monitoring_StatusFlag_descriptor,
         new java.lang.String[] { });
+    internal_static_Ydb_Monitoring_SelfCheckRequest_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_Ydb_Monitoring_SelfCheckRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Monitoring_SelfCheckRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "ReturnVerboseStatus", "MinimumStatus", });
+    internal_static_Ydb_Monitoring_SelfCheckResponse_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_Ydb_Monitoring_SelfCheckResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Monitoring_SelfCheckResponse_descriptor,
+        new java.lang.String[] { "Operation", });
     internal_static_Ydb_Monitoring_SelfCheck_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_Ydb_Monitoring_SelfCheck_fieldAccessorTable = new
@@ -22364,7 +22768,7 @@ public final class MonitoringProtos {
     internal_static_Ydb_Monitoring_DatabaseStatus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Monitoring_DatabaseStatus_descriptor,
-        new java.lang.String[] { "Overall", "Storage", "Compute", });
+        new java.lang.String[] { "Name", "Overall", "Storage", "Compute", });
     internal_static_Ydb_Monitoring_SelfCheckResult_descriptor =
       getDescriptor().getMessageTypes().get(27);
     internal_static_Ydb_Monitoring_SelfCheckResult_fieldAccessorTable = new
