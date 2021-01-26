@@ -464,7 +464,7 @@ public class GrpcTransport implements RpcTransport {
             Properties prop = new Properties();
 
             try {
-                InputStream in = getClass().getResourceAsStream("/version.properties");
+                InputStream in = getClass().getResourceAsStream("/kikimr.version.properties");
                 prop.load(in);
 
                 String arcadiaSourceUrl = prop.getProperty("ArcadiaSourceUrl");
