@@ -21,6 +21,8 @@ public class CreateTableSettings extends RequestSettings<CreateTableSettings> {
     private StoragePolicy storagePolicy;
     @Nullable
     private ReplicationPolicy replicationPolicy;
+    @Nullable
+    private TtlSettings ttlSettings;
 
     @Nullable
     public String getPresetName() {
@@ -82,4 +84,12 @@ public class CreateTableSettings extends RequestSettings<CreateTableSettings> {
         return this;
     }
 
+    @Nullable
+    public TtlSettings getTtlSettings() {
+        return ttlSettings;
+    }
+
+    public void setTtlSettings(@Nullable TtlSettings ttlSettings) {
+        this.ttlSettings = ttlSettings;
+    }
 }

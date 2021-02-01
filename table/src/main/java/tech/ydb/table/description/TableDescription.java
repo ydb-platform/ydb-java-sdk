@@ -1,5 +1,6 @@
 package tech.ydb.table.description;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -7,10 +8,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.ImmutableList;
 import tech.ydb.table.values.OptionalType;
 import tech.ydb.table.values.Type;
-
 
 /**
  * @author Sergey Polovko
@@ -20,11 +22,14 @@ public class TableDescription {
     private final List<String> primaryKeys;
     private final List<TableColumn> columns;
     private final List<TableIndex> indexes;
+    @Nullable
+    private final TableStats tableStats;
 
-    private TableDescription(List<String> primaryKeys, List<TableColumn> columns, List<TableIndex> indexes) {
+    private TableDescription(List<String> primaryKeys, List<TableColumn> columns, List<TableIndex> indexes, TableStats tableStats) {
         this.primaryKeys = primaryKeys;
         this.columns = columns;
         this.indexes = indexes;
+        this.tableStats = tableStats;
     }
 
     public static Builder newBuilder() {
@@ -43,6 +48,11 @@ public class TableDescription {
         return indexes;
     }
 
+    @Nullable
+    public TableStats getTableStats() {
+        return tableStats;
+    }
+
     /**
      * BUILDER
      */
@@ -51,6 +61,7 @@ public class TableDescription {
         private List<String> primaryKeys = Collections.emptyList();
         private LinkedHashMap<String, Type> columns = new LinkedHashMap<>();
         private List<TableIndex> indexes = Collections.emptyList();
+        private TableStats tableStats;
 
         public Builder addNonnullColumn(String name, Type type) {
             columns.put(name, type);
@@ -110,6 +121,11 @@ public class TableDescription {
             return this;
         }
 
+        public Builder tableStats(TableStats tableStats) {
+            this.tableStats = tableStats;
+            return this;
+        }
+
         public TableDescription build() {
             if (columns.isEmpty()) {
                 throw new IllegalStateException("cannot build table description with no columns");
@@ -121,7 +137,7 @@ public class TableDescription {
                 columns[i++] = new TableColumn(e.getKey(), e.getValue());
             }
 
-            return new TableDescription(primaryKeys, ImmutableList.copyOf(columns), ImmutableList.copyOf(indexes));
+            return new TableDescription(primaryKeys, ImmutableList.copyOf(columns), ImmutableList.copyOf(indexes), tableStats);
         }
 
         private void checkColumnKnown(String name) {
@@ -129,5 +145,40 @@ public class TableDescription {
                 throw new IllegalArgumentException("unknown column name: " + name);
             }
         }
+    }
+
+    public static class TableStats {
+        @Nullable
+        private final Instant creationTime;
+        @Nullable
+        private final Instant modificationTime;
+        private final long rowsEstimate;
+        private final long storeSize;
+
+        public TableStats(@Nullable Instant creationTime, @Nullable Instant modificationTime, long rowsEstimate, long storeSize) {
+            this.creationTime = creationTime;
+            this.modificationTime = modificationTime;
+            this.rowsEstimate = rowsEstimate;
+            this.storeSize = storeSize;
+        }
+
+        @Nullable
+        public Instant getCreationTime() {
+            return creationTime;
+        }
+
+        @Nullable
+        public Instant getModificationTime() {
+            return modificationTime;
+        }
+
+        public long getRowsEstimate() {
+            return rowsEstimate;
+        }
+
+        public long getStoreSize() {
+            return storeSize;
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 package tech.ydb.table.impl;
 
+import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
@@ -8,6 +9,7 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
+import com.google.protobuf.Timestamp;
 import tech.ydb.StatusCodesProtos.StatusIds;
 import tech.ydb.ValueProtos;
 import tech.ydb.common.CommonProtos;
@@ -53,6 +55,7 @@ import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.settings.ReplicationPolicy;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.settings.StoragePolicy;
+import tech.ydb.table.settings.TtlSettings;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TransactionMode;
 import tech.ydb.table.transaction.TxControl;
@@ -221,6 +224,15 @@ class SessionImpl implements Session {
             }
         }
 
+        {
+            TtlSettings ttlSettings = settings.getTtlSettings();
+            if (ttlSettings != null) {
+                YdbTable.DateTypeColumnModeSettings.Builder dateTypeColumnBuilder = request.getTtlSettingsBuilder().getDateTypeColumnBuilder();
+                dateTypeColumnBuilder.setColumnName(ttlSettings.getDateTimeColumn());
+                dateTypeColumnBuilder.setExpireAfterSeconds(ttlSettings.getExpireAfterSeconds());
+            }
+        }
+
         final long deadlineAfter = settings.getDeadlineAfter();
         return tableRpc.createTable(request.build(), deadlineAfter)
             .thenCompose(response -> {
@@ -274,6 +286,13 @@ class SessionImpl implements Session {
 
         settings.forEachDropColumn(builder::addDropColumns);
 
+        TtlSettings ttlSettings = settings.getTtlSettings();
+        if (ttlSettings != null) {
+            YdbTable.DateTypeColumnModeSettings.Builder dateTypeColumnBuilder = builder.getSetTtlSettingsBuilder().getDateTypeColumnBuilder();
+            dateTypeColumnBuilder.setColumnName(ttlSettings.getDateTimeColumn());
+            dateTypeColumnBuilder.setExpireAfterSeconds(ttlSettings.getExpireAfterSeconds());
+        }
+
         final long deadlineAfter = settings.getDeadlineAfter();
         return tableRpc.alterTable(builder.build(), deadlineAfter)
             .thenCompose(response -> {
@@ -309,6 +328,7 @@ class SessionImpl implements Session {
             .setSessionId(id)
             .setPath(path)
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
+            .setIncludeTableStats(settings.isIncludeTableStats())
             .build();
 
         final long deadlineAfter = settings.getDeadlineAfter();
@@ -336,6 +356,17 @@ class SessionImpl implements Session {
             YdbTable.TableIndexDescription index = result.getIndexes(i);
             description.addGlobalIndex(index.getName(), index.getIndexColumnsList());
         }
+        YdbTable.TableStats resultTableStats = result.getTableStats();
+        if (resultTableStats != null) {
+            Timestamp creationTime = resultTableStats.getCreationTime();
+            Instant createdAt = creationTime == null ? null : Instant.ofEpochSecond(creationTime.getSeconds(), creationTime.getNanos());
+            Timestamp modificationTime = resultTableStats.getCreationTime();
+            Instant modifiedAt = modificationTime == null ? null : Instant.ofEpochSecond(modificationTime.getSeconds(), modificationTime.getNanos());
+            TableDescription.TableStats tableStats = new TableDescription.TableStats(
+                    createdAt, modifiedAt, resultTableStats.getRowsEstimate(), resultTableStats.getStoreSize());
+            description.tableStats(tableStats);
+        }
+
         return description.build();
     }
 

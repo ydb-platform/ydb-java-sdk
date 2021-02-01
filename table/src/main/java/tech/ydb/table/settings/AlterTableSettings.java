@@ -16,6 +16,7 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
 
     private LinkedHashMap<String, Type> addColumns = new LinkedHashMap<>();
     private HashSet<String> dropColumns = new HashSet<>();
+    private TtlSettings ttlSettings;
 
     public AlterTableSettings() {
     }
@@ -38,5 +39,13 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
 
     public void forEachDropColumn(Consumer<String> fn) {
         dropColumns.forEach(fn);
+    }
+
+    public TtlSettings getTtlSettings() {
+        return ttlSettings;
+    }
+
+    public void setTtlSettings(TtlSettings ttlSettings) {
+        this.ttlSettings = ttlSettings;
     }
 }
