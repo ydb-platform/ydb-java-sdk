@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import tech.ydb.table.YdbTable;
 
-import static tech.ydb.table.YdbTable.ExecuteScanQueryRequest.Mode.MODE_UNSPECIFIED;
+import static tech.ydb.table.YdbTable.ExecuteScanQueryRequest.Mode.MODE_EXEC;
 import static tech.ydb.table.YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_NONE;
 
 public class ExecuteScanQuerySettings {
@@ -25,7 +25,7 @@ public class ExecuteScanQuerySettings {
 
     public static final class Builder {
         private long timeoutNanos = Duration.ofSeconds(60).toNanos();
-        private YdbTable.ExecuteScanQueryRequest.Mode mode = MODE_UNSPECIFIED;
+        private YdbTable.ExecuteScanQueryRequest.Mode mode = MODE_EXEC;
         private YdbTable.QueryStatsCollection.Mode collectStats = STATS_COLLECTION_NONE;
 
         public Builder timeout(long duration, TimeUnit unit) {
