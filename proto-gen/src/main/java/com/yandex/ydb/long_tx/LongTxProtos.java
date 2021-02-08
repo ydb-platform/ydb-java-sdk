@@ -122,16 +122,17 @@ public final class LongTxProtos {
        */
       FORMAT_UNSPECIFIED(0),
       /**
-       * <pre>
-       *CLICKHOUSE            = 0x0002;
-       *APACHE_ARROW          = 0x0003;
-       *APACHE_PARQUET        = 0x0004;
-       *APACHE_ORC            = 0x0005;
-       * </pre>
-       *
        * <code>YDB_ROWS = 1;</code>
        */
       YDB_ROWS(1),
+      /**
+       * <pre>
+       *CLICKHOUSE            = 0x0002;
+       * </pre>
+       *
+       * <code>APACHE_ARROW = 3;</code>
+       */
+      APACHE_ARROW(3),
       UNRECOGNIZED(-1),
       ;
 
@@ -140,16 +141,17 @@ public final class LongTxProtos {
        */
       public static final int FORMAT_UNSPECIFIED_VALUE = 0;
       /**
-       * <pre>
-       *CLICKHOUSE            = 0x0002;
-       *APACHE_ARROW          = 0x0003;
-       *APACHE_PARQUET        = 0x0004;
-       *APACHE_ORC            = 0x0005;
-       * </pre>
-       *
        * <code>YDB_ROWS = 1;</code>
        */
       public static final int YDB_ROWS_VALUE = 1;
+      /**
+       * <pre>
+       *CLICKHOUSE            = 0x0002;
+       * </pre>
+       *
+       * <code>APACHE_ARROW = 3;</code>
+       */
+      public static final int APACHE_ARROW_VALUE = 3;
 
 
       public final int getNumber() {
@@ -172,6 +174,7 @@ public final class LongTxProtos {
         switch (value) {
           case 0: return FORMAT_UNSPECIFIED;
           case 1: return YDB_ROWS;
+          case 3: return APACHE_ARROW;
           default: return null;
         }
       }
@@ -12858,54 +12861,55 @@ public final class LongTxProtos {
     java.lang.String[] descriptorData = {
       "\n0kikimr/public/api/protos/draft/ydb_lon" +
       "g_tx.proto\022\nYdb.LongTx\032,kikimr/public/ap" +
-      "i/protos/ydb_operation.proto\"m\n\004Data\022\'\n\006" +
+      "i/protos/ydb_operation.proto\"\177\n\004Data\022\'\n\006" +
       "format\030\001 \001(\0162\027.Ydb.LongTx.Data.Format\022\014\n" +
-      "\004data\030\002 \001(\014\".\n\006Format\022\026\n\022FORMAT_UNSPECIF" +
-      "IED\020\000\022\014\n\010YDB_ROWS\020\001\"5\n\017TransactionMeta\022\022" +
-      "\n\nlong_tx_id\030\001 \001(\014\022\016\n\006routes\030\002 \001(\014\"\337\001\n\027B" +
-      "eginTransactionRequest\0229\n\020operation_para" +
-      "ms\030\001 \001(\0132\037.Ydb.Operations.OperationParam" +
-      "s\022=\n\007tx_type\030\002 \001(\0162,.Ydb.LongTx.BeginTra",
-      "nsactionRequest.TxTypeId\022\r\n\005paths\030\003 \003(\t\"" +
-      ";\n\010TxTypeId\022\032\n\026TX_TYPE_ID_UNSPECIFIED\020\000\022" +
-      "\t\n\005WRITE\020\001\022\010\n\004READ\020\002\"F\n\026BeginTransaction" +
-      "Result\022,\n\007tx_meta\030\001 \001(\0132\033.Ydb.LongTx.Tra" +
-      "nsactionMeta\"H\n\030BeginTransactionResponse" +
-      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
-      "ration\"\203\001\n\030CommitTransactionRequest\0229\n\020o" +
-      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
-      "perationParams\022,\n\007tx_meta\030\002 \001(\0132\033.Ydb.Lo" +
-      "ngTx.TransactionMeta\"G\n\027CommitTransactio",
-      "nResult\022,\n\007tx_meta\030\001 \001(\0132\033.Ydb.LongTx.Tr" +
-      "ansactionMeta\"I\n\031CommitTransactionRespon" +
-      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
-      "peration\"\205\001\n\032RollbackTransactionRequest\022" +
-      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
-      "ns.OperationParams\022,\n\007tx_meta\030\002 \001(\0132\033.Yd" +
-      "b.LongTx.TransactionMeta\"I\n\031RollbackTran" +
-      "sactionResult\022,\n\007tx_meta\030\001 \001(\0132\033.Ydb.Lon" +
-      "gTx.TransactionMeta\"K\n\033RollbackTransacti" +
-      "onResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper",
-      "ations.Operation\"\267\001\n\014WriteRequest\0229\n\020ope" +
-      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
-      "rationParams\022,\n\007tx_meta\030\002 \001(\0132\033.Ydb.Long" +
-      "Tx.TransactionMeta\022\014\n\004path\030\003 \001(\t\022\020\n\010dedu" +
-      "p_id\030\004 \001(\t\022\036\n\004data\030\005 \001(\0132\020.Ydb.LongTx.Da" +
-      "ta\"[\n\013WriteResult\022,\n\007tx_meta\030\001 \001(\0132\033.Ydb" +
-      ".LongTx.TransactionMeta\022\014\n\004path\030\002 \001(\t\022\020\n" +
-      "\010dedup_id\030\003 \001(\t\"=\n\rWriteResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\261" +
-      "\001\n\013ReadRequest\0229\n\020operation_params\030\001 \001(\013",
-      "2\037.Ydb.Operations.OperationParams\022,\n\007tx_" +
-      "meta\030\002 \001(\0132\033.Ydb.LongTx.TransactionMeta\022" +
-      "\014\n\004path\030\003 \001(\t\022\r\n\003sql\030\013 \001(\tH\000\022\023\n\tgenerate" +
-      "d\030\014 \001(\014H\000B\007\n\005query\"\211\001\n\nReadResult\022,\n\007tx_" +
-      "meta\030\001 \001(\0132\033.Ydb.LongTx.TransactionMeta\022" +
-      "\014\n\004path\030\002 \001(\t\022\r\n\005chunk\030\003 \001(\004\022\020\n\010finished" +
-      "\030\004 \001(\010\022\036\n\004data\030\005 \001(\0132\020.Ydb.LongTx.Data\"<" +
-      "\n\014ReadResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
-      "Operations.OperationB)\n\026tech.ydb.l" +
-      "ong_txB\014LongTxProtos\370\001\001b\006proto3"
+      "\004data\030\002 \001(\014\"@\n\006Format\022\026\n\022FORMAT_UNSPECIF" +
+      "IED\020\000\022\014\n\010YDB_ROWS\020\001\022\020\n\014APACHE_ARROW\020\003\"5\n" +
+      "\017TransactionMeta\022\022\n\nlong_tx_id\030\001 \001(\014\022\016\n\006" +
+      "routes\030\002 \001(\014\"\337\001\n\027BeginTransactionRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\022=\n\007tx_type\030\002 \001(\0162,.Y",
+      "db.LongTx.BeginTransactionRequest.TxType" +
+      "Id\022\r\n\005paths\030\003 \003(\t\";\n\010TxTypeId\022\032\n\026TX_TYPE" +
+      "_ID_UNSPECIFIED\020\000\022\t\n\005WRITE\020\001\022\010\n\004READ\020\002\"F" +
+      "\n\026BeginTransactionResult\022,\n\007tx_meta\030\001 \001(" +
+      "\0132\033.Ydb.LongTx.TransactionMeta\"H\n\030BeginT" +
+      "ransactionResponse\022,\n\toperation\030\001 \001(\0132\031." +
+      "Ydb.Operations.Operation\"\203\001\n\030CommitTrans" +
+      "actionRequest\0229\n\020operation_params\030\001 \001(\0132" +
+      "\037.Ydb.Operations.OperationParams\022,\n\007tx_m" +
+      "eta\030\002 \001(\0132\033.Ydb.LongTx.TransactionMeta\"G",
+      "\n\027CommitTransactionResult\022,\n\007tx_meta\030\001 \001" +
+      "(\0132\033.Ydb.LongTx.TransactionMeta\"I\n\031Commi" +
+      "tTransactionResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"\205\001\n\032RollbackT" +
+      "ransactionRequest\0229\n\020operation_params\030\001 " +
+      "\001(\0132\037.Ydb.Operations.OperationParams\022,\n\007" +
+      "tx_meta\030\002 \001(\0132\033.Ydb.LongTx.TransactionMe" +
+      "ta\"I\n\031RollbackTransactionResult\022,\n\007tx_me" +
+      "ta\030\001 \001(\0132\033.Ydb.LongTx.TransactionMeta\"K\n" +
+      "\033RollbackTransactionResponse\022,\n\toperatio",
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\267\001\n\014W" +
+      "riteRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\022,\n\007tx_met" +
+      "a\030\002 \001(\0132\033.Ydb.LongTx.TransactionMeta\022\014\n\004" +
+      "path\030\003 \001(\t\022\020\n\010dedup_id\030\004 \001(\t\022\036\n\004data\030\005 \001" +
+      "(\0132\020.Ydb.LongTx.Data\"[\n\013WriteResult\022,\n\007t" +
+      "x_meta\030\001 \001(\0132\033.Ydb.LongTx.TransactionMet" +
+      "a\022\014\n\004path\030\002 \001(\t\022\020\n\010dedup_id\030\003 \001(\t\"=\n\rWri" +
+      "teResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.Operation\"\261\001\n\013ReadRequest\0229\n\020oper",
+      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
+      "ationParams\022,\n\007tx_meta\030\002 \001(\0132\033.Ydb.LongT" +
+      "x.TransactionMeta\022\014\n\004path\030\003 \001(\t\022\r\n\003sql\030\013" +
+      " \001(\tH\000\022\023\n\tgenerated\030\014 \001(\014H\000B\007\n\005query\"\211\001\n" +
+      "\nReadResult\022,\n\007tx_meta\030\001 \001(\0132\033.Ydb.LongT" +
+      "x.TransactionMeta\022\014\n\004path\030\002 \001(\t\022\r\n\005chunk" +
+      "\030\003 \001(\004\022\020\n\010finished\030\004 \001(\010\022\036\n\004data\030\005 \001(\0132\020" +
+      ".Ydb.LongTx.Data\"<\n\014ReadResponse\022,\n\toper" +
+      "ation\030\001 \001(\0132\031.Ydb.Operations.OperationB)" +
+      "\n\026tech.ydb.long_txB\014LongTxProtos\370\001",
+      "\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

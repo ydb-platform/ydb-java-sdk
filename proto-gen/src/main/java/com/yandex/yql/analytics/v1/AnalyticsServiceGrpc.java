@@ -58,37 +58,6 @@ public final class AnalyticsServiceGrpc {
     return getExecuteQueryMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoRequest,
-      com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoResponse> getGetResultInfoMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "GetResultInfo",
-      requestType = com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoRequest.class,
-      responseType = com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoRequest,
-      com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoResponse> getGetResultInfoMethod() {
-    io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoRequest, com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoResponse> getGetResultInfoMethod;
-    if ((getGetResultInfoMethod = AnalyticsServiceGrpc.getGetResultInfoMethod) == null) {
-      synchronized (AnalyticsServiceGrpc.class) {
-        if ((getGetResultInfoMethod = AnalyticsServiceGrpc.getGetResultInfoMethod) == null) {
-          AnalyticsServiceGrpc.getGetResultInfoMethod = getGetResultInfoMethod =
-              io.grpc.MethodDescriptor.<com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoRequest, com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetResultInfo"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new AnalyticsServiceMethodDescriptorSupplier("GetResultInfo"))
-              .build();
-        }
-      }
-    }
-    return getGetResultInfoMethod;
-  }
-
   private static volatile io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest,
       com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse> getGetResultDataMethod;
 
@@ -213,6 +182,37 @@ public final class AnalyticsServiceGrpc {
     return getGetQueriesMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest,
+      com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse> getModifyQueryMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ModifyQuery",
+      requestType = com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest.class,
+      responseType = com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest,
+      com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse> getModifyQueryMethod() {
+    io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest, com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse> getModifyQueryMethod;
+    if ((getModifyQueryMethod = AnalyticsServiceGrpc.getModifyQueryMethod) == null) {
+      synchronized (AnalyticsServiceGrpc.class) {
+        if ((getModifyQueryMethod = AnalyticsServiceGrpc.getModifyQueryMethod) == null) {
+          AnalyticsServiceGrpc.getModifyQueryMethod = getModifyQueryMethod =
+              io.grpc.MethodDescriptor.<com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest, com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ModifyQuery"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new AnalyticsServiceMethodDescriptorSupplier("ModifyQuery"))
+              .build();
+        }
+      }
+    }
+    return getModifyQueryMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest,
       com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse> getGetHistoryMethod;
 
@@ -242,6 +242,37 @@ public final class AnalyticsServiceGrpc {
       }
     }
     return getGetHistoryMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest,
+      com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse> getModifyHistoryMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ModifyHistory",
+      requestType = com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest.class,
+      responseType = com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest,
+      com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse> getModifyHistoryMethod() {
+    io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest, com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse> getModifyHistoryMethod;
+    if ((getModifyHistoryMethod = AnalyticsServiceGrpc.getModifyHistoryMethod) == null) {
+      synchronized (AnalyticsServiceGrpc.class) {
+        if ((getModifyHistoryMethod = AnalyticsServiceGrpc.getModifyHistoryMethod) == null) {
+          AnalyticsServiceGrpc.getModifyHistoryMethod = getModifyHistoryMethod =
+              io.grpc.MethodDescriptor.<com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest, com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ModifyHistory"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new AnalyticsServiceMethodDescriptorSupplier("ModifyHistory"))
+              .build();
+        }
+      }
+    }
+    return getModifyHistoryMethod;
   }
 
   /**
@@ -301,13 +332,6 @@ public final class AnalyticsServiceGrpc {
 
     /**
      */
-    public void getResultInfo(com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetResultInfoMethod(), responseObserver);
-    }
-
-    /**
-     */
     public void getResultData(com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest request,
         io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getGetResultDataMethod(), responseObserver);
@@ -336,9 +360,23 @@ public final class AnalyticsServiceGrpc {
 
     /**
      */
+    public void modifyQuery(com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getModifyQueryMethod(), responseObserver);
+    }
+
+    /**
+     */
     public void getHistory(com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest request,
         io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getGetHistoryMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void modifyHistory(com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getModifyHistoryMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
@@ -350,13 +388,6 @@ public final class AnalyticsServiceGrpc {
                 com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest,
                 com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse>(
                   this, METHODID_EXECUTE_QUERY)))
-          .addMethod(
-            getGetResultInfoMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoRequest,
-                com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoResponse>(
-                  this, METHODID_GET_RESULT_INFO)))
           .addMethod(
             getGetResultDataMethod(),
             asyncUnaryCall(
@@ -386,12 +417,26 @@ public final class AnalyticsServiceGrpc {
                 com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse>(
                   this, METHODID_GET_QUERIES)))
           .addMethod(
+            getModifyQueryMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest,
+                com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse>(
+                  this, METHODID_MODIFY_QUERY)))
+          .addMethod(
             getGetHistoryMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest,
                 com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse>(
                   this, METHODID_GET_HISTORY)))
+          .addMethod(
+            getModifyHistoryMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest,
+                com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse>(
+                  this, METHODID_MODIFY_HISTORY)))
           .build();
     }
   }
@@ -416,14 +461,6 @@ public final class AnalyticsServiceGrpc {
         io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getExecuteQueryMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
-    public void getResultInfo(com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getGetResultInfoMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -460,10 +497,26 @@ public final class AnalyticsServiceGrpc {
 
     /**
      */
+    public void modifyQuery(com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getModifyQueryMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
     public void getHistory(com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest request,
         io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getGetHistoryMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void modifyHistory(com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getModifyHistoryMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -486,13 +539,6 @@ public final class AnalyticsServiceGrpc {
     public com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse executeQuery(com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest request) {
       return blockingUnaryCall(
           getChannel(), getExecuteQueryMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoResponse getResultInfo(com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getGetResultInfoMethod(), getCallOptions(), request);
     }
 
     /**
@@ -525,9 +571,23 @@ public final class AnalyticsServiceGrpc {
 
     /**
      */
+    public com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse modifyQuery(com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getModifyQueryMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
     public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse getHistory(com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest request) {
       return blockingUnaryCall(
           getChannel(), getGetHistoryMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse modifyHistory(com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getModifyHistoryMethod(), getCallOptions(), request);
     }
   }
 
@@ -551,14 +611,6 @@ public final class AnalyticsServiceGrpc {
         com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getExecuteQueryMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoResponse> getResultInfo(
-        com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getGetResultInfoMethod(), getCallOptions()), request);
     }
 
     /**
@@ -595,20 +647,37 @@ public final class AnalyticsServiceGrpc {
 
     /**
      */
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse> modifyQuery(
+        com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getModifyQueryMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse> getHistory(
         com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getGetHistoryMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse> modifyHistory(
+        com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getModifyHistoryMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_EXECUTE_QUERY = 0;
-  private static final int METHODID_GET_RESULT_INFO = 1;
-  private static final int METHODID_GET_RESULT_DATA = 2;
-  private static final int METHODID_GET_CONNECTIONS = 3;
-  private static final int METHODID_MODIFY_CONNECTIONS = 4;
-  private static final int METHODID_GET_QUERIES = 5;
+  private static final int METHODID_GET_RESULT_DATA = 1;
+  private static final int METHODID_GET_CONNECTIONS = 2;
+  private static final int METHODID_MODIFY_CONNECTIONS = 3;
+  private static final int METHODID_GET_QUERIES = 4;
+  private static final int METHODID_MODIFY_QUERY = 5;
   private static final int METHODID_GET_HISTORY = 6;
+  private static final int METHODID_MODIFY_HISTORY = 7;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -631,10 +700,6 @@ public final class AnalyticsServiceGrpc {
           serviceImpl.executeQuery((com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest) request,
               (io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse>) responseObserver);
           break;
-        case METHODID_GET_RESULT_INFO:
-          serviceImpl.getResultInfo((com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoRequest) request,
-              (io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.GetResultInfoResponse>) responseObserver);
-          break;
         case METHODID_GET_RESULT_DATA:
           serviceImpl.getResultData((com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest) request,
               (io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse>) responseObserver);
@@ -651,9 +716,17 @@ public final class AnalyticsServiceGrpc {
           serviceImpl.getQueries((com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest) request,
               (io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse>) responseObserver);
           break;
+        case METHODID_MODIFY_QUERY:
+          serviceImpl.modifyQuery((com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse>) responseObserver);
+          break;
         case METHODID_GET_HISTORY:
           serviceImpl.getHistory((com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest) request,
               (io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse>) responseObserver);
+          break;
+        case METHODID_MODIFY_HISTORY:
+          serviceImpl.modifyHistory((com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -717,12 +790,13 @@ public final class AnalyticsServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new AnalyticsServiceFileDescriptorSupplier())
               .addMethod(getExecuteQueryMethod())
-              .addMethod(getGetResultInfoMethod())
               .addMethod(getGetResultDataMethod())
               .addMethod(getGetConnectionsMethod())
               .addMethod(getModifyConnectionsMethod())
               .addMethod(getGetQueriesMethod())
+              .addMethod(getModifyQueryMethod())
               .addMethod(getGetHistoryMethod())
+              .addMethod(getModifyHistoryMethod())
               .build();
         }
       }
