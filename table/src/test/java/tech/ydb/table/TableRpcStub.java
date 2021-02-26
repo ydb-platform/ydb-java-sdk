@@ -147,6 +147,11 @@ public class TableRpcStub implements TableRpc {
     }
 
     @Override
+    public CompletableFuture<Result<YdbTable.BulkUpsertResponse>> bulkUpsert(YdbTable.BulkUpsertRequest request, long deadlineAfter) {
+        return notImplemented("bulkUpsert()");
+    }
+
+    @Override
     public String getDatabase() {
         return "";
     }

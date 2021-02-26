@@ -38,6 +38,7 @@ import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.AutoPartitioningPolicy;
 import tech.ydb.table.settings.BeginTxSettings;
+import tech.ydb.table.settings.BulkUpsertSettings;
 import tech.ydb.table.settings.CloseSessionSettings;
 import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
@@ -60,6 +61,7 @@ import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TransactionMode;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.utils.OperationParamUtils;
+import tech.ydb.table.values.ListValue;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
@@ -737,6 +739,30 @@ class SessionImpl implements Session {
                     deadlineAfter
                 );
             }));
+    }
+
+    @Override
+    public CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings) {
+        ValueProtos.TypedValue typedRows = ValueProtos.TypedValue.newBuilder()
+                .setType(rows.getType().toPb())
+                .setValue(rows.toPb())
+                .build();
+
+        YdbTable.BulkUpsertRequest request = YdbTable.BulkUpsertRequest.newBuilder()
+                .setTable(tablePath)
+                .setRows(typedRows)
+                .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
+                .build();
+
+        final long deadlineAfter = settings.getDeadlineAfter();
+
+        return interceptStatus(tableRpc.bulkUpsert(request, deadlineAfter)
+           .thenCompose(response -> {
+               if (!response.isSuccess()) {
+                   return CompletableFuture.completedFuture(response.toStatus());
+               }
+               return operationTray.waitStatus(response.expect("bulkUpsert()").getOperation(), deadlineAfter);
+           }));
     }
 
     private static SessionStatus mapSessionStatus(YdbTable.KeepAliveResult result) {

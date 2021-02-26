@@ -14,6 +14,7 @@ import tech.ydb.table.query.Params;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.BeginTxSettings;
+import tech.ydb.table.settings.BulkUpsertSettings;
 import tech.ydb.table.settings.CloseSessionSettings;
 import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
@@ -32,6 +33,7 @@ import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TransactionMode;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.utils.Async;
+import tech.ydb.table.values.ListValue;
 
 
 /**
@@ -135,6 +137,11 @@ public class SessionStub implements Session {
     @Override
     public CompletableFuture<Result<SessionStatus>> keepAlive(KeepAliveSessionSettings settings) {
         return notImplemented("keepAlive()");
+    }
+
+    @Override
+    public CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings) {
+        return notImplemented("bulkUpsert()");
     }
 
     @Override

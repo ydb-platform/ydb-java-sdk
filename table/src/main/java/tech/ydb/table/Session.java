@@ -13,6 +13,7 @@ import tech.ydb.table.query.Params;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.BeginTxSettings;
+import tech.ydb.table.settings.BulkUpsertSettings;
 import tech.ydb.table.settings.CloseSessionSettings;
 import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
@@ -30,6 +31,7 @@ import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TransactionMode;
 import tech.ydb.table.transaction.TxControl;
+import tech.ydb.table.values.ListValue;
 
 
 /**
@@ -116,6 +118,8 @@ public interface Session {
     CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings, Consumer<ResultSetReader> fn);
 
     CompletableFuture<Result<SessionStatus>> keepAlive(KeepAliveSessionSettings settings);
+
+    CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings);
 
     default CompletableFuture<Result<SessionStatus>> keepAlive() {
         return keepAlive(new KeepAliveSessionSettings());

@@ -167,6 +167,11 @@ public final class GrpcTableRpc implements TableRpc {
     }
 
     @Override
+    public CompletableFuture<Result<YdbTable.BulkUpsertResponse>> bulkUpsert(YdbTable.BulkUpsertRequest request, long deadlineAfter) {
+        return transport.unaryCall(TableServiceGrpc.getBulkUpsertMethod(), request, deadlineAfter);
+    }
+
+    @Override
     public String getDatabase() {
         return transport.getDatabase();
     }
