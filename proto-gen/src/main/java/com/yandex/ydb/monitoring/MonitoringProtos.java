@@ -19065,6 +19065,21 @@ public final class MonitoringProtos {
      */
     com.google.protobuf.ByteString
         getReasonBytes(int index);
+
+    /**
+     * <code>string type = 6;</code>
+     */
+    java.lang.String getType();
+    /**
+     * <code>string type = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getTypeBytes();
+
+    /**
+     * <code>uint32 level = 7;</code>
+     */
+    int getLevel();
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.IssueLog}
@@ -19083,6 +19098,8 @@ public final class MonitoringProtos {
       status_ = 0;
       message_ = "";
       reason_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      type_ = "";
+      level_ = 0;
     }
 
     @java.lang.Override
@@ -19151,6 +19168,17 @@ public final class MonitoringProtos {
                 mutable_bitField0_ |= 0x00000010;
               }
               reason_.add(s);
+              break;
+            }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              type_ = s;
+              break;
+            }
+            case 56: {
+
+              level_ = input.readUInt32();
               break;
             }
           }
@@ -19315,6 +19343,49 @@ public final class MonitoringProtos {
       return reason_.getByteString(index);
     }
 
+    public static final int TYPE_FIELD_NUMBER = 6;
+    private volatile java.lang.Object type_;
+    /**
+     * <code>string type = 6;</code>
+     */
+    public java.lang.String getType() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        type_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string type = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTypeBytes() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        type_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int LEVEL_FIELD_NUMBER = 7;
+    private int level_;
+    /**
+     * <code>uint32 level = 7;</code>
+     */
+    public int getLevel() {
+      return level_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -19341,6 +19412,12 @@ public final class MonitoringProtos {
       }
       for (int i = 0; i < reason_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, reason_.getRaw(i));
+      }
+      if (!getTypeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, type_);
+      }
+      if (level_ != 0) {
+        output.writeUInt32(7, level_);
       }
       unknownFields.writeTo(output);
     }
@@ -19372,6 +19449,13 @@ public final class MonitoringProtos {
         size += dataSize;
         size += 1 * getReasonList().size();
       }
+      if (!getTypeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, type_);
+      }
+      if (level_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(7, level_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -19400,6 +19484,10 @@ public final class MonitoringProtos {
       }
       result = result && getReasonList()
           .equals(other.getReasonList());
+      result = result && getType()
+          .equals(other.getType());
+      result = result && (getLevel()
+          == other.getLevel());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -19425,6 +19513,10 @@ public final class MonitoringProtos {
         hash = (37 * hash) + REASON_FIELD_NUMBER;
         hash = (53 * hash) + getReasonList().hashCode();
       }
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getType().hashCode();
+      hash = (37 * hash) + LEVEL_FIELD_NUMBER;
+      hash = (53 * hash) + getLevel();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -19568,6 +19660,10 @@ public final class MonitoringProtos {
         }
         reason_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000010);
+        type_ = "";
+
+        level_ = 0;
+
         return this;
       }
 
@@ -19605,6 +19701,8 @@ public final class MonitoringProtos {
           bitField0_ = (bitField0_ & ~0x00000010);
         }
         result.reason_ = reason_;
+        result.type_ = type_;
+        result.level_ = level_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -19670,6 +19768,13 @@ public final class MonitoringProtos {
             reason_.addAll(other.reason_);
           }
           onChanged();
+        }
+        if (!other.getType().isEmpty()) {
+          type_ = other.type_;
+          onChanged();
+        }
+        if (other.getLevel() != 0) {
+          setLevel(other.getLevel());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -20088,6 +20193,101 @@ public final class MonitoringProtos {
   checkByteStringIsUtf8(value);
         ensureReasonIsMutable();
         reason_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object type_ = "";
+      /**
+       * <code>string type = 6;</code>
+       */
+      public java.lang.String getType() {
+        java.lang.Object ref = type_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          type_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string type = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTypeBytes() {
+        java.lang.Object ref = type_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          type_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string type = 6;</code>
+       */
+      public Builder setType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string type = 6;</code>
+       */
+      public Builder clearType() {
+        
+        type_ = getDefaultInstance().getType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string type = 6;</code>
+       */
+      public Builder setTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        type_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int level_ ;
+      /**
+       * <code>uint32 level = 7;</code>
+       */
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>uint32 level = 7;</code>
+       */
+      public Builder setLevel(int value) {
+        
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 level = 7;</code>
+       */
+      public Builder clearLevel() {
+        
+        level_ = 0;
         onChanged();
         return this;
       }
@@ -22578,21 +22778,22 @@ public final class MonitoringProtos {
       "itoring.LocationStorage\0220\n\007compute\030\002 \001(\013" +
       "2\037.Ydb.Monitoring.LocationCompute\0222\n\010dat",
       "abase\030\003 \001(\0132 .Ydb.Monitoring.LocationDat" +
-      "abase\"\226\001\n\010IssueLog\022\n\n\002id\030\001 \001(\t\0221\n\006status" +
+      "abase\"\263\001\n\010IssueLog\022\n\n\002id\030\001 \001(\t\0221\n\006status" +
       "\030\002 \001(\0162!.Ydb.Monitoring.StatusFlag.Statu" +
       "s\022\017\n\007message\030\003 \001(\t\022*\n\010location\030\004 \001(\0132\030.Y" +
-      "db.Monitoring.Location\022\016\n\006reason\030\005 \003(\t\"\262" +
-      "\001\n\016DatabaseStatus\022\014\n\004name\030\001 \001(\t\0222\n\007overa" +
-      "ll\030\002 \001(\0162!.Ydb.Monitoring.StatusFlag.Sta" +
-      "tus\022.\n\007storage\030\003 \001(\0132\035.Ydb.Monitoring.St" +
-      "orageStatus\022.\n\007compute\030\004 \001(\0132\035.Ydb.Monit" +
-      "oring.ComputeStatus\"\264\001\n\017SelfCheckResult\022",
-      ";\n\021self_check_result\030\001 \001(\0162 .Ydb.Monitor" +
-      "ing.SelfCheck.Result\022+\n\tissue_log\030\002 \003(\0132" +
-      "\030.Ydb.Monitoring.IssueLog\0227\n\017database_st" +
-      "atus\030\003 \003(\0132\036.Ydb.Monitoring.DatabaseStat" +
-      "usB0\n\031tech.ydb.monitoringB\020Monitor" +
-      "ingProtos\370\001\001b\006proto3"
+      "db.Monitoring.Location\022\016\n\006reason\030\005 \003(\t\022\014" +
+      "\n\004type\030\006 \001(\t\022\r\n\005level\030\007 \001(\r\"\262\001\n\016Database" +
+      "Status\022\014\n\004name\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!." +
+      "Ydb.Monitoring.StatusFlag.Status\022.\n\007stor" +
+      "age\030\003 \001(\0132\035.Ydb.Monitoring.StorageStatus" +
+      "\022.\n\007compute\030\004 \001(\0132\035.Ydb.Monitoring.Compu",
+      "teStatus\"\264\001\n\017SelfCheckResult\022;\n\021self_che" +
+      "ck_result\030\001 \001(\0162 .Ydb.Monitoring.SelfChe" +
+      "ck.Result\022+\n\tissue_log\030\002 \003(\0132\030.Ydb.Monit" +
+      "oring.IssueLog\0227\n\017database_status\030\003 \003(\0132" +
+      "\036.Ydb.Monitoring.DatabaseStatusB0\n\031com.y" +
+      "andex.ydb.monitoringB\020MonitoringProtos\370\001" +
+      "\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -22762,7 +22963,7 @@ public final class MonitoringProtos {
     internal_static_Ydb_Monitoring_IssueLog_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Monitoring_IssueLog_descriptor,
-        new java.lang.String[] { "Id", "Status", "Message", "Location", "Reason", });
+        new java.lang.String[] { "Id", "Status", "Message", "Location", "Reason", "Type", "Level", });
     internal_static_Ydb_Monitoring_DatabaseStatus_descriptor =
       getDescriptor().getMessageTypes().get(26);
     internal_static_Ydb_Monitoring_DatabaseStatus_fieldAccessorTable = new

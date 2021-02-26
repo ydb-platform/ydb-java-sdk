@@ -15821,14 +15821,9 @@ public final class AnalyticsProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string yson = 1;</code>
+     * <code>bytes yson = 1;</code>
      */
-    java.lang.String getYson();
-    /**
-     * <code>string yson = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getYsonBytes();
+    com.google.protobuf.ByteString getYson();
   }
   /**
    * Protobuf type {@code Yql.Analytics.QueryStatistics}
@@ -15843,7 +15838,7 @@ public final class AnalyticsProtos {
       super(builder);
     }
     private QueryStatistics() {
-      yson_ = "";
+      yson_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -15875,9 +15870,8 @@ public final class AnalyticsProtos {
               break;
             }
             case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
 
-              yson_ = s;
+              yson_ = input.readBytes();
               break;
             }
           }
@@ -15905,37 +15899,12 @@ public final class AnalyticsProtos {
     }
 
     public static final int YSON_FIELD_NUMBER = 1;
-    private volatile java.lang.Object yson_;
+    private com.google.protobuf.ByteString yson_;
     /**
-     * <code>string yson = 1;</code>
+     * <code>bytes yson = 1;</code>
      */
-    public java.lang.String getYson() {
-      java.lang.Object ref = yson_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        yson_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string yson = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getYsonBytes() {
-      java.lang.Object ref = yson_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        yson_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getYson() {
+      return yson_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -15950,8 +15919,8 @@ public final class AnalyticsProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getYsonBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, yson_);
+      if (!yson_.isEmpty()) {
+        output.writeBytes(1, yson_);
       }
       unknownFields.writeTo(output);
     }
@@ -15961,8 +15930,9 @@ public final class AnalyticsProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (!getYsonBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, yson_);
+      if (!yson_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, yson_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -16124,7 +16094,7 @@ public final class AnalyticsProtos {
       }
       public Builder clear() {
         super.clear();
-        yson_ = "";
+        yson_ = com.google.protobuf.ByteString.EMPTY;
 
         return this;
       }
@@ -16190,9 +16160,8 @@ public final class AnalyticsProtos {
 
       public Builder mergeFrom(com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics other) {
         if (other == com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics.getDefaultInstance()) return this;
-        if (!other.getYson().isEmpty()) {
-          yson_ = other.yson_;
-          onChanged();
+        if (other.getYson() != com.google.protobuf.ByteString.EMPTY) {
+          setYson(other.getYson());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -16221,43 +16190,17 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private java.lang.Object yson_ = "";
+      private com.google.protobuf.ByteString yson_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>string yson = 1;</code>
+       * <code>bytes yson = 1;</code>
        */
-      public java.lang.String getYson() {
-        java.lang.Object ref = yson_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          yson_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public com.google.protobuf.ByteString getYson() {
+        return yson_;
       }
       /**
-       * <code>string yson = 1;</code>
+       * <code>bytes yson = 1;</code>
        */
-      public com.google.protobuf.ByteString
-          getYsonBytes() {
-        java.lang.Object ref = yson_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          yson_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string yson = 1;</code>
-       */
-      public Builder setYson(
-          java.lang.String value) {
+      public Builder setYson(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -16267,25 +16210,11 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>string yson = 1;</code>
+       * <code>bytes yson = 1;</code>
        */
       public Builder clearYson() {
         
         yson_ = getDefaultInstance().getYson();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string yson = 1;</code>
-       */
-      public Builder setYsonBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        yson_ = value;
         onChanged();
         return this;
       }
@@ -28075,7 +28004,7 @@ public final class AnalyticsProtos {
       "tics.GetHistoryRequest.Filter\032B\n\006Filter\022" +
       "\020\n\010query_id\030\001 \001(\t\022\022\n\nhistory_id\030\002 \001(\t\022\022\n" +
       "\nfield_type\030\003 \001(\005\"\037\n\017QueryStatistics\022\014\n\004" +
-      "yson\030\001 \001(\t\"B\n\022GetHistoryResponse\022,\n\toper" +
+      "yson\030\001 \001(\014\"B\n\022GetHistoryResponse\022,\n\toper" +
       "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\376" +
       "\005\n\020GetHistoryResult\022>\n\007history\030\001 \003(\0132-.Y" +
       "ql.Analytics.GetHistoryResult.HistoryEnt" +

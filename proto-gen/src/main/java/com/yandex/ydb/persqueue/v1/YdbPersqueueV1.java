@@ -27,7 +27,7 @@ public final class YdbPersqueueV1 {
       "ueue_v1.proto\022\020Ydb.PersQueue.V1\032>kikimr/" +
       "public/api/protos/ydb_persqueue_cluster_" +
       "discovery.proto\032/kikimr/public/api/proto" +
-      "s/ydb_persqueue_v1.proto2\336\005\n\020PersQueueSe" +
+      "s/ydb_persqueue_v1.proto2\237\007\n\020PersQueueSe" +
       "rvice\022r\n\016StreamingWrite\022-.Ydb.PersQueue." +
       "V1.StreamingWriteClientMessage\032-.Ydb.Per" +
       "sQueue.V1.StreamingWriteServerMessage(\0010" +
@@ -46,12 +46,16 @@ public final class YdbPersqueueV1 {
       "PersQueue.V1.CreateTopicResponse\022W\n\nAlte" +
       "rTopic\022#.Ydb.PersQueue.V1.AlterTopicRequ" +
       "est\032$.Ydb.PersQueue.V1.AlterTopicRespons" +
-      "e2\241\001\n\027ClusterDiscoveryService\022\205\001\n\020Discov" +
-      "erClusters\0227.Ydb.PersQueue.ClusterDiscov" +
-      "ery.DiscoverClustersRequest\0328.Ydb.PersQu" +
-      "eue.ClusterDiscovery.DiscoverClustersRes" +
-      "ponseB \n\033tech.ydb.persqueue.v1\370\001\001b" +
-      "\006proto3"
+      "e\022Z\n\013AddReadRule\022$.Ydb.PersQueue.V1.AddR" +
+      "eadRuleRequest\032%.Ydb.PersQueue.V1.AddRea" +
+      "dRuleResponse\022c\n\016RemoveReadRule\022\'.Ydb.Pe" +
+      "rsQueue.V1.RemoveReadRuleRequest\032(.Ydb.P" +
+      "ersQueue.V1.RemoveReadRuleResponse2\241\001\n\027C" +
+      "lusterDiscoveryService\022\205\001\n\020DiscoverClust" +
+      "ers\0227.Ydb.PersQueue.ClusterDiscovery.Dis",
+      "coverClustersRequest\0328.Ydb.PersQueue.Clu" +
+      "sterDiscovery.DiscoverClustersResponseB " +
+      "\n\033tech.ydb.persqueue.v1\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

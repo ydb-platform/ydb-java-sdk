@@ -6453,6 +6453,15 @@ public final class YdbExport {
      * <code>uint32 number_of_retries = 8;</code>
      */
     int getNumberOfRetries();
+
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+     */
+    int getStorageClassValue();
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+     */
+    tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass getStorageClass();
   }
   /**
    * <pre>
@@ -6479,6 +6488,7 @@ public final class YdbExport {
       items_ = java.util.Collections.emptyList();
       description_ = "";
       numberOfRetries_ = 0;
+      storageClass_ = 0;
     }
 
     @java.lang.Override
@@ -6557,6 +6567,12 @@ public final class YdbExport {
             case 64: {
 
               numberOfRetries_ = input.readUInt32();
+              break;
+            }
+            case 72: {
+              int rawValue = input.readEnum();
+
+              storageClass_ = rawValue;
               break;
             }
           }
@@ -6691,6 +6707,167 @@ public final class YdbExport {
       }
 
       // @@protoc_insertion_point(enum_scope:Ydb.Export.ExportToS3Settings.Scheme)
+    }
+
+    /**
+     * Protobuf enum {@code Ydb.Export.ExportToS3Settings.StorageClass}
+     */
+    public enum StorageClass
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>STORAGE_CLASS_UNSPECIFIED = 0;</code>
+       */
+      STORAGE_CLASS_UNSPECIFIED(0),
+      /**
+       * <code>STANDARD = 1;</code>
+       */
+      STANDARD(1),
+      /**
+       * <code>REDUCED_REDUNDANCY = 2;</code>
+       */
+      REDUCED_REDUNDANCY(2),
+      /**
+       * <code>STANDARD_IA = 3;</code>
+       */
+      STANDARD_IA(3),
+      /**
+       * <code>ONEZONE_IA = 4;</code>
+       */
+      ONEZONE_IA(4),
+      /**
+       * <code>INTELLIGENT_TIERING = 5;</code>
+       */
+      INTELLIGENT_TIERING(5),
+      /**
+       * <code>GLACIER = 6;</code>
+       */
+      GLACIER(6),
+      /**
+       * <code>DEEP_ARCHIVE = 7;</code>
+       */
+      DEEP_ARCHIVE(7),
+      /**
+       * <code>OUTPOSTS = 8;</code>
+       */
+      OUTPOSTS(8),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>STORAGE_CLASS_UNSPECIFIED = 0;</code>
+       */
+      public static final int STORAGE_CLASS_UNSPECIFIED_VALUE = 0;
+      /**
+       * <code>STANDARD = 1;</code>
+       */
+      public static final int STANDARD_VALUE = 1;
+      /**
+       * <code>REDUCED_REDUNDANCY = 2;</code>
+       */
+      public static final int REDUCED_REDUNDANCY_VALUE = 2;
+      /**
+       * <code>STANDARD_IA = 3;</code>
+       */
+      public static final int STANDARD_IA_VALUE = 3;
+      /**
+       * <code>ONEZONE_IA = 4;</code>
+       */
+      public static final int ONEZONE_IA_VALUE = 4;
+      /**
+       * <code>INTELLIGENT_TIERING = 5;</code>
+       */
+      public static final int INTELLIGENT_TIERING_VALUE = 5;
+      /**
+       * <code>GLACIER = 6;</code>
+       */
+      public static final int GLACIER_VALUE = 6;
+      /**
+       * <code>DEEP_ARCHIVE = 7;</code>
+       */
+      public static final int DEEP_ARCHIVE_VALUE = 7;
+      /**
+       * <code>OUTPOSTS = 8;</code>
+       */
+      public static final int OUTPOSTS_VALUE = 8;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static StorageClass valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static StorageClass forNumber(int value) {
+        switch (value) {
+          case 0: return STORAGE_CLASS_UNSPECIFIED;
+          case 1: return STANDARD;
+          case 2: return REDUCED_REDUNDANCY;
+          case 3: return STANDARD_IA;
+          case 4: return ONEZONE_IA;
+          case 5: return INTELLIGENT_TIERING;
+          case 6: return GLACIER;
+          case 7: return DEEP_ARCHIVE;
+          case 8: return OUTPOSTS;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<StorageClass>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          StorageClass> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<StorageClass>() {
+              public StorageClass findValueByNumber(int number) {
+                return StorageClass.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return tech.ydb.export.YdbExport.ExportToS3Settings.getDescriptor().getEnumTypes().get(1);
+      }
+
+      private static final StorageClass[] VALUES = values();
+
+      public static StorageClass valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private StorageClass(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:Ydb.Export.ExportToS3Settings.StorageClass)
     }
 
     public interface ItemOrBuilder extends
@@ -7690,6 +7867,22 @@ public final class YdbExport {
       return numberOfRetries_;
     }
 
+    public static final int STORAGE_CLASS_FIELD_NUMBER = 9;
+    private int storageClass_;
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+     */
+    public int getStorageClassValue() {
+      return storageClass_;
+    }
+    /**
+     * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+     */
+    public tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass getStorageClass() {
+      tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass result = tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass.valueOf(storageClass_);
+      return result == null ? tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -7726,6 +7919,9 @@ public final class YdbExport {
       if (numberOfRetries_ != 0) {
         output.writeUInt32(8, numberOfRetries_);
       }
+      if (storageClass_ != tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass.STORAGE_CLASS_UNSPECIFIED.getNumber()) {
+        output.writeEnum(9, storageClass_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -7761,6 +7957,10 @@ public final class YdbExport {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(8, numberOfRetries_);
       }
+      if (storageClass_ != tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass.STORAGE_CLASS_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(9, storageClass_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -7792,6 +7992,7 @@ public final class YdbExport {
           .equals(other.getDescription());
       result = result && (getNumberOfRetries()
           == other.getNumberOfRetries());
+      result = result && storageClass_ == other.storageClass_;
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -7821,6 +8022,8 @@ public final class YdbExport {
       hash = (53 * hash) + getDescription().hashCode();
       hash = (37 * hash) + NUMBER_OF_RETRIES_FIELD_NUMBER;
       hash = (53 * hash) + getNumberOfRetries();
+      hash = (37 * hash) + STORAGE_CLASS_FIELD_NUMBER;
+      hash = (53 * hash) + storageClass_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7975,6 +8178,8 @@ public final class YdbExport {
 
         numberOfRetries_ = 0;
 
+        storageClass_ = 0;
+
         return this;
       }
 
@@ -8015,6 +8220,7 @@ public final class YdbExport {
         }
         result.description_ = description_;
         result.numberOfRetries_ = numberOfRetries_;
+        result.storageClass_ = storageClass_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -8108,6 +8314,9 @@ public final class YdbExport {
         }
         if (other.getNumberOfRetries() != 0) {
           setNumberOfRetries(other.getNumberOfRetries());
+        }
+        if (other.storageClass_ != 0) {
+          setStorageClassValue(other.getStorageClassValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -8808,6 +9017,50 @@ public final class YdbExport {
       public Builder clearNumberOfRetries() {
         
         numberOfRetries_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int storageClass_ = 0;
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+       */
+      public int getStorageClassValue() {
+        return storageClass_;
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+       */
+      public Builder setStorageClassValue(int value) {
+        storageClass_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+       */
+      public tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass getStorageClass() {
+        tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass result = tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass.valueOf(storageClass_);
+        return result == null ? tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+       */
+      public Builder setStorageClass(tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        storageClass_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+       */
+      public Builder clearStorageClass() {
+        
+        storageClass_ = 0;
         onChanged();
         return this;
       }
@@ -11823,28 +12076,35 @@ public final class YdbExport {
       "ons.OperationParams\0226\n\010settings\030\002 \001(\0132\036." +
       "Ydb.Export.ExportToYtSettingsB\004\220\346*\001\"B\n\022E" +
       "xportToYtResponse\022,\n\toperation\030\001 \001(\0132\031.Y",
-      "db.Operations.Operation\"\227\003\n\022ExportToS3Se" +
+      "db.Operations.Operation\"\230\005\n\022ExportToS3Se" +
       "ttings\022\026\n\010endpoint\030\001 \001(\tB\004\220\346*\001\0225\n\006scheme" +
       "\030\002 \001(\0162%.Ydb.Export.ExportToS3Settings.S" +
       "cheme\022\024\n\006bucket\030\003 \001(\tB\004\220\346*\001\022\030\n\naccess_ke" +
       "y\030\004 \001(\tB\004\220\346*\001\022\030\n\nsecret_key\030\005 \001(\tB\004\220\346*\001\022" +
       ":\n\005items\030\006 \003(\0132#.Ydb.Export.ExportToS3Se" +
       "ttings.ItemB\006\232\346*\002(\001\022\034\n\013description\030\007 \001(\t" +
-      "B\007\242\346*\003\030\200\001\022\031\n\021number_of_retries\030\010 \001(\r\032C\n\004" +
-      "Item\022\031\n\013source_path\030\001 \001(\tB\004\220\346*\001\022 \n\022desti" +
-      "nation_prefix\030\002 \001(\tB\004\220\346*\001\".\n\006Scheme\022\017\n\013U",
-      "NSPECIFIED\020\000\022\010\n\004HTTP\020\001\022\t\n\005HTTPS\020\002\"\022\n\020Exp" +
-      "ortToS3Result\"\265\001\n\022ExportToS3Metadata\0220\n\010" +
-      "settings\030\001 \001(\0132\036.Ydb.Export.ExportToS3Se" +
-      "ttings\0225\n\010progress\030\002 \001(\0162#.Ydb.Export.Ex" +
-      "portProgress.Progress\0226\n\016items_progress\030" +
-      "\003 \003(\0132\036.Ydb.Export.ExportItemProgress\"\206\001" +
-      "\n\021ExportToS3Request\0229\n\020operation_params\030" +
-      "\001 \001(\0132\037.Ydb.Operations.OperationParams\0226" +
-      "\n\010settings\030\002 \001(\0132\036.Ydb.Export.ExportToS3" +
-      "SettingsB\004\220\346*\001\"B\n\022ExportToS3Response\022,\n\t",
-      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
-      "onB\032\n\025tech.ydb.export\370\001\001b\006proto3"
+      "B\007\242\346*\003\030\200\001\022\031\n\021number_of_retries\030\010 \001(\r\022B\n\r" +
+      "storage_class\030\t \001(\0162+.Ydb.Export.ExportT" +
+      "oS3Settings.StorageClass\032C\n\004Item\022\031\n\013sour",
+      "ce_path\030\001 \001(\tB\004\220\346*\001\022 \n\022destination_prefi" +
+      "x\030\002 \001(\tB\004\220\346*\001\".\n\006Scheme\022\017\n\013UNSPECIFIED\020\000" +
+      "\022\010\n\004HTTP\020\001\022\t\n\005HTTPS\020\002\"\272\001\n\014StorageClass\022\035" +
+      "\n\031STORAGE_CLASS_UNSPECIFIED\020\000\022\014\n\010STANDAR" +
+      "D\020\001\022\026\n\022REDUCED_REDUNDANCY\020\002\022\017\n\013STANDARD_" +
+      "IA\020\003\022\016\n\nONEZONE_IA\020\004\022\027\n\023INTELLIGENT_TIER" +
+      "ING\020\005\022\013\n\007GLACIER\020\006\022\020\n\014DEEP_ARCHIVE\020\007\022\014\n\010" +
+      "OUTPOSTS\020\010\"\022\n\020ExportToS3Result\"\265\001\n\022Expor" +
+      "tToS3Metadata\0220\n\010settings\030\001 \001(\0132\036.Ydb.Ex" +
+      "port.ExportToS3Settings\0225\n\010progress\030\002 \001(",
+      "\0162#.Ydb.Export.ExportProgress.Progress\0226" +
+      "\n\016items_progress\030\003 \003(\0132\036.Ydb.Export.Expo" +
+      "rtItemProgress\"\206\001\n\021ExportToS3Request\0229\n\020" +
+      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
+      "OperationParams\0226\n\010settings\030\002 \001(\0132\036.Ydb." +
+      "Export.ExportToS3SettingsB\004\220\346*\001\"B\n\022Expor" +
+      "tToS3Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
+      "perations.OperationB\032\n\025tech.ydb.ex" +
+      "port\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -11914,7 +12174,7 @@ public final class YdbExport {
     internal_static_Ydb_Export_ExportToS3Settings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Export_ExportToS3Settings_descriptor,
-        new java.lang.String[] { "Endpoint", "Scheme", "Bucket", "AccessKey", "SecretKey", "Items", "Description", "NumberOfRetries", });
+        new java.lang.String[] { "Endpoint", "Scheme", "Bucket", "AccessKey", "SecretKey", "Items", "Description", "NumberOfRetries", "StorageClass", });
     internal_static_Ydb_Export_ExportToS3Settings_Item_descriptor =
       internal_static_Ydb_Export_ExportToS3Settings_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_Export_ExportToS3Settings_Item_fieldAccessorTable = new

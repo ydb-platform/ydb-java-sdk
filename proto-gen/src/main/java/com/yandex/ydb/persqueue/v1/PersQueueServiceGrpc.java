@@ -244,6 +244,68 @@ public final class PersQueueServiceGrpc {
     return getAlterTopicMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleRequest,
+      tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleResponse> getAddReadRuleMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "AddReadRule",
+      requestType = tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleRequest.class,
+      responseType = tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleRequest,
+      tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleResponse> getAddReadRuleMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleRequest, tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleResponse> getAddReadRuleMethod;
+    if ((getAddReadRuleMethod = PersQueueServiceGrpc.getAddReadRuleMethod) == null) {
+      synchronized (PersQueueServiceGrpc.class) {
+        if ((getAddReadRuleMethod = PersQueueServiceGrpc.getAddReadRuleMethod) == null) {
+          PersQueueServiceGrpc.getAddReadRuleMethod = getAddReadRuleMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleRequest, tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "AddReadRule"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new PersQueueServiceMethodDescriptorSupplier("AddReadRule"))
+              .build();
+        }
+      }
+    }
+    return getAddReadRuleMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleRequest,
+      tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleResponse> getRemoveReadRuleMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "RemoveReadRule",
+      requestType = tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleRequest.class,
+      responseType = tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleRequest,
+      tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleResponse> getRemoveReadRuleMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleRequest, tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleResponse> getRemoveReadRuleMethod;
+    if ((getRemoveReadRuleMethod = PersQueueServiceGrpc.getRemoveReadRuleMethod) == null) {
+      synchronized (PersQueueServiceGrpc.class) {
+        if ((getRemoveReadRuleMethod = PersQueueServiceGrpc.getRemoveReadRuleMethod) == null) {
+          PersQueueServiceGrpc.getRemoveReadRuleMethod = getRemoveReadRuleMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleRequest, tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "RemoveReadRule"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new PersQueueServiceMethodDescriptorSupplier("RemoveReadRule"))
+              .build();
+        }
+      }
+    }
+    return getRemoveReadRuleMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -390,6 +452,26 @@ public final class PersQueueServiceGrpc {
       asyncUnimplementedUnaryCall(getAlterTopicMethod(), responseObserver);
     }
 
+    /**
+     * <pre>
+     * Add read rule command.
+     * </pre>
+     */
+    public void addReadRule(tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getAddReadRuleMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Remove read rule command.
+     * </pre>
+     */
+    public void removeReadRule(tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getRemoveReadRuleMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -441,6 +523,20 @@ public final class PersQueueServiceGrpc {
                 tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest,
                 tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse>(
                   this, METHODID_ALTER_TOPIC)))
+          .addMethod(
+            getAddReadRuleMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleRequest,
+                tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleResponse>(
+                  this, METHODID_ADD_READ_RULE)))
+          .addMethod(
+            getRemoveReadRuleMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleRequest,
+                tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleResponse>(
+                  this, METHODID_REMOVE_READ_RULE)))
           .build();
     }
   }
@@ -563,6 +659,28 @@ public final class PersQueueServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getAlterTopicMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     * Add read rule command.
+     * </pre>
+     */
+    public void addReadRule(tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getAddReadRuleMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Remove read rule command.
+     * </pre>
+     */
+    public void removeReadRule(tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getRemoveReadRuleMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -627,6 +745,26 @@ public final class PersQueueServiceGrpc {
     public tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse alterTopic(tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest request) {
       return blockingUnaryCall(
           getChannel(), getAlterTopicMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Add read rule command.
+     * </pre>
+     */
+    public tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleResponse addReadRule(tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getAddReadRuleMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Remove read rule command.
+     * </pre>
+     */
+    public tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleResponse removeReadRule(tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getRemoveReadRuleMethod(), getCallOptions(), request);
     }
   }
 
@@ -698,6 +836,28 @@ public final class PersQueueServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getAlterTopicMethod(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     * Add read rule command.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleResponse> addReadRule(
+        tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getAddReadRuleMethod(), getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
+     * Remove read rule command.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleResponse> removeReadRule(
+        tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getRemoveReadRuleMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_READ_SESSIONS_INFO = 0;
@@ -705,8 +865,10 @@ public final class PersQueueServiceGrpc {
   private static final int METHODID_DROP_TOPIC = 2;
   private static final int METHODID_CREATE_TOPIC = 3;
   private static final int METHODID_ALTER_TOPIC = 4;
-  private static final int METHODID_STREAMING_WRITE = 5;
-  private static final int METHODID_MIGRATION_STREAMING_READ = 6;
+  private static final int METHODID_ADD_READ_RULE = 5;
+  private static final int METHODID_REMOVE_READ_RULE = 6;
+  private static final int METHODID_STREAMING_WRITE = 7;
+  private static final int METHODID_MIGRATION_STREAMING_READ = 8;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -744,6 +906,14 @@ public final class PersQueueServiceGrpc {
         case METHODID_ALTER_TOPIC:
           serviceImpl.alterTopic((tech.ydb.persqueue.YdbPersqueueV1.AlterTopicRequest) request,
               (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.AlterTopicResponse>) responseObserver);
+          break;
+        case METHODID_ADD_READ_RULE:
+          serviceImpl.addReadRule((tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.AddReadRuleResponse>) responseObserver);
+          break;
+        case METHODID_REMOVE_READ_RULE:
+          serviceImpl.removeReadRule((tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.persqueue.YdbPersqueueV1.RemoveReadRuleResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -819,6 +989,8 @@ public final class PersQueueServiceGrpc {
               .addMethod(getDropTopicMethod())
               .addMethod(getCreateTopicMethod())
               .addMethod(getAlterTopicMethod())
+              .addMethod(getAddReadRuleMethod())
+              .addMethod(getRemoveReadRuleMethod())
               .build();
         }
       }
