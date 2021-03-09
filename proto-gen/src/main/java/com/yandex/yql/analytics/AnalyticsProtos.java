@@ -27791,6 +27791,1645 @@ public final class AnalyticsProtos {
 
   }
 
+  public interface ResultSetHeaderOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Yql.Analytics.ResultSetHeader)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .Ydb.Column column = 1;</code>
+     */
+    java.util.List<tech.ydb.ValueProtos.Column> 
+        getColumnList();
+    /**
+     * <code>repeated .Ydb.Column column = 1;</code>
+     */
+    tech.ydb.ValueProtos.Column getColumn(int index);
+    /**
+     * <code>repeated .Ydb.Column column = 1;</code>
+     */
+    int getColumnCount();
+    /**
+     * <code>repeated .Ydb.Column column = 1;</code>
+     */
+    java.util.List<? extends tech.ydb.ValueProtos.ColumnOrBuilder> 
+        getColumnOrBuilderList();
+    /**
+     * <code>repeated .Ydb.Column column = 1;</code>
+     */
+    tech.ydb.ValueProtos.ColumnOrBuilder getColumnOrBuilder(
+        int index);
+
+    /**
+     * <code>int64 rows_count = 2;</code>
+     */
+    long getRowsCount();
+
+    /**
+     * <code>bool truncated = 3;</code>
+     */
+    boolean getTruncated();
+  }
+  /**
+   * Protobuf type {@code Yql.Analytics.ResultSetHeader}
+   */
+  public  static final class ResultSetHeader extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Yql.Analytics.ResultSetHeader)
+      ResultSetHeaderOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ResultSetHeader.newBuilder() to construct.
+    private ResultSetHeader(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ResultSetHeader() {
+      column_ = java.util.Collections.emptyList();
+      rowsCount_ = 0L;
+      truncated_ = false;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ResultSetHeader(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                column_ = new java.util.ArrayList<tech.ydb.ValueProtos.Column>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              column_.add(
+                  input.readMessage(tech.ydb.ValueProtos.Column.parser(), extensionRegistry));
+              break;
+            }
+            case 16: {
+
+              rowsCount_ = input.readInt64();
+              break;
+            }
+            case 24: {
+
+              truncated_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          column_ = java.util.Collections.unmodifiableList(column_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeader_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeader_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.class, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int COLUMN_FIELD_NUMBER = 1;
+    private java.util.List<tech.ydb.ValueProtos.Column> column_;
+    /**
+     * <code>repeated .Ydb.Column column = 1;</code>
+     */
+    public java.util.List<tech.ydb.ValueProtos.Column> getColumnList() {
+      return column_;
+    }
+    /**
+     * <code>repeated .Ydb.Column column = 1;</code>
+     */
+    public java.util.List<? extends tech.ydb.ValueProtos.ColumnOrBuilder> 
+        getColumnOrBuilderList() {
+      return column_;
+    }
+    /**
+     * <code>repeated .Ydb.Column column = 1;</code>
+     */
+    public int getColumnCount() {
+      return column_.size();
+    }
+    /**
+     * <code>repeated .Ydb.Column column = 1;</code>
+     */
+    public tech.ydb.ValueProtos.Column getColumn(int index) {
+      return column_.get(index);
+    }
+    /**
+     * <code>repeated .Ydb.Column column = 1;</code>
+     */
+    public tech.ydb.ValueProtos.ColumnOrBuilder getColumnOrBuilder(
+        int index) {
+      return column_.get(index);
+    }
+
+    public static final int ROWS_COUNT_FIELD_NUMBER = 2;
+    private long rowsCount_;
+    /**
+     * <code>int64 rows_count = 2;</code>
+     */
+    public long getRowsCount() {
+      return rowsCount_;
+    }
+
+    public static final int TRUNCATED_FIELD_NUMBER = 3;
+    private boolean truncated_;
+    /**
+     * <code>bool truncated = 3;</code>
+     */
+    public boolean getTruncated() {
+      return truncated_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < column_.size(); i++) {
+        output.writeMessage(1, column_.get(i));
+      }
+      if (rowsCount_ != 0L) {
+        output.writeInt64(2, rowsCount_);
+      }
+      if (truncated_ != false) {
+        output.writeBool(3, truncated_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < column_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, column_.get(i));
+      }
+      if (rowsCount_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, rowsCount_);
+      }
+      if (truncated_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, truncated_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader)) {
+        return super.equals(obj);
+      }
+      com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader other = (com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader) obj;
+
+      boolean result = true;
+      result = result && getColumnList()
+          .equals(other.getColumnList());
+      result = result && (getRowsCount()
+          == other.getRowsCount());
+      result = result && (getTruncated()
+          == other.getTruncated());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getColumnCount() > 0) {
+        hash = (37 * hash) + COLUMN_FIELD_NUMBER;
+        hash = (53 * hash) + getColumnList().hashCode();
+      }
+      hash = (37 * hash) + ROWS_COUNT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getRowsCount());
+      hash = (37 * hash) + TRUNCATED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getTruncated());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Yql.Analytics.ResultSetHeader}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Yql.Analytics.ResultSetHeader)
+        com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaderOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeader_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeader_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.class, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.Builder.class);
+      }
+
+      // Construct using com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getColumnFieldBuilder();
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (columnBuilder_ == null) {
+          column_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          columnBuilder_.clear();
+        }
+        rowsCount_ = 0L;
+
+        truncated_ = false;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeader_descriptor;
+      }
+
+      public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader getDefaultInstanceForType() {
+        return com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.getDefaultInstance();
+      }
+
+      public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader build() {
+        com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader buildPartial() {
+        com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader result = new com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (columnBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            column_ = java.util.Collections.unmodifiableList(column_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.column_ = column_;
+        } else {
+          result.column_ = columnBuilder_.build();
+        }
+        result.rowsCount_ = rowsCount_;
+        result.truncated_ = truncated_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader) {
+          return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader other) {
+        if (other == com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.getDefaultInstance()) return this;
+        if (columnBuilder_ == null) {
+          if (!other.column_.isEmpty()) {
+            if (column_.isEmpty()) {
+              column_ = other.column_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureColumnIsMutable();
+              column_.addAll(other.column_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.column_.isEmpty()) {
+            if (columnBuilder_.isEmpty()) {
+              columnBuilder_.dispose();
+              columnBuilder_ = null;
+              column_ = other.column_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              columnBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getColumnFieldBuilder() : null;
+            } else {
+              columnBuilder_.addAllMessages(other.column_);
+            }
+          }
+        }
+        if (other.getRowsCount() != 0L) {
+          setRowsCount(other.getRowsCount());
+        }
+        if (other.getTruncated() != false) {
+          setTruncated(other.getTruncated());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<tech.ydb.ValueProtos.Column> column_ =
+        java.util.Collections.emptyList();
+      private void ensureColumnIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          column_ = new java.util.ArrayList<tech.ydb.ValueProtos.Column>(column_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.ValueProtos.Column, tech.ydb.ValueProtos.Column.Builder, tech.ydb.ValueProtos.ColumnOrBuilder> columnBuilder_;
+
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public java.util.List<tech.ydb.ValueProtos.Column> getColumnList() {
+        if (columnBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(column_);
+        } else {
+          return columnBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public int getColumnCount() {
+        if (columnBuilder_ == null) {
+          return column_.size();
+        } else {
+          return columnBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public tech.ydb.ValueProtos.Column getColumn(int index) {
+        if (columnBuilder_ == null) {
+          return column_.get(index);
+        } else {
+          return columnBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public Builder setColumn(
+          int index, tech.ydb.ValueProtos.Column value) {
+        if (columnBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureColumnIsMutable();
+          column_.set(index, value);
+          onChanged();
+        } else {
+          columnBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public Builder setColumn(
+          int index, tech.ydb.ValueProtos.Column.Builder builderForValue) {
+        if (columnBuilder_ == null) {
+          ensureColumnIsMutable();
+          column_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          columnBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public Builder addColumn(tech.ydb.ValueProtos.Column value) {
+        if (columnBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureColumnIsMutable();
+          column_.add(value);
+          onChanged();
+        } else {
+          columnBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public Builder addColumn(
+          int index, tech.ydb.ValueProtos.Column value) {
+        if (columnBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureColumnIsMutable();
+          column_.add(index, value);
+          onChanged();
+        } else {
+          columnBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public Builder addColumn(
+          tech.ydb.ValueProtos.Column.Builder builderForValue) {
+        if (columnBuilder_ == null) {
+          ensureColumnIsMutable();
+          column_.add(builderForValue.build());
+          onChanged();
+        } else {
+          columnBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public Builder addColumn(
+          int index, tech.ydb.ValueProtos.Column.Builder builderForValue) {
+        if (columnBuilder_ == null) {
+          ensureColumnIsMutable();
+          column_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          columnBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public Builder addAllColumn(
+          java.lang.Iterable<? extends tech.ydb.ValueProtos.Column> values) {
+        if (columnBuilder_ == null) {
+          ensureColumnIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, column_);
+          onChanged();
+        } else {
+          columnBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public Builder clearColumn() {
+        if (columnBuilder_ == null) {
+          column_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          columnBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public Builder removeColumn(int index) {
+        if (columnBuilder_ == null) {
+          ensureColumnIsMutable();
+          column_.remove(index);
+          onChanged();
+        } else {
+          columnBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public tech.ydb.ValueProtos.Column.Builder getColumnBuilder(
+          int index) {
+        return getColumnFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public tech.ydb.ValueProtos.ColumnOrBuilder getColumnOrBuilder(
+          int index) {
+        if (columnBuilder_ == null) {
+          return column_.get(index);  } else {
+          return columnBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public java.util.List<? extends tech.ydb.ValueProtos.ColumnOrBuilder> 
+           getColumnOrBuilderList() {
+        if (columnBuilder_ != null) {
+          return columnBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(column_);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public tech.ydb.ValueProtos.Column.Builder addColumnBuilder() {
+        return getColumnFieldBuilder().addBuilder(
+            tech.ydb.ValueProtos.Column.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public tech.ydb.ValueProtos.Column.Builder addColumnBuilder(
+          int index) {
+        return getColumnFieldBuilder().addBuilder(
+            index, tech.ydb.ValueProtos.Column.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Column column = 1;</code>
+       */
+      public java.util.List<tech.ydb.ValueProtos.Column.Builder> 
+           getColumnBuilderList() {
+        return getColumnFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.ValueProtos.Column, tech.ydb.ValueProtos.Column.Builder, tech.ydb.ValueProtos.ColumnOrBuilder> 
+          getColumnFieldBuilder() {
+        if (columnBuilder_ == null) {
+          columnBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              tech.ydb.ValueProtos.Column, tech.ydb.ValueProtos.Column.Builder, tech.ydb.ValueProtos.ColumnOrBuilder>(
+                  column_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          column_ = null;
+        }
+        return columnBuilder_;
+      }
+
+      private long rowsCount_ ;
+      /**
+       * <code>int64 rows_count = 2;</code>
+       */
+      public long getRowsCount() {
+        return rowsCount_;
+      }
+      /**
+       * <code>int64 rows_count = 2;</code>
+       */
+      public Builder setRowsCount(long value) {
+        
+        rowsCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 rows_count = 2;</code>
+       */
+      public Builder clearRowsCount() {
+        
+        rowsCount_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private boolean truncated_ ;
+      /**
+       * <code>bool truncated = 3;</code>
+       */
+      public boolean getTruncated() {
+        return truncated_;
+      }
+      /**
+       * <code>bool truncated = 3;</code>
+       */
+      public Builder setTruncated(boolean value) {
+        
+        truncated_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool truncated = 3;</code>
+       */
+      public Builder clearTruncated() {
+        
+        truncated_ = false;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Yql.Analytics.ResultSetHeader)
+    }
+
+    // @@protoc_insertion_point(class_scope:Yql.Analytics.ResultSetHeader)
+    private static final com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader();
+    }
+
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ResultSetHeader>
+        PARSER = new com.google.protobuf.AbstractParser<ResultSetHeader>() {
+      public ResultSetHeader parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ResultSetHeader(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ResultSetHeader> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ResultSetHeader> getParserForType() {
+      return PARSER;
+    }
+
+    public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ResultSetHeadersOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Yql.Analytics.ResultSetHeaders)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+     */
+    java.util.List<com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader> 
+        getHeaderList();
+    /**
+     * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+     */
+    com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader getHeader(int index);
+    /**
+     * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+     */
+    int getHeaderCount();
+    /**
+     * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+     */
+    java.util.List<? extends com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaderOrBuilder> 
+        getHeaderOrBuilderList();
+    /**
+     * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+     */
+    com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaderOrBuilder getHeaderOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code Yql.Analytics.ResultSetHeaders}
+   */
+  public  static final class ResultSetHeaders extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Yql.Analytics.ResultSetHeaders)
+      ResultSetHeadersOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ResultSetHeaders.newBuilder() to construct.
+    private ResultSetHeaders(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ResultSetHeaders() {
+      header_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ResultSetHeaders(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                header_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              header_.add(
+                  input.readMessage(com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.parser(), extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          header_ = java.util.Collections.unmodifiableList(header_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeaders_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeaders_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders.class, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders.Builder.class);
+    }
+
+    public static final int HEADER_FIELD_NUMBER = 1;
+    private java.util.List<com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader> header_;
+    /**
+     * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+     */
+    public java.util.List<com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader> getHeaderList() {
+      return header_;
+    }
+    /**
+     * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+     */
+    public java.util.List<? extends com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaderOrBuilder> 
+        getHeaderOrBuilderList() {
+      return header_;
+    }
+    /**
+     * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+     */
+    public int getHeaderCount() {
+      return header_.size();
+    }
+    /**
+     * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+     */
+    public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader getHeader(int index) {
+      return header_.get(index);
+    }
+    /**
+     * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+     */
+    public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaderOrBuilder getHeaderOrBuilder(
+        int index) {
+      return header_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < header_.size(); i++) {
+        output.writeMessage(1, header_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < header_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, header_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders)) {
+        return super.equals(obj);
+      }
+      com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders other = (com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders) obj;
+
+      boolean result = true;
+      result = result && getHeaderList()
+          .equals(other.getHeaderList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getHeaderCount() > 0) {
+        hash = (37 * hash) + HEADER_FIELD_NUMBER;
+        hash = (53 * hash) + getHeaderList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Yql.Analytics.ResultSetHeaders}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Yql.Analytics.ResultSetHeaders)
+        com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeadersOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeaders_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeaders_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders.class, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders.Builder.class);
+      }
+
+      // Construct using com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getHeaderFieldBuilder();
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (headerBuilder_ == null) {
+          header_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          headerBuilder_.clear();
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeaders_descriptor;
+      }
+
+      public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders getDefaultInstanceForType() {
+        return com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders.getDefaultInstance();
+      }
+
+      public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders build() {
+        com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders buildPartial() {
+        com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders result = new com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders(this);
+        int from_bitField0_ = bitField0_;
+        if (headerBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            header_ = java.util.Collections.unmodifiableList(header_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.header_ = header_;
+        } else {
+          result.header_ = headerBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders) {
+          return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders other) {
+        if (other == com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders.getDefaultInstance()) return this;
+        if (headerBuilder_ == null) {
+          if (!other.header_.isEmpty()) {
+            if (header_.isEmpty()) {
+              header_ = other.header_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureHeaderIsMutable();
+              header_.addAll(other.header_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.header_.isEmpty()) {
+            if (headerBuilder_.isEmpty()) {
+              headerBuilder_.dispose();
+              headerBuilder_ = null;
+              header_ = other.header_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              headerBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getHeaderFieldBuilder() : null;
+            } else {
+              headerBuilder_.addAllMessages(other.header_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader> header_ =
+        java.util.Collections.emptyList();
+      private void ensureHeaderIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          header_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader>(header_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.Builder, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaderOrBuilder> headerBuilder_;
+
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public java.util.List<com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader> getHeaderList() {
+        if (headerBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(header_);
+        } else {
+          return headerBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public int getHeaderCount() {
+        if (headerBuilder_ == null) {
+          return header_.size();
+        } else {
+          return headerBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader getHeader(int index) {
+        if (headerBuilder_ == null) {
+          return header_.get(index);
+        } else {
+          return headerBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public Builder setHeader(
+          int index, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader value) {
+        if (headerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeaderIsMutable();
+          header_.set(index, value);
+          onChanged();
+        } else {
+          headerBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public Builder setHeader(
+          int index, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.Builder builderForValue) {
+        if (headerBuilder_ == null) {
+          ensureHeaderIsMutable();
+          header_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          headerBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public Builder addHeader(com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader value) {
+        if (headerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeaderIsMutable();
+          header_.add(value);
+          onChanged();
+        } else {
+          headerBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public Builder addHeader(
+          int index, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader value) {
+        if (headerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeaderIsMutable();
+          header_.add(index, value);
+          onChanged();
+        } else {
+          headerBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public Builder addHeader(
+          com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.Builder builderForValue) {
+        if (headerBuilder_ == null) {
+          ensureHeaderIsMutable();
+          header_.add(builderForValue.build());
+          onChanged();
+        } else {
+          headerBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public Builder addHeader(
+          int index, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.Builder builderForValue) {
+        if (headerBuilder_ == null) {
+          ensureHeaderIsMutable();
+          header_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          headerBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public Builder addAllHeader(
+          java.lang.Iterable<? extends com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader> values) {
+        if (headerBuilder_ == null) {
+          ensureHeaderIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, header_);
+          onChanged();
+        } else {
+          headerBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public Builder clearHeader() {
+        if (headerBuilder_ == null) {
+          header_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          headerBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public Builder removeHeader(int index) {
+        if (headerBuilder_ == null) {
+          ensureHeaderIsMutable();
+          header_.remove(index);
+          onChanged();
+        } else {
+          headerBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.Builder getHeaderBuilder(
+          int index) {
+        return getHeaderFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaderOrBuilder getHeaderOrBuilder(
+          int index) {
+        if (headerBuilder_ == null) {
+          return header_.get(index);  } else {
+          return headerBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public java.util.List<? extends com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaderOrBuilder> 
+           getHeaderOrBuilderList() {
+        if (headerBuilder_ != null) {
+          return headerBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(header_);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.Builder addHeaderBuilder() {
+        return getHeaderFieldBuilder().addBuilder(
+            com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.Builder addHeaderBuilder(
+          int index) {
+        return getHeaderFieldBuilder().addBuilder(
+            index, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
+       */
+      public java.util.List<com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.Builder> 
+           getHeaderBuilderList() {
+        return getHeaderFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.Builder, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaderOrBuilder> 
+          getHeaderFieldBuilder() {
+        if (headerBuilder_ == null) {
+          headerBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.Builder, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaderOrBuilder>(
+                  header_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          header_ = null;
+        }
+        return headerBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Yql.Analytics.ResultSetHeaders)
+    }
+
+    // @@protoc_insertion_point(class_scope:Yql.Analytics.ResultSetHeaders)
+    private static final com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders();
+    }
+
+    public static com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ResultSetHeaders>
+        PARSER = new com.google.protobuf.AbstractParser<ResultSetHeaders>() {
+      public ResultSetHeaders parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ResultSetHeaders(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ResultSetHeaders> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ResultSetHeaders> getParserForType() {
+      return PARSER;
+    }
+
+    public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Yql_Analytics_YdbDatabase_descriptor;
   private static final 
@@ -27941,6 +29580,16 @@ public final class AnalyticsProtos {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Yql_Analytics_GetResultDataResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Yql_Analytics_ResultSetHeader_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Yql_Analytics_ResultSetHeader_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Yql_Analytics_ResultSetHeaders_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Yql_Analytics_ResultSetHeaders_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -28048,14 +29697,18 @@ public final class AnalyticsProtos {
       "fset\030\004 \001(\003\022\r\n\005limit\030\005 \001(\003\"E\n\025GetResultDa" +
       "taResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
       "ations.Operation\"9\n\023GetResultDataResult\022" +
-      "\"\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultSet*/\n\nE" +
-      "FieldType\022\010\n\004NONE\020\000\022\007\n\003SQL\020\001\022\016\n\nQUERY_PL",
-      "AN\020\002*S\n\014EExecuteMode\022\024\n\020MODE_UNSPECIFIED" +
-      "\020\000\022\007\n\003RUN\020\001\022\013\n\007EXPLAIN\020\002\022\014\n\010VALIDATE\020\003\022\t" +
-      "\n\005PARSE\020\004*Q\n\014EQueryStatus\022\017\n\013UNSPECIFIED" +
-      "\020\000\022\t\n\005SAVED\020\001\022\013\n\007RUNNING\020\002\022\n\n\006FAILED\020\003\022\014" +
-      "\n\010FINISHED\020\004B.\n\030com.yandex.yql.analytics" +
-      "B\017AnalyticsProtos\370\001\001b\006proto3"
+      "\"\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultSet\"U\n\017R" +
+      "esultSetHeader\022\033\n\006column\030\001 \003(\0132\013.Ydb.Col",
+      "umn\022\022\n\nrows_count\030\002 \001(\003\022\021\n\ttruncated\030\003 \001" +
+      "(\010\"B\n\020ResultSetHeaders\022.\n\006header\030\001 \003(\0132\036" +
+      ".Yql.Analytics.ResultSetHeader*/\n\nEField" +
+      "Type\022\010\n\004NONE\020\000\022\007\n\003SQL\020\001\022\016\n\nQUERY_PLAN\020\002*" +
+      "S\n\014EExecuteMode\022\024\n\020MODE_UNSPECIFIED\020\000\022\007\n" +
+      "\003RUN\020\001\022\013\n\007EXPLAIN\020\002\022\014\n\010VALIDATE\020\003\022\t\n\005PAR" +
+      "SE\020\004*Q\n\014EQueryStatus\022\017\n\013UNSPECIFIED\020\000\022\t\n" +
+      "\005SAVED\020\001\022\013\n\007RUNNING\020\002\022\n\n\006FAILED\020\003\022\014\n\010FIN" +
+      "ISHED\020\004B.\n\030com.yandex.yql.analyticsB\017Ana" +
+      "lyticsProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -28252,6 +29905,18 @@ public final class AnalyticsProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetResultDataResult_descriptor,
         new java.lang.String[] { "ResultSet", });
+    internal_static_Yql_Analytics_ResultSetHeader_descriptor =
+      getDescriptor().getMessageTypes().get(24);
+    internal_static_Yql_Analytics_ResultSetHeader_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Yql_Analytics_ResultSetHeader_descriptor,
+        new java.lang.String[] { "Column", "RowsCount", "Truncated", });
+    internal_static_Yql_Analytics_ResultSetHeaders_descriptor =
+      getDescriptor().getMessageTypes().get(25);
+    internal_static_Yql_Analytics_ResultSetHeaders_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Yql_Analytics_ResultSetHeaders_descriptor,
+        new java.lang.String[] { "Header", });
     tech.ydb.OperationProtos.getDescriptor();
     tech.ydb.ValueProtos.getDescriptor();
     com.google.protobuf.TimestampProto.getDescriptor();
