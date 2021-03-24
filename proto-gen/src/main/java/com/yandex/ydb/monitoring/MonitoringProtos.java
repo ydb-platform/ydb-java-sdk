@@ -577,6 +577,11 @@ public final class MonitoringProtos {
      * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getMinimumStatus();
+
+    /**
+     * <code>uint32 maximum_level = 4;</code>
+     */
+    int getMaximumLevel();
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.SelfCheckRequest}
@@ -593,6 +598,7 @@ public final class MonitoringProtos {
     private SelfCheckRequest() {
       returnVerboseStatus_ = false;
       minimumStatus_ = 0;
+      maximumLevel_ = 0;
     }
 
     @java.lang.Override
@@ -645,6 +651,11 @@ public final class MonitoringProtos {
               int rawValue = input.readEnum();
 
               minimumStatus_ = rawValue;
+              break;
+            }
+            case 32: {
+
+              maximumLevel_ = input.readUInt32();
               break;
             }
           }
@@ -717,6 +728,15 @@ public final class MonitoringProtos {
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
 
+    public static final int MAXIMUM_LEVEL_FIELD_NUMBER = 4;
+    private int maximumLevel_;
+    /**
+     * <code>uint32 maximum_level = 4;</code>
+     */
+    public int getMaximumLevel() {
+      return maximumLevel_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -738,6 +758,9 @@ public final class MonitoringProtos {
       if (minimumStatus_ != tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNSPECIFIED.getNumber()) {
         output.writeEnum(3, minimumStatus_);
       }
+      if (maximumLevel_ != 0) {
+        output.writeUInt32(4, maximumLevel_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -757,6 +780,10 @@ public final class MonitoringProtos {
       if (minimumStatus_ != tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, minimumStatus_);
+      }
+      if (maximumLevel_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(4, maximumLevel_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -782,6 +809,8 @@ public final class MonitoringProtos {
       result = result && (getReturnVerboseStatus()
           == other.getReturnVerboseStatus());
       result = result && minimumStatus_ == other.minimumStatus_;
+      result = result && (getMaximumLevel()
+          == other.getMaximumLevel());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -802,6 +831,8 @@ public final class MonitoringProtos {
           getReturnVerboseStatus());
       hash = (37 * hash) + MINIMUM_STATUS_FIELD_NUMBER;
       hash = (53 * hash) + minimumStatus_;
+      hash = (37 * hash) + MAXIMUM_LEVEL_FIELD_NUMBER;
+      hash = (53 * hash) + getMaximumLevel();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -941,6 +972,8 @@ public final class MonitoringProtos {
 
         minimumStatus_ = 0;
 
+        maximumLevel_ = 0;
+
         return this;
       }
 
@@ -970,6 +1003,7 @@ public final class MonitoringProtos {
         }
         result.returnVerboseStatus_ = returnVerboseStatus_;
         result.minimumStatus_ = minimumStatus_;
+        result.maximumLevel_ = maximumLevel_;
         onBuilt();
         return result;
       }
@@ -1019,6 +1053,9 @@ public final class MonitoringProtos {
         }
         if (other.minimumStatus_ != 0) {
           setMinimumStatusValue(other.getMinimumStatusValue());
+        }
+        if (other.getMaximumLevel() != 0) {
+          setMaximumLevel(other.getMaximumLevel());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1230,6 +1267,32 @@ public final class MonitoringProtos {
       public Builder clearMinimumStatus() {
         
         minimumStatus_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int maximumLevel_ ;
+      /**
+       * <code>uint32 maximum_level = 4;</code>
+       */
+      public int getMaximumLevel() {
+        return maximumLevel_;
+      }
+      /**
+       * <code>uint32 maximum_level = 4;</code>
+       */
+      public Builder setMaximumLevel(int value) {
+        
+        maximumLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 maximum_level = 4;</code>
+       */
+      public Builder clearMaximumLevel() {
+        
+        maximumLevel_ = 0;
         onChanged();
         return this;
       }
@@ -16036,6 +16099,16 @@ public final class MonitoringProtos {
      */
     com.google.protobuf.ByteString
         getTypeBytes();
+
+    /**
+     * <code>string id = 2;</code>
+     */
+    java.lang.String getId();
+    /**
+     * <code>string id = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getIdBytes();
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.LocationComputeTablet}
@@ -16051,6 +16124,7 @@ public final class MonitoringProtos {
     }
     private LocationComputeTablet() {
       type_ = "";
+      id_ = "";
     }
 
     @java.lang.Override
@@ -16085,6 +16159,12 @@ public final class MonitoringProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               type_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              id_ = s;
               break;
             }
           }
@@ -16145,6 +16225,40 @@ public final class MonitoringProtos {
       }
     }
 
+    public static final int ID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object id_;
+    /**
+     * <code>string id = 2;</code>
+     */
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        id_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string id = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIdBytes() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -16160,6 +16274,9 @@ public final class MonitoringProtos {
       if (!getTypeBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, type_);
       }
+      if (!getIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, id_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -16170,6 +16287,9 @@ public final class MonitoringProtos {
       size = 0;
       if (!getTypeBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, type_);
+      }
+      if (!getIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, id_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -16189,6 +16309,8 @@ public final class MonitoringProtos {
       boolean result = true;
       result = result && getType()
           .equals(other.getType());
+      result = result && getId()
+          .equals(other.getId());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -16202,6 +16324,8 @@ public final class MonitoringProtos {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -16333,6 +16457,8 @@ public final class MonitoringProtos {
         super.clear();
         type_ = "";
 
+        id_ = "";
+
         return this;
       }
 
@@ -16356,6 +16482,7 @@ public final class MonitoringProtos {
       public tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet result = new tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet(this);
         result.type_ = type_;
+        result.id_ = id_;
         onBuilt();
         return result;
       }
@@ -16399,6 +16526,10 @@ public final class MonitoringProtos {
         if (other == tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet.getDefaultInstance()) return this;
         if (!other.getType().isEmpty()) {
           type_ = other.type_;
+          onChanged();
+        }
+        if (!other.getId().isEmpty()) {
+          id_ = other.id_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -16493,6 +16624,75 @@ public final class MonitoringProtos {
   checkByteStringIsUtf8(value);
         
         type_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object id_ = "";
+      /**
+       * <code>string id = 2;</code>
+       */
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          id_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string id = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIdBytes() {
+        java.lang.Object ref = id_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          id_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string id = 2;</code>
+       */
+      public Builder setId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string id = 2;</code>
+       */
+      public Builder clearId() {
+        
+        id_ = getDefaultInstance().getId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string id = 2;</code>
+       */
+      public Builder setIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        id_ = value;
         onChanged();
         return this;
       }
@@ -22712,88 +22912,89 @@ public final class MonitoringProtos {
       "pi/protos/ydb_operation.proto\"g\n\nStatusF" +
       "lag\"Y\n\006Status\022\017\n\013UNSPECIFIED\020\000\022\010\n\004GREY\020\001" +
       "\022\t\n\005GREEN\020\002\022\010\n\004BLUE\020\003\022\n\n\006YELLOW\020\004\022\n\n\006ORA" +
-      "NGE\020\005\022\007\n\003RED\020\006\"\247\001\n\020SelfCheckRequest\0229\n\020o" +
+      "NGE\020\005\022\007\n\003RED\020\006\"\276\001\n\020SelfCheckRequest\0229\n\020o" +
       "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
       "perationParams\022\035\n\025return_verbose_status\030" +
       "\002 \001(\010\0229\n\016minimum_status\030\003 \001(\0162!.Ydb.Moni" +
-      "toring.StatusFlag.Status\"A\n\021SelfCheckRes",
-      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
-      "s.Operation\"g\n\tSelfCheck\"Z\n\006Result\022\017\n\013UN" +
-      "SPECIFIED\020\000\022\010\n\004GOOD\020\001\022\014\n\010DEGRADED\020\002\022\030\n\024M" +
-      "AINTENANCE_REQUIRED\020\003\022\r\n\tEMERGENCY\020\004\"T\n\022" +
-      "StoragePDiskStatus\022\n\n\002id\030\001 \001(\t\0222\n\007overal" +
-      "l\030\002 \001(\0162!.Ydb.Monitoring.StatusFlag.Stat" +
-      "us\"\300\001\n\022StorageVDiskStatus\022\n\n\002id\030\001 \001(\t\0222\n" +
-      "\007overall\030\002 \001(\0162!.Ydb.Monitoring.StatusFl" +
-      "ag.Status\0227\n\014vdisk_status\030\003 \001(\0162!.Ydb.Mo" +
-      "nitoring.StatusFlag.Status\0221\n\005pdisk\030\004 \001(",
-      "\0132\".Ydb.Monitoring.StoragePDiskStatus\"\210\001" +
-      "\n\022StorageGroupStatus\022\n\n\002id\030\001 \001(\t\0222\n\007over" +
-      "all\030\002 \001(\0162!.Ydb.Monitoring.StatusFlag.St" +
-      "atus\0222\n\006vdisks\030\003 \003(\0132\".Ydb.Monitoring.St" +
-      "orageVDiskStatus\"\207\001\n\021StoragePoolStatus\022\n" +
-      "\n\002id\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.Monito" +
-      "ring.StatusFlag.Status\0222\n\006groups\030\003 \003(\0132\"" +
-      ".Ydb.Monitoring.StorageGroupStatus\"u\n\rSt" +
-      "orageStatus\0222\n\007overall\030\001 \001(\0162!.Ydb.Monit" +
-      "oring.StatusFlag.Status\0220\n\005pools\030\002 \003(\0132!",
-      ".Ydb.Monitoring.StoragePoolStatus\"u\n\023Com" +
-      "puteTabletStatus\0222\n\007overall\030\001 \001(\0162!.Ydb." +
-      "Monitoring.StatusFlag.Status\022\014\n\004type\030\002 \001" +
-      "(\t\022\r\n\005state\030\003 \001(\t\022\r\n\005count\030\004 \001(\r\"c\n\020Thre" +
-      "adPoolStatus\0222\n\007overall\030\001 \001(\0162!.Ydb.Moni" +
-      "toring.StatusFlag.Status\022\014\n\004name\030\002 \001(\t\022\r" +
-      "\n\005usage\030\003 \001(\002\"d\n\021LoadAverageStatus\0222\n\007ov" +
-      "erall\030\001 \001(\0162!.Ydb.Monitoring.StatusFlag." +
-      "Status\022\014\n\004load\030\002 \001(\002\022\r\n\005cores\030\003 \001(\r\"\353\001\n\021" +
-      "ComputeNodeStatus\022\n\n\002id\030\001 \001(\t\0222\n\007overall",
-      "\030\002 \001(\0162!.Ydb.Monitoring.StatusFlag.Statu" +
-      "s\0224\n\007tablets\030\003 \003(\0132#.Ydb.Monitoring.Comp" +
-      "uteTabletStatus\022/\n\005pools\030\004 \003(\0132 .Ydb.Mon" +
-      "itoring.ThreadPoolStatus\022/\n\004load\030\005 \001(\0132!" +
-      ".Ydb.Monitoring.LoadAverageStatus\"u\n\rCom" +
-      "puteStatus\0222\n\007overall\030\001 \001(\0162!.Ydb.Monito" +
-      "ring.StatusFlag.Status\0220\n\005nodes\030\002 \003(\0132!." +
-      "Ydb.Monitoring.ComputeNodeStatus\"6\n\014Loca" +
-      "tionNode\022\n\n\002id\030\001 \001(\r\022\014\n\004host\030\002 \001(\t\022\014\n\004po" +
-      "rt\030\003 \001(\r\"0\n\024LocationStoragePDisk\022\n\n\002id\030\001",
-      " \001(\t\022\014\n\004path\030\002 \001(\t\"W\n\024LocationStorageVDi" +
-      "sk\022\n\n\002id\030\001 \001(\t\0223\n\005pdisk\030\002 \001(\0132$.Ydb.Moni" +
-      "toring.LocationStoragePDisk\"W\n\024LocationS" +
-      "torageGroup\022\n\n\002id\030\001 \001(\t\0223\n\005vdisk\030\002 \001(\0132$" +
-      ".Ydb.Monitoring.LocationStorageVDisk\"X\n\023" +
-      "LocationStoragePool\022\014\n\004name\030\001 \001(\t\0223\n\005gro" +
-      "up\030\002 \001(\0132$.Ydb.Monitoring.LocationStorag" +
-      "eGroup\"p\n\017LocationStorage\022*\n\004node\030\001 \001(\0132" +
-      "\034.Ydb.Monitoring.LocationNode\0221\n\004pool\030\002 " +
-      "\001(\0132#.Ydb.Monitoring.LocationStoragePool",
-      "\"#\n\023LocationComputePool\022\014\n\004name\030\001 \001(\t\"%\n" +
-      "\025LocationComputeTablet\022\014\n\004type\030\001 \001(\t\"\247\001\n" +
-      "\017LocationCompute\022*\n\004node\030\001 \001(\0132\034.Ydb.Mon" +
-      "itoring.LocationNode\0221\n\004pool\030\002 \001(\0132#.Ydb" +
-      ".Monitoring.LocationComputePool\0225\n\006table" +
-      "t\030\003 \001(\0132%.Ydb.Monitoring.LocationCompute" +
-      "Tablet\" \n\020LocationDatabase\022\014\n\004name\030\001 \001(\t" +
-      "\"\242\001\n\010Location\0220\n\007storage\030\001 \001(\0132\037.Ydb.Mon" +
-      "itoring.LocationStorage\0220\n\007compute\030\002 \001(\013" +
-      "2\037.Ydb.Monitoring.LocationCompute\0222\n\010dat",
-      "abase\030\003 \001(\0132 .Ydb.Monitoring.LocationDat" +
-      "abase\"\263\001\n\010IssueLog\022\n\n\002id\030\001 \001(\t\0221\n\006status" +
-      "\030\002 \001(\0162!.Ydb.Monitoring.StatusFlag.Statu" +
-      "s\022\017\n\007message\030\003 \001(\t\022*\n\010location\030\004 \001(\0132\030.Y" +
-      "db.Monitoring.Location\022\016\n\006reason\030\005 \003(\t\022\014" +
-      "\n\004type\030\006 \001(\t\022\r\n\005level\030\007 \001(\r\"\262\001\n\016Database" +
-      "Status\022\014\n\004name\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!." +
-      "Ydb.Monitoring.StatusFlag.Status\022.\n\007stor" +
-      "age\030\003 \001(\0132\035.Ydb.Monitoring.StorageStatus" +
-      "\022.\n\007compute\030\004 \001(\0132\035.Ydb.Monitoring.Compu",
-      "teStatus\"\264\001\n\017SelfCheckResult\022;\n\021self_che" +
-      "ck_result\030\001 \001(\0162 .Ydb.Monitoring.SelfChe" +
-      "ck.Result\022+\n\tissue_log\030\002 \003(\0132\030.Ydb.Monit" +
-      "oring.IssueLog\0227\n\017database_status\030\003 \003(\0132" +
-      "\036.Ydb.Monitoring.DatabaseStatusB0\n\031com.y" +
-      "andex.ydb.monitoringB\020MonitoringProtos\370\001" +
-      "\001b\006proto3"
+      "toring.StatusFlag.Status\022\025\n\rmaximum_leve",
+      "l\030\004 \001(\r\"A\n\021SelfCheckResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"g\n\tSe" +
+      "lfCheck\"Z\n\006Result\022\017\n\013UNSPECIFIED\020\000\022\010\n\004GO" +
+      "OD\020\001\022\014\n\010DEGRADED\020\002\022\030\n\024MAINTENANCE_REQUIR" +
+      "ED\020\003\022\r\n\tEMERGENCY\020\004\"T\n\022StoragePDiskStatu" +
+      "s\022\n\n\002id\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.Mon" +
+      "itoring.StatusFlag.Status\"\300\001\n\022StorageVDi" +
+      "skStatus\022\n\n\002id\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!." +
+      "Ydb.Monitoring.StatusFlag.Status\0227\n\014vdis" +
+      "k_status\030\003 \001(\0162!.Ydb.Monitoring.StatusFl",
+      "ag.Status\0221\n\005pdisk\030\004 \001(\0132\".Ydb.Monitorin" +
+      "g.StoragePDiskStatus\"\210\001\n\022StorageGroupSta" +
+      "tus\022\n\n\002id\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.M" +
+      "onitoring.StatusFlag.Status\0222\n\006vdisks\030\003 " +
+      "\003(\0132\".Ydb.Monitoring.StorageVDiskStatus\"" +
+      "\207\001\n\021StoragePoolStatus\022\n\n\002id\030\001 \001(\t\0222\n\007ove" +
+      "rall\030\002 \001(\0162!.Ydb.Monitoring.StatusFlag.S" +
+      "tatus\0222\n\006groups\030\003 \003(\0132\".Ydb.Monitoring.S" +
+      "torageGroupStatus\"u\n\rStorageStatus\0222\n\007ov" +
+      "erall\030\001 \001(\0162!.Ydb.Monitoring.StatusFlag.",
+      "Status\0220\n\005pools\030\002 \003(\0132!.Ydb.Monitoring.S" +
+      "toragePoolStatus\"u\n\023ComputeTabletStatus\022" +
+      "2\n\007overall\030\001 \001(\0162!.Ydb.Monitoring.Status" +
+      "Flag.Status\022\014\n\004type\030\002 \001(\t\022\r\n\005state\030\003 \001(\t" +
+      "\022\r\n\005count\030\004 \001(\r\"c\n\020ThreadPoolStatus\0222\n\007o" +
+      "verall\030\001 \001(\0162!.Ydb.Monitoring.StatusFlag" +
+      ".Status\022\014\n\004name\030\002 \001(\t\022\r\n\005usage\030\003 \001(\002\"d\n\021" +
+      "LoadAverageStatus\0222\n\007overall\030\001 \001(\0162!.Ydb" +
+      ".Monitoring.StatusFlag.Status\022\014\n\004load\030\002 " +
+      "\001(\002\022\r\n\005cores\030\003 \001(\r\"\353\001\n\021ComputeNodeStatus",
+      "\022\n\n\002id\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.Moni" +
+      "toring.StatusFlag.Status\0224\n\007tablets\030\003 \003(" +
+      "\0132#.Ydb.Monitoring.ComputeTabletStatus\022/" +
+      "\n\005pools\030\004 \003(\0132 .Ydb.Monitoring.ThreadPoo" +
+      "lStatus\022/\n\004load\030\005 \001(\0132!.Ydb.Monitoring.L" +
+      "oadAverageStatus\"u\n\rComputeStatus\0222\n\007ove" +
+      "rall\030\001 \001(\0162!.Ydb.Monitoring.StatusFlag.S" +
+      "tatus\0220\n\005nodes\030\002 \003(\0132!.Ydb.Monitoring.Co" +
+      "mputeNodeStatus\"6\n\014LocationNode\022\n\n\002id\030\001 " +
+      "\001(\r\022\014\n\004host\030\002 \001(\t\022\014\n\004port\030\003 \001(\r\"0\n\024Locat",
+      "ionStoragePDisk\022\n\n\002id\030\001 \001(\t\022\014\n\004path\030\002 \001(" +
+      "\t\"W\n\024LocationStorageVDisk\022\n\n\002id\030\001 \001(\t\0223\n" +
+      "\005pdisk\030\002 \001(\0132$.Ydb.Monitoring.LocationSt" +
+      "oragePDisk\"W\n\024LocationStorageGroup\022\n\n\002id" +
+      "\030\001 \001(\t\0223\n\005vdisk\030\002 \001(\0132$.Ydb.Monitoring.L" +
+      "ocationStorageVDisk\"X\n\023LocationStoragePo" +
+      "ol\022\014\n\004name\030\001 \001(\t\0223\n\005group\030\002 \001(\0132$.Ydb.Mo" +
+      "nitoring.LocationStorageGroup\"p\n\017Locatio" +
+      "nStorage\022*\n\004node\030\001 \001(\0132\034.Ydb.Monitoring." +
+      "LocationNode\0221\n\004pool\030\002 \001(\0132#.Ydb.Monitor",
+      "ing.LocationStoragePool\"#\n\023LocationCompu" +
+      "tePool\022\014\n\004name\030\001 \001(\t\"1\n\025LocationComputeT" +
+      "ablet\022\014\n\004type\030\001 \001(\t\022\n\n\002id\030\002 \001(\t\"\247\001\n\017Loca" +
+      "tionCompute\022*\n\004node\030\001 \001(\0132\034.Ydb.Monitori" +
+      "ng.LocationNode\0221\n\004pool\030\002 \001(\0132#.Ydb.Moni" +
+      "toring.LocationComputePool\0225\n\006tablet\030\003 \001" +
+      "(\0132%.Ydb.Monitoring.LocationComputeTable" +
+      "t\" \n\020LocationDatabase\022\014\n\004name\030\001 \001(\t\"\242\001\n\010" +
+      "Location\0220\n\007storage\030\001 \001(\0132\037.Ydb.Monitori" +
+      "ng.LocationStorage\0220\n\007compute\030\002 \001(\0132\037.Yd",
+      "b.Monitoring.LocationCompute\0222\n\010database" +
+      "\030\003 \001(\0132 .Ydb.Monitoring.LocationDatabase" +
+      "\"\263\001\n\010IssueLog\022\n\n\002id\030\001 \001(\t\0221\n\006status\030\002 \001(" +
+      "\0162!.Ydb.Monitoring.StatusFlag.Status\022\017\n\007" +
+      "message\030\003 \001(\t\022*\n\010location\030\004 \001(\0132\030.Ydb.Mo" +
+      "nitoring.Location\022\016\n\006reason\030\005 \003(\t\022\014\n\004typ" +
+      "e\030\006 \001(\t\022\r\n\005level\030\007 \001(\r\"\262\001\n\016DatabaseStatu" +
+      "s\022\014\n\004name\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.M" +
+      "onitoring.StatusFlag.Status\022.\n\007storage\030\003" +
+      " \001(\0132\035.Ydb.Monitoring.StorageStatus\022.\n\007c",
+      "ompute\030\004 \001(\0132\035.Ydb.Monitoring.ComputeSta" +
+      "tus\"\264\001\n\017SelfCheckResult\022;\n\021self_check_re" +
+      "sult\030\001 \001(\0162 .Ydb.Monitoring.SelfCheck.Re" +
+      "sult\022+\n\tissue_log\030\002 \003(\0132\030.Ydb.Monitoring" +
+      ".IssueLog\0227\n\017database_status\030\003 \003(\0132\036.Ydb" +
+      ".Monitoring.DatabaseStatusB0\n\031com.yandex" +
+      ".ydb.monitoringB\020MonitoringProtos\370\001\001b\006pr" +
+      "oto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -22819,7 +23020,7 @@ public final class MonitoringProtos {
     internal_static_Ydb_Monitoring_SelfCheckRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Monitoring_SelfCheckRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "ReturnVerboseStatus", "MinimumStatus", });
+        new java.lang.String[] { "OperationParams", "ReturnVerboseStatus", "MinimumStatus", "MaximumLevel", });
     internal_static_Ydb_Monitoring_SelfCheckResponse_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_Ydb_Monitoring_SelfCheckResponse_fieldAccessorTable = new
@@ -22939,7 +23140,7 @@ public final class MonitoringProtos {
     internal_static_Ydb_Monitoring_LocationComputeTablet_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Monitoring_LocationComputeTablet_descriptor,
-        new java.lang.String[] { "Type", });
+        new java.lang.String[] { "Type", "Id", });
     internal_static_Ydb_Monitoring_LocationCompute_descriptor =
       getDescriptor().getMessageTypes().get(22);
     internal_static_Ydb_Monitoring_LocationCompute_fieldAccessorTable = new

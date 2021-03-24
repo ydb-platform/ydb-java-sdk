@@ -22359,18 +22359,35 @@ public final class Datastreams {
      * name of streams
      * </pre>
      *
-     * <code>string stream_names = 2;</code>
+     * <code>repeated string stream_names = 2;</code>
      */
-    java.lang.String getStreamNames();
+    java.util.List<java.lang.String>
+        getStreamNamesList();
     /**
      * <pre>
      * name of streams
      * </pre>
      *
-     * <code>string stream_names = 2;</code>
+     * <code>repeated string stream_names = 2;</code>
+     */
+    int getStreamNamesCount();
+    /**
+     * <pre>
+     * name of streams
+     * </pre>
+     *
+     * <code>repeated string stream_names = 2;</code>
+     */
+    java.lang.String getStreamNames(int index);
+    /**
+     * <pre>
+     * name of streams
+     * </pre>
+     *
+     * <code>repeated string stream_names = 2;</code>
      */
     com.google.protobuf.ByteString
-        getStreamNamesBytes();
+        getStreamNamesBytes(int index);
   }
   /**
    * Protobuf type {@code Ydb.DataStreams.V1.ListStreamsResult}
@@ -22386,7 +22403,7 @@ public final class Datastreams {
     }
     private ListStreamsResult() {
       hasMoreStreams_ = false;
-      streamNames_ = "";
+      streamNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -22424,8 +22441,11 @@ public final class Datastreams {
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
-
-              streamNames_ = s;
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                streamNames_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              streamNames_.add(s);
               break;
             }
           }
@@ -22436,6 +22456,9 @@ public final class Datastreams {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          streamNames_ = streamNames_.getUnmodifiableView();
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -22452,6 +22475,7 @@ public final class Datastreams {
               tech.ydb.datastreams.v1.Datastreams.ListStreamsResult.class, tech.ydb.datastreams.v1.Datastreams.ListStreamsResult.Builder.class);
     }
 
+    private int bitField0_;
     public static final int HAS_MORE_STREAMS_FIELD_NUMBER = 1;
     private boolean hasMoreStreams_;
     /**
@@ -22466,45 +22490,48 @@ public final class Datastreams {
     }
 
     public static final int STREAM_NAMES_FIELD_NUMBER = 2;
-    private volatile java.lang.Object streamNames_;
+    private com.google.protobuf.LazyStringList streamNames_;
     /**
      * <pre>
      * name of streams
      * </pre>
      *
-     * <code>string stream_names = 2;</code>
+     * <code>repeated string stream_names = 2;</code>
      */
-    public java.lang.String getStreamNames() {
-      java.lang.Object ref = streamNames_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        streamNames_ = s;
-        return s;
-      }
+    public com.google.protobuf.ProtocolStringList
+        getStreamNamesList() {
+      return streamNames_;
     }
     /**
      * <pre>
      * name of streams
      * </pre>
      *
-     * <code>string stream_names = 2;</code>
+     * <code>repeated string stream_names = 2;</code>
+     */
+    public int getStreamNamesCount() {
+      return streamNames_.size();
+    }
+    /**
+     * <pre>
+     * name of streams
+     * </pre>
+     *
+     * <code>repeated string stream_names = 2;</code>
+     */
+    public java.lang.String getStreamNames(int index) {
+      return streamNames_.get(index);
+    }
+    /**
+     * <pre>
+     * name of streams
+     * </pre>
+     *
+     * <code>repeated string stream_names = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getStreamNamesBytes() {
-      java.lang.Object ref = streamNames_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        streamNames_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+        getStreamNamesBytes(int index) {
+      return streamNames_.getByteString(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -22522,8 +22549,8 @@ public final class Datastreams {
       if (hasMoreStreams_ != false) {
         output.writeBool(1, hasMoreStreams_);
       }
-      if (!getStreamNamesBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, streamNames_);
+      for (int i = 0; i < streamNames_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, streamNames_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -22537,8 +22564,13 @@ public final class Datastreams {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(1, hasMoreStreams_);
       }
-      if (!getStreamNamesBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, streamNames_);
+      {
+        int dataSize = 0;
+        for (int i = 0; i < streamNames_.size(); i++) {
+          dataSize += computeStringSizeNoTag(streamNames_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getStreamNamesList().size();
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -22558,8 +22590,8 @@ public final class Datastreams {
       boolean result = true;
       result = result && (getHasMoreStreams()
           == other.getHasMoreStreams());
-      result = result && getStreamNames()
-          .equals(other.getStreamNames());
+      result = result && getStreamNamesList()
+          .equals(other.getStreamNamesList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -22574,8 +22606,10 @@ public final class Datastreams {
       hash = (37 * hash) + HAS_MORE_STREAMS_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getHasMoreStreams());
-      hash = (37 * hash) + STREAM_NAMES_FIELD_NUMBER;
-      hash = (53 * hash) + getStreamNames().hashCode();
+      if (getStreamNamesCount() > 0) {
+        hash = (37 * hash) + STREAM_NAMES_FIELD_NUMBER;
+        hash = (53 * hash) + getStreamNamesList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -22707,8 +22741,8 @@ public final class Datastreams {
         super.clear();
         hasMoreStreams_ = false;
 
-        streamNames_ = "";
-
+        streamNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -22731,8 +22765,15 @@ public final class Datastreams {
 
       public tech.ydb.datastreams.v1.Datastreams.ListStreamsResult buildPartial() {
         tech.ydb.datastreams.v1.Datastreams.ListStreamsResult result = new tech.ydb.datastreams.v1.Datastreams.ListStreamsResult(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.hasMoreStreams_ = hasMoreStreams_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          streamNames_ = streamNames_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
         result.streamNames_ = streamNames_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -22777,8 +22818,14 @@ public final class Datastreams {
         if (other.getHasMoreStreams() != false) {
           setHasMoreStreams(other.getHasMoreStreams());
         }
-        if (!other.getStreamNames().isEmpty()) {
-          streamNames_ = other.streamNames_;
+        if (!other.streamNames_.isEmpty()) {
+          if (streamNames_.isEmpty()) {
+            streamNames_ = other.streamNames_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureStreamNamesIsMutable();
+            streamNames_.addAll(other.streamNames_);
+          }
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -22807,6 +22854,7 @@ public final class Datastreams {
         }
         return this;
       }
+      private int bitField0_;
 
       private boolean hasMoreStreams_ ;
       /**
@@ -22846,60 +22894,86 @@ public final class Datastreams {
         return this;
       }
 
-      private java.lang.Object streamNames_ = "";
-      /**
-       * <pre>
-       * name of streams
-       * </pre>
-       *
-       * <code>string stream_names = 2;</code>
-       */
-      public java.lang.String getStreamNames() {
-        java.lang.Object ref = streamNames_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          streamNames_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      private com.google.protobuf.LazyStringList streamNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureStreamNamesIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          streamNames_ = new com.google.protobuf.LazyStringArrayList(streamNames_);
+          bitField0_ |= 0x00000002;
+         }
       }
       /**
        * <pre>
        * name of streams
        * </pre>
        *
-       * <code>string stream_names = 2;</code>
+       * <code>repeated string stream_names = 2;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getStreamNamesList() {
+        return streamNames_.getUnmodifiableView();
+      }
+      /**
+       * <pre>
+       * name of streams
+       * </pre>
+       *
+       * <code>repeated string stream_names = 2;</code>
+       */
+      public int getStreamNamesCount() {
+        return streamNames_.size();
+      }
+      /**
+       * <pre>
+       * name of streams
+       * </pre>
+       *
+       * <code>repeated string stream_names = 2;</code>
+       */
+      public java.lang.String getStreamNames(int index) {
+        return streamNames_.get(index);
+      }
+      /**
+       * <pre>
+       * name of streams
+       * </pre>
+       *
+       * <code>repeated string stream_names = 2;</code>
        */
       public com.google.protobuf.ByteString
-          getStreamNamesBytes() {
-        java.lang.Object ref = streamNames_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          streamNames_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
+          getStreamNamesBytes(int index) {
+        return streamNames_.getByteString(index);
       }
       /**
        * <pre>
        * name of streams
        * </pre>
        *
-       * <code>string stream_names = 2;</code>
+       * <code>repeated string stream_names = 2;</code>
        */
       public Builder setStreamNames(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureStreamNamesIsMutable();
+        streamNames_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * name of streams
+       * </pre>
+       *
+       * <code>repeated string stream_names = 2;</code>
+       */
+      public Builder addStreamNames(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  
-        streamNames_ = value;
+  ensureStreamNamesIsMutable();
+        streamNames_.add(value);
         onChanged();
         return this;
       }
@@ -22908,11 +22982,26 @@ public final class Datastreams {
        * name of streams
        * </pre>
        *
-       * <code>string stream_names = 2;</code>
+       * <code>repeated string stream_names = 2;</code>
+       */
+      public Builder addAllStreamNames(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureStreamNamesIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, streamNames_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * name of streams
+       * </pre>
+       *
+       * <code>repeated string stream_names = 2;</code>
        */
       public Builder clearStreamNames() {
-        
-        streamNames_ = getDefaultInstance().getStreamNames();
+        streamNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -22921,16 +23010,16 @@ public final class Datastreams {
        * name of streams
        * </pre>
        *
-       * <code>string stream_names = 2;</code>
+       * <code>repeated string stream_names = 2;</code>
        */
-      public Builder setStreamNamesBytes(
+      public Builder addStreamNamesBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
-        streamNames_ = value;
+        ensureStreamNamesIsMutable();
+        streamNames_.add(value);
         onChanged();
         return this;
       }
@@ -53602,9 +53691,9 @@ public final class Datastreams {
      * Retention period in hours
      * </pre>
      *
-     * <code>int32 retention_perioud_hours = 3;</code>
+     * <code>int32 retention_period_hours = 3;</code>
      */
-    int getRetentionPerioudHours();
+    int getRetentionPeriodHours();
   }
   /**
    * Protobuf type {@code Ydb.DataStreams.V1.DecreaseStreamRetentionPeriodRequest}
@@ -53620,7 +53709,7 @@ public final class Datastreams {
     }
     private DecreaseStreamRetentionPeriodRequest() {
       streamName_ = "";
-      retentionPerioudHours_ = 0;
+      retentionPeriodHours_ = 0;
     }
 
     @java.lang.Override
@@ -53672,7 +53761,7 @@ public final class Datastreams {
             }
             case 24: {
 
-              retentionPerioudHours_ = input.readInt32();
+              retentionPeriodHours_ = input.readInt32();
               break;
             }
           }
@@ -53762,17 +53851,17 @@ public final class Datastreams {
       }
     }
 
-    public static final int RETENTION_PERIOUD_HOURS_FIELD_NUMBER = 3;
-    private int retentionPerioudHours_;
+    public static final int RETENTION_PERIOD_HOURS_FIELD_NUMBER = 3;
+    private int retentionPeriodHours_;
     /**
      * <pre>
      * Retention period in hours
      * </pre>
      *
-     * <code>int32 retention_perioud_hours = 3;</code>
+     * <code>int32 retention_period_hours = 3;</code>
      */
-    public int getRetentionPerioudHours() {
-      return retentionPerioudHours_;
+    public int getRetentionPeriodHours() {
+      return retentionPeriodHours_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -53793,8 +53882,8 @@ public final class Datastreams {
       if (!getStreamNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, streamName_);
       }
-      if (retentionPerioudHours_ != 0) {
-        output.writeInt32(3, retentionPerioudHours_);
+      if (retentionPeriodHours_ != 0) {
+        output.writeInt32(3, retentionPeriodHours_);
       }
       unknownFields.writeTo(output);
     }
@@ -53811,9 +53900,9 @@ public final class Datastreams {
       if (!getStreamNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, streamName_);
       }
-      if (retentionPerioudHours_ != 0) {
+      if (retentionPeriodHours_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, retentionPerioudHours_);
+          .computeInt32Size(3, retentionPeriodHours_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -53838,8 +53927,8 @@ public final class Datastreams {
       }
       result = result && getStreamName()
           .equals(other.getStreamName());
-      result = result && (getRetentionPerioudHours()
-          == other.getRetentionPerioudHours());
+      result = result && (getRetentionPeriodHours()
+          == other.getRetentionPeriodHours());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -53857,8 +53946,8 @@ public final class Datastreams {
       }
       hash = (37 * hash) + STREAM_NAME_FIELD_NUMBER;
       hash = (53 * hash) + getStreamName().hashCode();
-      hash = (37 * hash) + RETENTION_PERIOUD_HOURS_FIELD_NUMBER;
-      hash = (53 * hash) + getRetentionPerioudHours();
+      hash = (37 * hash) + RETENTION_PERIOD_HOURS_FIELD_NUMBER;
+      hash = (53 * hash) + getRetentionPeriodHours();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -53996,7 +54085,7 @@ public final class Datastreams {
         }
         streamName_ = "";
 
-        retentionPerioudHours_ = 0;
+        retentionPeriodHours_ = 0;
 
         return this;
       }
@@ -54026,7 +54115,7 @@ public final class Datastreams {
           result.operationParams_ = operationParamsBuilder_.build();
         }
         result.streamName_ = streamName_;
-        result.retentionPerioudHours_ = retentionPerioudHours_;
+        result.retentionPeriodHours_ = retentionPeriodHours_;
         onBuilt();
         return result;
       }
@@ -54075,8 +54164,8 @@ public final class Datastreams {
           streamName_ = other.streamName_;
           onChanged();
         }
-        if (other.getRetentionPerioudHours() != 0) {
-          setRetentionPerioudHours(other.getRetentionPerioudHours());
+        if (other.getRetentionPeriodHours() != 0) {
+          setRetentionPeriodHours(other.getRetentionPeriodHours());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -54311,27 +54400,27 @@ public final class Datastreams {
         return this;
       }
 
-      private int retentionPerioudHours_ ;
+      private int retentionPeriodHours_ ;
       /**
        * <pre>
        * Retention period in hours
        * </pre>
        *
-       * <code>int32 retention_perioud_hours = 3;</code>
+       * <code>int32 retention_period_hours = 3;</code>
        */
-      public int getRetentionPerioudHours() {
-        return retentionPerioudHours_;
+      public int getRetentionPeriodHours() {
+        return retentionPeriodHours_;
       }
       /**
        * <pre>
        * Retention period in hours
        * </pre>
        *
-       * <code>int32 retention_perioud_hours = 3;</code>
+       * <code>int32 retention_period_hours = 3;</code>
        */
-      public Builder setRetentionPerioudHours(int value) {
+      public Builder setRetentionPeriodHours(int value) {
         
-        retentionPerioudHours_ = value;
+        retentionPeriodHours_ = value;
         onChanged();
         return this;
       }
@@ -54340,11 +54429,11 @@ public final class Datastreams {
        * Retention period in hours
        * </pre>
        *
-       * <code>int32 retention_perioud_hours = 3;</code>
+       * <code>int32 retention_period_hours = 3;</code>
        */
-      public Builder clearRetentionPerioudHours() {
+      public Builder clearRetentionPeriodHours() {
         
-        retentionPerioudHours_ = 0;
+        retentionPeriodHours_ = 0;
         onChanged();
         return this;
       }
@@ -80759,7 +80848,7 @@ public final class Datastreams {
       "treamsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
       "Operations.Operation\"C\n\021ListStreamsResul" +
       "t\022\030\n\020has_more_streams\030\001 \001(\010\022\024\n\014stream_na" +
-      "mes\030\002 \001(\t\"\210\002\n\021ListShardsRequest\0229\n\020opera" +
+      "mes\030\002 \003(\t\"\210\002\n\021ListShardsRequest\0229\n\020opera" +
       "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
       "tionParams\022 \n\030exclusive_start_shard_id\030\002" +
       " \001(\t\022\023\n\013max_results\030\003 \001(\005\022\022\n\nnext_token\030" +
@@ -80867,111 +80956,111 @@ public final class Datastreams {
       "ream_name\030\002 \001(\t\022\014\n\004tags\030\003 \003(\t\"G\n\027AddTags" +
       "ToStreamResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
       "b.Operations.Operation\"\027\n\025AddTagsToStrea" +
-      "mResult\"\227\001\n$DecreaseStreamRetentionPerio" +
+      "mResult\"\226\001\n$DecreaseStreamRetentionPerio" +
       "dRequest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb" +
       ".Operations.OperationParams\022\023\n\013stream_na" +
-      "me\030\002 \001(\t\022\037\n\027retention_perioud_hours\030\003 \001(" +
-      "\005\"U\n%DecreaseStreamRetentionPeriodRespon" +
-      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
-      "peration\"%\n#DecreaseStreamRetentionPerio",
-      "dResult\"R\n\025DescribeLimitsRequest\0229\n\020oper" +
-      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
-      "ationParams\"F\n\026DescribeLimitsResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"E\n\024DescribeLimitsResult\022\030\n\020open_shar" +
-      "d_count\030\001 \001(\r\022\023\n\013shard_limit\030\002 \001(\r\"n\n\034De" +
-      "scribeStreamSummaryRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\023\n\013stream_name\030\002 \001(\t\"M\n\035DescribeSt" +
-      "reamSummaryResponse\022,\n\toperation\030\001 \001(\0132\031",
-      ".Ydb.Operations.Operation\"\035\n\033DescribeStr" +
-      "eamSummaryResult\"\217\001\n DisableEnhancedMoni" +
-      "toringRequest\0229\n\020operation_params\030\001 \001(\0132" +
-      "\037.Ydb.Operations.OperationParams\022\033\n\023shar" +
-      "d_level_metrics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001" +
-      "(\t\"Q\n!DisableEnhancedMonitoringResponse\022" +
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\"\200\001\n\037DisableEnhancedMonitoringResul" +
-      "t\022#\n\033current_shard_level_metrics\030\001 \003(\t\022#" +
-      "\n\033desired_shard_level_metrics\030\002 \003(\t\022\023\n\013s",
-      "tream_name\030\003 \001(\t\"\216\001\n\037EnableEnhancedMonit" +
+      "me\030\002 \001(\t\022\036\n\026retention_period_hours\030\003 \001(\005" +
+      "\"U\n%DecreaseStreamRetentionPeriodRespons" +
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
+      "eration\"%\n#DecreaseStreamRetentionPeriod",
+      "Result\"R\n\025DescribeLimitsRequest\0229\n\020opera" +
+      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
+      "tionParams\"F\n\026DescribeLimitsResponse\022,\n\t" +
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
+      "on\"E\n\024DescribeLimitsResult\022\030\n\020open_shard" +
+      "_count\030\001 \001(\r\022\023\n\013shard_limit\030\002 \001(\r\"n\n\034Des" +
+      "cribeStreamSummaryRequest\0229\n\020operation_p" +
+      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
+      "rams\022\023\n\013stream_name\030\002 \001(\t\"M\n\035DescribeStr" +
+      "eamSummaryResponse\022,\n\toperation\030\001 \001(\0132\031.",
+      "Ydb.Operations.Operation\"\035\n\033DescribeStre" +
+      "amSummaryResult\"\217\001\n DisableEnhancedMonit" +
       "oringRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
       ".Ydb.Operations.OperationParams\022\033\n\023shard" +
       "_level_metrics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(" +
-      "\t\"P\n EnableEnhancedMonitoringResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"\177\n\036EnableEnhancedMonitoringResult\022#\n" +
-      "\033current_shard_level_metrics\030\001 \003(\t\022#\n\033de" +
-      "sired_shard_level_metrics\030\002 \003(\t\022\023\n\013strea" +
-      "m_name\030\003 \001(\t\"\226\001\n$IncreaseStreamRetention",
-      "PeriodRequest\0229\n\020operation_params\030\001 \001(\0132" +
-      "\037.Ydb.Operations.OperationParams\022\036\n\026rete" +
-      "ntion_period_hours\030\002 \001(\005\022\023\n\013stream_name\030" +
-      "\003 \001(\t\"U\n%IncreaseStreamRetentionPeriodRe" +
-      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
-      "ns.Operation\"%\n#IncreaseStreamRetentionP" +
-      "eriodResult\"\232\001\n\030ListTagsForStreamRequest" +
-      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
-      "ons.OperationParams\022\037\n\027exclusive_start_t" +
-      "ag_key\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\022\023\n\013stream_na",
-      "me\030\004 \001(\t\"I\n\031ListTagsForStreamResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"W\n\027ListTagsForStreamResult\022\025\n\rhas_mo" +
-      "re_tags\030\001 \001(\010\022%\n\004tags\030\002 \003(\0132\027.Ydb.DataSt" +
-      "reams.V1.Tag\"\235\001\n\022MergeShardsRequest\0229\n\020o" +
-      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
-      "perationParams\022\037\n\027adjacent_shard_to_merg" +
-      "e\030\002 \001(\t\022\026\n\016shard_to_merge\030\003 \001(\t\022\023\n\013strea" +
-      "m_name\030\004 \001(\t\"C\n\023MergeShardsResponse\022,\n\to" +
-      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio",
-      "n\"\023\n\021MergeShardsResult\"\177\n\033RemoveTagsFrom" +
-      "StreamRequest\0229\n\020operation_params\030\001 \001(\0132" +
-      "\037.Ydb.Operations.OperationParams\022\023\n\013stre" +
-      "am_name\030\002 \001(\t\022\020\n\010tag_keys\030\003 \003(\t\"L\n\034Remov" +
-      "eTagsFromStreamResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.Operation\"\034\n\032RemoveT" +
-      "agsFromStreamResult\"\232\001\n\021SplitShardReques" +
-      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\022\035\n\025new_starting_has" +
-      "h_key\030\002 \001(\t\022\026\n\016shard_to_split\030\003 \001(\t\022\023\n\013s",
-      "tream_name\030\004 \001(\t\"B\n\022SplitShardResponse\022," +
+      "\t\"Q\n!DisableEnhancedMonitoringResponse\022," +
       "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
-      "tion\"\022\n\020SplitShardResult\"\273\001\n\034StartStream" +
-      "EncryptionRequest\0229\n\020operation_params\030\001 " +
-      "\001(\0132\037.Ydb.Operations.OperationParams\022;\n\017" +
-      "encryption_type\030\002 \001(\0162\".Ydb.DataStreams." +
-      "V1.EncryptionType\022\016\n\006key_id\030\003 \001(\t\022\023\n\013str" +
-      "eam_name\030\004 \001(\t\"M\n\035StartStreamEncryptionR" +
-      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
-      "ons.Operation\"\035\n\033StartStreamEncryptionRe",
-      "sult\"\272\001\n\033StopStreamEncryptionRequest\0229\n\020" +
-      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
-      "OperationParams\022;\n\017encryption_type\030\002 \001(\016" +
-      "2\".Ydb.DataStreams.V1.EncryptionType\022\016\n\006" +
-      "key_id\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"L\n\034Sto" +
-      "pStreamEncryptionResponse\022,\n\toperation\030\001" +
-      " \001(\0132\031.Ydb.Operations.Operation\"\034\n\032StopS" +
-      "treamEncryptionResult\"\222\002\n\027UpdateShardCou" +
-      "ntRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\022M\n\014scaling_",
-      "type\030\002 \001(\01627.Ydb.DataStreams.V1.UpdateSh" +
-      "ardCountRequest.ScalingType\022\023\n\013stream_na" +
-      "me\030\003 \001(\t\022\032\n\022target_shard_count\030\004 \001(\005\"<\n\013" +
-      "ScalingType\022\030\n\024SCALING_TYPE_UNKNOWN\020\000\022\023\n" +
-      "\017UNIFORM_SCALING\020\001\"H\n\030UpdateShardCountRe" +
+      "tion\"\200\001\n\037DisableEnhancedMonitoringResult" +
+      "\022#\n\033current_shard_level_metrics\030\001 \003(\t\022#\n" +
+      "\033desired_shard_level_metrics\030\002 \003(\t\022\023\n\013st",
+      "ream_name\030\003 \001(\t\"\216\001\n\037EnableEnhancedMonito" +
+      "ringRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\022\033\n\023shard_" +
+      "level_metrics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t" +
+      "\"P\n EnableEnhancedMonitoringResponse\022,\n\t" +
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
+      "on\"\177\n\036EnableEnhancedMonitoringResult\022#\n\033" +
+      "current_shard_level_metrics\030\001 \003(\t\022#\n\033des" +
+      "ired_shard_level_metrics\030\002 \003(\t\022\023\n\013stream" +
+      "_name\030\003 \001(\t\"\226\001\n$IncreaseStreamRetentionP",
+      "eriodRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\022\036\n\026reten" +
+      "tion_period_hours\030\002 \001(\005\022\023\n\013stream_name\030\003" +
+      " \001(\t\"U\n%IncreaseStreamRetentionPeriodRes" +
+      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
+      "s.Operation\"%\n#IncreaseStreamRetentionPe" +
+      "riodResult\"\232\001\n\030ListTagsForStreamRequest\022" +
+      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\022\037\n\027exclusive_start_ta" +
+      "g_key\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\022\023\n\013stream_nam",
+      "e\030\004 \001(\t\"I\n\031ListTagsForStreamResponse\022,\n\t" +
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
+      "on\"W\n\027ListTagsForStreamResult\022\025\n\rhas_mor" +
+      "e_tags\030\001 \001(\010\022%\n\004tags\030\002 \003(\0132\027.Ydb.DataStr" +
+      "eams.V1.Tag\"\235\001\n\022MergeShardsRequest\0229\n\020op" +
+      "eration_params\030\001 \001(\0132\037.Ydb.Operations.Op" +
+      "erationParams\022\037\n\027adjacent_shard_to_merge" +
+      "\030\002 \001(\t\022\026\n\016shard_to_merge\030\003 \001(\t\022\023\n\013stream" +
+      "_name\030\004 \001(\t\"C\n\023MergeShardsResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation",
+      "\"\023\n\021MergeShardsResult\"\177\n\033RemoveTagsFromS" +
+      "treamRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\022\023\n\013strea" +
+      "m_name\030\002 \001(\t\022\020\n\010tag_keys\030\003 \003(\t\"L\n\034Remove" +
+      "TagsFromStreamResponse\022,\n\toperation\030\001 \001(" +
+      "\0132\031.Ydb.Operations.Operation\"\034\n\032RemoveTa" +
+      "gsFromStreamResult\"\232\001\n\021SplitShardRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\022\035\n\025new_starting_hash" +
+      "_key\030\002 \001(\t\022\026\n\016shard_to_split\030\003 \001(\t\022\023\n\013st",
+      "ream_name\030\004 \001(\t\"B\n\022SplitShardResponse\022,\n" +
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ion\"\022\n\020SplitShardResult\"\273\001\n\034StartStreamE" +
+      "ncryptionRequest\0229\n\020operation_params\030\001 \001" +
+      "(\0132\037.Ydb.Operations.OperationParams\022;\n\017e" +
+      "ncryption_type\030\002 \001(\0162\".Ydb.DataStreams.V" +
+      "1.EncryptionType\022\016\n\006key_id\030\003 \001(\t\022\023\n\013stre" +
+      "am_name\030\004 \001(\t\"M\n\035StartStreamEncryptionRe" +
       "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
-      "ns.Operation\"f\n\026UpdateShardCountResult\022\033" +
-      "\n\023current_shard_count\030\001 \001(\005\022\023\n\013stream_na" +
-      "me\030\002 \001(\t\022\032\n\022target_shard_count\030\003 \001(\005*S\n\016" +
-      "EncryptionType\022\030\n\024ENCRYPTION_UNDEFINED\020\000",
-      "\022\022\n\016ENCRYPTION_KMS\020\001\022\023\n\017ENCRYPTION_NONE\020" +
-      "\002*\337\001\n\021ShardIteratorType\022\034\n\030SHARD_ITERATO" +
-      "R_UNDEFINED\020\000\022%\n!SHARD_ITERATOR_AT_SEQUE" +
-      "NCE_NUMBER\020\001\022(\n$SHARD_ITERATOR_AFTER_SEQ" +
-      "UENCE_NUMBER\020\002\022\037\n\033SHARD_ITERATOR_AT_TIME" +
-      "STAMP\020\003\022\037\n\033SHARD_ITERATOR_TRIM_HORIZON\020\004" +
-      "\022\031\n\025SHARD_ITERATOR_LATEST\020\005B\"\n\035com.yande" +
-      "x.ydb.datastreams.v1\370\001\001b\006proto3"
+      "ns.Operation\"\035\n\033StartStreamEncryptionRes",
+      "ult\"\272\001\n\033StopStreamEncryptionRequest\0229\n\020o" +
+      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
+      "perationParams\022;\n\017encryption_type\030\002 \001(\0162" +
+      "\".Ydb.DataStreams.V1.EncryptionType\022\016\n\006k" +
+      "ey_id\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"L\n\034Stop" +
+      "StreamEncryptionResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"\034\n\032StopSt" +
+      "reamEncryptionResult\"\222\002\n\027UpdateShardCoun" +
+      "tRequest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb" +
+      ".Operations.OperationParams\022M\n\014scaling_t",
+      "ype\030\002 \001(\01627.Ydb.DataStreams.V1.UpdateSha" +
+      "rdCountRequest.ScalingType\022\023\n\013stream_nam" +
+      "e\030\003 \001(\t\022\032\n\022target_shard_count\030\004 \001(\005\"<\n\013S" +
+      "calingType\022\030\n\024SCALING_TYPE_UNKNOWN\020\000\022\023\n\017" +
+      "UNIFORM_SCALING\020\001\"H\n\030UpdateShardCountRes" +
+      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
+      "s.Operation\"f\n\026UpdateShardCountResult\022\033\n" +
+      "\023current_shard_count\030\001 \001(\005\022\023\n\013stream_nam" +
+      "e\030\002 \001(\t\022\032\n\022target_shard_count\030\003 \001(\005*S\n\016E" +
+      "ncryptionType\022\030\n\024ENCRYPTION_UNDEFINED\020\000\022",
+      "\022\n\016ENCRYPTION_KMS\020\001\022\023\n\017ENCRYPTION_NONE\020\002" +
+      "*\337\001\n\021ShardIteratorType\022\034\n\030SHARD_ITERATOR" +
+      "_UNDEFINED\020\000\022%\n!SHARD_ITERATOR_AT_SEQUEN" +
+      "CE_NUMBER\020\001\022(\n$SHARD_ITERATOR_AFTER_SEQU" +
+      "ENCE_NUMBER\020\002\022\037\n\033SHARD_ITERATOR_AT_TIMES" +
+      "TAMP\020\003\022\037\n\033SHARD_ITERATOR_TRIM_HORIZON\020\004\022" +
+      "\031\n\025SHARD_ITERATOR_LATEST\020\005B\"\n\035com.yandex" +
+      ".ydb.datastreams.v1\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -81371,7 +81460,7 @@ public final class Datastreams {
     internal_static_Ydb_DataStreams_V1_DecreaseStreamRetentionPeriodRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DecreaseStreamRetentionPeriodRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "StreamName", "RetentionPerioudHours", });
+        new java.lang.String[] { "OperationParams", "StreamName", "RetentionPeriodHours", });
     internal_static_Ydb_DataStreams_V1_DecreaseStreamRetentionPeriodResponse_descriptor =
       getDescriptor().getMessageTypes().get(63);
     internal_static_Ydb_DataStreams_V1_DecreaseStreamRetentionPeriodResponse_fieldAccessorTable = new

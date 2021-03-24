@@ -3148,41 +3148,6 @@ public final class YdbTable {
   public interface GlobalIndexOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.Table.GlobalIndex)
       com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    java.util.List<java.lang.String>
-        getDataColumnsList();
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    int getDataColumnsCount();
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    java.lang.String getDataColumns(int index);
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getDataColumnsBytes(int index);
   }
   /**
    * Protobuf type {@code Ydb.Table.GlobalIndex}
@@ -3197,7 +3162,6 @@ public final class YdbTable {
       super(builder);
     }
     private GlobalIndex() {
-      dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -3210,7 +3174,6 @@ public final class YdbTable {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3228,15 +3191,6 @@ public final class YdbTable {
               }
               break;
             }
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                dataColumns_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              dataColumns_.add(s);
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3245,9 +3199,6 @@ public final class YdbTable {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          dataColumns_ = dataColumns_.getUnmodifiableView();
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -3264,51 +3215,6 @@ public final class YdbTable {
               tech.ydb.table.YdbTable.GlobalIndex.class, tech.ydb.table.YdbTable.GlobalIndex.Builder.class);
     }
 
-    public static final int DATA_COLUMNS_FIELD_NUMBER = 1;
-    private com.google.protobuf.LazyStringList dataColumns_;
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    public com.google.protobuf.ProtocolStringList
-        getDataColumnsList() {
-      return dataColumns_;
-    }
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    public int getDataColumnsCount() {
-      return dataColumns_.size();
-    }
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    public java.lang.String getDataColumns(int index) {
-      return dataColumns_.get(index);
-    }
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getDataColumnsBytes(int index) {
-      return dataColumns_.getByteString(index);
-    }
-
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -3321,9 +3227,6 @@ public final class YdbTable {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      for (int i = 0; i < dataColumns_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, dataColumns_.getRaw(i));
-      }
       unknownFields.writeTo(output);
     }
 
@@ -3332,14 +3235,6 @@ public final class YdbTable {
       if (size != -1) return size;
 
       size = 0;
-      {
-        int dataSize = 0;
-        for (int i = 0; i < dataColumns_.size(); i++) {
-          dataSize += computeStringSizeNoTag(dataColumns_.getRaw(i));
-        }
-        size += dataSize;
-        size += 1 * getDataColumnsList().size();
-      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -3356,8 +3251,6 @@ public final class YdbTable {
       tech.ydb.table.YdbTable.GlobalIndex other = (tech.ydb.table.YdbTable.GlobalIndex) obj;
 
       boolean result = true;
-      result = result && getDataColumnsList()
-          .equals(other.getDataColumnsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -3369,10 +3262,6 @@ public final class YdbTable {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (getDataColumnsCount() > 0) {
-        hash = (37 * hash) + DATA_COLUMNS_FIELD_NUMBER;
-        hash = (53 * hash) + getDataColumnsList().hashCode();
-      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3502,8 +3391,6 @@ public final class YdbTable {
       }
       public Builder clear() {
         super.clear();
-        dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -3526,12 +3413,6 @@ public final class YdbTable {
 
       public tech.ydb.table.YdbTable.GlobalIndex buildPartial() {
         tech.ydb.table.YdbTable.GlobalIndex result = new tech.ydb.table.YdbTable.GlobalIndex(this);
-        int from_bitField0_ = bitField0_;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          dataColumns_ = dataColumns_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        }
-        result.dataColumns_ = dataColumns_;
         onBuilt();
         return result;
       }
@@ -3573,16 +3454,6 @@ public final class YdbTable {
 
       public Builder mergeFrom(tech.ydb.table.YdbTable.GlobalIndex other) {
         if (other == tech.ydb.table.YdbTable.GlobalIndex.getDefaultInstance()) return this;
-        if (!other.dataColumns_.isEmpty()) {
-          if (dataColumns_.isEmpty()) {
-            dataColumns_ = other.dataColumns_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-          } else {
-            ensureDataColumnsIsMutable();
-            dataColumns_.addAll(other.dataColumns_);
-          }
-          onChanged();
-        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -3607,137 +3478,6 @@ public final class YdbTable {
             mergeFrom(parsedMessage);
           }
         }
-        return this;
-      }
-      private int bitField0_;
-
-      private com.google.protobuf.LazyStringList dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      private void ensureDataColumnsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          dataColumns_ = new com.google.protobuf.LazyStringArrayList(dataColumns_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public com.google.protobuf.ProtocolStringList
-          getDataColumnsList() {
-        return dataColumns_.getUnmodifiableView();
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public int getDataColumnsCount() {
-        return dataColumns_.size();
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public java.lang.String getDataColumns(int index) {
-        return dataColumns_.get(index);
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getDataColumnsBytes(int index) {
-        return dataColumns_.getByteString(index);
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public Builder setDataColumns(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureDataColumnsIsMutable();
-        dataColumns_.set(index, value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public Builder addDataColumns(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureDataColumnsIsMutable();
-        dataColumns_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public Builder addAllDataColumns(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureDataColumnsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, dataColumns_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public Builder clearDataColumns() {
-        dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public Builder addDataColumnsBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        ensureDataColumnsIsMutable();
-        dataColumns_.add(value);
-        onChanged();
         return this;
       }
       public final Builder setUnknownFields(
@@ -3792,41 +3532,6 @@ public final class YdbTable {
   public interface GlobalAsyncIndexOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.Table.GlobalAsyncIndex)
       com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    java.util.List<java.lang.String>
-        getDataColumnsList();
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    int getDataColumnsCount();
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    java.lang.String getDataColumns(int index);
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getDataColumnsBytes(int index);
   }
   /**
    * Protobuf type {@code Ydb.Table.GlobalAsyncIndex}
@@ -3841,7 +3546,6 @@ public final class YdbTable {
       super(builder);
     }
     private GlobalAsyncIndex() {
-      dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -3854,7 +3558,6 @@ public final class YdbTable {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3872,15 +3575,6 @@ public final class YdbTable {
               }
               break;
             }
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                dataColumns_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              dataColumns_.add(s);
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3889,9 +3583,6 @@ public final class YdbTable {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          dataColumns_ = dataColumns_.getUnmodifiableView();
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -3908,51 +3599,6 @@ public final class YdbTable {
               tech.ydb.table.YdbTable.GlobalAsyncIndex.class, tech.ydb.table.YdbTable.GlobalAsyncIndex.Builder.class);
     }
 
-    public static final int DATA_COLUMNS_FIELD_NUMBER = 1;
-    private com.google.protobuf.LazyStringList dataColumns_;
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    public com.google.protobuf.ProtocolStringList
-        getDataColumnsList() {
-      return dataColumns_;
-    }
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    public int getDataColumnsCount() {
-      return dataColumns_.size();
-    }
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    public java.lang.String getDataColumns(int index) {
-      return dataColumns_.get(index);
-    }
-    /**
-     * <pre>
-     * list of columns content to be copied in to index table
-     * </pre>
-     *
-     * <code>repeated string data_columns = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getDataColumnsBytes(int index) {
-      return dataColumns_.getByteString(index);
-    }
-
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -3965,9 +3611,6 @@ public final class YdbTable {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      for (int i = 0; i < dataColumns_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, dataColumns_.getRaw(i));
-      }
       unknownFields.writeTo(output);
     }
 
@@ -3976,14 +3619,6 @@ public final class YdbTable {
       if (size != -1) return size;
 
       size = 0;
-      {
-        int dataSize = 0;
-        for (int i = 0; i < dataColumns_.size(); i++) {
-          dataSize += computeStringSizeNoTag(dataColumns_.getRaw(i));
-        }
-        size += dataSize;
-        size += 1 * getDataColumnsList().size();
-      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4000,8 +3635,6 @@ public final class YdbTable {
       tech.ydb.table.YdbTable.GlobalAsyncIndex other = (tech.ydb.table.YdbTable.GlobalAsyncIndex) obj;
 
       boolean result = true;
-      result = result && getDataColumnsList()
-          .equals(other.getDataColumnsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -4013,10 +3646,6 @@ public final class YdbTable {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (getDataColumnsCount() > 0) {
-        hash = (37 * hash) + DATA_COLUMNS_FIELD_NUMBER;
-        hash = (53 * hash) + getDataColumnsList().hashCode();
-      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4146,8 +3775,6 @@ public final class YdbTable {
       }
       public Builder clear() {
         super.clear();
-        dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -4170,12 +3797,6 @@ public final class YdbTable {
 
       public tech.ydb.table.YdbTable.GlobalAsyncIndex buildPartial() {
         tech.ydb.table.YdbTable.GlobalAsyncIndex result = new tech.ydb.table.YdbTable.GlobalAsyncIndex(this);
-        int from_bitField0_ = bitField0_;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          dataColumns_ = dataColumns_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        }
-        result.dataColumns_ = dataColumns_;
         onBuilt();
         return result;
       }
@@ -4217,16 +3838,6 @@ public final class YdbTable {
 
       public Builder mergeFrom(tech.ydb.table.YdbTable.GlobalAsyncIndex other) {
         if (other == tech.ydb.table.YdbTable.GlobalAsyncIndex.getDefaultInstance()) return this;
-        if (!other.dataColumns_.isEmpty()) {
-          if (dataColumns_.isEmpty()) {
-            dataColumns_ = other.dataColumns_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-          } else {
-            ensureDataColumnsIsMutable();
-            dataColumns_.addAll(other.dataColumns_);
-          }
-          onChanged();
-        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -4251,137 +3862,6 @@ public final class YdbTable {
             mergeFrom(parsedMessage);
           }
         }
-        return this;
-      }
-      private int bitField0_;
-
-      private com.google.protobuf.LazyStringList dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      private void ensureDataColumnsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          dataColumns_ = new com.google.protobuf.LazyStringArrayList(dataColumns_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public com.google.protobuf.ProtocolStringList
-          getDataColumnsList() {
-        return dataColumns_.getUnmodifiableView();
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public int getDataColumnsCount() {
-        return dataColumns_.size();
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public java.lang.String getDataColumns(int index) {
-        return dataColumns_.get(index);
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getDataColumnsBytes(int index) {
-        return dataColumns_.getByteString(index);
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public Builder setDataColumns(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureDataColumnsIsMutable();
-        dataColumns_.set(index, value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public Builder addDataColumns(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureDataColumnsIsMutable();
-        dataColumns_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public Builder addAllDataColumns(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureDataColumnsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, dataColumns_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public Builder clearDataColumns() {
-        dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * list of columns content to be copied in to index table
-       * </pre>
-       *
-       * <code>repeated string data_columns = 1;</code>
-       */
-      public Builder addDataColumnsBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        ensureDataColumnsIsMutable();
-        dataColumns_.add(value);
-        onChanged();
         return this;
       }
       public final Builder setUnknownFields(
@@ -4516,6 +3996,41 @@ public final class YdbTable {
      */
     tech.ydb.table.YdbTable.GlobalAsyncIndexOrBuilder getGlobalAsyncIndexOrBuilder();
 
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 5;</code>
+     */
+    java.util.List<java.lang.String>
+        getDataColumnsList();
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 5;</code>
+     */
+    int getDataColumnsCount();
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 5;</code>
+     */
+    java.lang.String getDataColumns(int index);
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getDataColumnsBytes(int index);
+
     public tech.ydb.table.YdbTable.TableIndex.TypeCase getTypeCase();
   }
   /**
@@ -4537,6 +4052,7 @@ public final class YdbTable {
     private TableIndex() {
       name_ = "";
       indexColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -4610,6 +4126,15 @@ public final class YdbTable {
               typeCase_ = 4;
               break;
             }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                dataColumns_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              dataColumns_.add(s);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4620,6 +4145,9 @@ public final class YdbTable {
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           indexColumns_ = indexColumns_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+          dataColumns_ = dataColumns_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -4815,6 +4343,51 @@ public final class YdbTable {
       return tech.ydb.table.YdbTable.GlobalAsyncIndex.getDefaultInstance();
     }
 
+    public static final int DATA_COLUMNS_FIELD_NUMBER = 5;
+    private com.google.protobuf.LazyStringList dataColumns_;
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 5;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getDataColumnsList() {
+      return dataColumns_;
+    }
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 5;</code>
+     */
+    public int getDataColumnsCount() {
+      return dataColumns_.size();
+    }
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 5;</code>
+     */
+    public java.lang.String getDataColumns(int index) {
+      return dataColumns_.get(index);
+    }
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDataColumnsBytes(int index) {
+      return dataColumns_.getByteString(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -4838,6 +4411,9 @@ public final class YdbTable {
       }
       if (typeCase_ == 4) {
         output.writeMessage(4, (tech.ydb.table.YdbTable.GlobalAsyncIndex) type_);
+      }
+      for (int i = 0; i < dataColumns_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, dataColumns_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -4866,6 +4442,14 @@ public final class YdbTable {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, (tech.ydb.table.YdbTable.GlobalAsyncIndex) type_);
       }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < dataColumns_.size(); i++) {
+          dataSize += computeStringSizeNoTag(dataColumns_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getDataColumnsList().size();
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4886,6 +4470,8 @@ public final class YdbTable {
           .equals(other.getName());
       result = result && getIndexColumnsList()
           .equals(other.getIndexColumnsList());
+      result = result && getDataColumnsList()
+          .equals(other.getDataColumnsList());
       result = result && getTypeCase().equals(
           other.getTypeCase());
       if (!result) return false;
@@ -4917,6 +4503,10 @@ public final class YdbTable {
       if (getIndexColumnsCount() > 0) {
         hash = (37 * hash) + INDEX_COLUMNS_FIELD_NUMBER;
         hash = (53 * hash) + getIndexColumnsList().hashCode();
+      }
+      if (getDataColumnsCount() > 0) {
+        hash = (37 * hash) + DATA_COLUMNS_FIELD_NUMBER;
+        hash = (53 * hash) + getDataColumnsList().hashCode();
       }
       switch (typeCase_) {
         case 3:
@@ -5067,6 +4657,8 @@ public final class YdbTable {
 
         indexColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
+        dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
         typeCase_ = 0;
         type_ = null;
         return this;
@@ -5113,6 +4705,11 @@ public final class YdbTable {
             result.type_ = globalAsyncIndexBuilder_.build();
           }
         }
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          dataColumns_ = dataColumns_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000010);
+        }
+        result.dataColumns_ = dataColumns_;
         result.bitField0_ = to_bitField0_;
         result.typeCase_ = typeCase_;
         onBuilt();
@@ -5167,6 +4764,16 @@ public final class YdbTable {
           } else {
             ensureIndexColumnsIsMutable();
             indexColumns_.addAll(other.indexColumns_);
+          }
+          onChanged();
+        }
+        if (!other.dataColumns_.isEmpty()) {
+          if (dataColumns_.isEmpty()) {
+            dataColumns_ = other.dataColumns_;
+            bitField0_ = (bitField0_ & ~0x00000010);
+          } else {
+            ensureDataColumnsIsMutable();
+            dataColumns_.addAll(other.dataColumns_);
           }
           onChanged();
         }
@@ -5716,6 +5323,136 @@ public final class YdbTable {
         onChanged();;
         return globalAsyncIndexBuilder_;
       }
+
+      private com.google.protobuf.LazyStringList dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureDataColumnsIsMutable() {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+          dataColumns_ = new com.google.protobuf.LazyStringArrayList(dataColumns_);
+          bitField0_ |= 0x00000010;
+         }
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 5;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getDataColumnsList() {
+        return dataColumns_.getUnmodifiableView();
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 5;</code>
+       */
+      public int getDataColumnsCount() {
+        return dataColumns_.size();
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 5;</code>
+       */
+      public java.lang.String getDataColumns(int index) {
+        return dataColumns_.get(index);
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getDataColumnsBytes(int index) {
+        return dataColumns_.getByteString(index);
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 5;</code>
+       */
+      public Builder setDataColumns(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureDataColumnsIsMutable();
+        dataColumns_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 5;</code>
+       */
+      public Builder addDataColumns(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureDataColumnsIsMutable();
+        dataColumns_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 5;</code>
+       */
+      public Builder addAllDataColumns(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureDataColumnsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, dataColumns_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 5;</code>
+       */
+      public Builder clearDataColumns() {
+        dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 5;</code>
+       */
+      public Builder addDataColumnsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureDataColumnsIsMutable();
+        dataColumns_.add(value);
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -5857,6 +5594,41 @@ public final class YdbTable {
      */
     tech.ydb.table.YdbTable.TableIndexDescription.Status getStatus();
 
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 6;</code>
+     */
+    java.util.List<java.lang.String>
+        getDataColumnsList();
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 6;</code>
+     */
+    int getDataColumnsCount();
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 6;</code>
+     */
+    java.lang.String getDataColumns(int index);
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getDataColumnsBytes(int index);
+
     public tech.ydb.table.YdbTable.TableIndexDescription.TypeCase getTypeCase();
   }
   /**
@@ -5879,6 +5651,7 @@ public final class YdbTable {
       name_ = "";
       indexColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       status_ = 0;
+      dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -5958,6 +5731,15 @@ public final class YdbTable {
               typeCase_ = 5;
               break;
             }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                dataColumns_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              dataColumns_.add(s);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5968,6 +5750,9 @@ public final class YdbTable {
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           indexColumns_ = indexColumns_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+          dataColumns_ = dataColumns_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -6302,6 +6087,51 @@ public final class YdbTable {
       return result == null ? tech.ydb.table.YdbTable.TableIndexDescription.Status.UNRECOGNIZED : result;
     }
 
+    public static final int DATA_COLUMNS_FIELD_NUMBER = 6;
+    private com.google.protobuf.LazyStringList dataColumns_;
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 6;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getDataColumnsList() {
+      return dataColumns_;
+    }
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 6;</code>
+     */
+    public int getDataColumnsCount() {
+      return dataColumns_.size();
+    }
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 6;</code>
+     */
+    public java.lang.String getDataColumns(int index) {
+      return dataColumns_.get(index);
+    }
+    /**
+     * <pre>
+     * list of columns content to be copied in to index table
+     * </pre>
+     *
+     * <code>repeated string data_columns = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDataColumnsBytes(int index) {
+      return dataColumns_.getByteString(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -6328,6 +6158,9 @@ public final class YdbTable {
       }
       if (typeCase_ == 5) {
         output.writeMessage(5, (tech.ydb.table.YdbTable.GlobalAsyncIndex) type_);
+      }
+      for (int i = 0; i < dataColumns_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, dataColumns_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -6360,6 +6193,14 @@ public final class YdbTable {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, (tech.ydb.table.YdbTable.GlobalAsyncIndex) type_);
       }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < dataColumns_.size(); i++) {
+          dataSize += computeStringSizeNoTag(dataColumns_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getDataColumnsList().size();
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -6381,6 +6222,8 @@ public final class YdbTable {
       result = result && getIndexColumnsList()
           .equals(other.getIndexColumnsList());
       result = result && status_ == other.status_;
+      result = result && getDataColumnsList()
+          .equals(other.getDataColumnsList());
       result = result && getTypeCase().equals(
           other.getTypeCase());
       if (!result) return false;
@@ -6415,6 +6258,10 @@ public final class YdbTable {
       }
       hash = (37 * hash) + STATUS_FIELD_NUMBER;
       hash = (53 * hash) + status_;
+      if (getDataColumnsCount() > 0) {
+        hash = (37 * hash) + DATA_COLUMNS_FIELD_NUMBER;
+        hash = (53 * hash) + getDataColumnsList().hashCode();
+      }
       switch (typeCase_) {
         case 3:
           hash = (37 * hash) + GLOBAL_INDEX_FIELD_NUMBER;
@@ -6566,6 +6413,8 @@ public final class YdbTable {
         bitField0_ = (bitField0_ & ~0x00000002);
         status_ = 0;
 
+        dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000020);
         typeCase_ = 0;
         type_ = null;
         return this;
@@ -6613,6 +6462,11 @@ public final class YdbTable {
           }
         }
         result.status_ = status_;
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          dataColumns_ = dataColumns_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000020);
+        }
+        result.dataColumns_ = dataColumns_;
         result.bitField0_ = to_bitField0_;
         result.typeCase_ = typeCase_;
         onBuilt();
@@ -6672,6 +6526,16 @@ public final class YdbTable {
         }
         if (other.status_ != 0) {
           setStatusValue(other.getStatusValue());
+        }
+        if (!other.dataColumns_.isEmpty()) {
+          if (dataColumns_.isEmpty()) {
+            dataColumns_ = other.dataColumns_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+          } else {
+            ensureDataColumnsIsMutable();
+            dataColumns_.addAll(other.dataColumns_);
+          }
+          onChanged();
         }
         switch (other.getTypeCase()) {
           case GLOBAL_INDEX: {
@@ -7260,6 +7124,136 @@ public final class YdbTable {
       public Builder clearStatus() {
         
         status_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureDataColumnsIsMutable() {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+          dataColumns_ = new com.google.protobuf.LazyStringArrayList(dataColumns_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 6;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getDataColumnsList() {
+        return dataColumns_.getUnmodifiableView();
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 6;</code>
+       */
+      public int getDataColumnsCount() {
+        return dataColumns_.size();
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 6;</code>
+       */
+      public java.lang.String getDataColumns(int index) {
+        return dataColumns_.get(index);
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getDataColumnsBytes(int index) {
+        return dataColumns_.getByteString(index);
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 6;</code>
+       */
+      public Builder setDataColumns(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureDataColumnsIsMutable();
+        dataColumns_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 6;</code>
+       */
+      public Builder addDataColumns(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureDataColumnsIsMutable();
+        dataColumns_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 6;</code>
+       */
+      public Builder addAllDataColumns(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureDataColumnsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, dataColumns_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 6;</code>
+       */
+      public Builder clearDataColumns() {
+        dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * list of columns content to be copied in to index table
+       * </pre>
+       *
+       * <code>repeated string data_columns = 6;</code>
+       */
+      public Builder addDataColumnsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureDataColumnsIsMutable();
+        dataColumns_.add(value);
         onChanged();
         return this;
       }
@@ -100660,19 +100654,19 @@ public final class YdbTable {
       "on_id\030\001 \001(\t\0229\n\020operation_params\030\002 \001(\0132\037." +
       "Ydb.Operations.OperationParams\"E\n\025Delete",
       "SessionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
-      ".Operations.Operation\"#\n\013GlobalIndex\022\024\n\014" +
-      "data_columns\030\001 \003(\t\"(\n\020GlobalAsyncIndex\022\024" +
-      "\n\014data_columns\030\001 \003(\t\"\244\001\n\nTableIndex\022\014\n\004n" +
-      "ame\030\001 \001(\t\022\025\n\rindex_columns\030\002 \003(\t\022.\n\014glob" +
-      "al_index\030\003 \001(\0132\026.Ydb.Table.GlobalIndexH\000" +
-      "\0229\n\022global_async_index\030\004 \001(\0132\033.Ydb.Table" +
-      ".GlobalAsyncIndexH\000B\006\n\004type\"\261\002\n\025TableInd" +
-      "exDescription\022\014\n\004name\030\001 \001(\t\022\025\n\rindex_col" +
-      "umns\030\002 \003(\t\022.\n\014global_index\030\003 \001(\0132\026.Ydb.T",
-      "able.GlobalIndexH\000\0229\n\022global_async_index" +
-      "\030\005 \001(\0132\033.Ydb.Table.GlobalAsyncIndexH\000\0227\n" +
-      "\006status\030\004 \001(\0162\'.Ydb.Table.TableIndexDesc" +
-      "ription.Status\"G\n\006Status\022\026\n\022STATUS_UNSPE" +
+      ".Operations.Operation\"\r\n\013GlobalIndex\"\022\n\020" +
+      "GlobalAsyncIndex\"\272\001\n\nTableIndex\022\014\n\004name\030" +
+      "\001 \001(\t\022\025\n\rindex_columns\030\002 \003(\t\022.\n\014global_i" +
+      "ndex\030\003 \001(\0132\026.Ydb.Table.GlobalIndexH\000\0229\n\022" +
+      "global_async_index\030\004 \001(\0132\033.Ydb.Table.Glo" +
+      "balAsyncIndexH\000\022\024\n\014data_columns\030\005 \003(\tB\006\n" +
+      "\004type\"\307\002\n\025TableIndexDescription\022\014\n\004name\030" +
+      "\001 \001(\t\022\025\n\rindex_columns\030\002 \003(\t\022.\n\014global_i" +
+      "ndex\030\003 \001(\0132\026.Ydb.Table.GlobalIndexH\000\0229\n\022",
+      "global_async_index\030\005 \001(\0132\033.Ydb.Table.Glo" +
+      "balAsyncIndexH\000\0227\n\006status\030\004 \001(\0162\'.Ydb.Ta" +
+      "ble.TableIndexDescription.Status\022\024\n\014data" +
+      "_columns\030\006 \003(\t\"G\n\006Status\022\026\n\022STATUS_UNSPE" +
       "CIFIED\020\000\022\020\n\014STATUS_READY\020\001\022\023\n\017STATUS_BUI" +
       "LDING\020\002B\006\n\004type\"\335\001\n\017IndexBuildState\"\311\001\n\005" +
       "State\022\025\n\021STATE_UNSPECIFIED\020\000\022\023\n\017STATE_PR" +
@@ -101103,25 +101097,25 @@ public final class YdbTable {
     internal_static_Ydb_Table_GlobalIndex_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_GlobalIndex_descriptor,
-        new java.lang.String[] { "DataColumns", });
+        new java.lang.String[] { });
     internal_static_Ydb_Table_GlobalAsyncIndex_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_Ydb_Table_GlobalAsyncIndex_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_GlobalAsyncIndex_descriptor,
-        new java.lang.String[] { "DataColumns", });
+        new java.lang.String[] { });
     internal_static_Ydb_Table_TableIndex_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_Ydb_Table_TableIndex_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_TableIndex_descriptor,
-        new java.lang.String[] { "Name", "IndexColumns", "GlobalIndex", "GlobalAsyncIndex", "Type", });
+        new java.lang.String[] { "Name", "IndexColumns", "GlobalIndex", "GlobalAsyncIndex", "DataColumns", "Type", });
     internal_static_Ydb_Table_TableIndexDescription_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_Ydb_Table_TableIndexDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_TableIndexDescription_descriptor,
-        new java.lang.String[] { "Name", "IndexColumns", "GlobalIndex", "GlobalAsyncIndex", "Status", "Type", });
+        new java.lang.String[] { "Name", "IndexColumns", "GlobalIndex", "GlobalAsyncIndex", "Status", "DataColumns", "Type", });
     internal_static_Ydb_Table_IndexBuildState_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Table_IndexBuildState_fieldAccessorTable = new
