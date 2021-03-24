@@ -1,6 +1,8 @@
 package tech.ydb.table.impl;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
@@ -25,6 +27,8 @@ import tech.ydb.table.SessionStatus;
 import tech.ydb.table.YdbTable;
 import tech.ydb.table.YdbTable.ReadTableRequest;
 import tech.ydb.table.YdbTable.ReadTableResponse;
+import tech.ydb.table.description.ColumnFamily;
+import tech.ydb.table.description.StoragePool;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.description.TableIndex;
@@ -65,6 +69,10 @@ import tech.ydb.table.values.ListValue;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
+
+import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_LZ4;
+import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_NONE;
+import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_UNSPECIFIED;
 
 
 /**
@@ -132,10 +140,13 @@ class SessionImpl implements Session {
             .addAllPrimaryKey(tableDescriptions.getPrimaryKeys());
 
         for (TableColumn column : tableDescriptions.getColumns()) {
-            request.addColumns(YdbTable.ColumnMeta.newBuilder()
-                .setName(column.getName())
-                .setType(column.getType().toPb())
-                .build());
+            YdbTable.ColumnMeta.Builder builder = YdbTable.ColumnMeta.newBuilder()
+                    .setName(column.getName())
+                    .setType(column.getType().toPb());
+            if (column.getFamily() != null) {
+                builder.setFamily(column.getFamily());
+            }
+            request.addColumns(builder.build());
         }
 
         for (TableIndex index : tableDescriptions.getIndexes()) {
@@ -145,6 +156,30 @@ class SessionImpl implements Session {
             if (index.getType() == TableIndex.Type.GLOBAL) {
                 b.setGlobalIndex(YdbTable.GlobalIndex.getDefaultInstance());
             }
+        }
+
+
+        for (ColumnFamily family : tableDescriptions.getColumnFamilies()) {
+            YdbTable.ColumnFamily.Compression compression;
+            switch (family.getCompression()) {
+                case COMPRESSION_NONE:
+                    compression = COMPRESSION_NONE;
+                    break;
+                case COMPRESSION_LZ4:
+                    compression = COMPRESSION_LZ4;
+                    break;
+                default:
+                    compression = COMPRESSION_UNSPECIFIED;
+            }
+            request.addColumnFamilies(
+                YdbTable.ColumnFamily.newBuilder()
+                    .setKeepInMemoryValue(family.isKeepInMemory() ?
+                        tech.ydb.common.CommonProtos.FeatureFlag.Status.ENABLED.getNumber() :
+                        tech.ydb.common.CommonProtos.FeatureFlag.Status.DISABLED.getNumber())
+                    .setCompression(compression)
+                    .setData(YdbTable.StoragePool.newBuilder().setMedia(family.getData().getMedia()))
+                    .setName(family.getName())
+                    .build());
         }
 
         if (settings.getPresetName() != null) {
@@ -161,7 +196,7 @@ class SessionImpl implements Session {
         if (settings.getCompactionPolicy() != null) {
             request.getProfileBuilder()
                 .getCompactionPolicyBuilder()
-                .setPresetName(settings.getExecutionPolicy());
+                .setPresetName(settings.getCompactionPolicy());
         }
 
         {
@@ -351,7 +386,7 @@ class SessionImpl implements Session {
         TableDescription.Builder description = TableDescription.newBuilder();
         for (int i = 0; i < result.getColumnsCount(); i++) {
             YdbTable.ColumnMeta column = result.getColumns(i);
-            description.addNonnullColumn(column.getName(), ProtoType.fromPb(column.getType()));
+            description.addNonnullColumn(column.getName(), ProtoType.fromPb(column.getType()), column.getFamily());
         }
         description.setPrimaryKeys(result.getPrimaryKeyList());
         for (int i = 0; i < result.getIndexesCount(); i++) {
@@ -367,6 +402,27 @@ class SessionImpl implements Session {
             TableDescription.TableStats tableStats = new TableDescription.TableStats(
                     createdAt, modifiedAt, resultTableStats.getRowsEstimate(), resultTableStats.getStoreSize());
             description.tableStats(tableStats);
+        }
+
+        List<YdbTable.ColumnFamily> columnFamiliesList = result.getColumnFamiliesList();
+        if (columnFamiliesList != null) {
+            List<ColumnFamily> families = new ArrayList<>();
+            for (YdbTable.ColumnFamily family : columnFamiliesList) {
+                ColumnFamily.Compression compression;
+                switch (family.getCompression()) {
+                    case COMPRESSION_LZ4:
+                        compression = ColumnFamily.Compression.COMPRESSION_LZ4;
+                        break;
+                    default:
+                        compression = ColumnFamily.Compression.COMPRESSION_NONE;
+                }
+                description.addColumnFamily(
+                        new ColumnFamily(family.getName(),
+                                new StoragePool(family.getData().getMedia()),
+                                compression,
+                                family.getKeepInMemory().equals(tech.ydb.common.CommonProtos.FeatureFlag.Status.ENABLED))
+                );
+            }
         }
 
         return description.build();
@@ -639,11 +695,11 @@ class SessionImpl implements Session {
     public CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings, Consumer<ResultSetReader> fn)
     {
         YdbTable.ExecuteScanQueryRequest request = YdbTable.ExecuteScanQueryRequest.newBuilder()
-                .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
-                .setMode(settings.getMode())
-                .putAllParameters(params.toPb())
-                .setCollectStats(settings.getCollectStats())
-                .build();
+            .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
+            .setMode(settings.getMode())
+            .putAllParameters(params.toPb())
+            .setCollectStats(settings.getCollectStats())
+            .build();
 
         CompletableFuture<Status> promise = new CompletableFuture<>();
         final long deadlineAfter = settings.getDeadlineAfter();
@@ -744,25 +800,25 @@ class SessionImpl implements Session {
     @Override
     public CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings) {
         ValueProtos.TypedValue typedRows = ValueProtos.TypedValue.newBuilder()
-                .setType(rows.getType().toPb())
-                .setValue(rows.toPb())
-                .build();
+            .setType(rows.getType().toPb())
+            .setValue(rows.toPb())
+            .build();
 
         YdbTable.BulkUpsertRequest request = YdbTable.BulkUpsertRequest.newBuilder()
-                .setTable(tablePath)
-                .setRows(typedRows)
-                .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
-                .build();
+            .setTable(tablePath)
+            .setRows(typedRows)
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
+            .build();
 
         final long deadlineAfter = settings.getDeadlineAfter();
 
         return interceptStatus(tableRpc.bulkUpsert(request, deadlineAfter)
-           .thenCompose(response -> {
-               if (!response.isSuccess()) {
-                   return CompletableFuture.completedFuture(response.toStatus());
-               }
-               return operationTray.waitStatus(response.expect("bulkUpsert()").getOperation(), deadlineAfter);
-           }));
+            .thenCompose(response -> {
+                if (!response.isSuccess()) {
+                    return CompletableFuture.completedFuture(response.toStatus());
+                }
+                return operationTray.waitStatus(response.expect("bulkUpsert()").getOperation(), deadlineAfter);
+            }));
     }
 
     private static SessionStatus mapSessionStatus(YdbTable.KeepAliveResult result) {

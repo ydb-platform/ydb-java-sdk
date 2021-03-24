@@ -24,12 +24,15 @@ public class TableDescription {
     private final List<TableIndex> indexes;
     @Nullable
     private final TableStats tableStats;
+    private final List<ColumnFamily> columnFamilies;
 
-    private TableDescription(List<String> primaryKeys, List<TableColumn> columns, List<TableIndex> indexes, TableStats tableStats) {
+
+    private TableDescription(List<String> primaryKeys, List<TableColumn> columns, List<TableIndex> indexes, TableStats tableStats, List<ColumnFamily> columnFamilies) {
         this.primaryKeys = primaryKeys;
         this.columns = columns;
         this.indexes = indexes;
         this.tableStats = tableStats;
+        this.columnFamilies = columnFamilies;
     }
 
     public static Builder newBuilder() {
@@ -53,23 +56,35 @@ public class TableDescription {
         return tableStats;
     }
 
+    public List<ColumnFamily> getColumnFamilies() {
+        return columnFamilies;
+    }
+
     /**
      * BUILDER
      */
     public static class Builder {
 
         private List<String> primaryKeys = Collections.emptyList();
-        private LinkedHashMap<String, Type> columns = new LinkedHashMap<>();
+        private LinkedHashMap<String, TypeAndFamily> columns = new LinkedHashMap<>();
         private List<TableIndex> indexes = Collections.emptyList();
         private TableStats tableStats;
+        private List<ColumnFamily> families = Collections.emptyList();
 
         public Builder addNonnullColumn(String name, Type type) {
-            columns.put(name, type);
+            return addNonnullColumn(name, type, null);
+        }
+
+        public Builder addNonnullColumn(String name, Type type, String family) {
+            columns.put(name, new TypeAndFamily(type, family));
             return this;
         }
 
         public Builder addNullableColumn(String name, Type type) {
-            columns.put(name, OptionalType.of(type));
+            return addNullableColumn(name, type, null);
+        }
+        public Builder addNullableColumn(String name, Type type, String family) {
+            columns.put(name, new TypeAndFamily(OptionalType.of(type), family));
             return this;
         }
 
@@ -126,6 +141,14 @@ public class TableDescription {
             return this;
         }
 
+        public Builder addColumnFamily(ColumnFamily family) {
+            if (families.isEmpty()) {
+                families = new ArrayList<>();
+            }
+            this.families.add(family);
+            return this;
+        }
+
         public TableDescription build() {
             if (columns.isEmpty()) {
                 throw new IllegalStateException("cannot build table description with no columns");
@@ -133,16 +156,26 @@ public class TableDescription {
 
             int i = 0;
             TableColumn[] columns = new TableColumn[this.columns.size()];
-            for (Map.Entry<String, Type> e : this.columns.entrySet()) {
-                columns[i++] = new TableColumn(e.getKey(), e.getValue());
+            for (Map.Entry<String, TypeAndFamily> e : this.columns.entrySet()) {
+                columns[i++] = new TableColumn(e.getKey(), e.getValue().type, e.getValue().family);
             }
 
-            return new TableDescription(primaryKeys, ImmutableList.copyOf(columns), ImmutableList.copyOf(indexes), tableStats);
+            return new TableDescription(primaryKeys, ImmutableList.copyOf(columns), ImmutableList.copyOf(indexes), tableStats, families);
         }
 
         private void checkColumnKnown(String name) {
             if (!columns.containsKey(name)) {
                 throw new IllegalArgumentException("unknown column name: " + name);
+            }
+        }
+
+        private static class TypeAndFamily {
+            private final Type type;
+            private final String family;
+
+            public TypeAndFamily(Type type, String family) {
+                this.type = type;
+                this.family = family;
             }
         }
     }
