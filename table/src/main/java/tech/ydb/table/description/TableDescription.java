@@ -25,14 +25,22 @@ public class TableDescription {
     @Nullable
     private final TableStats tableStats;
     private final List<ColumnFamily> columnFamilies;
+    private final List<KeyRange> keyRanges;
 
-
-    private TableDescription(List<String> primaryKeys, List<TableColumn> columns, List<TableIndex> indexes, TableStats tableStats, List<ColumnFamily> columnFamilies) {
+    private TableDescription(
+            List<String> primaryKeys,
+            List<TableColumn> columns,
+            List<TableIndex> indexes,
+            TableStats tableStats,
+            List<ColumnFamily> columnFamilies,
+            List<KeyRange> keyRanges
+    ) {
         this.primaryKeys = primaryKeys;
         this.columns = columns;
         this.indexes = indexes;
         this.tableStats = tableStats;
         this.columnFamilies = columnFamilies;
+        this.keyRanges = keyRanges;
     }
 
     public static Builder newBuilder() {
@@ -60,6 +68,10 @@ public class TableDescription {
         return columnFamilies;
     }
 
+    public List<KeyRange> getKeyRanges() {
+        return keyRanges;
+    }
+
     /**
      * BUILDER
      */
@@ -70,6 +82,7 @@ public class TableDescription {
         private List<TableIndex> indexes = Collections.emptyList();
         private TableStats tableStats;
         private List<ColumnFamily> families = Collections.emptyList();
+        private List<KeyRange> keyRanges = Collections.emptyList();
 
         public Builder addNonnullColumn(String name, Type type) {
             return addNonnullColumn(name, type, null);
@@ -77,6 +90,14 @@ public class TableDescription {
 
         public Builder addNonnullColumn(String name, Type type, String family) {
             columns.put(name, new TypeAndFamily(type, family));
+            return this;
+        }
+
+        public Builder addKeyRange(KeyRange value) {
+            if (keyRanges.isEmpty()) {
+                keyRanges = new ArrayList<>();
+            }
+            keyRanges.add(value);
             return this;
         }
 
@@ -160,7 +181,14 @@ public class TableDescription {
                 columns[i++] = new TableColumn(e.getKey(), e.getValue().type, e.getValue().family);
             }
 
-            return new TableDescription(primaryKeys, ImmutableList.copyOf(columns), ImmutableList.copyOf(indexes), tableStats, families);
+            return new TableDescription(
+                    primaryKeys,
+                    ImmutableList.copyOf(columns),
+                    ImmutableList.copyOf(indexes),
+                    tableStats,
+                    families,
+                    keyRanges
+            );
         }
 
         private void checkColumnKnown(String name) {

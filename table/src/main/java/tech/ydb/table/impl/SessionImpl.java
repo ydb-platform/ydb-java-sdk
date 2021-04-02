@@ -1,9 +1,9 @@
 package tech.ydb.table.impl;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
@@ -28,6 +28,8 @@ import tech.ydb.table.YdbTable;
 import tech.ydb.table.YdbTable.ReadTableRequest;
 import tech.ydb.table.YdbTable.ReadTableResponse;
 import tech.ydb.table.description.ColumnFamily;
+import tech.ydb.table.description.KeyBound;
+import tech.ydb.table.description.KeyRange;
 import tech.ydb.table.description.StoragePool;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
@@ -366,6 +368,7 @@ class SessionImpl implements Session {
             .setPath(path)
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .setIncludeTableStats(settings.isIncludeTableStats())
+            .setIncludeShardKeyBounds(settings.isIncludeShardKeyBounds())
             .build();
 
         final long deadlineAfter = settings.getDeadlineAfter();
@@ -377,12 +380,15 @@ class SessionImpl implements Session {
                 return operationTray.waitResult(
                     response.expect("describeTable()").getOperation(),
                     YdbTable.DescribeTableResult.class,
-                    SessionImpl::mapDescribeTable,
+                    result -> SessionImpl.mapDescribeTable(result, settings),
                     deadlineAfter);
             });
     }
 
-    private static TableDescription mapDescribeTable(YdbTable.DescribeTableResult result) {
+    private static TableDescription mapDescribeTable(
+            YdbTable.DescribeTableResult result,
+            DescribeTableSettings describeTableSettings
+    ) {
         TableDescription.Builder description = TableDescription.newBuilder();
         for (int i = 0; i < result.getColumnsCount(); i++) {
             YdbTable.ColumnMeta column = result.getColumns(i);
@@ -406,7 +412,6 @@ class SessionImpl implements Session {
 
         List<YdbTable.ColumnFamily> columnFamiliesList = result.getColumnFamiliesList();
         if (columnFamiliesList != null) {
-            List<ColumnFamily> families = new ArrayList<>();
             for (YdbTable.ColumnFamily family : columnFamiliesList) {
                 ColumnFamily.Compression compression;
                 switch (family.getCompression()) {
@@ -421,6 +426,25 @@ class SessionImpl implements Session {
                                 new StoragePool(family.getData().getMedia()),
                                 compression,
                                 family.getKeepInMemory().equals(tech.ydb.common.CommonProtos.FeatureFlag.Status.ENABLED))
+                );
+            }
+        }
+        if (describeTableSettings.isIncludeShardKeyBounds()) {
+            List<ValueProtos.TypedValue> shardKeyBoundsList = result.getShardKeyBoundsList();
+            if (shardKeyBoundsList != null) {
+                Optional<Value> leftValue = Optional.empty();
+                for (ValueProtos.TypedValue typedValue : shardKeyBoundsList) {
+                    Optional<KeyBound> fromBound = leftValue.map(KeyBound::inclusive);
+                    Value value = ProtoValue.fromPb(
+                            ProtoType.fromPb(typedValue.getType()),
+                            typedValue.getValue()
+                    );
+                    Optional<KeyBound> toBound = Optional.of(KeyBound.exclusive(value));
+                    description.addKeyRange(new KeyRange(fromBound, toBound));
+                    leftValue = Optional.of(value);
+                }
+                description.addKeyRange(
+                        new KeyRange(leftValue.map(KeyBound::inclusive), Optional.empty())
                 );
             }
         }
