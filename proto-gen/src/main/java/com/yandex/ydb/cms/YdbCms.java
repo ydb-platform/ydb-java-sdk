@@ -6992,6 +6992,582 @@ public final class YdbCms {
 
   }
 
+  public interface DatabaseQuotasOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Cms.DatabaseQuotas)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * A maximum data size in bytes, new data will be rejected when exceeded
+     * </pre>
+     *
+     * <code>uint64 data_size_hard_quota = 1;</code>
+     */
+    long getDataSizeHardQuota();
+
+    /**
+     * <pre>
+     * An optional size in bytes (lower than data_size_hard_quota). When data
+     * size becomes lower than this value new data ingestion is re-enabled
+     * again. This is useful to help avoid database from rapidly entering and
+     * exiting from the overloaded state.
+     * </pre>
+     *
+     * <code>uint64 data_size_soft_quota = 2;</code>
+     */
+    long getDataSizeSoftQuota();
+  }
+  /**
+   * <pre>
+   * A set of quotas for the database
+   * </pre>
+   *
+   * Protobuf type {@code Ydb.Cms.DatabaseQuotas}
+   */
+  public  static final class DatabaseQuotas extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.Cms.DatabaseQuotas)
+      DatabaseQuotasOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DatabaseQuotas.newBuilder() to construct.
+    private DatabaseQuotas(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DatabaseQuotas() {
+      dataSizeHardQuota_ = 0L;
+      dataSizeSoftQuota_ = 0L;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DatabaseQuotas(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+
+              dataSizeHardQuota_ = input.readUInt64();
+              break;
+            }
+            case 16: {
+
+              dataSizeSoftQuota_ = input.readUInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseQuotas_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseQuotas_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.cms.YdbCms.DatabaseQuotas.class, tech.ydb.cms.YdbCms.DatabaseQuotas.Builder.class);
+    }
+
+    public static final int DATA_SIZE_HARD_QUOTA_FIELD_NUMBER = 1;
+    private long dataSizeHardQuota_;
+    /**
+     * <pre>
+     * A maximum data size in bytes, new data will be rejected when exceeded
+     * </pre>
+     *
+     * <code>uint64 data_size_hard_quota = 1;</code>
+     */
+    public long getDataSizeHardQuota() {
+      return dataSizeHardQuota_;
+    }
+
+    public static final int DATA_SIZE_SOFT_QUOTA_FIELD_NUMBER = 2;
+    private long dataSizeSoftQuota_;
+    /**
+     * <pre>
+     * An optional size in bytes (lower than data_size_hard_quota). When data
+     * size becomes lower than this value new data ingestion is re-enabled
+     * again. This is useful to help avoid database from rapidly entering and
+     * exiting from the overloaded state.
+     * </pre>
+     *
+     * <code>uint64 data_size_soft_quota = 2;</code>
+     */
+    public long getDataSizeSoftQuota() {
+      return dataSizeSoftQuota_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (dataSizeHardQuota_ != 0L) {
+        output.writeUInt64(1, dataSizeHardQuota_);
+      }
+      if (dataSizeSoftQuota_ != 0L) {
+        output.writeUInt64(2, dataSizeSoftQuota_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (dataSizeHardQuota_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(1, dataSizeHardQuota_);
+      }
+      if (dataSizeSoftQuota_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(2, dataSizeSoftQuota_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.cms.YdbCms.DatabaseQuotas)) {
+        return super.equals(obj);
+      }
+      tech.ydb.cms.YdbCms.DatabaseQuotas other = (tech.ydb.cms.YdbCms.DatabaseQuotas) obj;
+
+      boolean result = true;
+      result = result && (getDataSizeHardQuota()
+          == other.getDataSizeHardQuota());
+      result = result && (getDataSizeSoftQuota()
+          == other.getDataSizeSoftQuota());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + DATA_SIZE_HARD_QUOTA_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getDataSizeHardQuota());
+      hash = (37 * hash) + DATA_SIZE_SOFT_QUOTA_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getDataSizeSoftQuota());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.cms.YdbCms.DatabaseQuotas parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.cms.YdbCms.DatabaseQuotas parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.DatabaseQuotas parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.cms.YdbCms.DatabaseQuotas parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.DatabaseQuotas parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.cms.YdbCms.DatabaseQuotas parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.DatabaseQuotas parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.cms.YdbCms.DatabaseQuotas parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.DatabaseQuotas parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.cms.YdbCms.DatabaseQuotas parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.cms.YdbCms.DatabaseQuotas parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.cms.YdbCms.DatabaseQuotas parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.cms.YdbCms.DatabaseQuotas prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * A set of quotas for the database
+     * </pre>
+     *
+     * Protobuf type {@code Ydb.Cms.DatabaseQuotas}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.Cms.DatabaseQuotas)
+        tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseQuotas_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseQuotas_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.cms.YdbCms.DatabaseQuotas.class, tech.ydb.cms.YdbCms.DatabaseQuotas.Builder.class);
+      }
+
+      // Construct using tech.ydb.cms.YdbCms.DatabaseQuotas.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        dataSizeHardQuota_ = 0L;
+
+        dataSizeSoftQuota_ = 0L;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseQuotas_descriptor;
+      }
+
+      public tech.ydb.cms.YdbCms.DatabaseQuotas getDefaultInstanceForType() {
+        return tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance();
+      }
+
+      public tech.ydb.cms.YdbCms.DatabaseQuotas build() {
+        tech.ydb.cms.YdbCms.DatabaseQuotas result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.cms.YdbCms.DatabaseQuotas buildPartial() {
+        tech.ydb.cms.YdbCms.DatabaseQuotas result = new tech.ydb.cms.YdbCms.DatabaseQuotas(this);
+        result.dataSizeHardQuota_ = dataSizeHardQuota_;
+        result.dataSizeSoftQuota_ = dataSizeSoftQuota_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.cms.YdbCms.DatabaseQuotas) {
+          return mergeFrom((tech.ydb.cms.YdbCms.DatabaseQuotas)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.cms.YdbCms.DatabaseQuotas other) {
+        if (other == tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance()) return this;
+        if (other.getDataSizeHardQuota() != 0L) {
+          setDataSizeHardQuota(other.getDataSizeHardQuota());
+        }
+        if (other.getDataSizeSoftQuota() != 0L) {
+          setDataSizeSoftQuota(other.getDataSizeSoftQuota());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.cms.YdbCms.DatabaseQuotas parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.cms.YdbCms.DatabaseQuotas) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private long dataSizeHardQuota_ ;
+      /**
+       * <pre>
+       * A maximum data size in bytes, new data will be rejected when exceeded
+       * </pre>
+       *
+       * <code>uint64 data_size_hard_quota = 1;</code>
+       */
+      public long getDataSizeHardQuota() {
+        return dataSizeHardQuota_;
+      }
+      /**
+       * <pre>
+       * A maximum data size in bytes, new data will be rejected when exceeded
+       * </pre>
+       *
+       * <code>uint64 data_size_hard_quota = 1;</code>
+       */
+      public Builder setDataSizeHardQuota(long value) {
+        
+        dataSizeHardQuota_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * A maximum data size in bytes, new data will be rejected when exceeded
+       * </pre>
+       *
+       * <code>uint64 data_size_hard_quota = 1;</code>
+       */
+      public Builder clearDataSizeHardQuota() {
+        
+        dataSizeHardQuota_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long dataSizeSoftQuota_ ;
+      /**
+       * <pre>
+       * An optional size in bytes (lower than data_size_hard_quota). When data
+       * size becomes lower than this value new data ingestion is re-enabled
+       * again. This is useful to help avoid database from rapidly entering and
+       * exiting from the overloaded state.
+       * </pre>
+       *
+       * <code>uint64 data_size_soft_quota = 2;</code>
+       */
+      public long getDataSizeSoftQuota() {
+        return dataSizeSoftQuota_;
+      }
+      /**
+       * <pre>
+       * An optional size in bytes (lower than data_size_hard_quota). When data
+       * size becomes lower than this value new data ingestion is re-enabled
+       * again. This is useful to help avoid database from rapidly entering and
+       * exiting from the overloaded state.
+       * </pre>
+       *
+       * <code>uint64 data_size_soft_quota = 2;</code>
+       */
+      public Builder setDataSizeSoftQuota(long value) {
+        
+        dataSizeSoftQuota_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * An optional size in bytes (lower than data_size_hard_quota). When data
+       * size becomes lower than this value new data ingestion is re-enabled
+       * again. This is useful to help avoid database from rapidly entering and
+       * exiting from the overloaded state.
+       * </pre>
+       *
+       * <code>uint64 data_size_soft_quota = 2;</code>
+       */
+      public Builder clearDataSizeSoftQuota() {
+        
+        dataSizeSoftQuota_ = 0L;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.Cms.DatabaseQuotas)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.Cms.DatabaseQuotas)
+    private static final tech.ydb.cms.YdbCms.DatabaseQuotas DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.cms.YdbCms.DatabaseQuotas();
+    }
+
+    public static tech.ydb.cms.YdbCms.DatabaseQuotas getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DatabaseQuotas>
+        PARSER = new com.google.protobuf.AbstractParser<DatabaseQuotas>() {
+      public DatabaseQuotas parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new DatabaseQuotas(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DatabaseQuotas> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DatabaseQuotas> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.cms.YdbCms.DatabaseQuotas getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface CreateDatabaseRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.Cms.CreateDatabaseRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -7214,6 +7790,31 @@ public final class YdbCms {
     com.google.protobuf.ByteString
         getIdempotencyKeyBytes();
 
+    /**
+     * <pre>
+     * Optional quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     */
+    boolean hasDatabaseQuotas();
+    /**
+     * <pre>
+     * Optional quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     */
+    tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas();
+    /**
+     * <pre>
+     * Optional quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     */
+    tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder getDatabaseQuotasOrBuilder();
+
     public tech.ydb.cms.YdbCms.CreateDatabaseRequest.ResourcesKindCase getResourcesKindCase();
   }
   /**
@@ -7368,6 +7969,19 @@ public final class YdbCms {
               java.lang.String s = input.readStringRequireUtf8();
 
               idempotencyKey_ = s;
+              break;
+            }
+            case 82: {
+              tech.ydb.cms.YdbCms.DatabaseQuotas.Builder subBuilder = null;
+              if (databaseQuotas_ != null) {
+                subBuilder = databaseQuotas_.toBuilder();
+              }
+              databaseQuotas_ = input.readMessage(tech.ydb.cms.YdbCms.DatabaseQuotas.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(databaseQuotas_);
+                databaseQuotas_ = subBuilder.buildPartial();
+              }
+
               break;
             }
           }
@@ -7778,6 +8392,39 @@ public final class YdbCms {
       }
     }
 
+    public static final int DATABASE_QUOTAS_FIELD_NUMBER = 10;
+    private tech.ydb.cms.YdbCms.DatabaseQuotas databaseQuotas_;
+    /**
+     * <pre>
+     * Optional quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     */
+    public boolean hasDatabaseQuotas() {
+      return databaseQuotas_ != null;
+    }
+    /**
+     * <pre>
+     * Optional quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     */
+    public tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas() {
+      return databaseQuotas_ == null ? tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance() : databaseQuotas_;
+    }
+    /**
+     * <pre>
+     * Optional quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     */
+    public tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder getDatabaseQuotasOrBuilder() {
+      return getDatabaseQuotas();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -7816,6 +8463,9 @@ public final class YdbCms {
       }
       if (!getIdempotencyKeyBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 9, idempotencyKey_);
+      }
+      if (databaseQuotas_ != null) {
+        output.writeMessage(10, getDatabaseQuotas());
       }
       unknownFields.writeTo(output);
     }
@@ -7859,6 +8509,10 @@ public final class YdbCms {
       if (!getIdempotencyKeyBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, idempotencyKey_);
       }
+      if (databaseQuotas_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, getDatabaseQuotas());
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -7896,6 +8550,11 @@ public final class YdbCms {
       }
       result = result && getIdempotencyKey()
           .equals(other.getIdempotencyKey());
+      result = result && (hasDatabaseQuotas() == other.hasDatabaseQuotas());
+      if (hasDatabaseQuotas()) {
+        result = result && getDatabaseQuotas()
+            .equals(other.getDatabaseQuotas());
+      }
       result = result && getResourcesKindCase().equals(
           other.getResourcesKindCase());
       if (!result) return false;
@@ -7946,6 +8605,10 @@ public final class YdbCms {
       }
       hash = (37 * hash) + IDEMPOTENCY_KEY_FIELD_NUMBER;
       hash = (53 * hash) + getIdempotencyKey().hashCode();
+      if (hasDatabaseQuotas()) {
+        hash = (37 * hash) + DATABASE_QUOTAS_FIELD_NUMBER;
+        hash = (53 * hash) + getDatabaseQuotas().hashCode();
+      }
       switch (resourcesKindCase_) {
         case 3:
           hash = (37 * hash) + RESOURCES_FIELD_NUMBER;
@@ -8126,6 +8789,12 @@ public final class YdbCms {
         }
         idempotencyKey_ = "";
 
+        if (databaseQuotasBuilder_ == null) {
+          databaseQuotas_ = null;
+        } else {
+          databaseQuotas_ = null;
+          databaseQuotasBuilder_ = null;
+        }
         resourcesKindCase_ = 0;
         resourcesKind_ = null;
         return this;
@@ -8199,6 +8868,11 @@ public final class YdbCms {
           result.schemaOperationQuotas_ = schemaOperationQuotasBuilder_.build();
         }
         result.idempotencyKey_ = idempotencyKey_;
+        if (databaseQuotasBuilder_ == null) {
+          result.databaseQuotas_ = databaseQuotas_;
+        } else {
+          result.databaseQuotas_ = databaseQuotasBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         result.resourcesKindCase_ = resourcesKindCase_;
         onBuilt();
@@ -8284,6 +8958,9 @@ public final class YdbCms {
         if (!other.getIdempotencyKey().isEmpty()) {
           idempotencyKey_ = other.idempotencyKey_;
           onChanged();
+        }
+        if (other.hasDatabaseQuotas()) {
+          mergeDatabaseQuotas(other.getDatabaseQuotas());
         }
         switch (other.getResourcesKindCase()) {
           case RESOURCES: {
@@ -9772,6 +10449,159 @@ public final class YdbCms {
         idempotencyKey_ = value;
         onChanged();
         return this;
+      }
+
+      private tech.ydb.cms.YdbCms.DatabaseQuotas databaseQuotas_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.DatabaseQuotas, tech.ydb.cms.YdbCms.DatabaseQuotas.Builder, tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder> databaseQuotasBuilder_;
+      /**
+       * <pre>
+       * Optional quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public boolean hasDatabaseQuotas() {
+        return databaseQuotasBuilder_ != null || databaseQuotas_ != null;
+      }
+      /**
+       * <pre>
+       * Optional quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas() {
+        if (databaseQuotasBuilder_ == null) {
+          return databaseQuotas_ == null ? tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance() : databaseQuotas_;
+        } else {
+          return databaseQuotasBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Optional quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public Builder setDatabaseQuotas(tech.ydb.cms.YdbCms.DatabaseQuotas value) {
+        if (databaseQuotasBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          databaseQuotas_ = value;
+          onChanged();
+        } else {
+          databaseQuotasBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public Builder setDatabaseQuotas(
+          tech.ydb.cms.YdbCms.DatabaseQuotas.Builder builderForValue) {
+        if (databaseQuotasBuilder_ == null) {
+          databaseQuotas_ = builderForValue.build();
+          onChanged();
+        } else {
+          databaseQuotasBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public Builder mergeDatabaseQuotas(tech.ydb.cms.YdbCms.DatabaseQuotas value) {
+        if (databaseQuotasBuilder_ == null) {
+          if (databaseQuotas_ != null) {
+            databaseQuotas_ =
+              tech.ydb.cms.YdbCms.DatabaseQuotas.newBuilder(databaseQuotas_).mergeFrom(value).buildPartial();
+          } else {
+            databaseQuotas_ = value;
+          }
+          onChanged();
+        } else {
+          databaseQuotasBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public Builder clearDatabaseQuotas() {
+        if (databaseQuotasBuilder_ == null) {
+          databaseQuotas_ = null;
+          onChanged();
+        } else {
+          databaseQuotas_ = null;
+          databaseQuotasBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public tech.ydb.cms.YdbCms.DatabaseQuotas.Builder getDatabaseQuotasBuilder() {
+        
+        onChanged();
+        return getDatabaseQuotasFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Optional quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder getDatabaseQuotasOrBuilder() {
+        if (databaseQuotasBuilder_ != null) {
+          return databaseQuotasBuilder_.getMessageOrBuilder();
+        } else {
+          return databaseQuotas_ == null ?
+              tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance() : databaseQuotas_;
+        }
+      }
+      /**
+       * <pre>
+       * Optional quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.DatabaseQuotas, tech.ydb.cms.YdbCms.DatabaseQuotas.Builder, tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder> 
+          getDatabaseQuotasFieldBuilder() {
+        if (databaseQuotasBuilder_ == null) {
+          databaseQuotasBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.cms.YdbCms.DatabaseQuotas, tech.ydb.cms.YdbCms.DatabaseQuotas.Builder, tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder>(
+                  getDatabaseQuotas(),
+                  getParentForChildren(),
+                  isClean());
+          databaseQuotas_ = null;
+        }
+        return databaseQuotasBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -12054,6 +12884,31 @@ public final class YdbCms {
      */
     tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder();
 
+    /**
+     * <pre>
+     * Current quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     */
+    boolean hasDatabaseQuotas();
+    /**
+     * <pre>
+     * Current quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     */
+    tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas();
+    /**
+     * <pre>
+     * Current quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     */
+    tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder getDatabaseQuotasOrBuilder();
+
     public tech.ydb.cms.YdbCms.GetDatabaseStatusResult.ResourcesKindCase getResourcesKindCase();
   }
   /**
@@ -12193,6 +13048,19 @@ public final class YdbCms {
               if (subBuilder != null) {
                 subBuilder.mergeFrom(schemaOperationQuotas_);
                 schemaOperationQuotas_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 82: {
+              tech.ydb.cms.YdbCms.DatabaseQuotas.Builder subBuilder = null;
+              if (databaseQuotas_ != null) {
+                subBuilder = databaseQuotas_.toBuilder();
+              }
+              databaseQuotas_ = input.readMessage(tech.ydb.cms.YdbCms.DatabaseQuotas.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(databaseQuotas_);
+                databaseQuotas_ = subBuilder.buildPartial();
               }
 
               break;
@@ -12681,6 +13549,39 @@ public final class YdbCms {
       return getSchemaOperationQuotas();
     }
 
+    public static final int DATABASE_QUOTAS_FIELD_NUMBER = 10;
+    private tech.ydb.cms.YdbCms.DatabaseQuotas databaseQuotas_;
+    /**
+     * <pre>
+     * Current quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     */
+    public boolean hasDatabaseQuotas() {
+      return databaseQuotas_ != null;
+    }
+    /**
+     * <pre>
+     * Current quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     */
+    public tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas() {
+      return databaseQuotas_ == null ? tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance() : databaseQuotas_;
+    }
+    /**
+     * <pre>
+     * Current quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     */
+    public tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder getDatabaseQuotasOrBuilder() {
+      return getDatabaseQuotas();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -12719,6 +13620,9 @@ public final class YdbCms {
       }
       if (schemaOperationQuotas_ != null) {
         output.writeMessage(9, getSchemaOperationQuotas());
+      }
+      if (databaseQuotas_ != null) {
+        output.writeMessage(10, getDatabaseQuotas());
       }
       unknownFields.writeTo(output);
     }
@@ -12763,6 +13667,10 @@ public final class YdbCms {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, getSchemaOperationQuotas());
       }
+      if (databaseQuotas_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, getDatabaseQuotas());
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -12795,6 +13703,11 @@ public final class YdbCms {
       if (hasSchemaOperationQuotas()) {
         result = result && getSchemaOperationQuotas()
             .equals(other.getSchemaOperationQuotas());
+      }
+      result = result && (hasDatabaseQuotas() == other.hasDatabaseQuotas());
+      if (hasDatabaseQuotas()) {
+        result = result && getDatabaseQuotas()
+            .equals(other.getDatabaseQuotas());
       }
       result = result && getResourcesKindCase().equals(
           other.getResourcesKindCase());
@@ -12844,6 +13757,10 @@ public final class YdbCms {
       if (hasSchemaOperationQuotas()) {
         hash = (37 * hash) + SCHEMA_OPERATION_QUOTAS_FIELD_NUMBER;
         hash = (53 * hash) + getSchemaOperationQuotas().hashCode();
+      }
+      if (hasDatabaseQuotas()) {
+        hash = (37 * hash) + DATABASE_QUOTAS_FIELD_NUMBER;
+        hash = (53 * hash) + getDatabaseQuotas().hashCode();
       }
       switch (resourcesKindCase_) {
         case 3:
@@ -13015,6 +13932,12 @@ public final class YdbCms {
           schemaOperationQuotas_ = null;
           schemaOperationQuotasBuilder_ = null;
         }
+        if (databaseQuotasBuilder_ == null) {
+          databaseQuotas_ = null;
+        } else {
+          databaseQuotas_ = null;
+          databaseQuotasBuilder_ = null;
+        }
         resourcesKindCase_ = 0;
         resourcesKind_ = null;
         return this;
@@ -13083,6 +14006,11 @@ public final class YdbCms {
           result.schemaOperationQuotas_ = schemaOperationQuotas_;
         } else {
           result.schemaOperationQuotas_ = schemaOperationQuotasBuilder_.build();
+        }
+        if (databaseQuotasBuilder_ == null) {
+          result.databaseQuotas_ = databaseQuotas_;
+        } else {
+          result.databaseQuotas_ = databaseQuotasBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         result.resourcesKindCase_ = resourcesKindCase_;
@@ -13168,6 +14096,9 @@ public final class YdbCms {
         }
         if (other.hasSchemaOperationQuotas()) {
           mergeSchemaOperationQuotas(other.getSchemaOperationQuotas());
+        }
+        if (other.hasDatabaseQuotas()) {
+          mergeDatabaseQuotas(other.getDatabaseQuotas());
         }
         switch (other.getResourcesKindCase()) {
           case REQUIRED_RESOURCES: {
@@ -14484,6 +15415,159 @@ public final class YdbCms {
         }
         return schemaOperationQuotasBuilder_;
       }
+
+      private tech.ydb.cms.YdbCms.DatabaseQuotas databaseQuotas_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.DatabaseQuotas, tech.ydb.cms.YdbCms.DatabaseQuotas.Builder, tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder> databaseQuotasBuilder_;
+      /**
+       * <pre>
+       * Current quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public boolean hasDatabaseQuotas() {
+        return databaseQuotasBuilder_ != null || databaseQuotas_ != null;
+      }
+      /**
+       * <pre>
+       * Current quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas() {
+        if (databaseQuotasBuilder_ == null) {
+          return databaseQuotas_ == null ? tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance() : databaseQuotas_;
+        } else {
+          return databaseQuotasBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Current quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public Builder setDatabaseQuotas(tech.ydb.cms.YdbCms.DatabaseQuotas value) {
+        if (databaseQuotasBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          databaseQuotas_ = value;
+          onChanged();
+        } else {
+          databaseQuotasBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Current quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public Builder setDatabaseQuotas(
+          tech.ydb.cms.YdbCms.DatabaseQuotas.Builder builderForValue) {
+        if (databaseQuotasBuilder_ == null) {
+          databaseQuotas_ = builderForValue.build();
+          onChanged();
+        } else {
+          databaseQuotasBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Current quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public Builder mergeDatabaseQuotas(tech.ydb.cms.YdbCms.DatabaseQuotas value) {
+        if (databaseQuotasBuilder_ == null) {
+          if (databaseQuotas_ != null) {
+            databaseQuotas_ =
+              tech.ydb.cms.YdbCms.DatabaseQuotas.newBuilder(databaseQuotas_).mergeFrom(value).buildPartial();
+          } else {
+            databaseQuotas_ = value;
+          }
+          onChanged();
+        } else {
+          databaseQuotasBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Current quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public Builder clearDatabaseQuotas() {
+        if (databaseQuotasBuilder_ == null) {
+          databaseQuotas_ = null;
+          onChanged();
+        } else {
+          databaseQuotas_ = null;
+          databaseQuotasBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Current quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public tech.ydb.cms.YdbCms.DatabaseQuotas.Builder getDatabaseQuotasBuilder() {
+        
+        onChanged();
+        return getDatabaseQuotasFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Current quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      public tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder getDatabaseQuotasOrBuilder() {
+        if (databaseQuotasBuilder_ != null) {
+          return databaseQuotasBuilder_.getMessageOrBuilder();
+        } else {
+          return databaseQuotas_ == null ?
+              tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance() : databaseQuotas_;
+        }
+      }
+      /**
+       * <pre>
+       * Current quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.DatabaseQuotas, tech.ydb.cms.YdbCms.DatabaseQuotas.Builder, tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder> 
+          getDatabaseQuotasFieldBuilder() {
+        if (databaseQuotasBuilder_ == null) {
+          databaseQuotasBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.cms.YdbCms.DatabaseQuotas, tech.ydb.cms.YdbCms.DatabaseQuotas.Builder, tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder>(
+                  getDatabaseQuotas(),
+                  getParentForChildren(),
+                  isClean());
+          databaseQuotas_ = null;
+        }
+        return databaseQuotasBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -14851,6 +15935,31 @@ public final class YdbCms {
      */
     com.google.protobuf.ByteString
         getIdempotencyKeyBytes();
+
+    /**
+     * <pre>
+     * Change quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+     */
+    boolean hasDatabaseQuotas();
+    /**
+     * <pre>
+     * Change quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+     */
+    tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas();
+    /**
+     * <pre>
+     * Change quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+     */
+    tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder getDatabaseQuotasOrBuilder();
   }
   /**
    * <pre>
@@ -14993,6 +16102,19 @@ public final class YdbCms {
               java.lang.String s = input.readStringRequireUtf8();
 
               idempotencyKey_ = s;
+              break;
+            }
+            case 90: {
+              tech.ydb.cms.YdbCms.DatabaseQuotas.Builder subBuilder = null;
+              if (databaseQuotas_ != null) {
+                subBuilder = databaseQuotas_.toBuilder();
+              }
+              databaseQuotas_ = input.readMessage(tech.ydb.cms.YdbCms.DatabaseQuotas.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(databaseQuotas_);
+                databaseQuotas_ = subBuilder.buildPartial();
+              }
+
               break;
             }
           }
@@ -15473,6 +16595,39 @@ public final class YdbCms {
       }
     }
 
+    public static final int DATABASE_QUOTAS_FIELD_NUMBER = 11;
+    private tech.ydb.cms.YdbCms.DatabaseQuotas databaseQuotas_;
+    /**
+     * <pre>
+     * Change quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+     */
+    public boolean hasDatabaseQuotas() {
+      return databaseQuotas_ != null;
+    }
+    /**
+     * <pre>
+     * Change quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+     */
+    public tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas() {
+      return databaseQuotas_ == null ? tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance() : databaseQuotas_;
+    }
+    /**
+     * <pre>
+     * Change quotas for the database
+     * </pre>
+     *
+     * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+     */
+    public tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder getDatabaseQuotasOrBuilder() {
+      return getDatabaseQuotas();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -15514,6 +16669,9 @@ public final class YdbCms {
       }
       if (!getIdempotencyKeyBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 10, idempotencyKey_);
+      }
+      if (databaseQuotas_ != null) {
+        output.writeMessage(11, getDatabaseQuotas());
       }
       unknownFields.writeTo(output);
     }
@@ -15561,6 +16719,10 @@ public final class YdbCms {
       if (!getIdempotencyKeyBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, idempotencyKey_);
       }
+      if (databaseQuotas_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(11, getDatabaseQuotas());
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -15603,6 +16765,11 @@ public final class YdbCms {
       }
       result = result && getIdempotencyKey()
           .equals(other.getIdempotencyKey());
+      result = result && (hasDatabaseQuotas() == other.hasDatabaseQuotas());
+      if (hasDatabaseQuotas()) {
+        result = result && getDatabaseQuotas()
+            .equals(other.getDatabaseQuotas());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -15649,6 +16816,10 @@ public final class YdbCms {
       }
       hash = (37 * hash) + IDEMPOTENCY_KEY_FIELD_NUMBER;
       hash = (53 * hash) + getIdempotencyKey().hashCode();
+      if (hasDatabaseQuotas()) {
+        hash = (37 * hash) + DATABASE_QUOTAS_FIELD_NUMBER;
+        hash = (53 * hash) + getDatabaseQuotas().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -15835,6 +17006,12 @@ public final class YdbCms {
         }
         idempotencyKey_ = "";
 
+        if (databaseQuotasBuilder_ == null) {
+          databaseQuotas_ = null;
+        } else {
+          databaseQuotas_ = null;
+          databaseQuotasBuilder_ = null;
+        }
         return this;
       }
 
@@ -15917,6 +17094,11 @@ public final class YdbCms {
           result.schemaOperationQuotas_ = schemaOperationQuotasBuilder_.build();
         }
         result.idempotencyKey_ = idempotencyKey_;
+        if (databaseQuotasBuilder_ == null) {
+          result.databaseQuotas_ = databaseQuotas_;
+        } else {
+          result.databaseQuotas_ = databaseQuotasBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -16105,6 +17287,9 @@ public final class YdbCms {
         if (!other.getIdempotencyKey().isEmpty()) {
           idempotencyKey_ = other.idempotencyKey_;
           onChanged();
+        }
+        if (other.hasDatabaseQuotas()) {
+          mergeDatabaseQuotas(other.getDatabaseQuotas());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -18214,6 +19399,159 @@ public final class YdbCms {
         idempotencyKey_ = value;
         onChanged();
         return this;
+      }
+
+      private tech.ydb.cms.YdbCms.DatabaseQuotas databaseQuotas_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.DatabaseQuotas, tech.ydb.cms.YdbCms.DatabaseQuotas.Builder, tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder> databaseQuotasBuilder_;
+      /**
+       * <pre>
+       * Change quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+       */
+      public boolean hasDatabaseQuotas() {
+        return databaseQuotasBuilder_ != null || databaseQuotas_ != null;
+      }
+      /**
+       * <pre>
+       * Change quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+       */
+      public tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas() {
+        if (databaseQuotasBuilder_ == null) {
+          return databaseQuotas_ == null ? tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance() : databaseQuotas_;
+        } else {
+          return databaseQuotasBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Change quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+       */
+      public Builder setDatabaseQuotas(tech.ydb.cms.YdbCms.DatabaseQuotas value) {
+        if (databaseQuotasBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          databaseQuotas_ = value;
+          onChanged();
+        } else {
+          databaseQuotasBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Change quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+       */
+      public Builder setDatabaseQuotas(
+          tech.ydb.cms.YdbCms.DatabaseQuotas.Builder builderForValue) {
+        if (databaseQuotasBuilder_ == null) {
+          databaseQuotas_ = builderForValue.build();
+          onChanged();
+        } else {
+          databaseQuotasBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Change quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+       */
+      public Builder mergeDatabaseQuotas(tech.ydb.cms.YdbCms.DatabaseQuotas value) {
+        if (databaseQuotasBuilder_ == null) {
+          if (databaseQuotas_ != null) {
+            databaseQuotas_ =
+              tech.ydb.cms.YdbCms.DatabaseQuotas.newBuilder(databaseQuotas_).mergeFrom(value).buildPartial();
+          } else {
+            databaseQuotas_ = value;
+          }
+          onChanged();
+        } else {
+          databaseQuotasBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Change quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+       */
+      public Builder clearDatabaseQuotas() {
+        if (databaseQuotasBuilder_ == null) {
+          databaseQuotas_ = null;
+          onChanged();
+        } else {
+          databaseQuotas_ = null;
+          databaseQuotasBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Change quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+       */
+      public tech.ydb.cms.YdbCms.DatabaseQuotas.Builder getDatabaseQuotasBuilder() {
+        
+        onChanged();
+        return getDatabaseQuotasFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Change quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+       */
+      public tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder getDatabaseQuotasOrBuilder() {
+        if (databaseQuotasBuilder_ != null) {
+          return databaseQuotasBuilder_.getMessageOrBuilder();
+        } else {
+          return databaseQuotas_ == null ?
+              tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance() : databaseQuotas_;
+        }
+      }
+      /**
+       * <pre>
+       * Change quotas for the database
+       * </pre>
+       *
+       * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.cms.YdbCms.DatabaseQuotas, tech.ydb.cms.YdbCms.DatabaseQuotas.Builder, tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder> 
+          getDatabaseQuotasFieldBuilder() {
+        if (databaseQuotasBuilder_ == null) {
+          databaseQuotasBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.cms.YdbCms.DatabaseQuotas, tech.ydb.cms.YdbCms.DatabaseQuotas.Builder, tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder>(
+                  getDatabaseQuotas(),
+                  getParentForChildren(),
+                  isClean());
+          databaseQuotas_ = null;
+        }
+        return databaseQuotasBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -27544,6 +28882,11 @@ public final class YdbCms {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Cms_DatabaseQuotas_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Cms_DatabaseQuotas_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -27676,87 +29019,93 @@ public final class YdbCms {
       "ationQuotas\022G\n\023leaky_bucket_quotas\030\001 \003(\013" +
       "2*.Ydb.Cms.SchemaOperationQuotas.LeakyBu" +
       "cket\032:\n\013LeakyBucket\022\023\n\013bucket_size\030\001 \001(\001" +
-      "\022\026\n\016bucket_seconds\030\002 \001(\004\"\266\003\n\025CreateDatab",
-      "aseRequest\0229\n\020operation_params\030\001 \001(\0132\037.Y" +
-      "db.Operations.OperationParams\022\014\n\004path\030\002 " +
-      "\001(\t\022\'\n\tresources\030\003 \001(\0132\022.Ydb.Cms.Resourc" +
-      "esH\000\022.\n\020shared_resources\030\006 \001(\0132\022.Ydb.Cms" +
-      ".ResourcesH\000\022<\n\024serverless_resources\030\007 \001" +
-      "(\0132\034.Ydb.Cms.ServerlessResourcesH\000\022)\n\007op" +
-      "tions\030\004 \001(\0132\030.Ydb.Cms.DatabaseOptions\022&\n" +
-      "\nattributes\030\005 \003(\0132\022.Ydb.Cms.Attribute\022?\n" +
-      "\027schema_operation_quotas\030\010 \001(\0132\036.Ydb.Cms" +
-      ".SchemaOperationQuotas\022\027\n\017idempotency_ke",
-      "y\030\t \001(\tB\020\n\016resources_kind\"F\n\026CreateDatab" +
-      "aseResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"c\n\030GetDatabaseStatusRe" +
-      "quest\022\014\n\004path\030\001 \001(\t\0229\n\020operation_params\030" +
-      "\002 \001(\0132\037.Ydb.Operations.OperationParams\"I" +
-      "\n\031GetDatabaseStatusResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\302\004\n\027Ge" +
-      "tDatabaseStatusResult\022\014\n\004path\030\001 \001(\t\0225\n\005s" +
-      "tate\030\002 \001(\0162&.Ydb.Cms.GetDatabaseStatusRe" +
-      "sult.State\0220\n\022required_resources\030\003 \001(\0132\022",
-      ".Ydb.Cms.ResourcesH\000\0227\n\031required_shared_" +
-      "resources\030\007 \001(\0132\022.Ydb.Cms.ResourcesH\000\022<\n" +
-      "\024serverless_resources\030\010 \001(\0132\034.Ydb.Cms.Se" +
-      "rverlessResourcesH\000\022/\n\023allocated_resourc" +
-      "es\030\004 \001(\0132\022.Ydb.Cms.Resources\022A\n\024register" +
-      "ed_resources\030\005 \003(\0132#.Ydb.Cms.AllocatedCo" +
-      "mputationalUnit\022\022\n\ngeneration\030\006 \001(\004\022?\n\027s" +
-      "chema_operation_quotas\030\t \001(\0132\036.Ydb.Cms.S" +
-      "chemaOperationQuotas\"^\n\005State\022\025\n\021STATE_U" +
-      "NSPECIFIED\020\000\022\014\n\010CREATING\020\001\022\013\n\007RUNNING\020\002\022",
-      "\014\n\010REMOVING\020\003\022\025\n\021PENDING_RESOURCES\020\004B\020\n\016" +
-      "resources_kind\"\245\004\n\024AlterDatabaseRequest\022" +
-      "\014\n\004path\030\001 \001(\t\022?\n\032computational_units_to_" +
-      "add\030\002 \003(\0132\033.Ydb.Cms.ComputationalUnits\022B" +
-      "\n\035computational_units_to_remove\030\003 \003(\0132\033." +
-      "Ydb.Cms.ComputationalUnits\0223\n\024storage_un" +
-      "its_to_add\030\004 \003(\0132\025.Ydb.Cms.StorageUnits\022" +
-      "L\n\037computational_units_to_register\030\005 \003(\013" +
-      "2#.Ydb.Cms.AllocatedComputationalUnit\022N\n" +
-      "!computational_units_to_deregister\030\006 \003(\013",
-      "2#.Ydb.Cms.AllocatedComputationalUnit\0229\n" +
-      "\020operation_params\030\007 \001(\0132\037.Ydb.Operations" +
-      ".OperationParams\022\022\n\ngeneration\030\010 \001(\004\022?\n\027" +
-      "schema_operation_quotas\030\t \001(\0132\036.Ydb.Cms." +
-      "SchemaOperationQuotas\022\027\n\017idempotency_key" +
-      "\030\n \001(\t\"E\n\025AlterDatabaseResponse\022,\n\topera" +
-      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"Q\n" +
-      "\024ListDatabasesRequest\0229\n\020operation_param" +
-      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\"E\n\025ListDatabasesResponse\022,\n\toperation\030\001",
-      " \001(\0132\031.Ydb.Operations.Operation\"$\n\023ListD" +
-      "atabasesResult\022\r\n\005paths\030\001 \003(\t\"`\n\025RemoveD" +
-      "atabaseRequest\022\014\n\004path\030\001 \001(\t\0229\n\020operatio" +
-      "n_params\030\002 \001(\0132\037.Ydb.Operations.Operatio" +
-      "nParams\"F\n\026RemoveDatabaseResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
-      "\222\001\n\026StorageUnitDescription\022\014\n\004kind\030\001 \001(\t" +
-      "\022;\n\006labels\030\002 \003(\0132+.Ydb.Cms.StorageUnitDe" +
-      "scription.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003" +
-      "key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001\n\033Availab",
-      "ilityZoneDescription\022\014\n\004name\030\001 \001(\t\022@\n\006la" +
-      "bels\030\002 \003(\01320.Ydb.Cms.AvailabilityZoneDes" +
-      "cription.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003k" +
-      "ey\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\302\001\n\034Computat" +
-      "ionalUnitDescription\022\014\n\004kind\030\001 \001(\t\022A\n\006la" +
-      "bels\030\002 \003(\01321.Ydb.Cms.ComputationalUnitDe" +
-      "scription.LabelsEntry\022\"\n\032allowed_availab" +
-      "ility_zones\030\003 \003(\t\032-\n\013LabelsEntry\022\013\n\003key\030" +
-      "\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"[\n\036DescribeData" +
-      "baseOptionsRequest\0229\n\020operation_params\030\001",
-      " \001(\0132\037.Ydb.Operations.OperationParams\"O\n" +
-      "\037DescribeDatabaseOptionsResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\335" +
-      "\001\n\035DescribeDatabaseOptionsResult\0226\n\rstor" +
-      "age_units\030\001 \003(\0132\037.Ydb.Cms.StorageUnitDes" +
-      "cription\022@\n\022availability_zones\030\002 \003(\0132$.Y" +
-      "db.Cms.AvailabilityZoneDescription\022B\n\023co" +
-      "mputational_units\030\003 \003(\0132%.Ydb.Cms.Comput" +
-      "ationalUnitDescriptionB\027\n\022tech.ydb" +
-      ".cms\370\001\001b\006proto3"
+      "\022\026\n\016bucket_seconds\030\002 \001(\004\"L\n\016DatabaseQuot",
+      "as\022\034\n\024data_size_hard_quota\030\001 \001(\004\022\034\n\024data" +
+      "_size_soft_quota\030\002 \001(\004\"\350\003\n\025CreateDatabas" +
+      "eRequest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb" +
+      ".Operations.OperationParams\022\014\n\004path\030\002 \001(" +
+      "\t\022\'\n\tresources\030\003 \001(\0132\022.Ydb.Cms.Resources" +
+      "H\000\022.\n\020shared_resources\030\006 \001(\0132\022.Ydb.Cms.R" +
+      "esourcesH\000\022<\n\024serverless_resources\030\007 \001(\013" +
+      "2\034.Ydb.Cms.ServerlessResourcesH\000\022)\n\007opti" +
+      "ons\030\004 \001(\0132\030.Ydb.Cms.DatabaseOptions\022&\n\na" +
+      "ttributes\030\005 \003(\0132\022.Ydb.Cms.Attribute\022?\n\027s",
+      "chema_operation_quotas\030\010 \001(\0132\036.Ydb.Cms.S" +
+      "chemaOperationQuotas\022\027\n\017idempotency_key\030" +
+      "\t \001(\t\0220\n\017database_quotas\030\n \001(\0132\027.Ydb.Cms" +
+      ".DatabaseQuotasB\020\n\016resources_kind\"F\n\026Cre" +
+      "ateDatabaseResponse\022,\n\toperation\030\001 \001(\0132\031" +
+      ".Ydb.Operations.Operation\"c\n\030GetDatabase" +
+      "StatusRequest\022\014\n\004path\030\001 \001(\t\0229\n\020operation" +
+      "_params\030\002 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\"I\n\031GetDatabaseStatusResponse\022,\n\to" +
+      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio",
+      "n\"\364\004\n\027GetDatabaseStatusResult\022\014\n\004path\030\001 " +
+      "\001(\t\0225\n\005state\030\002 \001(\0162&.Ydb.Cms.GetDatabase" +
+      "StatusResult.State\0220\n\022required_resources" +
+      "\030\003 \001(\0132\022.Ydb.Cms.ResourcesH\000\0227\n\031required" +
+      "_shared_resources\030\007 \001(\0132\022.Ydb.Cms.Resour" +
+      "cesH\000\022<\n\024serverless_resources\030\010 \001(\0132\034.Yd" +
+      "b.Cms.ServerlessResourcesH\000\022/\n\023allocated" +
+      "_resources\030\004 \001(\0132\022.Ydb.Cms.Resources\022A\n\024" +
+      "registered_resources\030\005 \003(\0132#.Ydb.Cms.All" +
+      "ocatedComputationalUnit\022\022\n\ngeneration\030\006 ",
+      "\001(\004\022?\n\027schema_operation_quotas\030\t \001(\0132\036.Y" +
+      "db.Cms.SchemaOperationQuotas\0220\n\017database" +
+      "_quotas\030\n \001(\0132\027.Ydb.Cms.DatabaseQuotas\"^" +
+      "\n\005State\022\025\n\021STATE_UNSPECIFIED\020\000\022\014\n\010CREATI" +
+      "NG\020\001\022\013\n\007RUNNING\020\002\022\014\n\010REMOVING\020\003\022\025\n\021PENDI" +
+      "NG_RESOURCES\020\004B\020\n\016resources_kind\"\327\004\n\024Alt" +
+      "erDatabaseRequest\022\014\n\004path\030\001 \001(\t\022?\n\032compu" +
+      "tational_units_to_add\030\002 \003(\0132\033.Ydb.Cms.Co" +
+      "mputationalUnits\022B\n\035computational_units_" +
+      "to_remove\030\003 \003(\0132\033.Ydb.Cms.ComputationalU",
+      "nits\0223\n\024storage_units_to_add\030\004 \003(\0132\025.Ydb" +
+      ".Cms.StorageUnits\022L\n\037computational_units" +
+      "_to_register\030\005 \003(\0132#.Ydb.Cms.AllocatedCo" +
+      "mputationalUnit\022N\n!computational_units_t" +
+      "o_deregister\030\006 \003(\0132#.Ydb.Cms.AllocatedCo" +
+      "mputationalUnit\0229\n\020operation_params\030\007 \001(" +
+      "\0132\037.Ydb.Operations.OperationParams\022\022\n\nge" +
+      "neration\030\010 \001(\004\022?\n\027schema_operation_quota" +
+      "s\030\t \001(\0132\036.Ydb.Cms.SchemaOperationQuotas\022" +
+      "\027\n\017idempotency_key\030\n \001(\t\0220\n\017database_quo",
+      "tas\030\013 \001(\0132\027.Ydb.Cms.DatabaseQuotas\"E\n\025Al" +
+      "terDatabaseResponse\022,\n\toperation\030\001 \001(\0132\031" +
+      ".Ydb.Operations.Operation\"Q\n\024ListDatabas" +
+      "esRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
+      "b.Operations.OperationParams\"E\n\025ListData" +
+      "basesResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
+      "perations.Operation\"$\n\023ListDatabasesResu" +
+      "lt\022\r\n\005paths\030\001 \003(\t\"`\n\025RemoveDatabaseReque" +
+      "st\022\014\n\004path\030\001 \001(\t\0229\n\020operation_params\030\002 \001" +
+      "(\0132\037.Ydb.Operations.OperationParams\"F\n\026R",
+      "emoveDatabaseResponse\022,\n\toperation\030\001 \001(\013" +
+      "2\031.Ydb.Operations.Operation\"\222\001\n\026StorageU" +
+      "nitDescription\022\014\n\004kind\030\001 \001(\t\022;\n\006labels\030\002" +
+      " \003(\0132+.Ydb.Cms.StorageUnitDescription.La" +
+      "belsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n" +
+      "\005value\030\002 \001(\t:\0028\001\"\234\001\n\033AvailabilityZoneDes" +
+      "cription\022\014\n\004name\030\001 \001(\t\022@\n\006labels\030\002 \003(\01320" +
+      ".Ydb.Cms.AvailabilityZoneDescription.Lab" +
+      "elsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005" +
+      "value\030\002 \001(\t:\0028\001\"\302\001\n\034ComputationalUnitDes",
+      "cription\022\014\n\004kind\030\001 \001(\t\022A\n\006labels\030\002 \003(\01321" +
+      ".Ydb.Cms.ComputationalUnitDescription.La" +
+      "belsEntry\022\"\n\032allowed_availability_zones\030" +
+      "\003 \003(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005val" +
+      "ue\030\002 \001(\t:\0028\001\"[\n\036DescribeDatabaseOptionsR" +
+      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
+      "perations.OperationParams\"O\n\037DescribeDat" +
+      "abaseOptionsResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"\335\001\n\035DescribeD" +
+      "atabaseOptionsResult\0226\n\rstorage_units\030\001 ",
+      "\003(\0132\037.Ydb.Cms.StorageUnitDescription\022@\n\022" +
+      "availability_zones\030\002 \003(\0132$.Ydb.Cms.Avail" +
+      "abilityZoneDescription\022B\n\023computational_" +
+      "units\030\003 \003(\0132%.Ydb.Cms.ComputationalUnitD" +
+      "escriptionB\027\n\022tech.ydb.cms\370\001\001b\006pro" +
+      "to3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -27825,80 +29174,86 @@ public final class YdbCms {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_descriptor,
         new java.lang.String[] { "BucketSize", "BucketSeconds", });
-    internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor =
+    internal_static_Ydb_Cms_DatabaseQuotas_descriptor =
       getDescriptor().getMessageTypes().get(8);
+    internal_static_Ydb_Cms_DatabaseQuotas_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Cms_DatabaseQuotas_descriptor,
+        new java.lang.String[] { "DataSizeHardQuota", "DataSizeSoftQuota", });
+    internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor =
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Cms_CreateDatabaseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Path", "Resources", "SharedResources", "ServerlessResources", "Options", "Attributes", "SchemaOperationQuotas", "IdempotencyKey", "ResourcesKind", });
+        new java.lang.String[] { "OperationParams", "Path", "Resources", "SharedResources", "ServerlessResources", "Options", "Attributes", "SchemaOperationQuotas", "IdempotencyKey", "DatabaseQuotas", "ResourcesKind", });
     internal_static_Ydb_Cms_CreateDatabaseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_Ydb_Cms_CreateDatabaseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_CreateDatabaseResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_GetDatabaseStatusRequest_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_Ydb_Cms_GetDatabaseStatusRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_GetDatabaseStatusRequest_descriptor,
         new java.lang.String[] { "Path", "OperationParams", });
     internal_static_Ydb_Cms_GetDatabaseStatusResponse_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_Ydb_Cms_GetDatabaseStatusResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_GetDatabaseStatusResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_GetDatabaseStatusResult_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_Ydb_Cms_GetDatabaseStatusResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_GetDatabaseStatusResult_descriptor,
-        new java.lang.String[] { "Path", "State", "RequiredResources", "RequiredSharedResources", "ServerlessResources", "AllocatedResources", "RegisteredResources", "Generation", "SchemaOperationQuotas", "ResourcesKind", });
+        new java.lang.String[] { "Path", "State", "RequiredResources", "RequiredSharedResources", "ServerlessResources", "AllocatedResources", "RegisteredResources", "Generation", "SchemaOperationQuotas", "DatabaseQuotas", "ResourcesKind", });
     internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_Ydb_Cms_AlterDatabaseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor,
-        new java.lang.String[] { "Path", "ComputationalUnitsToAdd", "ComputationalUnitsToRemove", "StorageUnitsToAdd", "ComputationalUnitsToRegister", "ComputationalUnitsToDeregister", "OperationParams", "Generation", "SchemaOperationQuotas", "IdempotencyKey", });
+        new java.lang.String[] { "Path", "ComputationalUnitsToAdd", "ComputationalUnitsToRemove", "StorageUnitsToAdd", "ComputationalUnitsToRegister", "ComputationalUnitsToDeregister", "OperationParams", "Generation", "SchemaOperationQuotas", "IdempotencyKey", "DatabaseQuotas", });
     internal_static_Ydb_Cms_AlterDatabaseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_Ydb_Cms_AlterDatabaseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_AlterDatabaseResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_ListDatabasesRequest_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_Ydb_Cms_ListDatabasesRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ListDatabasesRequest_descriptor,
         new java.lang.String[] { "OperationParams", });
     internal_static_Ydb_Cms_ListDatabasesResponse_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_Ydb_Cms_ListDatabasesResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ListDatabasesResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_ListDatabasesResult_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_Ydb_Cms_ListDatabasesResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ListDatabasesResult_descriptor,
         new java.lang.String[] { "Paths", });
     internal_static_Ydb_Cms_RemoveDatabaseRequest_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_Ydb_Cms_RemoveDatabaseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_RemoveDatabaseRequest_descriptor,
         new java.lang.String[] { "Path", "OperationParams", });
     internal_static_Ydb_Cms_RemoveDatabaseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_Ydb_Cms_RemoveDatabaseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_RemoveDatabaseResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_StorageUnitDescription_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_Ydb_Cms_StorageUnitDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_StorageUnitDescription_descriptor,
@@ -27910,7 +29265,7 @@ public final class YdbCms {
         internal_static_Ydb_Cms_StorageUnitDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Cms_AvailabilityZoneDescription_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_Ydb_Cms_AvailabilityZoneDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_AvailabilityZoneDescription_descriptor,
@@ -27922,7 +29277,7 @@ public final class YdbCms {
         internal_static_Ydb_Cms_AvailabilityZoneDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Cms_ComputationalUnitDescription_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_Ydb_Cms_ComputationalUnitDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ComputationalUnitDescription_descriptor,
@@ -27934,19 +29289,19 @@ public final class YdbCms {
         internal_static_Ydb_Cms_ComputationalUnitDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_descriptor,
         new java.lang.String[] { "OperationParams", });
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_descriptor,

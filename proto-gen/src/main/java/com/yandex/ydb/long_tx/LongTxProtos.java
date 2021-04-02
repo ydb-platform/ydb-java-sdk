@@ -8837,11 +8837,6 @@ public final class LongTxProtos {
     com.google.protobuf.ByteString
         getSqlBytes();
 
-    /**
-     * <code>bytes generated = 12;</code>
-     */
-    com.google.protobuf.ByteString getGenerated();
-
     public tech.ydb.long_tx.LongTxProtos.ReadRequest.QueryCase getQueryCase();
   }
   /**
@@ -8920,11 +8915,6 @@ public final class LongTxProtos {
               query_ = s;
               break;
             }
-            case 98: {
-              queryCase_ = 12;
-              query_ = input.readBytes();
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8954,7 +8944,6 @@ public final class LongTxProtos {
     public enum QueryCase
         implements com.google.protobuf.Internal.EnumLite {
       SQL(11),
-      GENERATED(12),
       QUERY_NOT_SET(0);
       private final int value;
       private QueryCase(int value) {
@@ -8971,7 +8960,6 @@ public final class LongTxProtos {
       public static QueryCase forNumber(int value) {
         switch (value) {
           case 11: return SQL;
-          case 12: return GENERATED;
           case 0: return QUERY_NOT_SET;
           default: return null;
         }
@@ -9119,17 +9107,6 @@ public final class LongTxProtos {
       }
     }
 
-    public static final int GENERATED_FIELD_NUMBER = 12;
-    /**
-     * <code>bytes generated = 12;</code>
-     */
-    public com.google.protobuf.ByteString getGenerated() {
-      if (queryCase_ == 12) {
-        return (com.google.protobuf.ByteString) query_;
-      }
-      return com.google.protobuf.ByteString.EMPTY;
-    }
-
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -9154,10 +9131,6 @@ public final class LongTxProtos {
       if (queryCase_ == 11) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 11, query_);
       }
-      if (queryCase_ == 12) {
-        output.writeBytes(
-            12, (com.google.protobuf.ByteString) query_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -9178,11 +9151,6 @@ public final class LongTxProtos {
       }
       if (queryCase_ == 11) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(11, query_);
-      }
-      if (queryCase_ == 12) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(
-              12, (com.google.protobuf.ByteString) query_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -9217,10 +9185,6 @@ public final class LongTxProtos {
           result = result && getSql()
               .equals(other.getSql());
           break;
-        case 12:
-          result = result && getGenerated()
-              .equals(other.getGenerated());
-          break;
         case 0:
         default:
       }
@@ -9247,10 +9211,6 @@ public final class LongTxProtos {
         case 11:
           hash = (37 * hash) + SQL_FIELD_NUMBER;
           hash = (53 * hash) + getSql().hashCode();
-          break;
-        case 12:
-          hash = (37 * hash) + GENERATED_FIELD_NUMBER;
-          hash = (53 * hash) + getGenerated().hashCode();
           break;
         case 0:
         default:
@@ -9428,9 +9388,6 @@ public final class LongTxProtos {
         if (queryCase_ == 11) {
           result.query_ = query_;
         }
-        if (queryCase_ == 12) {
-          result.query_ = query_;
-        }
         result.queryCase_ = queryCase_;
         onBuilt();
         return result;
@@ -9489,10 +9446,6 @@ public final class LongTxProtos {
             queryCase_ = 11;
             query_ = other.query_;
             onChanged();
-            break;
-          }
-          case GENERATED: {
-            setGenerated(other.getGenerated());
             break;
           }
           case QUERY_NOT_SET: {
@@ -9873,39 +9826,6 @@ public final class LongTxProtos {
         queryCase_ = 11;
         query_ = value;
         onChanged();
-        return this;
-      }
-
-      /**
-       * <code>bytes generated = 12;</code>
-       */
-      public com.google.protobuf.ByteString getGenerated() {
-        if (queryCase_ == 12) {
-          return (com.google.protobuf.ByteString) query_;
-        }
-        return com.google.protobuf.ByteString.EMPTY;
-      }
-      /**
-       * <code>bytes generated = 12;</code>
-       */
-      public Builder setGenerated(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  queryCase_ = 12;
-        query_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>bytes generated = 12;</code>
-       */
-      public Builder clearGenerated() {
-        if (queryCase_ == 12) {
-          queryCase_ = 0;
-          query_ = null;
-          onChanged();
-        }
         return this;
       }
       public final Builder setUnknownFields(
@@ -11638,16 +11558,15 @@ public final class LongTxProtos {
       "ta\"<\n\013WriteResult\022\r\n\005tx_id\030\001 \001(\t\022\014\n\004path",
       "\030\002 \001(\t\022\020\n\010dedup_id\030\003 \001(\t\"=\n\rWriteRespons" +
       "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"\222\001\n\013ReadRequest\0229\n\020operation_par" +
-      "ams\030\001 \001(\0132\037.Ydb.Operations.OperationPara" +
-      "ms\022\r\n\005tx_id\030\002 \001(\t\022\014\n\004path\030\003 \001(\t\022\r\n\003sql\030\013" +
-      " \001(\tH\000\022\023\n\tgenerated\030\014 \001(\014H\000B\007\n\005query\"j\n\n" +
-      "ReadResult\022\r\n\005tx_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022" +
-      "\r\n\005chunk\030\003 \001(\004\022\020\n\010finished\030\004 \001(\010\022\036\n\004data" +
-      "\030\005 \001(\0132\020.Ydb.LongTx.Data\"<\n\014ReadResponse" +
-      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope",
-      "rationB)\n\026tech.ydb.long_txB\014LongTx" +
-      "Protos\370\001\001b\006proto3"
+      "eration\"}\n\013ReadRequest\0229\n\020operation_para" +
+      "ms\030\001 \001(\0132\037.Ydb.Operations.OperationParam" +
+      "s\022\r\n\005tx_id\030\002 \001(\t\022\014\n\004path\030\003 \001(\t\022\r\n\003sql\030\013 " +
+      "\001(\tH\000B\007\n\005query\"j\n\nReadResult\022\r\n\005tx_id\030\001 " +
+      "\001(\t\022\014\n\004path\030\002 \001(\t\022\r\n\005chunk\030\003 \001(\004\022\020\n\010fini" +
+      "shed\030\004 \001(\010\022\036\n\004data\030\005 \001(\0132\020.Ydb.LongTx.Da" +
+      "ta\"<\n\014ReadResponse\022,\n\toperation\030\001 \001(\0132\031." +
+      "Ydb.Operations.OperationB)\n\026com.yandex.y",
+      "db.long_txB\014LongTxProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -11745,7 +11664,7 @@ public final class LongTxProtos {
     internal_static_Ydb_LongTx_ReadRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LongTx_ReadRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "TxId", "Path", "Sql", "Generated", "Query", });
+        new java.lang.String[] { "OperationParams", "TxId", "Path", "Sql", "Query", });
     internal_static_Ydb_LongTx_ReadResult_descriptor =
       getDescriptor().getMessageTypes().get(14);
     internal_static_Ydb_LongTx_ReadResult_fieldAccessorTable = new

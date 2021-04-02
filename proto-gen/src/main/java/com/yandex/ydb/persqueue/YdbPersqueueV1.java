@@ -66673,6 +66673,29 @@ public final class YdbPersqueueV1 {
          * <code>uint64 uncompressed_size = 6;</code>
          */
         long getUncompressedSize();
+
+        /**
+         * <pre>
+         * kinesis data
+         * </pre>
+         *
+         * <code>string partition_key = 7;</code>
+         */
+        java.lang.String getPartitionKey();
+        /**
+         * <pre>
+         * kinesis data
+         * </pre>
+         *
+         * <code>string partition_key = 7;</code>
+         */
+        com.google.protobuf.ByteString
+            getPartitionKeyBytes();
+
+        /**
+         * <code>bytes explicit_hash = 8;</code>
+         */
+        com.google.protobuf.ByteString getExplicitHash();
       }
       /**
        * <pre>
@@ -66697,6 +66720,8 @@ public final class YdbPersqueueV1 {
           codec_ = 0;
           data_ = com.google.protobuf.ByteString.EMPTY;
           uncompressedSize_ = 0L;
+          partitionKey_ = "";
+          explicitHash_ = com.google.protobuf.ByteString.EMPTY;
         }
 
         @java.lang.Override
@@ -66756,6 +66781,17 @@ public final class YdbPersqueueV1 {
                 case 48: {
 
                   uncompressedSize_ = input.readUInt64();
+                  break;
+                }
+                case 58: {
+                  java.lang.String s = input.readStringRequireUtf8();
+
+                  partitionKey_ = s;
+                  break;
+                }
+                case 66: {
+
+                  explicitHash_ = input.readBytes();
                   break;
                 }
               }
@@ -66871,6 +66907,57 @@ public final class YdbPersqueueV1 {
           return uncompressedSize_;
         }
 
+        public static final int PARTITION_KEY_FIELD_NUMBER = 7;
+        private volatile java.lang.Object partitionKey_;
+        /**
+         * <pre>
+         * kinesis data
+         * </pre>
+         *
+         * <code>string partition_key = 7;</code>
+         */
+        public java.lang.String getPartitionKey() {
+          java.lang.Object ref = partitionKey_;
+          if (ref instanceof java.lang.String) {
+            return (java.lang.String) ref;
+          } else {
+            com.google.protobuf.ByteString bs = 
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            partitionKey_ = s;
+            return s;
+          }
+        }
+        /**
+         * <pre>
+         * kinesis data
+         * </pre>
+         *
+         * <code>string partition_key = 7;</code>
+         */
+        public com.google.protobuf.ByteString
+            getPartitionKeyBytes() {
+          java.lang.Object ref = partitionKey_;
+          if (ref instanceof java.lang.String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            partitionKey_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+
+        public static final int EXPLICIT_HASH_FIELD_NUMBER = 8;
+        private com.google.protobuf.ByteString explicitHash_;
+        /**
+         * <code>bytes explicit_hash = 8;</code>
+         */
+        public com.google.protobuf.ByteString getExplicitHash() {
+          return explicitHash_;
+        }
+
         private byte memoizedIsInitialized = -1;
         public final boolean isInitialized() {
           byte isInitialized = memoizedIsInitialized;
@@ -66900,6 +66987,12 @@ public final class YdbPersqueueV1 {
           }
           if (uncompressedSize_ != 0L) {
             output.writeUInt64(6, uncompressedSize_);
+          }
+          if (!getPartitionKeyBytes().isEmpty()) {
+            com.google.protobuf.GeneratedMessageV3.writeString(output, 7, partitionKey_);
+          }
+          if (!explicitHash_.isEmpty()) {
+            output.writeBytes(8, explicitHash_);
           }
           unknownFields.writeTo(output);
         }
@@ -66933,6 +67026,13 @@ public final class YdbPersqueueV1 {
             size += com.google.protobuf.CodedOutputStream
               .computeUInt64Size(6, uncompressedSize_);
           }
+          if (!getPartitionKeyBytes().isEmpty()) {
+            size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, partitionKey_);
+          }
+          if (!explicitHash_.isEmpty()) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeBytesSize(8, explicitHash_);
+          }
           size += unknownFields.getSerializedSize();
           memoizedSize = size;
           return size;
@@ -66960,6 +67060,10 @@ public final class YdbPersqueueV1 {
               .equals(other.getData());
           result = result && (getUncompressedSize()
               == other.getUncompressedSize());
+          result = result && getPartitionKey()
+              .equals(other.getPartitionKey());
+          result = result && getExplicitHash()
+              .equals(other.getExplicitHash());
           result = result && unknownFields.equals(other.unknownFields);
           return result;
         }
@@ -66987,6 +67091,10 @@ public final class YdbPersqueueV1 {
           hash = (37 * hash) + UNCOMPRESSED_SIZE_FIELD_NUMBER;
           hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
               getUncompressedSize());
+          hash = (37 * hash) + PARTITION_KEY_FIELD_NUMBER;
+          hash = (53 * hash) + getPartitionKey().hashCode();
+          hash = (37 * hash) + EXPLICIT_HASH_FIELD_NUMBER;
+          hash = (53 * hash) + getExplicitHash().hashCode();
           hash = (29 * hash) + unknownFields.hashCode();
           memoizedHashCode = hash;
           return hash;
@@ -67132,6 +67240,10 @@ public final class YdbPersqueueV1 {
 
             uncompressedSize_ = 0L;
 
+            partitionKey_ = "";
+
+            explicitHash_ = com.google.protobuf.ByteString.EMPTY;
+
             return this;
           }
 
@@ -67160,6 +67272,8 @@ public final class YdbPersqueueV1 {
             result.codec_ = codec_;
             result.data_ = data_;
             result.uncompressedSize_ = uncompressedSize_;
+            result.partitionKey_ = partitionKey_;
+            result.explicitHash_ = explicitHash_;
             onBuilt();
             return result;
           }
@@ -67218,6 +67332,13 @@ public final class YdbPersqueueV1 {
             }
             if (other.getUncompressedSize() != 0L) {
               setUncompressedSize(other.getUncompressedSize());
+            }
+            if (!other.getPartitionKey().isEmpty()) {
+              partitionKey_ = other.partitionKey_;
+              onChanged();
+            }
+            if (other.getExplicitHash() != com.google.protobuf.ByteString.EMPTY) {
+              setExplicitHash(other.getExplicitHash());
             }
             this.mergeUnknownFields(other.unknownFields);
             onChanged();
@@ -67499,6 +67620,124 @@ public final class YdbPersqueueV1 {
           public Builder clearUncompressedSize() {
             
             uncompressedSize_ = 0L;
+            onChanged();
+            return this;
+          }
+
+          private java.lang.Object partitionKey_ = "";
+          /**
+           * <pre>
+           * kinesis data
+           * </pre>
+           *
+           * <code>string partition_key = 7;</code>
+           */
+          public java.lang.String getPartitionKey() {
+            java.lang.Object ref = partitionKey_;
+            if (!(ref instanceof java.lang.String)) {
+              com.google.protobuf.ByteString bs =
+                  (com.google.protobuf.ByteString) ref;
+              java.lang.String s = bs.toStringUtf8();
+              partitionKey_ = s;
+              return s;
+            } else {
+              return (java.lang.String) ref;
+            }
+          }
+          /**
+           * <pre>
+           * kinesis data
+           * </pre>
+           *
+           * <code>string partition_key = 7;</code>
+           */
+          public com.google.protobuf.ByteString
+              getPartitionKeyBytes() {
+            java.lang.Object ref = partitionKey_;
+            if (ref instanceof String) {
+              com.google.protobuf.ByteString b = 
+                  com.google.protobuf.ByteString.copyFromUtf8(
+                      (java.lang.String) ref);
+              partitionKey_ = b;
+              return b;
+            } else {
+              return (com.google.protobuf.ByteString) ref;
+            }
+          }
+          /**
+           * <pre>
+           * kinesis data
+           * </pre>
+           *
+           * <code>string partition_key = 7;</code>
+           */
+          public Builder setPartitionKey(
+              java.lang.String value) {
+            if (value == null) {
+    throw new NullPointerException();
+  }
+  
+            partitionKey_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <pre>
+           * kinesis data
+           * </pre>
+           *
+           * <code>string partition_key = 7;</code>
+           */
+          public Builder clearPartitionKey() {
+            
+            partitionKey_ = getDefaultInstance().getPartitionKey();
+            onChanged();
+            return this;
+          }
+          /**
+           * <pre>
+           * kinesis data
+           * </pre>
+           *
+           * <code>string partition_key = 7;</code>
+           */
+          public Builder setPartitionKeyBytes(
+              com.google.protobuf.ByteString value) {
+            if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+            
+            partitionKey_ = value;
+            onChanged();
+            return this;
+          }
+
+          private com.google.protobuf.ByteString explicitHash_ = com.google.protobuf.ByteString.EMPTY;
+          /**
+           * <code>bytes explicit_hash = 8;</code>
+           */
+          public com.google.protobuf.ByteString getExplicitHash() {
+            return explicitHash_;
+          }
+          /**
+           * <code>bytes explicit_hash = 8;</code>
+           */
+          public Builder setExplicitHash(com.google.protobuf.ByteString value) {
+            if (value == null) {
+    throw new NullPointerException();
+  }
+  
+            explicitHash_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>bytes explicit_hash = 8;</code>
+           */
+          public Builder clearExplicitHash() {
+            
+            explicitHash_ = getDefaultInstance().getExplicitHash();
             onChanged();
             return this;
           }
@@ -102731,7 +102970,7 @@ public final class YdbPersqueueV1 {
       "mmitOffsetRange\032f\n\006Status\022%\n\005topic\030\001 \001(\013" +
       "2\026.Ydb.PersQueue.V1.Path\022\017\n\007cluster\030\002 \001(" +
       "\t\022\021\n\tpartition\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004B" +
-      "\t\n\007request\"\370\021\n#MigrationStreamingReadSer" +
+      "\t\n\007request\"\246\022\n#MigrationStreamingReadSer" +
       "verMessage\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusI",
       "ds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issu" +
       "e.IssueMessage\022[\n\rinit_response\030\003 \001(\0132B." +
@@ -102765,132 +103004,133 @@ public final class YdbPersqueueV1 {
       "x\n\tCommitted\022/\n\007cookies\030\001 \003(\0132\036.Ydb.Pers",
       "Queue.V1.CommitCookie\022:\n\roffset_ranges\030\002" +
       " \003(\0132#.Ydb.PersQueue.V1.CommitOffsetRang" +
-      "e\032\351\005\n\tDataBatch\022e\n\016partition_data\030\001 \003(\0132" +
+      "e\032\227\006\n\tDataBatch\022e\n\016partition_data\030\001 \003(\0132" +
       "M.Ydb.PersQueue.V1.MigrationStreamingRea" +
-      "dServerMessage.DataBatch.PartitionData\032\233" +
+      "dServerMessage.DataBatch.PartitionData\032\311" +
       "\001\n\013MessageData\022\016\n\006offset\030\001 \001(\004\022\016\n\006seq_no" +
       "\030\002 \001(\004\022\033\n\023create_timestamp_ms\030\003 \001(\004\022&\n\005c" +
       "odec\030\004 \001(\0162\027.Ydb.PersQueue.V1.Codec\022\014\n\004d" +
-      "ata\030\005 \001(\014\022\031\n\021uncompressed_size\030\006 \001(\004\032\327\001\n" +
-      "\005Batch\022\021\n\tsource_id\030\002 \001(\014\0220\n\014extra_field",
-      "s\030\003 \003(\0132\032.Ydb.PersQueue.V1.KeyValue\022\032\n\022w" +
-      "rite_timestamp_ms\030\004 \001(\004\022\n\n\002ip\030\005 \001(\t\022a\n\014m" +
-      "essage_data\030\001 \003(\0132K.Ydb.PersQueue.V1.Mig" +
-      "rationStreamingReadServerMessage.DataBat" +
-      "ch.MessageData\032\374\001\n\rPartitionData\022%\n\005topi" +
-      "c\030\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022\017\n\007clust" +
-      "er\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022V\n\007batches\030\004" +
-      " \003(\0132E.Ydb.PersQueue.V1.MigrationStreami" +
-      "ngReadServerMessage.DataBatch.Batch\022.\n\006c" +
-      "ookie\030\005 \001(\0132\036.Ydb.PersQueue.V1.CommitCoo",
-      "kie\022\030\n\020deprecated_topic\030\n \001(\t\032\271\001\n\017Partit" +
-      "ionStatus\022%\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue" +
-      ".V1.Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003" +
-      " \001(\004\022\021\n\tassign_id\030\005 \001(\004\022\030\n\020committed_off" +
-      "set\030\006 \001(\004\022\022\n\nend_offset\030\007 \001(\004\022\032\n\022write_w" +
-      "atermark_ms\030\010 \001(\004B\n\n\010response\"\271\001\n\017ReadIn" +
-      "foRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\022&\n\006topics\030\002" +
-      " \003(\0132\026.Ydb.PersQueue.V1.Path\022\031\n\021get_only" +
-      "_original\030\003 \001(\010\022(\n\010consumer\030\004 \001(\0132\026.Ydb.",
-      "PersQueue.V1.Path\"@\n\020ReadInfoResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"\241\006\n\016ReadInfoResult\022:\n\006topics\030\001 \003(\0132*" +
-      ".Ydb.PersQueue.V1.ReadInfoResult.TopicIn" +
-      "fo\032\322\005\n\tTopicInfo\022%\n\005topic\030\001 \001(\0132\026.Ydb.Pe" +
-      "rsQueue.V1.Path\022\017\n\007cluster\030\002 \001(\t\022)\n\006stat" +
-      "us\030\003 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006i" +
-      "ssues\030\004 \003(\0132\027.Ydb.Issue.IssueMessage\022L\n\n" +
-      "partitions\030\005 \003(\01328.Ydb.PersQueue.V1.Read" +
-      "InfoResult.TopicInfo.PartitionInfo\032\352\003\n\rP",
-      "artitionInfo\022\021\n\tpartition\030\001 \001(\004\022)\n\006statu" +
-      "s\030\002 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006is" +
-      "sues\030\003 \003(\0132\027.Ydb.Issue.IssueMessage\022\024\n\014s" +
-      "tart_offset\030\004 \001(\004\022\022\n\nend_offset\030\005 \001(\004\022\025\n" +
-      "\rcommit_offset\030\006 \001(\004\022\032\n\022commit_time_lag_" +
-      "ms\030\007 \001(\004\022\023\n\013read_offset\030\010 \001(\004\022\030\n\020read_ti" +
-      "me_lag_ms\030\t \001(\004\022\022\n\nsession_id\030\n \001(\t\022\023\n\013c" +
-      "lient_node\030\013 \001(\t\022\022\n\nproxy_node\030\014 \001(\t\022\023\n\013" +
-      "tablet_node\030\r \001(\t\022\021\n\tassign_id\030\016 \001(\004\022\033\n\023" +
-      "assign_timestamp_ms\030\017 \001(\004\022\030\n\020last_read_c",
-      "ookie\030\020 \001(\004\022\035\n\025committed_read_cookie\030\021 \001" +
-      "(\004\022+\n#out_of_order_read_cookies_to_commi" +
-      "t\030\022 \003(\004\"[\n\020DropTopicRequest\0229\n\020operation" +
-      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\022\014\n\004path\030\002 \001(\t\"A\n\021DropTopicRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"\021\n\017DropTopicResult\"\261\001\n\013Credentia" +
-      "ls\022\025\n\013oauth_token\030\001 \001(\tH\000\022\024\n\njwt_params\030" +
-      "\002 \001(\tH\000\0220\n\003iam\030\003 \001(\0132!.Ydb.PersQueue.V1." +
-      "Credentials.IamH\000\0324\n\003Iam\022\020\n\010endpoint\030\001 \001",
-      "(\t\022\033\n\023service_account_key\030\002 \001(\tB\r\n\013crede" +
-      "ntials\"\203\n\n\rTopicSettings\022!\n\020partitions_c" +
-      "ount\030\001 \001(\005B\007\262\346*\003> 0\022$\n\023retention_period_" +
-      "ms\030\002 \001(\003B\007\262\346*\003> 0\0229\n\'message_group_seqno" +
-      "_retention_period_ms\030\014 \001(\003B\010\262\346*\004>= 0\022;\n)" +
-      "max_partition_message_groups_seqno_store" +
-      "d\030\r \001(\003B\010\262\346*\004>= 0\022@\n\020supported_format\030\003 " +
-      "\001(\0162&.Ydb.PersQueue.V1.TopicSettings.For" +
-      "mat\0229\n\020supported_codecs\030\004 \003(\0162\027.Ydb.Pers" +
-      "Queue.V1.CodecB\006\232\346*\002\030d\022,\n\032max_partition_",
-      "storage_size\030\005 \001(\003B\010\262\346*\004>= 0\022+\n\031max_part" +
-      "ition_write_speed\030\006 \001(\003B\010\262\346*\004>= 0\022+\n\031max" +
-      "_partition_write_burst\030\007 \001(\003B\010\262\346*\004>= 0\022\035" +
-      "\n\025client_write_disabled\030\010 \001(\010\022E\n\nread_ru" +
-      "les\030\t \003(\0132(.Ydb.PersQueue.V1.TopicSettin" +
-      "gs.ReadRuleB\007\232\346*\003\030\270\027\022C\n\nattributes\030\n \003(\013" +
-      "2/.Ydb.PersQueue.V1.TopicSettings.Attrib" +
-      "utesEntry\022L\n\022remote_mirror_rule\030\013 \001(\01320." +
-      "Ydb.PersQueue.V1.TopicSettings.RemoteMir" +
-      "rorRule\032\203\002\n\010ReadRule\022\033\n\rconsumer_name\030\001 ",
-      "\001(\tB\004\220\346*\001\022\021\n\timportant\030\002 \001(\010\022/\n\035starting" +
-      "_message_timestamp_ms\030\003 \001(\003B\010\262\346*\004>= 0\022@\n" +
-      "\020supported_format\030\004 \001(\0162&.Ydb.PersQueue." +
-      "V1.TopicSettings.Format\0229\n\020supported_cod" +
-      "ecs\030\005 \003(\0162\027.Ydb.PersQueue.V1.CodecB\006\232\346*\002" +
-      "\030d\022\031\n\007version\030\006 \001(\003B\010\262\346*\004>= 0\0321\n\017Attribu" +
-      "tesEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001" +
-      "\032\306\001\n\020RemoteMirrorRule\022\020\n\010endpoint\030\001 \001(\t\022" +
-      "\022\n\ntopic_path\030\002 \001(\t\022\025\n\rconsumer_name\030\003 \001" +
-      "(\t\0222\n\013credentials\030\004 \001(\0132\035.Ydb.PersQueue.",
-      "V1.Credentials\022/\n\035starting_message_times" +
-      "tamp_ms\030\005 \001(\003B\010\262\346*\004>= 0\022\020\n\010database\030\006 \001(" +
-      "\t\"1\n\006Format\022\026\n\022FORMAT_UNSPECIFIED\020\000\022\017\n\013F" +
-      "ORMAT_BASE\020\001\"\226\001\n\022CreateTopicRequest\0229\n\020o" +
-      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
-      "perationParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\0221\n\010se" +
-      "ttings\030\004 \001(\0132\037.Ydb.PersQueue.V1.TopicSet" +
-      "tings\"C\n\023CreateTopicResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\023\n\021Cr" +
-      "eateTopicResult\"\225\001\n\021AlterTopicRequest\0229\n",
-      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
-      ".OperationParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\0221\n\010" +
-      "settings\030\004 \001(\0132\037.Ydb.PersQueue.V1.TopicS" +
-      "ettings\"B\n\022AlterTopicResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\022\n\020A" +
-      "lterTopicResult\"\240\001\n\022AddReadRuleRequest\0229" +
-      "\n\020operation_params\030\001 \001(\0132\037.Ydb.Operation" +
-      "s.OperationParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\022;\n" +
-      "\tread_rule\030\003 \001(\0132(.Ydb.PersQueue.V1.Topi" +
-      "cSettings.ReadRule\"C\n\023AddReadRuleRespons",
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"\023\n\021AddReadRuleResult\"}\n\025RemoveRe" +
-      "adRuleRequest\0229\n\020operation_params\030\001 \001(\0132" +
-      "\037.Ydb.Operations.OperationParams\022\022\n\004path" +
-      "\030\002 \001(\tB\004\220\346*\001\022\025\n\rconsumer_name\030\003 \001(\t\"F\n\026R" +
-      "emoveReadRuleResponse\022,\n\toperation\030\001 \001(\013" +
-      "2\031.Ydb.Operations.Operation\"\026\n\024RemoveRea" +
-      "dRuleResult\"e\n\024DescribeTopicRequest\0229\n\020o" +
-      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
-      "perationParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001\"E\n\025De",
-      "scribeTopicResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.Operation\"i\n\023DescribeTop" +
-      "icResult\022\037\n\004self\030\001 \001(\0132\021.Ydb.Scheme.Entr" +
-      "y\0221\n\010settings\030\002 \001(\0132\037.Ydb.PersQueue.V1.T" +
-      "opicSettings*]\n\005Codec\022\025\n\021CODEC_UNSPECIFI" +
-      "ED\020\000\022\r\n\tCODEC_RAW\020\001\022\016\n\nCODEC_GZIP\020\002\022\016\n\nC" +
-      "ODEC_LZOP\020\003\022\016\n\nCODEC_ZSTD\020\004B\035\n\030com.yande" +
-      "x.ydb.persqueue\370\001\001b\006proto3"
+      "ata\030\005 \001(\014\022\031\n\021uncompressed_size\030\006 \001(\004\022\025\n\r" +
+      "partition_key\030\007 \001(\t\022\025\n\rexplicit_hash\030\010 \001",
+      "(\014\032\327\001\n\005Batch\022\021\n\tsource_id\030\002 \001(\014\0220\n\014extra" +
+      "_fields\030\003 \003(\0132\032.Ydb.PersQueue.V1.KeyValu" +
+      "e\022\032\n\022write_timestamp_ms\030\004 \001(\004\022\n\n\002ip\030\005 \001(" +
+      "\t\022a\n\014message_data\030\001 \003(\0132K.Ydb.PersQueue." +
+      "V1.MigrationStreamingReadServerMessage.D" +
+      "ataBatch.MessageData\032\374\001\n\rPartitionData\022%" +
+      "\n\005topic\030\001 \001(\0132\026.Ydb.PersQueue.V1.Path\022\017\n" +
+      "\007cluster\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\004\022V\n\007bat" +
+      "ches\030\004 \003(\0132E.Ydb.PersQueue.V1.MigrationS" +
+      "treamingReadServerMessage.DataBatch.Batc",
+      "h\022.\n\006cookie\030\005 \001(\0132\036.Ydb.PersQueue.V1.Com" +
+      "mitCookie\022\030\n\020deprecated_topic\030\n \001(\t\032\271\001\n\017" +
+      "PartitionStatus\022%\n\005topic\030\001 \001(\0132\026.Ydb.Per" +
+      "sQueue.V1.Path\022\017\n\007cluster\030\002 \001(\t\022\021\n\tparti" +
+      "tion\030\003 \001(\004\022\021\n\tassign_id\030\005 \001(\004\022\030\n\020committ" +
+      "ed_offset\030\006 \001(\004\022\022\n\nend_offset\030\007 \001(\004\022\032\n\022w" +
+      "rite_watermark_ms\030\010 \001(\004B\n\n\010response\"\271\001\n\017" +
+      "ReadInfoRequest\0229\n\020operation_params\030\001 \001(" +
+      "\0132\037.Ydb.Operations.OperationParams\022&\n\006to" +
+      "pics\030\002 \003(\0132\026.Ydb.PersQueue.V1.Path\022\031\n\021ge",
+      "t_only_original\030\003 \001(\010\022(\n\010consumer\030\004 \001(\0132" +
+      "\026.Ydb.PersQueue.V1.Path\"@\n\020ReadInfoRespo" +
+      "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
+      "Operation\"\241\006\n\016ReadInfoResult\022:\n\006topics\030\001" +
+      " \003(\0132*.Ydb.PersQueue.V1.ReadInfoResult.T" +
+      "opicInfo\032\322\005\n\tTopicInfo\022%\n\005topic\030\001 \001(\0132\026." +
+      "Ydb.PersQueue.V1.Path\022\017\n\007cluster\030\002 \001(\t\022)" +
+      "\n\006status\030\003 \001(\0162\031.Ydb.StatusIds.StatusCod" +
+      "e\022\'\n\006issues\030\004 \003(\0132\027.Ydb.Issue.IssueMessa" +
+      "ge\022L\n\npartitions\030\005 \003(\01328.Ydb.PersQueue.V",
+      "1.ReadInfoResult.TopicInfo.PartitionInfo" +
+      "\032\352\003\n\rPartitionInfo\022\021\n\tpartition\030\001 \001(\004\022)\n" +
+      "\006status\030\002 \001(\0162\031.Ydb.StatusIds.StatusCode" +
+      "\022\'\n\006issues\030\003 \003(\0132\027.Ydb.Issue.IssueMessag" +
+      "e\022\024\n\014start_offset\030\004 \001(\004\022\022\n\nend_offset\030\005 " +
+      "\001(\004\022\025\n\rcommit_offset\030\006 \001(\004\022\032\n\022commit_tim" +
+      "e_lag_ms\030\007 \001(\004\022\023\n\013read_offset\030\010 \001(\004\022\030\n\020r" +
+      "ead_time_lag_ms\030\t \001(\004\022\022\n\nsession_id\030\n \001(" +
+      "\t\022\023\n\013client_node\030\013 \001(\t\022\022\n\nproxy_node\030\014 \001" +
+      "(\t\022\023\n\013tablet_node\030\r \001(\t\022\021\n\tassign_id\030\016 \001",
+      "(\004\022\033\n\023assign_timestamp_ms\030\017 \001(\004\022\030\n\020last_" +
+      "read_cookie\030\020 \001(\004\022\035\n\025committed_read_cook" +
+      "ie\030\021 \001(\004\022+\n#out_of_order_read_cookies_to" +
+      "_commit\030\022 \003(\004\"[\n\020DropTopicRequest\0229\n\020ope" +
+      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
+      "rationParams\022\014\n\004path\030\002 \001(\t\"A\n\021DropTopicR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"\021\n\017DropTopicResult\"\261\001\n\013Cre" +
+      "dentials\022\025\n\013oauth_token\030\001 \001(\tH\000\022\024\n\njwt_p" +
+      "arams\030\002 \001(\tH\000\0220\n\003iam\030\003 \001(\0132!.Ydb.PersQue",
+      "ue.V1.Credentials.IamH\000\0324\n\003Iam\022\020\n\010endpoi" +
+      "nt\030\001 \001(\t\022\033\n\023service_account_key\030\002 \001(\tB\r\n" +
+      "\013credentials\"\203\n\n\rTopicSettings\022!\n\020partit" +
+      "ions_count\030\001 \001(\005B\007\262\346*\003> 0\022$\n\023retention_p" +
+      "eriod_ms\030\002 \001(\003B\007\262\346*\003> 0\0229\n\'message_group" +
+      "_seqno_retention_period_ms\030\014 \001(\003B\010\262\346*\004>=" +
+      " 0\022;\n)max_partition_message_groups_seqno" +
+      "_stored\030\r \001(\003B\010\262\346*\004>= 0\022@\n\020supported_for" +
+      "mat\030\003 \001(\0162&.Ydb.PersQueue.V1.TopicSettin" +
+      "gs.Format\0229\n\020supported_codecs\030\004 \003(\0162\027.Yd",
+      "b.PersQueue.V1.CodecB\006\232\346*\002\030d\022,\n\032max_part" +
+      "ition_storage_size\030\005 \001(\003B\010\262\346*\004>= 0\022+\n\031ma" +
+      "x_partition_write_speed\030\006 \001(\003B\010\262\346*\004>= 0\022" +
+      "+\n\031max_partition_write_burst\030\007 \001(\003B\010\262\346*\004" +
+      ">= 0\022\035\n\025client_write_disabled\030\010 \001(\010\022E\n\nr" +
+      "ead_rules\030\t \003(\0132(.Ydb.PersQueue.V1.Topic" +
+      "Settings.ReadRuleB\007\232\346*\003\030\270\027\022C\n\nattributes" +
+      "\030\n \003(\0132/.Ydb.PersQueue.V1.TopicSettings." +
+      "AttributesEntry\022L\n\022remote_mirror_rule\030\013 " +
+      "\001(\01320.Ydb.PersQueue.V1.TopicSettings.Rem",
+      "oteMirrorRule\032\203\002\n\010ReadRule\022\033\n\rconsumer_n" +
+      "ame\030\001 \001(\tB\004\220\346*\001\022\021\n\timportant\030\002 \001(\010\022/\n\035st" +
+      "arting_message_timestamp_ms\030\003 \001(\003B\010\262\346*\004>" +
+      "= 0\022@\n\020supported_format\030\004 \001(\0162&.Ydb.Pers" +
+      "Queue.V1.TopicSettings.Format\0229\n\020support" +
+      "ed_codecs\030\005 \003(\0162\027.Ydb.PersQueue.V1.Codec" +
+      "B\006\232\346*\002\030d\022\031\n\007version\030\006 \001(\003B\010\262\346*\004>= 0\0321\n\017A" +
+      "ttributesEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001" +
+      "(\t:\0028\001\032\306\001\n\020RemoteMirrorRule\022\020\n\010endpoint\030" +
+      "\001 \001(\t\022\022\n\ntopic_path\030\002 \001(\t\022\025\n\rconsumer_na",
+      "me\030\003 \001(\t\0222\n\013credentials\030\004 \001(\0132\035.Ydb.Pers" +
+      "Queue.V1.Credentials\022/\n\035starting_message" +
+      "_timestamp_ms\030\005 \001(\003B\010\262\346*\004>= 0\022\020\n\010databas" +
+      "e\030\006 \001(\t\"1\n\006Format\022\026\n\022FORMAT_UNSPECIFIED\020" +
+      "\000\022\017\n\013FORMAT_BASE\020\001\"\226\001\n\022CreateTopicReques" +
+      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001" +
+      "\0221\n\010settings\030\004 \001(\0132\037.Ydb.PersQueue.V1.To" +
+      "picSettings\"C\n\023CreateTopicResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation",
+      "\"\023\n\021CreateTopicResult\"\225\001\n\021AlterTopicRequ" +
+      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\022\022\n\004path\030\002 \001(\tB\004\220\346" +
+      "*\001\0221\n\010settings\030\004 \001(\0132\037.Ydb.PersQueue.V1." +
+      "TopicSettings\"B\n\022AlterTopicResponse\022,\n\to" +
+      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
+      "n\"\022\n\020AlterTopicResult\"\240\001\n\022AddReadRuleReq" +
+      "uest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Ope" +
+      "rations.OperationParams\022\022\n\004path\030\002 \001(\tB\004\220" +
+      "\346*\001\022;\n\tread_rule\030\003 \001(\0132(.Ydb.PersQueue.V",
+      "1.TopicSettings.ReadRule\"C\n\023AddReadRuleR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"\023\n\021AddReadRuleResult\"}\n\025Re" +
+      "moveReadRuleRequest\0229\n\020operation_params\030" +
+      "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\022" +
+      "\n\004path\030\002 \001(\tB\004\220\346*\001\022\025\n\rconsumer_name\030\003 \001(" +
+      "\t\"F\n\026RemoveReadRuleResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\026\n\024Rem" +
+      "oveReadRuleResult\"e\n\024DescribeTopicReques" +
+      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat",
+      "ions.OperationParams\022\022\n\004path\030\002 \001(\tB\004\220\346*\001" +
+      "\"E\n\025DescribeTopicResponse\022,\n\toperation\030\001" +
+      " \001(\0132\031.Ydb.Operations.Operation\"i\n\023Descr" +
+      "ibeTopicResult\022\037\n\004self\030\001 \001(\0132\021.Ydb.Schem" +
+      "e.Entry\0221\n\010settings\030\002 \001(\0132\037.Ydb.PersQueu" +
+      "e.V1.TopicSettings*]\n\005Codec\022\025\n\021CODEC_UNS" +
+      "PECIFIED\020\000\022\r\n\tCODEC_RAW\020\001\022\016\n\nCODEC_GZIP\020" +
+      "\002\022\016\n\nCODEC_LZOP\020\003\022\016\n\nCODEC_ZSTD\020\004B\035\n\030com" +
+      ".yandex.ydb.persqueue\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -103316,7 +103556,7 @@ public final class YdbPersqueueV1 {
     internal_static_Ydb_PersQueue_V1_MigrationStreamingReadServerMessage_DataBatch_MessageData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_PersQueue_V1_MigrationStreamingReadServerMessage_DataBatch_MessageData_descriptor,
-        new java.lang.String[] { "Offset", "SeqNo", "CreateTimestampMs", "Codec", "Data", "UncompressedSize", });
+        new java.lang.String[] { "Offset", "SeqNo", "CreateTimestampMs", "Codec", "Data", "UncompressedSize", "PartitionKey", "ExplicitHash", });
     internal_static_Ydb_PersQueue_V1_MigrationStreamingReadServerMessage_DataBatch_Batch_descriptor =
       internal_static_Ydb_PersQueue_V1_MigrationStreamingReadServerMessage_DataBatch_descriptor.getNestedTypes().get(1);
     internal_static_Ydb_PersQueue_V1_MigrationStreamingReadServerMessage_DataBatch_Batch_fieldAccessorTable = new
