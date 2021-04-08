@@ -99,8 +99,12 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             final long timeoutNanos = timeout.toNanos();
             final long deadlineAfter = System.nanoTime() + timeoutNanos;
 
-            final int count = acquiredObjectsCount.get();
-            if (count < maxSize && acquiredObjectsCount.compareAndSet(count, count + 1)) {
+            int count = acquiredObjectsCount.get();
+            while (count < maxSize) {
+                if (!acquiredObjectsCount.compareAndSet(count, count + 1)) {
+                    count = acquiredObjectsCount.get();
+                    continue;
+                }
                 assert count >= 0;
                 doAcquireOrCreate(promise, deadlineAfter);
                 logger.debug("Acquiring object, current acquired objects count: {}", acquiredObjectsCount.get());
@@ -258,8 +262,11 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
     private void runPendingAcquireTasks() {
         while (true) {
             final int count = acquiredObjectsCount.get();
-            if (count >= maxSize || !acquiredObjectsCount.compareAndSet(count, count + 1)) {
+            if (count >= maxSize) {
                 break;
+            }
+            if (!acquiredObjectsCount.compareAndSet(count, count + 1)) {
+                continue;
             }
 
             PendingAcquireTask task = pendingAcquireTasks.poll();
