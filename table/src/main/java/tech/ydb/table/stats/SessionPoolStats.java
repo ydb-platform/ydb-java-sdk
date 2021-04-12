@@ -28,26 +28,49 @@ public class SessionPoolStats {
         this.pendingAcquireCount = pendingAcquireCount;
     }
 
+    /**
+     * Min number of sessions that should remain in session pool after idle session cleanup.
+     * This cleanup removes idle sessions that have idle time more than maxIdleTimeMillis.
+     * Session pool does not create sessions at startup, so IdleCount can be less than MinSize
+     */
     public int getMinSize() {
         return minSize;
     }
 
+    /**
+     * Max number of sessions in pool.
+     * If session pool is full and timeout for acquire is set, acquire task will be put in a queue.
+     * If session pool is full and timeout is not set, "too many acquired objects" error will be received.
+     */
     public int getMaxSize() {
         return maxSize;
     }
 
+    /**
+     * Number of sessions that were released after use and waiting to be acquired again
+     * or to be removed from pool by idle timeout.
+     */
     public int getIdleCount() {
         return idleCount;
     }
 
+    /**
+     * Number of sessions with unknown status due to some transport errors.
+     */
     public int getDisconnectedCount() {
         return disconnectedCount;
     }
 
+    /**
+     * Number of sessions currently acquired from pool and not yet released.
+     */
     public int getAcquiredCount() {
         return acquiredCount;
     }
 
+    /**
+     * Number of sessions pending acquire due to pool overflow.
+     */
     public int getPendingAcquireCount() {
         return pendingAcquireCount;
     }
