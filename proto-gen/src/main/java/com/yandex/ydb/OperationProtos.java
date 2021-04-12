@@ -157,6 +157,25 @@ public final class OperationProtos {
 
     java.lang.String getLabelsOrThrow(
         java.lang.String key);
+
+    /**
+     * <pre>
+     * If enabled, server will report cost information, if supported by the operation.
+     * This flag is mostly useful for SYNC operations, to get the cost information in the response.
+     * </pre>
+     *
+     * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+     */
+    int getReportCostInfoValue();
+    /**
+     * <pre>
+     * If enabled, server will report cost information, if supported by the operation.
+     * This flag is mostly useful for SYNC operations, to get the cost information in the response.
+     * </pre>
+     *
+     * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+     */
+    tech.ydb.common.CommonProtos.FeatureFlag.Status getReportCostInfo();
   }
   /**
    * Protobuf type {@code Ydb.Operations.OperationParams}
@@ -172,6 +191,7 @@ public final class OperationProtos {
     }
     private OperationParams() {
       operationMode_ = 0;
+      reportCostInfo_ = 0;
     }
 
     @java.lang.Override
@@ -245,6 +265,12 @@ public final class OperationProtos {
                   LabelsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
               labels_.getMutableMap().put(
                   labels__.getKey(), labels__.getValue());
+              break;
+            }
+            case 40: {
+              int rawValue = input.readEnum();
+
+              reportCostInfo_ = rawValue;
               break;
             }
           }
@@ -601,6 +627,32 @@ public final class OperationProtos {
       return map.get(key);
     }
 
+    public static final int REPORT_COST_INFO_FIELD_NUMBER = 5;
+    private int reportCostInfo_;
+    /**
+     * <pre>
+     * If enabled, server will report cost information, if supported by the operation.
+     * This flag is mostly useful for SYNC operations, to get the cost information in the response.
+     * </pre>
+     *
+     * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+     */
+    public int getReportCostInfoValue() {
+      return reportCostInfo_;
+    }
+    /**
+     * <pre>
+     * If enabled, server will report cost information, if supported by the operation.
+     * This flag is mostly useful for SYNC operations, to get the cost information in the response.
+     * </pre>
+     *
+     * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+     */
+    public tech.ydb.common.CommonProtos.FeatureFlag.Status getReportCostInfo() {
+      tech.ydb.common.CommonProtos.FeatureFlag.Status result = tech.ydb.common.CommonProtos.FeatureFlag.Status.valueOf(reportCostInfo_);
+      return result == null ? tech.ydb.common.CommonProtos.FeatureFlag.Status.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -628,6 +680,9 @@ public final class OperationProtos {
           internalGetLabels(),
           LabelsDefaultEntryHolder.defaultEntry,
           4);
+      if (reportCostInfo_ != tech.ydb.common.CommonProtos.FeatureFlag.Status.STATUS_UNSPECIFIED.getNumber()) {
+        output.writeEnum(5, reportCostInfo_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -658,6 +713,10 @@ public final class OperationProtos {
         size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(4, labels__);
       }
+      if (reportCostInfo_ != tech.ydb.common.CommonProtos.FeatureFlag.Status.STATUS_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(5, reportCostInfo_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -687,6 +746,7 @@ public final class OperationProtos {
       }
       result = result && internalGetLabels().equals(
           other.internalGetLabels());
+      result = result && reportCostInfo_ == other.reportCostInfo_;
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -712,6 +772,8 @@ public final class OperationProtos {
         hash = (37 * hash) + LABELS_FIELD_NUMBER;
         hash = (53 * hash) + internalGetLabels().hashCode();
       }
+      hash = (37 * hash) + REPORT_COST_INFO_FIELD_NUMBER;
+      hash = (53 * hash) + reportCostInfo_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -878,6 +940,8 @@ public final class OperationProtos {
           cancelAfterBuilder_ = null;
         }
         internalGetMutableLabels().clear();
+        reportCostInfo_ = 0;
+
         return this;
       }
 
@@ -915,6 +979,7 @@ public final class OperationProtos {
         }
         result.labels_ = internalGetLabels();
         result.labels_.makeImmutable();
+        result.reportCostInfo_ = reportCostInfo_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -968,6 +1033,9 @@ public final class OperationProtos {
         }
         internalGetMutableLabels().mergeFrom(
             other.internalGetLabels());
+        if (other.reportCostInfo_ != 0) {
+          setReportCostInfoValue(other.getReportCostInfoValue());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -1575,6 +1643,75 @@ public final class OperationProtos {
           java.util.Map<java.lang.String, java.lang.String> values) {
         internalGetMutableLabels().getMutableMap()
             .putAll(values);
+        return this;
+      }
+
+      private int reportCostInfo_ = 0;
+      /**
+       * <pre>
+       * If enabled, server will report cost information, if supported by the operation.
+       * This flag is mostly useful for SYNC operations, to get the cost information in the response.
+       * </pre>
+       *
+       * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+       */
+      public int getReportCostInfoValue() {
+        return reportCostInfo_;
+      }
+      /**
+       * <pre>
+       * If enabled, server will report cost information, if supported by the operation.
+       * This flag is mostly useful for SYNC operations, to get the cost information in the response.
+       * </pre>
+       *
+       * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+       */
+      public Builder setReportCostInfoValue(int value) {
+        reportCostInfo_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * If enabled, server will report cost information, if supported by the operation.
+       * This flag is mostly useful for SYNC operations, to get the cost information in the response.
+       * </pre>
+       *
+       * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+       */
+      public tech.ydb.common.CommonProtos.FeatureFlag.Status getReportCostInfo() {
+        tech.ydb.common.CommonProtos.FeatureFlag.Status result = tech.ydb.common.CommonProtos.FeatureFlag.Status.valueOf(reportCostInfo_);
+        return result == null ? tech.ydb.common.CommonProtos.FeatureFlag.Status.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * If enabled, server will report cost information, if supported by the operation.
+       * This flag is mostly useful for SYNC operations, to get the cost information in the response.
+       * </pre>
+       *
+       * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+       */
+      public Builder setReportCostInfo(tech.ydb.common.CommonProtos.FeatureFlag.Status value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        reportCostInfo_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * If enabled, server will report cost information, if supported by the operation.
+       * This flag is mostly useful for SYNC operations, to get the cost information in the response.
+       * </pre>
+       *
+       * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+       */
+      public Builder clearReportCostInfo() {
+        
+        reportCostInfo_ = 0;
+        onChanged();
         return this;
       }
       public final Builder setUnknownFields(
@@ -7650,6 +7787,37 @@ public final class OperationProtos {
      * <code>.google.protobuf.Any metadata = 6;</code>
      */
     com.google.protobuf.AnyOrBuilder getMetadataOrBuilder();
+
+    /**
+     * <pre>
+     * Contains information about the cost of the operation.
+     * For completed operations, it shows the final cost of the operation.
+     * For operations in progress, it might indicate the current cost of the operation (if supported).
+     * </pre>
+     *
+     * <code>.Ydb.CostInfo cost_info = 7;</code>
+     */
+    boolean hasCostInfo();
+    /**
+     * <pre>
+     * Contains information about the cost of the operation.
+     * For completed operations, it shows the final cost of the operation.
+     * For operations in progress, it might indicate the current cost of the operation (if supported).
+     * </pre>
+     *
+     * <code>.Ydb.CostInfo cost_info = 7;</code>
+     */
+    tech.ydb.common.CommonProtos.CostInfo getCostInfo();
+    /**
+     * <pre>
+     * Contains information about the cost of the operation.
+     * For completed operations, it shows the final cost of the operation.
+     * For operations in progress, it might indicate the current cost of the operation (if supported).
+     * </pre>
+     *
+     * <code>.Ydb.CostInfo cost_info = 7;</code>
+     */
+    tech.ydb.common.CommonProtos.CostInfoOrBuilder getCostInfoOrBuilder();
   }
   /**
    * Protobuf type {@code Ydb.Operations.Operation}
@@ -7746,6 +7914,19 @@ public final class OperationProtos {
               if (subBuilder != null) {
                 subBuilder.mergeFrom(metadata_);
                 metadata_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 58: {
+              tech.ydb.common.CommonProtos.CostInfo.Builder subBuilder = null;
+              if (costInfo_ != null) {
+                subBuilder = costInfo_.toBuilder();
+              }
+              costInfo_ = input.readMessage(tech.ydb.common.CommonProtos.CostInfo.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(costInfo_);
+                costInfo_ = subBuilder.buildPartial();
               }
 
               break;
@@ -7942,6 +8123,45 @@ public final class OperationProtos {
       return getMetadata();
     }
 
+    public static final int COST_INFO_FIELD_NUMBER = 7;
+    private tech.ydb.common.CommonProtos.CostInfo costInfo_;
+    /**
+     * <pre>
+     * Contains information about the cost of the operation.
+     * For completed operations, it shows the final cost of the operation.
+     * For operations in progress, it might indicate the current cost of the operation (if supported).
+     * </pre>
+     *
+     * <code>.Ydb.CostInfo cost_info = 7;</code>
+     */
+    public boolean hasCostInfo() {
+      return costInfo_ != null;
+    }
+    /**
+     * <pre>
+     * Contains information about the cost of the operation.
+     * For completed operations, it shows the final cost of the operation.
+     * For operations in progress, it might indicate the current cost of the operation (if supported).
+     * </pre>
+     *
+     * <code>.Ydb.CostInfo cost_info = 7;</code>
+     */
+    public tech.ydb.common.CommonProtos.CostInfo getCostInfo() {
+      return costInfo_ == null ? tech.ydb.common.CommonProtos.CostInfo.getDefaultInstance() : costInfo_;
+    }
+    /**
+     * <pre>
+     * Contains information about the cost of the operation.
+     * For completed operations, it shows the final cost of the operation.
+     * For operations in progress, it might indicate the current cost of the operation (if supported).
+     * </pre>
+     *
+     * <code>.Ydb.CostInfo cost_info = 7;</code>
+     */
+    public tech.ydb.common.CommonProtos.CostInfoOrBuilder getCostInfoOrBuilder() {
+      return getCostInfo();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -7971,6 +8191,9 @@ public final class OperationProtos {
       }
       if (metadata_ != null) {
         output.writeMessage(6, getMetadata());
+      }
+      if (costInfo_ != null) {
+        output.writeMessage(7, getCostInfo());
       }
       unknownFields.writeTo(output);
     }
@@ -8002,6 +8225,10 @@ public final class OperationProtos {
       if (metadata_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, getMetadata());
+      }
+      if (costInfo_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, getCostInfo());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -8036,6 +8263,11 @@ public final class OperationProtos {
         result = result && getMetadata()
             .equals(other.getMetadata());
       }
+      result = result && (hasCostInfo() == other.hasCostInfo());
+      if (hasCostInfo()) {
+        result = result && getCostInfo()
+            .equals(other.getCostInfo());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -8065,6 +8297,10 @@ public final class OperationProtos {
       if (hasMetadata()) {
         hash = (37 * hash) + METADATA_FIELD_NUMBER;
         hash = (53 * hash) + getMetadata().hashCode();
+      }
+      if (hasCostInfo()) {
+        hash = (37 * hash) + COST_INFO_FIELD_NUMBER;
+        hash = (53 * hash) + getCostInfo().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -8220,6 +8456,12 @@ public final class OperationProtos {
           metadata_ = null;
           metadataBuilder_ = null;
         }
+        if (costInfoBuilder_ == null) {
+          costInfo_ = null;
+        } else {
+          costInfo_ = null;
+          costInfoBuilder_ = null;
+        }
         return this;
       }
 
@@ -8265,6 +8507,11 @@ public final class OperationProtos {
           result.metadata_ = metadata_;
         } else {
           result.metadata_ = metadataBuilder_.build();
+        }
+        if (costInfoBuilder_ == null) {
+          result.costInfo_ = costInfo_;
+        } else {
+          result.costInfo_ = costInfoBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -8349,6 +8596,9 @@ public final class OperationProtos {
         }
         if (other.hasMetadata()) {
           mergeMetadata(other.getMetadata());
+        }
+        if (other.hasCostInfo()) {
+          mergeCostInfo(other.getCostInfo());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -9069,6 +9319,177 @@ public final class OperationProtos {
         }
         return metadataBuilder_;
       }
+
+      private tech.ydb.common.CommonProtos.CostInfo costInfo_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.common.CommonProtos.CostInfo, tech.ydb.common.CommonProtos.CostInfo.Builder, tech.ydb.common.CommonProtos.CostInfoOrBuilder> costInfoBuilder_;
+      /**
+       * <pre>
+       * Contains information about the cost of the operation.
+       * For completed operations, it shows the final cost of the operation.
+       * For operations in progress, it might indicate the current cost of the operation (if supported).
+       * </pre>
+       *
+       * <code>.Ydb.CostInfo cost_info = 7;</code>
+       */
+      public boolean hasCostInfo() {
+        return costInfoBuilder_ != null || costInfo_ != null;
+      }
+      /**
+       * <pre>
+       * Contains information about the cost of the operation.
+       * For completed operations, it shows the final cost of the operation.
+       * For operations in progress, it might indicate the current cost of the operation (if supported).
+       * </pre>
+       *
+       * <code>.Ydb.CostInfo cost_info = 7;</code>
+       */
+      public tech.ydb.common.CommonProtos.CostInfo getCostInfo() {
+        if (costInfoBuilder_ == null) {
+          return costInfo_ == null ? tech.ydb.common.CommonProtos.CostInfo.getDefaultInstance() : costInfo_;
+        } else {
+          return costInfoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Contains information about the cost of the operation.
+       * For completed operations, it shows the final cost of the operation.
+       * For operations in progress, it might indicate the current cost of the operation (if supported).
+       * </pre>
+       *
+       * <code>.Ydb.CostInfo cost_info = 7;</code>
+       */
+      public Builder setCostInfo(tech.ydb.common.CommonProtos.CostInfo value) {
+        if (costInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          costInfo_ = value;
+          onChanged();
+        } else {
+          costInfoBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Contains information about the cost of the operation.
+       * For completed operations, it shows the final cost of the operation.
+       * For operations in progress, it might indicate the current cost of the operation (if supported).
+       * </pre>
+       *
+       * <code>.Ydb.CostInfo cost_info = 7;</code>
+       */
+      public Builder setCostInfo(
+          tech.ydb.common.CommonProtos.CostInfo.Builder builderForValue) {
+        if (costInfoBuilder_ == null) {
+          costInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          costInfoBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Contains information about the cost of the operation.
+       * For completed operations, it shows the final cost of the operation.
+       * For operations in progress, it might indicate the current cost of the operation (if supported).
+       * </pre>
+       *
+       * <code>.Ydb.CostInfo cost_info = 7;</code>
+       */
+      public Builder mergeCostInfo(tech.ydb.common.CommonProtos.CostInfo value) {
+        if (costInfoBuilder_ == null) {
+          if (costInfo_ != null) {
+            costInfo_ =
+              tech.ydb.common.CommonProtos.CostInfo.newBuilder(costInfo_).mergeFrom(value).buildPartial();
+          } else {
+            costInfo_ = value;
+          }
+          onChanged();
+        } else {
+          costInfoBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Contains information about the cost of the operation.
+       * For completed operations, it shows the final cost of the operation.
+       * For operations in progress, it might indicate the current cost of the operation (if supported).
+       * </pre>
+       *
+       * <code>.Ydb.CostInfo cost_info = 7;</code>
+       */
+      public Builder clearCostInfo() {
+        if (costInfoBuilder_ == null) {
+          costInfo_ = null;
+          onChanged();
+        } else {
+          costInfo_ = null;
+          costInfoBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Contains information about the cost of the operation.
+       * For completed operations, it shows the final cost of the operation.
+       * For operations in progress, it might indicate the current cost of the operation (if supported).
+       * </pre>
+       *
+       * <code>.Ydb.CostInfo cost_info = 7;</code>
+       */
+      public tech.ydb.common.CommonProtos.CostInfo.Builder getCostInfoBuilder() {
+        
+        onChanged();
+        return getCostInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Contains information about the cost of the operation.
+       * For completed operations, it shows the final cost of the operation.
+       * For operations in progress, it might indicate the current cost of the operation (if supported).
+       * </pre>
+       *
+       * <code>.Ydb.CostInfo cost_info = 7;</code>
+       */
+      public tech.ydb.common.CommonProtos.CostInfoOrBuilder getCostInfoOrBuilder() {
+        if (costInfoBuilder_ != null) {
+          return costInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return costInfo_ == null ?
+              tech.ydb.common.CommonProtos.CostInfo.getDefaultInstance() : costInfo_;
+        }
+      }
+      /**
+       * <pre>
+       * Contains information about the cost of the operation.
+       * For completed operations, it shows the final cost of the operation.
+       * For operations in progress, it might indicate the current cost of the operation (if supported).
+       * </pre>
+       *
+       * <code>.Ydb.CostInfo cost_info = 7;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.common.CommonProtos.CostInfo, tech.ydb.common.CommonProtos.CostInfo.Builder, tech.ydb.common.CommonProtos.CostInfoOrBuilder> 
+          getCostInfoFieldBuilder() {
+        if (costInfoBuilder_ == null) {
+          costInfoBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.common.CommonProtos.CostInfo, tech.ydb.common.CommonProtos.CostInfo.Builder, tech.ydb.common.CommonProtos.CostInfoOrBuilder>(
+                  getCostInfo(),
+                  getParentForChildren(),
+                  isClean());
+          costInfo_ = null;
+        }
+        return costInfoBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -9186,43 +9607,46 @@ public final class OperationProtos {
       ".proto\022\016Ydb.Operations\032\031google/protobuf/" +
       "any.proto\032\036google/protobuf/duration.prot" +
       "o\0324kikimr/public/api/protos/validation/v" +
-      "alidation.proto\0320kikimr/public/api/proto" +
-      "s/ydb_issue_message.proto\032/kikimr/public" +
-      "/api/protos/ydb_status_codes.proto\"\203\003\n\017O" +
-      "perationParams\022E\n\016operation_mode\030\001 \001(\0162-" +
-      ".Ydb.Operations.OperationParams.Operatio" +
-      "nMode\0224\n\021operation_timeout\030\002 \001(\0132\031.googl",
-      "e.protobuf.Duration\022/\n\014cancel_after\030\003 \001(" +
-      "\0132\031.google.protobuf.Duration\022M\n\006labels\030\004" +
-      " \003(\0132+.Ydb.Operations.OperationParams.La" +
-      "belsEntryB\020\252\346*\005\n\003\030\200\001\242\346*\003\030\200\001\032-\n\013LabelsEnt" +
-      "ry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"D\n\rOp" +
-      "erationMode\022\036\n\032OPERATION_MODE_UNSPECIFIE" +
-      "D\020\000\022\010\n\004SYNC\020\001\022\t\n\005ASYNC\020\002\"\'\n\023GetOperation" +
-      "Request\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"D\n\024GetOperatio" +
-      "nResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
-      "tions.Operation\"*\n\026CancelOperationReques",
-      "t\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"m\n\027CancelOperationRe" +
-      "sponse\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.S" +
-      "tatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.Is" +
-      "sueMessage\"*\n\026ForgetOperationRequest\022\020\n\002" +
-      "id\030\001 \001(\tB\004\220\346*\001\"m\n\027ForgetOperationRespons" +
-      "e\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.Status" +
-      "Code\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMe" +
-      "ssage\"R\n\025ListOperationsRequest\022\022\n\004kind\030\001" +
-      " \001(\tB\004\220\346*\001\022\021\n\tpage_size\030\002 \001(\004\022\022\n\npage_to" +
-      "ken\030\003 \001(\t\"\264\001\n\026ListOperationsResponse\022)\n\006",
-      "status\030\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022" +
-      "\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMessage" +
-      "\022-\n\noperations\030\003 \003(\0132\031.Ydb.Operations.Op" +
-      "eration\022\027\n\017next_page_token\030\004 \001(\t\"\310\001\n\tOpe" +
-      "ration\022\n\n\002id\030\001 \001(\t\022\r\n\005ready\030\002 \001(\010\022)\n\006sta" +
-      "tus\030\003 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006" +
-      "issues\030\004 \003(\0132\027.Ydb.Issue.IssueMessage\022$\n" +
-      "\006result\030\005 \001(\0132\024.google.protobuf.Any\022&\n\010m" +
-      "etadata\030\006 \001(\0132\024.google.protobuf.AnyB$\n\016c" +
-      "om.yandex.ydbB\017OperationProtos\370\001\001b\006proto",
-      "3"
+      "alidation.proto\032)kikimr/public/api/proto" +
+      "s/ydb_common.proto\0320kikimr/public/api/pr" +
+      "otos/ydb_issue_message.proto\032/kikimr/pub" +
+      "lic/api/protos/ydb_status_codes.proto\"\266\003" +
+      "\n\017OperationParams\022E\n\016operation_mode\030\001 \001(" +
+      "\0162-.Ydb.Operations.OperationParams.Opera",
+      "tionMode\0224\n\021operation_timeout\030\002 \001(\0132\031.go" +
+      "ogle.protobuf.Duration\022/\n\014cancel_after\030\003" +
+      " \001(\0132\031.google.protobuf.Duration\022M\n\006label" +
+      "s\030\004 \003(\0132+.Ydb.Operations.OperationParams" +
+      ".LabelsEntryB\020\252\346*\005\n\003\030\200\001\242\346*\003\030\200\001\0221\n\020report" +
+      "_cost_info\030\005 \001(\0162\027.Ydb.FeatureFlag.Statu" +
+      "s\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002" +
+      " \001(\t:\0028\001\"D\n\rOperationMode\022\036\n\032OPERATION_M" +
+      "ODE_UNSPECIFIED\020\000\022\010\n\004SYNC\020\001\022\t\n\005ASYNC\020\002\"\'" +
+      "\n\023GetOperationRequest\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"",
+      "D\n\024GetOperationResponse\022,\n\toperation\030\001 \001" +
+      "(\0132\031.Ydb.Operations.Operation\"*\n\026CancelO" +
+      "perationRequest\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"m\n\027Can" +
+      "celOperationResponse\022)\n\006status\030\001 \001(\0162\031.Y" +
+      "db.StatusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132" +
+      "\027.Ydb.Issue.IssueMessage\"*\n\026ForgetOperat" +
+      "ionRequest\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"m\n\027ForgetOp" +
+      "erationResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.St" +
+      "atusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb" +
+      ".Issue.IssueMessage\"R\n\025ListOperationsReq",
+      "uest\022\022\n\004kind\030\001 \001(\tB\004\220\346*\001\022\021\n\tpage_size\030\002 " +
+      "\001(\004\022\022\n\npage_token\030\003 \001(\t\"\264\001\n\026ListOperatio" +
+      "nsResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusI" +
+      "ds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issu" +
+      "e.IssueMessage\022-\n\noperations\030\003 \003(\0132\031.Ydb" +
+      ".Operations.Operation\022\027\n\017next_page_token" +
+      "\030\004 \001(\t\"\352\001\n\tOperation\022\n\n\002id\030\001 \001(\t\022\r\n\005read" +
+      "y\030\002 \001(\010\022)\n\006status\030\003 \001(\0162\031.Ydb.StatusIds." +
+      "StatusCode\022\'\n\006issues\030\004 \003(\0132\027.Ydb.Issue.I" +
+      "ssueMessage\022$\n\006result\030\005 \001(\0132\024.google.pro",
+      "tobuf.Any\022&\n\010metadata\030\006 \001(\0132\024.google.pro" +
+      "tobuf.Any\022 \n\tcost_info\030\007 \001(\0132\r.Ydb.CostI" +
+      "nfoB$\n\016tech.ydbB\017OperationProtos\370\001" +
+      "\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -9238,6 +9662,7 @@ public final class OperationProtos {
           com.google.protobuf.AnyProto.getDescriptor(),
           com.google.protobuf.DurationProto.getDescriptor(),
           tech.ydb.Validation.getDescriptor(),
+          tech.ydb.common.CommonProtos.getDescriptor(),
           tech.ydb.YdbIssueMessage.getDescriptor(),
           tech.ydb.StatusCodesProtos.getDescriptor(),
         }, assigner);
@@ -9246,7 +9671,7 @@ public final class OperationProtos {
     internal_static_Ydb_Operations_OperationParams_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_OperationParams_descriptor,
-        new java.lang.String[] { "OperationMode", "OperationTimeout", "CancelAfter", "Labels", });
+        new java.lang.String[] { "OperationMode", "OperationTimeout", "CancelAfter", "Labels", "ReportCostInfo", });
     internal_static_Ydb_Operations_OperationParams_LabelsEntry_descriptor =
       internal_static_Ydb_Operations_OperationParams_descriptor.getNestedTypes().get(0);
     internal_static_Ydb_Operations_OperationParams_LabelsEntry_fieldAccessorTable = new
@@ -9306,7 +9731,7 @@ public final class OperationProtos {
     internal_static_Ydb_Operations_Operation_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Operations_Operation_descriptor,
-        new java.lang.String[] { "Id", "Ready", "Status", "Issues", "Result", "Metadata", });
+        new java.lang.String[] { "Id", "Ready", "Status", "Issues", "Result", "Metadata", "CostInfo", });
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(tech.ydb.Validation.length);
@@ -9317,6 +9742,7 @@ public final class OperationProtos {
     com.google.protobuf.AnyProto.getDescriptor();
     com.google.protobuf.DurationProto.getDescriptor();
     tech.ydb.Validation.getDescriptor();
+    tech.ydb.common.CommonProtos.getDescriptor();
     tech.ydb.YdbIssueMessage.getDescriptor();
     tech.ydb.StatusCodesProtos.getDescriptor();
   }

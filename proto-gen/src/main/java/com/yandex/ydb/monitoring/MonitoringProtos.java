@@ -10523,6 +10523,30 @@ public final class MonitoringProtos {
      */
     tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatusOrBuilder getNodesOrBuilder(
         int index);
+
+    /**
+     * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+     */
+    java.util.List<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus> 
+        getTabletsList();
+    /**
+     * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+     */
+    tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus getTablets(int index);
+    /**
+     * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+     */
+    int getTabletsCount();
+    /**
+     * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+     */
+    java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder> 
+        getTabletsOrBuilderList();
+    /**
+     * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+     */
+    tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder getTabletsOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.ComputeStatus}
@@ -10539,6 +10563,7 @@ public final class MonitoringProtos {
     private ComputeStatus() {
       overall_ = 0;
       nodes_ = java.util.Collections.emptyList();
+      tablets_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -10584,6 +10609,15 @@ public final class MonitoringProtos {
                   input.readMessage(tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus.parser(), extensionRegistry));
               break;
             }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                tablets_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              tablets_.add(
+                  input.readMessage(tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.parser(), extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -10594,6 +10628,9 @@ public final class MonitoringProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           nodes_ = java.util.Collections.unmodifiableList(nodes_);
+        }
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          tablets_ = java.util.Collections.unmodifiableList(tablets_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -10663,6 +10700,41 @@ public final class MonitoringProtos {
       return nodes_.get(index);
     }
 
+    public static final int TABLETS_FIELD_NUMBER = 3;
+    private java.util.List<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus> tablets_;
+    /**
+     * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+     */
+    public java.util.List<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus> getTabletsList() {
+      return tablets_;
+    }
+    /**
+     * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+     */
+    public java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder> 
+        getTabletsOrBuilderList() {
+      return tablets_;
+    }
+    /**
+     * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+     */
+    public int getTabletsCount() {
+      return tablets_.size();
+    }
+    /**
+     * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+     */
+    public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus getTablets(int index) {
+      return tablets_.get(index);
+    }
+    /**
+     * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+     */
+    public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder getTabletsOrBuilder(
+        int index) {
+      return tablets_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -10681,6 +10753,9 @@ public final class MonitoringProtos {
       for (int i = 0; i < nodes_.size(); i++) {
         output.writeMessage(2, nodes_.get(i));
       }
+      for (int i = 0; i < tablets_.size(); i++) {
+        output.writeMessage(3, tablets_.get(i));
+      }
       unknownFields.writeTo(output);
     }
 
@@ -10696,6 +10771,10 @@ public final class MonitoringProtos {
       for (int i = 0; i < nodes_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, nodes_.get(i));
+      }
+      for (int i = 0; i < tablets_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, tablets_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -10716,6 +10795,8 @@ public final class MonitoringProtos {
       result = result && overall_ == other.overall_;
       result = result && getNodesList()
           .equals(other.getNodesList());
+      result = result && getTabletsList()
+          .equals(other.getTabletsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -10732,6 +10813,10 @@ public final class MonitoringProtos {
       if (getNodesCount() > 0) {
         hash = (37 * hash) + NODES_FIELD_NUMBER;
         hash = (53 * hash) + getNodesList().hashCode();
+      }
+      if (getTabletsCount() > 0) {
+        hash = (37 * hash) + TABLETS_FIELD_NUMBER;
+        hash = (53 * hash) + getTabletsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -10859,6 +10944,7 @@ public final class MonitoringProtos {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getNodesFieldBuilder();
+          getTabletsFieldBuilder();
         }
       }
       public Builder clear() {
@@ -10870,6 +10956,12 @@ public final class MonitoringProtos {
           bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           nodesBuilder_.clear();
+        }
+        if (tabletsBuilder_ == null) {
+          tablets_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          tabletsBuilder_.clear();
         }
         return this;
       }
@@ -10904,6 +10996,15 @@ public final class MonitoringProtos {
           result.nodes_ = nodes_;
         } else {
           result.nodes_ = nodesBuilder_.build();
+        }
+        if (tabletsBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            tablets_ = java.util.Collections.unmodifiableList(tablets_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.tablets_ = tablets_;
+        } else {
+          result.tablets_ = tabletsBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -10973,6 +11074,32 @@ public final class MonitoringProtos {
                    getNodesFieldBuilder() : null;
             } else {
               nodesBuilder_.addAllMessages(other.nodes_);
+            }
+          }
+        }
+        if (tabletsBuilder_ == null) {
+          if (!other.tablets_.isEmpty()) {
+            if (tablets_.isEmpty()) {
+              tablets_ = other.tablets_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureTabletsIsMutable();
+              tablets_.addAll(other.tablets_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.tablets_.isEmpty()) {
+            if (tabletsBuilder_.isEmpty()) {
+              tabletsBuilder_.dispose();
+              tabletsBuilder_ = null;
+              tablets_ = other.tablets_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              tabletsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getTabletsFieldBuilder() : null;
+            } else {
+              tabletsBuilder_.addAllMessages(other.tablets_);
             }
           }
         }
@@ -11286,6 +11413,246 @@ public final class MonitoringProtos {
           nodes_ = null;
         }
         return nodesBuilder_;
+      }
+
+      private java.util.List<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus> tablets_ =
+        java.util.Collections.emptyList();
+      private void ensureTabletsIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          tablets_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus>(tablets_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.Builder, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder> tabletsBuilder_;
+
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public java.util.List<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus> getTabletsList() {
+        if (tabletsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(tablets_);
+        } else {
+          return tabletsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public int getTabletsCount() {
+        if (tabletsBuilder_ == null) {
+          return tablets_.size();
+        } else {
+          return tabletsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus getTablets(int index) {
+        if (tabletsBuilder_ == null) {
+          return tablets_.get(index);
+        } else {
+          return tabletsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public Builder setTablets(
+          int index, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus value) {
+        if (tabletsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTabletsIsMutable();
+          tablets_.set(index, value);
+          onChanged();
+        } else {
+          tabletsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public Builder setTablets(
+          int index, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.Builder builderForValue) {
+        if (tabletsBuilder_ == null) {
+          ensureTabletsIsMutable();
+          tablets_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          tabletsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public Builder addTablets(tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus value) {
+        if (tabletsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTabletsIsMutable();
+          tablets_.add(value);
+          onChanged();
+        } else {
+          tabletsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public Builder addTablets(
+          int index, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus value) {
+        if (tabletsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTabletsIsMutable();
+          tablets_.add(index, value);
+          onChanged();
+        } else {
+          tabletsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public Builder addTablets(
+          tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.Builder builderForValue) {
+        if (tabletsBuilder_ == null) {
+          ensureTabletsIsMutable();
+          tablets_.add(builderForValue.build());
+          onChanged();
+        } else {
+          tabletsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public Builder addTablets(
+          int index, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.Builder builderForValue) {
+        if (tabletsBuilder_ == null) {
+          ensureTabletsIsMutable();
+          tablets_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          tabletsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public Builder addAllTablets(
+          java.lang.Iterable<? extends tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus> values) {
+        if (tabletsBuilder_ == null) {
+          ensureTabletsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, tablets_);
+          onChanged();
+        } else {
+          tabletsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public Builder clearTablets() {
+        if (tabletsBuilder_ == null) {
+          tablets_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          tabletsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public Builder removeTablets(int index) {
+        if (tabletsBuilder_ == null) {
+          ensureTabletsIsMutable();
+          tablets_.remove(index);
+          onChanged();
+        } else {
+          tabletsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.Builder getTabletsBuilder(
+          int index) {
+        return getTabletsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder getTabletsOrBuilder(
+          int index) {
+        if (tabletsBuilder_ == null) {
+          return tablets_.get(index);  } else {
+          return tabletsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder> 
+           getTabletsOrBuilderList() {
+        if (tabletsBuilder_ != null) {
+          return tabletsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(tablets_);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.Builder addTabletsBuilder() {
+        return getTabletsFieldBuilder().addBuilder(
+            tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.Builder addTabletsBuilder(
+          int index) {
+        return getTabletsFieldBuilder().addBuilder(
+            index, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
+       */
+      public java.util.List<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.Builder> 
+           getTabletsBuilderList() {
+        return getTabletsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.Builder, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder> 
+          getTabletsFieldBuilder() {
+        if (tabletsBuilder_ == null) {
+          tabletsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.Builder, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder>(
+                  tablets_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          tablets_ = null;
+        }
+        return tabletsBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -16101,14 +16468,28 @@ public final class MonitoringProtos {
         getTypeBytes();
 
     /**
-     * <code>string id = 2;</code>
+     * <code>repeated string id = 2;</code>
      */
-    java.lang.String getId();
+    java.util.List<java.lang.String>
+        getIdList();
     /**
-     * <code>string id = 2;</code>
+     * <code>repeated string id = 2;</code>
+     */
+    int getIdCount();
+    /**
+     * <code>repeated string id = 2;</code>
+     */
+    java.lang.String getId(int index);
+    /**
+     * <code>repeated string id = 2;</code>
      */
     com.google.protobuf.ByteString
-        getIdBytes();
+        getIdBytes(int index);
+
+    /**
+     * <code>uint32 count = 3;</code>
+     */
+    int getCount();
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.LocationComputeTablet}
@@ -16124,7 +16505,8 @@ public final class MonitoringProtos {
     }
     private LocationComputeTablet() {
       type_ = "";
-      id_ = "";
+      id_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      count_ = 0;
     }
 
     @java.lang.Override
@@ -16163,8 +16545,16 @@ public final class MonitoringProtos {
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                id_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              id_.add(s);
+              break;
+            }
+            case 24: {
 
-              id_ = s;
+              count_ = input.readUInt32();
               break;
             }
           }
@@ -16175,6 +16565,9 @@ public final class MonitoringProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          id_ = id_.getUnmodifiableView();
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -16191,6 +16584,7 @@ public final class MonitoringProtos {
               tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet.class, tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet.Builder.class);
     }
 
+    private int bitField0_;
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
@@ -16226,37 +16620,41 @@ public final class MonitoringProtos {
     }
 
     public static final int ID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object id_;
+    private com.google.protobuf.LazyStringList id_;
     /**
-     * <code>string id = 2;</code>
+     * <code>repeated string id = 2;</code>
      */
-    public java.lang.String getId() {
-      java.lang.Object ref = id_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        id_ = s;
-        return s;
-      }
+    public com.google.protobuf.ProtocolStringList
+        getIdList() {
+      return id_;
     }
     /**
-     * <code>string id = 2;</code>
+     * <code>repeated string id = 2;</code>
+     */
+    public int getIdCount() {
+      return id_.size();
+    }
+    /**
+     * <code>repeated string id = 2;</code>
+     */
+    public java.lang.String getId(int index) {
+      return id_.get(index);
+    }
+    /**
+     * <code>repeated string id = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getIdBytes() {
-      java.lang.Object ref = id_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        id_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+        getIdBytes(int index) {
+      return id_.getByteString(index);
+    }
+
+    public static final int COUNT_FIELD_NUMBER = 3;
+    private int count_;
+    /**
+     * <code>uint32 count = 3;</code>
+     */
+    public int getCount() {
+      return count_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -16274,8 +16672,11 @@ public final class MonitoringProtos {
       if (!getTypeBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, type_);
       }
-      if (!getIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, id_);
+      for (int i = 0; i < id_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, id_.getRaw(i));
+      }
+      if (count_ != 0) {
+        output.writeUInt32(3, count_);
       }
       unknownFields.writeTo(output);
     }
@@ -16288,8 +16689,17 @@ public final class MonitoringProtos {
       if (!getTypeBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, type_);
       }
-      if (!getIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, id_);
+      {
+        int dataSize = 0;
+        for (int i = 0; i < id_.size(); i++) {
+          dataSize += computeStringSizeNoTag(id_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getIdList().size();
+      }
+      if (count_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(3, count_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -16309,8 +16719,10 @@ public final class MonitoringProtos {
       boolean result = true;
       result = result && getType()
           .equals(other.getType());
-      result = result && getId()
-          .equals(other.getId());
+      result = result && getIdList()
+          .equals(other.getIdList());
+      result = result && (getCount()
+          == other.getCount());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -16324,8 +16736,12 @@ public final class MonitoringProtos {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
-      hash = (37 * hash) + ID_FIELD_NUMBER;
-      hash = (53 * hash) + getId().hashCode();
+      if (getIdCount() > 0) {
+        hash = (37 * hash) + ID_FIELD_NUMBER;
+        hash = (53 * hash) + getIdList().hashCode();
+      }
+      hash = (37 * hash) + COUNT_FIELD_NUMBER;
+      hash = (53 * hash) + getCount();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -16457,7 +16873,9 @@ public final class MonitoringProtos {
         super.clear();
         type_ = "";
 
-        id_ = "";
+        id_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        count_ = 0;
 
         return this;
       }
@@ -16481,8 +16899,16 @@ public final class MonitoringProtos {
 
       public tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet result = new tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.type_ = type_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          id_ = id_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
         result.id_ = id_;
+        result.count_ = count_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -16528,9 +16954,18 @@ public final class MonitoringProtos {
           type_ = other.type_;
           onChanged();
         }
-        if (!other.getId().isEmpty()) {
-          id_ = other.id_;
+        if (!other.id_.isEmpty()) {
+          if (id_.isEmpty()) {
+            id_ = other.id_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureIdIsMutable();
+            id_.addAll(other.id_);
+          }
           onChanged();
+        }
+        if (other.getCount() != 0) {
+          setCount(other.getCount());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -16558,6 +16993,7 @@ public final class MonitoringProtos {
         }
         return this;
       }
+      private int bitField0_;
 
       private java.lang.Object type_ = "";
       /**
@@ -16628,71 +17064,122 @@ public final class MonitoringProtos {
         return this;
       }
 
-      private java.lang.Object id_ = "";
-      /**
-       * <code>string id = 2;</code>
-       */
-      public java.lang.String getId() {
-        java.lang.Object ref = id_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          id_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      private com.google.protobuf.LazyStringList id_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureIdIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          id_ = new com.google.protobuf.LazyStringArrayList(id_);
+          bitField0_ |= 0x00000002;
+         }
       }
       /**
-       * <code>string id = 2;</code>
+       * <code>repeated string id = 2;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getIdList() {
+        return id_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string id = 2;</code>
+       */
+      public int getIdCount() {
+        return id_.size();
+      }
+      /**
+       * <code>repeated string id = 2;</code>
+       */
+      public java.lang.String getId(int index) {
+        return id_.get(index);
+      }
+      /**
+       * <code>repeated string id = 2;</code>
        */
       public com.google.protobuf.ByteString
-          getIdBytes() {
-        java.lang.Object ref = id_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          id_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
+          getIdBytes(int index) {
+        return id_.getByteString(index);
       }
       /**
-       * <code>string id = 2;</code>
+       * <code>repeated string id = 2;</code>
        */
       public Builder setId(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureIdIsMutable();
+        id_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string id = 2;</code>
+       */
+      public Builder addId(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  
-        id_ = value;
+  ensureIdIsMutable();
+        id_.add(value);
         onChanged();
         return this;
       }
       /**
-       * <code>string id = 2;</code>
+       * <code>repeated string id = 2;</code>
+       */
+      public Builder addAllId(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureIdIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, id_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string id = 2;</code>
        */
       public Builder clearId() {
-        
-        id_ = getDefaultInstance().getId();
+        id_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
       /**
-       * <code>string id = 2;</code>
+       * <code>repeated string id = 2;</code>
        */
-      public Builder setIdBytes(
+      public Builder addIdBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
+        ensureIdIsMutable();
+        id_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private int count_ ;
+      /**
+       * <code>uint32 count = 3;</code>
+       */
+      public int getCount() {
+        return count_;
+      }
+      /**
+       * <code>uint32 count = 3;</code>
+       */
+      public Builder setCount(int value) {
         
-        id_ = value;
+        count_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 count = 3;</code>
+       */
+      public Builder clearCount() {
+        
+        count_ = 0;
         onChanged();
         return this;
       }
@@ -22952,49 +23439,50 @@ public final class MonitoringProtos {
       "\0132#.Ydb.Monitoring.ComputeTabletStatus\022/" +
       "\n\005pools\030\004 \003(\0132 .Ydb.Monitoring.ThreadPoo" +
       "lStatus\022/\n\004load\030\005 \001(\0132!.Ydb.Monitoring.L" +
-      "oadAverageStatus\"u\n\rComputeStatus\0222\n\007ove" +
-      "rall\030\001 \001(\0162!.Ydb.Monitoring.StatusFlag.S" +
-      "tatus\0220\n\005nodes\030\002 \003(\0132!.Ydb.Monitoring.Co" +
-      "mputeNodeStatus\"6\n\014LocationNode\022\n\n\002id\030\001 " +
-      "\001(\r\022\014\n\004host\030\002 \001(\t\022\014\n\004port\030\003 \001(\r\"0\n\024Locat",
-      "ionStoragePDisk\022\n\n\002id\030\001 \001(\t\022\014\n\004path\030\002 \001(" +
-      "\t\"W\n\024LocationStorageVDisk\022\n\n\002id\030\001 \001(\t\0223\n" +
-      "\005pdisk\030\002 \001(\0132$.Ydb.Monitoring.LocationSt" +
-      "oragePDisk\"W\n\024LocationStorageGroup\022\n\n\002id" +
-      "\030\001 \001(\t\0223\n\005vdisk\030\002 \001(\0132$.Ydb.Monitoring.L" +
-      "ocationStorageVDisk\"X\n\023LocationStoragePo" +
-      "ol\022\014\n\004name\030\001 \001(\t\0223\n\005group\030\002 \001(\0132$.Ydb.Mo" +
-      "nitoring.LocationStorageGroup\"p\n\017Locatio" +
-      "nStorage\022*\n\004node\030\001 \001(\0132\034.Ydb.Monitoring." +
-      "LocationNode\0221\n\004pool\030\002 \001(\0132#.Ydb.Monitor",
-      "ing.LocationStoragePool\"#\n\023LocationCompu" +
-      "tePool\022\014\n\004name\030\001 \001(\t\"1\n\025LocationComputeT" +
-      "ablet\022\014\n\004type\030\001 \001(\t\022\n\n\002id\030\002 \001(\t\"\247\001\n\017Loca" +
-      "tionCompute\022*\n\004node\030\001 \001(\0132\034.Ydb.Monitori" +
-      "ng.LocationNode\0221\n\004pool\030\002 \001(\0132#.Ydb.Moni" +
-      "toring.LocationComputePool\0225\n\006tablet\030\003 \001" +
-      "(\0132%.Ydb.Monitoring.LocationComputeTable" +
-      "t\" \n\020LocationDatabase\022\014\n\004name\030\001 \001(\t\"\242\001\n\010" +
-      "Location\0220\n\007storage\030\001 \001(\0132\037.Ydb.Monitori" +
-      "ng.LocationStorage\0220\n\007compute\030\002 \001(\0132\037.Yd",
-      "b.Monitoring.LocationCompute\0222\n\010database" +
-      "\030\003 \001(\0132 .Ydb.Monitoring.LocationDatabase" +
-      "\"\263\001\n\010IssueLog\022\n\n\002id\030\001 \001(\t\0221\n\006status\030\002 \001(" +
-      "\0162!.Ydb.Monitoring.StatusFlag.Status\022\017\n\007" +
-      "message\030\003 \001(\t\022*\n\010location\030\004 \001(\0132\030.Ydb.Mo" +
-      "nitoring.Location\022\016\n\006reason\030\005 \003(\t\022\014\n\004typ" +
-      "e\030\006 \001(\t\022\r\n\005level\030\007 \001(\r\"\262\001\n\016DatabaseStatu" +
-      "s\022\014\n\004name\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.M" +
-      "onitoring.StatusFlag.Status\022.\n\007storage\030\003" +
-      " \001(\0132\035.Ydb.Monitoring.StorageStatus\022.\n\007c",
-      "ompute\030\004 \001(\0132\035.Ydb.Monitoring.ComputeSta" +
-      "tus\"\264\001\n\017SelfCheckResult\022;\n\021self_check_re" +
-      "sult\030\001 \001(\0162 .Ydb.Monitoring.SelfCheck.Re" +
-      "sult\022+\n\tissue_log\030\002 \003(\0132\030.Ydb.Monitoring" +
-      ".IssueLog\0227\n\017database_status\030\003 \003(\0132\036.Ydb" +
-      ".Monitoring.DatabaseStatusB0\n\031com.yandex" +
-      ".ydb.monitoringB\020MonitoringProtos\370\001\001b\006pr" +
-      "oto3"
+      "oadAverageStatus\"\253\001\n\rComputeStatus\0222\n\007ov" +
+      "erall\030\001 \001(\0162!.Ydb.Monitoring.StatusFlag." +
+      "Status\0220\n\005nodes\030\002 \003(\0132!.Ydb.Monitoring.C" +
+      "omputeNodeStatus\0224\n\007tablets\030\003 \003(\0132#.Ydb." +
+      "Monitoring.ComputeTabletStatus\"6\n\014Locati",
+      "onNode\022\n\n\002id\030\001 \001(\r\022\014\n\004host\030\002 \001(\t\022\014\n\004port" +
+      "\030\003 \001(\r\"0\n\024LocationStoragePDisk\022\n\n\002id\030\001 \001" +
+      "(\t\022\014\n\004path\030\002 \001(\t\"W\n\024LocationStorageVDisk" +
+      "\022\n\n\002id\030\001 \001(\t\0223\n\005pdisk\030\002 \001(\0132$.Ydb.Monito" +
+      "ring.LocationStoragePDisk\"W\n\024LocationSto" +
+      "rageGroup\022\n\n\002id\030\001 \001(\t\0223\n\005vdisk\030\002 \001(\0132$.Y" +
+      "db.Monitoring.LocationStorageVDisk\"X\n\023Lo" +
+      "cationStoragePool\022\014\n\004name\030\001 \001(\t\0223\n\005group" +
+      "\030\002 \001(\0132$.Ydb.Monitoring.LocationStorageG" +
+      "roup\"p\n\017LocationStorage\022*\n\004node\030\001 \001(\0132\034.",
+      "Ydb.Monitoring.LocationNode\0221\n\004pool\030\002 \001(" +
+      "\0132#.Ydb.Monitoring.LocationStoragePool\"#" +
+      "\n\023LocationComputePool\022\014\n\004name\030\001 \001(\t\"@\n\025L" +
+      "ocationComputeTablet\022\014\n\004type\030\001 \001(\t\022\n\n\002id" +
+      "\030\002 \003(\t\022\r\n\005count\030\003 \001(\r\"\247\001\n\017LocationComput" +
+      "e\022*\n\004node\030\001 \001(\0132\034.Ydb.Monitoring.Locatio" +
+      "nNode\0221\n\004pool\030\002 \001(\0132#.Ydb.Monitoring.Loc" +
+      "ationComputePool\0225\n\006tablet\030\003 \001(\0132%.Ydb.M" +
+      "onitoring.LocationComputeTablet\" \n\020Locat" +
+      "ionDatabase\022\014\n\004name\030\001 \001(\t\"\242\001\n\010Location\0220",
+      "\n\007storage\030\001 \001(\0132\037.Ydb.Monitoring.Locatio" +
+      "nStorage\0220\n\007compute\030\002 \001(\0132\037.Ydb.Monitori" +
+      "ng.LocationCompute\0222\n\010database\030\003 \001(\0132 .Y" +
+      "db.Monitoring.LocationDatabase\"\263\001\n\010Issue" +
+      "Log\022\n\n\002id\030\001 \001(\t\0221\n\006status\030\002 \001(\0162!.Ydb.Mo" +
+      "nitoring.StatusFlag.Status\022\017\n\007message\030\003 " +
+      "\001(\t\022*\n\010location\030\004 \001(\0132\030.Ydb.Monitoring.L" +
+      "ocation\022\016\n\006reason\030\005 \003(\t\022\014\n\004type\030\006 \001(\t\022\r\n" +
+      "\005level\030\007 \001(\r\"\262\001\n\016DatabaseStatus\022\014\n\004name\030" +
+      "\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.Monitoring.",
+      "StatusFlag.Status\022.\n\007storage\030\003 \001(\0132\035.Ydb" +
+      ".Monitoring.StorageStatus\022.\n\007compute\030\004 \001" +
+      "(\0132\035.Ydb.Monitoring.ComputeStatus\"\264\001\n\017Se" +
+      "lfCheckResult\022;\n\021self_check_result\030\001 \001(\016" +
+      "2 .Ydb.Monitoring.SelfCheck.Result\022+\n\tis" +
+      "sue_log\030\002 \003(\0132\030.Ydb.Monitoring.IssueLog\022" +
+      "7\n\017database_status\030\003 \003(\0132\036.Ydb.Monitorin" +
+      "g.DatabaseStatusB0\n\031tech.ydb.monit" +
+      "oringB\020MonitoringProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -23092,7 +23580,7 @@ public final class MonitoringProtos {
     internal_static_Ydb_Monitoring_ComputeStatus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Monitoring_ComputeStatus_descriptor,
-        new java.lang.String[] { "Overall", "Nodes", });
+        new java.lang.String[] { "Overall", "Nodes", "Tablets", });
     internal_static_Ydb_Monitoring_LocationNode_descriptor =
       getDescriptor().getMessageTypes().get(14);
     internal_static_Ydb_Monitoring_LocationNode_fieldAccessorTable = new
@@ -23140,7 +23628,7 @@ public final class MonitoringProtos {
     internal_static_Ydb_Monitoring_LocationComputeTablet_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Monitoring_LocationComputeTablet_descriptor,
-        new java.lang.String[] { "Type", "Id", });
+        new java.lang.String[] { "Type", "Id", "Count", });
     internal_static_Ydb_Monitoring_LocationCompute_descriptor =
       getDescriptor().getMessageTypes().get(22);
     internal_static_Ydb_Monitoring_LocationCompute_fieldAccessorTable = new
