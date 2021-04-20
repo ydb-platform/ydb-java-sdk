@@ -25,16 +25,15 @@ public final class YdbScriptingV1 {
     java.lang.String[] descriptorData = {
       "\n-kikimr/public/api/grpc/ydb_scripting_v" +
       "1.proto\022\020Ydb.Scripting.V1\032,kikimr/public" +
-      "/api/protos/ydb_scripting.proto2\246\002\n\020Scri" +
+      "/api/protos/ydb_scripting.proto2\232\002\n\020Scri" +
       "ptingService\022Q\n\nExecuteYql\022 .Ydb.Scripti" +
       "ng.ExecuteYqlRequest\032!.Ydb.Scripting.Exe" +
-      "cuteYqlResponse\022l\n\020StreamExecuteYql\022&.Yd" +
-      "b.Scripting.StreamExecuteYqlRequest\032..Yd" +
-      "b.Scripting.StreamExecuteYqlPartialRespo" +
-      "nse0\001\022Q\n\nExplainYql\022 .Ydb.Scripting.Expl" +
-      "ainYqlRequest\032!.Ydb.Scripting.ExplainYql",
-      "ResponseB\035\n\033tech.ydb.scripting.v1b" +
-      "\006proto3"
+      "cuteYqlResponse\022`\n\020StreamExecuteYql\022 .Yd" +
+      "b.Scripting.ExecuteYqlRequest\032(.Ydb.Scri" +
+      "pting.ExecuteYqlPartialResponse0\001\022Q\n\nExp" +
+      "lainYql\022 .Ydb.Scripting.ExplainYqlReques" +
+      "t\032!.Ydb.Scripting.ExplainYqlResponseB\035\n\033",
+      "tech.ydb.scripting.v1b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

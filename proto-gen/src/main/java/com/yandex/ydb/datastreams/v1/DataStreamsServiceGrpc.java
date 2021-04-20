@@ -182,6 +182,68 @@ public final class DataStreamsServiceGrpc {
     return getListShardsMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest,
+      tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse> getSetWriteQuotaMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "SetWriteQuota",
+      requestType = tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest.class,
+      responseType = tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest,
+      tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse> getSetWriteQuotaMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest, tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse> getSetWriteQuotaMethod;
+    if ((getSetWriteQuotaMethod = DataStreamsServiceGrpc.getSetWriteQuotaMethod) == null) {
+      synchronized (DataStreamsServiceGrpc.class) {
+        if ((getSetWriteQuotaMethod = DataStreamsServiceGrpc.getSetWriteQuotaMethod) == null) {
+          DataStreamsServiceGrpc.getSetWriteQuotaMethod = getSetWriteQuotaMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest, tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "SetWriteQuota"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new DataStreamsServiceMethodDescriptorSupplier("SetWriteQuota"))
+              .build();
+        }
+      }
+    }
+    return getSetWriteQuotaMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest,
+      tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse> getUpdateStreamMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "UpdateStream",
+      requestType = tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest.class,
+      responseType = tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest,
+      tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse> getUpdateStreamMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest, tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse> getUpdateStreamMethod;
+    if ((getUpdateStreamMethod = DataStreamsServiceGrpc.getUpdateStreamMethod) == null) {
+      synchronized (DataStreamsServiceGrpc.class) {
+        if ((getUpdateStreamMethod = DataStreamsServiceGrpc.getUpdateStreamMethod) == null) {
+          DataStreamsServiceGrpc.getUpdateStreamMethod = getUpdateStreamMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest, tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "UpdateStream"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new DataStreamsServiceMethodDescriptorSupplier("UpdateStream"))
+              .build();
+        }
+      }
+    }
+    return getUpdateStreamMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<tech.ydb.datastreams.v1.Datastreams.PutRecordRequest,
       tech.ydb.datastreams.v1.Datastreams.PutRecordResponse> getPutRecordMethod;
 
@@ -982,6 +1044,20 @@ public final class DataStreamsServiceGrpc {
     }
 
     /**
+     */
+    public void setWriteQuota(tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getSetWriteQuotaMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void updateStream(tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getUpdateStreamMethod(), responseObserver);
+    }
+
+    /**
      * <pre>
      * Data methods
      * </pre>
@@ -1188,6 +1264,20 @@ public final class DataStreamsServiceGrpc {
                 tech.ydb.datastreams.v1.Datastreams.ListShardsRequest,
                 tech.ydb.datastreams.v1.Datastreams.ListShardsResponse>(
                   this, METHODID_LIST_SHARDS)))
+          .addMethod(
+            getSetWriteQuotaMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest,
+                tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse>(
+                  this, METHODID_SET_WRITE_QUOTA)))
+          .addMethod(
+            getUpdateStreamMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest,
+                tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse>(
+                  this, METHODID_UPDATE_STREAM)))
           .addMethod(
             getPutRecordMethod(),
             asyncUnaryCall(
@@ -1408,6 +1498,22 @@ public final class DataStreamsServiceGrpc {
         io.grpc.stub.StreamObserver<tech.ydb.datastreams.v1.Datastreams.ListShardsResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getListShardsMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void setWriteQuota(tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getSetWriteQuotaMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void updateStream(tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getUpdateStreamMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -1657,6 +1763,20 @@ public final class DataStreamsServiceGrpc {
     }
 
     /**
+     */
+    public tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse setWriteQuota(tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getSetWriteQuotaMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse updateStream(tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getUpdateStreamMethod(), getCallOptions(), request);
+    }
+
+    /**
      * <pre>
      * Data methods
      * </pre>
@@ -1886,6 +2006,22 @@ public final class DataStreamsServiceGrpc {
     }
 
     /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse> setWriteQuota(
+        tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getSetWriteQuotaMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse> updateStream(
+        tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getUpdateStreamMethod(), getCallOptions()), request);
+    }
+
+    /**
      * <pre>
      * Data methods
      * </pre>
@@ -2076,29 +2212,31 @@ public final class DataStreamsServiceGrpc {
   private static final int METHODID_DELETE_STREAM = 2;
   private static final int METHODID_DESCRIBE_STREAM = 3;
   private static final int METHODID_LIST_SHARDS = 4;
-  private static final int METHODID_PUT_RECORD = 5;
-  private static final int METHODID_PUT_RECORDS = 6;
-  private static final int METHODID_GET_RECORDS = 7;
-  private static final int METHODID_GET_SHARD_ITERATOR = 8;
-  private static final int METHODID_SUBSCRIBE_TO_SHARD = 9;
-  private static final int METHODID_DESCRIBE_LIMITS = 10;
-  private static final int METHODID_DESCRIBE_STREAM_SUMMARY = 11;
-  private static final int METHODID_DECREASE_STREAM_RETENTION_PERIOD = 12;
-  private static final int METHODID_INCREASE_STREAM_RETENTION_PERIOD = 13;
-  private static final int METHODID_UPDATE_SHARD_COUNT = 14;
-  private static final int METHODID_REGISTER_STREAM_CONSUMER = 15;
-  private static final int METHODID_DEREGISTER_STREAM_CONSUMER = 16;
-  private static final int METHODID_DESCRIBE_STREAM_CONSUMER = 17;
-  private static final int METHODID_LIST_STREAM_CONSUMERS = 18;
-  private static final int METHODID_ADD_TAGS_TO_STREAM = 19;
-  private static final int METHODID_DISABLE_ENHANCED_MONITORING = 20;
-  private static final int METHODID_ENABLE_ENHANCED_MONITORING = 21;
-  private static final int METHODID_LIST_TAGS_FOR_STREAM = 22;
-  private static final int METHODID_MERGE_SHARDS = 23;
-  private static final int METHODID_REMOVE_TAGS_FROM_STREAM = 24;
-  private static final int METHODID_SPLIT_SHARD = 25;
-  private static final int METHODID_START_STREAM_ENCRYPTION = 26;
-  private static final int METHODID_STOP_STREAM_ENCRYPTION = 27;
+  private static final int METHODID_SET_WRITE_QUOTA = 5;
+  private static final int METHODID_UPDATE_STREAM = 6;
+  private static final int METHODID_PUT_RECORD = 7;
+  private static final int METHODID_PUT_RECORDS = 8;
+  private static final int METHODID_GET_RECORDS = 9;
+  private static final int METHODID_GET_SHARD_ITERATOR = 10;
+  private static final int METHODID_SUBSCRIBE_TO_SHARD = 11;
+  private static final int METHODID_DESCRIBE_LIMITS = 12;
+  private static final int METHODID_DESCRIBE_STREAM_SUMMARY = 13;
+  private static final int METHODID_DECREASE_STREAM_RETENTION_PERIOD = 14;
+  private static final int METHODID_INCREASE_STREAM_RETENTION_PERIOD = 15;
+  private static final int METHODID_UPDATE_SHARD_COUNT = 16;
+  private static final int METHODID_REGISTER_STREAM_CONSUMER = 17;
+  private static final int METHODID_DEREGISTER_STREAM_CONSUMER = 18;
+  private static final int METHODID_DESCRIBE_STREAM_CONSUMER = 19;
+  private static final int METHODID_LIST_STREAM_CONSUMERS = 20;
+  private static final int METHODID_ADD_TAGS_TO_STREAM = 21;
+  private static final int METHODID_DISABLE_ENHANCED_MONITORING = 22;
+  private static final int METHODID_ENABLE_ENHANCED_MONITORING = 23;
+  private static final int METHODID_LIST_TAGS_FOR_STREAM = 24;
+  private static final int METHODID_MERGE_SHARDS = 25;
+  private static final int METHODID_REMOVE_TAGS_FROM_STREAM = 26;
+  private static final int METHODID_SPLIT_SHARD = 27;
+  private static final int METHODID_START_STREAM_ENCRYPTION = 28;
+  private static final int METHODID_STOP_STREAM_ENCRYPTION = 29;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -2136,6 +2274,14 @@ public final class DataStreamsServiceGrpc {
         case METHODID_LIST_SHARDS:
           serviceImpl.listShards((tech.ydb.datastreams.v1.Datastreams.ListShardsRequest) request,
               (io.grpc.stub.StreamObserver<tech.ydb.datastreams.v1.Datastreams.ListShardsResponse>) responseObserver);
+          break;
+        case METHODID_SET_WRITE_QUOTA:
+          serviceImpl.setWriteQuota((tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse>) responseObserver);
+          break;
+        case METHODID_UPDATE_STREAM:
+          serviceImpl.updateStream((tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse>) responseObserver);
           break;
         case METHODID_PUT_RECORD:
           serviceImpl.putRecord((tech.ydb.datastreams.v1.Datastreams.PutRecordRequest) request,
@@ -2295,6 +2441,8 @@ public final class DataStreamsServiceGrpc {
               .addMethod(getDeleteStreamMethod())
               .addMethod(getDescribeStreamMethod())
               .addMethod(getListShardsMethod())
+              .addMethod(getSetWriteQuotaMethod())
+              .addMethod(getUpdateStreamMethod())
               .addMethod(getPutRecordMethod())
               .addMethod(getPutRecordsMethod())
               .addMethod(getGetRecordsMethod())

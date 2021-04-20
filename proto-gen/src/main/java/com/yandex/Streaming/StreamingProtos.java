@@ -14,8 +14,8 @@ public final class StreamingProtos {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-  public interface ExecuteQueryRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Streaming.ExecuteQueryRequest)
+  public interface InstallQueryRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Streaming.InstallQueryRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -32,14 +32,17 @@ public final class StreamingProtos {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
-     * <code>string yql_text = 2;</code>
+     * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
      */
-    java.lang.String getYqlText();
+    boolean hasRequest();
     /**
-     * <code>string yql_text = 2;</code>
+     * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
      */
-    com.google.protobuf.ByteString
-        getYqlTextBytes();
+    NStreams.NControlPlane.ControlPlane.TInstallQueryRequest getRequest();
+    /**
+     * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
+     */
+    NStreams.NControlPlane.ControlPlane.TInstallQueryRequestOrBuilder getRequestOrBuilder();
   }
   /**
    * <pre>
@@ -47,19 +50,18 @@ public final class StreamingProtos {
    * The result is a request sent for execution, not a completed request
    * </pre>
    *
-   * Protobuf type {@code Streaming.ExecuteQueryRequest}
+   * Protobuf type {@code Streaming.InstallQueryRequest}
    */
-  public  static final class ExecuteQueryRequest extends
+  public  static final class InstallQueryRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Streaming.ExecuteQueryRequest)
-      ExecuteQueryRequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:Streaming.InstallQueryRequest)
+      InstallQueryRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ExecuteQueryRequest.newBuilder() to construct.
-    private ExecuteQueryRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use InstallQueryRequest.newBuilder() to construct.
+    private InstallQueryRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ExecuteQueryRequest() {
-      yqlText_ = "";
+    private InstallQueryRequest() {
     }
 
     @java.lang.Override
@@ -67,7 +69,7 @@ public final class StreamingProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ExecuteQueryRequest(
+    private InstallQueryRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -104,9 +106,16 @@ public final class StreamingProtos {
               break;
             }
             case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
+              NStreams.NControlPlane.ControlPlane.TInstallQueryRequest.Builder subBuilder = null;
+              if (request_ != null) {
+                subBuilder = request_.toBuilder();
+              }
+              request_ = input.readMessage(NStreams.NControlPlane.ControlPlane.TInstallQueryRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(request_);
+                request_ = subBuilder.buildPartial();
+              }
 
-              yqlText_ = s;
               break;
             }
           }
@@ -123,14 +132,14 @@ public final class StreamingProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryRequest_descriptor;
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryRequest_fieldAccessorTable
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest.class, com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest.Builder.class);
+              com.yandex.Streaming.StreamingProtos.InstallQueryRequest.class, com.yandex.Streaming.StreamingProtos.InstallQueryRequest.Builder.class);
     }
 
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
@@ -154,38 +163,25 @@ public final class StreamingProtos {
       return getOperationParams();
     }
 
-    public static final int YQL_TEXT_FIELD_NUMBER = 2;
-    private volatile java.lang.Object yqlText_;
+    public static final int REQUEST_FIELD_NUMBER = 2;
+    private NStreams.NControlPlane.ControlPlane.TInstallQueryRequest request_;
     /**
-     * <code>string yql_text = 2;</code>
+     * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
      */
-    public java.lang.String getYqlText() {
-      java.lang.Object ref = yqlText_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        yqlText_ = s;
-        return s;
-      }
+    public boolean hasRequest() {
+      return request_ != null;
     }
     /**
-     * <code>string yql_text = 2;</code>
+     * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
      */
-    public com.google.protobuf.ByteString
-        getYqlTextBytes() {
-      java.lang.Object ref = yqlText_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        yqlText_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public NStreams.NControlPlane.ControlPlane.TInstallQueryRequest getRequest() {
+      return request_ == null ? NStreams.NControlPlane.ControlPlane.TInstallQueryRequest.getDefaultInstance() : request_;
+    }
+    /**
+     * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
+     */
+    public NStreams.NControlPlane.ControlPlane.TInstallQueryRequestOrBuilder getRequestOrBuilder() {
+      return getRequest();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -203,8 +199,8 @@ public final class StreamingProtos {
       if (operationParams_ != null) {
         output.writeMessage(1, getOperationParams());
       }
-      if (!getYqlTextBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, yqlText_);
+      if (request_ != null) {
+        output.writeMessage(2, getRequest());
       }
       unknownFields.writeTo(output);
     }
@@ -218,8 +214,9 @@ public final class StreamingProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getOperationParams());
       }
-      if (!getYqlTextBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, yqlText_);
+      if (request_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getRequest());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -231,10 +228,10 @@ public final class StreamingProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest)) {
+      if (!(obj instanceof com.yandex.Streaming.StreamingProtos.InstallQueryRequest)) {
         return super.equals(obj);
       }
-      com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest other = (com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest) obj;
+      com.yandex.Streaming.StreamingProtos.InstallQueryRequest other = (com.yandex.Streaming.StreamingProtos.InstallQueryRequest) obj;
 
       boolean result = true;
       result = result && (hasOperationParams() == other.hasOperationParams());
@@ -242,8 +239,11 @@ public final class StreamingProtos {
         result = result && getOperationParams()
             .equals(other.getOperationParams());
       }
-      result = result && getYqlText()
-          .equals(other.getYqlText());
+      result = result && (hasRequest() == other.hasRequest());
+      if (hasRequest()) {
+        result = result && getRequest()
+            .equals(other.getRequest());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -259,76 +259,78 @@ public final class StreamingProtos {
         hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
         hash = (53 * hash) + getOperationParams().hashCode();
       }
-      hash = (37 * hash) + YQL_TEXT_FIELD_NUMBER;
-      hash = (53 * hash) + getYqlText().hashCode();
+      if (hasRequest()) {
+        hash = (37 * hash) + REQUEST_FIELD_NUMBER;
+        hash = (53 * hash) + getRequest().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest parseFrom(byte[] data)
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest parseFrom(java.io.InputStream input)
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest parseDelimitedFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -340,7 +342,7 @@ public final class StreamingProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest prototype) {
+    public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.InstallQueryRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -360,25 +362,25 @@ public final class StreamingProtos {
      * The result is a request sent for execution, not a completed request
      * </pre>
      *
-     * Protobuf type {@code Streaming.ExecuteQueryRequest}
+     * Protobuf type {@code Streaming.InstallQueryRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Streaming.ExecuteQueryRequest)
-        com.yandex.Streaming.StreamingProtos.ExecuteQueryRequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Streaming.InstallQueryRequest)
+        com.yandex.Streaming.StreamingProtos.InstallQueryRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryRequest_descriptor;
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryRequest_fieldAccessorTable
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest.class, com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest.Builder.class);
+                com.yandex.Streaming.StreamingProtos.InstallQueryRequest.class, com.yandex.Streaming.StreamingProtos.InstallQueryRequest.Builder.class);
       }
 
-      // Construct using com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest.newBuilder()
+      // Construct using com.yandex.Streaming.StreamingProtos.InstallQueryRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -401,36 +403,44 @@ public final class StreamingProtos {
           operationParams_ = null;
           operationParamsBuilder_ = null;
         }
-        yqlText_ = "";
-
+        if (requestBuilder_ == null) {
+          request_ = null;
+        } else {
+          request_ = null;
+          requestBuilder_ = null;
+        }
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryRequest_descriptor;
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryRequest_descriptor;
       }
 
-      public com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest getDefaultInstanceForType() {
-        return com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest.getDefaultInstance();
+      public com.yandex.Streaming.StreamingProtos.InstallQueryRequest getDefaultInstanceForType() {
+        return com.yandex.Streaming.StreamingProtos.InstallQueryRequest.getDefaultInstance();
       }
 
-      public com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest build() {
-        com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest result = buildPartial();
+      public com.yandex.Streaming.StreamingProtos.InstallQueryRequest build() {
+        com.yandex.Streaming.StreamingProtos.InstallQueryRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest buildPartial() {
-        com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest result = new com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest(this);
+      public com.yandex.Streaming.StreamingProtos.InstallQueryRequest buildPartial() {
+        com.yandex.Streaming.StreamingProtos.InstallQueryRequest result = new com.yandex.Streaming.StreamingProtos.InstallQueryRequest(this);
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
-        result.yqlText_ = yqlText_;
+        if (requestBuilder_ == null) {
+          result.request_ = request_;
+        } else {
+          result.request_ = requestBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -462,22 +472,21 @@ public final class StreamingProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest) {
-          return mergeFrom((com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest)other);
+        if (other instanceof com.yandex.Streaming.StreamingProtos.InstallQueryRequest) {
+          return mergeFrom((com.yandex.Streaming.StreamingProtos.InstallQueryRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest other) {
-        if (other == com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.Streaming.StreamingProtos.InstallQueryRequest other) {
+        if (other == com.yandex.Streaming.StreamingProtos.InstallQueryRequest.getDefaultInstance()) return this;
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
         }
-        if (!other.getYqlText().isEmpty()) {
-          yqlText_ = other.yqlText_;
-          onChanged();
+        if (other.hasRequest()) {
+          mergeRequest(other.getRequest());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -492,11 +501,11 @@ public final class StreamingProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest parsedMessage = null;
+        com.yandex.Streaming.StreamingProtos.InstallQueryRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.Streaming.StreamingProtos.InstallQueryRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -623,73 +632,121 @@ public final class StreamingProtos {
         return operationParamsBuilder_;
       }
 
-      private java.lang.Object yqlText_ = "";
+      private NStreams.NControlPlane.ControlPlane.TInstallQueryRequest request_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          NStreams.NControlPlane.ControlPlane.TInstallQueryRequest, NStreams.NControlPlane.ControlPlane.TInstallQueryRequest.Builder, NStreams.NControlPlane.ControlPlane.TInstallQueryRequestOrBuilder> requestBuilder_;
       /**
-       * <code>string yql_text = 2;</code>
+       * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
        */
-      public java.lang.String getYqlText() {
-        java.lang.Object ref = yqlText_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          yqlText_ = s;
-          return s;
+      public boolean hasRequest() {
+        return requestBuilder_ != null || request_ != null;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
+       */
+      public NStreams.NControlPlane.ControlPlane.TInstallQueryRequest getRequest() {
+        if (requestBuilder_ == null) {
+          return request_ == null ? NStreams.NControlPlane.ControlPlane.TInstallQueryRequest.getDefaultInstance() : request_;
         } else {
-          return (java.lang.String) ref;
+          return requestBuilder_.getMessage();
         }
       }
       /**
-       * <code>string yql_text = 2;</code>
+       * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getYqlTextBytes() {
-        java.lang.Object ref = yqlText_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          yqlText_ = b;
-          return b;
+      public Builder setRequest(NStreams.NControlPlane.ControlPlane.TInstallQueryRequest value) {
+        if (requestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          request_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          requestBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
+       */
+      public Builder setRequest(
+          NStreams.NControlPlane.ControlPlane.TInstallQueryRequest.Builder builderForValue) {
+        if (requestBuilder_ == null) {
+          request_ = builderForValue.build();
+          onChanged();
+        } else {
+          requestBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
+       */
+      public Builder mergeRequest(NStreams.NControlPlane.ControlPlane.TInstallQueryRequest value) {
+        if (requestBuilder_ == null) {
+          if (request_ != null) {
+            request_ =
+              NStreams.NControlPlane.ControlPlane.TInstallQueryRequest.newBuilder(request_).mergeFrom(value).buildPartial();
+          } else {
+            request_ = value;
+          }
+          onChanged();
+        } else {
+          requestBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
+       */
+      public Builder clearRequest() {
+        if (requestBuilder_ == null) {
+          request_ = null;
+          onChanged();
+        } else {
+          request_ = null;
+          requestBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
+       */
+      public NStreams.NControlPlane.ControlPlane.TInstallQueryRequest.Builder getRequestBuilder() {
+        
+        onChanged();
+        return getRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
+       */
+      public NStreams.NControlPlane.ControlPlane.TInstallQueryRequestOrBuilder getRequestOrBuilder() {
+        if (requestBuilder_ != null) {
+          return requestBuilder_.getMessageOrBuilder();
+        } else {
+          return request_ == null ?
+              NStreams.NControlPlane.ControlPlane.TInstallQueryRequest.getDefaultInstance() : request_;
         }
       }
       /**
-       * <code>string yql_text = 2;</code>
+       * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
        */
-      public Builder setYqlText(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        yqlText_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string yql_text = 2;</code>
-       */
-      public Builder clearYqlText() {
-        
-        yqlText_ = getDefaultInstance().getYqlText();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string yql_text = 2;</code>
-       */
-      public Builder setYqlTextBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        yqlText_ = value;
-        onChanged();
-        return this;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          NStreams.NControlPlane.ControlPlane.TInstallQueryRequest, NStreams.NControlPlane.ControlPlane.TInstallQueryRequest.Builder, NStreams.NControlPlane.ControlPlane.TInstallQueryRequestOrBuilder> 
+          getRequestFieldBuilder() {
+        if (requestBuilder_ == null) {
+          requestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              NStreams.NControlPlane.ControlPlane.TInstallQueryRequest, NStreams.NControlPlane.ControlPlane.TInstallQueryRequest.Builder, NStreams.NControlPlane.ControlPlane.TInstallQueryRequestOrBuilder>(
+                  getRequest(),
+                  getParentForChildren(),
+                  isClean());
+          request_ = null;
+        }
+        return requestBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -702,51 +759,51 @@ public final class StreamingProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Streaming.ExecuteQueryRequest)
+      // @@protoc_insertion_point(builder_scope:Streaming.InstallQueryRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:Streaming.ExecuteQueryRequest)
-    private static final com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Streaming.InstallQueryRequest)
+    private static final com.yandex.Streaming.StreamingProtos.InstallQueryRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest();
+      DEFAULT_INSTANCE = new com.yandex.Streaming.StreamingProtos.InstallQueryRequest();
     }
 
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest getDefaultInstance() {
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ExecuteQueryRequest>
-        PARSER = new com.google.protobuf.AbstractParser<ExecuteQueryRequest>() {
-      public ExecuteQueryRequest parsePartialFrom(
+    private static final com.google.protobuf.Parser<InstallQueryRequest>
+        PARSER = new com.google.protobuf.AbstractParser<InstallQueryRequest>() {
+      public InstallQueryRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExecuteQueryRequest(input, extensionRegistry);
+          return new InstallQueryRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ExecuteQueryRequest> parser() {
+    public static com.google.protobuf.Parser<InstallQueryRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ExecuteQueryRequest> getParserForType() {
+    public com.google.protobuf.Parser<InstallQueryRequest> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest getDefaultInstanceForType() {
+    public com.yandex.Streaming.StreamingProtos.InstallQueryRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface ExecuteQueryResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Streaming.ExecuteQueryResponse)
+  public interface InstallQueryResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Streaming.InstallQueryResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
      * <pre>
-     * ExecuteQueryResult
+     * NStreams.NControlPlane.TInstallQueryResponse
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -754,7 +811,7 @@ public final class StreamingProtos {
     boolean hasOperation();
     /**
      * <pre>
-     * ExecuteQueryResult
+     * NStreams.NControlPlane.TInstallQueryResponse
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -762,7 +819,7 @@ public final class StreamingProtos {
     tech.ydb.OperationProtos.Operation getOperation();
     /**
      * <pre>
-     * ExecuteQueryResult
+     * NStreams.NControlPlane.TInstallQueryResponse
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -770,18 +827,18 @@ public final class StreamingProtos {
     tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
   }
   /**
-   * Protobuf type {@code Streaming.ExecuteQueryResponse}
+   * Protobuf type {@code Streaming.InstallQueryResponse}
    */
-  public  static final class ExecuteQueryResponse extends
+  public  static final class InstallQueryResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Streaming.ExecuteQueryResponse)
-      ExecuteQueryResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:Streaming.InstallQueryResponse)
+      InstallQueryResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ExecuteQueryResponse.newBuilder() to construct.
-    private ExecuteQueryResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use InstallQueryResponse.newBuilder() to construct.
+    private InstallQueryResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ExecuteQueryResponse() {
+    private InstallQueryResponse() {
     }
 
     @java.lang.Override
@@ -789,7 +846,7 @@ public final class StreamingProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ExecuteQueryResponse(
+    private InstallQueryResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -839,21 +896,21 @@ public final class StreamingProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryResponse_descriptor;
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryResponse_fieldAccessorTable
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse.class, com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse.Builder.class);
+              com.yandex.Streaming.StreamingProtos.InstallQueryResponse.class, com.yandex.Streaming.StreamingProtos.InstallQueryResponse.Builder.class);
     }
 
     public static final int OPERATION_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <pre>
-     * ExecuteQueryResult
+     * NStreams.NControlPlane.TInstallQueryResponse
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -863,7 +920,7 @@ public final class StreamingProtos {
     }
     /**
      * <pre>
-     * ExecuteQueryResult
+     * NStreams.NControlPlane.TInstallQueryResponse
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -873,7 +930,7 @@ public final class StreamingProtos {
     }
     /**
      * <pre>
-     * ExecuteQueryResult
+     * NStreams.NControlPlane.TInstallQueryResponse
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -919,10 +976,10 @@ public final class StreamingProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse)) {
+      if (!(obj instanceof com.yandex.Streaming.StreamingProtos.InstallQueryResponse)) {
         return super.equals(obj);
       }
-      com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse other = (com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse) obj;
+      com.yandex.Streaming.StreamingProtos.InstallQueryResponse other = (com.yandex.Streaming.StreamingProtos.InstallQueryResponse) obj;
 
       boolean result = true;
       result = result && (hasOperation() == other.hasOperation());
@@ -950,69 +1007,69 @@ public final class StreamingProtos {
       return hash;
     }
 
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse parseFrom(byte[] data)
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse parseFrom(java.io.InputStream input)
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse parseDelimitedFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1024,7 +1081,7 @@ public final class StreamingProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse prototype) {
+    public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.InstallQueryResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -1039,25 +1096,25 @@ public final class StreamingProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code Streaming.ExecuteQueryResponse}
+     * Protobuf type {@code Streaming.InstallQueryResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Streaming.ExecuteQueryResponse)
-        com.yandex.Streaming.StreamingProtos.ExecuteQueryResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Streaming.InstallQueryResponse)
+        com.yandex.Streaming.StreamingProtos.InstallQueryResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryResponse_descriptor;
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryResponse_fieldAccessorTable
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse.class, com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse.Builder.class);
+                com.yandex.Streaming.StreamingProtos.InstallQueryResponse.class, com.yandex.Streaming.StreamingProtos.InstallQueryResponse.Builder.class);
       }
 
-      // Construct using com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse.newBuilder()
+      // Construct using com.yandex.Streaming.StreamingProtos.InstallQueryResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1085,23 +1142,23 @@ public final class StreamingProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryResponse_descriptor;
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryResponse_descriptor;
       }
 
-      public com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse getDefaultInstanceForType() {
-        return com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse.getDefaultInstance();
+      public com.yandex.Streaming.StreamingProtos.InstallQueryResponse getDefaultInstanceForType() {
+        return com.yandex.Streaming.StreamingProtos.InstallQueryResponse.getDefaultInstance();
       }
 
-      public com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse build() {
-        com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse result = buildPartial();
+      public com.yandex.Streaming.StreamingProtos.InstallQueryResponse build() {
+        com.yandex.Streaming.StreamingProtos.InstallQueryResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse buildPartial() {
-        com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse result = new com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse(this);
+      public com.yandex.Streaming.StreamingProtos.InstallQueryResponse buildPartial() {
+        com.yandex.Streaming.StreamingProtos.InstallQueryResponse result = new com.yandex.Streaming.StreamingProtos.InstallQueryResponse(this);
         if (operationBuilder_ == null) {
           result.operation_ = operation_;
         } else {
@@ -1138,16 +1195,16 @@ public final class StreamingProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse) {
-          return mergeFrom((com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse)other);
+        if (other instanceof com.yandex.Streaming.StreamingProtos.InstallQueryResponse) {
+          return mergeFrom((com.yandex.Streaming.StreamingProtos.InstallQueryResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse other) {
-        if (other == com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.Streaming.StreamingProtos.InstallQueryResponse other) {
+        if (other == com.yandex.Streaming.StreamingProtos.InstallQueryResponse.getDefaultInstance()) return this;
         if (other.hasOperation()) {
           mergeOperation(other.getOperation());
         }
@@ -1164,11 +1221,11 @@ public final class StreamingProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse parsedMessage = null;
+        com.yandex.Streaming.StreamingProtos.InstallQueryResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.Streaming.StreamingProtos.InstallQueryResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -1183,7 +1240,7 @@ public final class StreamingProtos {
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <pre>
-       * ExecuteQueryResult
+       * NStreams.NControlPlane.TInstallQueryResponse
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -1193,7 +1250,7 @@ public final class StreamingProtos {
       }
       /**
        * <pre>
-       * ExecuteQueryResult
+       * NStreams.NControlPlane.TInstallQueryResponse
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -1207,7 +1264,7 @@ public final class StreamingProtos {
       }
       /**
        * <pre>
-       * ExecuteQueryResult
+       * NStreams.NControlPlane.TInstallQueryResponse
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -1227,7 +1284,7 @@ public final class StreamingProtos {
       }
       /**
        * <pre>
-       * ExecuteQueryResult
+       * NStreams.NControlPlane.TInstallQueryResponse
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -1245,7 +1302,7 @@ public final class StreamingProtos {
       }
       /**
        * <pre>
-       * ExecuteQueryResult
+       * NStreams.NControlPlane.TInstallQueryResponse
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -1267,7 +1324,7 @@ public final class StreamingProtos {
       }
       /**
        * <pre>
-       * ExecuteQueryResult
+       * NStreams.NControlPlane.TInstallQueryResponse
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -1285,7 +1342,7 @@ public final class StreamingProtos {
       }
       /**
        * <pre>
-       * ExecuteQueryResult
+       * NStreams.NControlPlane.TInstallQueryResponse
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -1297,7 +1354,7 @@ public final class StreamingProtos {
       }
       /**
        * <pre>
-       * ExecuteQueryResult
+       * NStreams.NControlPlane.TInstallQueryResponse
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -1312,7 +1369,7 @@ public final class StreamingProtos {
       }
       /**
        * <pre>
-       * ExecuteQueryResult
+       * NStreams.NControlPlane.TInstallQueryResponse
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -1341,72 +1398,87 @@ public final class StreamingProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Streaming.ExecuteQueryResponse)
+      // @@protoc_insertion_point(builder_scope:Streaming.InstallQueryResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:Streaming.ExecuteQueryResponse)
-    private static final com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Streaming.InstallQueryResponse)
+    private static final com.yandex.Streaming.StreamingProtos.InstallQueryResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse();
+      DEFAULT_INSTANCE = new com.yandex.Streaming.StreamingProtos.InstallQueryResponse();
     }
 
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse getDefaultInstance() {
+    public static com.yandex.Streaming.StreamingProtos.InstallQueryResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ExecuteQueryResponse>
-        PARSER = new com.google.protobuf.AbstractParser<ExecuteQueryResponse>() {
-      public ExecuteQueryResponse parsePartialFrom(
+    private static final com.google.protobuf.Parser<InstallQueryResponse>
+        PARSER = new com.google.protobuf.AbstractParser<InstallQueryResponse>() {
+      public InstallQueryResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExecuteQueryResponse(input, extensionRegistry);
+          return new InstallQueryResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ExecuteQueryResponse> parser() {
+    public static com.google.protobuf.Parser<InstallQueryResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ExecuteQueryResponse> getParserForType() {
+    public com.google.protobuf.Parser<InstallQueryResponse> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse getDefaultInstanceForType() {
+    public com.yandex.Streaming.StreamingProtos.InstallQueryResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface ExecuteQueryResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Streaming.ExecuteQueryResult)
+  public interface DeleteQueryRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Streaming.DeleteQueryRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string result_id = 1;</code>
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
-    java.lang.String getResultId();
+    boolean hasOperationParams();
     /**
-     * <code>string result_id = 1;</code>
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
-    com.google.protobuf.ByteString
-        getResultIdBytes();
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+     */
+    boolean hasRequest();
+    /**
+     * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+     */
+    NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest getRequest();
+    /**
+     * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+     */
+    NStreams.NControlPlane.ControlPlane.TDeleteQueryRequestOrBuilder getRequestOrBuilder();
   }
   /**
-   * Protobuf type {@code Streaming.ExecuteQueryResult}
+   * Protobuf type {@code Streaming.DeleteQueryRequest}
    */
-  public  static final class ExecuteQueryResult extends
+  public  static final class DeleteQueryRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Streaming.ExecuteQueryResult)
-      ExecuteQueryResultOrBuilder {
+      // @@protoc_insertion_point(message_implements:Streaming.DeleteQueryRequest)
+      DeleteQueryRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ExecuteQueryResult.newBuilder() to construct.
-    private ExecuteQueryResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use DeleteQueryRequest.newBuilder() to construct.
+    private DeleteQueryRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ExecuteQueryResult() {
-      resultId_ = "";
+    private DeleteQueryRequest() {
     }
 
     @java.lang.Override
@@ -1414,7 +1486,7 @@ public final class StreamingProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ExecuteQueryResult(
+    private DeleteQueryRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1438,9 +1510,29 @@ public final class StreamingProtos {
               break;
             }
             case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
 
-              resultId_ = s;
+              break;
+            }
+            case 18: {
+              NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest.Builder subBuilder = null;
+              if (request_ != null) {
+                subBuilder = request_.toBuilder();
+              }
+              request_ = input.readMessage(NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(request_);
+                request_ = subBuilder.buildPartial();
+              }
+
               break;
             }
           }
@@ -1457,48 +1549,56 @@ public final class StreamingProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryResult_descriptor;
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryResult_fieldAccessorTable
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.Streaming.StreamingProtos.ExecuteQueryResult.class, com.yandex.Streaming.StreamingProtos.ExecuteQueryResult.Builder.class);
+              com.yandex.Streaming.StreamingProtos.DeleteQueryRequest.class, com.yandex.Streaming.StreamingProtos.DeleteQueryRequest.Builder.class);
     }
 
-    public static final int RESULT_ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object resultId_;
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
-     * <code>string result_id = 1;</code>
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
-    public java.lang.String getResultId() {
-      java.lang.Object ref = resultId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        resultId_ = s;
-        return s;
-      }
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
     }
     /**
-     * <code>string result_id = 1;</code>
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
-    public com.google.protobuf.ByteString
-        getResultIdBytes() {
-      java.lang.Object ref = resultId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        resultId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int REQUEST_FIELD_NUMBER = 2;
+    private NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest request_;
+    /**
+     * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+     */
+    public boolean hasRequest() {
+      return request_ != null;
+    }
+    /**
+     * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+     */
+    public NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest getRequest() {
+      return request_ == null ? NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest.getDefaultInstance() : request_;
+    }
+    /**
+     * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+     */
+    public NStreams.NControlPlane.ControlPlane.TDeleteQueryRequestOrBuilder getRequestOrBuilder() {
+      return getRequest();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -1513,8 +1613,11 @@ public final class StreamingProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getResultIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, resultId_);
+      if (operationParams_ != null) {
+        output.writeMessage(1, getOperationParams());
+      }
+      if (request_ != null) {
+        output.writeMessage(2, getRequest());
       }
       unknownFields.writeTo(output);
     }
@@ -1524,8 +1627,13 @@ public final class StreamingProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (!getResultIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, resultId_);
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperationParams());
+      }
+      if (request_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getRequest());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1537,14 +1645,22 @@ public final class StreamingProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.Streaming.StreamingProtos.ExecuteQueryResult)) {
+      if (!(obj instanceof com.yandex.Streaming.StreamingProtos.DeleteQueryRequest)) {
         return super.equals(obj);
       }
-      com.yandex.Streaming.StreamingProtos.ExecuteQueryResult other = (com.yandex.Streaming.StreamingProtos.ExecuteQueryResult) obj;
+      com.yandex.Streaming.StreamingProtos.DeleteQueryRequest other = (com.yandex.Streaming.StreamingProtos.DeleteQueryRequest) obj;
 
       boolean result = true;
-      result = result && getResultId()
-          .equals(other.getResultId());
+      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams()) {
+        result = result && getOperationParams()
+            .equals(other.getOperationParams());
+      }
+      result = result && (hasRequest() == other.hasRequest());
+      if (hasRequest()) {
+        result = result && getRequest()
+            .equals(other.getRequest());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1556,76 +1672,82 @@ public final class StreamingProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + RESULT_ID_FIELD_NUMBER;
-      hash = (53 * hash) + getResultId().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      if (hasRequest()) {
+        hash = (37 * hash) + REQUEST_FIELD_NUMBER;
+        hash = (53 * hash) + getRequest().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResult parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResult parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResult parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResult parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResult parseFrom(byte[] data)
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResult parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResult parseFrom(java.io.InputStream input)
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResult parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResult parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResult parseDelimitedFrom(
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResult parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResult parseFrom(
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1637,7 +1759,7 @@ public final class StreamingProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.ExecuteQueryResult prototype) {
+    public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.DeleteQueryRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -1652,25 +1774,25 @@ public final class StreamingProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code Streaming.ExecuteQueryResult}
+     * Protobuf type {@code Streaming.DeleteQueryRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Streaming.ExecuteQueryResult)
-        com.yandex.Streaming.StreamingProtos.ExecuteQueryResultOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Streaming.DeleteQueryRequest)
+        com.yandex.Streaming.StreamingProtos.DeleteQueryRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryResult_descriptor;
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryResult_fieldAccessorTable
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.Streaming.StreamingProtos.ExecuteQueryResult.class, com.yandex.Streaming.StreamingProtos.ExecuteQueryResult.Builder.class);
+                com.yandex.Streaming.StreamingProtos.DeleteQueryRequest.class, com.yandex.Streaming.StreamingProtos.DeleteQueryRequest.Builder.class);
       }
 
-      // Construct using com.yandex.Streaming.StreamingProtos.ExecuteQueryResult.newBuilder()
+      // Construct using com.yandex.Streaming.StreamingProtos.DeleteQueryRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1687,31 +1809,50 @@ public final class StreamingProtos {
       }
       public Builder clear() {
         super.clear();
-        resultId_ = "";
-
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        if (requestBuilder_ == null) {
+          request_ = null;
+        } else {
+          request_ = null;
+          requestBuilder_ = null;
+        }
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ExecuteQueryResult_descriptor;
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryRequest_descriptor;
       }
 
-      public com.yandex.Streaming.StreamingProtos.ExecuteQueryResult getDefaultInstanceForType() {
-        return com.yandex.Streaming.StreamingProtos.ExecuteQueryResult.getDefaultInstance();
+      public com.yandex.Streaming.StreamingProtos.DeleteQueryRequest getDefaultInstanceForType() {
+        return com.yandex.Streaming.StreamingProtos.DeleteQueryRequest.getDefaultInstance();
       }
 
-      public com.yandex.Streaming.StreamingProtos.ExecuteQueryResult build() {
-        com.yandex.Streaming.StreamingProtos.ExecuteQueryResult result = buildPartial();
+      public com.yandex.Streaming.StreamingProtos.DeleteQueryRequest build() {
+        com.yandex.Streaming.StreamingProtos.DeleteQueryRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.Streaming.StreamingProtos.ExecuteQueryResult buildPartial() {
-        com.yandex.Streaming.StreamingProtos.ExecuteQueryResult result = new com.yandex.Streaming.StreamingProtos.ExecuteQueryResult(this);
-        result.resultId_ = resultId_;
+      public com.yandex.Streaming.StreamingProtos.DeleteQueryRequest buildPartial() {
+        com.yandex.Streaming.StreamingProtos.DeleteQueryRequest result = new com.yandex.Streaming.StreamingProtos.DeleteQueryRequest(this);
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        if (requestBuilder_ == null) {
+          result.request_ = request_;
+        } else {
+          result.request_ = requestBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -1743,19 +1884,21 @@ public final class StreamingProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.Streaming.StreamingProtos.ExecuteQueryResult) {
-          return mergeFrom((com.yandex.Streaming.StreamingProtos.ExecuteQueryResult)other);
+        if (other instanceof com.yandex.Streaming.StreamingProtos.DeleteQueryRequest) {
+          return mergeFrom((com.yandex.Streaming.StreamingProtos.DeleteQueryRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.Streaming.StreamingProtos.ExecuteQueryResult other) {
-        if (other == com.yandex.Streaming.StreamingProtos.ExecuteQueryResult.getDefaultInstance()) return this;
-        if (!other.getResultId().isEmpty()) {
-          resultId_ = other.resultId_;
-          onChanged();
+      public Builder mergeFrom(com.yandex.Streaming.StreamingProtos.DeleteQueryRequest other) {
+        if (other == com.yandex.Streaming.StreamingProtos.DeleteQueryRequest.getDefaultInstance()) return this;
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        if (other.hasRequest()) {
+          mergeRequest(other.getRequest());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1770,11 +1913,11 @@ public final class StreamingProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.Streaming.StreamingProtos.ExecuteQueryResult parsedMessage = null;
+        com.yandex.Streaming.StreamingProtos.DeleteQueryRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.Streaming.StreamingProtos.ExecuteQueryResult) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.Streaming.StreamingProtos.DeleteQueryRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -1784,73 +1927,238 @@ public final class StreamingProtos {
         return this;
       }
 
-      private java.lang.Object resultId_ = "";
+      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
-       * <code>string result_id = 1;</code>
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
-      public java.lang.String getResultId() {
-        java.lang.Object ref = resultId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          resultId_ = s;
-          return s;
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
         } else {
-          return (java.lang.String) ref;
+          return operationParamsBuilder_.getMessage();
         }
       }
       /**
-       * <code>string result_id = 1;</code>
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
-      public com.google.protobuf.ByteString
-          getResultIdBytes() {
-        java.lang.Object ref = resultId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          resultId_ = b;
-          return b;
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
         }
       }
       /**
-       * <code>string result_id = 1;</code>
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
-      public Builder setResultId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        resultId_ = value;
-        onChanged();
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
+      private NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest request_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest, NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest.Builder, NStreams.NControlPlane.ControlPlane.TDeleteQueryRequestOrBuilder> requestBuilder_;
+      /**
+       * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+       */
+      public boolean hasRequest() {
+        return requestBuilder_ != null || request_ != null;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+       */
+      public NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest getRequest() {
+        if (requestBuilder_ == null) {
+          return request_ == null ? NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest.getDefaultInstance() : request_;
+        } else {
+          return requestBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+       */
+      public Builder setRequest(NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest value) {
+        if (requestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          request_ = value;
+          onChanged();
+        } else {
+          requestBuilder_.setMessage(value);
+        }
+
         return this;
       }
       /**
-       * <code>string result_id = 1;</code>
+       * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
        */
-      public Builder clearResultId() {
-        
-        resultId_ = getDefaultInstance().getResultId();
-        onChanged();
+      public Builder setRequest(
+          NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest.Builder builderForValue) {
+        if (requestBuilder_ == null) {
+          request_ = builderForValue.build();
+          onChanged();
+        } else {
+          requestBuilder_.setMessage(builderForValue.build());
+        }
+
         return this;
       }
       /**
-       * <code>string result_id = 1;</code>
+       * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
        */
-      public Builder setResultIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        resultId_ = value;
-        onChanged();
+      public Builder mergeRequest(NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest value) {
+        if (requestBuilder_ == null) {
+          if (request_ != null) {
+            request_ =
+              NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest.newBuilder(request_).mergeFrom(value).buildPartial();
+          } else {
+            request_ = value;
+          }
+          onChanged();
+        } else {
+          requestBuilder_.mergeFrom(value);
+        }
+
         return this;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+       */
+      public Builder clearRequest() {
+        if (requestBuilder_ == null) {
+          request_ = null;
+          onChanged();
+        } else {
+          request_ = null;
+          requestBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+       */
+      public NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest.Builder getRequestBuilder() {
+        
+        onChanged();
+        return getRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+       */
+      public NStreams.NControlPlane.ControlPlane.TDeleteQueryRequestOrBuilder getRequestOrBuilder() {
+        if (requestBuilder_ != null) {
+          return requestBuilder_.getMessageOrBuilder();
+        } else {
+          return request_ == null ?
+              NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest.getDefaultInstance() : request_;
+        }
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest, NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest.Builder, NStreams.NControlPlane.ControlPlane.TDeleteQueryRequestOrBuilder> 
+          getRequestFieldBuilder() {
+        if (requestBuilder_ == null) {
+          requestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest, NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest.Builder, NStreams.NControlPlane.ControlPlane.TDeleteQueryRequestOrBuilder>(
+                  getRequest(),
+                  getParentForChildren(),
+                  isClean());
+          request_ = null;
+        }
+        return requestBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -1863,59 +2171,3547 @@ public final class StreamingProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Streaming.ExecuteQueryResult)
+      // @@protoc_insertion_point(builder_scope:Streaming.DeleteQueryRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:Streaming.ExecuteQueryResult)
-    private static final com.yandex.Streaming.StreamingProtos.ExecuteQueryResult DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Streaming.DeleteQueryRequest)
+    private static final com.yandex.Streaming.StreamingProtos.DeleteQueryRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.Streaming.StreamingProtos.ExecuteQueryResult();
+      DEFAULT_INSTANCE = new com.yandex.Streaming.StreamingProtos.DeleteQueryRequest();
     }
 
-    public static com.yandex.Streaming.StreamingProtos.ExecuteQueryResult getDefaultInstance() {
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ExecuteQueryResult>
-        PARSER = new com.google.protobuf.AbstractParser<ExecuteQueryResult>() {
-      public ExecuteQueryResult parsePartialFrom(
+    private static final com.google.protobuf.Parser<DeleteQueryRequest>
+        PARSER = new com.google.protobuf.AbstractParser<DeleteQueryRequest>() {
+      public DeleteQueryRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExecuteQueryResult(input, extensionRegistry);
+          return new DeleteQueryRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ExecuteQueryResult> parser() {
+    public static com.google.protobuf.Parser<DeleteQueryRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ExecuteQueryResult> getParserForType() {
+    public com.google.protobuf.Parser<DeleteQueryRequest> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.Streaming.StreamingProtos.ExecuteQueryResult getDefaultInstanceForType() {
+    public com.yandex.Streaming.StreamingProtos.DeleteQueryRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DeleteQueryResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Streaming.DeleteQueryResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TDeleteQueryResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    boolean hasOperation();
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TDeleteQueryResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TDeleteQueryResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Streaming.DeleteQueryResponse}
+   */
+  public  static final class DeleteQueryResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Streaming.DeleteQueryResponse)
+      DeleteQueryResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DeleteQueryResponse.newBuilder() to construct.
+    private DeleteQueryResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DeleteQueryResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DeleteQueryResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.yandex.Streaming.StreamingProtos.DeleteQueryResponse.class, com.yandex.Streaming.StreamingProtos.DeleteQueryResponse.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TDeleteQueryResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TDeleteQueryResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TDeleteQueryResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.yandex.Streaming.StreamingProtos.DeleteQueryResponse)) {
+        return super.equals(obj);
+      }
+      com.yandex.Streaming.StreamingProtos.DeleteQueryResponse other = (com.yandex.Streaming.StreamingProtos.DeleteQueryResponse) obj;
+
+      boolean result = true;
+      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation()) {
+        result = result && getOperation()
+            .equals(other.getOperation());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.DeleteQueryResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Streaming.DeleteQueryResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Streaming.DeleteQueryResponse)
+        com.yandex.Streaming.StreamingProtos.DeleteQueryResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.Streaming.StreamingProtos.DeleteQueryResponse.class, com.yandex.Streaming.StreamingProtos.DeleteQueryResponse.Builder.class);
+      }
+
+      // Construct using com.yandex.Streaming.StreamingProtos.DeleteQueryResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryResponse_descriptor;
+      }
+
+      public com.yandex.Streaming.StreamingProtos.DeleteQueryResponse getDefaultInstanceForType() {
+        return com.yandex.Streaming.StreamingProtos.DeleteQueryResponse.getDefaultInstance();
+      }
+
+      public com.yandex.Streaming.StreamingProtos.DeleteQueryResponse build() {
+        com.yandex.Streaming.StreamingProtos.DeleteQueryResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.yandex.Streaming.StreamingProtos.DeleteQueryResponse buildPartial() {
+        com.yandex.Streaming.StreamingProtos.DeleteQueryResponse result = new com.yandex.Streaming.StreamingProtos.DeleteQueryResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.yandex.Streaming.StreamingProtos.DeleteQueryResponse) {
+          return mergeFrom((com.yandex.Streaming.StreamingProtos.DeleteQueryResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.yandex.Streaming.StreamingProtos.DeleteQueryResponse other) {
+        if (other == com.yandex.Streaming.StreamingProtos.DeleteQueryResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.yandex.Streaming.StreamingProtos.DeleteQueryResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.yandex.Streaming.StreamingProtos.DeleteQueryResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDeleteQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDeleteQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDeleteQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDeleteQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDeleteQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDeleteQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDeleteQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDeleteQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDeleteQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Streaming.DeleteQueryResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Streaming.DeleteQueryResponse)
+    private static final com.yandex.Streaming.StreamingProtos.DeleteQueryResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.yandex.Streaming.StreamingProtos.DeleteQueryResponse();
+    }
+
+    public static com.yandex.Streaming.StreamingProtos.DeleteQueryResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DeleteQueryResponse>
+        PARSER = new com.google.protobuf.AbstractParser<DeleteQueryResponse>() {
+      public DeleteQueryResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new DeleteQueryResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DeleteQueryResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DeleteQueryResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public com.yandex.Streaming.StreamingProtos.DeleteQueryResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ListQueriesRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Streaming.ListQueriesRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+     */
+    boolean hasRequest();
+    /**
+     * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+     */
+    NStreams.NControlPlane.ControlPlane.TListQueriesRequest getRequest();
+    /**
+     * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+     */
+    NStreams.NControlPlane.ControlPlane.TListQueriesRequestOrBuilder getRequestOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Streaming.ListQueriesRequest}
+   */
+  public  static final class ListQueriesRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Streaming.ListQueriesRequest)
+      ListQueriesRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ListQueriesRequest.newBuilder() to construct.
+    private ListQueriesRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ListQueriesRequest() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ListQueriesRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              NStreams.NControlPlane.ControlPlane.TListQueriesRequest.Builder subBuilder = null;
+              if (request_ != null) {
+                subBuilder = request_.toBuilder();
+              }
+              request_ = input.readMessage(NStreams.NControlPlane.ControlPlane.TListQueriesRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(request_);
+                request_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.yandex.Streaming.StreamingProtos.ListQueriesRequest.class, com.yandex.Streaming.StreamingProtos.ListQueriesRequest.Builder.class);
+    }
+
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int REQUEST_FIELD_NUMBER = 2;
+    private NStreams.NControlPlane.ControlPlane.TListQueriesRequest request_;
+    /**
+     * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+     */
+    public boolean hasRequest() {
+      return request_ != null;
+    }
+    /**
+     * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+     */
+    public NStreams.NControlPlane.ControlPlane.TListQueriesRequest getRequest() {
+      return request_ == null ? NStreams.NControlPlane.ControlPlane.TListQueriesRequest.getDefaultInstance() : request_;
+    }
+    /**
+     * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+     */
+    public NStreams.NControlPlane.ControlPlane.TListQueriesRequestOrBuilder getRequestOrBuilder() {
+      return getRequest();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operationParams_ != null) {
+        output.writeMessage(1, getOperationParams());
+      }
+      if (request_ != null) {
+        output.writeMessage(2, getRequest());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperationParams());
+      }
+      if (request_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getRequest());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.yandex.Streaming.StreamingProtos.ListQueriesRequest)) {
+        return super.equals(obj);
+      }
+      com.yandex.Streaming.StreamingProtos.ListQueriesRequest other = (com.yandex.Streaming.StreamingProtos.ListQueriesRequest) obj;
+
+      boolean result = true;
+      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams()) {
+        result = result && getOperationParams()
+            .equals(other.getOperationParams());
+      }
+      result = result && (hasRequest() == other.hasRequest());
+      if (hasRequest()) {
+        result = result && getRequest()
+            .equals(other.getRequest());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      if (hasRequest()) {
+        hash = (37 * hash) + REQUEST_FIELD_NUMBER;
+        hash = (53 * hash) + getRequest().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.ListQueriesRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Streaming.ListQueriesRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Streaming.ListQueriesRequest)
+        com.yandex.Streaming.StreamingProtos.ListQueriesRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.Streaming.StreamingProtos.ListQueriesRequest.class, com.yandex.Streaming.StreamingProtos.ListQueriesRequest.Builder.class);
+      }
+
+      // Construct using com.yandex.Streaming.StreamingProtos.ListQueriesRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        if (requestBuilder_ == null) {
+          request_ = null;
+        } else {
+          request_ = null;
+          requestBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesRequest_descriptor;
+      }
+
+      public com.yandex.Streaming.StreamingProtos.ListQueriesRequest getDefaultInstanceForType() {
+        return com.yandex.Streaming.StreamingProtos.ListQueriesRequest.getDefaultInstance();
+      }
+
+      public com.yandex.Streaming.StreamingProtos.ListQueriesRequest build() {
+        com.yandex.Streaming.StreamingProtos.ListQueriesRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.yandex.Streaming.StreamingProtos.ListQueriesRequest buildPartial() {
+        com.yandex.Streaming.StreamingProtos.ListQueriesRequest result = new com.yandex.Streaming.StreamingProtos.ListQueriesRequest(this);
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        if (requestBuilder_ == null) {
+          result.request_ = request_;
+        } else {
+          result.request_ = requestBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.yandex.Streaming.StreamingProtos.ListQueriesRequest) {
+          return mergeFrom((com.yandex.Streaming.StreamingProtos.ListQueriesRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.yandex.Streaming.StreamingProtos.ListQueriesRequest other) {
+        if (other == com.yandex.Streaming.StreamingProtos.ListQueriesRequest.getDefaultInstance()) return this;
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        if (other.hasRequest()) {
+          mergeRequest(other.getRequest());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.yandex.Streaming.StreamingProtos.ListQueriesRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.yandex.Streaming.StreamingProtos.ListQueriesRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
+      private NStreams.NControlPlane.ControlPlane.TListQueriesRequest request_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          NStreams.NControlPlane.ControlPlane.TListQueriesRequest, NStreams.NControlPlane.ControlPlane.TListQueriesRequest.Builder, NStreams.NControlPlane.ControlPlane.TListQueriesRequestOrBuilder> requestBuilder_;
+      /**
+       * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+       */
+      public boolean hasRequest() {
+        return requestBuilder_ != null || request_ != null;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+       */
+      public NStreams.NControlPlane.ControlPlane.TListQueriesRequest getRequest() {
+        if (requestBuilder_ == null) {
+          return request_ == null ? NStreams.NControlPlane.ControlPlane.TListQueriesRequest.getDefaultInstance() : request_;
+        } else {
+          return requestBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+       */
+      public Builder setRequest(NStreams.NControlPlane.ControlPlane.TListQueriesRequest value) {
+        if (requestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          request_ = value;
+          onChanged();
+        } else {
+          requestBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+       */
+      public Builder setRequest(
+          NStreams.NControlPlane.ControlPlane.TListQueriesRequest.Builder builderForValue) {
+        if (requestBuilder_ == null) {
+          request_ = builderForValue.build();
+          onChanged();
+        } else {
+          requestBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+       */
+      public Builder mergeRequest(NStreams.NControlPlane.ControlPlane.TListQueriesRequest value) {
+        if (requestBuilder_ == null) {
+          if (request_ != null) {
+            request_ =
+              NStreams.NControlPlane.ControlPlane.TListQueriesRequest.newBuilder(request_).mergeFrom(value).buildPartial();
+          } else {
+            request_ = value;
+          }
+          onChanged();
+        } else {
+          requestBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+       */
+      public Builder clearRequest() {
+        if (requestBuilder_ == null) {
+          request_ = null;
+          onChanged();
+        } else {
+          request_ = null;
+          requestBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+       */
+      public NStreams.NControlPlane.ControlPlane.TListQueriesRequest.Builder getRequestBuilder() {
+        
+        onChanged();
+        return getRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+       */
+      public NStreams.NControlPlane.ControlPlane.TListQueriesRequestOrBuilder getRequestOrBuilder() {
+        if (requestBuilder_ != null) {
+          return requestBuilder_.getMessageOrBuilder();
+        } else {
+          return request_ == null ?
+              NStreams.NControlPlane.ControlPlane.TListQueriesRequest.getDefaultInstance() : request_;
+        }
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          NStreams.NControlPlane.ControlPlane.TListQueriesRequest, NStreams.NControlPlane.ControlPlane.TListQueriesRequest.Builder, NStreams.NControlPlane.ControlPlane.TListQueriesRequestOrBuilder> 
+          getRequestFieldBuilder() {
+        if (requestBuilder_ == null) {
+          requestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              NStreams.NControlPlane.ControlPlane.TListQueriesRequest, NStreams.NControlPlane.ControlPlane.TListQueriesRequest.Builder, NStreams.NControlPlane.ControlPlane.TListQueriesRequestOrBuilder>(
+                  getRequest(),
+                  getParentForChildren(),
+                  isClean());
+          request_ = null;
+        }
+        return requestBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Streaming.ListQueriesRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:Streaming.ListQueriesRequest)
+    private static final com.yandex.Streaming.StreamingProtos.ListQueriesRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.yandex.Streaming.StreamingProtos.ListQueriesRequest();
+    }
+
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ListQueriesRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ListQueriesRequest>() {
+      public ListQueriesRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ListQueriesRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ListQueriesRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ListQueriesRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public com.yandex.Streaming.StreamingProtos.ListQueriesRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ListQueriesResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Streaming.ListQueriesResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TListQueriesResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    boolean hasOperation();
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TListQueriesResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TListQueriesResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Streaming.ListQueriesResponse}
+   */
+  public  static final class ListQueriesResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Streaming.ListQueriesResponse)
+      ListQueriesResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ListQueriesResponse.newBuilder() to construct.
+    private ListQueriesResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ListQueriesResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ListQueriesResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.yandex.Streaming.StreamingProtos.ListQueriesResponse.class, com.yandex.Streaming.StreamingProtos.ListQueriesResponse.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TListQueriesResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TListQueriesResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TListQueriesResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.yandex.Streaming.StreamingProtos.ListQueriesResponse)) {
+        return super.equals(obj);
+      }
+      com.yandex.Streaming.StreamingProtos.ListQueriesResponse other = (com.yandex.Streaming.StreamingProtos.ListQueriesResponse) obj;
+
+      boolean result = true;
+      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation()) {
+        result = result && getOperation()
+            .equals(other.getOperation());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.ListQueriesResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Streaming.ListQueriesResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Streaming.ListQueriesResponse)
+        com.yandex.Streaming.StreamingProtos.ListQueriesResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.Streaming.StreamingProtos.ListQueriesResponse.class, com.yandex.Streaming.StreamingProtos.ListQueriesResponse.Builder.class);
+      }
+
+      // Construct using com.yandex.Streaming.StreamingProtos.ListQueriesResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesResponse_descriptor;
+      }
+
+      public com.yandex.Streaming.StreamingProtos.ListQueriesResponse getDefaultInstanceForType() {
+        return com.yandex.Streaming.StreamingProtos.ListQueriesResponse.getDefaultInstance();
+      }
+
+      public com.yandex.Streaming.StreamingProtos.ListQueriesResponse build() {
+        com.yandex.Streaming.StreamingProtos.ListQueriesResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.yandex.Streaming.StreamingProtos.ListQueriesResponse buildPartial() {
+        com.yandex.Streaming.StreamingProtos.ListQueriesResponse result = new com.yandex.Streaming.StreamingProtos.ListQueriesResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.yandex.Streaming.StreamingProtos.ListQueriesResponse) {
+          return mergeFrom((com.yandex.Streaming.StreamingProtos.ListQueriesResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.yandex.Streaming.StreamingProtos.ListQueriesResponse other) {
+        if (other == com.yandex.Streaming.StreamingProtos.ListQueriesResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.yandex.Streaming.StreamingProtos.ListQueriesResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.yandex.Streaming.StreamingProtos.ListQueriesResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TListQueriesResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TListQueriesResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TListQueriesResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TListQueriesResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TListQueriesResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TListQueriesResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TListQueriesResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TListQueriesResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TListQueriesResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Streaming.ListQueriesResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Streaming.ListQueriesResponse)
+    private static final com.yandex.Streaming.StreamingProtos.ListQueriesResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.yandex.Streaming.StreamingProtos.ListQueriesResponse();
+    }
+
+    public static com.yandex.Streaming.StreamingProtos.ListQueriesResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ListQueriesResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ListQueriesResponse>() {
+      public ListQueriesResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ListQueriesResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ListQueriesResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ListQueriesResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public com.yandex.Streaming.StreamingProtos.ListQueriesResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DescribeQueryRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Streaming.DescribeQueryRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+     */
+    boolean hasRequest();
+    /**
+     * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+     */
+    NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest getRequest();
+    /**
+     * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+     */
+    NStreams.NControlPlane.ControlPlane.TDescribeQueryRequestOrBuilder getRequestOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Streaming.DescribeQueryRequest}
+   */
+  public  static final class DescribeQueryRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Streaming.DescribeQueryRequest)
+      DescribeQueryRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DescribeQueryRequest.newBuilder() to construct.
+    private DescribeQueryRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DescribeQueryRequest() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DescribeQueryRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest.Builder subBuilder = null;
+              if (request_ != null) {
+                subBuilder = request_.toBuilder();
+              }
+              request_ = input.readMessage(NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(request_);
+                request_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.yandex.Streaming.StreamingProtos.DescribeQueryRequest.class, com.yandex.Streaming.StreamingProtos.DescribeQueryRequest.Builder.class);
+    }
+
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int REQUEST_FIELD_NUMBER = 2;
+    private NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest request_;
+    /**
+     * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+     */
+    public boolean hasRequest() {
+      return request_ != null;
+    }
+    /**
+     * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+     */
+    public NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest getRequest() {
+      return request_ == null ? NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest.getDefaultInstance() : request_;
+    }
+    /**
+     * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+     */
+    public NStreams.NControlPlane.ControlPlane.TDescribeQueryRequestOrBuilder getRequestOrBuilder() {
+      return getRequest();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operationParams_ != null) {
+        output.writeMessage(1, getOperationParams());
+      }
+      if (request_ != null) {
+        output.writeMessage(2, getRequest());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperationParams());
+      }
+      if (request_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getRequest());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.yandex.Streaming.StreamingProtos.DescribeQueryRequest)) {
+        return super.equals(obj);
+      }
+      com.yandex.Streaming.StreamingProtos.DescribeQueryRequest other = (com.yandex.Streaming.StreamingProtos.DescribeQueryRequest) obj;
+
+      boolean result = true;
+      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams()) {
+        result = result && getOperationParams()
+            .equals(other.getOperationParams());
+      }
+      result = result && (hasRequest() == other.hasRequest());
+      if (hasRequest()) {
+        result = result && getRequest()
+            .equals(other.getRequest());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      if (hasRequest()) {
+        hash = (37 * hash) + REQUEST_FIELD_NUMBER;
+        hash = (53 * hash) + getRequest().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.DescribeQueryRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Streaming.DescribeQueryRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Streaming.DescribeQueryRequest)
+        com.yandex.Streaming.StreamingProtos.DescribeQueryRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.Streaming.StreamingProtos.DescribeQueryRequest.class, com.yandex.Streaming.StreamingProtos.DescribeQueryRequest.Builder.class);
+      }
+
+      // Construct using com.yandex.Streaming.StreamingProtos.DescribeQueryRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        if (requestBuilder_ == null) {
+          request_ = null;
+        } else {
+          request_ = null;
+          requestBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryRequest_descriptor;
+      }
+
+      public com.yandex.Streaming.StreamingProtos.DescribeQueryRequest getDefaultInstanceForType() {
+        return com.yandex.Streaming.StreamingProtos.DescribeQueryRequest.getDefaultInstance();
+      }
+
+      public com.yandex.Streaming.StreamingProtos.DescribeQueryRequest build() {
+        com.yandex.Streaming.StreamingProtos.DescribeQueryRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.yandex.Streaming.StreamingProtos.DescribeQueryRequest buildPartial() {
+        com.yandex.Streaming.StreamingProtos.DescribeQueryRequest result = new com.yandex.Streaming.StreamingProtos.DescribeQueryRequest(this);
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        if (requestBuilder_ == null) {
+          result.request_ = request_;
+        } else {
+          result.request_ = requestBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.yandex.Streaming.StreamingProtos.DescribeQueryRequest) {
+          return mergeFrom((com.yandex.Streaming.StreamingProtos.DescribeQueryRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.yandex.Streaming.StreamingProtos.DescribeQueryRequest other) {
+        if (other == com.yandex.Streaming.StreamingProtos.DescribeQueryRequest.getDefaultInstance()) return this;
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        if (other.hasRequest()) {
+          mergeRequest(other.getRequest());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.yandex.Streaming.StreamingProtos.DescribeQueryRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.yandex.Streaming.StreamingProtos.DescribeQueryRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
+      private NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest request_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest, NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest.Builder, NStreams.NControlPlane.ControlPlane.TDescribeQueryRequestOrBuilder> requestBuilder_;
+      /**
+       * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+       */
+      public boolean hasRequest() {
+        return requestBuilder_ != null || request_ != null;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+       */
+      public NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest getRequest() {
+        if (requestBuilder_ == null) {
+          return request_ == null ? NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest.getDefaultInstance() : request_;
+        } else {
+          return requestBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+       */
+      public Builder setRequest(NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest value) {
+        if (requestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          request_ = value;
+          onChanged();
+        } else {
+          requestBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+       */
+      public Builder setRequest(
+          NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest.Builder builderForValue) {
+        if (requestBuilder_ == null) {
+          request_ = builderForValue.build();
+          onChanged();
+        } else {
+          requestBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+       */
+      public Builder mergeRequest(NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest value) {
+        if (requestBuilder_ == null) {
+          if (request_ != null) {
+            request_ =
+              NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest.newBuilder(request_).mergeFrom(value).buildPartial();
+          } else {
+            request_ = value;
+          }
+          onChanged();
+        } else {
+          requestBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+       */
+      public Builder clearRequest() {
+        if (requestBuilder_ == null) {
+          request_ = null;
+          onChanged();
+        } else {
+          request_ = null;
+          requestBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+       */
+      public NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest.Builder getRequestBuilder() {
+        
+        onChanged();
+        return getRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+       */
+      public NStreams.NControlPlane.ControlPlane.TDescribeQueryRequestOrBuilder getRequestOrBuilder() {
+        if (requestBuilder_ != null) {
+          return requestBuilder_.getMessageOrBuilder();
+        } else {
+          return request_ == null ?
+              NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest.getDefaultInstance() : request_;
+        }
+      }
+      /**
+       * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest, NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest.Builder, NStreams.NControlPlane.ControlPlane.TDescribeQueryRequestOrBuilder> 
+          getRequestFieldBuilder() {
+        if (requestBuilder_ == null) {
+          requestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest, NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest.Builder, NStreams.NControlPlane.ControlPlane.TDescribeQueryRequestOrBuilder>(
+                  getRequest(),
+                  getParentForChildren(),
+                  isClean());
+          request_ = null;
+        }
+        return requestBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Streaming.DescribeQueryRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:Streaming.DescribeQueryRequest)
+    private static final com.yandex.Streaming.StreamingProtos.DescribeQueryRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.yandex.Streaming.StreamingProtos.DescribeQueryRequest();
+    }
+
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DescribeQueryRequest>
+        PARSER = new com.google.protobuf.AbstractParser<DescribeQueryRequest>() {
+      public DescribeQueryRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new DescribeQueryRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DescribeQueryRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DescribeQueryRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public com.yandex.Streaming.StreamingProtos.DescribeQueryRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DescribeQueryResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Streaming.DescribeQueryResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TDescribeQueryResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    boolean hasOperation();
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TDescribeQueryResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TDescribeQueryResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Streaming.DescribeQueryResponse}
+   */
+  public  static final class DescribeQueryResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Streaming.DescribeQueryResponse)
+      DescribeQueryResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DescribeQueryResponse.newBuilder() to construct.
+    private DescribeQueryResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DescribeQueryResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DescribeQueryResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.yandex.Streaming.StreamingProtos.DescribeQueryResponse.class, com.yandex.Streaming.StreamingProtos.DescribeQueryResponse.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TDescribeQueryResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TDescribeQueryResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <pre>
+     * NStreams.NControlPlane.TDescribeQueryResponse
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.yandex.Streaming.StreamingProtos.DescribeQueryResponse)) {
+        return super.equals(obj);
+      }
+      com.yandex.Streaming.StreamingProtos.DescribeQueryResponse other = (com.yandex.Streaming.StreamingProtos.DescribeQueryResponse) obj;
+
+      boolean result = true;
+      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation()) {
+        result = result && getOperation()
+            .equals(other.getOperation());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.DescribeQueryResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Streaming.DescribeQueryResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Streaming.DescribeQueryResponse)
+        com.yandex.Streaming.StreamingProtos.DescribeQueryResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.Streaming.StreamingProtos.DescribeQueryResponse.class, com.yandex.Streaming.StreamingProtos.DescribeQueryResponse.Builder.class);
+      }
+
+      // Construct using com.yandex.Streaming.StreamingProtos.DescribeQueryResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryResponse_descriptor;
+      }
+
+      public com.yandex.Streaming.StreamingProtos.DescribeQueryResponse getDefaultInstanceForType() {
+        return com.yandex.Streaming.StreamingProtos.DescribeQueryResponse.getDefaultInstance();
+      }
+
+      public com.yandex.Streaming.StreamingProtos.DescribeQueryResponse build() {
+        com.yandex.Streaming.StreamingProtos.DescribeQueryResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.yandex.Streaming.StreamingProtos.DescribeQueryResponse buildPartial() {
+        com.yandex.Streaming.StreamingProtos.DescribeQueryResponse result = new com.yandex.Streaming.StreamingProtos.DescribeQueryResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.yandex.Streaming.StreamingProtos.DescribeQueryResponse) {
+          return mergeFrom((com.yandex.Streaming.StreamingProtos.DescribeQueryResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.yandex.Streaming.StreamingProtos.DescribeQueryResponse other) {
+        if (other == com.yandex.Streaming.StreamingProtos.DescribeQueryResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.yandex.Streaming.StreamingProtos.DescribeQueryResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.yandex.Streaming.StreamingProtos.DescribeQueryResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDescribeQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDescribeQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDescribeQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDescribeQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDescribeQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDescribeQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDescribeQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDescribeQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <pre>
+       * NStreams.NControlPlane.TDescribeQueryResponse
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Streaming.DescribeQueryResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Streaming.DescribeQueryResponse)
+    private static final com.yandex.Streaming.StreamingProtos.DescribeQueryResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.yandex.Streaming.StreamingProtos.DescribeQueryResponse();
+    }
+
+    public static com.yandex.Streaming.StreamingProtos.DescribeQueryResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DescribeQueryResponse>
+        PARSER = new com.google.protobuf.AbstractParser<DescribeQueryResponse>() {
+      public DescribeQueryResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new DescribeQueryResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DescribeQueryResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DescribeQueryResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public com.yandex.Streaming.StreamingProtos.DescribeQueryResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Streaming_ExecuteQueryRequest_descriptor;
+    internal_static_Streaming_InstallQueryRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Streaming_ExecuteQueryRequest_fieldAccessorTable;
+      internal_static_Streaming_InstallQueryRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Streaming_ExecuteQueryResponse_descriptor;
+    internal_static_Streaming_InstallQueryResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Streaming_ExecuteQueryResponse_fieldAccessorTable;
+      internal_static_Streaming_InstallQueryResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Streaming_ExecuteQueryResult_descriptor;
+    internal_static_Streaming_DeleteQueryRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Streaming_ExecuteQueryResult_fieldAccessorTable;
+      internal_static_Streaming_DeleteQueryRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Streaming_DeleteQueryResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Streaming_DeleteQueryResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Streaming_ListQueriesRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Streaming_ListQueriesRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Streaming_ListQueriesResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Streaming_ListQueriesResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Streaming_DescribeQueryRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Streaming_DescribeQueryRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Streaming_DescribeQueryResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Streaming_DescribeQueryResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1927,12 +5723,30 @@ public final class StreamingProtos {
     java.lang.String[] descriptorData = {
       "\n.kikimr/public/api/protos/draft/streami" +
       "ng.proto\022\tStreaming\032,kikimr/public/api/p" +
-      "rotos/ydb_operation.proto\"b\n\023ExecuteQuer" +
-      "yRequest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb" +
-      ".Operations.OperationParams\022\020\n\010yql_text\030" +
-      "\002 \001(\t\"D\n\024ExecuteQueryResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\'\n\022E" +
-      "xecuteQueryResult\022\021\n\tresult_id\030\001 \001(\tB*\n\024" +
+      "rotos/ydb_operation.proto\032Dkikimr/stream" +
+      "ing/libs/control_plane/proto/public/cont" +
+      "rol_plane.proto\"\217\001\n\023InstallQueryRequest\022" +
+      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\022=\n\007request\030\002 \001(\0132,.NS" +
+      "treams.NControlPlane.TInstallQueryReques" +
+      "t\"D\n\024InstallQueryResponse\022,\n\toperation\030\001" +
+      " \001(\0132\031.Ydb.Operations.Operation\"\215\001\n\022Dele",
+      "teQueryRequest\0229\n\020operation_params\030\001 \001(\013" +
+      "2\037.Ydb.Operations.OperationParams\022<\n\007req" +
+      "uest\030\002 \001(\0132+.NStreams.NControlPlane.TDel" +
+      "eteQueryRequest\"C\n\023DeleteQueryResponse\022," +
+      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
+      "tion\"\215\001\n\022ListQueriesRequest\0229\n\020operation" +
+      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\022<\n\007request\030\002 \001(\0132+.NStreams.NCont" +
+      "rolPlane.TListQueriesRequest\"C\n\023ListQuer" +
+      "iesResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope",
+      "rations.Operation\"\221\001\n\024DescribeQueryReque" +
+      "st\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Opera" +
+      "tions.OperationParams\022>\n\007request\030\002 \001(\0132-" +
+      ".NStreams.NControlPlane.TDescribeQueryRe" +
+      "quest\"E\n\025DescribeQueryResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.OperationB*\n\024" +
       "com.yandex.StreamingB\017StreamingProtos\370\001\001" +
       "b\006proto3"
     };
@@ -1948,26 +5762,58 @@ public final class StreamingProtos {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
+          NStreams.NControlPlane.ControlPlane.getDescriptor(),
         }, assigner);
-    internal_static_Streaming_ExecuteQueryRequest_descriptor =
+    internal_static_Streaming_InstallQueryRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_Streaming_ExecuteQueryRequest_fieldAccessorTable = new
+    internal_static_Streaming_InstallQueryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Streaming_ExecuteQueryRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "YqlText", });
-    internal_static_Streaming_ExecuteQueryResponse_descriptor =
+        internal_static_Streaming_InstallQueryRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "Request", });
+    internal_static_Streaming_InstallQueryResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_Streaming_ExecuteQueryResponse_fieldAccessorTable = new
+    internal_static_Streaming_InstallQueryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Streaming_ExecuteQueryResponse_descriptor,
+        internal_static_Streaming_InstallQueryResponse_descriptor,
         new java.lang.String[] { "Operation", });
-    internal_static_Streaming_ExecuteQueryResult_descriptor =
+    internal_static_Streaming_DeleteQueryRequest_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_Streaming_ExecuteQueryResult_fieldAccessorTable = new
+    internal_static_Streaming_DeleteQueryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Streaming_ExecuteQueryResult_descriptor,
-        new java.lang.String[] { "ResultId", });
+        internal_static_Streaming_DeleteQueryRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "Request", });
+    internal_static_Streaming_DeleteQueryResponse_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_Streaming_DeleteQueryResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Streaming_DeleteQueryResponse_descriptor,
+        new java.lang.String[] { "Operation", });
+    internal_static_Streaming_ListQueriesRequest_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_Streaming_ListQueriesRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Streaming_ListQueriesRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "Request", });
+    internal_static_Streaming_ListQueriesResponse_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_Streaming_ListQueriesResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Streaming_ListQueriesResponse_descriptor,
+        new java.lang.String[] { "Operation", });
+    internal_static_Streaming_DescribeQueryRequest_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_Streaming_DescribeQueryRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Streaming_DescribeQueryRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "Request", });
+    internal_static_Streaming_DescribeQueryResponse_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_Streaming_DescribeQueryResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Streaming_DescribeQueryResponse_descriptor,
+        new java.lang.String[] { "Operation", });
     tech.ydb.OperationProtos.getDescriptor();
+    NStreams.NControlPlane.ControlPlane.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

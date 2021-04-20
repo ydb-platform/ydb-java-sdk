@@ -1852,7 +1852,7 @@ public final class Datastreams {
         getConsumerArnBytes();
 
     /**
-     * <code>uint32 consumer_creation_timestamp = 2;</code>
+     * <code>int32 consumer_creation_timestamp = 2;</code>
      */
     int getConsumerCreationTimestamp();
 
@@ -1930,7 +1930,7 @@ public final class Datastreams {
             }
             case 16: {
 
-              consumerCreationTimestamp_ = input.readUInt32();
+              consumerCreationTimestamp_ = input.readInt32();
               break;
             }
             case 26: {
@@ -2006,7 +2006,7 @@ public final class Datastreams {
     public static final int CONSUMER_CREATION_TIMESTAMP_FIELD_NUMBER = 2;
     private int consumerCreationTimestamp_;
     /**
-     * <code>uint32 consumer_creation_timestamp = 2;</code>
+     * <code>int32 consumer_creation_timestamp = 2;</code>
      */
     public int getConsumerCreationTimestamp() {
       return consumerCreationTimestamp_;
@@ -2078,7 +2078,7 @@ public final class Datastreams {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, consumerArn_);
       }
       if (consumerCreationTimestamp_ != 0) {
-        output.writeUInt32(2, consumerCreationTimestamp_);
+        output.writeInt32(2, consumerCreationTimestamp_);
       }
       if (!getConsumerNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, consumerName_);
@@ -2099,7 +2099,7 @@ public final class Datastreams {
       }
       if (consumerCreationTimestamp_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(2, consumerCreationTimestamp_);
+          .computeInt32Size(2, consumerCreationTimestamp_);
       }
       if (!getConsumerNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, consumerName_);
@@ -2466,13 +2466,13 @@ public final class Datastreams {
 
       private int consumerCreationTimestamp_ ;
       /**
-       * <code>uint32 consumer_creation_timestamp = 2;</code>
+       * <code>int32 consumer_creation_timestamp = 2;</code>
        */
       public int getConsumerCreationTimestamp() {
         return consumerCreationTimestamp_;
       }
       /**
-       * <code>uint32 consumer_creation_timestamp = 2;</code>
+       * <code>int32 consumer_creation_timestamp = 2;</code>
        */
       public Builder setConsumerCreationTimestamp(int value) {
         
@@ -2481,7 +2481,7 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <code>uint32 consumer_creation_timestamp = 2;</code>
+       * <code>int32 consumer_creation_timestamp = 2;</code>
        */
       public Builder clearConsumerCreationTimestamp() {
         
@@ -3315,7 +3315,7 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>uint32 timestamp = 1;</code>
+     * <code>int32 timestamp = 1;</code>
      */
     int getTimestamp();
 
@@ -3403,7 +3403,7 @@ public final class Datastreams {
             }
             case 8: {
 
-              timestamp_ = input.readUInt32();
+              timestamp_ = input.readInt32();
               break;
             }
             case 18: {
@@ -3456,7 +3456,7 @@ public final class Datastreams {
     public static final int TIMESTAMP_FIELD_NUMBER = 1;
     private int timestamp_;
     /**
-     * <code>uint32 timestamp = 1;</code>
+     * <code>int32 timestamp = 1;</code>
      */
     public int getTimestamp() {
       return timestamp_;
@@ -3568,7 +3568,7 @@ public final class Datastreams {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (timestamp_ != 0) {
-        output.writeUInt32(1, timestamp_);
+        output.writeInt32(1, timestamp_);
       }
       if (!data_.isEmpty()) {
         output.writeBytes(2, data_);
@@ -3592,7 +3592,7 @@ public final class Datastreams {
       size = 0;
       if (timestamp_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(1, timestamp_);
+          .computeInt32Size(1, timestamp_);
       }
       if (!data_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream
@@ -3907,13 +3907,13 @@ public final class Datastreams {
 
       private int timestamp_ ;
       /**
-       * <code>uint32 timestamp = 1;</code>
+       * <code>int32 timestamp = 1;</code>
        */
       public int getTimestamp() {
         return timestamp_;
       }
       /**
-       * <code>uint32 timestamp = 1;</code>
+       * <code>int32 timestamp = 1;</code>
        */
       public Builder setTimestamp(int value) {
         
@@ -3922,7 +3922,7 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <code>uint32 timestamp = 1;</code>
+       * <code>int32 timestamp = 1;</code>
        */
       public Builder clearTimestamp() {
         
@@ -4302,6 +4302,21 @@ public final class Datastreams {
      * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 9;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.StreamDescription.StreamStatus getStreamStatus();
+
+    /**
+     * <code>string stream_name = 10;</code>
+     */
+    java.lang.String getStreamName();
+    /**
+     * <code>string stream_name = 10;</code>
+     */
+    com.google.protobuf.ByteString
+        getStreamNameBytes();
+
+    /**
+     * <code>int32 write_quota_kb_per_sec = 11;</code>
+     */
+    int getWriteQuotaKbPerSec();
   }
   /**
    * Protobuf type {@code Ydb.DataStreams.V1.StreamDescription}
@@ -4325,6 +4340,8 @@ public final class Datastreams {
       streamArn_ = "";
       timestamp_ = 0;
       streamStatus_ = 0;
+      streamName_ = "";
+      writeQuotaKbPerSec_ = 0;
     }
 
     @java.lang.Override
@@ -4410,6 +4427,17 @@ public final class Datastreams {
               int rawValue = input.readEnum();
 
               streamStatus_ = rawValue;
+              break;
+            }
+            case 82: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              streamName_ = s;
+              break;
+            }
+            case 88: {
+
+              writeQuotaKbPerSec_ = input.readInt32();
               break;
             }
           }
@@ -4773,6 +4801,49 @@ public final class Datastreams {
       return result == null ? tech.ydb.datastreams.v1.Datastreams.StreamDescription.StreamStatus.UNRECOGNIZED : result;
     }
 
+    public static final int STREAM_NAME_FIELD_NUMBER = 10;
+    private volatile java.lang.Object streamName_;
+    /**
+     * <code>string stream_name = 10;</code>
+     */
+    public java.lang.String getStreamName() {
+      java.lang.Object ref = streamName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        streamName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string stream_name = 10;</code>
+     */
+    public com.google.protobuf.ByteString
+        getStreamNameBytes() {
+      java.lang.Object ref = streamName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        streamName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int WRITE_QUOTA_KB_PER_SEC_FIELD_NUMBER = 11;
+    private int writeQuotaKbPerSec_;
+    /**
+     * <code>int32 write_quota_kb_per_sec = 11;</code>
+     */
+    public int getWriteQuotaKbPerSec() {
+      return writeQuotaKbPerSec_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -4811,6 +4882,12 @@ public final class Datastreams {
       }
       if (streamStatus_ != tech.ydb.datastreams.v1.Datastreams.StreamDescription.StreamStatus.STATUS_UNDEFINED.getNumber()) {
         output.writeEnum(9, streamStatus_);
+      }
+      if (!getStreamNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 10, streamName_);
+      }
+      if (writeQuotaKbPerSec_ != 0) {
+        output.writeInt32(11, writeQuotaKbPerSec_);
       }
       unknownFields.writeTo(output);
     }
@@ -4854,6 +4931,13 @@ public final class Datastreams {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(9, streamStatus_);
       }
+      if (!getStreamNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, streamName_);
+      }
+      if (writeQuotaKbPerSec_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, writeQuotaKbPerSec_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4886,6 +4970,10 @@ public final class Datastreams {
       result = result && (getTimestamp()
           == other.getTimestamp());
       result = result && streamStatus_ == other.streamStatus_;
+      result = result && getStreamName()
+          .equals(other.getStreamName());
+      result = result && (getWriteQuotaKbPerSec()
+          == other.getWriteQuotaKbPerSec());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -4920,6 +5008,10 @@ public final class Datastreams {
       hash = (53 * hash) + getTimestamp();
       hash = (37 * hash) + STREAM_STATUS_FIELD_NUMBER;
       hash = (53 * hash) + streamStatus_;
+      hash = (37 * hash) + STREAM_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getStreamName().hashCode();
+      hash = (37 * hash) + WRITE_QUOTA_KB_PER_SEC_FIELD_NUMBER;
+      hash = (53 * hash) + getWriteQuotaKbPerSec();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -5077,6 +5169,10 @@ public final class Datastreams {
 
         streamStatus_ = 0;
 
+        streamName_ = "";
+
+        writeQuotaKbPerSec_ = 0;
+
         return this;
       }
 
@@ -5126,6 +5222,8 @@ public final class Datastreams {
         result.streamArn_ = streamArn_;
         result.timestamp_ = timestamp_;
         result.streamStatus_ = streamStatus_;
+        result.streamName_ = streamName_;
+        result.writeQuotaKbPerSec_ = writeQuotaKbPerSec_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5242,6 +5340,13 @@ public final class Datastreams {
         }
         if (other.streamStatus_ != 0) {
           setStreamStatusValue(other.getStreamStatusValue());
+        }
+        if (!other.getStreamName().isEmpty()) {
+          streamName_ = other.streamName_;
+          onChanged();
+        }
+        if (other.getWriteQuotaKbPerSec() != 0) {
+          setWriteQuotaKbPerSec(other.getWriteQuotaKbPerSec());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -6071,6 +6176,101 @@ public final class Datastreams {
       public Builder clearStreamStatus() {
         
         streamStatus_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object streamName_ = "";
+      /**
+       * <code>string stream_name = 10;</code>
+       */
+      public java.lang.String getStreamName() {
+        java.lang.Object ref = streamName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          streamName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string stream_name = 10;</code>
+       */
+      public com.google.protobuf.ByteString
+          getStreamNameBytes() {
+        java.lang.Object ref = streamName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          streamName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string stream_name = 10;</code>
+       */
+      public Builder setStreamName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        streamName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string stream_name = 10;</code>
+       */
+      public Builder clearStreamName() {
+        
+        streamName_ = getDefaultInstance().getStreamName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string stream_name = 10;</code>
+       */
+      public Builder setStreamNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        streamName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int writeQuotaKbPerSec_ ;
+      /**
+       * <code>int32 write_quota_kb_per_sec = 11;</code>
+       */
+      public int getWriteQuotaKbPerSec() {
+        return writeQuotaKbPerSec_;
+      }
+      /**
+       * <code>int32 write_quota_kb_per_sec = 11;</code>
+       */
+      public Builder setWriteQuotaKbPerSec(int value) {
+        
+        writeQuotaKbPerSec_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 write_quota_kb_per_sec = 11;</code>
+       */
+      public Builder clearWriteQuotaKbPerSec() {
+        
+        writeQuotaKbPerSec_ = 0;
         onChanged();
         return this;
       }
@@ -9858,7 +10058,7 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>uint32 timestamp = 1;</code>
+     * <code>int32 timestamp = 1;</code>
      */
     int getTimestamp();
 
@@ -9929,7 +10129,7 @@ public final class Datastreams {
             }
             case 8: {
 
-              timestamp_ = input.readUInt32();
+              timestamp_ = input.readInt32();
               break;
             }
             case 18: {
@@ -9971,7 +10171,7 @@ public final class Datastreams {
     public static final int TIMESTAMP_FIELD_NUMBER = 1;
     private int timestamp_;
     /**
-     * <code>uint32 timestamp = 1;</code>
+     * <code>int32 timestamp = 1;</code>
      */
     public int getTimestamp() {
       return timestamp_;
@@ -10040,7 +10240,7 @@ public final class Datastreams {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (timestamp_ != 0) {
-        output.writeUInt32(1, timestamp_);
+        output.writeInt32(1, timestamp_);
       }
       if (!getSequenceNumberBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, sequenceNumber_);
@@ -10058,7 +10258,7 @@ public final class Datastreams {
       size = 0;
       if (timestamp_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(1, timestamp_);
+          .computeInt32Size(1, timestamp_);
       }
       if (!getSequenceNumberBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, sequenceNumber_);
@@ -10345,13 +10545,13 @@ public final class Datastreams {
 
       private int timestamp_ ;
       /**
-       * <code>uint32 timestamp = 1;</code>
+       * <code>int32 timestamp = 1;</code>
        */
       public int getTimestamp() {
         return timestamp_;
       }
       /**
-       * <code>uint32 timestamp = 1;</code>
+       * <code>int32 timestamp = 1;</code>
        */
       public Builder setTimestamp(int value) {
         
@@ -10360,7 +10560,7 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <code>uint32 timestamp = 1;</code>
+       * <code>int32 timestamp = 1;</code>
        */
       public Builder clearTimestamp() {
         
@@ -12173,7 +12373,7 @@ public final class Datastreams {
         getContinuationSequenceNumberBytes();
 
     /**
-     * <code>uint32 millis_behind_latest = 3;</code>
+     * <code>int32 millis_behind_latest = 3;</code>
      */
     int getMillisBehindLatest();
 
@@ -12265,7 +12465,7 @@ public final class Datastreams {
             }
             case 24: {
 
-              millisBehindLatest_ = input.readUInt32();
+              millisBehindLatest_ = input.readInt32();
               break;
             }
             case 34: {
@@ -12380,7 +12580,7 @@ public final class Datastreams {
     public static final int MILLIS_BEHIND_LATEST_FIELD_NUMBER = 3;
     private int millisBehindLatest_;
     /**
-     * <code>uint32 millis_behind_latest = 3;</code>
+     * <code>int32 millis_behind_latest = 3;</code>
      */
     public int getMillisBehindLatest() {
       return millisBehindLatest_;
@@ -12440,7 +12640,7 @@ public final class Datastreams {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, continuationSequenceNumber_);
       }
       if (millisBehindLatest_ != 0) {
-        output.writeUInt32(3, millisBehindLatest_);
+        output.writeInt32(3, millisBehindLatest_);
       }
       for (int i = 0; i < records_.size(); i++) {
         output.writeMessage(4, records_.get(i));
@@ -12462,7 +12662,7 @@ public final class Datastreams {
       }
       if (millisBehindLatest_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(3, millisBehindLatest_);
+          .computeInt32Size(3, millisBehindLatest_);
       }
       for (int i = 0; i < records_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -13146,13 +13346,13 @@ public final class Datastreams {
 
       private int millisBehindLatest_ ;
       /**
-       * <code>uint32 millis_behind_latest = 3;</code>
+       * <code>int32 millis_behind_latest = 3;</code>
        */
       public int getMillisBehindLatest() {
         return millisBehindLatest_;
       }
       /**
-       * <code>uint32 millis_behind_latest = 3;</code>
+       * <code>int32 millis_behind_latest = 3;</code>
        */
       public Builder setMillisBehindLatest(int value) {
         
@@ -13161,7 +13361,7 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <code>uint32 millis_behind_latest = 3;</code>
+       * <code>int32 millis_behind_latest = 3;</code>
        */
       public Builder clearMillisBehindLatest() {
         
@@ -17169,6 +17369,20 @@ public final class Datastreams {
      * <code>int32 shard_count = 3;</code>
      */
     int getShardCount();
+
+    /**
+     * <pre>
+     * Datastreams extension. Allow to set retention and write quota on stream creation
+     * </pre>
+     *
+     * <code>int32 write_quota_kb_per_sec = 4;</code>
+     */
+    int getWriteQuotaKbPerSec();
+
+    /**
+     * <code>int32 retention_period_hours = 5;</code>
+     */
+    int getRetentionPeriodHours();
   }
   /**
    * Protobuf type {@code Ydb.DataStreams.V1.CreateStreamRequest}
@@ -17185,6 +17399,8 @@ public final class Datastreams {
     private CreateStreamRequest() {
       streamName_ = "";
       shardCount_ = 0;
+      writeQuotaKbPerSec_ = 0;
+      retentionPeriodHours_ = 0;
     }
 
     @java.lang.Override
@@ -17237,6 +17453,16 @@ public final class Datastreams {
             case 24: {
 
               shardCount_ = input.readInt32();
+              break;
+            }
+            case 32: {
+
+              writeQuotaKbPerSec_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              retentionPeriodHours_ = input.readInt32();
               break;
             }
           }
@@ -17339,6 +17565,28 @@ public final class Datastreams {
       return shardCount_;
     }
 
+    public static final int WRITE_QUOTA_KB_PER_SEC_FIELD_NUMBER = 4;
+    private int writeQuotaKbPerSec_;
+    /**
+     * <pre>
+     * Datastreams extension. Allow to set retention and write quota on stream creation
+     * </pre>
+     *
+     * <code>int32 write_quota_kb_per_sec = 4;</code>
+     */
+    public int getWriteQuotaKbPerSec() {
+      return writeQuotaKbPerSec_;
+    }
+
+    public static final int RETENTION_PERIOD_HOURS_FIELD_NUMBER = 5;
+    private int retentionPeriodHours_;
+    /**
+     * <code>int32 retention_period_hours = 5;</code>
+     */
+    public int getRetentionPeriodHours() {
+      return retentionPeriodHours_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -17360,6 +17608,12 @@ public final class Datastreams {
       if (shardCount_ != 0) {
         output.writeInt32(3, shardCount_);
       }
+      if (writeQuotaKbPerSec_ != 0) {
+        output.writeInt32(4, writeQuotaKbPerSec_);
+      }
+      if (retentionPeriodHours_ != 0) {
+        output.writeInt32(5, retentionPeriodHours_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -17378,6 +17632,14 @@ public final class Datastreams {
       if (shardCount_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, shardCount_);
+      }
+      if (writeQuotaKbPerSec_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, writeQuotaKbPerSec_);
+      }
+      if (retentionPeriodHours_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, retentionPeriodHours_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -17404,6 +17666,10 @@ public final class Datastreams {
           .equals(other.getStreamName());
       result = result && (getShardCount()
           == other.getShardCount());
+      result = result && (getWriteQuotaKbPerSec()
+          == other.getWriteQuotaKbPerSec());
+      result = result && (getRetentionPeriodHours()
+          == other.getRetentionPeriodHours());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -17423,6 +17689,10 @@ public final class Datastreams {
       hash = (53 * hash) + getStreamName().hashCode();
       hash = (37 * hash) + SHARD_COUNT_FIELD_NUMBER;
       hash = (53 * hash) + getShardCount();
+      hash = (37 * hash) + WRITE_QUOTA_KB_PER_SEC_FIELD_NUMBER;
+      hash = (53 * hash) + getWriteQuotaKbPerSec();
+      hash = (37 * hash) + RETENTION_PERIOD_HOURS_FIELD_NUMBER;
+      hash = (53 * hash) + getRetentionPeriodHours();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -17562,6 +17832,10 @@ public final class Datastreams {
 
         shardCount_ = 0;
 
+        writeQuotaKbPerSec_ = 0;
+
+        retentionPeriodHours_ = 0;
+
         return this;
       }
 
@@ -17591,6 +17865,8 @@ public final class Datastreams {
         }
         result.streamName_ = streamName_;
         result.shardCount_ = shardCount_;
+        result.writeQuotaKbPerSec_ = writeQuotaKbPerSec_;
+        result.retentionPeriodHours_ = retentionPeriodHours_;
         onBuilt();
         return result;
       }
@@ -17641,6 +17917,12 @@ public final class Datastreams {
         }
         if (other.getShardCount() != 0) {
           setShardCount(other.getShardCount());
+        }
+        if (other.getWriteQuotaKbPerSec() != 0) {
+          setWriteQuotaKbPerSec(other.getWriteQuotaKbPerSec());
+        }
+        if (other.getRetentionPeriodHours() != 0) {
+          setRetentionPeriodHours(other.getRetentionPeriodHours());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -17909,6 +18191,70 @@ public final class Datastreams {
       public Builder clearShardCount() {
         
         shardCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int writeQuotaKbPerSec_ ;
+      /**
+       * <pre>
+       * Datastreams extension. Allow to set retention and write quota on stream creation
+       * </pre>
+       *
+       * <code>int32 write_quota_kb_per_sec = 4;</code>
+       */
+      public int getWriteQuotaKbPerSec() {
+        return writeQuotaKbPerSec_;
+      }
+      /**
+       * <pre>
+       * Datastreams extension. Allow to set retention and write quota on stream creation
+       * </pre>
+       *
+       * <code>int32 write_quota_kb_per_sec = 4;</code>
+       */
+      public Builder setWriteQuotaKbPerSec(int value) {
+        
+        writeQuotaKbPerSec_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Datastreams extension. Allow to set retention and write quota on stream creation
+       * </pre>
+       *
+       * <code>int32 write_quota_kb_per_sec = 4;</code>
+       */
+      public Builder clearWriteQuotaKbPerSec() {
+        
+        writeQuotaKbPerSec_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int retentionPeriodHours_ ;
+      /**
+       * <code>int32 retention_period_hours = 5;</code>
+       */
+      public int getRetentionPeriodHours() {
+        return retentionPeriodHours_;
+      }
+      /**
+       * <code>int32 retention_period_hours = 5;</code>
+       */
+      public Builder setRetentionPeriodHours(int value) {
+        
+        retentionPeriodHours_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 retention_period_hours = 5;</code>
+       */
+      public Builder clearRetentionPeriodHours() {
+        
+        retentionPeriodHours_ = 0;
         onChanged();
         return this;
       }
@@ -23148,7 +23494,7 @@ public final class Datastreams {
     tech.ydb.datastreams.v1.Datastreams.ShardFilterOrBuilder getShardFilterOrBuilder();
 
     /**
-     * <code>uint32 stream_creation_timestamp = 6;</code>
+     * <code>int32 stream_creation_timestamp = 6;</code>
      */
     int getStreamCreationTimestamp();
 
@@ -23255,7 +23601,7 @@ public final class Datastreams {
             }
             case 48: {
 
-              streamCreationTimestamp_ = input.readUInt32();
+              streamCreationTimestamp_ = input.readInt32();
               break;
             }
             case 58: {
@@ -23430,7 +23776,7 @@ public final class Datastreams {
     public static final int STREAM_CREATION_TIMESTAMP_FIELD_NUMBER = 6;
     private int streamCreationTimestamp_;
     /**
-     * <code>uint32 stream_creation_timestamp = 6;</code>
+     * <code>int32 stream_creation_timestamp = 6;</code>
      */
     public int getStreamCreationTimestamp() {
       return streamCreationTimestamp_;
@@ -23498,7 +23844,7 @@ public final class Datastreams {
         output.writeMessage(5, getShardFilter());
       }
       if (streamCreationTimestamp_ != 0) {
-        output.writeUInt32(6, streamCreationTimestamp_);
+        output.writeInt32(6, streamCreationTimestamp_);
       }
       if (!getStreamNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 7, streamName_);
@@ -23531,7 +23877,7 @@ public final class Datastreams {
       }
       if (streamCreationTimestamp_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(6, streamCreationTimestamp_);
+          .computeInt32Size(6, streamCreationTimestamp_);
       }
       if (!getStreamNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, streamName_);
@@ -24337,13 +24683,13 @@ public final class Datastreams {
 
       private int streamCreationTimestamp_ ;
       /**
-       * <code>uint32 stream_creation_timestamp = 6;</code>
+       * <code>int32 stream_creation_timestamp = 6;</code>
        */
       public int getStreamCreationTimestamp() {
         return streamCreationTimestamp_;
       }
       /**
-       * <code>uint32 stream_creation_timestamp = 6;</code>
+       * <code>int32 stream_creation_timestamp = 6;</code>
        */
       public Builder setStreamCreationTimestamp(int value) {
         
@@ -24352,7 +24698,7 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <code>uint32 stream_creation_timestamp = 6;</code>
+       * <code>int32 stream_creation_timestamp = 6;</code>
        */
       public Builder clearStreamCreationTimestamp() {
         
@@ -26011,6 +26357,3736 @@ public final class Datastreams {
 
   }
 
+  public interface SetWriteQuotaRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.DataStreams.V1.SetWriteQuotaRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    boolean hasOperationParams();
+    /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>string stream_name = 2;</code>
+     */
+    java.lang.String getStreamName();
+    /**
+     * <code>string stream_name = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getStreamNameBytes();
+
+    /**
+     * <code>int32 write_quota_kb_per_sec = 3;</code>
+     */
+    int getWriteQuotaKbPerSec();
+  }
+  /**
+   * Protobuf type {@code Ydb.DataStreams.V1.SetWriteQuotaRequest}
+   */
+  public  static final class SetWriteQuotaRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.DataStreams.V1.SetWriteQuotaRequest)
+      SetWriteQuotaRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SetWriteQuotaRequest.newBuilder() to construct.
+    private SetWriteQuotaRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SetWriteQuotaRequest() {
+      streamName_ = "";
+      writeQuotaKbPerSec_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SetWriteQuotaRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              streamName_ = s;
+              break;
+            }
+            case 24: {
+
+              writeQuotaKbPerSec_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest.class, tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest.Builder.class);
+    }
+
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int STREAM_NAME_FIELD_NUMBER = 2;
+    private volatile java.lang.Object streamName_;
+    /**
+     * <code>string stream_name = 2;</code>
+     */
+    public java.lang.String getStreamName() {
+      java.lang.Object ref = streamName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        streamName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string stream_name = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getStreamNameBytes() {
+      java.lang.Object ref = streamName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        streamName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int WRITE_QUOTA_KB_PER_SEC_FIELD_NUMBER = 3;
+    private int writeQuotaKbPerSec_;
+    /**
+     * <code>int32 write_quota_kb_per_sec = 3;</code>
+     */
+    public int getWriteQuotaKbPerSec() {
+      return writeQuotaKbPerSec_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operationParams_ != null) {
+        output.writeMessage(1, getOperationParams());
+      }
+      if (!getStreamNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, streamName_);
+      }
+      if (writeQuotaKbPerSec_ != 0) {
+        output.writeInt32(3, writeQuotaKbPerSec_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperationParams());
+      }
+      if (!getStreamNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, streamName_);
+      }
+      if (writeQuotaKbPerSec_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, writeQuotaKbPerSec_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest)) {
+        return super.equals(obj);
+      }
+      tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest other = (tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest) obj;
+
+      boolean result = true;
+      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams()) {
+        result = result && getOperationParams()
+            .equals(other.getOperationParams());
+      }
+      result = result && getStreamName()
+          .equals(other.getStreamName());
+      result = result && (getWriteQuotaKbPerSec()
+          == other.getWriteQuotaKbPerSec());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      hash = (37 * hash) + STREAM_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getStreamName().hashCode();
+      hash = (37 * hash) + WRITE_QUOTA_KB_PER_SEC_FIELD_NUMBER;
+      hash = (53 * hash) + getWriteQuotaKbPerSec();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.DataStreams.V1.SetWriteQuotaRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.DataStreams.V1.SetWriteQuotaRequest)
+        tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest.class, tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest.Builder.class);
+      }
+
+      // Construct using tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        streamName_ = "";
+
+        writeQuotaKbPerSec_ = 0;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaRequest_descriptor;
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest getDefaultInstanceForType() {
+        return tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest.getDefaultInstance();
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest build() {
+        tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest buildPartial() {
+        tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest result = new tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest(this);
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        result.streamName_ = streamName_;
+        result.writeQuotaKbPerSec_ = writeQuotaKbPerSec_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest) {
+          return mergeFrom((tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest other) {
+        if (other == tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest.getDefaultInstance()) return this;
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        if (!other.getStreamName().isEmpty()) {
+          streamName_ = other.streamName_;
+          onChanged();
+        }
+        if (other.getWriteQuotaKbPerSec() != 0) {
+          setWriteQuotaKbPerSec(other.getWriteQuotaKbPerSec());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
+      private java.lang.Object streamName_ = "";
+      /**
+       * <code>string stream_name = 2;</code>
+       */
+      public java.lang.String getStreamName() {
+        java.lang.Object ref = streamName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          streamName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string stream_name = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getStreamNameBytes() {
+        java.lang.Object ref = streamName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          streamName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string stream_name = 2;</code>
+       */
+      public Builder setStreamName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        streamName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string stream_name = 2;</code>
+       */
+      public Builder clearStreamName() {
+        
+        streamName_ = getDefaultInstance().getStreamName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string stream_name = 2;</code>
+       */
+      public Builder setStreamNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        streamName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int writeQuotaKbPerSec_ ;
+      /**
+       * <code>int32 write_quota_kb_per_sec = 3;</code>
+       */
+      public int getWriteQuotaKbPerSec() {
+        return writeQuotaKbPerSec_;
+      }
+      /**
+       * <code>int32 write_quota_kb_per_sec = 3;</code>
+       */
+      public Builder setWriteQuotaKbPerSec(int value) {
+        
+        writeQuotaKbPerSec_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 write_quota_kb_per_sec = 3;</code>
+       */
+      public Builder clearWriteQuotaKbPerSec() {
+        
+        writeQuotaKbPerSec_ = 0;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.DataStreams.V1.SetWriteQuotaRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.DataStreams.V1.SetWriteQuotaRequest)
+    private static final tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest();
+    }
+
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SetWriteQuotaRequest>
+        PARSER = new com.google.protobuf.AbstractParser<SetWriteQuotaRequest>() {
+      public SetWriteQuotaRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new SetWriteQuotaRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SetWriteQuotaRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SetWriteQuotaRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface SetWriteQuotaResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.DataStreams.V1.SetWriteQuotaResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    boolean hasOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.DataStreams.V1.SetWriteQuotaResponse}
+   */
+  public  static final class SetWriteQuotaResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.DataStreams.V1.SetWriteQuotaResponse)
+      SetWriteQuotaResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SetWriteQuotaResponse.newBuilder() to construct.
+    private SetWriteQuotaResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SetWriteQuotaResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SetWriteQuotaResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse.class, tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse)) {
+        return super.equals(obj);
+      }
+      tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse other = (tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse) obj;
+
+      boolean result = true;
+      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation()) {
+        result = result && getOperation()
+            .equals(other.getOperation());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.DataStreams.V1.SetWriteQuotaResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.DataStreams.V1.SetWriteQuotaResponse)
+        tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse.class, tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse.Builder.class);
+      }
+
+      // Construct using tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaResponse_descriptor;
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse getDefaultInstanceForType() {
+        return tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse.getDefaultInstance();
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse build() {
+        tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse buildPartial() {
+        tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse result = new tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse) {
+          return mergeFrom((tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse other) {
+        if (other == tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.DataStreams.V1.SetWriteQuotaResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.DataStreams.V1.SetWriteQuotaResponse)
+    private static final tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse();
+    }
+
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SetWriteQuotaResponse>
+        PARSER = new com.google.protobuf.AbstractParser<SetWriteQuotaResponse>() {
+      public SetWriteQuotaResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new SetWriteQuotaResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SetWriteQuotaResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SetWriteQuotaResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface SetWriteQuotaResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.DataStreams.V1.SetWriteQuotaResult)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code Ydb.DataStreams.V1.SetWriteQuotaResult}
+   */
+  public  static final class SetWriteQuotaResult extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.DataStreams.V1.SetWriteQuotaResult)
+      SetWriteQuotaResultOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SetWriteQuotaResult.newBuilder() to construct.
+    private SetWriteQuotaResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SetWriteQuotaResult() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SetWriteQuotaResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaResult_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult.class, tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult)) {
+        return super.equals(obj);
+      }
+      tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult other = (tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult) obj;
+
+      boolean result = true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.DataStreams.V1.SetWriteQuotaResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.DataStreams.V1.SetWriteQuotaResult)
+        tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaResult_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult.class, tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult.Builder.class);
+      }
+
+      // Construct using tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_SetWriteQuotaResult_descriptor;
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult getDefaultInstanceForType() {
+        return tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult.getDefaultInstance();
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult build() {
+        tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult buildPartial() {
+        tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult result = new tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult(this);
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult) {
+          return mergeFrom((tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult other) {
+        if (other == tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.DataStreams.V1.SetWriteQuotaResult)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.DataStreams.V1.SetWriteQuotaResult)
+    private static final tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult();
+    }
+
+    public static tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SetWriteQuotaResult>
+        PARSER = new com.google.protobuf.AbstractParser<SetWriteQuotaResult>() {
+      public SetWriteQuotaResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new SetWriteQuotaResult(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SetWriteQuotaResult> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SetWriteQuotaResult> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.datastreams.v1.Datastreams.SetWriteQuotaResult getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface UpdateStreamRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.DataStreams.V1.UpdateStreamRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    boolean hasOperationParams();
+    /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>string stream_name = 2;</code>
+     */
+    java.lang.String getStreamName();
+    /**
+     * <code>string stream_name = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getStreamNameBytes();
+
+    /**
+     * <code>int32 write_quota_kb_per_sec = 3;</code>
+     */
+    int getWriteQuotaKbPerSec();
+
+    /**
+     * <code>int32 target_shard_count = 4;</code>
+     */
+    int getTargetShardCount();
+
+    /**
+     * <code>int32 retention_period_hours = 5;</code>
+     */
+    int getRetentionPeriodHours();
+  }
+  /**
+   * Protobuf type {@code Ydb.DataStreams.V1.UpdateStreamRequest}
+   */
+  public  static final class UpdateStreamRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.DataStreams.V1.UpdateStreamRequest)
+      UpdateStreamRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use UpdateStreamRequest.newBuilder() to construct.
+    private UpdateStreamRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private UpdateStreamRequest() {
+      streamName_ = "";
+      writeQuotaKbPerSec_ = 0;
+      targetShardCount_ = 0;
+      retentionPeriodHours_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private UpdateStreamRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              streamName_ = s;
+              break;
+            }
+            case 24: {
+
+              writeQuotaKbPerSec_ = input.readInt32();
+              break;
+            }
+            case 32: {
+
+              targetShardCount_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              retentionPeriodHours_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest.class, tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest.Builder.class);
+    }
+
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int STREAM_NAME_FIELD_NUMBER = 2;
+    private volatile java.lang.Object streamName_;
+    /**
+     * <code>string stream_name = 2;</code>
+     */
+    public java.lang.String getStreamName() {
+      java.lang.Object ref = streamName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        streamName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string stream_name = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getStreamNameBytes() {
+      java.lang.Object ref = streamName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        streamName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int WRITE_QUOTA_KB_PER_SEC_FIELD_NUMBER = 3;
+    private int writeQuotaKbPerSec_;
+    /**
+     * <code>int32 write_quota_kb_per_sec = 3;</code>
+     */
+    public int getWriteQuotaKbPerSec() {
+      return writeQuotaKbPerSec_;
+    }
+
+    public static final int TARGET_SHARD_COUNT_FIELD_NUMBER = 4;
+    private int targetShardCount_;
+    /**
+     * <code>int32 target_shard_count = 4;</code>
+     */
+    public int getTargetShardCount() {
+      return targetShardCount_;
+    }
+
+    public static final int RETENTION_PERIOD_HOURS_FIELD_NUMBER = 5;
+    private int retentionPeriodHours_;
+    /**
+     * <code>int32 retention_period_hours = 5;</code>
+     */
+    public int getRetentionPeriodHours() {
+      return retentionPeriodHours_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operationParams_ != null) {
+        output.writeMessage(1, getOperationParams());
+      }
+      if (!getStreamNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, streamName_);
+      }
+      if (writeQuotaKbPerSec_ != 0) {
+        output.writeInt32(3, writeQuotaKbPerSec_);
+      }
+      if (targetShardCount_ != 0) {
+        output.writeInt32(4, targetShardCount_);
+      }
+      if (retentionPeriodHours_ != 0) {
+        output.writeInt32(5, retentionPeriodHours_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperationParams());
+      }
+      if (!getStreamNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, streamName_);
+      }
+      if (writeQuotaKbPerSec_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, writeQuotaKbPerSec_);
+      }
+      if (targetShardCount_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, targetShardCount_);
+      }
+      if (retentionPeriodHours_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, retentionPeriodHours_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest)) {
+        return super.equals(obj);
+      }
+      tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest other = (tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest) obj;
+
+      boolean result = true;
+      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams()) {
+        result = result && getOperationParams()
+            .equals(other.getOperationParams());
+      }
+      result = result && getStreamName()
+          .equals(other.getStreamName());
+      result = result && (getWriteQuotaKbPerSec()
+          == other.getWriteQuotaKbPerSec());
+      result = result && (getTargetShardCount()
+          == other.getTargetShardCount());
+      result = result && (getRetentionPeriodHours()
+          == other.getRetentionPeriodHours());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      hash = (37 * hash) + STREAM_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getStreamName().hashCode();
+      hash = (37 * hash) + WRITE_QUOTA_KB_PER_SEC_FIELD_NUMBER;
+      hash = (53 * hash) + getWriteQuotaKbPerSec();
+      hash = (37 * hash) + TARGET_SHARD_COUNT_FIELD_NUMBER;
+      hash = (53 * hash) + getTargetShardCount();
+      hash = (37 * hash) + RETENTION_PERIOD_HOURS_FIELD_NUMBER;
+      hash = (53 * hash) + getRetentionPeriodHours();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.DataStreams.V1.UpdateStreamRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.DataStreams.V1.UpdateStreamRequest)
+        tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest.class, tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest.Builder.class);
+      }
+
+      // Construct using tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        streamName_ = "";
+
+        writeQuotaKbPerSec_ = 0;
+
+        targetShardCount_ = 0;
+
+        retentionPeriodHours_ = 0;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamRequest_descriptor;
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest getDefaultInstanceForType() {
+        return tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest.getDefaultInstance();
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest build() {
+        tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest buildPartial() {
+        tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest result = new tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest(this);
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        result.streamName_ = streamName_;
+        result.writeQuotaKbPerSec_ = writeQuotaKbPerSec_;
+        result.targetShardCount_ = targetShardCount_;
+        result.retentionPeriodHours_ = retentionPeriodHours_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest) {
+          return mergeFrom((tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest other) {
+        if (other == tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest.getDefaultInstance()) return this;
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        if (!other.getStreamName().isEmpty()) {
+          streamName_ = other.streamName_;
+          onChanged();
+        }
+        if (other.getWriteQuotaKbPerSec() != 0) {
+          setWriteQuotaKbPerSec(other.getWriteQuotaKbPerSec());
+        }
+        if (other.getTargetShardCount() != 0) {
+          setTargetShardCount(other.getTargetShardCount());
+        }
+        if (other.getRetentionPeriodHours() != 0) {
+          setRetentionPeriodHours(other.getRetentionPeriodHours());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
+      private java.lang.Object streamName_ = "";
+      /**
+       * <code>string stream_name = 2;</code>
+       */
+      public java.lang.String getStreamName() {
+        java.lang.Object ref = streamName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          streamName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string stream_name = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getStreamNameBytes() {
+        java.lang.Object ref = streamName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          streamName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string stream_name = 2;</code>
+       */
+      public Builder setStreamName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        streamName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string stream_name = 2;</code>
+       */
+      public Builder clearStreamName() {
+        
+        streamName_ = getDefaultInstance().getStreamName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string stream_name = 2;</code>
+       */
+      public Builder setStreamNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        streamName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int writeQuotaKbPerSec_ ;
+      /**
+       * <code>int32 write_quota_kb_per_sec = 3;</code>
+       */
+      public int getWriteQuotaKbPerSec() {
+        return writeQuotaKbPerSec_;
+      }
+      /**
+       * <code>int32 write_quota_kb_per_sec = 3;</code>
+       */
+      public Builder setWriteQuotaKbPerSec(int value) {
+        
+        writeQuotaKbPerSec_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 write_quota_kb_per_sec = 3;</code>
+       */
+      public Builder clearWriteQuotaKbPerSec() {
+        
+        writeQuotaKbPerSec_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int targetShardCount_ ;
+      /**
+       * <code>int32 target_shard_count = 4;</code>
+       */
+      public int getTargetShardCount() {
+        return targetShardCount_;
+      }
+      /**
+       * <code>int32 target_shard_count = 4;</code>
+       */
+      public Builder setTargetShardCount(int value) {
+        
+        targetShardCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 target_shard_count = 4;</code>
+       */
+      public Builder clearTargetShardCount() {
+        
+        targetShardCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int retentionPeriodHours_ ;
+      /**
+       * <code>int32 retention_period_hours = 5;</code>
+       */
+      public int getRetentionPeriodHours() {
+        return retentionPeriodHours_;
+      }
+      /**
+       * <code>int32 retention_period_hours = 5;</code>
+       */
+      public Builder setRetentionPeriodHours(int value) {
+        
+        retentionPeriodHours_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 retention_period_hours = 5;</code>
+       */
+      public Builder clearRetentionPeriodHours() {
+        
+        retentionPeriodHours_ = 0;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.DataStreams.V1.UpdateStreamRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.DataStreams.V1.UpdateStreamRequest)
+    private static final tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest();
+    }
+
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<UpdateStreamRequest>
+        PARSER = new com.google.protobuf.AbstractParser<UpdateStreamRequest>() {
+      public UpdateStreamRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new UpdateStreamRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<UpdateStreamRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<UpdateStreamRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.datastreams.v1.Datastreams.UpdateStreamRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface UpdateStreamResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.DataStreams.V1.UpdateStreamResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    boolean hasOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.DataStreams.V1.UpdateStreamResponse}
+   */
+  public  static final class UpdateStreamResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.DataStreams.V1.UpdateStreamResponse)
+      UpdateStreamResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use UpdateStreamResponse.newBuilder() to construct.
+    private UpdateStreamResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private UpdateStreamResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private UpdateStreamResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse.class, tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse)) {
+        return super.equals(obj);
+      }
+      tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse other = (tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse) obj;
+
+      boolean result = true;
+      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation()) {
+        result = result && getOperation()
+            .equals(other.getOperation());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.DataStreams.V1.UpdateStreamResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.DataStreams.V1.UpdateStreamResponse)
+        tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse.class, tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse.Builder.class);
+      }
+
+      // Construct using tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamResponse_descriptor;
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse getDefaultInstanceForType() {
+        return tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse.getDefaultInstance();
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse build() {
+        tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse buildPartial() {
+        tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse result = new tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse) {
+          return mergeFrom((tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse other) {
+        if (other == tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.DataStreams.V1.UpdateStreamResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.DataStreams.V1.UpdateStreamResponse)
+    private static final tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse();
+    }
+
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<UpdateStreamResponse>
+        PARSER = new com.google.protobuf.AbstractParser<UpdateStreamResponse>() {
+      public UpdateStreamResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new UpdateStreamResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<UpdateStreamResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<UpdateStreamResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.datastreams.v1.Datastreams.UpdateStreamResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface UpdateStreamResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.DataStreams.V1.UpdateStreamResult)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code Ydb.DataStreams.V1.UpdateStreamResult}
+   */
+  public  static final class UpdateStreamResult extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.DataStreams.V1.UpdateStreamResult)
+      UpdateStreamResultOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use UpdateStreamResult.newBuilder() to construct.
+    private UpdateStreamResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private UpdateStreamResult() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private UpdateStreamResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamResult_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult.class, tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult)) {
+        return super.equals(obj);
+      }
+      tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult other = (tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult) obj;
+
+      boolean result = true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.DataStreams.V1.UpdateStreamResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.DataStreams.V1.UpdateStreamResult)
+        tech.ydb.datastreams.v1.Datastreams.UpdateStreamResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamResult_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult.class, tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult.Builder.class);
+      }
+
+      // Construct using tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_UpdateStreamResult_descriptor;
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult getDefaultInstanceForType() {
+        return tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult.getDefaultInstance();
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult build() {
+        tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult buildPartial() {
+        tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult result = new tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult(this);
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult) {
+          return mergeFrom((tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult other) {
+        if (other == tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.DataStreams.V1.UpdateStreamResult)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.DataStreams.V1.UpdateStreamResult)
+    private static final tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult();
+    }
+
+    public static tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<UpdateStreamResult>
+        PARSER = new com.google.protobuf.AbstractParser<UpdateStreamResult>() {
+      public UpdateStreamResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new UpdateStreamResult(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<UpdateStreamResult> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<UpdateStreamResult> getParserForType() {
+      return PARSER;
+    }
+
+    public tech.ydb.datastreams.v1.Datastreams.UpdateStreamResult getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface ListStreamConsumersRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.DataStreams.V1.ListStreamConsumersRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -26029,7 +30105,7 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
-     * <code>uint32 max_results = 2;</code>
+     * <code>int32 max_results = 2;</code>
      */
     int getMaxResults();
 
@@ -26054,7 +30130,7 @@ public final class Datastreams {
         getStreamArnBytes();
 
     /**
-     * <code>uint32 stream_creation_timestamp = 5;</code>
+     * <code>int32 stream_creation_timestamp = 5;</code>
      */
     int getStreamCreationTimestamp();
   }
@@ -26120,7 +30196,7 @@ public final class Datastreams {
             }
             case 16: {
 
-              maxResults_ = input.readUInt32();
+              maxResults_ = input.readInt32();
               break;
             }
             case 26: {
@@ -26137,7 +30213,7 @@ public final class Datastreams {
             }
             case 40: {
 
-              streamCreationTimestamp_ = input.readUInt32();
+              streamCreationTimestamp_ = input.readInt32();
               break;
             }
           }
@@ -26188,7 +30264,7 @@ public final class Datastreams {
     public static final int MAX_RESULTS_FIELD_NUMBER = 2;
     private int maxResults_;
     /**
-     * <code>uint32 max_results = 2;</code>
+     * <code>int32 max_results = 2;</code>
      */
     public int getMaxResults() {
       return maxResults_;
@@ -26265,7 +30341,7 @@ public final class Datastreams {
     public static final int STREAM_CREATION_TIMESTAMP_FIELD_NUMBER = 5;
     private int streamCreationTimestamp_;
     /**
-     * <code>uint32 stream_creation_timestamp = 5;</code>
+     * <code>int32 stream_creation_timestamp = 5;</code>
      */
     public int getStreamCreationTimestamp() {
       return streamCreationTimestamp_;
@@ -26287,7 +30363,7 @@ public final class Datastreams {
         output.writeMessage(1, getOperationParams());
       }
       if (maxResults_ != 0) {
-        output.writeUInt32(2, maxResults_);
+        output.writeInt32(2, maxResults_);
       }
       if (!getNextTokenBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, nextToken_);
@@ -26296,7 +30372,7 @@ public final class Datastreams {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, streamArn_);
       }
       if (streamCreationTimestamp_ != 0) {
-        output.writeUInt32(5, streamCreationTimestamp_);
+        output.writeInt32(5, streamCreationTimestamp_);
       }
       unknownFields.writeTo(output);
     }
@@ -26312,7 +30388,7 @@ public final class Datastreams {
       }
       if (maxResults_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(2, maxResults_);
+          .computeInt32Size(2, maxResults_);
       }
       if (!getNextTokenBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, nextToken_);
@@ -26322,7 +30398,7 @@ public final class Datastreams {
       }
       if (streamCreationTimestamp_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(5, streamCreationTimestamp_);
+          .computeInt32Size(5, streamCreationTimestamp_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -26754,13 +30830,13 @@ public final class Datastreams {
 
       private int maxResults_ ;
       /**
-       * <code>uint32 max_results = 2;</code>
+       * <code>int32 max_results = 2;</code>
        */
       public int getMaxResults() {
         return maxResults_;
       }
       /**
-       * <code>uint32 max_results = 2;</code>
+       * <code>int32 max_results = 2;</code>
        */
       public Builder setMaxResults(int value) {
         
@@ -26769,7 +30845,7 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <code>uint32 max_results = 2;</code>
+       * <code>int32 max_results = 2;</code>
        */
       public Builder clearMaxResults() {
         
@@ -26918,13 +30994,13 @@ public final class Datastreams {
 
       private int streamCreationTimestamp_ ;
       /**
-       * <code>uint32 stream_creation_timestamp = 5;</code>
+       * <code>int32 stream_creation_timestamp = 5;</code>
        */
       public int getStreamCreationTimestamp() {
         return streamCreationTimestamp_;
       }
       /**
-       * <code>uint32 stream_creation_timestamp = 5;</code>
+       * <code>int32 stream_creation_timestamp = 5;</code>
        */
       public Builder setStreamCreationTimestamp(int value) {
         
@@ -26933,7 +31009,7 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <code>uint32 stream_creation_timestamp = 5;</code>
+       * <code>int32 stream_creation_timestamp = 5;</code>
        */
       public Builder clearStreamCreationTimestamp() {
         
@@ -46282,7 +50358,7 @@ public final class Datastreams {
     tech.ydb.datastreams.v1.Datastreams.EncryptionType getEncryptionType();
 
     /**
-     * <code>uint32 failed_record_count = 2;</code>
+     * <code>int32 failed_record_count = 2;</code>
      */
     int getFailedRecordCount();
 
@@ -46364,7 +50440,7 @@ public final class Datastreams {
             }
             case 16: {
 
-              failedRecordCount_ = input.readUInt32();
+              failedRecordCount_ = input.readInt32();
               break;
             }
             case 26: {
@@ -46423,7 +50499,7 @@ public final class Datastreams {
     public static final int FAILED_RECORD_COUNT_FIELD_NUMBER = 2;
     private int failedRecordCount_;
     /**
-     * <code>uint32 failed_record_count = 2;</code>
+     * <code>int32 failed_record_count = 2;</code>
      */
     public int getFailedRecordCount() {
       return failedRecordCount_;
@@ -46480,7 +50556,7 @@ public final class Datastreams {
         output.writeEnum(1, encryptionType_);
       }
       if (failedRecordCount_ != 0) {
-        output.writeUInt32(2, failedRecordCount_);
+        output.writeInt32(2, failedRecordCount_);
       }
       for (int i = 0; i < records_.size(); i++) {
         output.writeMessage(3, records_.get(i));
@@ -46499,7 +50575,7 @@ public final class Datastreams {
       }
       if (failedRecordCount_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(2, failedRecordCount_);
+          .computeInt32Size(2, failedRecordCount_);
       }
       for (int i = 0; i < records_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -46868,13 +50944,13 @@ public final class Datastreams {
 
       private int failedRecordCount_ ;
       /**
-       * <code>uint32 failed_record_count = 2;</code>
+       * <code>int32 failed_record_count = 2;</code>
        */
       public int getFailedRecordCount() {
         return failedRecordCount_;
       }
       /**
-       * <code>uint32 failed_record_count = 2;</code>
+       * <code>int32 failed_record_count = 2;</code>
        */
       public Builder setFailedRecordCount(int value) {
         
@@ -46883,7 +50959,7 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <code>uint32 failed_record_count = 2;</code>
+       * <code>int32 failed_record_count = 2;</code>
        */
       public Builder clearFailedRecordCount() {
         
@@ -56869,12 +60945,12 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>uint32 open_shard_count = 1;</code>
+     * <code>int32 open_shard_count = 1;</code>
      */
     int getOpenShardCount();
 
     /**
-     * <code>uint32 shard_limit = 2;</code>
+     * <code>int32 shard_limit = 2;</code>
      */
     int getShardLimit();
   }
@@ -56925,12 +61001,12 @@ public final class Datastreams {
             }
             case 8: {
 
-              openShardCount_ = input.readUInt32();
+              openShardCount_ = input.readInt32();
               break;
             }
             case 16: {
 
-              shardLimit_ = input.readUInt32();
+              shardLimit_ = input.readInt32();
               break;
             }
           }
@@ -56960,7 +61036,7 @@ public final class Datastreams {
     public static final int OPEN_SHARD_COUNT_FIELD_NUMBER = 1;
     private int openShardCount_;
     /**
-     * <code>uint32 open_shard_count = 1;</code>
+     * <code>int32 open_shard_count = 1;</code>
      */
     public int getOpenShardCount() {
       return openShardCount_;
@@ -56969,7 +61045,7 @@ public final class Datastreams {
     public static final int SHARD_LIMIT_FIELD_NUMBER = 2;
     private int shardLimit_;
     /**
-     * <code>uint32 shard_limit = 2;</code>
+     * <code>int32 shard_limit = 2;</code>
      */
     public int getShardLimit() {
       return shardLimit_;
@@ -56988,10 +61064,10 @@ public final class Datastreams {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (openShardCount_ != 0) {
-        output.writeUInt32(1, openShardCount_);
+        output.writeInt32(1, openShardCount_);
       }
       if (shardLimit_ != 0) {
-        output.writeUInt32(2, shardLimit_);
+        output.writeInt32(2, shardLimit_);
       }
       unknownFields.writeTo(output);
     }
@@ -57003,11 +61079,11 @@ public final class Datastreams {
       size = 0;
       if (openShardCount_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(1, openShardCount_);
+          .computeInt32Size(1, openShardCount_);
       }
       if (shardLimit_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(2, shardLimit_);
+          .computeInt32Size(2, shardLimit_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -57277,13 +61353,13 @@ public final class Datastreams {
 
       private int openShardCount_ ;
       /**
-       * <code>uint32 open_shard_count = 1;</code>
+       * <code>int32 open_shard_count = 1;</code>
        */
       public int getOpenShardCount() {
         return openShardCount_;
       }
       /**
-       * <code>uint32 open_shard_count = 1;</code>
+       * <code>int32 open_shard_count = 1;</code>
        */
       public Builder setOpenShardCount(int value) {
         
@@ -57292,7 +61368,7 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <code>uint32 open_shard_count = 1;</code>
+       * <code>int32 open_shard_count = 1;</code>
        */
       public Builder clearOpenShardCount() {
         
@@ -57303,13 +61379,13 @@ public final class Datastreams {
 
       private int shardLimit_ ;
       /**
-       * <code>uint32 shard_limit = 2;</code>
+       * <code>int32 shard_limit = 2;</code>
        */
       public int getShardLimit() {
         return shardLimit_;
       }
       /**
-       * <code>uint32 shard_limit = 2;</code>
+       * <code>int32 shard_limit = 2;</code>
        */
       public Builder setShardLimit(int value) {
         
@@ -57318,7 +61394,7 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <code>uint32 shard_limit = 2;</code>
+       * <code>int32 shard_limit = 2;</code>
        */
       public Builder clearShardLimit() {
         
@@ -80492,6 +84568,36 @@ public final class Datastreams {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_DataStreams_V1_ListShardsResult_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_DataStreams_V1_SetWriteQuotaRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_DataStreams_V1_SetWriteQuotaRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_DataStreams_V1_SetWriteQuotaResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_DataStreams_V1_SetWriteQuotaResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_DataStreams_V1_SetWriteQuotaResult_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_DataStreams_V1_SetWriteQuotaResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_DataStreams_V1_UpdateStreamRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_DataStreams_V1_UpdateStreamRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_DataStreams_V1_UpdateStreamResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_DataStreams_V1_UpdateStreamResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_DataStreams_V1_UpdateStreamResult_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_DataStreams_V1_UpdateStreamResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_DataStreams_V1_ListStreamConsumersRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -80881,15 +84987,15 @@ public final class Datastreams {
       "ams.V1.HashKeyRange\022\025\n\rparent_shards\030\002 \003" +
       "(\t\022\014\n\004name\030\003 \001(\t\"\255\001\n\010Consumer\022\024\n\014consume",
       "r_arn\030\001 \001(\t\022#\n\033consumer_creation_timesta" +
-      "mp\030\002 \001(\r\022\025\n\rconsumer_name\030\003 \001(\t\022O\n\017consu" +
+      "mp\030\002 \001(\005\022\025\n\rconsumer_name\030\003 \001(\t\022O\n\017consu" +
       "mer_status\030\004 \001(\01626.Ydb.DataStreams.V1.Co" +
       "nsumerDescription.ConsumerStatus\"B\n\014Hash" +
       "KeyRange\022\031\n\021starting_hash_key\030\001 \001(\t\022\027\n\017e" +
       "nding_hash_key\030\002 \001(\t\"\221\001\n\006Record\022\021\n\ttimes" +
-      "tamp\030\001 \001(\r\022\014\n\004data\030\002 \001(\014\0226\n\nencryption\030\003" +
+      "tamp\030\001 \001(\005\022\014\n\004data\030\002 \001(\014\0226\n\nencryption\030\003" +
       " \001(\0162\".Ydb.DataStreams.V1.EncryptionType" +
       "\022\025\n\rpartition_key\030\004 \001(\t\022\027\n\017sequence_numb" +
-      "er\030\005 \001(\t\"\324\003\n\021StreamDescription\022;\n\017encryp",
+      "er\030\005 \001(\t\"\211\004\n\021StreamDescription\022;\n\017encryp",
       "tion_type\030\001 \001(\0162\".Ydb.DataStreams.V1.Enc" +
       "ryptionType\022@\n\023enhanced_monitoring\030\002 \003(\013" +
       "2#.Ydb.DataStreams.V1.EnhancedMetrics\022\027\n" +
@@ -80898,307 +85004,323 @@ public final class Datastreams {
       "\030\006 \003(\0132\031.Ydb.DataStreams.V1.Shard\022\022\n\nstr" +
       "eam_arn\030\007 \001(\t\022\021\n\ttimestamp\030\010 \001(\005\022I\n\rstre" +
       "am_status\030\t \001(\01622.Ydb.DataStreams.V1.Str" +
-      "eamDescription.StreamStatus\"Z\n\014StreamSta" +
-      "tus\022\024\n\020STATUS_UNDEFINED\020\000\022\014\n\010CREATING\020\001\022",
-      "\014\n\010DELETING\020\002\022\n\n\006ACTIVE\020\003\022\014\n\010UPDATING\020\004\"" +
-      "W\n\023SequenceNumberRange\022 \n\030starting_seque" +
-      "nce_number\030\001 \001(\t\022\036\n\026ending_sequence_numb" +
-      "er\030\002 \001(\t\"\324\001\n\005Shard\022 \n\030adjacent_parent_sh" +
-      "ard_id\030\001 \001(\t\0228\n\016hash_key_range\030\002 \001(\0132 .Y" +
-      "db.DataStreams.V1.HashKeyRange\022\027\n\017parent" +
-      "_shard_id\030\003 \001(\t\022D\n\023partition_key_range\030\004" +
-      " \001(\0132\'.Ydb.DataStreams.V1.SequenceNumber" +
-      "Range\022\020\n\010shard_id\030\005 \001(\t\"\232\002\n\023ConsumerDesc" +
-      "ription\022\024\n\014consumer_arn\030\001 \001(\t\022#\n\033consume",
-      "r_creation_timestamp\030\002 \001(\005\022\025\n\rconsumer_n" +
-      "ame\030\003 \001(\t\022O\n\017consumer_status\030\004 \001(\01626.Ydb" +
-      ".DataStreams.V1.ConsumerDescription.Cons" +
-      "umerStatus\022\022\n\nstream_arn\030\005 \001(\t\"L\n\016Consum" +
-      "erStatus\022\022\n\016STATUS_UNKNOWN\020\000\022\014\n\010CREATING" +
-      "\020\001\022\014\n\010DELETING\020\002\022\n\n\006ACTIVE\020\003\"\212\002\n\013ShardFi" +
-      "lter\022\020\n\010shard_id\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(" +
-      "\005\0223\n\004type\030\003 \001(\0162%.Ydb.DataStreams.V1.Sha" +
-      "rdIteratorType\"\240\001\n\017ShardFilterType\022\030\n\024SH" +
-      "ARD_TYPE_UNDEFINED\020\000\022\022\n\016AFTER_SHARD_ID\020\001",
-      "\022\023\n\017AT_TRIM_HORIZON\020\002\022\025\n\021FROM_TRIM_HORIZ" +
-      "ON\020\003\022\r\n\tAT_LATEST\020\004\022\020\n\014AT_TIMESTAMP\020\005\022\022\n" +
-      "\016FROM_TIMESTAMP\020\006\"s\n\020StartingPosition\022\021\n" +
-      "\ttimestamp\030\001 \001(\r\022\027\n\017sequence_number\030\002 \001(" +
-      "\t\0223\n\004type\030\003 \001(\0162%.Ydb.DataStreams.V1.Sha" +
-      "rdIteratorType\"\222\003\n\030StreamDescriptionSumm" +
-      "ary\022\026\n\016consumer_count\030\001 \001(\005\022;\n\017encryptio" +
-      "n_type\030\002 \001(\0162\".Ydb.DataStreams.V1.Encryp" +
-      "tionType\022@\n\023enhanced_monitoring\030\003 \003(\0132#." +
-      "Ydb.DataStreams.V1.EnhancedMetrics\022\016\n\006ke",
-      "y_id\030\004 \001(\t\022\030\n\020open_shard_count\030\005 \001(\005\022\036\n\026" +
-      "retention_period_hours\030\006 \001(\005\022\022\n\nstream_a" +
-      "rn\030\007 \001(\t\022!\n\031stream_creation_timestamp\030\010 " +
-      "\001(\005\022\023\n\013stream_name\030\t \001(\t\022I\n\rstream_statu" +
-      "s\030\n \001(\01622.Ydb.DataStreams.V1.StreamDescr" +
-      "iption.StreamStatus\"\276\001\n\025SubscribeToShard" +
-      "Event\0224\n\014child_shards\030\001 \003(\0132\036.Ydb.DataSt" +
-      "reams.V1.ChildShard\022$\n\034continuation_sequ" +
-      "ence_number\030\002 \001(\t\022\034\n\024millis_behind_lates" +
-      "t\030\003 \001(\r\022+\n\007records\030\004 \003(\0132\032.Ydb.DataStrea",
-      "ms.V1.Record\"\220\010\n\033SubscribeToShardEventSt" +
-      "ream\022d\n\032internal_failure_exception\030\001 \001(\013" +
-      "2>.Ydb.DataStreams.V1.SubscribeToShardEv" +
-      "entStream.ExceptionEventH\000\022e\n\033kms_access" +
-      "_denied_exception\030\002 \001(\0132>.Ydb.DataStream" +
-      "s.V1.SubscribeToShardEventStream.Excepti" +
-      "onEventH\000\022`\n\026kms_disabled_exception\030\003 \001(" +
-      "\0132>.Ydb.DataStreams.V1.SubscribeToShardE" +
-      "ventStream.ExceptionEventH\000\022e\n\033kms_inval" +
-      "id_state_exception\030\004 \001(\0132>.Ydb.DataStrea",
-      "ms.V1.SubscribeToShardEventStream.Except" +
-      "ionEventH\000\022a\n\027kms_not_found_exception\030\005 " +
-      "\001(\0132>.Ydb.DataStreams.V1.SubscribeToShar" +
-      "dEventStream.ExceptionEventH\000\022]\n\023kms_opt" +
-      "_in_required\030\006 \001(\0132>.Ydb.DataStreams.V1." +
-      "SubscribeToShardEventStream.ExceptionEve" +
-      "ntH\000\022b\n\030kms_throttling_exception\030\007 \001(\0132>" +
-      ".Ydb.DataStreams.V1.SubscribeToShardEven" +
-      "tStream.ExceptionEventH\000\022c\n\031resource_in_" +
-      "use_exception\030\010 \001(\0132>.Ydb.DataStreams.V1",
-      ".SubscribeToShardEventStream.ExceptionEv" +
-      "entH\000\022f\n\034resource_not_found_exception\030\t " +
-      "\001(\0132>.Ydb.DataStreams.V1.SubscribeToShar" +
-      "dEventStream.ExceptionEventH\000\022M\n\030subscri" +
-      "be_to_shard_event\030\n \001(\0132).Ydb.DataStream" +
-      "s.V1.SubscribeToShardEventH\000\032\020\n\016Exceptio" +
-      "nEventB\007\n\005event\"!\n\003Tag\022\013\n\003key\030\001 \001(\t\022\r\n\005v" +
-      "alue\030\002 \001(\t\"z\n\023CreateStreamRequest\0229\n\020ope" +
-      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
-      "rationParams\022\023\n\013stream_name\030\002 \001(\t\022\023\n\013sha",
-      "rd_count\030\003 \001(\005\"D\n\024CreateStreamResponse\022," +
-      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
-      "tion\"\024\n\022CreateStreamResult\"\210\001\n\023DeleteStr" +
-      "eamRequest\0229\n\020operation_params\030\001 \001(\0132\037.Y" +
-      "db.Operations.OperationParams\022!\n\031enforce" +
-      "_consumer_deletion\030\002 \001(\010\022\023\n\013stream_name\030" +
-      "\003 \001(\t\"D\n\024DeleteStreamResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\024\n\022D" +
-      "eleteStreamResult\"\203\001\n\022ListStreamsRequest" +
-      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati",
-      "ons.OperationParams\022#\n\033exclusive_start_s" +
-      "tream_name\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\"C\n\023ListS" +
-      "treamsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
-      "Operations.Operation\"C\n\021ListStreamsResul" +
-      "t\022\030\n\020has_more_streams\030\001 \001(\010\022\024\n\014stream_na" +
-      "mes\030\002 \003(\t\"\210\002\n\021ListShardsRequest\0229\n\020opera" +
-      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
-      "tionParams\022 \n\030exclusive_start_shard_id\030\002" +
-      " \001(\t\022\023\n\013max_results\030\003 \001(\005\022\022\n\nnext_token\030" +
-      "\004 \001(\t\0225\n\014shard_filter\030\005 \001(\0132\037.Ydb.DataSt",
-      "reams.V1.ShardFilter\022!\n\031stream_creation_" +
-      "timestamp\030\006 \001(\r\022\023\n\013stream_name\030\007 \001(\t\"B\n\022" +
-      "ListShardsResponse\022,\n\toperation\030\001 \001(\0132\031." +
-      "Ydb.Operations.Operation\"Q\n\020ListShardsRe" +
-      "sult\022\022\n\nnext_token\030\001 \001(\t\022)\n\006shards\030\002 \003(\013" +
-      "2\031.Ydb.DataStreams.V1.Shard\"\267\001\n\032ListStre" +
-      "amConsumersRequest\0229\n\020operation_params\030\001" +
-      " \001(\0132\037.Ydb.Operations.OperationParams\022\023\n" +
-      "\013max_results\030\002 \001(\r\022\022\n\nnext_token\030\003 \001(\t\022\022" +
-      "\n\nstream_arn\030\004 \001(\t\022!\n\031stream_creation_ti",
-      "mestamp\030\005 \001(\r\"K\n\033ListStreamConsumersResp" +
-      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
-      ".Operation\"`\n\031ListStreamConsumersResult\022" +
-      "\022\n\nnext_token\030\001 \001(\t\022/\n\tconsumers\030\002 \003(\0132\034" +
-      ".Ydb.DataStreams.V1.Consumer\"\230\001\n\025Describ" +
-      "eStreamRequest\0229\n\020operation_params\030\001 \001(\013" +
-      "2\037.Ydb.Operations.OperationParams\022 \n\030exc" +
-      "lusive_start_shard_id\030\002 \001(\t\022\r\n\005limit\030\003 \001" +
-      "(\005\022\023\n\013stream_name\030\004 \001(\t\"F\n\026DescribeStrea" +
-      "mResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera",
-      "tions.Operation\"R\n\024DescribeStreamResult\022" +
-      ":\n\013description\030\001 \001(\0132%.Ydb.DataStreams.V" +
-      "1.StreamDescription\"\205\001\n\035RegisterStreamCo" +
-      "nsumerRequest\0229\n\020operation_params\030\001 \001(\0132" +
-      "\037.Ydb.Operations.OperationParams\022\025\n\rcons" +
-      "umer_name\030\002 \001(\t\022\022\n\nstream_arn\030\003 \001(\t\"N\n\036R" +
-      "egisterStreamConsumerResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"N\n\034R" +
-      "egisterStreamConsumerResult\022.\n\010consumer\030" +
-      "\001 \001(\0132\034.Ydb.DataStreams.V1.Consumer\"\235\001\n\037",
-      "DeregisterStreamConsumerRequest\0229\n\020opera" +
-      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
-      "tionParams\022\024\n\014consumer_arn\030\002 \001(\t\022\025\n\rcons" +
-      "umer_name\030\003 \001(\t\022\022\n\nstream_arn\030\004 \001(\t\"P\n D" +
-      "eregisterStreamConsumerResponse\022,\n\topera" +
-      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\" \n" +
-      "\036DeregisterStreamConsumerResult\"\233\001\n\035Desc" +
-      "ribeStreamConsumerRequest\0229\n\020operation_p" +
-      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
-      "rams\022\024\n\014consumer_arn\030\002 \001(\t\022\025\n\rconsumer_n",
-      "ame\030\003 \001(\t\022\022\n\nstream_arn\030\004 \001(\t\"N\n\036Describ" +
-      "eStreamConsumerResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.Operation\"e\n\034Describ" +
-      "eStreamConsumerResult\022E\n\024consumer_descri" +
-      "ption\030\001 \001(\0132\'.Ydb.DataStreams.V1.Consume" +
-      "rDescription\"X\n\026PutRecordsRequestEntry\022\014" +
-      "\n\004data\030\001 \001(\014\022\031\n\021explicit_hash_key\030\002 \001(\t\022" +
-      "\025\n\rpartition_key\030\003 \001(\t\"\223\001\n\025PutRecordsRes" +
-      "ultEntry\022\'\n\004code\030\001 \001(\0162\031.Ydb.StatusIds.S" +
-      "tatusCode\022\025\n\rerror_message\030\002 \001(\t\022\022\n\nerro",
-      "r_code\030\003 \001(\t\022\027\n\017sequence_number\030\004 \001(\t\022\r\n" +
-      "\005shard\030\005 \001(\t\"u\n\021GetRecordsRequest\0229\n\020ope" +
-      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
-      "rationParams\022\r\n\005limit\030\002 \001(\005\022\026\n\016shard_ite" +
-      "rator\030\003 \001(\t\"B\n\022GetRecordsResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
-      "\260\001\n\020GetRecordsResult\0224\n\014child_shards\030\001 \003" +
-      "(\0132\036.Ydb.DataStreams.V1.ChildShard\022\034\n\024mi" +
-      "llis_behind_latest\030\002 \001(\003\022\033\n\023next_shard_i" +
-      "terator\030\003 \001(\t\022+\n\007records\030\004 \003(\0132\032.Ydb.Dat",
-      "aStreams.V1.Record\"\273\001\n\020PutRecordRequest\022" +
-      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
-      "ns.OperationParams\022\014\n\004data\030\002 \001(\014\022\031\n\021expl" +
-      "icit_hash_key\030\003 \001(\t\022\025\n\rpartition_key\030\004 \001" +
-      "(\t\022\027\n\017sequence_number\030\005 \001(\t\022\023\n\013stream_na" +
-      "me\030\006 \001(\t\"A\n\021PutRecordResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"{\n\017P" +
-      "utRecordResult\022;\n\017encryption_type\030\001 \001(\0162" +
-      "\".Ydb.DataStreams.V1.EncryptionType\022\027\n\017s" +
-      "equence_number\030\002 \001(\t\022\022\n\nshard_name\030\003 \001(\t",
-      "\"\240\001\n\021PutRecordsRequest\0229\n\020operation_para" +
-      "ms\030\001 \001(\0132\037.Ydb.Operations.OperationParam" +
-      "s\022;\n\007records\030\002 \003(\0132*.Ydb.DataStreams.V1." +
-      "PutRecordsRequestEntry\022\023\n\013stream_name\030\003 " +
-      "\001(\t\"B\n\022PutRecordsResponse\022,\n\toperation\030\001" +
-      " \001(\0132\031.Ydb.Operations.Operation\"\250\001\n\020PutR" +
-      "ecordsResult\022;\n\017encryption_type\030\001 \001(\0162\"." +
-      "Ydb.DataStreams.V1.EncryptionType\022\033\n\023fai" +
-      "led_record_count\030\002 \001(\r\022:\n\007records\030\003 \003(\0132" +
-      ").Ydb.DataStreams.V1.PutRecordsResultEnt",
-      "ry\"\364\001\n\027GetShardIteratorRequest\0229\n\020operat" +
-      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
-      "ionParams\022\020\n\010shard_id\030\002 \001(\t\022B\n\023shard_ite" +
-      "rator_type\030\003 \001(\0162%.Ydb.DataStreams.V1.Sh" +
-      "ardIteratorType\022 \n\030starting_sequence_num" +
-      "ber\030\004 \001(\t\022\023\n\013stream_name\030\005 \001(\t\022\021\n\ttimest" +
-      "amp\030\006 \001(\005\"H\n\030GetShardIteratorResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"*\n\026GetShardIteratorResult\022\020\n\010iterato" +
-      "r\030\001 \001(\t\"\275\001\n\027SubscribeToShardRequest\0229\n\020o",
-      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
-      "perationParams\022\024\n\014consumer_arn\030\002 \001(\t\022\020\n\010" +
-      "shard_id\030\003 \001(\t\022?\n\021starting_position\030\004 \001(" +
-      "\0132$.Ydb.DataStreams.V1.StartingPosition\"" +
-      "H\n\030SubscribeToShardResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"_\n\026Sub" +
-      "scribeToShardResult\022E\n\014event_stream\030\001 \001(" +
-      "\0132/.Ydb.DataStreams.V1.SubscribeToShardE" +
-      "ventStream\"v\n\026AddTagsToStreamRequest\0229\n\020" +
-      "operation_params\030\001 \001(\0132\037.Ydb.Operations.",
-      "OperationParams\022\023\n\013stream_name\030\002 \001(\t\022\014\n\004" +
-      "tags\030\003 \003(\t\"G\n\027AddTagsToStreamResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"\027\n\025AddTagsToStreamResult\"\226\001\n$Decreas" +
-      "eStreamRetentionPeriodRequest\0229\n\020operati" +
-      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
-      "onParams\022\023\n\013stream_name\030\002 \001(\t\022\036\n\026retenti" +
-      "on_period_hours\030\003 \001(\005\"U\n%DecreaseStreamR" +
-      "etentionPeriodResponse\022,\n\toperation\030\001 \001(" +
-      "\0132\031.Ydb.Operations.Operation\"%\n#Decrease",
-      "StreamRetentionPeriodResult\"R\n\025DescribeL" +
-      "imitsRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
-      ".Ydb.Operations.OperationParams\"F\n\026Descr" +
-      "ibeLimitsResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
-      "db.Operations.Operation\"E\n\024DescribeLimit" +
-      "sResult\022\030\n\020open_shard_count\030\001 \001(\r\022\023\n\013sha" +
-      "rd_limit\030\002 \001(\r\"n\n\034DescribeStreamSummaryR" +
-      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
-      "perations.OperationParams\022\023\n\013stream_name" +
-      "\030\002 \001(\t\"M\n\035DescribeStreamSummaryResponse\022",
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\"\035\n\033DescribeStreamSummaryResult\"\217\001\n" +
-      " DisableEnhancedMonitoringRequest\0229\n\020ope" +
-      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
-      "rationParams\022\033\n\023shard_level_metrics\030\002 \003(" +
-      "\t\022\023\n\013stream_name\030\003 \001(\t\"Q\n!DisableEnhance" +
-      "dMonitoringResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.Operation\"\200\001\n\037DisableEnh" +
-      "ancedMonitoringResult\022#\n\033current_shard_l" +
-      "evel_metrics\030\001 \003(\t\022#\n\033desired_shard_leve",
-      "l_metrics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"\216\001\n" +
-      "\037EnableEnhancedMonitoringRequest\0229\n\020oper" +
-      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
-      "ationParams\022\033\n\023shard_level_metrics\030\002 \003(\t" +
-      "\022\023\n\013stream_name\030\003 \001(\t\"P\n EnableEnhancedM" +
-      "onitoringResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
-      "db.Operations.Operation\"\177\n\036EnableEnhance" +
-      "dMonitoringResult\022#\n\033current_shard_level" +
-      "_metrics\030\001 \003(\t\022#\n\033desired_shard_level_me" +
-      "trics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"\226\001\n$Inc",
-      "reaseStreamRetentionPeriodRequest\0229\n\020ope" +
-      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
-      "rationParams\022\036\n\026retention_period_hours\030\002" +
-      " \001(\005\022\023\n\013stream_name\030\003 \001(\t\"U\n%IncreaseStr" +
-      "eamRetentionPeriodResponse\022,\n\toperation\030" +
-      "\001 \001(\0132\031.Ydb.Operations.Operation\"%\n#Incr" +
-      "easeStreamRetentionPeriodResult\"\232\001\n\030List" +
-      "TagsForStreamRequest\0229\n\020operation_params" +
-      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
-      "\037\n\027exclusive_start_tag_key\030\002 \001(\t\022\r\n\005limi",
-      "t\030\003 \001(\005\022\023\n\013stream_name\030\004 \001(\t\"I\n\031ListTags" +
-      "ForStreamResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
-      "db.Operations.Operation\"W\n\027ListTagsForSt" +
-      "reamResult\022\025\n\rhas_more_tags\030\001 \001(\010\022%\n\004tag" +
-      "s\030\002 \003(\0132\027.Ydb.DataStreams.V1.Tag\"\235\001\n\022Mer" +
-      "geShardsRequest\0229\n\020operation_params\030\001 \001(" +
-      "\0132\037.Ydb.Operations.OperationParams\022\037\n\027ad" +
-      "jacent_shard_to_merge\030\002 \001(\t\022\026\n\016shard_to_" +
-      "merge\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"C\n\023Merg" +
-      "eShardsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb",
-      ".Operations.Operation\"\023\n\021MergeShardsResu" +
-      "lt\"\177\n\033RemoveTagsFromStreamRequest\0229\n\020ope" +
-      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
-      "rationParams\022\023\n\013stream_name\030\002 \001(\t\022\020\n\010tag" +
-      "_keys\030\003 \003(\t\"L\n\034RemoveTagsFromStreamRespo" +
-      "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
-      "Operation\"\034\n\032RemoveTagsFromStreamResult\"" +
-      "\232\001\n\021SplitShardRequest\0229\n\020operation_param" +
-      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\022\035\n\025new_starting_hash_key\030\002 \001(\t\022\026\n\016shard",
-      "_to_split\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"B\n\022" +
-      "SplitShardResponse\022,\n\toperation\030\001 \001(\0132\031." +
-      "Ydb.Operations.Operation\"\022\n\020SplitShardRe" +
-      "sult\"\273\001\n\034StartStreamEncryptionRequest\0229\n" +
-      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
-      ".OperationParams\022;\n\017encryption_type\030\002 \001(" +
-      "\0162\".Ydb.DataStreams.V1.EncryptionType\022\016\n" +
-      "\006key_id\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"M\n\035St" +
-      "artStreamEncryptionResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\035\n\033Sta",
-      "rtStreamEncryptionResult\"\272\001\n\033StopStreamE" +
-      "ncryptionRequest\0229\n\020operation_params\030\001 \001" +
-      "(\0132\037.Ydb.Operations.OperationParams\022;\n\017e" +
-      "ncryption_type\030\002 \001(\0162\".Ydb.DataStreams.V" +
-      "1.EncryptionType\022\016\n\006key_id\030\003 \001(\t\022\023\n\013stre" +
-      "am_name\030\004 \001(\t\"L\n\034StopStreamEncryptionRes" +
-      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
-      "s.Operation\"\034\n\032StopStreamEncryptionResul" +
-      "t\"\222\002\n\027UpdateShardCountRequest\0229\n\020operati" +
+      "eamDescription.StreamStatus\022\023\n\013stream_na" +
+      "me\030\n \001(\t\022\036\n\026write_quota_kb_per_sec\030\013 \001(\005",
+      "\"Z\n\014StreamStatus\022\024\n\020STATUS_UNDEFINED\020\000\022\014" +
+      "\n\010CREATING\020\001\022\014\n\010DELETING\020\002\022\n\n\006ACTIVE\020\003\022\014" +
+      "\n\010UPDATING\020\004\"W\n\023SequenceNumberRange\022 \n\030s" +
+      "tarting_sequence_number\030\001 \001(\t\022\036\n\026ending_" +
+      "sequence_number\030\002 \001(\t\"\324\001\n\005Shard\022 \n\030adjac" +
+      "ent_parent_shard_id\030\001 \001(\t\0228\n\016hash_key_ra" +
+      "nge\030\002 \001(\0132 .Ydb.DataStreams.V1.HashKeyRa" +
+      "nge\022\027\n\017parent_shard_id\030\003 \001(\t\022D\n\023partitio" +
+      "n_key_range\030\004 \001(\0132\'.Ydb.DataStreams.V1.S" +
+      "equenceNumberRange\022\020\n\010shard_id\030\005 \001(\t\"\232\002\n",
+      "\023ConsumerDescription\022\024\n\014consumer_arn\030\001 \001" +
+      "(\t\022#\n\033consumer_creation_timestamp\030\002 \001(\005\022" +
+      "\025\n\rconsumer_name\030\003 \001(\t\022O\n\017consumer_statu" +
+      "s\030\004 \001(\01626.Ydb.DataStreams.V1.ConsumerDes" +
+      "cription.ConsumerStatus\022\022\n\nstream_arn\030\005 " +
+      "\001(\t\"L\n\016ConsumerStatus\022\022\n\016STATUS_UNKNOWN\020" +
+      "\000\022\014\n\010CREATING\020\001\022\014\n\010DELETING\020\002\022\n\n\006ACTIVE\020" +
+      "\003\"\212\002\n\013ShardFilter\022\020\n\010shard_id\030\001 \001(\t\022\021\n\tt" +
+      "imestamp\030\002 \001(\005\0223\n\004type\030\003 \001(\0162%.Ydb.DataS" +
+      "treams.V1.ShardIteratorType\"\240\001\n\017ShardFil",
+      "terType\022\030\n\024SHARD_TYPE_UNDEFINED\020\000\022\022\n\016AFT" +
+      "ER_SHARD_ID\020\001\022\023\n\017AT_TRIM_HORIZON\020\002\022\025\n\021FR" +
+      "OM_TRIM_HORIZON\020\003\022\r\n\tAT_LATEST\020\004\022\020\n\014AT_T" +
+      "IMESTAMP\020\005\022\022\n\016FROM_TIMESTAMP\020\006\"s\n\020Starti" +
+      "ngPosition\022\021\n\ttimestamp\030\001 \001(\005\022\027\n\017sequenc" +
+      "e_number\030\002 \001(\t\0223\n\004type\030\003 \001(\0162%.Ydb.DataS" +
+      "treams.V1.ShardIteratorType\"\222\003\n\030StreamDe" +
+      "scriptionSummary\022\026\n\016consumer_count\030\001 \001(\005" +
+      "\022;\n\017encryption_type\030\002 \001(\0162\".Ydb.DataStre" +
+      "ams.V1.EncryptionType\022@\n\023enhanced_monito",
+      "ring\030\003 \003(\0132#.Ydb.DataStreams.V1.Enhanced" +
+      "Metrics\022\016\n\006key_id\030\004 \001(\t\022\030\n\020open_shard_co" +
+      "unt\030\005 \001(\005\022\036\n\026retention_period_hours\030\006 \001(" +
+      "\005\022\022\n\nstream_arn\030\007 \001(\t\022!\n\031stream_creation" +
+      "_timestamp\030\010 \001(\005\022\023\n\013stream_name\030\t \001(\t\022I\n" +
+      "\rstream_status\030\n \001(\01622.Ydb.DataStreams.V" +
+      "1.StreamDescription.StreamStatus\"\276\001\n\025Sub" +
+      "scribeToShardEvent\0224\n\014child_shards\030\001 \003(\013" +
+      "2\036.Ydb.DataStreams.V1.ChildShard\022$\n\034cont" +
+      "inuation_sequence_number\030\002 \001(\t\022\034\n\024millis",
+      "_behind_latest\030\003 \001(\005\022+\n\007records\030\004 \003(\0132\032." +
+      "Ydb.DataStreams.V1.Record\"\220\010\n\033SubscribeT" +
+      "oShardEventStream\022d\n\032internal_failure_ex" +
+      "ception\030\001 \001(\0132>.Ydb.DataStreams.V1.Subsc" +
+      "ribeToShardEventStream.ExceptionEventH\000\022" +
+      "e\n\033kms_access_denied_exception\030\002 \001(\0132>.Y" +
+      "db.DataStreams.V1.SubscribeToShardEventS" +
+      "tream.ExceptionEventH\000\022`\n\026kms_disabled_e" +
+      "xception\030\003 \001(\0132>.Ydb.DataStreams.V1.Subs" +
+      "cribeToShardEventStream.ExceptionEventH\000",
+      "\022e\n\033kms_invalid_state_exception\030\004 \001(\0132>." +
+      "Ydb.DataStreams.V1.SubscribeToShardEvent" +
+      "Stream.ExceptionEventH\000\022a\n\027kms_not_found" +
+      "_exception\030\005 \001(\0132>.Ydb.DataStreams.V1.Su" +
+      "bscribeToShardEventStream.ExceptionEvent" +
+      "H\000\022]\n\023kms_opt_in_required\030\006 \001(\0132>.Ydb.Da" +
+      "taStreams.V1.SubscribeToShardEventStream" +
+      ".ExceptionEventH\000\022b\n\030kms_throttling_exce" +
+      "ption\030\007 \001(\0132>.Ydb.DataStreams.V1.Subscri" +
+      "beToShardEventStream.ExceptionEventH\000\022c\n",
+      "\031resource_in_use_exception\030\010 \001(\0132>.Ydb.D" +
+      "ataStreams.V1.SubscribeToShardEventStrea" +
+      "m.ExceptionEventH\000\022f\n\034resource_not_found" +
+      "_exception\030\t \001(\0132>.Ydb.DataStreams.V1.Su" +
+      "bscribeToShardEventStream.ExceptionEvent" +
+      "H\000\022M\n\030subscribe_to_shard_event\030\n \001(\0132).Y" +
+      "db.DataStreams.V1.SubscribeToShardEventH" +
+      "\000\032\020\n\016ExceptionEventB\007\n\005event\"!\n\003Tag\022\013\n\003k" +
+      "ey\030\001 \001(\t\022\r\n\005value\030\002 \001(\t\"\272\001\n\023CreateStream" +
+      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.",
+      "Operations.OperationParams\022\023\n\013stream_nam" +
+      "e\030\002 \001(\t\022\023\n\013shard_count\030\003 \001(\005\022\036\n\026write_qu" +
+      "ota_kb_per_sec\030\004 \001(\005\022\036\n\026retention_period" +
+      "_hours\030\005 \001(\005\"D\n\024CreateStreamResponse\022,\n\t" +
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
+      "on\"\024\n\022CreateStreamResult\"\210\001\n\023DeleteStrea" +
+      "mRequest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb" +
+      ".Operations.OperationParams\022!\n\031enforce_c" +
+      "onsumer_deletion\030\002 \001(\010\022\023\n\013stream_name\030\003 " +
+      "\001(\t\"D\n\024DeleteStreamResponse\022,\n\toperation",
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\024\n\022Del" +
+      "eteStreamResult\"\203\001\n\022ListStreamsRequest\0229" +
+      "\n\020operation_params\030\001 \001(\0132\037.Ydb.Operation" +
+      "s.OperationParams\022#\n\033exclusive_start_str" +
+      "eam_name\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\"C\n\023ListStr" +
+      "eamsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
+      "erations.Operation\"C\n\021ListStreamsResult\022" +
+      "\030\n\020has_more_streams\030\001 \001(\010\022\024\n\014stream_name" +
+      "s\030\002 \003(\t\"\210\002\n\021ListShardsRequest\0229\n\020operati" +
       "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati",
-      "onParams\022M\n\014scaling_type\030\002 \001(\01627.Ydb.Dat" +
-      "aStreams.V1.UpdateShardCountRequest.Scal" +
-      "ingType\022\023\n\013stream_name\030\003 \001(\t\022\032\n\022target_s" +
-      "hard_count\030\004 \001(\005\"<\n\013ScalingType\022\030\n\024SCALI" +
-      "NG_TYPE_UNKNOWN\020\000\022\023\n\017UNIFORM_SCALING\020\001\"H" +
-      "\n\030UpdateShardCountResponse\022,\n\toperation\030" +
-      "\001 \001(\0132\031.Ydb.Operations.Operation\"f\n\026Upda" +
-      "teShardCountResult\022\033\n\023current_shard_coun" +
-      "t\030\001 \001(\005\022\023\n\013stream_name\030\002 \001(\t\022\032\n\022target_s" +
-      "hard_count\030\003 \001(\005*S\n\016EncryptionType\022\030\n\024EN",
-      "CRYPTION_UNDEFINED\020\000\022\022\n\016ENCRYPTION_KMS\020\001" +
-      "\022\023\n\017ENCRYPTION_NONE\020\002*\337\001\n\021ShardIteratorT" +
-      "ype\022\034\n\030SHARD_ITERATOR_UNDEFINED\020\000\022%\n!SHA" +
-      "RD_ITERATOR_AT_SEQUENCE_NUMBER\020\001\022(\n$SHAR" +
-      "D_ITERATOR_AFTER_SEQUENCE_NUMBER\020\002\022\037\n\033SH" +
-      "ARD_ITERATOR_AT_TIMESTAMP\020\003\022\037\n\033SHARD_ITE" +
-      "RATOR_TRIM_HORIZON\020\004\022\031\n\025SHARD_ITERATOR_L" +
-      "ATEST\020\005B\"\n\035tech.ydb.datastreams.v1" +
-      "\370\001\001b\006proto3"
+      "onParams\022 \n\030exclusive_start_shard_id\030\002 \001" +
+      "(\t\022\023\n\013max_results\030\003 \001(\005\022\022\n\nnext_token\030\004 " +
+      "\001(\t\0225\n\014shard_filter\030\005 \001(\0132\037.Ydb.DataStre" +
+      "ams.V1.ShardFilter\022!\n\031stream_creation_ti" +
+      "mestamp\030\006 \001(\005\022\023\n\013stream_name\030\007 \001(\t\"B\n\022Li" +
+      "stShardsResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
+      "b.Operations.Operation\"Q\n\020ListShardsResu" +
+      "lt\022\022\n\nnext_token\030\001 \001(\t\022)\n\006shards\030\002 \003(\0132\031" +
+      ".Ydb.DataStreams.V1.Shard\"\206\001\n\024SetWriteQu" +
+      "otaRequest\0229\n\020operation_params\030\001 \001(\0132\037.Y",
+      "db.Operations.OperationParams\022\023\n\013stream_" +
+      "name\030\002 \001(\t\022\036\n\026write_quota_kb_per_sec\030\003 \001" +
+      "(\005\"E\n\025SetWriteQuotaResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\025\n\023Set" +
+      "WriteQuotaResult\"\301\001\n\023UpdateStreamRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\022\023\n\013stream_name\030\002 \001(\t" +
+      "\022\036\n\026write_quota_kb_per_sec\030\003 \001(\005\022\032\n\022targ" +
+      "et_shard_count\030\004 \001(\005\022\036\n\026retention_period" +
+      "_hours\030\005 \001(\005\"D\n\024UpdateStreamResponse\022,\n\t",
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
+      "on\"\024\n\022UpdateStreamResult\"\267\001\n\032ListStreamC" +
+      "onsumersRequest\0229\n\020operation_params\030\001 \001(" +
+      "\0132\037.Ydb.Operations.OperationParams\022\023\n\013ma" +
+      "x_results\030\002 \001(\005\022\022\n\nnext_token\030\003 \001(\t\022\022\n\ns" +
+      "tream_arn\030\004 \001(\t\022!\n\031stream_creation_times" +
+      "tamp\030\005 \001(\005\"K\n\033ListStreamConsumersRespons" +
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
+      "eration\"`\n\031ListStreamConsumersResult\022\022\n\n" +
+      "next_token\030\001 \001(\t\022/\n\tconsumers\030\002 \003(\0132\034.Yd",
+      "b.DataStreams.V1.Consumer\"\230\001\n\025DescribeSt" +
+      "reamRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\022 \n\030exclus" +
+      "ive_start_shard_id\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\022" +
+      "\023\n\013stream_name\030\004 \001(\t\"F\n\026DescribeStreamRe" +
+      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
+      "ns.Operation\"R\n\024DescribeStreamResult\022:\n\013" +
+      "description\030\001 \001(\0132%.Ydb.DataStreams.V1.S" +
+      "treamDescription\"\205\001\n\035RegisterStreamConsu" +
+      "merRequest\0229\n\020operation_params\030\001 \001(\0132\037.Y",
+      "db.Operations.OperationParams\022\025\n\rconsume" +
+      "r_name\030\002 \001(\t\022\022\n\nstream_arn\030\003 \001(\t\"N\n\036Regi" +
+      "sterStreamConsumerResponse\022,\n\toperation\030" +
+      "\001 \001(\0132\031.Ydb.Operations.Operation\"N\n\034Regi" +
+      "sterStreamConsumerResult\022.\n\010consumer\030\001 \001" +
+      "(\0132\034.Ydb.DataStreams.V1.Consumer\"\235\001\n\037Der" +
+      "egisterStreamConsumerRequest\0229\n\020operatio" +
+      "n_params\030\001 \001(\0132\037.Ydb.Operations.Operatio" +
+      "nParams\022\024\n\014consumer_arn\030\002 \001(\t\022\025\n\rconsume" +
+      "r_name\030\003 \001(\t\022\022\n\nstream_arn\030\004 \001(\t\"P\n Dere",
+      "gisterStreamConsumerResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\" \n\036De" +
+      "registerStreamConsumerResult\"\233\001\n\035Describ" +
+      "eStreamConsumerRequest\0229\n\020operation_para" +
+      "ms\030\001 \001(\0132\037.Ydb.Operations.OperationParam" +
+      "s\022\024\n\014consumer_arn\030\002 \001(\t\022\025\n\rconsumer_name" +
+      "\030\003 \001(\t\022\022\n\nstream_arn\030\004 \001(\t\"N\n\036DescribeSt" +
+      "reamConsumerResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"e\n\034DescribeSt" +
+      "reamConsumerResult\022E\n\024consumer_descripti",
+      "on\030\001 \001(\0132\'.Ydb.DataStreams.V1.ConsumerDe" +
+      "scription\"X\n\026PutRecordsRequestEntry\022\014\n\004d" +
+      "ata\030\001 \001(\014\022\031\n\021explicit_hash_key\030\002 \001(\t\022\025\n\r" +
+      "partition_key\030\003 \001(\t\"\223\001\n\025PutRecordsResult" +
+      "Entry\022\'\n\004code\030\001 \001(\0162\031.Ydb.StatusIds.Stat" +
+      "usCode\022\025\n\rerror_message\030\002 \001(\t\022\022\n\nerror_c" +
+      "ode\030\003 \001(\t\022\027\n\017sequence_number\030\004 \001(\t\022\r\n\005sh" +
+      "ard\030\005 \001(\t\"u\n\021GetRecordsRequest\0229\n\020operat" +
+      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
+      "ionParams\022\r\n\005limit\030\002 \001(\005\022\026\n\016shard_iterat",
+      "or\030\003 \001(\t\"B\n\022GetRecordsResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\260\001\n" +
+      "\020GetRecordsResult\0224\n\014child_shards\030\001 \003(\0132" +
+      "\036.Ydb.DataStreams.V1.ChildShard\022\034\n\024milli" +
+      "s_behind_latest\030\002 \001(\003\022\033\n\023next_shard_iter" +
+      "ator\030\003 \001(\t\022+\n\007records\030\004 \003(\0132\032.Ydb.DataSt" +
+      "reams.V1.Record\"\273\001\n\020PutRecordRequest\0229\n\020" +
+      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
+      "OperationParams\022\014\n\004data\030\002 \001(\014\022\031\n\021explici" +
+      "t_hash_key\030\003 \001(\t\022\025\n\rpartition_key\030\004 \001(\t\022",
+      "\027\n\017sequence_number\030\005 \001(\t\022\023\n\013stream_name\030" +
+      "\006 \001(\t\"A\n\021PutRecordResponse\022,\n\toperation\030" +
+      "\001 \001(\0132\031.Ydb.Operations.Operation\"{\n\017PutR" +
+      "ecordResult\022;\n\017encryption_type\030\001 \001(\0162\".Y" +
+      "db.DataStreams.V1.EncryptionType\022\027\n\017sequ" +
+      "ence_number\030\002 \001(\t\022\022\n\nshard_name\030\003 \001(\t\"\240\001" +
+      "\n\021PutRecordsRequest\0229\n\020operation_params\030" +
+      "\001 \001(\0132\037.Ydb.Operations.OperationParams\022;" +
+      "\n\007records\030\002 \003(\0132*.Ydb.DataStreams.V1.Put" +
+      "RecordsRequestEntry\022\023\n\013stream_name\030\003 \001(\t",
+      "\"B\n\022PutRecordsResponse\022,\n\toperation\030\001 \001(" +
+      "\0132\031.Ydb.Operations.Operation\"\250\001\n\020PutReco" +
+      "rdsResult\022;\n\017encryption_type\030\001 \001(\0162\".Ydb" +
+      ".DataStreams.V1.EncryptionType\022\033\n\023failed" +
+      "_record_count\030\002 \001(\005\022:\n\007records\030\003 \003(\0132).Y" +
+      "db.DataStreams.V1.PutRecordsResultEntry\"" +
+      "\364\001\n\027GetShardIteratorRequest\0229\n\020operation" +
+      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\022\020\n\010shard_id\030\002 \001(\t\022B\n\023shard_iterat" +
+      "or_type\030\003 \001(\0162%.Ydb.DataStreams.V1.Shard",
+      "IteratorType\022 \n\030starting_sequence_number" +
+      "\030\004 \001(\t\022\023\n\013stream_name\030\005 \001(\t\022\021\n\ttimestamp" +
+      "\030\006 \001(\005\"H\n\030GetShardIteratorResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "\"*\n\026GetShardIteratorResult\022\020\n\010iterator\030\001" +
+      " \001(\t\"\275\001\n\027SubscribeToShardRequest\0229\n\020oper" +
+      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
+      "ationParams\022\024\n\014consumer_arn\030\002 \001(\t\022\020\n\010sha" +
+      "rd_id\030\003 \001(\t\022?\n\021starting_position\030\004 \001(\0132$" +
+      ".Ydb.DataStreams.V1.StartingPosition\"H\n\030",
+      "SubscribeToShardResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"_\n\026Subscr" +
+      "ibeToShardResult\022E\n\014event_stream\030\001 \001(\0132/" +
+      ".Ydb.DataStreams.V1.SubscribeToShardEven" +
+      "tStream\"v\n\026AddTagsToStreamRequest\0229\n\020ope" +
+      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
+      "rationParams\022\023\n\013stream_name\030\002 \001(\t\022\014\n\004tag" +
+      "s\030\003 \003(\t\"G\n\027AddTagsToStreamResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "\"\027\n\025AddTagsToStreamResult\"\226\001\n$DecreaseSt",
+      "reamRetentionPeriodRequest\0229\n\020operation_" +
+      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\022\023\n\013stream_name\030\002 \001(\t\022\036\n\026retention_" +
+      "period_hours\030\003 \001(\005\"U\n%DecreaseStreamRete" +
+      "ntionPeriodResponse\022,\n\toperation\030\001 \001(\0132\031" +
+      ".Ydb.Operations.Operation\"%\n#DecreaseStr" +
+      "eamRetentionPeriodResult\"R\n\025DescribeLimi" +
+      "tsRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
+      "b.Operations.OperationParams\"F\n\026Describe" +
+      "LimitsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.",
+      "Operations.Operation\"E\n\024DescribeLimitsRe" +
+      "sult\022\030\n\020open_shard_count\030\001 \001(\005\022\023\n\013shard_" +
+      "limit\030\002 \001(\005\"n\n\034DescribeStreamSummaryRequ" +
+      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\022\023\n\013stream_name\030\002 " +
+      "\001(\t\"M\n\035DescribeStreamSummaryResponse\022,\n\t" +
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
+      "on\"\035\n\033DescribeStreamSummaryResult\"\217\001\n Di" +
+      "sableEnhancedMonitoringRequest\0229\n\020operat" +
+      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat",
+      "ionParams\022\033\n\023shard_level_metrics\030\002 \003(\t\022\023" +
+      "\n\013stream_name\030\003 \001(\t\"Q\n!DisableEnhancedMo" +
+      "nitoringResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
+      "b.Operations.Operation\"\200\001\n\037DisableEnhanc" +
+      "edMonitoringResult\022#\n\033current_shard_leve" +
+      "l_metrics\030\001 \003(\t\022#\n\033desired_shard_level_m" +
+      "etrics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"\216\001\n\037En" +
+      "ableEnhancedMonitoringRequest\0229\n\020operati" +
+      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
+      "onParams\022\033\n\023shard_level_metrics\030\002 \003(\t\022\023\n",
+      "\013stream_name\030\003 \001(\t\"P\n EnableEnhancedMoni" +
+      "toringResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
+      "Operations.Operation\"\177\n\036EnableEnhancedMo" +
+      "nitoringResult\022#\n\033current_shard_level_me" +
+      "trics\030\001 \003(\t\022#\n\033desired_shard_level_metri" +
+      "cs\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"\226\001\n$Increa" +
+      "seStreamRetentionPeriodRequest\0229\n\020operat" +
+      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
+      "ionParams\022\036\n\026retention_period_hours\030\002 \001(" +
+      "\005\022\023\n\013stream_name\030\003 \001(\t\"U\n%IncreaseStream",
+      "RetentionPeriodResponse\022,\n\toperation\030\001 \001" +
+      "(\0132\031.Ydb.Operations.Operation\"%\n#Increas" +
+      "eStreamRetentionPeriodResult\"\232\001\n\030ListTag" +
+      "sForStreamRequest\0229\n\020operation_params\030\001 " +
+      "\001(\0132\037.Ydb.Operations.OperationParams\022\037\n\027" +
+      "exclusive_start_tag_key\030\002 \001(\t\022\r\n\005limit\030\003" +
+      " \001(\005\022\023\n\013stream_name\030\004 \001(\t\"I\n\031ListTagsFor" +
+      "StreamResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
+      "Operations.Operation\"W\n\027ListTagsForStrea" +
+      "mResult\022\025\n\rhas_more_tags\030\001 \001(\010\022%\n\004tags\030\002",
+      " \003(\0132\027.Ydb.DataStreams.V1.Tag\"\235\001\n\022MergeS" +
+      "hardsRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\022\037\n\027adjac" +
+      "ent_shard_to_merge\030\002 \001(\t\022\026\n\016shard_to_mer" +
+      "ge\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"C\n\023MergeSh" +
+      "ardsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
+      "erations.Operation\"\023\n\021MergeShardsResult\"" +
+      "\177\n\033RemoveTagsFromStreamRequest\0229\n\020operat" +
+      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
+      "ionParams\022\023\n\013stream_name\030\002 \001(\t\022\020\n\010tag_ke",
+      "ys\030\003 \003(\t\"L\n\034RemoveTagsFromStreamResponse" +
+      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
+      "ration\"\034\n\032RemoveTagsFromStreamResult\"\232\001\n" +
+      "\021SplitShardRequest\0229\n\020operation_params\030\001" +
+      " \001(\0132\037.Ydb.Operations.OperationParams\022\035\n" +
+      "\025new_starting_hash_key\030\002 \001(\t\022\026\n\016shard_to" +
+      "_split\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"B\n\022Spl" +
+      "itShardResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\"\022\n\020SplitShardResul" +
+      "t\"\273\001\n\034StartStreamEncryptionRequest\0229\n\020op",
+      "eration_params\030\001 \001(\0132\037.Ydb.Operations.Op" +
+      "erationParams\022;\n\017encryption_type\030\002 \001(\0162\"" +
+      ".Ydb.DataStreams.V1.EncryptionType\022\016\n\006ke" +
+      "y_id\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"M\n\035Start" +
+      "StreamEncryptionResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"\035\n\033StartS" +
+      "treamEncryptionResult\"\272\001\n\033StopStreamEncr" +
+      "yptionRequest\0229\n\020operation_params\030\001 \001(\0132" +
+      "\037.Ydb.Operations.OperationParams\022;\n\017encr" +
+      "yption_type\030\002 \001(\0162\".Ydb.DataStreams.V1.E",
+      "ncryptionType\022\016\n\006key_id\030\003 \001(\t\022\023\n\013stream_" +
+      "name\030\004 \001(\t\"L\n\034StopStreamEncryptionRespon" +
+      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
+      "peration\"\034\n\032StopStreamEncryptionResult\"\222" +
+      "\002\n\027UpdateShardCountRequest\0229\n\020operation_" +
+      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\022M\n\014scaling_type\030\002 \001(\01627.Ydb.DataSt" +
+      "reams.V1.UpdateShardCountRequest.Scaling" +
+      "Type\022\023\n\013stream_name\030\003 \001(\t\022\032\n\022target_shar" +
+      "d_count\030\004 \001(\005\"<\n\013ScalingType\022\030\n\024SCALING_",
+      "TYPE_UNKNOWN\020\000\022\023\n\017UNIFORM_SCALING\020\001\"H\n\030U" +
+      "pdateShardCountResponse\022,\n\toperation\030\001 \001" +
+      "(\0132\031.Ydb.Operations.Operation\"f\n\026UpdateS" +
+      "hardCountResult\022\033\n\023current_shard_count\030\001" +
+      " \001(\005\022\023\n\013stream_name\030\002 \001(\t\022\032\n\022target_shar" +
+      "d_count\030\003 \001(\005*S\n\016EncryptionType\022\030\n\024ENCRY" +
+      "PTION_UNDEFINED\020\000\022\022\n\016ENCRYPTION_KMS\020\001\022\023\n" +
+      "\017ENCRYPTION_NONE\020\002*\337\001\n\021ShardIteratorType" +
+      "\022\034\n\030SHARD_ITERATOR_UNDEFINED\020\000\022%\n!SHARD_" +
+      "ITERATOR_AT_SEQUENCE_NUMBER\020\001\022(\n$SHARD_I",
+      "TERATOR_AFTER_SEQUENCE_NUMBER\020\002\022\037\n\033SHARD" +
+      "_ITERATOR_AT_TIMESTAMP\020\003\022\037\n\033SHARD_ITERAT" +
+      "OR_TRIM_HORIZON\020\004\022\031\n\025SHARD_ITERATOR_LATE" +
+      "ST\020\005B\"\n\035tech.ydb.datastreams.v1\370\001\001" +
+      "b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -81250,7 +85372,7 @@ public final class Datastreams {
     internal_static_Ydb_DataStreams_V1_StreamDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_StreamDescription_descriptor,
-        new java.lang.String[] { "EncryptionType", "EnhancedMonitoring", "HasMoreShards", "KeyId", "RetentionPeriodHours", "Shards", "StreamArn", "Timestamp", "StreamStatus", });
+        new java.lang.String[] { "EncryptionType", "EnhancedMonitoring", "HasMoreShards", "KeyId", "RetentionPeriodHours", "Shards", "StreamArn", "Timestamp", "StreamStatus", "StreamName", "WriteQuotaKbPerSec", });
     internal_static_Ydb_DataStreams_V1_SequenceNumberRange_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_Ydb_DataStreams_V1_SequenceNumberRange_fieldAccessorTable = new
@@ -81316,7 +85438,7 @@ public final class Datastreams {
     internal_static_Ydb_DataStreams_V1_CreateStreamRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_CreateStreamRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "StreamName", "ShardCount", });
+        new java.lang.String[] { "OperationParams", "StreamName", "ShardCount", "WriteQuotaKbPerSec", "RetentionPeriodHours", });
     internal_static_Ydb_DataStreams_V1_CreateStreamResponse_descriptor =
       getDescriptor().getMessageTypes().get(16);
     internal_static_Ydb_DataStreams_V1_CreateStreamResponse_fieldAccessorTable = new
@@ -81383,446 +85505,482 @@ public final class Datastreams {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_ListShardsResult_descriptor,
         new java.lang.String[] { "NextToken", "Shards", });
-    internal_static_Ydb_DataStreams_V1_ListStreamConsumersRequest_descriptor =
+    internal_static_Ydb_DataStreams_V1_SetWriteQuotaRequest_descriptor =
       getDescriptor().getMessageTypes().get(27);
+    internal_static_Ydb_DataStreams_V1_SetWriteQuotaRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_DataStreams_V1_SetWriteQuotaRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "StreamName", "WriteQuotaKbPerSec", });
+    internal_static_Ydb_DataStreams_V1_SetWriteQuotaResponse_descriptor =
+      getDescriptor().getMessageTypes().get(28);
+    internal_static_Ydb_DataStreams_V1_SetWriteQuotaResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_DataStreams_V1_SetWriteQuotaResponse_descriptor,
+        new java.lang.String[] { "Operation", });
+    internal_static_Ydb_DataStreams_V1_SetWriteQuotaResult_descriptor =
+      getDescriptor().getMessageTypes().get(29);
+    internal_static_Ydb_DataStreams_V1_SetWriteQuotaResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_DataStreams_V1_SetWriteQuotaResult_descriptor,
+        new java.lang.String[] { });
+    internal_static_Ydb_DataStreams_V1_UpdateStreamRequest_descriptor =
+      getDescriptor().getMessageTypes().get(30);
+    internal_static_Ydb_DataStreams_V1_UpdateStreamRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_DataStreams_V1_UpdateStreamRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "StreamName", "WriteQuotaKbPerSec", "TargetShardCount", "RetentionPeriodHours", });
+    internal_static_Ydb_DataStreams_V1_UpdateStreamResponse_descriptor =
+      getDescriptor().getMessageTypes().get(31);
+    internal_static_Ydb_DataStreams_V1_UpdateStreamResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_DataStreams_V1_UpdateStreamResponse_descriptor,
+        new java.lang.String[] { "Operation", });
+    internal_static_Ydb_DataStreams_V1_UpdateStreamResult_descriptor =
+      getDescriptor().getMessageTypes().get(32);
+    internal_static_Ydb_DataStreams_V1_UpdateStreamResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_DataStreams_V1_UpdateStreamResult_descriptor,
+        new java.lang.String[] { });
+    internal_static_Ydb_DataStreams_V1_ListStreamConsumersRequest_descriptor =
+      getDescriptor().getMessageTypes().get(33);
     internal_static_Ydb_DataStreams_V1_ListStreamConsumersRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_ListStreamConsumersRequest_descriptor,
         new java.lang.String[] { "OperationParams", "MaxResults", "NextToken", "StreamArn", "StreamCreationTimestamp", });
     internal_static_Ydb_DataStreams_V1_ListStreamConsumersResponse_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(34);
     internal_static_Ydb_DataStreams_V1_ListStreamConsumersResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_ListStreamConsumersResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_ListStreamConsumersResult_descriptor =
-      getDescriptor().getMessageTypes().get(29);
+      getDescriptor().getMessageTypes().get(35);
     internal_static_Ydb_DataStreams_V1_ListStreamConsumersResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_ListStreamConsumersResult_descriptor,
         new java.lang.String[] { "NextToken", "Consumers", });
     internal_static_Ydb_DataStreams_V1_DescribeStreamRequest_descriptor =
-      getDescriptor().getMessageTypes().get(30);
+      getDescriptor().getMessageTypes().get(36);
     internal_static_Ydb_DataStreams_V1_DescribeStreamRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DescribeStreamRequest_descriptor,
         new java.lang.String[] { "OperationParams", "ExclusiveStartShardId", "Limit", "StreamName", });
     internal_static_Ydb_DataStreams_V1_DescribeStreamResponse_descriptor =
-      getDescriptor().getMessageTypes().get(31);
+      getDescriptor().getMessageTypes().get(37);
     internal_static_Ydb_DataStreams_V1_DescribeStreamResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DescribeStreamResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_DescribeStreamResult_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(38);
     internal_static_Ydb_DataStreams_V1_DescribeStreamResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DescribeStreamResult_descriptor,
         new java.lang.String[] { "Description", });
     internal_static_Ydb_DataStreams_V1_RegisterStreamConsumerRequest_descriptor =
-      getDescriptor().getMessageTypes().get(33);
+      getDescriptor().getMessageTypes().get(39);
     internal_static_Ydb_DataStreams_V1_RegisterStreamConsumerRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_RegisterStreamConsumerRequest_descriptor,
         new java.lang.String[] { "OperationParams", "ConsumerName", "StreamArn", });
     internal_static_Ydb_DataStreams_V1_RegisterStreamConsumerResponse_descriptor =
-      getDescriptor().getMessageTypes().get(34);
+      getDescriptor().getMessageTypes().get(40);
     internal_static_Ydb_DataStreams_V1_RegisterStreamConsumerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_RegisterStreamConsumerResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_RegisterStreamConsumerResult_descriptor =
-      getDescriptor().getMessageTypes().get(35);
+      getDescriptor().getMessageTypes().get(41);
     internal_static_Ydb_DataStreams_V1_RegisterStreamConsumerResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_RegisterStreamConsumerResult_descriptor,
         new java.lang.String[] { "Consumer", });
     internal_static_Ydb_DataStreams_V1_DeregisterStreamConsumerRequest_descriptor =
-      getDescriptor().getMessageTypes().get(36);
+      getDescriptor().getMessageTypes().get(42);
     internal_static_Ydb_DataStreams_V1_DeregisterStreamConsumerRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DeregisterStreamConsumerRequest_descriptor,
         new java.lang.String[] { "OperationParams", "ConsumerArn", "ConsumerName", "StreamArn", });
     internal_static_Ydb_DataStreams_V1_DeregisterStreamConsumerResponse_descriptor =
-      getDescriptor().getMessageTypes().get(37);
+      getDescriptor().getMessageTypes().get(43);
     internal_static_Ydb_DataStreams_V1_DeregisterStreamConsumerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DeregisterStreamConsumerResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_DeregisterStreamConsumerResult_descriptor =
-      getDescriptor().getMessageTypes().get(38);
+      getDescriptor().getMessageTypes().get(44);
     internal_static_Ydb_DataStreams_V1_DeregisterStreamConsumerResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DeregisterStreamConsumerResult_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_DataStreams_V1_DescribeStreamConsumerRequest_descriptor =
-      getDescriptor().getMessageTypes().get(39);
+      getDescriptor().getMessageTypes().get(45);
     internal_static_Ydb_DataStreams_V1_DescribeStreamConsumerRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DescribeStreamConsumerRequest_descriptor,
         new java.lang.String[] { "OperationParams", "ConsumerArn", "ConsumerName", "StreamArn", });
     internal_static_Ydb_DataStreams_V1_DescribeStreamConsumerResponse_descriptor =
-      getDescriptor().getMessageTypes().get(40);
+      getDescriptor().getMessageTypes().get(46);
     internal_static_Ydb_DataStreams_V1_DescribeStreamConsumerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DescribeStreamConsumerResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_DescribeStreamConsumerResult_descriptor =
-      getDescriptor().getMessageTypes().get(41);
+      getDescriptor().getMessageTypes().get(47);
     internal_static_Ydb_DataStreams_V1_DescribeStreamConsumerResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DescribeStreamConsumerResult_descriptor,
         new java.lang.String[] { "ConsumerDescription", });
     internal_static_Ydb_DataStreams_V1_PutRecordsRequestEntry_descriptor =
-      getDescriptor().getMessageTypes().get(42);
+      getDescriptor().getMessageTypes().get(48);
     internal_static_Ydb_DataStreams_V1_PutRecordsRequestEntry_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_PutRecordsRequestEntry_descriptor,
         new java.lang.String[] { "Data", "ExplicitHashKey", "PartitionKey", });
     internal_static_Ydb_DataStreams_V1_PutRecordsResultEntry_descriptor =
-      getDescriptor().getMessageTypes().get(43);
+      getDescriptor().getMessageTypes().get(49);
     internal_static_Ydb_DataStreams_V1_PutRecordsResultEntry_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_PutRecordsResultEntry_descriptor,
         new java.lang.String[] { "Code", "ErrorMessage", "ErrorCode", "SequenceNumber", "Shard", });
     internal_static_Ydb_DataStreams_V1_GetRecordsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(44);
+      getDescriptor().getMessageTypes().get(50);
     internal_static_Ydb_DataStreams_V1_GetRecordsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_GetRecordsRequest_descriptor,
         new java.lang.String[] { "OperationParams", "Limit", "ShardIterator", });
     internal_static_Ydb_DataStreams_V1_GetRecordsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(45);
+      getDescriptor().getMessageTypes().get(51);
     internal_static_Ydb_DataStreams_V1_GetRecordsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_GetRecordsResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_GetRecordsResult_descriptor =
-      getDescriptor().getMessageTypes().get(46);
+      getDescriptor().getMessageTypes().get(52);
     internal_static_Ydb_DataStreams_V1_GetRecordsResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_GetRecordsResult_descriptor,
         new java.lang.String[] { "ChildShards", "MillisBehindLatest", "NextShardIterator", "Records", });
     internal_static_Ydb_DataStreams_V1_PutRecordRequest_descriptor =
-      getDescriptor().getMessageTypes().get(47);
+      getDescriptor().getMessageTypes().get(53);
     internal_static_Ydb_DataStreams_V1_PutRecordRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_PutRecordRequest_descriptor,
         new java.lang.String[] { "OperationParams", "Data", "ExplicitHashKey", "PartitionKey", "SequenceNumber", "StreamName", });
     internal_static_Ydb_DataStreams_V1_PutRecordResponse_descriptor =
-      getDescriptor().getMessageTypes().get(48);
+      getDescriptor().getMessageTypes().get(54);
     internal_static_Ydb_DataStreams_V1_PutRecordResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_PutRecordResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_PutRecordResult_descriptor =
-      getDescriptor().getMessageTypes().get(49);
+      getDescriptor().getMessageTypes().get(55);
     internal_static_Ydb_DataStreams_V1_PutRecordResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_PutRecordResult_descriptor,
         new java.lang.String[] { "EncryptionType", "SequenceNumber", "ShardName", });
     internal_static_Ydb_DataStreams_V1_PutRecordsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(50);
+      getDescriptor().getMessageTypes().get(56);
     internal_static_Ydb_DataStreams_V1_PutRecordsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_PutRecordsRequest_descriptor,
         new java.lang.String[] { "OperationParams", "Records", "StreamName", });
     internal_static_Ydb_DataStreams_V1_PutRecordsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(51);
+      getDescriptor().getMessageTypes().get(57);
     internal_static_Ydb_DataStreams_V1_PutRecordsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_PutRecordsResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_PutRecordsResult_descriptor =
-      getDescriptor().getMessageTypes().get(52);
+      getDescriptor().getMessageTypes().get(58);
     internal_static_Ydb_DataStreams_V1_PutRecordsResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_PutRecordsResult_descriptor,
         new java.lang.String[] { "EncryptionType", "FailedRecordCount", "Records", });
     internal_static_Ydb_DataStreams_V1_GetShardIteratorRequest_descriptor =
-      getDescriptor().getMessageTypes().get(53);
+      getDescriptor().getMessageTypes().get(59);
     internal_static_Ydb_DataStreams_V1_GetShardIteratorRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_GetShardIteratorRequest_descriptor,
         new java.lang.String[] { "OperationParams", "ShardId", "ShardIteratorType", "StartingSequenceNumber", "StreamName", "Timestamp", });
     internal_static_Ydb_DataStreams_V1_GetShardIteratorResponse_descriptor =
-      getDescriptor().getMessageTypes().get(54);
+      getDescriptor().getMessageTypes().get(60);
     internal_static_Ydb_DataStreams_V1_GetShardIteratorResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_GetShardIteratorResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_GetShardIteratorResult_descriptor =
-      getDescriptor().getMessageTypes().get(55);
+      getDescriptor().getMessageTypes().get(61);
     internal_static_Ydb_DataStreams_V1_GetShardIteratorResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_GetShardIteratorResult_descriptor,
         new java.lang.String[] { "Iterator", });
     internal_static_Ydb_DataStreams_V1_SubscribeToShardRequest_descriptor =
-      getDescriptor().getMessageTypes().get(56);
+      getDescriptor().getMessageTypes().get(62);
     internal_static_Ydb_DataStreams_V1_SubscribeToShardRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_SubscribeToShardRequest_descriptor,
         new java.lang.String[] { "OperationParams", "ConsumerArn", "ShardId", "StartingPosition", });
     internal_static_Ydb_DataStreams_V1_SubscribeToShardResponse_descriptor =
-      getDescriptor().getMessageTypes().get(57);
+      getDescriptor().getMessageTypes().get(63);
     internal_static_Ydb_DataStreams_V1_SubscribeToShardResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_SubscribeToShardResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_SubscribeToShardResult_descriptor =
-      getDescriptor().getMessageTypes().get(58);
+      getDescriptor().getMessageTypes().get(64);
     internal_static_Ydb_DataStreams_V1_SubscribeToShardResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_SubscribeToShardResult_descriptor,
         new java.lang.String[] { "EventStream", });
     internal_static_Ydb_DataStreams_V1_AddTagsToStreamRequest_descriptor =
-      getDescriptor().getMessageTypes().get(59);
+      getDescriptor().getMessageTypes().get(65);
     internal_static_Ydb_DataStreams_V1_AddTagsToStreamRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_AddTagsToStreamRequest_descriptor,
         new java.lang.String[] { "OperationParams", "StreamName", "Tags", });
     internal_static_Ydb_DataStreams_V1_AddTagsToStreamResponse_descriptor =
-      getDescriptor().getMessageTypes().get(60);
+      getDescriptor().getMessageTypes().get(66);
     internal_static_Ydb_DataStreams_V1_AddTagsToStreamResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_AddTagsToStreamResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_AddTagsToStreamResult_descriptor =
-      getDescriptor().getMessageTypes().get(61);
+      getDescriptor().getMessageTypes().get(67);
     internal_static_Ydb_DataStreams_V1_AddTagsToStreamResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_AddTagsToStreamResult_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_DataStreams_V1_DecreaseStreamRetentionPeriodRequest_descriptor =
-      getDescriptor().getMessageTypes().get(62);
+      getDescriptor().getMessageTypes().get(68);
     internal_static_Ydb_DataStreams_V1_DecreaseStreamRetentionPeriodRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DecreaseStreamRetentionPeriodRequest_descriptor,
         new java.lang.String[] { "OperationParams", "StreamName", "RetentionPeriodHours", });
     internal_static_Ydb_DataStreams_V1_DecreaseStreamRetentionPeriodResponse_descriptor =
-      getDescriptor().getMessageTypes().get(63);
+      getDescriptor().getMessageTypes().get(69);
     internal_static_Ydb_DataStreams_V1_DecreaseStreamRetentionPeriodResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DecreaseStreamRetentionPeriodResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_DecreaseStreamRetentionPeriodResult_descriptor =
-      getDescriptor().getMessageTypes().get(64);
+      getDescriptor().getMessageTypes().get(70);
     internal_static_Ydb_DataStreams_V1_DecreaseStreamRetentionPeriodResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DecreaseStreamRetentionPeriodResult_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_DataStreams_V1_DescribeLimitsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(65);
+      getDescriptor().getMessageTypes().get(71);
     internal_static_Ydb_DataStreams_V1_DescribeLimitsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DescribeLimitsRequest_descriptor,
         new java.lang.String[] { "OperationParams", });
     internal_static_Ydb_DataStreams_V1_DescribeLimitsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(66);
+      getDescriptor().getMessageTypes().get(72);
     internal_static_Ydb_DataStreams_V1_DescribeLimitsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DescribeLimitsResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_DescribeLimitsResult_descriptor =
-      getDescriptor().getMessageTypes().get(67);
+      getDescriptor().getMessageTypes().get(73);
     internal_static_Ydb_DataStreams_V1_DescribeLimitsResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DescribeLimitsResult_descriptor,
         new java.lang.String[] { "OpenShardCount", "ShardLimit", });
     internal_static_Ydb_DataStreams_V1_DescribeStreamSummaryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(68);
+      getDescriptor().getMessageTypes().get(74);
     internal_static_Ydb_DataStreams_V1_DescribeStreamSummaryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DescribeStreamSummaryRequest_descriptor,
         new java.lang.String[] { "OperationParams", "StreamName", });
     internal_static_Ydb_DataStreams_V1_DescribeStreamSummaryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(69);
+      getDescriptor().getMessageTypes().get(75);
     internal_static_Ydb_DataStreams_V1_DescribeStreamSummaryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DescribeStreamSummaryResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_DescribeStreamSummaryResult_descriptor =
-      getDescriptor().getMessageTypes().get(70);
+      getDescriptor().getMessageTypes().get(76);
     internal_static_Ydb_DataStreams_V1_DescribeStreamSummaryResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DescribeStreamSummaryResult_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_DataStreams_V1_DisableEnhancedMonitoringRequest_descriptor =
-      getDescriptor().getMessageTypes().get(71);
+      getDescriptor().getMessageTypes().get(77);
     internal_static_Ydb_DataStreams_V1_DisableEnhancedMonitoringRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DisableEnhancedMonitoringRequest_descriptor,
         new java.lang.String[] { "OperationParams", "ShardLevelMetrics", "StreamName", });
     internal_static_Ydb_DataStreams_V1_DisableEnhancedMonitoringResponse_descriptor =
-      getDescriptor().getMessageTypes().get(72);
+      getDescriptor().getMessageTypes().get(78);
     internal_static_Ydb_DataStreams_V1_DisableEnhancedMonitoringResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DisableEnhancedMonitoringResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_DisableEnhancedMonitoringResult_descriptor =
-      getDescriptor().getMessageTypes().get(73);
+      getDescriptor().getMessageTypes().get(79);
     internal_static_Ydb_DataStreams_V1_DisableEnhancedMonitoringResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DisableEnhancedMonitoringResult_descriptor,
         new java.lang.String[] { "CurrentShardLevelMetrics", "DesiredShardLevelMetrics", "StreamName", });
     internal_static_Ydb_DataStreams_V1_EnableEnhancedMonitoringRequest_descriptor =
-      getDescriptor().getMessageTypes().get(74);
+      getDescriptor().getMessageTypes().get(80);
     internal_static_Ydb_DataStreams_V1_EnableEnhancedMonitoringRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_EnableEnhancedMonitoringRequest_descriptor,
         new java.lang.String[] { "OperationParams", "ShardLevelMetrics", "StreamName", });
     internal_static_Ydb_DataStreams_V1_EnableEnhancedMonitoringResponse_descriptor =
-      getDescriptor().getMessageTypes().get(75);
+      getDescriptor().getMessageTypes().get(81);
     internal_static_Ydb_DataStreams_V1_EnableEnhancedMonitoringResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_EnableEnhancedMonitoringResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_EnableEnhancedMonitoringResult_descriptor =
-      getDescriptor().getMessageTypes().get(76);
+      getDescriptor().getMessageTypes().get(82);
     internal_static_Ydb_DataStreams_V1_EnableEnhancedMonitoringResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_EnableEnhancedMonitoringResult_descriptor,
         new java.lang.String[] { "CurrentShardLevelMetrics", "DesiredShardLevelMetrics", "StreamName", });
     internal_static_Ydb_DataStreams_V1_IncreaseStreamRetentionPeriodRequest_descriptor =
-      getDescriptor().getMessageTypes().get(77);
+      getDescriptor().getMessageTypes().get(83);
     internal_static_Ydb_DataStreams_V1_IncreaseStreamRetentionPeriodRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_IncreaseStreamRetentionPeriodRequest_descriptor,
         new java.lang.String[] { "OperationParams", "RetentionPeriodHours", "StreamName", });
     internal_static_Ydb_DataStreams_V1_IncreaseStreamRetentionPeriodResponse_descriptor =
-      getDescriptor().getMessageTypes().get(78);
+      getDescriptor().getMessageTypes().get(84);
     internal_static_Ydb_DataStreams_V1_IncreaseStreamRetentionPeriodResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_IncreaseStreamRetentionPeriodResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_IncreaseStreamRetentionPeriodResult_descriptor =
-      getDescriptor().getMessageTypes().get(79);
+      getDescriptor().getMessageTypes().get(85);
     internal_static_Ydb_DataStreams_V1_IncreaseStreamRetentionPeriodResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_IncreaseStreamRetentionPeriodResult_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_DataStreams_V1_ListTagsForStreamRequest_descriptor =
-      getDescriptor().getMessageTypes().get(80);
+      getDescriptor().getMessageTypes().get(86);
     internal_static_Ydb_DataStreams_V1_ListTagsForStreamRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_ListTagsForStreamRequest_descriptor,
         new java.lang.String[] { "OperationParams", "ExclusiveStartTagKey", "Limit", "StreamName", });
     internal_static_Ydb_DataStreams_V1_ListTagsForStreamResponse_descriptor =
-      getDescriptor().getMessageTypes().get(81);
+      getDescriptor().getMessageTypes().get(87);
     internal_static_Ydb_DataStreams_V1_ListTagsForStreamResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_ListTagsForStreamResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_ListTagsForStreamResult_descriptor =
-      getDescriptor().getMessageTypes().get(82);
+      getDescriptor().getMessageTypes().get(88);
     internal_static_Ydb_DataStreams_V1_ListTagsForStreamResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_ListTagsForStreamResult_descriptor,
         new java.lang.String[] { "HasMoreTags", "Tags", });
     internal_static_Ydb_DataStreams_V1_MergeShardsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(83);
+      getDescriptor().getMessageTypes().get(89);
     internal_static_Ydb_DataStreams_V1_MergeShardsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_MergeShardsRequest_descriptor,
         new java.lang.String[] { "OperationParams", "AdjacentShardToMerge", "ShardToMerge", "StreamName", });
     internal_static_Ydb_DataStreams_V1_MergeShardsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(84);
+      getDescriptor().getMessageTypes().get(90);
     internal_static_Ydb_DataStreams_V1_MergeShardsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_MergeShardsResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_MergeShardsResult_descriptor =
-      getDescriptor().getMessageTypes().get(85);
+      getDescriptor().getMessageTypes().get(91);
     internal_static_Ydb_DataStreams_V1_MergeShardsResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_MergeShardsResult_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_DataStreams_V1_RemoveTagsFromStreamRequest_descriptor =
-      getDescriptor().getMessageTypes().get(86);
+      getDescriptor().getMessageTypes().get(92);
     internal_static_Ydb_DataStreams_V1_RemoveTagsFromStreamRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_RemoveTagsFromStreamRequest_descriptor,
         new java.lang.String[] { "OperationParams", "StreamName", "TagKeys", });
     internal_static_Ydb_DataStreams_V1_RemoveTagsFromStreamResponse_descriptor =
-      getDescriptor().getMessageTypes().get(87);
+      getDescriptor().getMessageTypes().get(93);
     internal_static_Ydb_DataStreams_V1_RemoveTagsFromStreamResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_RemoveTagsFromStreamResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_RemoveTagsFromStreamResult_descriptor =
-      getDescriptor().getMessageTypes().get(88);
+      getDescriptor().getMessageTypes().get(94);
     internal_static_Ydb_DataStreams_V1_RemoveTagsFromStreamResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_RemoveTagsFromStreamResult_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_DataStreams_V1_SplitShardRequest_descriptor =
-      getDescriptor().getMessageTypes().get(89);
+      getDescriptor().getMessageTypes().get(95);
     internal_static_Ydb_DataStreams_V1_SplitShardRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_SplitShardRequest_descriptor,
         new java.lang.String[] { "OperationParams", "NewStartingHashKey", "ShardToSplit", "StreamName", });
     internal_static_Ydb_DataStreams_V1_SplitShardResponse_descriptor =
-      getDescriptor().getMessageTypes().get(90);
+      getDescriptor().getMessageTypes().get(96);
     internal_static_Ydb_DataStreams_V1_SplitShardResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_SplitShardResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_SplitShardResult_descriptor =
-      getDescriptor().getMessageTypes().get(91);
+      getDescriptor().getMessageTypes().get(97);
     internal_static_Ydb_DataStreams_V1_SplitShardResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_SplitShardResult_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_DataStreams_V1_StartStreamEncryptionRequest_descriptor =
-      getDescriptor().getMessageTypes().get(92);
+      getDescriptor().getMessageTypes().get(98);
     internal_static_Ydb_DataStreams_V1_StartStreamEncryptionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_StartStreamEncryptionRequest_descriptor,
         new java.lang.String[] { "OperationParams", "EncryptionType", "KeyId", "StreamName", });
     internal_static_Ydb_DataStreams_V1_StartStreamEncryptionResponse_descriptor =
-      getDescriptor().getMessageTypes().get(93);
+      getDescriptor().getMessageTypes().get(99);
     internal_static_Ydb_DataStreams_V1_StartStreamEncryptionResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_StartStreamEncryptionResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_StartStreamEncryptionResult_descriptor =
-      getDescriptor().getMessageTypes().get(94);
+      getDescriptor().getMessageTypes().get(100);
     internal_static_Ydb_DataStreams_V1_StartStreamEncryptionResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_StartStreamEncryptionResult_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_DataStreams_V1_StopStreamEncryptionRequest_descriptor =
-      getDescriptor().getMessageTypes().get(95);
+      getDescriptor().getMessageTypes().get(101);
     internal_static_Ydb_DataStreams_V1_StopStreamEncryptionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_StopStreamEncryptionRequest_descriptor,
         new java.lang.String[] { "OperationParams", "EncryptionType", "KeyId", "StreamName", });
     internal_static_Ydb_DataStreams_V1_StopStreamEncryptionResponse_descriptor =
-      getDescriptor().getMessageTypes().get(96);
+      getDescriptor().getMessageTypes().get(102);
     internal_static_Ydb_DataStreams_V1_StopStreamEncryptionResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_StopStreamEncryptionResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_StopStreamEncryptionResult_descriptor =
-      getDescriptor().getMessageTypes().get(97);
+      getDescriptor().getMessageTypes().get(103);
     internal_static_Ydb_DataStreams_V1_StopStreamEncryptionResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_StopStreamEncryptionResult_descriptor,
         new java.lang.String[] { });
     internal_static_Ydb_DataStreams_V1_UpdateShardCountRequest_descriptor =
-      getDescriptor().getMessageTypes().get(98);
+      getDescriptor().getMessageTypes().get(104);
     internal_static_Ydb_DataStreams_V1_UpdateShardCountRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_UpdateShardCountRequest_descriptor,
         new java.lang.String[] { "OperationParams", "ScalingType", "StreamName", "TargetShardCount", });
     internal_static_Ydb_DataStreams_V1_UpdateShardCountResponse_descriptor =
-      getDescriptor().getMessageTypes().get(99);
+      getDescriptor().getMessageTypes().get(105);
     internal_static_Ydb_DataStreams_V1_UpdateShardCountResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_UpdateShardCountResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_DataStreams_V1_UpdateShardCountResult_descriptor =
-      getDescriptor().getMessageTypes().get(100);
+      getDescriptor().getMessageTypes().get(106);
     internal_static_Ydb_DataStreams_V1_UpdateShardCountResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_UpdateShardCountResult_descriptor,

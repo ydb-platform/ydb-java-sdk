@@ -26,7 +26,7 @@ public final class YdbDatastreamsV1 {
       "\n5kikimr/public/api/grpc/draft/ydb_datas" +
       "treams_v1.proto\022\022Ydb.DataStreams.V1\0320kik" +
       "imr/public/api/protos/draft/datastreams." +
-      "proto2\234\031\n\022DataStreamsService\022a\n\014CreateSt" +
+      "proto2\345\032\n\022DataStreamsService\022a\n\014CreateSt" +
       "ream\022\'.Ydb.DataStreams.V1.CreateStreamRe" +
       "quest\032(.Ydb.DataStreams.V1.CreateStreamR" +
       "esponse\022^\n\013ListStreams\022&.Ydb.DataStreams" +
@@ -39,75 +39,81 @@ public final class YdbDatastreamsV1 {
       "s.V1.DescribeStreamResponse\022[\n\nListShard" +
       "s\022%.Ydb.DataStreams.V1.ListShardsRequest" +
       "\032&.Ydb.DataStreams.V1.ListShardsResponse" +
-      "\022X\n\tPutRecord\022$.Ydb.DataStreams.V1.PutRe" +
-      "cordRequest\032%.Ydb.DataStreams.V1.PutReco" +
-      "rdResponse\022[\n\nPutRecords\022%.Ydb.DataStrea" +
-      "ms.V1.PutRecordsRequest\032&.Ydb.DataStream",
-      "s.V1.PutRecordsResponse\022[\n\nGetRecords\022%." +
-      "Ydb.DataStreams.V1.GetRecordsRequest\032&.Y" +
-      "db.DataStreams.V1.GetRecordsResponse\022m\n\020" +
-      "GetShardIterator\022+.Ydb.DataStreams.V1.Ge" +
-      "tShardIteratorRequest\032,.Ydb.DataStreams." +
-      "V1.GetShardIteratorResponse\022o\n\020Subscribe" +
-      "ToShard\022+.Ydb.DataStreams.V1.SubscribeTo" +
-      "ShardRequest\032,.Ydb.DataStreams.V1.Subscr" +
-      "ibeToShardResponse0\001\022g\n\016DescribeLimits\022)" +
-      ".Ydb.DataStreams.V1.DescribeLimitsReques",
-      "t\032*.Ydb.DataStreams.V1.DescribeLimitsRes" +
-      "ponse\022|\n\025DescribeStreamSummary\0220.Ydb.Dat" +
-      "aStreams.V1.DescribeStreamSummaryRequest" +
-      "\0321.Ydb.DataStreams.V1.DescribeStreamSumm" +
-      "aryResponse\022\224\001\n\035DecreaseStreamRetentionP" +
-      "eriod\0228.Ydb.DataStreams.V1.DecreaseStrea" +
-      "mRetentionPeriodRequest\0329.Ydb.DataStream" +
-      "s.V1.DecreaseStreamRetentionPeriodRespon" +
-      "se\022\224\001\n\035IncreaseStreamRetentionPeriod\0228.Y" +
-      "db.DataStreams.V1.IncreaseStreamRetentio",
-      "nPeriodRequest\0329.Ydb.DataStreams.V1.Incr" +
-      "easeStreamRetentionPeriodResponse\022m\n\020Upd" +
-      "ateShardCount\022+.Ydb.DataStreams.V1.Updat" +
-      "eShardCountRequest\032,.Ydb.DataStreams.V1." +
-      "UpdateShardCountResponse\022\177\n\026RegisterStre" +
-      "amConsumer\0221.Ydb.DataStreams.V1.Register" +
-      "StreamConsumerRequest\0322.Ydb.DataStreams." +
-      "V1.RegisterStreamConsumerResponse\022\205\001\n\030De" +
-      "registerStreamConsumer\0223.Ydb.DataStreams" +
-      ".V1.DeregisterStreamConsumerRequest\0324.Yd",
-      "b.DataStreams.V1.DeregisterStreamConsume" +
-      "rResponse\022\177\n\026DescribeStreamConsumer\0221.Yd" +
-      "b.DataStreams.V1.DescribeStreamConsumerR" +
-      "equest\0322.Ydb.DataStreams.V1.DescribeStre" +
-      "amConsumerResponse\022v\n\023ListStreamConsumer" +
-      "s\022..Ydb.DataStreams.V1.ListStreamConsume" +
-      "rsRequest\032/.Ydb.DataStreams.V1.ListStrea" +
-      "mConsumersResponse\022j\n\017AddTagsToStream\022*." +
-      "Ydb.DataStreams.V1.AddTagsToStreamReques" +
-      "t\032+.Ydb.DataStreams.V1.AddTagsToStreamRe",
-      "sponse\022\210\001\n\031DisableEnhancedMonitoring\0224.Y" +
-      "db.DataStreams.V1.DisableEnhancedMonitor" +
-      "ingRequest\0325.Ydb.DataStreams.V1.DisableE" +
-      "nhancedMonitoringResponse\022\205\001\n\030EnableEnha" +
-      "ncedMonitoring\0223.Ydb.DataStreams.V1.Enab" +
-      "leEnhancedMonitoringRequest\0324.Ydb.DataSt" +
-      "reams.V1.EnableEnhancedMonitoringRespons" +
-      "e\022p\n\021ListTagsForStream\022,.Ydb.DataStreams" +
-      ".V1.ListTagsForStreamRequest\032-.Ydb.DataS" +
-      "treams.V1.ListTagsForStreamResponse\022^\n\013M",
-      "ergeShards\022&.Ydb.DataStreams.V1.MergeSha" +
-      "rdsRequest\032\'.Ydb.DataStreams.V1.MergeSha" +
-      "rdsResponse\022y\n\024RemoveTagsFromStream\022/.Yd" +
-      "b.DataStreams.V1.RemoveTagsFromStreamReq" +
-      "uest\0320.Ydb.DataStreams.V1.RemoveTagsFrom" +
-      "StreamResponse\022[\n\nSplitShard\022%.Ydb.DataS" +
-      "treams.V1.SplitShardRequest\032&.Ydb.DataSt" +
-      "reams.V1.SplitShardResponse\022|\n\025StartStre" +
-      "amEncryption\0220.Ydb.DataStreams.V1.StartS" +
-      "treamEncryptionRequest\0321.Ydb.DataStreams",
-      ".V1.StartStreamEncryptionResponse\022y\n\024Sto" +
-      "pStreamEncryption\022/.Ydb.DataStreams.V1.S" +
-      "topStreamEncryptionRequest\0320.Ydb.DataStr" +
-      "eams.V1.StopStreamEncryptionResponseB\"\n\035" +
-      "tech.ydb.datastreams.v1\370\001\001b\006proto3"
+      "\022d\n\rSetWriteQuota\022(.Ydb.DataStreams.V1.S" +
+      "etWriteQuotaRequest\032).Ydb.DataStreams.V1" +
+      ".SetWriteQuotaResponse\022a\n\014UpdateStream\022\'" +
+      ".Ydb.DataStreams.V1.UpdateStreamRequest\032",
+      "(.Ydb.DataStreams.V1.UpdateStreamRespons" +
+      "e\022X\n\tPutRecord\022$.Ydb.DataStreams.V1.PutR" +
+      "ecordRequest\032%.Ydb.DataStreams.V1.PutRec" +
+      "ordResponse\022[\n\nPutRecords\022%.Ydb.DataStre" +
+      "ams.V1.PutRecordsRequest\032&.Ydb.DataStrea" +
+      "ms.V1.PutRecordsResponse\022[\n\nGetRecords\022%" +
+      ".Ydb.DataStreams.V1.GetRecordsRequest\032&." +
+      "Ydb.DataStreams.V1.GetRecordsResponse\022m\n" +
+      "\020GetShardIterator\022+.Ydb.DataStreams.V1.G" +
+      "etShardIteratorRequest\032,.Ydb.DataStreams",
+      ".V1.GetShardIteratorResponse\022o\n\020Subscrib" +
+      "eToShard\022+.Ydb.DataStreams.V1.SubscribeT" +
+      "oShardRequest\032,.Ydb.DataStreams.V1.Subsc" +
+      "ribeToShardResponse0\001\022g\n\016DescribeLimits\022" +
+      ").Ydb.DataStreams.V1.DescribeLimitsReque" +
+      "st\032*.Ydb.DataStreams.V1.DescribeLimitsRe" +
+      "sponse\022|\n\025DescribeStreamSummary\0220.Ydb.Da" +
+      "taStreams.V1.DescribeStreamSummaryReques" +
+      "t\0321.Ydb.DataStreams.V1.DescribeStreamSum" +
+      "maryResponse\022\224\001\n\035DecreaseStreamRetention",
+      "Period\0228.Ydb.DataStreams.V1.DecreaseStre" +
+      "amRetentionPeriodRequest\0329.Ydb.DataStrea" +
+      "ms.V1.DecreaseStreamRetentionPeriodRespo" +
+      "nse\022\224\001\n\035IncreaseStreamRetentionPeriod\0228." +
+      "Ydb.DataStreams.V1.IncreaseStreamRetenti" +
+      "onPeriodRequest\0329.Ydb.DataStreams.V1.Inc" +
+      "reaseStreamRetentionPeriodResponse\022m\n\020Up" +
+      "dateShardCount\022+.Ydb.DataStreams.V1.Upda" +
+      "teShardCountRequest\032,.Ydb.DataStreams.V1" +
+      ".UpdateShardCountResponse\022\177\n\026RegisterStr",
+      "eamConsumer\0221.Ydb.DataStreams.V1.Registe" +
+      "rStreamConsumerRequest\0322.Ydb.DataStreams" +
+      ".V1.RegisterStreamConsumerResponse\022\205\001\n\030D" +
+      "eregisterStreamConsumer\0223.Ydb.DataStream" +
+      "s.V1.DeregisterStreamConsumerRequest\0324.Y" +
+      "db.DataStreams.V1.DeregisterStreamConsum" +
+      "erResponse\022\177\n\026DescribeStreamConsumer\0221.Y" +
+      "db.DataStreams.V1.DescribeStreamConsumer" +
+      "Request\0322.Ydb.DataStreams.V1.DescribeStr" +
+      "eamConsumerResponse\022v\n\023ListStreamConsume",
+      "rs\022..Ydb.DataStreams.V1.ListStreamConsum" +
+      "ersRequest\032/.Ydb.DataStreams.V1.ListStre" +
+      "amConsumersResponse\022j\n\017AddTagsToStream\022*" +
+      ".Ydb.DataStreams.V1.AddTagsToStreamReque" +
+      "st\032+.Ydb.DataStreams.V1.AddTagsToStreamR" +
+      "esponse\022\210\001\n\031DisableEnhancedMonitoring\0224." +
+      "Ydb.DataStreams.V1.DisableEnhancedMonito" +
+      "ringRequest\0325.Ydb.DataStreams.V1.Disable" +
+      "EnhancedMonitoringResponse\022\205\001\n\030EnableEnh" +
+      "ancedMonitoring\0223.Ydb.DataStreams.V1.Ena",
+      "bleEnhancedMonitoringRequest\0324.Ydb.DataS" +
+      "treams.V1.EnableEnhancedMonitoringRespon" +
+      "se\022p\n\021ListTagsForStream\022,.Ydb.DataStream" +
+      "s.V1.ListTagsForStreamRequest\032-.Ydb.Data" +
+      "Streams.V1.ListTagsForStreamResponse\022^\n\013" +
+      "MergeShards\022&.Ydb.DataStreams.V1.MergeSh" +
+      "ardsRequest\032\'.Ydb.DataStreams.V1.MergeSh" +
+      "ardsResponse\022y\n\024RemoveTagsFromStream\022/.Y" +
+      "db.DataStreams.V1.RemoveTagsFromStreamRe" +
+      "quest\0320.Ydb.DataStreams.V1.RemoveTagsFro",
+      "mStreamResponse\022[\n\nSplitShard\022%.Ydb.Data" +
+      "Streams.V1.SplitShardRequest\032&.Ydb.DataS" +
+      "treams.V1.SplitShardResponse\022|\n\025StartStr" +
+      "eamEncryption\0220.Ydb.DataStreams.V1.Start" +
+      "StreamEncryptionRequest\0321.Ydb.DataStream" +
+      "s.V1.StartStreamEncryptionResponse\022y\n\024St" +
+      "opStreamEncryption\022/.Ydb.DataStreams.V1." +
+      "StopStreamEncryptionRequest\0320.Ydb.DataSt" +
+      "reams.V1.StopStreamEncryptionResponseB\"\n" +
+      "\035tech.ydb.datastreams.v1\370\001\001b\006proto",
+      "3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

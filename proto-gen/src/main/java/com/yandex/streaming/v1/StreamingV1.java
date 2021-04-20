@@ -25,11 +25,17 @@ public final class StreamingV1 {
     java.lang.String[] descriptorData = {
       "\n/kikimr/public/api/grpc/draft/streaming" +
       "_v1.proto\022\014Streaming.V1\032.kikimr/public/a" +
-      "pi/protos/draft/streaming.proto2c\n\020Strea" +
-      "mingService\022O\n\014ExecuteQuery\022\036.Streaming." +
-      "ExecuteQueryRequest\032\037.Streaming.ExecuteQ" +
-      "ueryResponseB\031\n\027com.yandex.streaming.v1b" +
-      "\006proto3"
+      "pi/protos/draft/streaming.proto2\323\002\n\020Stre" +
+      "amingService\022O\n\014InstallQuery\022\036.Streaming" +
+      ".InstallQueryRequest\032\037.Streaming.Install" +
+      "QueryResponse\022L\n\013DeleteQuery\022\035.Streaming" +
+      ".DeleteQueryRequest\032\036.Streaming.DeleteQu" +
+      "eryResponse\022L\n\013ListQueries\022\035.Streaming.L" +
+      "istQueriesRequest\032\036.Streaming.ListQuerie" +
+      "sResponse\022R\n\rDescribeQuery\022\037.Streaming.D",
+      "escribeQueryRequest\032 .Streaming.Describe" +
+      "QueryResponseB\031\n\027com.yandex.streaming.v1" +
+      "b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

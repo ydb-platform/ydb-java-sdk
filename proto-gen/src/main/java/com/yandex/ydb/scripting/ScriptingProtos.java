@@ -2663,933 +2663,8 @@ public final class ScriptingProtos {
 
   }
 
-  public interface StreamExecuteYqlRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Scripting.StreamExecuteYqlRequest)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>string script = 1;</code>
-     */
-    java.lang.String getScript();
-    /**
-     * <code>string script = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getScriptBytes();
-
-    /**
-     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-     */
-    int getParametersCount();
-    /**
-     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-     */
-    boolean containsParameters(
-        java.lang.String key);
-    /**
-     * Use {@link #getParametersMap()} instead.
-     */
-    @java.lang.Deprecated
-    java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue>
-    getParameters();
-    /**
-     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-     */
-    java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue>
-    getParametersMap();
-    /**
-     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-     */
-
-    tech.ydb.ValueProtos.TypedValue getParametersOrDefault(
-        java.lang.String key,
-        tech.ydb.ValueProtos.TypedValue defaultValue);
-    /**
-     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-     */
-
-    tech.ydb.ValueProtos.TypedValue getParametersOrThrow(
-        java.lang.String key);
-
-    /**
-     * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 3;</code>
-     */
-    int getCollectStatsValue();
-    /**
-     * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 3;</code>
-     */
-    tech.ydb.table.YdbTable.QueryStatsCollection.Mode getCollectStats();
-  }
-  /**
-   * Protobuf type {@code Ydb.Scripting.StreamExecuteYqlRequest}
-   */
-  public  static final class StreamExecuteYqlRequest extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Scripting.StreamExecuteYqlRequest)
-      StreamExecuteYqlRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use StreamExecuteYqlRequest.newBuilder() to construct.
-    private StreamExecuteYqlRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private StreamExecuteYqlRequest() {
-      script_ = "";
-      collectStats_ = 0;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private StreamExecuteYqlRequest(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              script_ = s;
-              break;
-            }
-            case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                parameters_ = com.google.protobuf.MapField.newMapField(
-                    ParametersDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000002;
-              }
-              com.google.protobuf.MapEntry<java.lang.String, tech.ydb.ValueProtos.TypedValue>
-              parameters__ = input.readMessage(
-                  ParametersDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-              parameters_.getMutableMap().put(
-                  parameters__.getKey(), parameters__.getValue());
-              break;
-            }
-            case 24: {
-              int rawValue = input.readEnum();
-
-              collectStats_ = rawValue;
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlRequest_descriptor;
-    }
-
-    @SuppressWarnings({"rawtypes"})
-    protected com.google.protobuf.MapField internalGetMapField(
-        int number) {
-      switch (number) {
-        case 2:
-          return internalGetParameters();
-        default:
-          throw new RuntimeException(
-              "Invalid map field number: " + number);
-      }
-    }
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlRequest_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest.class, tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int SCRIPT_FIELD_NUMBER = 1;
-    private volatile java.lang.Object script_;
-    /**
-     * <code>string script = 1;</code>
-     */
-    public java.lang.String getScript() {
-      java.lang.Object ref = script_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        script_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string script = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getScriptBytes() {
-      java.lang.Object ref = script_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        script_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int PARAMETERS_FIELD_NUMBER = 2;
-    private static final class ParametersDefaultEntryHolder {
-      static final com.google.protobuf.MapEntry<
-          java.lang.String, tech.ydb.ValueProtos.TypedValue> defaultEntry =
-              com.google.protobuf.MapEntry
-              .<java.lang.String, tech.ydb.ValueProtos.TypedValue>newDefaultInstance(
-                  tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlRequest_ParametersEntry_descriptor, 
-                  com.google.protobuf.WireFormat.FieldType.STRING,
-                  "",
-                  com.google.protobuf.WireFormat.FieldType.MESSAGE,
-                  tech.ydb.ValueProtos.TypedValue.getDefaultInstance());
-    }
-    private com.google.protobuf.MapField<
-        java.lang.String, tech.ydb.ValueProtos.TypedValue> parameters_;
-    private com.google.protobuf.MapField<java.lang.String, tech.ydb.ValueProtos.TypedValue>
-    internalGetParameters() {
-      if (parameters_ == null) {
-        return com.google.protobuf.MapField.emptyMapField(
-            ParametersDefaultEntryHolder.defaultEntry);
-      }
-      return parameters_;
-    }
-
-    public int getParametersCount() {
-      return internalGetParameters().getMap().size();
-    }
-    /**
-     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-     */
-
-    public boolean containsParameters(
-        java.lang.String key) {
-      if (key == null) { throw new java.lang.NullPointerException(); }
-      return internalGetParameters().getMap().containsKey(key);
-    }
-    /**
-     * Use {@link #getParametersMap()} instead.
-     */
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> getParameters() {
-      return getParametersMap();
-    }
-    /**
-     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-     */
-
-    public java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> getParametersMap() {
-      return internalGetParameters().getMap();
-    }
-    /**
-     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-     */
-
-    public tech.ydb.ValueProtos.TypedValue getParametersOrDefault(
-        java.lang.String key,
-        tech.ydb.ValueProtos.TypedValue defaultValue) {
-      if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> map =
-          internalGetParameters().getMap();
-      return map.containsKey(key) ? map.get(key) : defaultValue;
-    }
-    /**
-     * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-     */
-
-    public tech.ydb.ValueProtos.TypedValue getParametersOrThrow(
-        java.lang.String key) {
-      if (key == null) { throw new java.lang.NullPointerException(); }
-      java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> map =
-          internalGetParameters().getMap();
-      if (!map.containsKey(key)) {
-        throw new java.lang.IllegalArgumentException();
-      }
-      return map.get(key);
-    }
-
-    public static final int COLLECT_STATS_FIELD_NUMBER = 3;
-    private int collectStats_;
-    /**
-     * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 3;</code>
-     */
-    public int getCollectStatsValue() {
-      return collectStats_;
-    }
-    /**
-     * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 3;</code>
-     */
-    public tech.ydb.table.YdbTable.QueryStatsCollection.Mode getCollectStats() {
-      tech.ydb.table.YdbTable.QueryStatsCollection.Mode result = tech.ydb.table.YdbTable.QueryStatsCollection.Mode.valueOf(collectStats_);
-      return result == null ? tech.ydb.table.YdbTable.QueryStatsCollection.Mode.UNRECOGNIZED : result;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (!getScriptBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, script_);
-      }
-      com.google.protobuf.GeneratedMessageV3
-        .serializeStringMapTo(
-          output,
-          internalGetParameters(),
-          ParametersDefaultEntryHolder.defaultEntry,
-          2);
-      if (collectStats_ != tech.ydb.table.YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_UNSPECIFIED.getNumber()) {
-        output.writeEnum(3, collectStats_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (!getScriptBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, script_);
-      }
-      for (java.util.Map.Entry<java.lang.String, tech.ydb.ValueProtos.TypedValue> entry
-           : internalGetParameters().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, tech.ydb.ValueProtos.TypedValue>
-        parameters__ = ParametersDefaultEntryHolder.defaultEntry.newBuilderForType()
-            .setKey(entry.getKey())
-            .setValue(entry.getValue())
-            .build();
-        size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(2, parameters__);
-      }
-      if (collectStats_ != tech.ydb.table.YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_UNSPECIFIED.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(3, collectStats_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest)) {
-        return super.equals(obj);
-      }
-      tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest other = (tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest) obj;
-
-      boolean result = true;
-      result = result && getScript()
-          .equals(other.getScript());
-      result = result && internalGetParameters().equals(
-          other.internalGetParameters());
-      result = result && collectStats_ == other.collectStats_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + SCRIPT_FIELD_NUMBER;
-      hash = (53 * hash) + getScript().hashCode();
-      if (!internalGetParameters().getMap().isEmpty()) {
-        hash = (37 * hash) + PARAMETERS_FIELD_NUMBER;
-        hash = (53 * hash) + internalGetParameters().hashCode();
-      }
-      hash = (37 * hash) + COLLECT_STATS_FIELD_NUMBER;
-      hash = (53 * hash) + collectStats_;
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code Ydb.Scripting.StreamExecuteYqlRequest}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Scripting.StreamExecuteYqlRequest)
-        tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequestOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlRequest_descriptor;
-      }
-
-      @SuppressWarnings({"rawtypes"})
-      protected com.google.protobuf.MapField internalGetMapField(
-          int number) {
-        switch (number) {
-          case 2:
-            return internalGetParameters();
-          default:
-            throw new RuntimeException(
-                "Invalid map field number: " + number);
-        }
-      }
-      @SuppressWarnings({"rawtypes"})
-      protected com.google.protobuf.MapField internalGetMutableMapField(
-          int number) {
-        switch (number) {
-          case 2:
-            return internalGetMutableParameters();
-          default:
-            throw new RuntimeException(
-                "Invalid map field number: " + number);
-        }
-      }
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlRequest_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest.class, tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest.Builder.class);
-      }
-
-      // Construct using tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        script_ = "";
-
-        internalGetMutableParameters().clear();
-        collectStats_ = 0;
-
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlRequest_descriptor;
-      }
-
-      public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest getDefaultInstanceForType() {
-        return tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest.getDefaultInstance();
-      }
-
-      public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest build() {
-        tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest buildPartial() {
-        tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest result = new tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        result.script_ = script_;
-        result.parameters_ = internalGetParameters();
-        result.parameters_.makeImmutable();
-        result.collectStats_ = collectStats_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest) {
-          return mergeFrom((tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest other) {
-        if (other == tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest.getDefaultInstance()) return this;
-        if (!other.getScript().isEmpty()) {
-          script_ = other.script_;
-          onChanged();
-        }
-        internalGetMutableParameters().mergeFrom(
-            other.internalGetParameters());
-        if (other.collectStats_ != 0) {
-          setCollectStatsValue(other.getCollectStatsValue());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private java.lang.Object script_ = "";
-      /**
-       * <code>string script = 1;</code>
-       */
-      public java.lang.String getScript() {
-        java.lang.Object ref = script_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          script_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string script = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getScriptBytes() {
-        java.lang.Object ref = script_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          script_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string script = 1;</code>
-       */
-      public Builder setScript(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        script_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string script = 1;</code>
-       */
-      public Builder clearScript() {
-        
-        script_ = getDefaultInstance().getScript();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string script = 1;</code>
-       */
-      public Builder setScriptBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        script_ = value;
-        onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.MapField<
-          java.lang.String, tech.ydb.ValueProtos.TypedValue> parameters_;
-      private com.google.protobuf.MapField<java.lang.String, tech.ydb.ValueProtos.TypedValue>
-      internalGetParameters() {
-        if (parameters_ == null) {
-          return com.google.protobuf.MapField.emptyMapField(
-              ParametersDefaultEntryHolder.defaultEntry);
-        }
-        return parameters_;
-      }
-      private com.google.protobuf.MapField<java.lang.String, tech.ydb.ValueProtos.TypedValue>
-      internalGetMutableParameters() {
-        onChanged();;
-        if (parameters_ == null) {
-          parameters_ = com.google.protobuf.MapField.newMapField(
-              ParametersDefaultEntryHolder.defaultEntry);
-        }
-        if (!parameters_.isMutable()) {
-          parameters_ = parameters_.copy();
-        }
-        return parameters_;
-      }
-
-      public int getParametersCount() {
-        return internalGetParameters().getMap().size();
-      }
-      /**
-       * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-       */
-
-      public boolean containsParameters(
-          java.lang.String key) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        return internalGetParameters().getMap().containsKey(key);
-      }
-      /**
-       * Use {@link #getParametersMap()} instead.
-       */
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> getParameters() {
-        return getParametersMap();
-      }
-      /**
-       * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-       */
-
-      public java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> getParametersMap() {
-        return internalGetParameters().getMap();
-      }
-      /**
-       * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-       */
-
-      public tech.ydb.ValueProtos.TypedValue getParametersOrDefault(
-          java.lang.String key,
-          tech.ydb.ValueProtos.TypedValue defaultValue) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> map =
-            internalGetParameters().getMap();
-        return map.containsKey(key) ? map.get(key) : defaultValue;
-      }
-      /**
-       * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-       */
-
-      public tech.ydb.ValueProtos.TypedValue getParametersOrThrow(
-          java.lang.String key) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> map =
-            internalGetParameters().getMap();
-        if (!map.containsKey(key)) {
-          throw new java.lang.IllegalArgumentException();
-        }
-        return map.get(key);
-      }
-
-      public Builder clearParameters() {
-        internalGetMutableParameters().getMutableMap()
-            .clear();
-        return this;
-      }
-      /**
-       * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-       */
-
-      public Builder removeParameters(
-          java.lang.String key) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        internalGetMutableParameters().getMutableMap()
-            .remove(key);
-        return this;
-      }
-      /**
-       * Use alternate mutation accessors instead.
-       */
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue>
-      getMutableParameters() {
-        return internalGetMutableParameters().getMutableMap();
-      }
-      /**
-       * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-       */
-      public Builder putParameters(
-          java.lang.String key,
-          tech.ydb.ValueProtos.TypedValue value) {
-        if (key == null) { throw new java.lang.NullPointerException(); }
-        if (value == null) { throw new java.lang.NullPointerException(); }
-        internalGetMutableParameters().getMutableMap()
-            .put(key, value);
-        return this;
-      }
-      /**
-       * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 2;</code>
-       */
-
-      public Builder putAllParameters(
-          java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> values) {
-        internalGetMutableParameters().getMutableMap()
-            .putAll(values);
-        return this;
-      }
-
-      private int collectStats_ = 0;
-      /**
-       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 3;</code>
-       */
-      public int getCollectStatsValue() {
-        return collectStats_;
-      }
-      /**
-       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 3;</code>
-       */
-      public Builder setCollectStatsValue(int value) {
-        collectStats_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 3;</code>
-       */
-      public tech.ydb.table.YdbTable.QueryStatsCollection.Mode getCollectStats() {
-        tech.ydb.table.YdbTable.QueryStatsCollection.Mode result = tech.ydb.table.YdbTable.QueryStatsCollection.Mode.valueOf(collectStats_);
-        return result == null ? tech.ydb.table.YdbTable.QueryStatsCollection.Mode.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 3;</code>
-       */
-      public Builder setCollectStats(tech.ydb.table.YdbTable.QueryStatsCollection.Mode value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        
-        collectStats_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 3;</code>
-       */
-      public Builder clearCollectStats() {
-        
-        collectStats_ = 0;
-        onChanged();
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.Scripting.StreamExecuteYqlRequest)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.Scripting.StreamExecuteYqlRequest)
-    private static final tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest();
-    }
-
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<StreamExecuteYqlRequest>
-        PARSER = new com.google.protobuf.AbstractParser<StreamExecuteYqlRequest>() {
-      public StreamExecuteYqlRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StreamExecuteYqlRequest(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<StreamExecuteYqlRequest> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<StreamExecuteYqlRequest> getParserForType() {
-      return PARSER;
-    }
-
-    public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlRequest getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface StreamExecuteYqlPartialResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Scripting.StreamExecuteYqlPartialResponse)
+  public interface ExecuteYqlPartialResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Scripting.ExecuteYqlPartialResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -3626,39 +2701,39 @@ public final class ScriptingProtos {
         int index);
 
     /**
-     * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+     * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
      */
     boolean hasResult();
     /**
-     * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+     * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
      */
-    tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult getResult();
+    tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult getResult();
     /**
-     * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+     * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
      */
-    tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResultOrBuilder getResultOrBuilder();
+    tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResultOrBuilder getResultOrBuilder();
   }
   /**
    * <pre>
-   * YqlScript can have multiple results (result sets).
-   * Each result has an index (starting at 0).
-   * Response for StreamExecuteYqlRequest is a stream of StreamExecuteYqlPartialResponse messages.
-   * All these responses except the final one contain StreamExecuteYqlPartialResult messages with
+   * Response for StreamExecuteYql is a stream of ExecuteYqlPartialResponse messages.
+   * These responses can contain ExecuteYqlPartialResult messages with
    * results (or result parts) for data or scan queries in the script.
+   * YqlScript can have multiple results (result sets).
+   * Each result set has an index (starting at 0).
    * </pre>
    *
-   * Protobuf type {@code Ydb.Scripting.StreamExecuteYqlPartialResponse}
+   * Protobuf type {@code Ydb.Scripting.ExecuteYqlPartialResponse}
    */
-  public  static final class StreamExecuteYqlPartialResponse extends
+  public  static final class ExecuteYqlPartialResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Scripting.StreamExecuteYqlPartialResponse)
-      StreamExecuteYqlPartialResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:Ydb.Scripting.ExecuteYqlPartialResponse)
+      ExecuteYqlPartialResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use StreamExecuteYqlPartialResponse.newBuilder() to construct.
-    private StreamExecuteYqlPartialResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ExecuteYqlPartialResponse.newBuilder() to construct.
+    private ExecuteYqlPartialResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private StreamExecuteYqlPartialResponse() {
+    private ExecuteYqlPartialResponse() {
       status_ = 0;
       issues_ = java.util.Collections.emptyList();
     }
@@ -3668,7 +2743,7 @@ public final class ScriptingProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private StreamExecuteYqlPartialResponse(
+    private ExecuteYqlPartialResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3707,11 +2782,11 @@ public final class ScriptingProtos {
               break;
             }
             case 26: {
-              tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.Builder subBuilder = null;
+              tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.Builder subBuilder = null;
               if (result_ != null) {
                 subBuilder = result_.toBuilder();
               }
-              result_ = input.readMessage(tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.parser(), extensionRegistry);
+              result_ = input.readMessage(tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(result_);
                 result_ = subBuilder.buildPartial();
@@ -3736,14 +2811,14 @@ public final class ScriptingProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlPartialResponse_descriptor;
+      return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlPartialResponse_fieldAccessorTable
+      return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse.class, tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse.Builder.class);
+              tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse.class, tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse.Builder.class);
     }
 
     private int bitField0_;
@@ -3799,23 +2874,23 @@ public final class ScriptingProtos {
     }
 
     public static final int RESULT_FIELD_NUMBER = 3;
-    private tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult result_;
+    private tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult result_;
     /**
-     * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+     * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
      */
     public boolean hasResult() {
       return result_ != null;
     }
     /**
-     * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+     * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
      */
-    public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult getResult() {
-      return result_ == null ? tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.getDefaultInstance() : result_;
+    public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult getResult() {
+      return result_ == null ? tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.getDefaultInstance() : result_;
     }
     /**
-     * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+     * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
      */
-    public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResultOrBuilder getResultOrBuilder() {
+    public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResultOrBuilder getResultOrBuilder() {
       return getResult();
     }
 
@@ -3870,10 +2945,10 @@ public final class ScriptingProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse)) {
+      if (!(obj instanceof tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse)) {
         return super.equals(obj);
       }
-      tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse other = (tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse) obj;
+      tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse other = (tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse) obj;
 
       boolean result = true;
       result = result && status_ == other.status_;
@@ -3910,69 +2985,69 @@ public final class ScriptingProtos {
       return hash;
     }
 
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse parseFrom(byte[] data)
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse parseFrom(java.io.InputStream input)
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse parseDelimitedFrom(java.io.InputStream input)
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse parseDelimitedFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -3984,7 +3059,7 @@ public final class ScriptingProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse prototype) {
+    public static Builder newBuilder(tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -4000,32 +3075,32 @@ public final class ScriptingProtos {
     }
     /**
      * <pre>
-     * YqlScript can have multiple results (result sets).
-     * Each result has an index (starting at 0).
-     * Response for StreamExecuteYqlRequest is a stream of StreamExecuteYqlPartialResponse messages.
-     * All these responses except the final one contain StreamExecuteYqlPartialResult messages with
+     * Response for StreamExecuteYql is a stream of ExecuteYqlPartialResponse messages.
+     * These responses can contain ExecuteYqlPartialResult messages with
      * results (or result parts) for data or scan queries in the script.
+     * YqlScript can have multiple results (result sets).
+     * Each result set has an index (starting at 0).
      * </pre>
      *
-     * Protobuf type {@code Ydb.Scripting.StreamExecuteYqlPartialResponse}
+     * Protobuf type {@code Ydb.Scripting.ExecuteYqlPartialResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Scripting.StreamExecuteYqlPartialResponse)
-        tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Ydb.Scripting.ExecuteYqlPartialResponse)
+        tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlPartialResponse_descriptor;
+        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlPartialResponse_fieldAccessorTable
+        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse.class, tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse.Builder.class);
+                tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse.class, tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse.Builder.class);
       }
 
-      // Construct using tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse.newBuilder()
+      // Construct using tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -4062,23 +3137,23 @@ public final class ScriptingProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlPartialResponse_descriptor;
+        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_descriptor;
       }
 
-      public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse getDefaultInstanceForType() {
-        return tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse.getDefaultInstance();
+      public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse getDefaultInstanceForType() {
+        return tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse.getDefaultInstance();
       }
 
-      public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse build() {
-        tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse result = buildPartial();
+      public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse build() {
+        tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse buildPartial() {
-        tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse result = new tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse(this);
+      public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse buildPartial() {
+        tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse result = new tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.status_ = status_;
@@ -4128,16 +3203,16 @@ public final class ScriptingProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse) {
-          return mergeFrom((tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse)other);
+        if (other instanceof tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse) {
+          return mergeFrom((tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse other) {
-        if (other == tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse other) {
+        if (other == tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse.getDefaultInstance()) return this;
         if (other.status_ != 0) {
           setStatusValue(other.getStatusValue());
         }
@@ -4183,11 +3258,11 @@ public final class ScriptingProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse parsedMessage = null;
+        tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse) e.getUnfinishedMessage();
+          parsedMessage = (tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -4482,29 +3557,29 @@ public final class ScriptingProtos {
         return issuesBuilder_;
       }
 
-      private tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult result_ = null;
+      private tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult result_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult, tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.Builder, tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResultOrBuilder> resultBuilder_;
+          tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult, tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.Builder, tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResultOrBuilder> resultBuilder_;
       /**
-       * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+       * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
        */
       public boolean hasResult() {
         return resultBuilder_ != null || result_ != null;
       }
       /**
-       * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+       * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
        */
-      public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult getResult() {
+      public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult getResult() {
         if (resultBuilder_ == null) {
-          return result_ == null ? tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.getDefaultInstance() : result_;
+          return result_ == null ? tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.getDefaultInstance() : result_;
         } else {
           return resultBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+       * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
        */
-      public Builder setResult(tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult value) {
+      public Builder setResult(tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult value) {
         if (resultBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -4518,10 +3593,10 @@ public final class ScriptingProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+       * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
        */
       public Builder setResult(
-          tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.Builder builderForValue) {
+          tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.Builder builderForValue) {
         if (resultBuilder_ == null) {
           result_ = builderForValue.build();
           onChanged();
@@ -4532,13 +3607,13 @@ public final class ScriptingProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+       * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
        */
-      public Builder mergeResult(tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult value) {
+      public Builder mergeResult(tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult value) {
         if (resultBuilder_ == null) {
           if (result_ != null) {
             result_ =
-              tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.newBuilder(result_).mergeFrom(value).buildPartial();
+              tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.newBuilder(result_).mergeFrom(value).buildPartial();
           } else {
             result_ = value;
           }
@@ -4550,7 +3625,7 @@ public final class ScriptingProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+       * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
        */
       public Builder clearResult() {
         if (resultBuilder_ == null) {
@@ -4564,33 +3639,33 @@ public final class ScriptingProtos {
         return this;
       }
       /**
-       * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+       * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
        */
-      public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.Builder getResultBuilder() {
+      public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.Builder getResultBuilder() {
         
         onChanged();
         return getResultFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+       * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
        */
-      public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResultOrBuilder getResultOrBuilder() {
+      public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResultOrBuilder getResultOrBuilder() {
         if (resultBuilder_ != null) {
           return resultBuilder_.getMessageOrBuilder();
         } else {
           return result_ == null ?
-              tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.getDefaultInstance() : result_;
+              tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.getDefaultInstance() : result_;
         }
       }
       /**
-       * <code>.Ydb.Scripting.StreamExecuteYqlPartialResult result = 3;</code>
+       * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult, tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.Builder, tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResultOrBuilder> 
+          tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult, tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.Builder, tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResultOrBuilder> 
           getResultFieldBuilder() {
         if (resultBuilder_ == null) {
           resultBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult, tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.Builder, tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResultOrBuilder>(
+              tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult, tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.Builder, tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResultOrBuilder>(
                   getResult(),
                   getParentForChildren(),
                   isClean());
@@ -4609,46 +3684,46 @@ public final class ScriptingProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Ydb.Scripting.StreamExecuteYqlPartialResponse)
+      // @@protoc_insertion_point(builder_scope:Ydb.Scripting.ExecuteYqlPartialResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:Ydb.Scripting.StreamExecuteYqlPartialResponse)
-    private static final tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Ydb.Scripting.ExecuteYqlPartialResponse)
+    private static final tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse();
+      DEFAULT_INSTANCE = new tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse();
     }
 
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse getDefaultInstance() {
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<StreamExecuteYqlPartialResponse>
-        PARSER = new com.google.protobuf.AbstractParser<StreamExecuteYqlPartialResponse>() {
-      public StreamExecuteYqlPartialResponse parsePartialFrom(
+    private static final com.google.protobuf.Parser<ExecuteYqlPartialResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ExecuteYqlPartialResponse>() {
+      public ExecuteYqlPartialResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StreamExecuteYqlPartialResponse(input, extensionRegistry);
+          return new ExecuteYqlPartialResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<StreamExecuteYqlPartialResponse> parser() {
+    public static com.google.protobuf.Parser<ExecuteYqlPartialResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<StreamExecuteYqlPartialResponse> getParserForType() {
+    public com.google.protobuf.Parser<ExecuteYqlPartialResponse> getParserForType() {
       return PARSER;
     }
 
-    public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResponse getDefaultInstanceForType() {
+    public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface StreamExecuteYqlPartialResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Scripting.StreamExecuteYqlPartialResult)
+  public interface ExecuteYqlPartialResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.Scripting.ExecuteYqlPartialResult)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -4656,9 +3731,9 @@ public final class ScriptingProtos {
      * Index of current result
      * </pre>
      *
-     * <code>uint32 result_index = 1;</code>
+     * <code>uint32 result_set_index = 1;</code>
      */
-    int getResultIndex();
+    int getResultSetIndex();
 
     /**
      * <pre>
@@ -4700,24 +3775,24 @@ public final class ScriptingProtos {
   }
   /**
    * <pre>
-   * Contains result (or a result part) for one data or scan query in the script.
+   * Contains result set (or a result set part) for one data or scan query in the script.
    * One result set can be split into several responses with same result_index.
-   * The final response doesn't have result set and can have query stats instead.
+   * Only the final response can contain query stats.
    * </pre>
    *
-   * Protobuf type {@code Ydb.Scripting.StreamExecuteYqlPartialResult}
+   * Protobuf type {@code Ydb.Scripting.ExecuteYqlPartialResult}
    */
-  public  static final class StreamExecuteYqlPartialResult extends
+  public  static final class ExecuteYqlPartialResult extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Scripting.StreamExecuteYqlPartialResult)
-      StreamExecuteYqlPartialResultOrBuilder {
+      // @@protoc_insertion_point(message_implements:Ydb.Scripting.ExecuteYqlPartialResult)
+      ExecuteYqlPartialResultOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use StreamExecuteYqlPartialResult.newBuilder() to construct.
-    private StreamExecuteYqlPartialResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ExecuteYqlPartialResult.newBuilder() to construct.
+    private ExecuteYqlPartialResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private StreamExecuteYqlPartialResult() {
-      resultIndex_ = 0;
+    private ExecuteYqlPartialResult() {
+      resultSetIndex_ = 0;
     }
 
     @java.lang.Override
@@ -4725,7 +3800,7 @@ public final class ScriptingProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private StreamExecuteYqlPartialResult(
+    private ExecuteYqlPartialResult(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -4750,7 +3825,7 @@ public final class ScriptingProtos {
             }
             case 8: {
 
-              resultIndex_ = input.readUInt32();
+              resultSetIndex_ = input.readUInt32();
               break;
             }
             case 18: {
@@ -4793,27 +3868,27 @@ public final class ScriptingProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlPartialResult_descriptor;
+      return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResult_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlPartialResult_fieldAccessorTable
+      return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.class, tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.Builder.class);
+              tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.class, tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.Builder.class);
     }
 
-    public static final int RESULT_INDEX_FIELD_NUMBER = 1;
-    private int resultIndex_;
+    public static final int RESULT_SET_INDEX_FIELD_NUMBER = 1;
+    private int resultSetIndex_;
     /**
      * <pre>
      * Index of current result
      * </pre>
      *
-     * <code>uint32 result_index = 1;</code>
+     * <code>uint32 result_set_index = 1;</code>
      */
-    public int getResultIndex() {
-      return resultIndex_;
+    public int getResultSetIndex() {
+      return resultSetIndex_;
     }
 
     public static final int RESULT_SET_FIELD_NUMBER = 2;
@@ -4882,8 +3957,8 @@ public final class ScriptingProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (resultIndex_ != 0) {
-        output.writeUInt32(1, resultIndex_);
+      if (resultSetIndex_ != 0) {
+        output.writeUInt32(1, resultSetIndex_);
       }
       if (resultSet_ != null) {
         output.writeMessage(2, getResultSet());
@@ -4899,9 +3974,9 @@ public final class ScriptingProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (resultIndex_ != 0) {
+      if (resultSetIndex_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(1, resultIndex_);
+          .computeUInt32Size(1, resultSetIndex_);
       }
       if (resultSet_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -4921,14 +3996,14 @@ public final class ScriptingProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult)) {
+      if (!(obj instanceof tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult)) {
         return super.equals(obj);
       }
-      tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult other = (tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult) obj;
+      tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult other = (tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult) obj;
 
       boolean result = true;
-      result = result && (getResultIndex()
-          == other.getResultIndex());
+      result = result && (getResultSetIndex()
+          == other.getResultSetIndex());
       result = result && (hasResultSet() == other.hasResultSet());
       if (hasResultSet()) {
         result = result && getResultSet()
@@ -4950,8 +4025,8 @@ public final class ScriptingProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + RESULT_INDEX_FIELD_NUMBER;
-      hash = (53 * hash) + getResultIndex();
+      hash = (37 * hash) + RESULT_SET_INDEX_FIELD_NUMBER;
+      hash = (53 * hash) + getResultSetIndex();
       if (hasResultSet()) {
         hash = (37 * hash) + RESULT_SET_FIELD_NUMBER;
         hash = (53 * hash) + getResultSet().hashCode();
@@ -4965,69 +4040,69 @@ public final class ScriptingProtos {
       return hash;
     }
 
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult parseFrom(byte[] data)
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult parseFrom(java.io.InputStream input)
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult parseDelimitedFrom(java.io.InputStream input)
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult parseDelimitedFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult parseFrom(
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -5039,7 +4114,7 @@ public final class ScriptingProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult prototype) {
+    public static Builder newBuilder(tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -5055,30 +4130,30 @@ public final class ScriptingProtos {
     }
     /**
      * <pre>
-     * Contains result (or a result part) for one data or scan query in the script.
+     * Contains result set (or a result set part) for one data or scan query in the script.
      * One result set can be split into several responses with same result_index.
-     * The final response doesn't have result set and can have query stats instead.
+     * Only the final response can contain query stats.
      * </pre>
      *
-     * Protobuf type {@code Ydb.Scripting.StreamExecuteYqlPartialResult}
+     * Protobuf type {@code Ydb.Scripting.ExecuteYqlPartialResult}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Scripting.StreamExecuteYqlPartialResult)
-        tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResultOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Ydb.Scripting.ExecuteYqlPartialResult)
+        tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResultOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlPartialResult_descriptor;
+        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResult_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlPartialResult_fieldAccessorTable
+        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResult_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.class, tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.Builder.class);
+                tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.class, tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.Builder.class);
       }
 
-      // Construct using tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.newBuilder()
+      // Construct using tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -5095,7 +4170,7 @@ public final class ScriptingProtos {
       }
       public Builder clear() {
         super.clear();
-        resultIndex_ = 0;
+        resultSetIndex_ = 0;
 
         if (resultSetBuilder_ == null) {
           resultSet_ = null;
@@ -5114,24 +4189,24 @@ public final class ScriptingProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_StreamExecuteYqlPartialResult_descriptor;
+        return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResult_descriptor;
       }
 
-      public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult getDefaultInstanceForType() {
-        return tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.getDefaultInstance();
+      public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult getDefaultInstanceForType() {
+        return tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.getDefaultInstance();
       }
 
-      public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult build() {
-        tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult result = buildPartial();
+      public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult build() {
+        tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult buildPartial() {
-        tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult result = new tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult(this);
-        result.resultIndex_ = resultIndex_;
+      public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult buildPartial() {
+        tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult result = new tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult(this);
+        result.resultSetIndex_ = resultSetIndex_;
         if (resultSetBuilder_ == null) {
           result.resultSet_ = resultSet_;
         } else {
@@ -5173,18 +4248,18 @@ public final class ScriptingProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult) {
-          return mergeFrom((tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult)other);
+        if (other instanceof tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult) {
+          return mergeFrom((tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult other) {
-        if (other == tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult.getDefaultInstance()) return this;
-        if (other.getResultIndex() != 0) {
-          setResultIndex(other.getResultIndex());
+      public Builder mergeFrom(tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult other) {
+        if (other == tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.getDefaultInstance()) return this;
+        if (other.getResultSetIndex() != 0) {
+          setResultSetIndex(other.getResultSetIndex());
         }
         if (other.hasResultSet()) {
           mergeResultSet(other.getResultSet());
@@ -5205,11 +4280,11 @@ public final class ScriptingProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult parsedMessage = null;
+        tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult) e.getUnfinishedMessage();
+          parsedMessage = (tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -5219,27 +4294,27 @@ public final class ScriptingProtos {
         return this;
       }
 
-      private int resultIndex_ ;
+      private int resultSetIndex_ ;
       /**
        * <pre>
        * Index of current result
        * </pre>
        *
-       * <code>uint32 result_index = 1;</code>
+       * <code>uint32 result_set_index = 1;</code>
        */
-      public int getResultIndex() {
-        return resultIndex_;
+      public int getResultSetIndex() {
+        return resultSetIndex_;
       }
       /**
        * <pre>
        * Index of current result
        * </pre>
        *
-       * <code>uint32 result_index = 1;</code>
+       * <code>uint32 result_set_index = 1;</code>
        */
-      public Builder setResultIndex(int value) {
+      public Builder setResultSetIndex(int value) {
         
-        resultIndex_ = value;
+        resultSetIndex_ = value;
         onChanged();
         return this;
       }
@@ -5248,11 +4323,11 @@ public final class ScriptingProtos {
        * Index of current result
        * </pre>
        *
-       * <code>uint32 result_index = 1;</code>
+       * <code>uint32 result_set_index = 1;</code>
        */
-      public Builder clearResultIndex() {
+      public Builder clearResultSetIndex() {
         
-        resultIndex_ = 0;
+        resultSetIndex_ = 0;
         onChanged();
         return this;
       }
@@ -5537,39 +4612,39 @@ public final class ScriptingProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Ydb.Scripting.StreamExecuteYqlPartialResult)
+      // @@protoc_insertion_point(builder_scope:Ydb.Scripting.ExecuteYqlPartialResult)
     }
 
-    // @@protoc_insertion_point(class_scope:Ydb.Scripting.StreamExecuteYqlPartialResult)
-    private static final tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:Ydb.Scripting.ExecuteYqlPartialResult)
+    private static final tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult();
+      DEFAULT_INSTANCE = new tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult();
     }
 
-    public static tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult getDefaultInstance() {
+    public static tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<StreamExecuteYqlPartialResult>
-        PARSER = new com.google.protobuf.AbstractParser<StreamExecuteYqlPartialResult>() {
-      public StreamExecuteYqlPartialResult parsePartialFrom(
+    private static final com.google.protobuf.Parser<ExecuteYqlPartialResult>
+        PARSER = new com.google.protobuf.AbstractParser<ExecuteYqlPartialResult>() {
+      public ExecuteYqlPartialResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StreamExecuteYqlPartialResult(input, extensionRegistry);
+          return new ExecuteYqlPartialResult(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<StreamExecuteYqlPartialResult> parser() {
+    public static com.google.protobuf.Parser<ExecuteYqlPartialResult> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<StreamExecuteYqlPartialResult> getParserForType() {
+    public com.google.protobuf.Parser<ExecuteYqlPartialResult> getParserForType() {
       return PARSER;
     }
 
-    public tech.ydb.scripting.ScriptingProtos.StreamExecuteYqlPartialResult getDefaultInstanceForType() {
+    public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -7931,25 +7006,15 @@ public final class ScriptingProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Scripting_ExecuteYqlResult_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Scripting_StreamExecuteYqlRequest_descriptor;
+    internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Scripting_StreamExecuteYqlRequest_fieldAccessorTable;
+      internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Scripting_StreamExecuteYqlRequest_ParametersEntry_descriptor;
+    internal_static_Ydb_Scripting_ExecuteYqlPartialResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Scripting_StreamExecuteYqlRequest_ParametersEntry_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Scripting_StreamExecuteYqlPartialResponse_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Scripting_StreamExecuteYqlPartialResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Scripting_StreamExecuteYqlPartialResult_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Scripting_StreamExecuteYqlPartialResult_fieldAccessorTable;
+      internal_static_Ydb_Scripting_ExecuteYqlPartialResult_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Scripting_ExplainYqlRequest_descriptor;
   private static final 
@@ -7999,34 +7064,27 @@ public final class ScriptingProtos {
       "b.Operations.Operation\"h\n\020ExecuteYqlResu" +
       "lt\022#\n\013result_sets\030\001 \003(\0132\016.Ydb.ResultSet\022" +
       "/\n\013query_stats\030\002 \001(\0132\032.Ydb.TableStats.Qu",
-      "eryStats\"\366\001\n\027StreamExecuteYqlRequest\022\016\n\006" +
-      "script\030\001 \001(\t\022J\n\nparameters\030\002 \003(\01326.Ydb.S" +
-      "cripting.StreamExecuteYqlRequest.Paramet" +
-      "ersEntry\022;\n\rcollect_stats\030\003 \001(\0162$.Ydb.Ta" +
-      "ble.QueryStatsCollection.Mode\032B\n\017Paramet" +
-      "ersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Y" +
-      "db.TypedValue:\0028\001\"\263\001\n\037StreamExecuteYqlPa" +
-      "rtialResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.Stat" +
-      "usIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.I" +
-      "ssue.IssueMessage\022<\n\006result\030\003 \001(\0132,.Ydb.",
-      "Scripting.StreamExecuteYqlPartialResult\"" +
-      "\212\001\n\035StreamExecuteYqlPartialResult\022\024\n\014res" +
-      "ult_index\030\001 \001(\r\022\"\n\nresult_set\030\002 \001(\0132\016.Yd" +
-      "b.ResultSet\022/\n\013query_stats\030\003 \001(\0132\032.Ydb.T" +
-      "ableStats.QueryStats\"\311\001\n\021ExplainYqlReque" +
-      "st\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Opera" +
-      "tions.OperationParams\022\016\n\006script\030\002 \001(\t\0223\n" +
-      "\004mode\030\003 \001(\0162%.Ydb.Scripting.ExplainYqlRe" +
-      "quest.Mode\"4\n\004Mode\022\024\n\020MODE_UNSPECIFIED\020\000" +
-      "\022\014\n\010VALIDATE\020\002\022\010\n\004PLAN\020\003\"B\n\022ExplainYqlRe",
-      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
-      "ns.Operation\"\263\001\n\020ExplainYqlResult\022N\n\020par" +
-      "ameters_types\030\001 \003(\01324.Ydb.Scripting.Expl" +
-      "ainYqlResult.ParametersTypesEntry\022\014\n\004pla" +
-      "n\030\002 \001(\t\032A\n\024ParametersTypesEntry\022\013\n\003key\030\001" +
-      " \001(\t\022\030\n\005value\030\002 \001(\0132\t.Ydb.Type:\0028\001B.\n\030co" +
-      "m.yandex.ydb.scriptingB\017ScriptingProtos\370" +
-      "\001\001b\006proto3"
+      "eryStats\"\247\001\n\031ExecuteYqlPartialResponse\022)" +
+      "\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.StatusCod" +
+      "e\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMessa" +
+      "ge\0226\n\006result\030\003 \001(\0132&.Ydb.Scripting.Execu" +
+      "teYqlPartialResult\"\210\001\n\027ExecuteYqlPartial" +
+      "Result\022\030\n\020result_set_index\030\001 \001(\r\022\"\n\nresu" +
+      "lt_set\030\002 \001(\0132\016.Ydb.ResultSet\022/\n\013query_st" +
+      "ats\030\003 \001(\0132\032.Ydb.TableStats.QueryStats\"\311\001" +
+      "\n\021ExplainYqlRequest\0229\n\020operation_params\030" +
+      "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\016",
+      "\n\006script\030\002 \001(\t\0223\n\004mode\030\003 \001(\0162%.Ydb.Scrip" +
+      "ting.ExplainYqlRequest.Mode\"4\n\004Mode\022\024\n\020M" +
+      "ODE_UNSPECIFIED\020\000\022\014\n\010VALIDATE\020\002\022\010\n\004PLAN\020" +
+      "\003\"B\n\022ExplainYqlResponse\022,\n\toperation\030\001 \001" +
+      "(\0132\031.Ydb.Operations.Operation\"\263\001\n\020Explai" +
+      "nYqlResult\022N\n\020parameters_types\030\001 \003(\01324.Y" +
+      "db.Scripting.ExplainYqlResult.Parameters" +
+      "TypesEntry\022\014\n\004plan\030\002 \001(\t\032A\n\024ParametersTy" +
+      "pesEntry\022\013\n\003key\030\001 \001(\t\022\030\n\005value\030\002 \001(\0132\t.Y" +
+      "db.Type:\0028\001B.\n\030tech.ydb.scriptingB",
+      "\017ScriptingProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -8070,44 +7128,32 @@ public final class ScriptingProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Scripting_ExecuteYqlResult_descriptor,
         new java.lang.String[] { "ResultSets", "QueryStats", });
-    internal_static_Ydb_Scripting_StreamExecuteYqlRequest_descriptor =
+    internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
-    internal_static_Ydb_Scripting_StreamExecuteYqlRequest_fieldAccessorTable = new
+    internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Scripting_StreamExecuteYqlRequest_descriptor,
-        new java.lang.String[] { "Script", "Parameters", "CollectStats", });
-    internal_static_Ydb_Scripting_StreamExecuteYqlRequest_ParametersEntry_descriptor =
-      internal_static_Ydb_Scripting_StreamExecuteYqlRequest_descriptor.getNestedTypes().get(0);
-    internal_static_Ydb_Scripting_StreamExecuteYqlRequest_ParametersEntry_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Scripting_StreamExecuteYqlRequest_ParametersEntry_descriptor,
-        new java.lang.String[] { "Key", "Value", });
-    internal_static_Ydb_Scripting_StreamExecuteYqlPartialResponse_descriptor =
-      getDescriptor().getMessageTypes().get(4);
-    internal_static_Ydb_Scripting_StreamExecuteYqlPartialResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Scripting_StreamExecuteYqlPartialResponse_descriptor,
+        internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_descriptor,
         new java.lang.String[] { "Status", "Issues", "Result", });
-    internal_static_Ydb_Scripting_StreamExecuteYqlPartialResult_descriptor =
-      getDescriptor().getMessageTypes().get(5);
-    internal_static_Ydb_Scripting_StreamExecuteYqlPartialResult_fieldAccessorTable = new
+    internal_static_Ydb_Scripting_ExecuteYqlPartialResult_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_Ydb_Scripting_ExecuteYqlPartialResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Scripting_StreamExecuteYqlPartialResult_descriptor,
-        new java.lang.String[] { "ResultIndex", "ResultSet", "QueryStats", });
+        internal_static_Ydb_Scripting_ExecuteYqlPartialResult_descriptor,
+        new java.lang.String[] { "ResultSetIndex", "ResultSet", "QueryStats", });
     internal_static_Ydb_Scripting_ExplainYqlRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_Ydb_Scripting_ExplainYqlRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Scripting_ExplainYqlRequest_descriptor,
         new java.lang.String[] { "OperationParams", "Script", "Mode", });
     internal_static_Ydb_Scripting_ExplainYqlResponse_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_Ydb_Scripting_ExplainYqlResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Scripting_ExplainYqlResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Scripting_ExplainYqlResult_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_Ydb_Scripting_ExplainYqlResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Scripting_ExplainYqlResult_descriptor,

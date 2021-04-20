@@ -27,35 +27,128 @@ public final class StreamingServiceGrpc {
   public static final String SERVICE_NAME = "Streaming.V1.StreamingService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest,
-      com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse> getExecuteQueryMethod;
+  private static volatile io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.InstallQueryRequest,
+      com.yandex.Streaming.StreamingProtos.InstallQueryResponse> getInstallQueryMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "ExecuteQuery",
-      requestType = com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest.class,
-      responseType = com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "InstallQuery",
+      requestType = com.yandex.Streaming.StreamingProtos.InstallQueryRequest.class,
+      responseType = com.yandex.Streaming.StreamingProtos.InstallQueryResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest,
-      com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse> getExecuteQueryMethod() {
-    io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest, com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse> getExecuteQueryMethod;
-    if ((getExecuteQueryMethod = StreamingServiceGrpc.getExecuteQueryMethod) == null) {
+  public static io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.InstallQueryRequest,
+      com.yandex.Streaming.StreamingProtos.InstallQueryResponse> getInstallQueryMethod() {
+    io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.InstallQueryRequest, com.yandex.Streaming.StreamingProtos.InstallQueryResponse> getInstallQueryMethod;
+    if ((getInstallQueryMethod = StreamingServiceGrpc.getInstallQueryMethod) == null) {
       synchronized (StreamingServiceGrpc.class) {
-        if ((getExecuteQueryMethod = StreamingServiceGrpc.getExecuteQueryMethod) == null) {
-          StreamingServiceGrpc.getExecuteQueryMethod = getExecuteQueryMethod =
-              io.grpc.MethodDescriptor.<com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest, com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse>newBuilder()
+        if ((getInstallQueryMethod = StreamingServiceGrpc.getInstallQueryMethod) == null) {
+          StreamingServiceGrpc.getInstallQueryMethod = getInstallQueryMethod =
+              io.grpc.MethodDescriptor.<com.yandex.Streaming.StreamingProtos.InstallQueryRequest, com.yandex.Streaming.StreamingProtos.InstallQueryResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ExecuteQuery"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "InstallQuery"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest.getDefaultInstance()))
+                  com.yandex.Streaming.StreamingProtos.InstallQueryRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new StreamingServiceMethodDescriptorSupplier("ExecuteQuery"))
+                  com.yandex.Streaming.StreamingProtos.InstallQueryResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new StreamingServiceMethodDescriptorSupplier("InstallQuery"))
               .build();
         }
       }
     }
-    return getExecuteQueryMethod;
+    return getInstallQueryMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.DeleteQueryRequest,
+      com.yandex.Streaming.StreamingProtos.DeleteQueryResponse> getDeleteQueryMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DeleteQuery",
+      requestType = com.yandex.Streaming.StreamingProtos.DeleteQueryRequest.class,
+      responseType = com.yandex.Streaming.StreamingProtos.DeleteQueryResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.DeleteQueryRequest,
+      com.yandex.Streaming.StreamingProtos.DeleteQueryResponse> getDeleteQueryMethod() {
+    io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.DeleteQueryRequest, com.yandex.Streaming.StreamingProtos.DeleteQueryResponse> getDeleteQueryMethod;
+    if ((getDeleteQueryMethod = StreamingServiceGrpc.getDeleteQueryMethod) == null) {
+      synchronized (StreamingServiceGrpc.class) {
+        if ((getDeleteQueryMethod = StreamingServiceGrpc.getDeleteQueryMethod) == null) {
+          StreamingServiceGrpc.getDeleteQueryMethod = getDeleteQueryMethod =
+              io.grpc.MethodDescriptor.<com.yandex.Streaming.StreamingProtos.DeleteQueryRequest, com.yandex.Streaming.StreamingProtos.DeleteQueryResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DeleteQuery"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.Streaming.StreamingProtos.DeleteQueryRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.Streaming.StreamingProtos.DeleteQueryResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new StreamingServiceMethodDescriptorSupplier("DeleteQuery"))
+              .build();
+        }
+      }
+    }
+    return getDeleteQueryMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.ListQueriesRequest,
+      com.yandex.Streaming.StreamingProtos.ListQueriesResponse> getListQueriesMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "ListQueries",
+      requestType = com.yandex.Streaming.StreamingProtos.ListQueriesRequest.class,
+      responseType = com.yandex.Streaming.StreamingProtos.ListQueriesResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.ListQueriesRequest,
+      com.yandex.Streaming.StreamingProtos.ListQueriesResponse> getListQueriesMethod() {
+    io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.ListQueriesRequest, com.yandex.Streaming.StreamingProtos.ListQueriesResponse> getListQueriesMethod;
+    if ((getListQueriesMethod = StreamingServiceGrpc.getListQueriesMethod) == null) {
+      synchronized (StreamingServiceGrpc.class) {
+        if ((getListQueriesMethod = StreamingServiceGrpc.getListQueriesMethod) == null) {
+          StreamingServiceGrpc.getListQueriesMethod = getListQueriesMethod =
+              io.grpc.MethodDescriptor.<com.yandex.Streaming.StreamingProtos.ListQueriesRequest, com.yandex.Streaming.StreamingProtos.ListQueriesResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ListQueries"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.Streaming.StreamingProtos.ListQueriesRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.Streaming.StreamingProtos.ListQueriesResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new StreamingServiceMethodDescriptorSupplier("ListQueries"))
+              .build();
+        }
+      }
+    }
+    return getListQueriesMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.DescribeQueryRequest,
+      com.yandex.Streaming.StreamingProtos.DescribeQueryResponse> getDescribeQueryMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DescribeQuery",
+      requestType = com.yandex.Streaming.StreamingProtos.DescribeQueryRequest.class,
+      responseType = com.yandex.Streaming.StreamingProtos.DescribeQueryResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.DescribeQueryRequest,
+      com.yandex.Streaming.StreamingProtos.DescribeQueryResponse> getDescribeQueryMethod() {
+    io.grpc.MethodDescriptor<com.yandex.Streaming.StreamingProtos.DescribeQueryRequest, com.yandex.Streaming.StreamingProtos.DescribeQueryResponse> getDescribeQueryMethod;
+    if ((getDescribeQueryMethod = StreamingServiceGrpc.getDescribeQueryMethod) == null) {
+      synchronized (StreamingServiceGrpc.class) {
+        if ((getDescribeQueryMethod = StreamingServiceGrpc.getDescribeQueryMethod) == null) {
+          StreamingServiceGrpc.getDescribeQueryMethod = getDescribeQueryMethod =
+              io.grpc.MethodDescriptor.<com.yandex.Streaming.StreamingProtos.DescribeQueryRequest, com.yandex.Streaming.StreamingProtos.DescribeQueryResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DescribeQuery"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.Streaming.StreamingProtos.DescribeQueryRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.Streaming.StreamingProtos.DescribeQueryResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new StreamingServiceMethodDescriptorSupplier("DescribeQuery"))
+              .build();
+        }
+      }
+    }
+    return getDescribeQueryMethod;
   }
 
   /**
@@ -108,20 +201,62 @@ public final class StreamingServiceGrpc {
 
     /**
      */
-    public void executeQuery(com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getExecuteQueryMethod(), responseObserver);
+    public void installQuery(com.yandex.Streaming.StreamingProtos.InstallQueryRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.InstallQueryResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getInstallQueryMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void deleteQuery(com.yandex.Streaming.StreamingProtos.DeleteQueryRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.DeleteQueryResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getDeleteQueryMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void listQueries(com.yandex.Streaming.StreamingProtos.ListQueriesRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.ListQueriesResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getListQueriesMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void describeQuery(com.yandex.Streaming.StreamingProtos.DescribeQueryRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.DescribeQueryResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getDescribeQueryMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            getExecuteQueryMethod(),
+            getInstallQueryMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest,
-                com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse>(
-                  this, METHODID_EXECUTE_QUERY)))
+                com.yandex.Streaming.StreamingProtos.InstallQueryRequest,
+                com.yandex.Streaming.StreamingProtos.InstallQueryResponse>(
+                  this, METHODID_INSTALL_QUERY)))
+          .addMethod(
+            getDeleteQueryMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.yandex.Streaming.StreamingProtos.DeleteQueryRequest,
+                com.yandex.Streaming.StreamingProtos.DeleteQueryResponse>(
+                  this, METHODID_DELETE_QUERY)))
+          .addMethod(
+            getListQueriesMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.yandex.Streaming.StreamingProtos.ListQueriesRequest,
+                com.yandex.Streaming.StreamingProtos.ListQueriesResponse>(
+                  this, METHODID_LIST_QUERIES)))
+          .addMethod(
+            getDescribeQueryMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.yandex.Streaming.StreamingProtos.DescribeQueryRequest,
+                com.yandex.Streaming.StreamingProtos.DescribeQueryResponse>(
+                  this, METHODID_DESCRIBE_QUERY)))
           .build();
     }
   }
@@ -142,10 +277,34 @@ public final class StreamingServiceGrpc {
 
     /**
      */
-    public void executeQuery(com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse> responseObserver) {
+    public void installQuery(com.yandex.Streaming.StreamingProtos.InstallQueryRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.InstallQueryResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getExecuteQueryMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getInstallQueryMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void deleteQuery(com.yandex.Streaming.StreamingProtos.DeleteQueryRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.DeleteQueryResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getDeleteQueryMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void listQueries(com.yandex.Streaming.StreamingProtos.ListQueriesRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.ListQueriesResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getListQueriesMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void describeQuery(com.yandex.Streaming.StreamingProtos.DescribeQueryRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.DescribeQueryResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getDescribeQueryMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -165,9 +324,30 @@ public final class StreamingServiceGrpc {
 
     /**
      */
-    public com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse executeQuery(com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest request) {
+    public com.yandex.Streaming.StreamingProtos.InstallQueryResponse installQuery(com.yandex.Streaming.StreamingProtos.InstallQueryRequest request) {
       return blockingUnaryCall(
-          getChannel(), getExecuteQueryMethod(), getCallOptions(), request);
+          getChannel(), getInstallQueryMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.yandex.Streaming.StreamingProtos.DeleteQueryResponse deleteQuery(com.yandex.Streaming.StreamingProtos.DeleteQueryRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getDeleteQueryMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.yandex.Streaming.StreamingProtos.ListQueriesResponse listQueries(com.yandex.Streaming.StreamingProtos.ListQueriesRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getListQueriesMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.yandex.Streaming.StreamingProtos.DescribeQueryResponse describeQuery(com.yandex.Streaming.StreamingProtos.DescribeQueryRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getDescribeQueryMethod(), getCallOptions(), request);
     }
   }
 
@@ -187,14 +367,41 @@ public final class StreamingServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse> executeQuery(
-        com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.Streaming.StreamingProtos.InstallQueryResponse> installQuery(
+        com.yandex.Streaming.StreamingProtos.InstallQueryRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getExecuteQueryMethod(), getCallOptions()), request);
+          getChannel().newCall(getInstallQueryMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.Streaming.StreamingProtos.DeleteQueryResponse> deleteQuery(
+        com.yandex.Streaming.StreamingProtos.DeleteQueryRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getDeleteQueryMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.Streaming.StreamingProtos.ListQueriesResponse> listQueries(
+        com.yandex.Streaming.StreamingProtos.ListQueriesRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getListQueriesMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.Streaming.StreamingProtos.DescribeQueryResponse> describeQuery(
+        com.yandex.Streaming.StreamingProtos.DescribeQueryRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getDescribeQueryMethod(), getCallOptions()), request);
     }
   }
 
-  private static final int METHODID_EXECUTE_QUERY = 0;
+  private static final int METHODID_INSTALL_QUERY = 0;
+  private static final int METHODID_DELETE_QUERY = 1;
+  private static final int METHODID_LIST_QUERIES = 2;
+  private static final int METHODID_DESCRIBE_QUERY = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -213,9 +420,21 @@ public final class StreamingServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_EXECUTE_QUERY:
-          serviceImpl.executeQuery((com.yandex.Streaming.StreamingProtos.ExecuteQueryRequest) request,
-              (io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.ExecuteQueryResponse>) responseObserver);
+        case METHODID_INSTALL_QUERY:
+          serviceImpl.installQuery((com.yandex.Streaming.StreamingProtos.InstallQueryRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.InstallQueryResponse>) responseObserver);
+          break;
+        case METHODID_DELETE_QUERY:
+          serviceImpl.deleteQuery((com.yandex.Streaming.StreamingProtos.DeleteQueryRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.DeleteQueryResponse>) responseObserver);
+          break;
+        case METHODID_LIST_QUERIES:
+          serviceImpl.listQueries((com.yandex.Streaming.StreamingProtos.ListQueriesRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.ListQueriesResponse>) responseObserver);
+          break;
+        case METHODID_DESCRIBE_QUERY:
+          serviceImpl.describeQuery((com.yandex.Streaming.StreamingProtos.DescribeQueryRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.Streaming.StreamingProtos.DescribeQueryResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -278,7 +497,10 @@ public final class StreamingServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new StreamingServiceFileDescriptorSupplier())
-              .addMethod(getExecuteQueryMethod())
+              .addMethod(getInstallQueryMethod())
+              .addMethod(getDeleteQueryMethod())
+              .addMethod(getListQueriesMethod())
+              .addMethod(getDescribeQueryMethod())
               .build();
         }
       }
