@@ -57,6 +57,7 @@ import tech.ydb.table.settings.ExecuteSchemeQuerySettings;
 import tech.ydb.table.settings.ExplainDataQuerySettings;
 import tech.ydb.table.settings.KeepAliveSessionSettings;
 import tech.ydb.table.settings.PartitioningPolicy;
+import tech.ydb.table.settings.PartitioningSettings;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.settings.ReplicationPolicy;
@@ -133,13 +134,33 @@ class SessionImpl implements Session {
     public CompletableFuture<Status> createTable(
         String path,
         TableDescription tableDescriptions,
-        CreateTableSettings settings)
-    {
+        CreateTableSettings settings
+    ) {
         YdbTable.CreateTableRequest.Builder request = YdbTable.CreateTableRequest.newBuilder()
             .setSessionId(id)
             .setPath(path)
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .addAllPrimaryKey(tableDescriptions.getPrimaryKeys());
+
+        if (settings.getPartitioningSettings() != null) {
+            PartitioningSettings partitioningSettings = settings.getPartitioningSettings();
+            YdbTable.PartitioningSettings.Builder builder = YdbTable.PartitioningSettings.newBuilder();
+            if (partitioningSettings.getPartitioningByLoad() != null) {
+                builder.setPartitioningByLoad(
+                        partitioningSettings.getPartitioningByLoad()
+                                ? CommonProtos.FeatureFlag.Status.ENABLED
+                                : CommonProtos.FeatureFlag.Status.DISABLED
+                );
+            }
+            if (partitioningSettings.getPartitioningBySize() != null) {
+                builder.setPartitioningByLoad(
+                        partitioningSettings.getPartitioningBySize()
+                                ? CommonProtos.FeatureFlag.Status.ENABLED
+                                : CommonProtos.FeatureFlag.Status.DISABLED
+                );
+            }
+            request.setPartitioningSettings(builder.build());
+        }
 
         for (TableColumn column : tableDescriptions.getColumns()) {
             YdbTable.ColumnMeta.Builder builder = YdbTable.ColumnMeta.newBuilder()

@@ -23,6 +23,8 @@ public class CreateTableSettings extends RequestSettings<CreateTableSettings> {
     private ReplicationPolicy replicationPolicy;
     @Nullable
     private TtlSettings ttlSettings;
+    @Nullable
+    private PartitioningSettings partitioningSettings;
 
     @Nullable
     public String getPresetName() {
@@ -91,5 +93,14 @@ public class CreateTableSettings extends RequestSettings<CreateTableSettings> {
 
     public void setTtlSettings(@Nullable TtlSettings ttlSettings) {
         this.ttlSettings = ttlSettings;
+    }
+
+    @Nullable
+    public PartitioningSettings getPartitioningSettings() {
+        return partitioningSettings;
+    }
+
+    public void setPartitioningSettings(@Nullable PartitioningSettings partitioningSettings) {
+        this.partitioningSettings = partitioningSettings;
     }
 }
