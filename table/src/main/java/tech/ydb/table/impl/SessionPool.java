@@ -87,7 +87,7 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
         return idlePool.acquire(timeout)
             .thenCompose(s -> {
                 if (s.switchState(State.IDLE, State.ACTIVE)) {
-                    logger.debug("session `{0}' acquired", s);
+                    logger.debug("session `{}' acquired", s);
                     return CompletableFuture.completedFuture(s);
                 } else {
                     release(s);
