@@ -125,54 +125,55 @@ public final class RateLimiterProtos {
     java.lang.String[] descriptorData = {
       "\n/kikimr/public/api/protos/ydb_rate_limi" +
       "ter.proto\022\017Ydb.RateLimiter\032,kikimr/publi" +
-      "c/api/protos/ydb_operation.proto\"[\n\027Hier" +
-      "archicalDrrSettings\022\034\n\024max_units_per_sec" +
-      "ond\030\001 \001(\001\022\"\n\032max_burst_size_coefficient\030" +
-      "\002 \001(\001\"o\n\010Resource\022\025\n\rresource_path\030\001 \001(\t" +
-      "\022D\n\020hierarchical_drr\030\002 \001(\0132(.Ydb.RateLim" +
-      "iter.HierarchicalDrrSettingsH\000B\006\n\004type\"\237" +
-      "\001\n\025CreateResourceRequest\0229\n\020operation_pa" +
-      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar",
-      "ams\022\036\n\026coordination_node_path\030\002 \001(\t\022+\n\010r" +
-      "esource\030\003 \001(\0132\031.Ydb.RateLimiter.Resource" +
-      "\"F\n\026CreateResourceResponse\022,\n\toperation\030" +
-      "\001 \001(\0132\031.Ydb.Operations.Operation\"\026\n\024Crea" +
-      "teResourceResult\"\236\001\n\024AlterResourceReques" +
-      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\022\036\n\026coordination_nod" +
-      "e_path\030\002 \001(\t\022+\n\010resource\030\003 \001(\0132\031.Ydb.Rat" +
-      "eLimiter.Resource\"E\n\025AlterResourceRespon" +
-      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O",
-      "peration\"\025\n\023AlterResourceResult\"\207\001\n\023Drop" +
-      "ResourceRequest\0229\n\020operation_params\030\001 \001(" +
-      "\0132\037.Ydb.Operations.OperationParams\022\036\n\026co" +
-      "ordination_node_path\030\002 \001(\t\022\025\n\rresource_p" +
-      "ath\030\003 \001(\t\"D\n\024DropResourceResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
-      "\024\n\022DropResourceResult\"\233\001\n\024ListResourcesR" +
-      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
-      "perations.OperationParams\022\036\n\026coordinatio" +
-      "n_node_path\030\002 \001(\t\022\025\n\rresource_path\030\003 \001(\t",
-      "\022\021\n\trecursive\030\004 \001(\010\"E\n\025ListResourcesResp" +
-      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
-      ".Operation\"-\n\023ListResourcesResult\022\026\n\016res" +
-      "ource_paths\030\001 \003(\t\"\213\001\n\027DescribeResourceRe" +
-      "quest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Op" +
-      "erations.OperationParams\022\036\n\026coordination" +
-      "_node_path\030\002 \001(\t\022\025\n\rresource_path\030\003 \001(\t\"" +
-      "H\n\030DescribeResourceResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"E\n\026Des" +
-      "cribeResourceResult\022+\n\010resource\030\001 \001(\0132\031.",
-      "Ydb.RateLimiter.Resource\"\267\001\n\026AcquireReso" +
-      "urceRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
-      "Ydb.Operations.OperationParams\022\036\n\026coordi" +
-      "nation_node_path\030\002 \001(\t\022\025\n\rresource_path\030" +
-      "\003 \001(\t\022\022\n\010required\030\004 \001(\004H\000\022\016\n\004used\030\005 \001(\004H" +
-      "\000B\007\n\005units\"G\n\027AcquireResourceResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"\027\n\025AcquireResourceResultB5\n\033com.yand" +
-      "ex.ydb.rate_limiterB\021RateLimiterProtosP\001" +
-      "\370\001\001b\006proto3"
+      "c/api/protos/ydb_operation.proto\"\225\001\n\027Hie" +
+      "rarchicalDrrSettings\022\034\n\024max_units_per_se" +
+      "cond\030\001 \001(\001\022\"\n\032max_burst_size_coefficient" +
+      "\030\002 \001(\001\022\034\n\024prefetch_coefficient\030\003 \001(\001\022\032\n\022" +
+      "prefetch_watermark\030\004 \001(\001\"o\n\010Resource\022\025\n\r" +
+      "resource_path\030\001 \001(\t\022D\n\020hierarchical_drr\030" +
+      "\002 \001(\0132(.Ydb.RateLimiter.HierarchicalDrrS" +
+      "ettingsH\000B\006\n\004type\"\237\001\n\025CreateResourceRequ",
+      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\022\036\n\026coordination_n" +
+      "ode_path\030\002 \001(\t\022+\n\010resource\030\003 \001(\0132\031.Ydb.R" +
+      "ateLimiter.Resource\"F\n\026CreateResourceRes" +
+      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
+      "s.Operation\"\026\n\024CreateResourceResult\"\236\001\n\024" +
+      "AlterResourceRequest\0229\n\020operation_params" +
+      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
+      "\036\n\026coordination_node_path\030\002 \001(\t\022+\n\010resou" +
+      "rce\030\003 \001(\0132\031.Ydb.RateLimiter.Resource\"E\n\025",
+      "AlterResourceResponse\022,\n\toperation\030\001 \001(\013" +
+      "2\031.Ydb.Operations.Operation\"\025\n\023AlterReso" +
+      "urceResult\"\207\001\n\023DropResourceRequest\0229\n\020op" +
+      "eration_params\030\001 \001(\0132\037.Ydb.Operations.Op" +
+      "erationParams\022\036\n\026coordination_node_path\030" +
+      "\002 \001(\t\022\025\n\rresource_path\030\003 \001(\t\"D\n\024DropReso" +
+      "urceResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
+      "erations.Operation\"\024\n\022DropResourceResult" +
+      "\"\233\001\n\024ListResourcesRequest\0229\n\020operation_p" +
+      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa",
+      "rams\022\036\n\026coordination_node_path\030\002 \001(\t\022\025\n\r" +
+      "resource_path\030\003 \001(\t\022\021\n\trecursive\030\004 \001(\010\"E" +
+      "\n\025ListResourcesResponse\022,\n\toperation\030\001 \001" +
+      "(\0132\031.Ydb.Operations.Operation\"-\n\023ListRes" +
+      "ourcesResult\022\026\n\016resource_paths\030\001 \003(\t\"\213\001\n" +
+      "\027DescribeResourceRequest\0229\n\020operation_pa" +
+      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
+      "ams\022\036\n\026coordination_node_path\030\002 \001(\t\022\025\n\rr" +
+      "esource_path\030\003 \001(\t\"H\n\030DescribeResourceRe" +
+      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio",
+      "ns.Operation\"E\n\026DescribeResourceResult\022+" +
+      "\n\010resource\030\001 \001(\0132\031.Ydb.RateLimiter.Resou" +
+      "rce\"\267\001\n\026AcquireResourceRequest\0229\n\020operat" +
+      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
+      "ionParams\022\036\n\026coordination_node_path\030\002 \001(" +
+      "\t\022\025\n\rresource_path\030\003 \001(\t\022\022\n\010required\030\004 \001" +
+      "(\004H\000\022\016\n\004used\030\005 \001(\004H\000B\007\n\005units\"G\n\027Acquire" +
+      "ResourceResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
+      "b.Operations.Operation\"\027\n\025AcquireResourc" +
+      "eResultB5\n\033tech.ydb.rate_limiterB\021",
+      "RateLimiterProtosP\001\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -192,7 +193,7 @@ public final class RateLimiterProtos {
     internal_static_Ydb_RateLimiter_HierarchicalDrrSettings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_RateLimiter_HierarchicalDrrSettings_descriptor,
-        new java.lang.String[] { "MaxUnitsPerSecond", "MaxBurstSizeCoefficient", });
+        new java.lang.String[] { "MaxUnitsPerSecond", "MaxBurstSizeCoefficient", "PrefetchCoefficient", "PrefetchWatermark", });
     internal_static_Ydb_RateLimiter_Resource_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_Ydb_RateLimiter_Resource_fieldAccessorTable = new

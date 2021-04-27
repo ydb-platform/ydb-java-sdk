@@ -32,4 +32,27 @@ public interface HierarchicalDrrSettingsOrBuilder extends
    * <code>double max_burst_size_coefficient = 2;</code>
    */
   double getMaxBurstSizeCoefficient();
+
+  /**
+   * <pre>
+   * Prefetch in local bucket up to prefetch_coefficient*max_units_per_second units (full size).
+   * Default value is inherited from parent or 0.2 for root.
+   * Disables prefetching if any negative value is set
+   * (It is useful to avoid bursts in case of large number of local buckets).
+   * </pre>
+   *
+   * <code>double prefetch_coefficient = 3;</code>
+   */
+  double getPrefetchCoefficient();
+
+  /**
+   * <pre>
+   * Prefetching starts if there is less than prefetch_watermark fraction of full local bucket left.
+   * Default value is inherited from parent or 0.75 for root.
+   * Must be nonnegative and less than or equal to 1.
+   * </pre>
+   *
+   * <code>double prefetch_watermark = 4;</code>
+   */
+  double getPrefetchWatermark();
 }

@@ -22,6 +22,8 @@ private static final long serialVersionUID = 0L;
   private HierarchicalDrrSettings() {
     maxUnitsPerSecond_ = 0D;
     maxBurstSizeCoefficient_ = 0D;
+    prefetchCoefficient_ = 0D;
+    prefetchWatermark_ = 0D;
   }
 
   @java.lang.Override
@@ -60,6 +62,16 @@ private static final long serialVersionUID = 0L;
           case 17: {
 
             maxBurstSizeCoefficient_ = input.readDouble();
+            break;
+          }
+          case 25: {
+
+            prefetchCoefficient_ = input.readDouble();
+            break;
+          }
+          case 33: {
+
+            prefetchWatermark_ = input.readDouble();
             break;
           }
         }
@@ -120,6 +132,37 @@ private static final long serialVersionUID = 0L;
     return maxBurstSizeCoefficient_;
   }
 
+  public static final int PREFETCH_COEFFICIENT_FIELD_NUMBER = 3;
+  private double prefetchCoefficient_;
+  /**
+   * <pre>
+   * Prefetch in local bucket up to prefetch_coefficient*max_units_per_second units (full size).
+   * Default value is inherited from parent or 0.2 for root.
+   * Disables prefetching if any negative value is set
+   * (It is useful to avoid bursts in case of large number of local buckets).
+   * </pre>
+   *
+   * <code>double prefetch_coefficient = 3;</code>
+   */
+  public double getPrefetchCoefficient() {
+    return prefetchCoefficient_;
+  }
+
+  public static final int PREFETCH_WATERMARK_FIELD_NUMBER = 4;
+  private double prefetchWatermark_;
+  /**
+   * <pre>
+   * Prefetching starts if there is less than prefetch_watermark fraction of full local bucket left.
+   * Default value is inherited from parent or 0.75 for root.
+   * Must be nonnegative and less than or equal to 1.
+   * </pre>
+   *
+   * <code>double prefetch_watermark = 4;</code>
+   */
+  public double getPrefetchWatermark() {
+    return prefetchWatermark_;
+  }
+
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
@@ -138,6 +181,12 @@ private static final long serialVersionUID = 0L;
     if (maxBurstSizeCoefficient_ != 0D) {
       output.writeDouble(2, maxBurstSizeCoefficient_);
     }
+    if (prefetchCoefficient_ != 0D) {
+      output.writeDouble(3, prefetchCoefficient_);
+    }
+    if (prefetchWatermark_ != 0D) {
+      output.writeDouble(4, prefetchWatermark_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -153,6 +202,14 @@ private static final long serialVersionUID = 0L;
     if (maxBurstSizeCoefficient_ != 0D) {
       size += com.google.protobuf.CodedOutputStream
         .computeDoubleSize(2, maxBurstSizeCoefficient_);
+    }
+    if (prefetchCoefficient_ != 0D) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeDoubleSize(3, prefetchCoefficient_);
+    }
+    if (prefetchWatermark_ != 0D) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeDoubleSize(4, prefetchWatermark_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -178,6 +235,14 @@ private static final long serialVersionUID = 0L;
         java.lang.Double.doubleToLongBits(getMaxBurstSizeCoefficient())
         == java.lang.Double.doubleToLongBits(
             other.getMaxBurstSizeCoefficient()));
+    result = result && (
+        java.lang.Double.doubleToLongBits(getPrefetchCoefficient())
+        == java.lang.Double.doubleToLongBits(
+            other.getPrefetchCoefficient()));
+    result = result && (
+        java.lang.Double.doubleToLongBits(getPrefetchWatermark())
+        == java.lang.Double.doubleToLongBits(
+            other.getPrefetchWatermark()));
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -195,6 +260,12 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + MAX_BURST_SIZE_COEFFICIENT_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
         java.lang.Double.doubleToLongBits(getMaxBurstSizeCoefficient()));
+    hash = (37 * hash) + PREFETCH_COEFFICIENT_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        java.lang.Double.doubleToLongBits(getPrefetchCoefficient()));
+    hash = (37 * hash) + PREFETCH_WATERMARK_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+        java.lang.Double.doubleToLongBits(getPrefetchWatermark()));
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -332,6 +403,10 @@ private static final long serialVersionUID = 0L;
 
       maxBurstSizeCoefficient_ = 0D;
 
+      prefetchCoefficient_ = 0D;
+
+      prefetchWatermark_ = 0D;
+
       return this;
     }
 
@@ -356,6 +431,8 @@ private static final long serialVersionUID = 0L;
       tech.ydb.rate_limiter.HierarchicalDrrSettings result = new tech.ydb.rate_limiter.HierarchicalDrrSettings(this);
       result.maxUnitsPerSecond_ = maxUnitsPerSecond_;
       result.maxBurstSizeCoefficient_ = maxBurstSizeCoefficient_;
+      result.prefetchCoefficient_ = prefetchCoefficient_;
+      result.prefetchWatermark_ = prefetchWatermark_;
       onBuilt();
       return result;
     }
@@ -402,6 +479,12 @@ private static final long serialVersionUID = 0L;
       }
       if (other.getMaxBurstSizeCoefficient() != 0D) {
         setMaxBurstSizeCoefficient(other.getMaxBurstSizeCoefficient());
+      }
+      if (other.getPrefetchCoefficient() != 0D) {
+        setPrefetchCoefficient(other.getPrefetchCoefficient());
+      }
+      if (other.getPrefetchWatermark() != 0D) {
+        setPrefetchWatermark(other.getPrefetchWatermark());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -526,6 +609,97 @@ private static final long serialVersionUID = 0L;
     public Builder clearMaxBurstSizeCoefficient() {
       
       maxBurstSizeCoefficient_ = 0D;
+      onChanged();
+      return this;
+    }
+
+    private double prefetchCoefficient_ ;
+    /**
+     * <pre>
+     * Prefetch in local bucket up to prefetch_coefficient*max_units_per_second units (full size).
+     * Default value is inherited from parent or 0.2 for root.
+     * Disables prefetching if any negative value is set
+     * (It is useful to avoid bursts in case of large number of local buckets).
+     * </pre>
+     *
+     * <code>double prefetch_coefficient = 3;</code>
+     */
+    public double getPrefetchCoefficient() {
+      return prefetchCoefficient_;
+    }
+    /**
+     * <pre>
+     * Prefetch in local bucket up to prefetch_coefficient*max_units_per_second units (full size).
+     * Default value is inherited from parent or 0.2 for root.
+     * Disables prefetching if any negative value is set
+     * (It is useful to avoid bursts in case of large number of local buckets).
+     * </pre>
+     *
+     * <code>double prefetch_coefficient = 3;</code>
+     */
+    public Builder setPrefetchCoefficient(double value) {
+      
+      prefetchCoefficient_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * Prefetch in local bucket up to prefetch_coefficient*max_units_per_second units (full size).
+     * Default value is inherited from parent or 0.2 for root.
+     * Disables prefetching if any negative value is set
+     * (It is useful to avoid bursts in case of large number of local buckets).
+     * </pre>
+     *
+     * <code>double prefetch_coefficient = 3;</code>
+     */
+    public Builder clearPrefetchCoefficient() {
+      
+      prefetchCoefficient_ = 0D;
+      onChanged();
+      return this;
+    }
+
+    private double prefetchWatermark_ ;
+    /**
+     * <pre>
+     * Prefetching starts if there is less than prefetch_watermark fraction of full local bucket left.
+     * Default value is inherited from parent or 0.75 for root.
+     * Must be nonnegative and less than or equal to 1.
+     * </pre>
+     *
+     * <code>double prefetch_watermark = 4;</code>
+     */
+    public double getPrefetchWatermark() {
+      return prefetchWatermark_;
+    }
+    /**
+     * <pre>
+     * Prefetching starts if there is less than prefetch_watermark fraction of full local bucket left.
+     * Default value is inherited from parent or 0.75 for root.
+     * Must be nonnegative and less than or equal to 1.
+     * </pre>
+     *
+     * <code>double prefetch_watermark = 4;</code>
+     */
+    public Builder setPrefetchWatermark(double value) {
+      
+      prefetchWatermark_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * Prefetching starts if there is less than prefetch_watermark fraction of full local bucket left.
+     * Default value is inherited from parent or 0.75 for root.
+     * Must be nonnegative and less than or equal to 1.
+     * </pre>
+     *
+     * <code>double prefetch_watermark = 4;</code>
+     */
+    public Builder clearPrefetchWatermark() {
+      
+      prefetchWatermark_ = 0D;
       onChanged();
       return this;
     }
