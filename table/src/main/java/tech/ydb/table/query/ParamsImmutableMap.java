@@ -88,6 +88,23 @@ final class ParamsImmutableMap implements Params {
             String name3, Value<?> value3,
             String name4, Value<?> value4,
             String name5, Value<?> value5,
+            String name6, Value<?> value6) {
+        HashMap<String, Value<?>> params = Maps.newHashMapWithExpectedSize(6);
+        params.put(name1, value1);
+        putParam(params, name2, value2);
+        putParam(params, name3, value3);
+        putParam(params, name4, value4);
+        putParam(params, name5, value5);
+        putParam(params, name6, value6);
+        return new ParamsImmutableMap(Collections.unmodifiableMap(params));
+    }
+
+    static ParamsImmutableMap create(
+            String name1, Value<?> value1,
+            String name2, Value<?> value2,
+            String name3, Value<?> value3,
+            String name4, Value<?> value4,
+            String name5, Value<?> value5,
             String name6, Value<?> value6,
             String name7, Value<?> value7,
             String name8, Value<?> value8) {
