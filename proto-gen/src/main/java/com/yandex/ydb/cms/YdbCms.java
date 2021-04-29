@@ -7016,6 +7016,15 @@ public final class YdbCms {
      * <code>uint64 data_size_soft_quota = 2;</code>
      */
     long getDataSizeSoftQuota();
+
+    /**
+     * <pre>
+     * A maximum count of shards in all data streams.
+     * </pre>
+     *
+     * <code>uint64 data_stream_shards_quota = 3;</code>
+     */
+    long getDataStreamShardsQuota();
   }
   /**
    * <pre>
@@ -7036,6 +7045,7 @@ public final class YdbCms {
     private DatabaseQuotas() {
       dataSizeHardQuota_ = 0L;
       dataSizeSoftQuota_ = 0L;
+      dataStreamShardsQuota_ = 0L;
     }
 
     @java.lang.Override
@@ -7074,6 +7084,11 @@ public final class YdbCms {
             case 16: {
 
               dataSizeSoftQuota_ = input.readUInt64();
+              break;
+            }
+            case 24: {
+
+              dataStreamShardsQuota_ = input.readUInt64();
               break;
             }
           }
@@ -7129,6 +7144,19 @@ public final class YdbCms {
       return dataSizeSoftQuota_;
     }
 
+    public static final int DATA_STREAM_SHARDS_QUOTA_FIELD_NUMBER = 3;
+    private long dataStreamShardsQuota_;
+    /**
+     * <pre>
+     * A maximum count of shards in all data streams.
+     * </pre>
+     *
+     * <code>uint64 data_stream_shards_quota = 3;</code>
+     */
+    public long getDataStreamShardsQuota() {
+      return dataStreamShardsQuota_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -7147,6 +7175,9 @@ public final class YdbCms {
       if (dataSizeSoftQuota_ != 0L) {
         output.writeUInt64(2, dataSizeSoftQuota_);
       }
+      if (dataStreamShardsQuota_ != 0L) {
+        output.writeUInt64(3, dataStreamShardsQuota_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -7162,6 +7193,10 @@ public final class YdbCms {
       if (dataSizeSoftQuota_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(2, dataSizeSoftQuota_);
+      }
+      if (dataStreamShardsQuota_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(3, dataStreamShardsQuota_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -7183,6 +7218,8 @@ public final class YdbCms {
           == other.getDataSizeHardQuota());
       result = result && (getDataSizeSoftQuota()
           == other.getDataSizeSoftQuota());
+      result = result && (getDataStreamShardsQuota()
+          == other.getDataStreamShardsQuota());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -7200,6 +7237,9 @@ public final class YdbCms {
       hash = (37 * hash) + DATA_SIZE_SOFT_QUOTA_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getDataSizeSoftQuota());
+      hash = (37 * hash) + DATA_STREAM_SHARDS_QUOTA_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getDataStreamShardsQuota());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7337,6 +7377,8 @@ public final class YdbCms {
 
         dataSizeSoftQuota_ = 0L;
 
+        dataStreamShardsQuota_ = 0L;
+
         return this;
       }
 
@@ -7361,6 +7403,7 @@ public final class YdbCms {
         tech.ydb.cms.YdbCms.DatabaseQuotas result = new tech.ydb.cms.YdbCms.DatabaseQuotas(this);
         result.dataSizeHardQuota_ = dataSizeHardQuota_;
         result.dataSizeSoftQuota_ = dataSizeSoftQuota_;
+        result.dataStreamShardsQuota_ = dataStreamShardsQuota_;
         onBuilt();
         return result;
       }
@@ -7407,6 +7450,9 @@ public final class YdbCms {
         }
         if (other.getDataSizeSoftQuota() != 0L) {
           setDataSizeSoftQuota(other.getDataSizeSoftQuota());
+        }
+        if (other.getDataStreamShardsQuota() != 0L) {
+          setDataStreamShardsQuota(other.getDataStreamShardsQuota());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -7516,6 +7562,44 @@ public final class YdbCms {
       public Builder clearDataSizeSoftQuota() {
         
         dataSizeSoftQuota_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long dataStreamShardsQuota_ ;
+      /**
+       * <pre>
+       * A maximum count of shards in all data streams.
+       * </pre>
+       *
+       * <code>uint64 data_stream_shards_quota = 3;</code>
+       */
+      public long getDataStreamShardsQuota() {
+        return dataStreamShardsQuota_;
+      }
+      /**
+       * <pre>
+       * A maximum count of shards in all data streams.
+       * </pre>
+       *
+       * <code>uint64 data_stream_shards_quota = 3;</code>
+       */
+      public Builder setDataStreamShardsQuota(long value) {
+        
+        dataStreamShardsQuota_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * A maximum count of shards in all data streams.
+       * </pre>
+       *
+       * <code>uint64 data_stream_shards_quota = 3;</code>
+       */
+      public Builder clearDataStreamShardsQuota() {
+        
+        dataStreamShardsQuota_ = 0L;
         onChanged();
         return this;
       }
@@ -29019,93 +29103,93 @@ public final class YdbCms {
       "ationQuotas\022G\n\023leaky_bucket_quotas\030\001 \003(\013" +
       "2*.Ydb.Cms.SchemaOperationQuotas.LeakyBu" +
       "cket\032:\n\013LeakyBucket\022\023\n\013bucket_size\030\001 \001(\001" +
-      "\022\026\n\016bucket_seconds\030\002 \001(\004\"L\n\016DatabaseQuot",
+      "\022\026\n\016bucket_seconds\030\002 \001(\004\"n\n\016DatabaseQuot",
       "as\022\034\n\024data_size_hard_quota\030\001 \001(\004\022\034\n\024data" +
-      "_size_soft_quota\030\002 \001(\004\"\350\003\n\025CreateDatabas" +
-      "eRequest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb" +
-      ".Operations.OperationParams\022\014\n\004path\030\002 \001(" +
-      "\t\022\'\n\tresources\030\003 \001(\0132\022.Ydb.Cms.Resources" +
-      "H\000\022.\n\020shared_resources\030\006 \001(\0132\022.Ydb.Cms.R" +
-      "esourcesH\000\022<\n\024serverless_resources\030\007 \001(\013" +
-      "2\034.Ydb.Cms.ServerlessResourcesH\000\022)\n\007opti" +
-      "ons\030\004 \001(\0132\030.Ydb.Cms.DatabaseOptions\022&\n\na" +
-      "ttributes\030\005 \003(\0132\022.Ydb.Cms.Attribute\022?\n\027s",
-      "chema_operation_quotas\030\010 \001(\0132\036.Ydb.Cms.S" +
-      "chemaOperationQuotas\022\027\n\017idempotency_key\030" +
-      "\t \001(\t\0220\n\017database_quotas\030\n \001(\0132\027.Ydb.Cms" +
-      ".DatabaseQuotasB\020\n\016resources_kind\"F\n\026Cre" +
-      "ateDatabaseResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.Operation\"c\n\030GetDatabase" +
-      "StatusRequest\022\014\n\004path\030\001 \001(\t\0229\n\020operation" +
-      "_params\030\002 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\"I\n\031GetDatabaseStatusResponse\022,\n\to" +
-      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio",
-      "n\"\364\004\n\027GetDatabaseStatusResult\022\014\n\004path\030\001 " +
-      "\001(\t\0225\n\005state\030\002 \001(\0162&.Ydb.Cms.GetDatabase" +
-      "StatusResult.State\0220\n\022required_resources" +
-      "\030\003 \001(\0132\022.Ydb.Cms.ResourcesH\000\0227\n\031required" +
-      "_shared_resources\030\007 \001(\0132\022.Ydb.Cms.Resour" +
-      "cesH\000\022<\n\024serverless_resources\030\010 \001(\0132\034.Yd" +
-      "b.Cms.ServerlessResourcesH\000\022/\n\023allocated" +
-      "_resources\030\004 \001(\0132\022.Ydb.Cms.Resources\022A\n\024" +
-      "registered_resources\030\005 \003(\0132#.Ydb.Cms.All" +
-      "ocatedComputationalUnit\022\022\n\ngeneration\030\006 ",
-      "\001(\004\022?\n\027schema_operation_quotas\030\t \001(\0132\036.Y" +
-      "db.Cms.SchemaOperationQuotas\0220\n\017database" +
-      "_quotas\030\n \001(\0132\027.Ydb.Cms.DatabaseQuotas\"^" +
-      "\n\005State\022\025\n\021STATE_UNSPECIFIED\020\000\022\014\n\010CREATI" +
-      "NG\020\001\022\013\n\007RUNNING\020\002\022\014\n\010REMOVING\020\003\022\025\n\021PENDI" +
-      "NG_RESOURCES\020\004B\020\n\016resources_kind\"\327\004\n\024Alt" +
-      "erDatabaseRequest\022\014\n\004path\030\001 \001(\t\022?\n\032compu" +
-      "tational_units_to_add\030\002 \003(\0132\033.Ydb.Cms.Co" +
-      "mputationalUnits\022B\n\035computational_units_" +
-      "to_remove\030\003 \003(\0132\033.Ydb.Cms.ComputationalU",
-      "nits\0223\n\024storage_units_to_add\030\004 \003(\0132\025.Ydb" +
-      ".Cms.StorageUnits\022L\n\037computational_units" +
-      "_to_register\030\005 \003(\0132#.Ydb.Cms.AllocatedCo" +
-      "mputationalUnit\022N\n!computational_units_t" +
-      "o_deregister\030\006 \003(\0132#.Ydb.Cms.AllocatedCo" +
-      "mputationalUnit\0229\n\020operation_params\030\007 \001(" +
-      "\0132\037.Ydb.Operations.OperationParams\022\022\n\nge" +
-      "neration\030\010 \001(\004\022?\n\027schema_operation_quota" +
-      "s\030\t \001(\0132\036.Ydb.Cms.SchemaOperationQuotas\022" +
-      "\027\n\017idempotency_key\030\n \001(\t\0220\n\017database_quo",
-      "tas\030\013 \001(\0132\027.Ydb.Cms.DatabaseQuotas\"E\n\025Al" +
-      "terDatabaseResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.Operation\"Q\n\024ListDatabas" +
-      "esRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\"E\n\025ListData" +
-      "basesResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
-      "perations.Operation\"$\n\023ListDatabasesResu" +
-      "lt\022\r\n\005paths\030\001 \003(\t\"`\n\025RemoveDatabaseReque" +
-      "st\022\014\n\004path\030\001 \001(\t\0229\n\020operation_params\030\002 \001" +
-      "(\0132\037.Ydb.Operations.OperationParams\"F\n\026R",
-      "emoveDatabaseResponse\022,\n\toperation\030\001 \001(\013" +
-      "2\031.Ydb.Operations.Operation\"\222\001\n\026StorageU" +
-      "nitDescription\022\014\n\004kind\030\001 \001(\t\022;\n\006labels\030\002" +
-      " \003(\0132+.Ydb.Cms.StorageUnitDescription.La" +
-      "belsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n" +
-      "\005value\030\002 \001(\t:\0028\001\"\234\001\n\033AvailabilityZoneDes" +
-      "cription\022\014\n\004name\030\001 \001(\t\022@\n\006labels\030\002 \003(\01320" +
-      ".Ydb.Cms.AvailabilityZoneDescription.Lab" +
-      "elsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005" +
-      "value\030\002 \001(\t:\0028\001\"\302\001\n\034ComputationalUnitDes",
-      "cription\022\014\n\004kind\030\001 \001(\t\022A\n\006labels\030\002 \003(\01321" +
-      ".Ydb.Cms.ComputationalUnitDescription.La" +
-      "belsEntry\022\"\n\032allowed_availability_zones\030" +
-      "\003 \003(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005val" +
-      "ue\030\002 \001(\t:\0028\001\"[\n\036DescribeDatabaseOptionsR" +
-      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
-      "perations.OperationParams\"O\n\037DescribeDat" +
-      "abaseOptionsResponse\022,\n\toperation\030\001 \001(\0132" +
-      "\031.Ydb.Operations.Operation\"\335\001\n\035DescribeD" +
-      "atabaseOptionsResult\0226\n\rstorage_units\030\001 ",
-      "\003(\0132\037.Ydb.Cms.StorageUnitDescription\022@\n\022" +
-      "availability_zones\030\002 \003(\0132$.Ydb.Cms.Avail" +
-      "abilityZoneDescription\022B\n\023computational_" +
-      "units\030\003 \003(\0132%.Ydb.Cms.ComputationalUnitD" +
-      "escriptionB\027\n\022tech.ydb.cms\370\001\001b\006pro" +
-      "to3"
+      "_size_soft_quota\030\002 \001(\004\022 \n\030data_stream_sh" +
+      "ards_quota\030\003 \001(\004\"\350\003\n\025CreateDatabaseReque" +
+      "st\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Opera" +
+      "tions.OperationParams\022\014\n\004path\030\002 \001(\t\022\'\n\tr" +
+      "esources\030\003 \001(\0132\022.Ydb.Cms.ResourcesH\000\022.\n\020" +
+      "shared_resources\030\006 \001(\0132\022.Ydb.Cms.Resourc" +
+      "esH\000\022<\n\024serverless_resources\030\007 \001(\0132\034.Ydb" +
+      ".Cms.ServerlessResourcesH\000\022)\n\007options\030\004 " +
+      "\001(\0132\030.Ydb.Cms.DatabaseOptions\022&\n\nattribu",
+      "tes\030\005 \003(\0132\022.Ydb.Cms.Attribute\022?\n\027schema_" +
+      "operation_quotas\030\010 \001(\0132\036.Ydb.Cms.SchemaO" +
+      "perationQuotas\022\027\n\017idempotency_key\030\t \001(\t\022" +
+      "0\n\017database_quotas\030\n \001(\0132\027.Ydb.Cms.Datab" +
+      "aseQuotasB\020\n\016resources_kind\"F\n\026CreateDat" +
+      "abaseResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
+      "perations.Operation\"c\n\030GetDatabaseStatus" +
+      "Request\022\014\n\004path\030\001 \001(\t\0229\n\020operation_param" +
+      "s\030\002 \001(\0132\037.Ydb.Operations.OperationParams" +
+      "\"I\n\031GetDatabaseStatusResponse\022,\n\toperati",
+      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\364\004\n\027" +
+      "GetDatabaseStatusResult\022\014\n\004path\030\001 \001(\t\0225\n" +
+      "\005state\030\002 \001(\0162&.Ydb.Cms.GetDatabaseStatus" +
+      "Result.State\0220\n\022required_resources\030\003 \001(\013" +
+      "2\022.Ydb.Cms.ResourcesH\000\0227\n\031required_share" +
+      "d_resources\030\007 \001(\0132\022.Ydb.Cms.ResourcesH\000\022" +
+      "<\n\024serverless_resources\030\010 \001(\0132\034.Ydb.Cms." +
+      "ServerlessResourcesH\000\022/\n\023allocated_resou" +
+      "rces\030\004 \001(\0132\022.Ydb.Cms.Resources\022A\n\024regist" +
+      "ered_resources\030\005 \003(\0132#.Ydb.Cms.Allocated",
+      "ComputationalUnit\022\022\n\ngeneration\030\006 \001(\004\022?\n" +
+      "\027schema_operation_quotas\030\t \001(\0132\036.Ydb.Cms" +
+      ".SchemaOperationQuotas\0220\n\017database_quota" +
+      "s\030\n \001(\0132\027.Ydb.Cms.DatabaseQuotas\"^\n\005Stat" +
+      "e\022\025\n\021STATE_UNSPECIFIED\020\000\022\014\n\010CREATING\020\001\022\013" +
+      "\n\007RUNNING\020\002\022\014\n\010REMOVING\020\003\022\025\n\021PENDING_RES" +
+      "OURCES\020\004B\020\n\016resources_kind\"\327\004\n\024AlterData" +
+      "baseRequest\022\014\n\004path\030\001 \001(\t\022?\n\032computation" +
+      "al_units_to_add\030\002 \003(\0132\033.Ydb.Cms.Computat" +
+      "ionalUnits\022B\n\035computational_units_to_rem",
+      "ove\030\003 \003(\0132\033.Ydb.Cms.ComputationalUnits\0223" +
+      "\n\024storage_units_to_add\030\004 \003(\0132\025.Ydb.Cms.S" +
+      "torageUnits\022L\n\037computational_units_to_re" +
+      "gister\030\005 \003(\0132#.Ydb.Cms.AllocatedComputat" +
+      "ionalUnit\022N\n!computational_units_to_dere" +
+      "gister\030\006 \003(\0132#.Ydb.Cms.AllocatedComputat" +
+      "ionalUnit\0229\n\020operation_params\030\007 \001(\0132\037.Yd" +
+      "b.Operations.OperationParams\022\022\n\ngenerati" +
+      "on\030\010 \001(\004\022?\n\027schema_operation_quotas\030\t \001(" +
+      "\0132\036.Ydb.Cms.SchemaOperationQuotas\022\027\n\017ide",
+      "mpotency_key\030\n \001(\t\0220\n\017database_quotas\030\013 " +
+      "\001(\0132\027.Ydb.Cms.DatabaseQuotas\"E\n\025AlterDat" +
+      "abaseResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
+      "perations.Operation\"Q\n\024ListDatabasesRequ" +
+      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\"E\n\025ListDatabasesR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"$\n\023ListDatabasesResult\022\r\n\005" +
+      "paths\030\001 \003(\t\"`\n\025RemoveDatabaseRequest\022\014\n\004" +
+      "path\030\001 \001(\t\0229\n\020operation_params\030\002 \001(\0132\037.Y",
+      "db.Operations.OperationParams\"F\n\026RemoveD" +
+      "atabaseResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\"\222\001\n\026StorageUnitDes" +
+      "cription\022\014\n\004kind\030\001 \001(\t\022;\n\006labels\030\002 \003(\0132+" +
+      ".Ydb.Cms.StorageUnitDescription.LabelsEn" +
+      "try\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value" +
+      "\030\002 \001(\t:\0028\001\"\234\001\n\033AvailabilityZoneDescripti" +
+      "on\022\014\n\004name\030\001 \001(\t\022@\n\006labels\030\002 \003(\01320.Ydb.C" +
+      "ms.AvailabilityZoneDescription.LabelsEnt" +
+      "ry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030",
+      "\002 \001(\t:\0028\001\"\302\001\n\034ComputationalUnitDescripti" +
+      "on\022\014\n\004kind\030\001 \001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.C" +
+      "ms.ComputationalUnitDescription.LabelsEn" +
+      "try\022\"\n\032allowed_availability_zones\030\003 \003(\t\032" +
+      "-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001" +
+      "(\t:\0028\001\"[\n\036DescribeDatabaseOptionsRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\"O\n\037DescribeDatabaseO" +
+      "ptionsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
+      "Operations.Operation\"\335\001\n\035DescribeDatabas",
+      "eOptionsResult\0226\n\rstorage_units\030\001 \003(\0132\037." +
+      "Ydb.Cms.StorageUnitDescription\022@\n\022availa" +
+      "bility_zones\030\002 \003(\0132$.Ydb.Cms.Availabilit" +
+      "yZoneDescription\022B\n\023computational_units\030" +
+      "\003 \003(\0132%.Ydb.Cms.ComputationalUnitDescrip" +
+      "tionB\027\n\022tech.ydb.cms\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -29179,7 +29263,7 @@ public final class YdbCms {
     internal_static_Ydb_Cms_DatabaseQuotas_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DatabaseQuotas_descriptor,
-        new java.lang.String[] { "DataSizeHardQuota", "DataSizeSoftQuota", });
+        new java.lang.String[] { "DataSizeHardQuota", "DataSizeSoftQuota", "DataStreamShardsQuota", });
     internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Cms_CreateDatabaseRequest_fieldAccessorTable = new

@@ -20,96 +20,104 @@ public final class ControlPlane {
   public enum EComputeState
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>Queued = 0;</code>
+     * <code>Unspecified = 0;</code>
      */
-    Queued(0),
+    Unspecified(0),
     /**
-     * <code>Compiling = 1;</code>
+     * <code>Queued = 1;</code>
      */
-    Compiling(1),
+    Queued(1),
     /**
-     * <code>Compiled = 2;</code>
+     * <code>Compiling = 2;</code>
      */
-    Compiled(2),
+    Compiling(2),
     /**
-     * <code>Registering = 3;</code>
+     * <code>Compiled = 3;</code>
      */
-    Registering(3),
+    Compiled(3),
     /**
-     * <code>Running = 4;</code>
+     * <code>Registering = 4;</code>
      */
-    Running(4),
+    Registering(4),
     /**
-     * <code>Completed = 5;</code>
+     * <code>Running = 5;</code>
      */
-    Completed(5),
+    Running(5),
     /**
-     * <code>Failed = 6;</code>
+     * <code>Completed = 6;</code>
      */
-    Failed(6),
+    Completed(6),
     /**
-     * <code>Pausing = 7;</code>
+     * <code>Failed = 7;</code>
      */
-    Pausing(7),
+    Failed(7),
     /**
-     * <code>Paused = 8;</code>
+     * <code>Pausing = 8;</code>
      */
-    Paused(8),
+    Pausing(8),
     /**
-     * <code>Stopping = 9;</code>
+     * <code>Paused = 9;</code>
      */
-    Stopping(9),
+    Paused(9),
     /**
-     * <code>Stopped = 10;</code>
+     * <code>Stopping = 10;</code>
      */
-    Stopped(10),
+    Stopping(10),
+    /**
+     * <code>Stopped = 11;</code>
+     */
+    Stopped(11),
     UNRECOGNIZED(-1),
     ;
 
     /**
-     * <code>Queued = 0;</code>
+     * <code>Unspecified = 0;</code>
      */
-    public static final int Queued_VALUE = 0;
+    public static final int Unspecified_VALUE = 0;
     /**
-     * <code>Compiling = 1;</code>
+     * <code>Queued = 1;</code>
      */
-    public static final int Compiling_VALUE = 1;
+    public static final int Queued_VALUE = 1;
     /**
-     * <code>Compiled = 2;</code>
+     * <code>Compiling = 2;</code>
      */
-    public static final int Compiled_VALUE = 2;
+    public static final int Compiling_VALUE = 2;
     /**
-     * <code>Registering = 3;</code>
+     * <code>Compiled = 3;</code>
      */
-    public static final int Registering_VALUE = 3;
+    public static final int Compiled_VALUE = 3;
     /**
-     * <code>Running = 4;</code>
+     * <code>Registering = 4;</code>
      */
-    public static final int Running_VALUE = 4;
+    public static final int Registering_VALUE = 4;
     /**
-     * <code>Completed = 5;</code>
+     * <code>Running = 5;</code>
      */
-    public static final int Completed_VALUE = 5;
+    public static final int Running_VALUE = 5;
     /**
-     * <code>Failed = 6;</code>
+     * <code>Completed = 6;</code>
      */
-    public static final int Failed_VALUE = 6;
+    public static final int Completed_VALUE = 6;
     /**
-     * <code>Pausing = 7;</code>
+     * <code>Failed = 7;</code>
      */
-    public static final int Pausing_VALUE = 7;
+    public static final int Failed_VALUE = 7;
     /**
-     * <code>Paused = 8;</code>
+     * <code>Pausing = 8;</code>
      */
-    public static final int Paused_VALUE = 8;
+    public static final int Pausing_VALUE = 8;
     /**
-     * <code>Stopping = 9;</code>
+     * <code>Paused = 9;</code>
      */
-    public static final int Stopping_VALUE = 9;
+    public static final int Paused_VALUE = 9;
     /**
-     * <code>Stopped = 10;</code>
+     * <code>Stopping = 10;</code>
      */
-    public static final int Stopped_VALUE = 10;
+    public static final int Stopping_VALUE = 10;
+    /**
+     * <code>Stopped = 11;</code>
+     */
+    public static final int Stopped_VALUE = 11;
 
 
     public final int getNumber() {
@@ -130,17 +138,18 @@ public final class ControlPlane {
 
     public static EComputeState forNumber(int value) {
       switch (value) {
-        case 0: return Queued;
-        case 1: return Compiling;
-        case 2: return Compiled;
-        case 3: return Registering;
-        case 4: return Running;
-        case 5: return Completed;
-        case 6: return Failed;
-        case 7: return Pausing;
-        case 8: return Paused;
-        case 9: return Stopping;
-        case 10: return Stopped;
+        case 0: return Unspecified;
+        case 1: return Queued;
+        case 2: return Compiling;
+        case 3: return Compiled;
+        case 4: return Registering;
+        case 5: return Running;
+        case 6: return Completed;
+        case 7: return Failed;
+        case 8: return Pausing;
+        case 9: return Paused;
+        case 10: return Stopping;
+        case 11: return Stopped;
         default: return null;
       }
     }
@@ -633,10 +642,10 @@ public final class ControlPlane {
       if (!getProgramFileNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, programFileName_);
       }
-      if (state_ != NStreams.NControlPlane.ControlPlane.EComputeState.Queued.getNumber()) {
+      if (state_ != NStreams.NControlPlane.ControlPlane.EComputeState.Unspecified.getNumber()) {
         output.writeEnum(7, state_);
       }
-      if (targetState_ != NStreams.NControlPlane.ControlPlane.EComputeState.Queued.getNumber()) {
+      if (targetState_ != NStreams.NControlPlane.ControlPlane.EComputeState.Unspecified.getNumber()) {
         output.writeEnum(8, targetState_);
       }
       unknownFields.writeTo(output);
@@ -666,11 +675,11 @@ public final class ControlPlane {
       if (!getProgramFileNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, programFileName_);
       }
-      if (state_ != NStreams.NControlPlane.ControlPlane.EComputeState.Queued.getNumber()) {
+      if (state_ != NStreams.NControlPlane.ControlPlane.EComputeState.Unspecified.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(7, state_);
       }
-      if (targetState_ != NStreams.NControlPlane.ControlPlane.EComputeState.Queued.getNumber()) {
+      if (targetState_ != NStreams.NControlPlane.ControlPlane.EComputeState.Unspecified.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(8, targetState_);
       }
@@ -5559,7 +5568,7 @@ public final class ControlPlane {
         if (activeVersion_ != 0) {
           output.writeUInt32(2, activeVersion_);
         }
-        if (state_ != NStreams.NControlPlane.ControlPlane.EComputeState.Queued.getNumber()) {
+        if (state_ != NStreams.NControlPlane.ControlPlane.EComputeState.Unspecified.getNumber()) {
           output.writeEnum(3, state_);
         }
         unknownFields.writeTo(output);
@@ -5577,7 +5586,7 @@ public final class ControlPlane {
           size += com.google.protobuf.CodedOutputStream
             .computeUInt32Size(2, activeVersion_);
         }
-        if (state_ != NStreams.NControlPlane.ControlPlane.EComputeState.Queued.getNumber()) {
+        if (state_ != NStreams.NControlPlane.ControlPlane.EComputeState.Unspecified.getNumber()) {
           size += com.google.protobuf.CodedOutputStream
             .computeEnumSize(3, state_);
         }
@@ -8058,11 +8067,12 @@ public final class ControlPlane {
       "eState\")\n\025TDescribeQueryRequest\022\020\n\010query" +
       "_id\030\001 \001(\t\"M\n\026TDescribeQueryResponse\0223\n\010v" +
       "ersions\030\001 \003(\0132!.NStreams.NControlPlane.T" +
-      "Instance*\245\001\n\rEComputeState\022\n\n\006Queued\020\000\022\r" +
-      "\n\tCompiling\020\001\022\014\n\010Compiled\020\002\022\017\n\013Registeri",
-      "ng\020\003\022\013\n\007Running\020\004\022\r\n\tCompleted\020\005\022\n\n\006Fail" +
-      "ed\020\006\022\013\n\007Pausing\020\007\022\n\n\006Paused\020\010\022\014\n\010Stoppin" +
-      "g\020\t\022\013\n\007Stopped\020\nB\003\370\001\001b\006proto3"
+      "Instance*\266\001\n\rEComputeState\022\017\n\013Unspecifie" +
+      "d\020\000\022\n\n\006Queued\020\001\022\r\n\tCompiling\020\002\022\014\n\010Compil",
+      "ed\020\003\022\017\n\013Registering\020\004\022\013\n\007Running\020\005\022\r\n\tCo" +
+      "mpleted\020\006\022\n\n\006Failed\020\007\022\013\n\007Pausing\020\010\022\n\n\006Pa" +
+      "used\020\t\022\014\n\010Stopping\020\n\022\013\n\007Stopped\020\013B\003\370\001\001b\006" +
+      "proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
