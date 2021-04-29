@@ -7,6 +7,8 @@ public class PartitioningSettings {
     private Boolean partitioningBySize;
     @Nullable
     private Boolean partitioningByLoad;
+    @Nullable
+    private Long partitionSizeMb;
 
     @Nullable
     public Boolean getPartitioningBySize() {
@@ -18,6 +20,11 @@ public class PartitioningSettings {
         return partitioningByLoad;
     }
 
+    @Nullable
+    public Long getPartitionSizeMb() {
+        return partitionSizeMb;
+    }
+
     public PartitioningSettings setPartitioningBySize(boolean partitioningBySize) {
         this.partitioningBySize = partitioningBySize;
         return this;
@@ -25,6 +32,11 @@ public class PartitioningSettings {
 
     public PartitioningSettings setPartitioningByLoad(boolean partitioningByLoad) {
         this.partitioningByLoad = partitioningByLoad;
+        return this;
+    }
+
+    public PartitioningSettings setPartitionSize(long partitionSizeMb) {
+        this.partitionSizeMb = partitionSizeMb;
         return this;
     }
 }

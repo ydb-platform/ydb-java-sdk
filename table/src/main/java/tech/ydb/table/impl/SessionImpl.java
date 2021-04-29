@@ -159,6 +159,9 @@ class SessionImpl implements Session {
                                 : CommonProtos.FeatureFlag.Status.DISABLED
                 );
             }
+            if (partitioningSettings.getPartitionSizeMb() != null) {
+                builder.setPartitionSizeMb(partitioningSettings.getPartitionSizeMb());
+            }
             request.setPartitioningSettings(builder.build());
         }
 
