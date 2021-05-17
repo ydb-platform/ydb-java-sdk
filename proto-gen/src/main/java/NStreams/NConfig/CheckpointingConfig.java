@@ -24,14 +24,14 @@ public final class CheckpointingConfig {
     boolean getCheckpointingEnabled();
 
     /**
-     * <code>uint64 CheckpointingPeriodSec = 2;</code>
+     * <code>uint64 CheckpointingPeriodMillis = 2;</code>
      */
-    long getCheckpointingPeriodSec();
+    long getCheckpointingPeriodMillis();
 
     /**
-     * <code>uint64 CheckpointTimeLimitSec = 3;</code>
+     * <code>uint64 CheckpointTimeLimitMillis = 3;</code>
      */
-    long getCheckpointTimeLimitSec();
+    long getCheckpointTimeLimitMillis();
 
     /**
      * <code>uint64 MaxInflight = 4;</code>
@@ -52,8 +52,8 @@ public final class CheckpointingConfig {
     }
     private TCheckpointCoordinatorConfig() {
       checkpointingEnabled_ = false;
-      checkpointingPeriodSec_ = 0L;
-      checkpointTimeLimitSec_ = 0L;
+      checkpointingPeriodMillis_ = 0L;
+      checkpointTimeLimitMillis_ = 0L;
       maxInflight_ = 0L;
     }
 
@@ -92,12 +92,12 @@ public final class CheckpointingConfig {
             }
             case 16: {
 
-              checkpointingPeriodSec_ = input.readUInt64();
+              checkpointingPeriodMillis_ = input.readUInt64();
               break;
             }
             case 24: {
 
-              checkpointTimeLimitSec_ = input.readUInt64();
+              checkpointTimeLimitMillis_ = input.readUInt64();
               break;
             }
             case 32: {
@@ -138,22 +138,22 @@ public final class CheckpointingConfig {
       return checkpointingEnabled_;
     }
 
-    public static final int CHECKPOINTINGPERIODSEC_FIELD_NUMBER = 2;
-    private long checkpointingPeriodSec_;
+    public static final int CHECKPOINTINGPERIODMILLIS_FIELD_NUMBER = 2;
+    private long checkpointingPeriodMillis_;
     /**
-     * <code>uint64 CheckpointingPeriodSec = 2;</code>
+     * <code>uint64 CheckpointingPeriodMillis = 2;</code>
      */
-    public long getCheckpointingPeriodSec() {
-      return checkpointingPeriodSec_;
+    public long getCheckpointingPeriodMillis() {
+      return checkpointingPeriodMillis_;
     }
 
-    public static final int CHECKPOINTTIMELIMITSEC_FIELD_NUMBER = 3;
-    private long checkpointTimeLimitSec_;
+    public static final int CHECKPOINTTIMELIMITMILLIS_FIELD_NUMBER = 3;
+    private long checkpointTimeLimitMillis_;
     /**
-     * <code>uint64 CheckpointTimeLimitSec = 3;</code>
+     * <code>uint64 CheckpointTimeLimitMillis = 3;</code>
      */
-    public long getCheckpointTimeLimitSec() {
-      return checkpointTimeLimitSec_;
+    public long getCheckpointTimeLimitMillis() {
+      return checkpointTimeLimitMillis_;
     }
 
     public static final int MAXINFLIGHT_FIELD_NUMBER = 4;
@@ -180,11 +180,11 @@ public final class CheckpointingConfig {
       if (checkpointingEnabled_ != false) {
         output.writeBool(1, checkpointingEnabled_);
       }
-      if (checkpointingPeriodSec_ != 0L) {
-        output.writeUInt64(2, checkpointingPeriodSec_);
+      if (checkpointingPeriodMillis_ != 0L) {
+        output.writeUInt64(2, checkpointingPeriodMillis_);
       }
-      if (checkpointTimeLimitSec_ != 0L) {
-        output.writeUInt64(3, checkpointTimeLimitSec_);
+      if (checkpointTimeLimitMillis_ != 0L) {
+        output.writeUInt64(3, checkpointTimeLimitMillis_);
       }
       if (maxInflight_ != 0L) {
         output.writeUInt64(4, maxInflight_);
@@ -201,13 +201,13 @@ public final class CheckpointingConfig {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(1, checkpointingEnabled_);
       }
-      if (checkpointingPeriodSec_ != 0L) {
+      if (checkpointingPeriodMillis_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(2, checkpointingPeriodSec_);
+          .computeUInt64Size(2, checkpointingPeriodMillis_);
       }
-      if (checkpointTimeLimitSec_ != 0L) {
+      if (checkpointTimeLimitMillis_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(3, checkpointTimeLimitSec_);
+          .computeUInt64Size(3, checkpointTimeLimitMillis_);
       }
       if (maxInflight_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
@@ -231,10 +231,10 @@ public final class CheckpointingConfig {
       boolean result = true;
       result = result && (getCheckpointingEnabled()
           == other.getCheckpointingEnabled());
-      result = result && (getCheckpointingPeriodSec()
-          == other.getCheckpointingPeriodSec());
-      result = result && (getCheckpointTimeLimitSec()
-          == other.getCheckpointTimeLimitSec());
+      result = result && (getCheckpointingPeriodMillis()
+          == other.getCheckpointingPeriodMillis());
+      result = result && (getCheckpointTimeLimitMillis()
+          == other.getCheckpointTimeLimitMillis());
       result = result && (getMaxInflight()
           == other.getMaxInflight());
       result = result && unknownFields.equals(other.unknownFields);
@@ -251,12 +251,12 @@ public final class CheckpointingConfig {
       hash = (37 * hash) + CHECKPOINTINGENABLED_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getCheckpointingEnabled());
-      hash = (37 * hash) + CHECKPOINTINGPERIODSEC_FIELD_NUMBER;
+      hash = (37 * hash) + CHECKPOINTINGPERIODMILLIS_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getCheckpointingPeriodSec());
-      hash = (37 * hash) + CHECKPOINTTIMELIMITSEC_FIELD_NUMBER;
+          getCheckpointingPeriodMillis());
+      hash = (37 * hash) + CHECKPOINTTIMELIMITMILLIS_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getCheckpointTimeLimitSec());
+          getCheckpointTimeLimitMillis());
       hash = (37 * hash) + MAXINFLIGHT_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getMaxInflight());
@@ -391,9 +391,9 @@ public final class CheckpointingConfig {
         super.clear();
         checkpointingEnabled_ = false;
 
-        checkpointingPeriodSec_ = 0L;
+        checkpointingPeriodMillis_ = 0L;
 
-        checkpointTimeLimitSec_ = 0L;
+        checkpointTimeLimitMillis_ = 0L;
 
         maxInflight_ = 0L;
 
@@ -420,8 +420,8 @@ public final class CheckpointingConfig {
       public NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig buildPartial() {
         NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig result = new NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig(this);
         result.checkpointingEnabled_ = checkpointingEnabled_;
-        result.checkpointingPeriodSec_ = checkpointingPeriodSec_;
-        result.checkpointTimeLimitSec_ = checkpointTimeLimitSec_;
+        result.checkpointingPeriodMillis_ = checkpointingPeriodMillis_;
+        result.checkpointTimeLimitMillis_ = checkpointTimeLimitMillis_;
         result.maxInflight_ = maxInflight_;
         onBuilt();
         return result;
@@ -467,11 +467,11 @@ public final class CheckpointingConfig {
         if (other.getCheckpointingEnabled() != false) {
           setCheckpointingEnabled(other.getCheckpointingEnabled());
         }
-        if (other.getCheckpointingPeriodSec() != 0L) {
-          setCheckpointingPeriodSec(other.getCheckpointingPeriodSec());
+        if (other.getCheckpointingPeriodMillis() != 0L) {
+          setCheckpointingPeriodMillis(other.getCheckpointingPeriodMillis());
         }
-        if (other.getCheckpointTimeLimitSec() != 0L) {
-          setCheckpointTimeLimitSec(other.getCheckpointTimeLimitSec());
+        if (other.getCheckpointTimeLimitMillis() != 0L) {
+          setCheckpointTimeLimitMillis(other.getCheckpointTimeLimitMillis());
         }
         if (other.getMaxInflight() != 0L) {
           setMaxInflight(other.getMaxInflight());
@@ -529,54 +529,54 @@ public final class CheckpointingConfig {
         return this;
       }
 
-      private long checkpointingPeriodSec_ ;
+      private long checkpointingPeriodMillis_ ;
       /**
-       * <code>uint64 CheckpointingPeriodSec = 2;</code>
+       * <code>uint64 CheckpointingPeriodMillis = 2;</code>
        */
-      public long getCheckpointingPeriodSec() {
-        return checkpointingPeriodSec_;
+      public long getCheckpointingPeriodMillis() {
+        return checkpointingPeriodMillis_;
       }
       /**
-       * <code>uint64 CheckpointingPeriodSec = 2;</code>
+       * <code>uint64 CheckpointingPeriodMillis = 2;</code>
        */
-      public Builder setCheckpointingPeriodSec(long value) {
+      public Builder setCheckpointingPeriodMillis(long value) {
         
-        checkpointingPeriodSec_ = value;
+        checkpointingPeriodMillis_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>uint64 CheckpointingPeriodSec = 2;</code>
+       * <code>uint64 CheckpointingPeriodMillis = 2;</code>
        */
-      public Builder clearCheckpointingPeriodSec() {
+      public Builder clearCheckpointingPeriodMillis() {
         
-        checkpointingPeriodSec_ = 0L;
+        checkpointingPeriodMillis_ = 0L;
         onChanged();
         return this;
       }
 
-      private long checkpointTimeLimitSec_ ;
+      private long checkpointTimeLimitMillis_ ;
       /**
-       * <code>uint64 CheckpointTimeLimitSec = 3;</code>
+       * <code>uint64 CheckpointTimeLimitMillis = 3;</code>
        */
-      public long getCheckpointTimeLimitSec() {
-        return checkpointTimeLimitSec_;
+      public long getCheckpointTimeLimitMillis() {
+        return checkpointTimeLimitMillis_;
       }
       /**
-       * <code>uint64 CheckpointTimeLimitSec = 3;</code>
+       * <code>uint64 CheckpointTimeLimitMillis = 3;</code>
        */
-      public Builder setCheckpointTimeLimitSec(long value) {
+      public Builder setCheckpointTimeLimitMillis(long value) {
         
-        checkpointTimeLimitSec_ = value;
+        checkpointTimeLimitMillis_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>uint64 CheckpointTimeLimitSec = 3;</code>
+       * <code>uint64 CheckpointTimeLimitMillis = 3;</code>
        */
-      public Builder clearCheckpointTimeLimitSec() {
+      public Builder clearCheckpointTimeLimitMillis() {
         
-        checkpointTimeLimitSec_ = 0L;
+        checkpointTimeLimitMillis_ = 0L;
         onChanged();
         return this;
       }
@@ -671,10 +671,11 @@ public final class CheckpointingConfig {
     java.lang.String[] descriptorData = {
       "\n=kikimr/streaming/libs/config/proto/che" +
       "ckpointing_config.proto\022\020NStreams.NConfi" +
-      "g\"\221\001\n\034TCheckpointCoordinatorConfig\022\034\n\024Ch" +
-      "eckpointingEnabled\030\001 \001(\010\022\036\n\026Checkpointin" +
-      "gPeriodSec\030\002 \001(\004\022\036\n\026CheckpointTimeLimitS" +
-      "ec\030\003 \001(\004\022\023\n\013MaxInflight\030\004 \001(\004b\006proto3"
+      "g\"\227\001\n\034TCheckpointCoordinatorConfig\022\034\n\024Ch" +
+      "eckpointingEnabled\030\001 \001(\010\022!\n\031Checkpointin" +
+      "gPeriodMillis\030\002 \001(\004\022!\n\031CheckpointTimeLim" +
+      "itMillis\030\003 \001(\004\022\023\n\013MaxInflight\030\004 \001(\004b\006pro" +
+      "to3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -693,7 +694,7 @@ public final class CheckpointingConfig {
     internal_static_NStreams_NConfig_TCheckpointCoordinatorConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NStreams_NConfig_TCheckpointCoordinatorConfig_descriptor,
-        new java.lang.String[] { "CheckpointingEnabled", "CheckpointingPeriodSec", "CheckpointTimeLimitSec", "MaxInflight", });
+        new java.lang.String[] { "CheckpointingEnabled", "CheckpointingPeriodMillis", "CheckpointTimeLimitMillis", "MaxInflight", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

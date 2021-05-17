@@ -3258,25 +3258,38 @@ public final class AnalyticsProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string folder_id = 1;</code>
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>string folder_id = 2;</code>
      */
     java.lang.String getFolderId();
     /**
-     * <code>string folder_id = 1;</code>
+     * <code>string folder_id = 2;</code>
      */
     com.google.protobuf.ByteString
         getFolderIdBytes();
 
     /**
-     * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+     * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
      */
     boolean hasFilter();
     /**
-     * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+     * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
      */
     com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter getFilter();
     /**
-     * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+     * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
      */
     com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.FilterOrBuilder getFilterOrBuilder();
   }
@@ -3325,12 +3338,25 @@ public final class AnalyticsProtos {
               break;
             }
             case 10: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
               folderId_ = s;
               break;
             }
-            case 18: {
+            case 26: {
               com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter.Builder subBuilder = null;
               if (filter_ != null) {
                 subBuilder = filter_.toBuilder();
@@ -3889,10 +3915,31 @@ public final class AnalyticsProtos {
 
     }
 
-    public static final int FOLDER_ID_FIELD_NUMBER = 1;
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int FOLDER_ID_FIELD_NUMBER = 2;
     private volatile java.lang.Object folderId_;
     /**
-     * <code>string folder_id = 1;</code>
+     * <code>string folder_id = 2;</code>
      */
     public java.lang.String getFolderId() {
       java.lang.Object ref = folderId_;
@@ -3907,7 +3954,7 @@ public final class AnalyticsProtos {
       }
     }
     /**
-     * <code>string folder_id = 1;</code>
+     * <code>string folder_id = 2;</code>
      */
     public com.google.protobuf.ByteString
         getFolderIdBytes() {
@@ -3923,22 +3970,22 @@ public final class AnalyticsProtos {
       }
     }
 
-    public static final int FILTER_FIELD_NUMBER = 2;
+    public static final int FILTER_FIELD_NUMBER = 3;
     private com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter filter_;
     /**
-     * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+     * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
      */
     public boolean hasFilter() {
       return filter_ != null;
     }
     /**
-     * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+     * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
      */
     public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter getFilter() {
       return filter_ == null ? com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter.getDefaultInstance() : filter_;
     }
     /**
-     * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+     * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
      */
     public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.FilterOrBuilder getFilterOrBuilder() {
       return getFilter();
@@ -3956,11 +4003,14 @@ public final class AnalyticsProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (operationParams_ != null) {
+        output.writeMessage(1, getOperationParams());
+      }
       if (!getFolderIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, folderId_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, folderId_);
       }
       if (filter_ != null) {
-        output.writeMessage(2, getFilter());
+        output.writeMessage(3, getFilter());
       }
       unknownFields.writeTo(output);
     }
@@ -3970,12 +4020,16 @@ public final class AnalyticsProtos {
       if (size != -1) return size;
 
       size = 0;
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperationParams());
+      }
       if (!getFolderIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, folderId_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, folderId_);
       }
       if (filter_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getFilter());
+          .computeMessageSize(3, getFilter());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3993,6 +4047,11 @@ public final class AnalyticsProtos {
       com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest other = (com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest) obj;
 
       boolean result = true;
+      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams()) {
+        result = result && getOperationParams()
+            .equals(other.getOperationParams());
+      }
       result = result && getFolderId()
           .equals(other.getFolderId());
       result = result && (hasFilter() == other.hasFilter());
@@ -4011,6 +4070,10 @@ public final class AnalyticsProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
       hash = (37 * hash) + FOLDER_ID_FIELD_NUMBER;
       hash = (53 * hash) + getFolderId().hashCode();
       if (hasFilter()) {
@@ -4146,6 +4209,12 @@ public final class AnalyticsProtos {
       }
       public Builder clear() {
         super.clear();
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
         folderId_ = "";
 
         if (filterBuilder_ == null) {
@@ -4176,6 +4245,11 @@ public final class AnalyticsProtos {
 
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest result = new com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest(this);
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
         result.folderId_ = folderId_;
         if (filterBuilder_ == null) {
           result.filter_ = filter_;
@@ -4223,6 +4297,9 @@ public final class AnalyticsProtos {
 
       public Builder mergeFrom(com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest other) {
         if (other == com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.getDefaultInstance()) return this;
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
         if (!other.getFolderId().isEmpty()) {
           folderId_ = other.folderId_;
           onChanged();
@@ -4257,9 +4334,126 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
       private java.lang.Object folderId_ = "";
       /**
-       * <code>string folder_id = 1;</code>
+       * <code>string folder_id = 2;</code>
        */
       public java.lang.String getFolderId() {
         java.lang.Object ref = folderId_;
@@ -4274,7 +4468,7 @@ public final class AnalyticsProtos {
         }
       }
       /**
-       * <code>string folder_id = 1;</code>
+       * <code>string folder_id = 2;</code>
        */
       public com.google.protobuf.ByteString
           getFolderIdBytes() {
@@ -4290,7 +4484,7 @@ public final class AnalyticsProtos {
         }
       }
       /**
-       * <code>string folder_id = 1;</code>
+       * <code>string folder_id = 2;</code>
        */
       public Builder setFolderId(
           java.lang.String value) {
@@ -4303,7 +4497,7 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>string folder_id = 1;</code>
+       * <code>string folder_id = 2;</code>
        */
       public Builder clearFolderId() {
         
@@ -4312,7 +4506,7 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>string folder_id = 1;</code>
+       * <code>string folder_id = 2;</code>
        */
       public Builder setFolderIdBytes(
           com.google.protobuf.ByteString value) {
@@ -4330,13 +4524,13 @@ public final class AnalyticsProtos {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter, com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter.Builder, com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.FilterOrBuilder> filterBuilder_;
       /**
-       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
        */
       public boolean hasFilter() {
         return filterBuilder_ != null || filter_ != null;
       }
       /**
-       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
        */
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter getFilter() {
         if (filterBuilder_ == null) {
@@ -4346,7 +4540,7 @@ public final class AnalyticsProtos {
         }
       }
       /**
-       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
        */
       public Builder setFilter(com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter value) {
         if (filterBuilder_ == null) {
@@ -4362,7 +4556,7 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
        */
       public Builder setFilter(
           com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter.Builder builderForValue) {
@@ -4376,7 +4570,7 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
        */
       public Builder mergeFilter(com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter value) {
         if (filterBuilder_ == null) {
@@ -4394,7 +4588,7 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
        */
       public Builder clearFilter() {
         if (filterBuilder_ == null) {
@@ -4408,7 +4602,7 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
        */
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter.Builder getFilterBuilder() {
         
@@ -4416,7 +4610,7 @@ public final class AnalyticsProtos {
         return getFilterFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
        */
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.FilterOrBuilder getFilterOrBuilder() {
         if (filterBuilder_ != null) {
@@ -4427,7 +4621,7 @@ public final class AnalyticsProtos {
         }
       }
       /**
-       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 2;</code>
+       * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter, com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter.Builder, com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.FilterOrBuilder> 
@@ -31174,107 +31368,109 @@ public final class AnalyticsProtos {
       "db_database\030\001 \001(\0132\032.Yql.Analytics.YdbDat" +
       "abaseH\000\022>\n\022clickhouse_cluster\030\002 \001(\0132 .Yq" +
       "l.Analytics.ClickHouseClusterH\000B\014\n\nconne" +
-      "ction\"\210\001\n\025GetConnectionsRequest\022\021\n\tfolde" +
-      "r_id\030\001 \001(\t\022;\n\006filter\030\002 \001(\0132+.Yql.Analyti" +
-      "cs.GetConnectionsRequest.Filter\032\037\n\006Filte" +
-      "r\022\025\n\rconnection_id\030\001 \001(\t\"\255\002\n\020ConnectionE" +
-      "ntity\022\021\n\tfolder_id\030\001 \001(\t\022\025\n\rconnection_i" +
-      "d\030\002 \001(\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013modified_" +
-      "by\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022-\n\nconnection\030\006 \001",
-      "(\0132\031.Yql.Analytics.Connection\022\013\n\003acl\030\007 \001" +
-      "(\t\0221\n\rcreation_time\030\010 \001(\0132\032.google.proto" +
-      "buf.Timestamp\0225\n\021modification_time\030\t \001(\013" +
-      "2\032.google.protobuf.Timestamp\022\022\n\nis_delet" +
-      "ed\030\n \001(\010\"G\n\024GetConnectionsResult\022/\n\006enti" +
-      "ty\030\001 \003(\0132\037.Yql.Analytics.ConnectionEntit" +
-      "y\"F\n\026GetConnectionsResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"O\n\030Mod" +
-      "ifyConnectionsRequest\0223\n\nconnection\030\001 \003(" +
-      "\0132\037.Yql.Analytics.ConnectionEntity\"\031\n\027Mo",
-      "difyConnectionsResult\"I\n\031ModifyConnectio" +
-      "nsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
-      "ations.Operation\"\272\001\n\021GetQueriesRequest\022\021" +
-      "\n\tfolder_id\030\001 \001(\t\022\032\n\022continuation_token\030" +
-      "\002 \001(\t\022\r\n\005limit\030\003 \001(\005\0227\n\006filter\030\004 \001(\0132\'.Y" +
-      "ql.Analytics.GetQueriesRequest.Filter\032.\n" +
-      "\006Filter\022\020\n\010query_id\030\001 \001(\t\022\022\n\nfield_type\030" +
-      "\002 \001(\005\"\203\003\n\022GetQueriesResponse\022>\n\007queries\030" +
-      "\001 \003(\0132-.Yql.Analytics.GetQueriesResponse" +
-      ".QueryEntity\022\032\n\022continuation_token\030\002 \001(\t",
-      "\032\220\002\n\013QueryEntity\022\n\n\002id\030\001 \001(\t\022\013\n\003sql\030\002 \001(" +
-      "\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013modified_by\030\004 \001" +
-      "(\t\022\014\n\004name\030\005 \001(\t\022\021\n\tfolder_id\030\006 \001(\t\022\013\n\003a" +
-      "cl\030\007 \001(\t\022\022\n\nrows_limit\030\010 \001(\003\022\023\n\013bytes_li" +
-      "mit\030\t \001(\003\0221\n\rcreation_time\030\n \001(\0132\032.googl" +
-      "e.protobuf.Timestamp\0225\n\021modification_tim" +
-      "e\030\013 \001(\0132\032.google.protobuf.Timestamp\"\230\001\n\022" +
-      "ModifyQueryRequest\022\n\n\002id\030\001 \001(\t\022\021\n\tfolder" +
-      "_id\030\002 \001(\t\022\013\n\003sql\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\013\n\003" +
-      "acl\030\006 \001(\t\022\022\n\nrows_limit\030\007 \001(\003\022\023\n\013bytes_l",
-      "imit\030\010 \001(\003\022\022\n\nis_deleted\030\t \001(\010\"\025\n\023Modify" +
-      "QueryResponse\"\372\001\n\021GetHistoryRequest\0229\n\020o" +
-      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
-      "perationParams\022\021\n\tfolder_id\030\002 \001(\t\022\032\n\022con" +
-      "tinuation_token\030\003 \001(\t\0227\n\006filter\030\004 \001(\0132\'." +
-      "Yql.Analytics.GetHistoryRequest.Filter\032B" +
-      "\n\006Filter\022\020\n\010query_id\030\001 \001(\t\022\022\n\nhistory_id" +
-      "\030\002 \001(\t\022\022\n\nfield_type\030\003 \001(\005\"\037\n\017QueryStati" +
-      "stics\022\014\n\004yson\030\001 \001(\014\"B\n\022GetHistoryRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op",
-      "eration\"\376\005\n\020GetHistoryResult\022>\n\007history\030" +
-      "\001 \003(\0132-.Yql.Analytics.GetHistoryResult.H" +
-      "istoryEntity\022\032\n\022continuation_token\030\002 \001(\t" +
-      "\032\215\005\n\rHistoryEntity\022\n\n\002id\030\001 \001(\t\022\013\n\003sql\030\002 " +
-      "\001(\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013modified_by\030\004" +
-      " \001(\t\022\014\n\004name\030\005 \001(\t\022\021\n\tfolder_id\030\006 \001(\t\022\013\n" +
-      "\003acl\030\007 \001(\t\022\022\n\nquery_plan\030\010 \001(\t\022\020\n\010query_" +
-      "id\030\t \001(\t\022\021\n\ttruncated\030\n \003(\010\022\022\n\nrows_coun" +
-      "t\030\013 \003(\003\022+\n\006status\030\014 \001(\0162\033.Yql.Analytics." +
-      "EQueryStatus\0221\n\014execute_mode\030\r \001(\0162\033.Yql",
-      ".Analytics.EExecuteMode\022\022\n\nrows_limit\030\016 " +
-      "\001(\003\022\023\n\013bytes_limit\030\017 \001(\003\022.\n\nstart_time\030\020" +
-      " \001(\0132\032.google.protobuf.Timestamp\022/\n\013fini" +
-      "sh_time\030\021 \001(\0132\032.google.protobuf.Timestam" +
-      "p\0227\n\023expiration_deadline\030\022 \001(\0132\032.google." +
-      "protobuf.Timestamp\0221\n\rcreation_time\030\023 \001(" +
-      "\0132\032.google.protobuf.Timestamp\0225\n\021modific" +
-      "ation_time\030\024 \001(\0132\032.google.protobuf.Times" +
-      "tamp\0222\n\nstatistics\030\025 \001(\0132\036.Yql.Analytics" +
-      ".QueryStatistics\"d\n\024ModifyHistoryRequest",
-      "\022\n\n\002id\030\001 \001(\t\022\021\n\tfolder_id\030\002 \001(\t\022\014\n\004name\030" +
-      "\004 \001(\t\022\013\n\003acl\030\005 \001(\t\022\022\n\nis_deleted\030\006 \001(\010\"\027" +
-      "\n\025ModifyHistoryResponse\"\242\003\n\023ExecuteQuery" +
-      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\022\020\n\010yql_text\030\002" +
-      " \001(\t\0221\n\014execute_mode\030\003 \001(\0162\033.Yql.Analyti" +
-      "cs.EExecuteMode\022\030\n\020max_result_bytes\030\004 \001(" +
-      "\004\022\027\n\017max_result_rows\030\005 \001(\004\022\034\n\024expire_aft" +
-      "er_seconds\030\006 \001(\r\022F\n\nparameters\030\007 \003(\01322.Y" +
-      "ql.Analytics.ExecuteQueryRequest.Paramet",
-      "ersEntry\022.\n\013connections\030\010 \003(\0132\031.Yql.Anal" +
-      "ytics.Connection\032B\n\017ParametersEntry\022\013\n\003k" +
-      "ey\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.TypedValue" +
-      ":\0028\001\"D\n\024ExecuteQueryResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"(\n\022Ex" +
-      "ecuteQueryResult\022\022\n\nhistory_id\030\001 \001(\t\"\233\001\n" +
-      "\024GetResultDataRequest\0229\n\020operation_param" +
-      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\022\022\n\nhistory_id\030\002 \001(\t\022\025\n\rresult_set_id\030\003 " +
-      "\001(\005\022\016\n\006offset\030\004 \001(\003\022\r\n\005limit\030\005 \001(\003\"E\n\025Ge",
-      "tResultDataResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.Operation\"9\n\023GetResultDa" +
-      "taResult\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.Resul" +
-      "tSet\"U\n\017ResultSetHeader\022\033\n\006column\030\001 \003(\0132" +
-      "\013.Ydb.Column\022\022\n\nrows_count\030\002 \001(\003\022\021\n\ttrun" +
-      "cated\030\003 \001(\010\"B\n\020ResultSetHeaders\022.\n\006heade" +
-      "r\030\001 \003(\0132\036.Yql.Analytics.ResultSetHeader*" +
-      "/\n\nEFieldType\022\010\n\004NONE\020\000\022\007\n\003SQL\020\001\022\016\n\nQUER" +
-      "Y_PLAN\020\002*S\n\014EExecuteMode\022\024\n\020MODE_UNSPECI" +
-      "FIED\020\000\022\007\n\003RUN\020\001\022\013\n\007EXPLAIN\020\002\022\014\n\010VALIDATE",
-      "\020\003\022\t\n\005PARSE\020\004*Q\n\014EQueryStatus\022\017\n\013UNSPECI" +
-      "FIED\020\000\022\t\n\005SAVED\020\001\022\013\n\007RUNNING\020\002\022\n\n\006FAILED" +
-      "\020\003\022\014\n\010FINISHED\020\004B.\n\030com.yandex.yql.analy" +
-      "ticsB\017AnalyticsProtos\370\001\001b\006proto3"
+      "ction\"\303\001\n\025GetConnectionsRequest\0229\n\020opera" +
+      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
+      "tionParams\022\021\n\tfolder_id\030\002 \001(\t\022;\n\006filter\030" +
+      "\003 \001(\0132+.Yql.Analytics.GetConnectionsRequ" +
+      "est.Filter\032\037\n\006Filter\022\025\n\rconnection_id\030\001 " +
+      "\001(\t\"\255\002\n\020ConnectionEntity\022\021\n\tfolder_id\030\001 " +
+      "\001(\t\022\025\n\rconnection_id\030\002 \001(\t\022\022\n\ncreated_by",
+      "\030\003 \001(\t\022\023\n\013modified_by\030\004 \001(\t\022\014\n\004name\030\005 \001(" +
+      "\t\022-\n\nconnection\030\006 \001(\0132\031.Yql.Analytics.Co" +
+      "nnection\022\013\n\003acl\030\007 \001(\t\0221\n\rcreation_time\030\010" +
+      " \001(\0132\032.google.protobuf.Timestamp\0225\n\021modi" +
+      "fication_time\030\t \001(\0132\032.google.protobuf.Ti" +
+      "mestamp\022\022\n\nis_deleted\030\n \001(\010\"G\n\024GetConnec" +
+      "tionsResult\022/\n\006entity\030\001 \003(\0132\037.Yql.Analyt" +
+      "ics.ConnectionEntity\"F\n\026GetConnectionsRe" +
+      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
+      "ns.Operation\"O\n\030ModifyConnectionsRequest",
+      "\0223\n\nconnection\030\001 \003(\0132\037.Yql.Analytics.Con" +
+      "nectionEntity\"\031\n\027ModifyConnectionsResult" +
+      "\"I\n\031ModifyConnectionsResponse\022,\n\toperati" +
+      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\272\001\n\021" +
+      "GetQueriesRequest\022\021\n\tfolder_id\030\001 \001(\t\022\032\n\022" +
+      "continuation_token\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\022" +
+      "7\n\006filter\030\004 \001(\0132\'.Yql.Analytics.GetQueri" +
+      "esRequest.Filter\032.\n\006Filter\022\020\n\010query_id\030\001" +
+      " \001(\t\022\022\n\nfield_type\030\002 \001(\005\"\203\003\n\022GetQueriesR" +
+      "esponse\022>\n\007queries\030\001 \003(\0132-.Yql.Analytics",
+      ".GetQueriesResponse.QueryEntity\022\032\n\022conti" +
+      "nuation_token\030\002 \001(\t\032\220\002\n\013QueryEntity\022\n\n\002i" +
+      "d\030\001 \001(\t\022\013\n\003sql\030\002 \001(\t\022\022\n\ncreated_by\030\003 \001(\t" +
+      "\022\023\n\013modified_by\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\021\n\tf" +
+      "older_id\030\006 \001(\t\022\013\n\003acl\030\007 \001(\t\022\022\n\nrows_limi" +
+      "t\030\010 \001(\003\022\023\n\013bytes_limit\030\t \001(\003\0221\n\rcreation" +
+      "_time\030\n \001(\0132\032.google.protobuf.Timestamp\022" +
+      "5\n\021modification_time\030\013 \001(\0132\032.google.prot" +
+      "obuf.Timestamp\"\230\001\n\022ModifyQueryRequest\022\n\n" +
+      "\002id\030\001 \001(\t\022\021\n\tfolder_id\030\002 \001(\t\022\013\n\003sql\030\004 \001(",
+      "\t\022\014\n\004name\030\005 \001(\t\022\013\n\003acl\030\006 \001(\t\022\022\n\nrows_lim" +
+      "it\030\007 \001(\003\022\023\n\013bytes_limit\030\010 \001(\003\022\022\n\nis_dele" +
+      "ted\030\t \001(\010\"\025\n\023ModifyQueryResponse\"\372\001\n\021Get" +
+      "HistoryRequest\0229\n\020operation_params\030\001 \001(\013" +
+      "2\037.Ydb.Operations.OperationParams\022\021\n\tfol" +
+      "der_id\030\002 \001(\t\022\032\n\022continuation_token\030\003 \001(\t" +
+      "\0227\n\006filter\030\004 \001(\0132\'.Yql.Analytics.GetHist" +
+      "oryRequest.Filter\032B\n\006Filter\022\020\n\010query_id\030" +
+      "\001 \001(\t\022\022\n\nhistory_id\030\002 \001(\t\022\022\n\nfield_type\030" +
+      "\003 \001(\005\"\037\n\017QueryStatistics\022\014\n\004yson\030\001 \001(\014\"B",
+      "\n\022GetHistoryResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"\376\005\n\020GetHistor" +
+      "yResult\022>\n\007history\030\001 \003(\0132-.Yql.Analytics" +
+      ".GetHistoryResult.HistoryEntity\022\032\n\022conti" +
+      "nuation_token\030\002 \001(\t\032\215\005\n\rHistoryEntity\022\n\n" +
+      "\002id\030\001 \001(\t\022\013\n\003sql\030\002 \001(\t\022\022\n\ncreated_by\030\003 \001" +
+      "(\t\022\023\n\013modified_by\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\021\n" +
+      "\tfolder_id\030\006 \001(\t\022\013\n\003acl\030\007 \001(\t\022\022\n\nquery_p" +
+      "lan\030\010 \001(\t\022\020\n\010query_id\030\t \001(\t\022\021\n\ttruncated" +
+      "\030\n \003(\010\022\022\n\nrows_count\030\013 \003(\003\022+\n\006status\030\014 \001",
+      "(\0162\033.Yql.Analytics.EQueryStatus\0221\n\014execu" +
+      "te_mode\030\r \001(\0162\033.Yql.Analytics.EExecuteMo" +
+      "de\022\022\n\nrows_limit\030\016 \001(\003\022\023\n\013bytes_limit\030\017 " +
+      "\001(\003\022.\n\nstart_time\030\020 \001(\0132\032.google.protobu" +
+      "f.Timestamp\022/\n\013finish_time\030\021 \001(\0132\032.googl" +
+      "e.protobuf.Timestamp\0227\n\023expiration_deadl" +
+      "ine\030\022 \001(\0132\032.google.protobuf.Timestamp\0221\n" +
+      "\rcreation_time\030\023 \001(\0132\032.google.protobuf.T" +
+      "imestamp\0225\n\021modification_time\030\024 \001(\0132\032.go" +
+      "ogle.protobuf.Timestamp\0222\n\nstatistics\030\025 ",
+      "\001(\0132\036.Yql.Analytics.QueryStatistics\"d\n\024M" +
+      "odifyHistoryRequest\022\n\n\002id\030\001 \001(\t\022\021\n\tfolde" +
+      "r_id\030\002 \001(\t\022\014\n\004name\030\004 \001(\t\022\013\n\003acl\030\005 \001(\t\022\022\n" +
+      "\nis_deleted\030\006 \001(\010\"\027\n\025ModifyHistoryRespon" +
+      "se\"\242\003\n\023ExecuteQueryRequest\0229\n\020operation_" +
+      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\022\020\n\010yql_text\030\002 \001(\t\0221\n\014execute_mode\030" +
+      "\003 \001(\0162\033.Yql.Analytics.EExecuteMode\022\030\n\020ma" +
+      "x_result_bytes\030\004 \001(\004\022\027\n\017max_result_rows\030" +
+      "\005 \001(\004\022\034\n\024expire_after_seconds\030\006 \001(\r\022F\n\np",
+      "arameters\030\007 \003(\01322.Yql.Analytics.ExecuteQ" +
+      "ueryRequest.ParametersEntry\022.\n\013connectio" +
+      "ns\030\010 \003(\0132\031.Yql.Analytics.Connection\032B\n\017P" +
+      "arametersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001" +
+      "(\0132\017.Ydb.TypedValue:\0028\001\"D\n\024ExecuteQueryR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"(\n\022ExecuteQueryResult\022\022\n\nh" +
+      "istory_id\030\001 \001(\t\"\233\001\n\024GetResultDataRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\022\022\n\nhistory_id\030\002 \001(\t\022",
+      "\025\n\rresult_set_id\030\003 \001(\005\022\016\n\006offset\030\004 \001(\003\022\r" +
+      "\n\005limit\030\005 \001(\003\"E\n\025GetResultDataResponse\022," +
+      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
+      "tion\"9\n\023GetResultDataResult\022\"\n\nresult_se" +
+      "t\030\001 \001(\0132\016.Ydb.ResultSet\"U\n\017ResultSetHead" +
+      "er\022\033\n\006column\030\001 \003(\0132\013.Ydb.Column\022\022\n\nrows_" +
+      "count\030\002 \001(\003\022\021\n\ttruncated\030\003 \001(\010\"B\n\020Result" +
+      "SetHeaders\022.\n\006header\030\001 \003(\0132\036.Yql.Analyti" +
+      "cs.ResultSetHeader*/\n\nEFieldType\022\010\n\004NONE" +
+      "\020\000\022\007\n\003SQL\020\001\022\016\n\nQUERY_PLAN\020\002*S\n\014EExecuteM",
+      "ode\022\024\n\020MODE_UNSPECIFIED\020\000\022\007\n\003RUN\020\001\022\013\n\007EX" +
+      "PLAIN\020\002\022\014\n\010VALIDATE\020\003\022\t\n\005PARSE\020\004*Q\n\014EQue" +
+      "ryStatus\022\017\n\013UNSPECIFIED\020\000\022\t\n\005SAVED\020\001\022\013\n\007" +
+      "RUNNING\020\002\022\n\n\006FAILED\020\003\022\014\n\010FINISHED\020\004B.\n\030c" +
+      "om.yandex.yql.analyticsB\017AnalyticsProtos" +
+      "\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -31314,7 +31510,7 @@ public final class AnalyticsProtos {
     internal_static_Yql_Analytics_GetConnectionsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetConnectionsRequest_descriptor,
-        new java.lang.String[] { "FolderId", "Filter", });
+        new java.lang.String[] { "OperationParams", "FolderId", "Filter", });
     internal_static_Yql_Analytics_GetConnectionsRequest_Filter_descriptor =
       internal_static_Yql_Analytics_GetConnectionsRequest_descriptor.getNestedTypes().get(0);
     internal_static_Yql_Analytics_GetConnectionsRequest_Filter_fieldAccessorTable = new
