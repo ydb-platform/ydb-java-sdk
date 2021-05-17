@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import javax.annotation.Nullable;
+
 import tech.ydb.table.values.Type;
 
 
@@ -16,7 +18,10 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
 
     private LinkedHashMap<String, Type> addColumns = new LinkedHashMap<>();
     private HashSet<String> dropColumns = new HashSet<>();
+    @Nullable
     private TtlSettings ttlSettings;
+    @Nullable
+    private PartitioningSettings partitioningSettings;
 
     public AlterTableSettings() {
     }
@@ -41,11 +46,21 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
         dropColumns.forEach(fn);
     }
 
+    @Nullable
     public TtlSettings getTtlSettings() {
         return ttlSettings;
     }
 
-    public void setTtlSettings(TtlSettings ttlSettings) {
+    @Nullable
+    public PartitioningSettings getPartitioningSettings() {
+        return partitioningSettings;
+    }
+
+    public void setTtlSettings(@Nullable TtlSettings ttlSettings) {
         this.ttlSettings = ttlSettings;
+    }
+
+    public void setPartitioningSettings(@Nullable PartitioningSettings partitioningSettings) {
+        this.partitioningSettings = partitioningSettings;
     }
 }

@@ -153,7 +153,7 @@ class SessionImpl implements Session {
                 );
             }
             if (partitioningSettings.getPartitioningBySize() != null) {
-                builder.setPartitioningByLoad(
+                builder.setPartitioningBySize(
                         partitioningSettings.getPartitioningBySize()
                                 ? CommonProtos.FeatureFlag.Status.ENABLED
                                 : CommonProtos.FeatureFlag.Status.DISABLED
@@ -354,6 +354,28 @@ class SessionImpl implements Session {
             YdbTable.DateTypeColumnModeSettings.Builder dateTypeColumnBuilder = builder.getSetTtlSettingsBuilder().getDateTypeColumnBuilder();
             dateTypeColumnBuilder.setColumnName(ttlSettings.getDateTimeColumn());
             dateTypeColumnBuilder.setExpireAfterSeconds(ttlSettings.getExpireAfterSeconds());
+        }
+        PartitioningSettings partitioningSettings = settings.getPartitioningSettings();
+        if (partitioningSettings != null) {
+            YdbTable.PartitioningSettings.Builder partitionSettingsBuilder = YdbTable.PartitioningSettings.newBuilder();
+            if (partitioningSettings.getPartitioningByLoad() != null) {
+                partitionSettingsBuilder.setPartitioningByLoad(
+                        partitioningSettings.getPartitioningByLoad()
+                                ? CommonProtos.FeatureFlag.Status.ENABLED
+                                : CommonProtos.FeatureFlag.Status.DISABLED
+                );
+            }
+            if (partitioningSettings.getPartitioningBySize() != null) {
+                partitionSettingsBuilder.setPartitioningBySize(
+                        partitioningSettings.getPartitioningBySize()
+                                ? CommonProtos.FeatureFlag.Status.ENABLED
+                                : CommonProtos.FeatureFlag.Status.DISABLED
+                );
+            }
+            if (partitioningSettings.getPartitionSizeMb() != null) {
+                partitionSettingsBuilder.setPartitionSizeMb(partitioningSettings.getPartitionSizeMb());
+            }
+            builder.setAlterPartitioningSettings(partitionSettingsBuilder);
         }
 
         final long deadlineAfter = settings.getDeadlineAfter();
