@@ -1,5 +1,7 @@
 package tech.ydb.table.result;
 
+import tech.ydb.table.values.Type;
+
 /**
  * @author Sergey Polovko
  */
@@ -52,4 +54,9 @@ public interface ResultSetReader {
      * Returns value reader for column by name.
      */
     ValueReader getColumn(String name);
+
+    /**
+     * Returns column type by index (always create a new type instance)
+     */
+    Type getColumnType(int index);
 }

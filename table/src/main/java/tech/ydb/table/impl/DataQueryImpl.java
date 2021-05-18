@@ -80,6 +80,11 @@ final class DataQueryImpl implements DataQuery {
     }
 
     @Override
+    public Map<String, Type> types() {
+        return types;
+    }
+
+    @Override
     public Optional<String> getText() {
         return Optional.ofNullable(text);
     }
@@ -120,7 +125,9 @@ final class DataQueryImpl implements DataQuery {
         public <T extends Type> Params put(String name, Value<T> value) {
             Type type = types.get(name);
             checkArgument(type != null, "unknown parameter: %s", name);
-            checkArgument(type.equals(value.getType()), "types mismatch: expected %s, got %s", type, value.getType());
+
+            //TODO: This check will not work with Decimal type
+            //checkArgument(type.equals(value.getType()), "types mismatch: expected %s, got %s", type, value.getType());
 
             Value<?> prev = params.putIfAbsent(name, value);
             Preconditions.checkArgument(prev == null, "duplicate parameter: %s", name);

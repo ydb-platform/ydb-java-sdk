@@ -1,5 +1,9 @@
 package tech.ydb.table.result.impl;
 
+import java.util.Collection;
+import java.util.Iterator;
+
+import com.google.common.base.Preconditions;
 import tech.ydb.ValueProtos;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.ValueReader;
@@ -13,6 +17,26 @@ public class ProtoValueReaders {
 
     public static ResultSetReader forResultSet(ValueProtos.ResultSet resultSet) {
         return new ProtoResultSetReader(resultSet);
+    }
+
+    public static ResultSetReader forResultSets(Collection<ResultSetReader> resultSets) {
+        // TODO: add lightweight implementation instead of proto joining
+        Preconditions.checkArgument(resultSets.size() > 0, "Expect multiple result sets to join from");
+
+        Iterator<ResultSetReader> iterator = resultSets.iterator();
+        if (resultSets.size() == 1) {
+            return castAsProtoReader(iterator.next());
+        }
+        ValueProtos.ResultSet.Builder builder = castAsProtoReader(iterator.next()).getResultSet().toBuilder();
+        while (iterator.hasNext()) {
+            ValueProtos.ResultSet resultSet = castAsProtoReader(iterator.next()).getResultSet();
+            if (resultSet.getTruncated()) {
+                builder.setTruncated(true);
+            }
+            builder.addAllRows(resultSet.getRowsList());
+            // TODO: Check columns?
+        }
+        return new ProtoResultSetReader(builder.build());
     }
 
     public static ValueReader forType(ValueProtos.Type type) {
@@ -107,5 +131,11 @@ public class ProtoValueReaders {
             elementReaders[i] = forTypeImpl(tupleType.getElements(i));
         }
         return new ProtoTupleValueReader(type, elementReaders);
+    }
+
+    private static ProtoResultSetReader castAsProtoReader(ResultSetReader reader) {
+        Preconditions.checkState(reader instanceof ProtoResultSetReader,
+                "Expect %s class to join from resultSets", ProtoResultSetReader.class);
+        return (ProtoResultSetReader) reader;
     }
 }

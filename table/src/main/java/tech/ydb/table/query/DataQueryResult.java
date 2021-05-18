@@ -32,6 +32,14 @@ public class DataQueryResult {
         return ProtoValueReaders.forResultSet(resultSets.get(index));
     }
 
+    public boolean isTruncated(int index) {
+        return resultSets.get(index).getTruncated();
+    }
+
+    public int getRowCount(int index) {
+        return resultSets.get(index).getRowsCount();
+    }
+
     public boolean isEmpty() {
         return txId.isEmpty() && resultSets.isEmpty();
     }

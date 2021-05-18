@@ -69,7 +69,9 @@ public class DataQueryImplTest {
             params.put("name", PrimitiveValue.uint32(1));
             fail("expected exception was not thrown");
         } catch (IllegalArgumentException e) {
-            assertEquals("types mismatch: expected Utf8, got Uint32", e.getMessage());
+            // TODO: do not check types anymore
+            // assertEquals("types mismatch: expected Utf8, got Uint32", e.getMessage());
+            assertEquals("duplicate parameter: name", e.getMessage());
         }
     }
 }
