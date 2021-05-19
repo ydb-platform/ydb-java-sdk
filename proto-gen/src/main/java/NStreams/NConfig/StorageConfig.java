@@ -75,6 +75,48 @@ public final class StorageConfig {
         getTablePrefixBytes();
 
     /**
+     * <code>optional string CertificateFile = 6;</code>
+     */
+    boolean hasCertificateFile();
+    /**
+     * <code>optional string CertificateFile = 6;</code>
+     */
+    java.lang.String getCertificateFile();
+    /**
+     * <code>optional string CertificateFile = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getCertificateFileBytes();
+
+    /**
+     * <code>optional string IamEndpoint = 7;</code>
+     */
+    boolean hasIamEndpoint();
+    /**
+     * <code>optional string IamEndpoint = 7;</code>
+     */
+    java.lang.String getIamEndpoint();
+    /**
+     * <code>optional string IamEndpoint = 7;</code>
+     */
+    com.google.protobuf.ByteString
+        getIamEndpointBytes();
+
+    /**
+     * <code>optional string SaKeyFile = 8;</code>
+     */
+    boolean hasSaKeyFile();
+    /**
+     * <code>optional string SaKeyFile = 8;</code>
+     */
+    java.lang.String getSaKeyFile();
+    /**
+     * <code>optional string SaKeyFile = 8;</code>
+     */
+    com.google.protobuf.ByteString
+        getSaKeyFileBytes();
+
+    /**
      * <pre>
      * alternative to OAuthFile to simplify tests
      * </pre>
@@ -117,6 +159,9 @@ public final class StorageConfig {
       database_ = "";
       oAuthFile_ = "";
       tablePrefix_ = "";
+      certificateFile_ = "";
+      iamEndpoint_ = "";
+      saKeyFile_ = "";
       token_ = "";
     }
 
@@ -174,8 +219,26 @@ public final class StorageConfig {
             }
             case 42: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000010;
+              bitField0_ |= 0x00000080;
               token_ = bs;
+              break;
+            }
+            case 50: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000010;
+              certificateFile_ = bs;
+              break;
+            }
+            case 58: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000020;
+              iamEndpoint_ = bs;
+              break;
+            }
+            case 66: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000040;
+              saKeyFile_ = bs;
               break;
             }
           }
@@ -371,6 +434,132 @@ public final class StorageConfig {
       }
     }
 
+    public static final int CERTIFICATEFILE_FIELD_NUMBER = 6;
+    private volatile java.lang.Object certificateFile_;
+    /**
+     * <code>optional string CertificateFile = 6;</code>
+     */
+    public boolean hasCertificateFile() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string CertificateFile = 6;</code>
+     */
+    public java.lang.String getCertificateFile() {
+      java.lang.Object ref = certificateFile_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          certificateFile_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string CertificateFile = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCertificateFileBytes() {
+      java.lang.Object ref = certificateFile_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        certificateFile_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int IAMENDPOINT_FIELD_NUMBER = 7;
+    private volatile java.lang.Object iamEndpoint_;
+    /**
+     * <code>optional string IamEndpoint = 7;</code>
+     */
+    public boolean hasIamEndpoint() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional string IamEndpoint = 7;</code>
+     */
+    public java.lang.String getIamEndpoint() {
+      java.lang.Object ref = iamEndpoint_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          iamEndpoint_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string IamEndpoint = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIamEndpointBytes() {
+      java.lang.Object ref = iamEndpoint_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        iamEndpoint_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SAKEYFILE_FIELD_NUMBER = 8;
+    private volatile java.lang.Object saKeyFile_;
+    /**
+     * <code>optional string SaKeyFile = 8;</code>
+     */
+    public boolean hasSaKeyFile() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional string SaKeyFile = 8;</code>
+     */
+    public java.lang.String getSaKeyFile() {
+      java.lang.Object ref = saKeyFile_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          saKeyFile_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string SaKeyFile = 8;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSaKeyFileBytes() {
+      java.lang.Object ref = saKeyFile_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        saKeyFile_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     public static final int TOKEN_FIELD_NUMBER = 5;
     private volatile java.lang.Object token_;
     /**
@@ -381,7 +570,7 @@ public final class StorageConfig {
      * <code>optional string Token = 5;</code>
      */
     public boolean hasToken() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
      * <pre>
@@ -449,8 +638,17 @@ public final class StorageConfig {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, tablePrefix_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, token_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, certificateFile_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, iamEndpoint_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 8, saKeyFile_);
       }
       unknownFields.writeTo(output);
     }
@@ -472,8 +670,17 @@ public final class StorageConfig {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, tablePrefix_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, token_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, certificateFile_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, iamEndpoint_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, saKeyFile_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -511,6 +718,21 @@ public final class StorageConfig {
         result = result && getTablePrefix()
             .equals(other.getTablePrefix());
       }
+      result = result && (hasCertificateFile() == other.hasCertificateFile());
+      if (hasCertificateFile()) {
+        result = result && getCertificateFile()
+            .equals(other.getCertificateFile());
+      }
+      result = result && (hasIamEndpoint() == other.hasIamEndpoint());
+      if (hasIamEndpoint()) {
+        result = result && getIamEndpoint()
+            .equals(other.getIamEndpoint());
+      }
+      result = result && (hasSaKeyFile() == other.hasSaKeyFile());
+      if (hasSaKeyFile()) {
+        result = result && getSaKeyFile()
+            .equals(other.getSaKeyFile());
+      }
       result = result && (hasToken() == other.hasToken());
       if (hasToken()) {
         result = result && getToken()
@@ -542,6 +764,18 @@ public final class StorageConfig {
       if (hasTablePrefix()) {
         hash = (37 * hash) + TABLEPREFIX_FIELD_NUMBER;
         hash = (53 * hash) + getTablePrefix().hashCode();
+      }
+      if (hasCertificateFile()) {
+        hash = (37 * hash) + CERTIFICATEFILE_FIELD_NUMBER;
+        hash = (53 * hash) + getCertificateFile().hashCode();
+      }
+      if (hasIamEndpoint()) {
+        hash = (37 * hash) + IAMENDPOINT_FIELD_NUMBER;
+        hash = (53 * hash) + getIamEndpoint().hashCode();
+      }
+      if (hasSaKeyFile()) {
+        hash = (37 * hash) + SAKEYFILE_FIELD_NUMBER;
+        hash = (53 * hash) + getSaKeyFile().hashCode();
       }
       if (hasToken()) {
         hash = (37 * hash) + TOKEN_FIELD_NUMBER;
@@ -684,8 +918,14 @@ public final class StorageConfig {
         bitField0_ = (bitField0_ & ~0x00000004);
         tablePrefix_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
-        token_ = "";
+        certificateFile_ = "";
         bitField0_ = (bitField0_ & ~0x00000010);
+        iamEndpoint_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
+        saKeyFile_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
+        token_ = "";
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -728,6 +968,18 @@ public final class StorageConfig {
         result.tablePrefix_ = tablePrefix_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
+        }
+        result.certificateFile_ = certificateFile_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.iamEndpoint_ = iamEndpoint_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.saKeyFile_ = saKeyFile_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
         }
         result.token_ = token_;
         result.bitField0_ = to_bitField0_;
@@ -792,8 +1044,23 @@ public final class StorageConfig {
           tablePrefix_ = other.tablePrefix_;
           onChanged();
         }
-        if (other.hasToken()) {
+        if (other.hasCertificateFile()) {
           bitField0_ |= 0x00000010;
+          certificateFile_ = other.certificateFile_;
+          onChanged();
+        }
+        if (other.hasIamEndpoint()) {
+          bitField0_ |= 0x00000020;
+          iamEndpoint_ = other.iamEndpoint_;
+          onChanged();
+        }
+        if (other.hasSaKeyFile()) {
+          bitField0_ |= 0x00000040;
+          saKeyFile_ = other.saKeyFile_;
+          onChanged();
+        }
+        if (other.hasToken()) {
+          bitField0_ |= 0x00000080;
           token_ = other.token_;
           onChanged();
         }
@@ -1129,6 +1396,234 @@ public final class StorageConfig {
         return this;
       }
 
+      private java.lang.Object certificateFile_ = "";
+      /**
+       * <code>optional string CertificateFile = 6;</code>
+       */
+      public boolean hasCertificateFile() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string CertificateFile = 6;</code>
+       */
+      public java.lang.String getCertificateFile() {
+        java.lang.Object ref = certificateFile_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            certificateFile_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string CertificateFile = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCertificateFileBytes() {
+        java.lang.Object ref = certificateFile_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          certificateFile_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string CertificateFile = 6;</code>
+       */
+      public Builder setCertificateFile(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        certificateFile_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string CertificateFile = 6;</code>
+       */
+      public Builder clearCertificateFile() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        certificateFile_ = getDefaultInstance().getCertificateFile();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string CertificateFile = 6;</code>
+       */
+      public Builder setCertificateFileBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        certificateFile_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object iamEndpoint_ = "";
+      /**
+       * <code>optional string IamEndpoint = 7;</code>
+       */
+      public boolean hasIamEndpoint() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional string IamEndpoint = 7;</code>
+       */
+      public java.lang.String getIamEndpoint() {
+        java.lang.Object ref = iamEndpoint_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            iamEndpoint_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string IamEndpoint = 7;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIamEndpointBytes() {
+        java.lang.Object ref = iamEndpoint_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          iamEndpoint_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string IamEndpoint = 7;</code>
+       */
+      public Builder setIamEndpoint(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        iamEndpoint_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string IamEndpoint = 7;</code>
+       */
+      public Builder clearIamEndpoint() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        iamEndpoint_ = getDefaultInstance().getIamEndpoint();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string IamEndpoint = 7;</code>
+       */
+      public Builder setIamEndpointBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        iamEndpoint_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object saKeyFile_ = "";
+      /**
+       * <code>optional string SaKeyFile = 8;</code>
+       */
+      public boolean hasSaKeyFile() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional string SaKeyFile = 8;</code>
+       */
+      public java.lang.String getSaKeyFile() {
+        java.lang.Object ref = saKeyFile_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            saKeyFile_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string SaKeyFile = 8;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSaKeyFileBytes() {
+        java.lang.Object ref = saKeyFile_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          saKeyFile_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string SaKeyFile = 8;</code>
+       */
+      public Builder setSaKeyFile(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        saKeyFile_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string SaKeyFile = 8;</code>
+       */
+      public Builder clearSaKeyFile() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        saKeyFile_ = getDefaultInstance().getSaKeyFile();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string SaKeyFile = 8;</code>
+       */
+      public Builder setSaKeyFileBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        saKeyFile_ = value;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object token_ = "";
       /**
        * <pre>
@@ -1138,7 +1633,7 @@ public final class StorageConfig {
        * <code>optional string Token = 5;</code>
        */
       public boolean hasToken() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <pre>
@@ -1193,7 +1688,7 @@ public final class StorageConfig {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000010;
+  bitField0_ |= 0x00000080;
         token_ = value;
         onChanged();
         return this;
@@ -1206,7 +1701,7 @@ public final class StorageConfig {
        * <code>optional string Token = 5;</code>
        */
       public Builder clearToken() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000080);
         token_ = getDefaultInstance().getToken();
         onChanged();
         return this;
@@ -1223,7 +1718,7 @@ public final class StorageConfig {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000010;
+  bitField0_ |= 0x00000080;
         token_ = value;
         onChanged();
         return this;
@@ -3165,20 +3660,22 @@ public final class StorageConfig {
   static {
     java.lang.String[] descriptorData = {
       "\n7kikimr/streaming/libs/config/proto/sto" +
-      "rage_config.proto\022\020NStreams.NConfig\"n\n\021T" +
-      "YdbStorageConfig\022\020\n\010Endpoint\030\001 \001(\t\022\020\n\010Da" +
-      "tabase\030\002 \001(\t\022\021\n\tOAuthFile\030\003 \001(\t\022\023\n\013Table" +
-      "Prefix\030\004 \001(\t\022\r\n\005Token\030\005 \001(\t\",\n\023TCheckpoi" +
-      "ntGcConfig\022\025\n\007Enabled\030\001 \001(\010:\004true\"\345\002\n\016TS" +
-      "torageConfig\022G\n\032YdbCheckpointStorageConf" +
-      "ig\030\001 \001(\0132#.NStreams.NConfig.TYdbStorageC" +
-      "onfig\022B\n\025YdbStateStorageConfig\030\002 \001(\0132#.N" +
-      "Streams.NConfig.TYdbStorageConfig\022F\n\027Che",
-      "ckpointGarbageConfig\030\005 \001(\0132%.NStreams.NC" +
-      "onfig.TCheckpointGcConfig\022:\n\rYdbSyncConf" +
-      "ig\030\003 \001(\0132#.NStreams.NConfig.TYdbStorageC" +
-      "onfig\022B\n\025YdbControlPlaneConfig\030\004 \001(\0132#.N" +
-      "Streams.NConfig.TYdbStorageConfig"
+      "rage_config.proto\022\020NStreams.NConfig\"\257\001\n\021" +
+      "TYdbStorageConfig\022\020\n\010Endpoint\030\001 \001(\t\022\020\n\010D" +
+      "atabase\030\002 \001(\t\022\021\n\tOAuthFile\030\003 \001(\t\022\023\n\013Tabl" +
+      "ePrefix\030\004 \001(\t\022\027\n\017CertificateFile\030\006 \001(\t\022\023" +
+      "\n\013IamEndpoint\030\007 \001(\t\022\021\n\tSaKeyFile\030\010 \001(\t\022\r" +
+      "\n\005Token\030\005 \001(\t\",\n\023TCheckpointGcConfig\022\025\n\007" +
+      "Enabled\030\001 \001(\010:\004true\"\345\002\n\016TStorageConfig\022G" +
+      "\n\032YdbCheckpointStorageConfig\030\001 \001(\0132#.NSt" +
+      "reams.NConfig.TYdbStorageConfig\022B\n\025YdbSt",
+      "ateStorageConfig\030\002 \001(\0132#.NStreams.NConfi" +
+      "g.TYdbStorageConfig\022F\n\027CheckpointGarbage" +
+      "Config\030\005 \001(\0132%.NStreams.NConfig.TCheckpo" +
+      "intGcConfig\022:\n\rYdbSyncConfig\030\003 \001(\0132#.NSt" +
+      "reams.NConfig.TYdbStorageConfig\022B\n\025YdbCo" +
+      "ntrolPlaneConfig\030\004 \001(\0132#.NStreams.NConfi" +
+      "g.TYdbStorageConfig"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3197,7 +3694,7 @@ public final class StorageConfig {
     internal_static_NStreams_NConfig_TYdbStorageConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NStreams_NConfig_TYdbStorageConfig_descriptor,
-        new java.lang.String[] { "Endpoint", "Database", "OAuthFile", "TablePrefix", "Token", });
+        new java.lang.String[] { "Endpoint", "Database", "OAuthFile", "TablePrefix", "CertificateFile", "IamEndpoint", "SaKeyFile", "Token", });
     internal_static_NStreams_NConfig_TCheckpointGcConfig_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_NStreams_NConfig_TCheckpointGcConfig_fieldAccessorTable = new
