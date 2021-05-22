@@ -5403,6 +5403,16 @@ public final class ControlPlane {
        * <code>.NStreams.NControlPlane.EComputeState state = 3;</code>
        */
       NStreams.NControlPlane.ControlPlane.EComputeState getState();
+
+      /**
+       * <code>string user = 4;</code>
+       */
+      java.lang.String getUser();
+      /**
+       * <code>string user = 4;</code>
+       */
+      com.google.protobuf.ByteString
+          getUserBytes();
     }
     /**
      * Protobuf type {@code NStreams.NControlPlane.TListQueriesResponse.TQuery}
@@ -5420,6 +5430,7 @@ public final class ControlPlane {
         queryId_ = "";
         activeVersion_ = 0;
         state_ = 0;
+        user_ = "";
       }
 
       @java.lang.Override
@@ -5465,6 +5476,12 @@ public final class ControlPlane {
                 int rawValue = input.readEnum();
 
                 state_ = rawValue;
+                break;
+              }
+              case 34: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                user_ = s;
                 break;
               }
             }
@@ -5550,6 +5567,40 @@ public final class ControlPlane {
         return result == null ? NStreams.NControlPlane.ControlPlane.EComputeState.UNRECOGNIZED : result;
       }
 
+      public static final int USER_FIELD_NUMBER = 4;
+      private volatile java.lang.Object user_;
+      /**
+       * <code>string user = 4;</code>
+       */
+      public java.lang.String getUser() {
+        java.lang.Object ref = user_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          user_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string user = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getUserBytes() {
+        java.lang.Object ref = user_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          user_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
@@ -5571,6 +5622,9 @@ public final class ControlPlane {
         if (state_ != NStreams.NControlPlane.ControlPlane.EComputeState.Unspecified.getNumber()) {
           output.writeEnum(3, state_);
         }
+        if (!getUserBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 4, user_);
+        }
         unknownFields.writeTo(output);
       }
 
@@ -5589,6 +5643,9 @@ public final class ControlPlane {
         if (state_ != NStreams.NControlPlane.ControlPlane.EComputeState.Unspecified.getNumber()) {
           size += com.google.protobuf.CodedOutputStream
             .computeEnumSize(3, state_);
+        }
+        if (!getUserBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, user_);
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -5611,6 +5668,8 @@ public final class ControlPlane {
         result = result && (getActiveVersion()
             == other.getActiveVersion());
         result = result && state_ == other.state_;
+        result = result && getUser()
+            .equals(other.getUser());
         result = result && unknownFields.equals(other.unknownFields);
         return result;
       }
@@ -5628,6 +5687,8 @@ public final class ControlPlane {
         hash = (53 * hash) + getActiveVersion();
         hash = (37 * hash) + STATE_FIELD_NUMBER;
         hash = (53 * hash) + state_;
+        hash = (37 * hash) + USER_FIELD_NUMBER;
+        hash = (53 * hash) + getUser().hashCode();
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -5763,6 +5824,8 @@ public final class ControlPlane {
 
           state_ = 0;
 
+          user_ = "";
+
           return this;
         }
 
@@ -5788,6 +5851,7 @@ public final class ControlPlane {
           result.queryId_ = queryId_;
           result.activeVersion_ = activeVersion_;
           result.state_ = state_;
+          result.user_ = user_;
           onBuilt();
           return result;
         }
@@ -5838,6 +5902,10 @@ public final class ControlPlane {
           }
           if (other.state_ != 0) {
             setStateValue(other.getStateValue());
+          }
+          if (!other.getUser().isEmpty()) {
+            user_ = other.user_;
+            onChanged();
           }
           this.mergeUnknownFields(other.unknownFields);
           onChanged();
@@ -6001,6 +6069,75 @@ public final class ControlPlane {
         public Builder clearState() {
           
           state_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object user_ = "";
+        /**
+         * <code>string user = 4;</code>
+         */
+        public java.lang.String getUser() {
+          java.lang.Object ref = user_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            user_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string user = 4;</code>
+         */
+        public com.google.protobuf.ByteString
+            getUserBytes() {
+          java.lang.Object ref = user_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            user_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string user = 4;</code>
+         */
+        public Builder setUser(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          user_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string user = 4;</code>
+         */
+        public Builder clearUser() {
+          
+          user_ = getDefaultInstance().getUser();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string user = 4;</code>
+         */
+        public Builder setUserBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          user_ = value;
           onChanged();
           return this;
         }
@@ -8059,20 +8196,20 @@ public final class ControlPlane {
       "tQueriesRequest\022C\n\006filter\030\001 \001(\01323.NStrea" +
       "ms.NControlPlane.TListQueriesRequest.TFi" +
       "lter\032\'\n\007TFilter\022\022\n\010query_id\030\001 \001(\tH\000B\010\n\006E",
-      "ntity\"\306\001\n\024TListQueriesResponse\022D\n\007querie" +
+      "ntity\"\324\001\n\024TListQueriesResponse\022D\n\007querie" +
       "s\030\001 \003(\01323.NStreams.NControlPlane.TListQu" +
-      "eriesResponse.TQuery\032h\n\006TQuery\022\020\n\010query_" +
+      "eriesResponse.TQuery\032v\n\006TQuery\022\020\n\010query_" +
       "id\030\001 \001(\t\022\026\n\016active_version\030\002 \001(\r\0224\n\005stat" +
       "e\030\003 \001(\0162%.NStreams.NControlPlane.EComput" +
-      "eState\")\n\025TDescribeQueryRequest\022\020\n\010query" +
-      "_id\030\001 \001(\t\"M\n\026TDescribeQueryResponse\0223\n\010v" +
-      "ersions\030\001 \003(\0132!.NStreams.NControlPlane.T" +
-      "Instance*\266\001\n\rEComputeState\022\017\n\013Unspecifie" +
-      "d\020\000\022\n\n\006Queued\020\001\022\r\n\tCompiling\020\002\022\014\n\010Compil",
-      "ed\020\003\022\017\n\013Registering\020\004\022\013\n\007Running\020\005\022\r\n\tCo" +
-      "mpleted\020\006\022\n\n\006Failed\020\007\022\013\n\007Pausing\020\010\022\n\n\006Pa" +
-      "used\020\t\022\014\n\010Stopping\020\n\022\013\n\007Stopped\020\013B\003\370\001\001b\006" +
-      "proto3"
+      "eState\022\014\n\004user\030\004 \001(\t\")\n\025TDescribeQueryRe" +
+      "quest\022\020\n\010query_id\030\001 \001(\t\"M\n\026TDescribeQuer" +
+      "yResponse\0223\n\010versions\030\001 \003(\0132!.NStreams.N" +
+      "ControlPlane.TInstance*\266\001\n\rEComputeState" +
+      "\022\017\n\013Unspecified\020\000\022\n\n\006Queued\020\001\022\r\n\tCompili",
+      "ng\020\002\022\014\n\010Compiled\020\003\022\017\n\013Registering\020\004\022\013\n\007R" +
+      "unning\020\005\022\r\n\tCompleted\020\006\022\n\n\006Failed\020\007\022\013\n\007P" +
+      "ausing\020\010\022\n\n\006Paused\020\t\022\014\n\010Stopping\020\n\022\013\n\007St" +
+      "opped\020\013B\003\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -8140,7 +8277,7 @@ public final class ControlPlane {
     internal_static_NStreams_NControlPlane_TListQueriesResponse_TQuery_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NStreams_NControlPlane_TListQueriesResponse_TQuery_descriptor,
-        new java.lang.String[] { "QueryId", "ActiveVersion", "State", });
+        new java.lang.String[] { "QueryId", "ActiveVersion", "State", "User", });
     internal_static_NStreams_NControlPlane_TDescribeQueryRequest_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_NStreams_NControlPlane_TDescribeQueryRequest_fieldAccessorTable = new
