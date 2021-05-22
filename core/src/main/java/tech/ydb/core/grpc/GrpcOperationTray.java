@@ -71,7 +71,7 @@ final class GrpcOperationTray implements OperationTray {
                 Status status = Operations.status(operation);
                 if (status.isSuccess()) {
                     M resultMessage = Operations.unpackResult(operation, resultClass);
-                    promise.complete(Result.success(mapper.apply(resultMessage)));
+                    promise.complete(Result.success(mapper.apply(resultMessage), status.getIssues()));
                 } else {
                     promise.complete(Result.fail(status));
                 }
@@ -211,7 +211,7 @@ final class GrpcOperationTray implements OperationTray {
                 return Result.fail(status);
             }
             M resultMessage = Operations.unpackResult(operation, resultClass);
-            return Result.success(mapper.apply(resultMessage));
+            return Result.success(mapper.apply(resultMessage), status.getIssues());
         }
     }
 }

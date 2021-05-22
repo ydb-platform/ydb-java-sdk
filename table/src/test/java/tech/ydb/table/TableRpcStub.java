@@ -186,7 +186,7 @@ public class TableRpcStub implements TableRpc {
             Status status = Operations.status(operation);
             if (status.isSuccess()) {
                 M resultMessage = Operations.unpackResult(operation, resultClass);
-                return completedFuture(Result.success(mapper.apply(resultMessage)));
+                return completedFuture(Result.success(mapper.apply(resultMessage), status.getIssues()));
             }
             return completedFuture(Result.fail(status));
         }

@@ -16,7 +16,11 @@ import com.google.common.base.Strings;
 public abstract class Result<T> {
 
     public static <V> Result<V> success(V value) {
-        return new Success<>(value);
+        return new Success<>(value, Issue.EMPTY_ARRAY);
+    }
+
+    public static <V> Result<V> success(V value, Issue... issues) {
+        return new Success<>(value, issues);
     }
 
     public static <V> Result<V> fail(Status status) {
@@ -71,9 +75,11 @@ public abstract class Result<T> {
     private static final class Success<V> extends Result<V> {
         @Nullable
         private final V value;
+        private final Issue[] issues;
 
-        Success(V value) {
+        Success(V value, Issue[] issues) {
             this.value = value;
+            this.issues = issues;
         }
 
         @Override
@@ -83,7 +89,7 @@ public abstract class Result<T> {
 
         @Override
         public Issue[] getIssues() {
-            return Issue.EMPTY_ARRAY;
+            return issues;
         }
 
         @Override
@@ -103,26 +109,35 @@ public abstract class Result<T> {
 
         @Override
         public <U> Result<U> map(Function<V, U> mapper) {
-            return new Success<>(mapper.apply(value));
+            return new Success<>(mapper.apply(value), issues);
         }
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             Success<?> success = (Success<?>) o;
-            return Objects.equals(value, success.value);
+            if (!Objects.equals(value, success.value)) {
+                return false;
+            }
+            return Arrays.equals(issues, success.issues);
         }
 
         @Override
         public int hashCode() {
-            return value != null ? value.hashCode() : 1337;
+            int result = value != null ? value.hashCode() : 1337;
+            result = 31 * result + Arrays.hashCode(issues);
+            return result;
         }
 
         @Override
         public String toString() {
-            return "Success{" + value + '}';
+            return "Success{" + value + ", issues=" + Arrays.toString(issues) + '}';
         }
     }
 
@@ -172,11 +187,17 @@ public abstract class Result<T> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             Fail<?> fail = (Fail<?>) o;
-            if (code != fail.code) return false;
+            if (code != fail.code) {
+                return false;
+            }
             return Arrays.equals(issues, fail.issues);
         }
 
@@ -246,11 +267,17 @@ public abstract class Result<T> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             Error<?> error = (Error<?>) o;
-            if (!message.equals(error.message)) return false;
+            if (!message.equals(error.message)) {
+                return false;
+            }
             return Objects.equals(cause, error.cause);
         }
 

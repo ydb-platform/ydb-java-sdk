@@ -22,6 +22,26 @@ public class ResultTest {
     }
 
     @Test
+    public void successWithIssue() {
+        Issue issue1 = Issue.of("issue1", ESeverityId.S_ERROR);
+        Issue issue2 = Issue.of("issue2", ESeverityId.S_FATAL);
+
+        Result<Integer> r = Result.success(1, issue1, issue2);
+        Assert.assertTrue(r.isSuccess());
+        Assert.assertEquals(StatusCode.SUCCESS, r.getCode());
+        Assert.assertArrayEquals(new Issue[]{ issue1, issue2 }, r.getIssues());
+        Assert.assertNotSame(Status.SUCCESS, r.toStatus());
+        Assert.assertEquals((Integer) 1, r.expect("cannot get result value"));
+
+        Optional<Integer> ok = r.ok();
+        Assert.assertTrue(ok.isPresent());
+        Assert.assertEquals((Integer) 1, ok.get());
+
+        Optional<Throwable> error = r.error();
+        Assert.assertFalse(error.isPresent());
+    }
+
+    @Test
     public void fail() {
         Issue issue1 = Issue.of("issue1", ESeverityId.S_ERROR);
         Issue issue2 = Issue.of("issue2", ESeverityId.S_FATAL);
