@@ -54,6 +54,9 @@ public enum StatusCode {
     CLIENT_CALL_UNIMPLEMENTED(TRANSPORT_STATUSES_FIRST + 80),
     CLIENT_DISCOVERY_FAILED(INTERNAL_CLIENT_FIRST + 10),
     CLIENT_LIMITS_REACHED(INTERNAL_CLIENT_FIRST + 20),
+
+    // Deadline expired before request was sent to server
+    CLIENT_DEADLINE_EXPIRED(INTERNAL_CLIENT_FIRST + 30),
     ;
 
     private final int code;

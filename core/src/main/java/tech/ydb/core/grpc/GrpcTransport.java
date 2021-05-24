@@ -407,7 +407,7 @@ public class GrpcTransport implements RpcTransport {
 
     private static <T> Result<T> deadlineExpiredResult(MethodDescriptor<?, T> method) {
         String message = "deadline expired before calling method " + method.getFullMethodName();
-        return Result.fail(StatusCode.CLIENT_DEADLINE_EXCEEDED, Issue.of(message, ESeverityId.S_ERROR));
+        return Result.fail(StatusCode.CLIENT_DEADLINE_EXPIRED, Issue.of(message, ESeverityId.S_ERROR));
     }
 
     private static Status deadlineExpiredStatus(MethodDescriptor<?, ?> method) {
