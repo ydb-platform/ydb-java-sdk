@@ -496,10 +496,12 @@ public class PrimitiveValueTest {
     public void datetime() {
         long seconds = 1534728225L;
         Instant instant = Instant.parse("2018-08-20T01:23:45.678901Z");
+        LocalDateTime localDateTime = LocalDateTime.of(2018, 8, 20, 1, 23, 45);
 
         Consumer<PrimitiveValue> doTest = (v) -> {
             assertThat(v).isEqualTo(PrimitiveValue.datetime(seconds));
             assertThat(v).isEqualTo(PrimitiveValue.datetime(instant));
+            assertThat(v).isEqualTo(PrimitiveValue.datetime(localDateTime));
             assertThat(v).isNotEqualTo(PrimitiveValue.datetime(0));
 
             assertThat(v.toString()).isEqualTo("2018-08-20T01:23:45");
@@ -508,12 +510,14 @@ public class PrimitiveValueTest {
             ValueProtos.Value vPb = v.toPb();
             ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.datetime(seconds));
             ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.datetime(instant));
+            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.datetime(localDateTime));
 
             assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.datetime(), vPb));
         };
 
         doTest.accept(PrimitiveValue.datetime(seconds));
         doTest.accept(PrimitiveValue.datetime(instant));
+        doTest.accept(PrimitiveValue.datetime(localDateTime));
     }
 
     @Test

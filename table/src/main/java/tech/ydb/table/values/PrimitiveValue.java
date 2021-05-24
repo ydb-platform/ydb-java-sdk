@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -224,6 +225,10 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
     public static PrimitiveValue datetime(Instant value) {
         return datetime(value.getEpochSecond());
+    }
+
+    public static PrimitiveValue datetime(LocalDateTime value) {
+        return datetime(value.toEpochSecond(ZoneOffset.UTC));
     }
 
     public static PrimitiveValue timestamp(long microsSinceEpoch) {

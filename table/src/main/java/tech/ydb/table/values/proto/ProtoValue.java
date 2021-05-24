@@ -305,6 +305,10 @@ public class ProtoValue {
         return datetime(value.getEpochSecond());
     }
 
+    public static ValueProtos.Value datetime(LocalDateTime value) {
+        return datetime(value.toEpochSecond(ZoneOffset.UTC));
+    }
+
     public static LocalDateTime toDatetime(long secondsSinceEpoch) {
         return LocalDateTime.ofEpochSecond(secondsSinceEpoch, 0, ZoneOffset.UTC);
     }

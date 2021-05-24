@@ -79,9 +79,15 @@ public class DecimalType implements Type {
         return ProtoType.decimal((int) precision, (int) scale);
     }
 
+    private DecimalValue toZero() {
+        return this.precision == DecimalType.MAX_PRECISION && this.scale == 0 ?
+                DecimalValue.ZERO :
+                new DecimalValue(this, 0, 0);
+    }
+
     public DecimalValue newValue(long high, long low) {
         if (high == 0 && low == 0) {
-            return DecimalValue.ZERO;
+            return toZero();
         }
 
         DecimalValue nan = DecimalValue.NAN;
@@ -105,7 +111,7 @@ public class DecimalType implements Type {
 
     public DecimalValue newValue(long value) {
         if (value == 0) {
-            return DecimalValue.ZERO;
+            return toZero();
         }
         long high = value > 0 ? 0 : -1;
         return new DecimalValue(this, high, value);
@@ -113,7 +119,7 @@ public class DecimalType implements Type {
 
     public DecimalValue newValueUnsigned(long value) {
         if (value == 0) {
-            return DecimalValue.ZERO;
+            return toZero();
         }
         return new DecimalValue(this, 0, value);
     }
@@ -186,7 +192,7 @@ public class DecimalType implements Type {
         }
 
         if (cursor == end) {
-            return DecimalValue.ZERO;
+            return toZero();
         }
 
         long accumulated = 0;
