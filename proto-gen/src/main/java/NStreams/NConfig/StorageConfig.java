@@ -117,6 +117,15 @@ public final class StorageConfig {
         getSaKeyFileBytes();
 
     /**
+     * <code>optional bool UseLocalMetadataService = 9;</code>
+     */
+    boolean hasUseLocalMetadataService();
+    /**
+     * <code>optional bool UseLocalMetadataService = 9;</code>
+     */
+    boolean getUseLocalMetadataService();
+
+    /**
      * <pre>
      * alternative to OAuthFile to simplify tests
      * </pre>
@@ -162,6 +171,7 @@ public final class StorageConfig {
       certificateFile_ = "";
       iamEndpoint_ = "";
       saKeyFile_ = "";
+      useLocalMetadataService_ = false;
       token_ = "";
     }
 
@@ -219,7 +229,7 @@ public final class StorageConfig {
             }
             case 42: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000080;
+              bitField0_ |= 0x00000100;
               token_ = bs;
               break;
             }
@@ -239,6 +249,11 @@ public final class StorageConfig {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000040;
               saKeyFile_ = bs;
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000080;
+              useLocalMetadataService_ = input.readBool();
               break;
             }
           }
@@ -560,6 +575,21 @@ public final class StorageConfig {
       }
     }
 
+    public static final int USELOCALMETADATASERVICE_FIELD_NUMBER = 9;
+    private boolean useLocalMetadataService_;
+    /**
+     * <code>optional bool UseLocalMetadataService = 9;</code>
+     */
+    public boolean hasUseLocalMetadataService() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional bool UseLocalMetadataService = 9;</code>
+     */
+    public boolean getUseLocalMetadataService() {
+      return useLocalMetadataService_;
+    }
+
     public static final int TOKEN_FIELD_NUMBER = 5;
     private volatile java.lang.Object token_;
     /**
@@ -570,7 +600,7 @@ public final class StorageConfig {
      * <code>optional string Token = 5;</code>
      */
     public boolean hasToken() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
      * <pre>
@@ -638,7 +668,7 @@ public final class StorageConfig {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, tablePrefix_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, token_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
@@ -649,6 +679,9 @@ public final class StorageConfig {
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 8, saKeyFile_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeBool(9, useLocalMetadataService_);
       }
       unknownFields.writeTo(output);
     }
@@ -670,7 +703,7 @@ public final class StorageConfig {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, tablePrefix_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, token_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
@@ -681,6 +714,10 @@ public final class StorageConfig {
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, saKeyFile_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(9, useLocalMetadataService_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -733,6 +770,11 @@ public final class StorageConfig {
         result = result && getSaKeyFile()
             .equals(other.getSaKeyFile());
       }
+      result = result && (hasUseLocalMetadataService() == other.hasUseLocalMetadataService());
+      if (hasUseLocalMetadataService()) {
+        result = result && (getUseLocalMetadataService()
+            == other.getUseLocalMetadataService());
+      }
       result = result && (hasToken() == other.hasToken());
       if (hasToken()) {
         result = result && getToken()
@@ -776,6 +818,11 @@ public final class StorageConfig {
       if (hasSaKeyFile()) {
         hash = (37 * hash) + SAKEYFILE_FIELD_NUMBER;
         hash = (53 * hash) + getSaKeyFile().hashCode();
+      }
+      if (hasUseLocalMetadataService()) {
+        hash = (37 * hash) + USELOCALMETADATASERVICE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getUseLocalMetadataService());
       }
       if (hasToken()) {
         hash = (37 * hash) + TOKEN_FIELD_NUMBER;
@@ -924,8 +971,10 @@ public final class StorageConfig {
         bitField0_ = (bitField0_ & ~0x00000020);
         saKeyFile_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
-        token_ = "";
+        useLocalMetadataService_ = false;
         bitField0_ = (bitField0_ & ~0x00000080);
+        token_ = "";
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
@@ -980,6 +1029,10 @@ public final class StorageConfig {
         result.saKeyFile_ = saKeyFile_;
         if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000080;
+        }
+        result.useLocalMetadataService_ = useLocalMetadataService_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
         }
         result.token_ = token_;
         result.bitField0_ = to_bitField0_;
@@ -1059,8 +1112,11 @@ public final class StorageConfig {
           saKeyFile_ = other.saKeyFile_;
           onChanged();
         }
+        if (other.hasUseLocalMetadataService()) {
+          setUseLocalMetadataService(other.getUseLocalMetadataService());
+        }
         if (other.hasToken()) {
-          bitField0_ |= 0x00000080;
+          bitField0_ |= 0x00000100;
           token_ = other.token_;
           onChanged();
         }
@@ -1624,6 +1680,38 @@ public final class StorageConfig {
         return this;
       }
 
+      private boolean useLocalMetadataService_ ;
+      /**
+       * <code>optional bool UseLocalMetadataService = 9;</code>
+       */
+      public boolean hasUseLocalMetadataService() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional bool UseLocalMetadataService = 9;</code>
+       */
+      public boolean getUseLocalMetadataService() {
+        return useLocalMetadataService_;
+      }
+      /**
+       * <code>optional bool UseLocalMetadataService = 9;</code>
+       */
+      public Builder setUseLocalMetadataService(boolean value) {
+        bitField0_ |= 0x00000080;
+        useLocalMetadataService_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool UseLocalMetadataService = 9;</code>
+       */
+      public Builder clearUseLocalMetadataService() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        useLocalMetadataService_ = false;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object token_ = "";
       /**
        * <pre>
@@ -1633,7 +1721,7 @@ public final class StorageConfig {
        * <code>optional string Token = 5;</code>
        */
       public boolean hasToken() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
        * <pre>
@@ -1688,7 +1776,7 @@ public final class StorageConfig {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000080;
+  bitField0_ |= 0x00000100;
         token_ = value;
         onChanged();
         return this;
@@ -1701,7 +1789,7 @@ public final class StorageConfig {
        * <code>optional string Token = 5;</code>
        */
       public Builder clearToken() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         token_ = getDefaultInstance().getToken();
         onChanged();
         return this;
@@ -1718,7 +1806,7 @@ public final class StorageConfig {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000080;
+  bitField0_ |= 0x00000100;
         token_ = value;
         onChanged();
         return this;
@@ -3660,22 +3748,23 @@ public final class StorageConfig {
   static {
     java.lang.String[] descriptorData = {
       "\n7kikimr/streaming/libs/config/proto/sto" +
-      "rage_config.proto\022\020NStreams.NConfig\"\257\001\n\021" +
+      "rage_config.proto\022\020NStreams.NConfig\"\320\001\n\021" +
       "TYdbStorageConfig\022\020\n\010Endpoint\030\001 \001(\t\022\020\n\010D" +
       "atabase\030\002 \001(\t\022\021\n\tOAuthFile\030\003 \001(\t\022\023\n\013Tabl" +
       "ePrefix\030\004 \001(\t\022\027\n\017CertificateFile\030\006 \001(\t\022\023" +
-      "\n\013IamEndpoint\030\007 \001(\t\022\021\n\tSaKeyFile\030\010 \001(\t\022\r" +
-      "\n\005Token\030\005 \001(\t\",\n\023TCheckpointGcConfig\022\025\n\007" +
-      "Enabled\030\001 \001(\010:\004true\"\345\002\n\016TStorageConfig\022G" +
-      "\n\032YdbCheckpointStorageConfig\030\001 \001(\0132#.NSt" +
-      "reams.NConfig.TYdbStorageConfig\022B\n\025YdbSt",
-      "ateStorageConfig\030\002 \001(\0132#.NStreams.NConfi" +
-      "g.TYdbStorageConfig\022F\n\027CheckpointGarbage" +
-      "Config\030\005 \001(\0132%.NStreams.NConfig.TCheckpo" +
-      "intGcConfig\022:\n\rYdbSyncConfig\030\003 \001(\0132#.NSt" +
-      "reams.NConfig.TYdbStorageConfig\022B\n\025YdbCo" +
-      "ntrolPlaneConfig\030\004 \001(\0132#.NStreams.NConfi" +
-      "g.TYdbStorageConfig"
+      "\n\013IamEndpoint\030\007 \001(\t\022\021\n\tSaKeyFile\030\010 \001(\t\022\037" +
+      "\n\027UseLocalMetadataService\030\t \001(\010\022\r\n\005Token" +
+      "\030\005 \001(\t\",\n\023TCheckpointGcConfig\022\025\n\007Enabled" +
+      "\030\001 \001(\010:\004true\"\345\002\n\016TStorageConfig\022G\n\032YdbCh" +
+      "eckpointStorageConfig\030\001 \001(\0132#.NStreams.N",
+      "Config.TYdbStorageConfig\022B\n\025YdbStateStor" +
+      "ageConfig\030\002 \001(\0132#.NStreams.NConfig.TYdbS" +
+      "torageConfig\022F\n\027CheckpointGarbageConfig\030" +
+      "\005 \001(\0132%.NStreams.NConfig.TCheckpointGcCo" +
+      "nfig\022:\n\rYdbSyncConfig\030\003 \001(\0132#.NStreams.N" +
+      "Config.TYdbStorageConfig\022B\n\025YdbControlPl" +
+      "aneConfig\030\004 \001(\0132#.NStreams.NConfig.TYdbS" +
+      "torageConfig"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3694,7 +3783,7 @@ public final class StorageConfig {
     internal_static_NStreams_NConfig_TYdbStorageConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NStreams_NConfig_TYdbStorageConfig_descriptor,
-        new java.lang.String[] { "Endpoint", "Database", "OAuthFile", "TablePrefix", "CertificateFile", "IamEndpoint", "SaKeyFile", "Token", });
+        new java.lang.String[] { "Endpoint", "Database", "OAuthFile", "TablePrefix", "CertificateFile", "IamEndpoint", "SaKeyFile", "UseLocalMetadataService", "Token", });
     internal_static_NStreams_NConfig_TCheckpointGcConfig_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_NStreams_NConfig_TCheckpointGcConfig_fieldAccessorTable = new

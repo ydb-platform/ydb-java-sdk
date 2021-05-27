@@ -13201,6 +13201,10 @@ public final class YdbCms {
        * <code>PENDING_RESOURCES = 4;</code>
        */
       PENDING_RESOURCES(4),
+      /**
+       * <code>CONFIGURING = 5;</code>
+       */
+      CONFIGURING(5),
       UNRECOGNIZED(-1),
       ;
 
@@ -13224,6 +13228,10 @@ public final class YdbCms {
        * <code>PENDING_RESOURCES = 4;</code>
        */
       public static final int PENDING_RESOURCES_VALUE = 4;
+      /**
+       * <code>CONFIGURING = 5;</code>
+       */
+      public static final int CONFIGURING_VALUE = 5;
 
 
       public final int getNumber() {
@@ -13249,6 +13257,7 @@ public final class YdbCms {
           case 2: return RUNNING;
           case 3: return REMOVING;
           case 4: return PENDING_RESOURCES;
+          case 5: return CONFIGURING;
           default: return null;
         }
       }
@@ -29124,7 +29133,7 @@ public final class YdbCms {
       "Request\022\014\n\004path\030\001 \001(\t\0229\n\020operation_param" +
       "s\030\002 \001(\0132\037.Ydb.Operations.OperationParams" +
       "\"I\n\031GetDatabaseStatusResponse\022,\n\toperati",
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\364\004\n\027" +
+      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\205\005\n\027" +
       "GetDatabaseStatusResult\022\014\n\004path\030\001 \001(\t\0225\n" +
       "\005state\030\002 \001(\0162&.Ydb.Cms.GetDatabaseStatus" +
       "Result.State\0220\n\022required_resources\030\003 \001(\013" +
@@ -29137,59 +29146,60 @@ public final class YdbCms {
       "ComputationalUnit\022\022\n\ngeneration\030\006 \001(\004\022?\n" +
       "\027schema_operation_quotas\030\t \001(\0132\036.Ydb.Cms" +
       ".SchemaOperationQuotas\0220\n\017database_quota" +
-      "s\030\n \001(\0132\027.Ydb.Cms.DatabaseQuotas\"^\n\005Stat" +
+      "s\030\n \001(\0132\027.Ydb.Cms.DatabaseQuotas\"o\n\005Stat" +
       "e\022\025\n\021STATE_UNSPECIFIED\020\000\022\014\n\010CREATING\020\001\022\013" +
       "\n\007RUNNING\020\002\022\014\n\010REMOVING\020\003\022\025\n\021PENDING_RES" +
-      "OURCES\020\004B\020\n\016resources_kind\"\327\004\n\024AlterData" +
-      "baseRequest\022\014\n\004path\030\001 \001(\t\022?\n\032computation" +
-      "al_units_to_add\030\002 \003(\0132\033.Ydb.Cms.Computat" +
-      "ionalUnits\022B\n\035computational_units_to_rem",
-      "ove\030\003 \003(\0132\033.Ydb.Cms.ComputationalUnits\0223" +
-      "\n\024storage_units_to_add\030\004 \003(\0132\025.Ydb.Cms.S" +
-      "torageUnits\022L\n\037computational_units_to_re" +
-      "gister\030\005 \003(\0132#.Ydb.Cms.AllocatedComputat" +
-      "ionalUnit\022N\n!computational_units_to_dere" +
-      "gister\030\006 \003(\0132#.Ydb.Cms.AllocatedComputat" +
-      "ionalUnit\0229\n\020operation_params\030\007 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\022\022\n\ngenerati" +
-      "on\030\010 \001(\004\022?\n\027schema_operation_quotas\030\t \001(" +
-      "\0132\036.Ydb.Cms.SchemaOperationQuotas\022\027\n\017ide",
-      "mpotency_key\030\n \001(\t\0220\n\017database_quotas\030\013 " +
-      "\001(\0132\027.Ydb.Cms.DatabaseQuotas\"E\n\025AlterDat" +
-      "abaseResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
-      "perations.Operation\"Q\n\024ListDatabasesRequ" +
-      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\"E\n\025ListDatabasesR" +
-      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
-      "ons.Operation\"$\n\023ListDatabasesResult\022\r\n\005" +
-      "paths\030\001 \003(\t\"`\n\025RemoveDatabaseRequest\022\014\n\004" +
-      "path\030\001 \001(\t\0229\n\020operation_params\030\002 \001(\0132\037.Y",
-      "db.Operations.OperationParams\"F\n\026RemoveD" +
-      "atabaseResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
-      ".Operations.Operation\"\222\001\n\026StorageUnitDes" +
-      "cription\022\014\n\004kind\030\001 \001(\t\022;\n\006labels\030\002 \003(\0132+" +
-      ".Ydb.Cms.StorageUnitDescription.LabelsEn" +
-      "try\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value" +
-      "\030\002 \001(\t:\0028\001\"\234\001\n\033AvailabilityZoneDescripti" +
-      "on\022\014\n\004name\030\001 \001(\t\022@\n\006labels\030\002 \003(\01320.Ydb.C" +
-      "ms.AvailabilityZoneDescription.LabelsEnt" +
-      "ry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030",
-      "\002 \001(\t:\0028\001\"\302\001\n\034ComputationalUnitDescripti" +
-      "on\022\014\n\004kind\030\001 \001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.C" +
-      "ms.ComputationalUnitDescription.LabelsEn" +
-      "try\022\"\n\032allowed_availability_zones\030\003 \003(\t\032" +
-      "-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001" +
-      "(\t:\0028\001\"[\n\036DescribeDatabaseOptionsRequest" +
-      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
-      "ons.OperationParams\"O\n\037DescribeDatabaseO" +
-      "ptionsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
-      "Operations.Operation\"\335\001\n\035DescribeDatabas",
-      "eOptionsResult\0226\n\rstorage_units\030\001 \003(\0132\037." +
-      "Ydb.Cms.StorageUnitDescription\022@\n\022availa" +
-      "bility_zones\030\002 \003(\0132$.Ydb.Cms.Availabilit" +
-      "yZoneDescription\022B\n\023computational_units\030" +
-      "\003 \003(\0132%.Ydb.Cms.ComputationalUnitDescrip" +
-      "tionB\027\n\022tech.ydb.cms\370\001\001b\006proto3"
+      "OURCES\020\004\022\017\n\013CONFIGURING\020\005B\020\n\016resources_k" +
+      "ind\"\327\004\n\024AlterDatabaseRequest\022\014\n\004path\030\001 \001" +
+      "(\t\022?\n\032computational_units_to_add\030\002 \003(\0132\033" +
+      ".Ydb.Cms.ComputationalUnits\022B\n\035computati",
+      "onal_units_to_remove\030\003 \003(\0132\033.Ydb.Cms.Com" +
+      "putationalUnits\0223\n\024storage_units_to_add\030" +
+      "\004 \003(\0132\025.Ydb.Cms.StorageUnits\022L\n\037computat" +
+      "ional_units_to_register\030\005 \003(\0132#.Ydb.Cms." +
+      "AllocatedComputationalUnit\022N\n!computatio" +
+      "nal_units_to_deregister\030\006 \003(\0132#.Ydb.Cms." +
+      "AllocatedComputationalUnit\0229\n\020operation_" +
+      "params\030\007 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\022\022\n\ngeneration\030\010 \001(\004\022?\n\027schema_oper" +
+      "ation_quotas\030\t \001(\0132\036.Ydb.Cms.SchemaOpera",
+      "tionQuotas\022\027\n\017idempotency_key\030\n \001(\t\0220\n\017d" +
+      "atabase_quotas\030\013 \001(\0132\027.Ydb.Cms.DatabaseQ" +
+      "uotas\"E\n\025AlterDatabaseResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"Q\n\024" +
+      "ListDatabasesRequest\0229\n\020operation_params" +
+      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\"" +
+      "E\n\025ListDatabasesResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"$\n\023ListDa" +
+      "tabasesResult\022\r\n\005paths\030\001 \003(\t\"`\n\025RemoveDa" +
+      "tabaseRequest\022\014\n\004path\030\001 \001(\t\0229\n\020operation",
+      "_params\030\002 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\"F\n\026RemoveDatabaseResponse\022,\n\toper" +
+      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\222" +
+      "\001\n\026StorageUnitDescription\022\014\n\004kind\030\001 \001(\t\022" +
+      ";\n\006labels\030\002 \003(\0132+.Ydb.Cms.StorageUnitDes" +
+      "cription.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003k" +
+      "ey\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001\n\033Availabi" +
+      "lityZoneDescription\022\014\n\004name\030\001 \001(\t\022@\n\006lab" +
+      "els\030\002 \003(\01320.Ydb.Cms.AvailabilityZoneDesc" +
+      "ription.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003ke",
+      "y\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\302\001\n\034Computati" +
+      "onalUnitDescription\022\014\n\004kind\030\001 \001(\t\022A\n\006lab" +
+      "els\030\002 \003(\01321.Ydb.Cms.ComputationalUnitDes" +
+      "cription.LabelsEntry\022\"\n\032allowed_availabi" +
+      "lity_zones\030\003 \003(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001" +
+      " \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"[\n\036DescribeDatab" +
+      "aseOptionsRequest\0229\n\020operation_params\030\001 " +
+      "\001(\0132\037.Ydb.Operations.OperationParams\"O\n\037" +
+      "DescribeDatabaseOptionsResponse\022,\n\topera" +
+      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\335\001",
+      "\n\035DescribeDatabaseOptionsResult\0226\n\rstora" +
+      "ge_units\030\001 \003(\0132\037.Ydb.Cms.StorageUnitDesc" +
+      "ription\022@\n\022availability_zones\030\002 \003(\0132$.Yd" +
+      "b.Cms.AvailabilityZoneDescription\022B\n\023com" +
+      "putational_units\030\003 \003(\0132%.Ydb.Cms.Computa" +
+      "tionalUnitDescriptionB\027\n\022tech.ydb." +
+      "cms\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

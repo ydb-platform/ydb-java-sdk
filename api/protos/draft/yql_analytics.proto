@@ -17,6 +17,7 @@ message YdbDatabase {
    string database = 2;
    string name = 3;
    string id = 4;
+   bool secure = 5;
 }
 
 message ClickHouseCluster {
@@ -71,7 +72,9 @@ message ModifyConnectionsRequest {
     repeated ConnectionEntity connection = 2; 
 }
 
-message ModifyConnectionsResult { }
+message ModifyConnectionsResult {
+    repeated string connection_id = 1;
+ }
 
 message ModifyConnectionsResponse {
     Ydb.Operations.Operation operation = 1; // ModifyConnectionsResult

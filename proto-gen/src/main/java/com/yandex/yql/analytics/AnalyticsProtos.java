@@ -414,6 +414,11 @@ public final class AnalyticsProtos {
      */
     com.google.protobuf.ByteString
         getIdBytes();
+
+    /**
+     * <code>bool secure = 5;</code>
+     */
+    boolean getSecure();
   }
   /**
    * Protobuf type {@code Yql.Analytics.YdbDatabase}
@@ -432,6 +437,7 @@ public final class AnalyticsProtos {
       database_ = "";
       name_ = "";
       id_ = "";
+      secure_ = false;
     }
 
     @java.lang.Override
@@ -484,6 +490,11 @@ public final class AnalyticsProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               id_ = s;
+              break;
+            }
+            case 40: {
+
+              secure_ = input.readBool();
               break;
             }
           }
@@ -646,6 +657,15 @@ public final class AnalyticsProtos {
       }
     }
 
+    public static final int SECURE_FIELD_NUMBER = 5;
+    private boolean secure_;
+    /**
+     * <code>bool secure = 5;</code>
+     */
+    public boolean getSecure() {
+      return secure_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -670,6 +690,9 @@ public final class AnalyticsProtos {
       if (!getIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, id_);
       }
+      if (secure_ != false) {
+        output.writeBool(5, secure_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -689,6 +712,10 @@ public final class AnalyticsProtos {
       }
       if (!getIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, id_);
+      }
+      if (secure_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(5, secure_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -714,6 +741,8 @@ public final class AnalyticsProtos {
           .equals(other.getName());
       result = result && getId()
           .equals(other.getId());
+      result = result && (getSecure()
+          == other.getSecure());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -733,6 +762,9 @@ public final class AnalyticsProtos {
       hash = (53 * hash) + getName().hashCode();
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + getId().hashCode();
+      hash = (37 * hash) + SECURE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getSecure());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -870,6 +902,8 @@ public final class AnalyticsProtos {
 
         id_ = "";
 
+        secure_ = false;
+
         return this;
       }
 
@@ -896,6 +930,7 @@ public final class AnalyticsProtos {
         result.database_ = database_;
         result.name_ = name_;
         result.id_ = id_;
+        result.secure_ = secure_;
         onBuilt();
         return result;
       }
@@ -952,6 +987,9 @@ public final class AnalyticsProtos {
         if (!other.getId().isEmpty()) {
           id_ = other.id_;
           onChanged();
+        }
+        if (other.getSecure() != false) {
+          setSecure(other.getSecure());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1252,6 +1290,32 @@ public final class AnalyticsProtos {
   checkByteStringIsUtf8(value);
         
         id_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean secure_ ;
+      /**
+       * <code>bool secure = 5;</code>
+       */
+      public boolean getSecure() {
+        return secure_;
+      }
+      /**
+       * <code>bool secure = 5;</code>
+       */
+      public Builder setSecure(boolean value) {
+        
+        secure_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool secure = 5;</code>
+       */
+      public Builder clearSecure() {
+        
+        secure_ = false;
         onChanged();
         return this;
       }
@@ -9058,6 +9122,25 @@ public final class AnalyticsProtos {
   public interface ModifyConnectionsResultOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Yql.Analytics.ModifyConnectionsResult)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated string connection_id = 1;</code>
+     */
+    java.util.List<java.lang.String>
+        getConnectionIdList();
+    /**
+     * <code>repeated string connection_id = 1;</code>
+     */
+    int getConnectionIdCount();
+    /**
+     * <code>repeated string connection_id = 1;</code>
+     */
+    java.lang.String getConnectionId(int index);
+    /**
+     * <code>repeated string connection_id = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getConnectionIdBytes(int index);
   }
   /**
    * Protobuf type {@code Yql.Analytics.ModifyConnectionsResult}
@@ -9072,6 +9155,7 @@ public final class AnalyticsProtos {
       super(builder);
     }
     private ModifyConnectionsResult() {
+      connectionId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -9084,6 +9168,7 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -9101,6 +9186,15 @@ public final class AnalyticsProtos {
               }
               break;
             }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                connectionId_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              connectionId_.add(s);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -9109,6 +9203,9 @@ public final class AnalyticsProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          connectionId_ = connectionId_.getUnmodifiableView();
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -9125,6 +9222,35 @@ public final class AnalyticsProtos {
               com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult.class, com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult.Builder.class);
     }
 
+    public static final int CONNECTION_ID_FIELD_NUMBER = 1;
+    private com.google.protobuf.LazyStringList connectionId_;
+    /**
+     * <code>repeated string connection_id = 1;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getConnectionIdList() {
+      return connectionId_;
+    }
+    /**
+     * <code>repeated string connection_id = 1;</code>
+     */
+    public int getConnectionIdCount() {
+      return connectionId_.size();
+    }
+    /**
+     * <code>repeated string connection_id = 1;</code>
+     */
+    public java.lang.String getConnectionId(int index) {
+      return connectionId_.get(index);
+    }
+    /**
+     * <code>repeated string connection_id = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getConnectionIdBytes(int index) {
+      return connectionId_.getByteString(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -9137,6 +9263,9 @@ public final class AnalyticsProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      for (int i = 0; i < connectionId_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, connectionId_.getRaw(i));
+      }
       unknownFields.writeTo(output);
     }
 
@@ -9145,6 +9274,14 @@ public final class AnalyticsProtos {
       if (size != -1) return size;
 
       size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < connectionId_.size(); i++) {
+          dataSize += computeStringSizeNoTag(connectionId_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getConnectionIdList().size();
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -9161,6 +9298,8 @@ public final class AnalyticsProtos {
       com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult other = (com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult) obj;
 
       boolean result = true;
+      result = result && getConnectionIdList()
+          .equals(other.getConnectionIdList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -9172,6 +9311,10 @@ public final class AnalyticsProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      if (getConnectionIdCount() > 0) {
+        hash = (37 * hash) + CONNECTION_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getConnectionIdList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -9301,6 +9444,8 @@ public final class AnalyticsProtos {
       }
       public Builder clear() {
         super.clear();
+        connectionId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -9323,6 +9468,12 @@ public final class AnalyticsProtos {
 
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult result = new com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult(this);
+        int from_bitField0_ = bitField0_;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          connectionId_ = connectionId_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.connectionId_ = connectionId_;
         onBuilt();
         return result;
       }
@@ -9364,6 +9515,16 @@ public final class AnalyticsProtos {
 
       public Builder mergeFrom(com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult other) {
         if (other == com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult.getDefaultInstance()) return this;
+        if (!other.connectionId_.isEmpty()) {
+          if (connectionId_.isEmpty()) {
+            connectionId_ = other.connectionId_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureConnectionIdIsMutable();
+            connectionId_.addAll(other.connectionId_);
+          }
+          onChanged();
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -9388,6 +9549,101 @@ public final class AnalyticsProtos {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.LazyStringList connectionId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureConnectionIdIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          connectionId_ = new com.google.protobuf.LazyStringArrayList(connectionId_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <code>repeated string connection_id = 1;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getConnectionIdList() {
+        return connectionId_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string connection_id = 1;</code>
+       */
+      public int getConnectionIdCount() {
+        return connectionId_.size();
+      }
+      /**
+       * <code>repeated string connection_id = 1;</code>
+       */
+      public java.lang.String getConnectionId(int index) {
+        return connectionId_.get(index);
+      }
+      /**
+       * <code>repeated string connection_id = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getConnectionIdBytes(int index) {
+        return connectionId_.getByteString(index);
+      }
+      /**
+       * <code>repeated string connection_id = 1;</code>
+       */
+      public Builder setConnectionId(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureConnectionIdIsMutable();
+        connectionId_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string connection_id = 1;</code>
+       */
+      public Builder addConnectionId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureConnectionIdIsMutable();
+        connectionId_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string connection_id = 1;</code>
+       */
+      public Builder addAllConnectionId(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureConnectionIdIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, connectionId_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string connection_id = 1;</code>
+       */
+      public Builder clearConnectionId() {
+        connectionId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string connection_id = 1;</code>
+       */
+      public Builder addConnectionIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureConnectionIdIsMutable();
+        connectionId_.add(value);
+        onChanged();
         return this;
       }
       public final Builder setUnknownFields(
@@ -31693,120 +31949,121 @@ public final class AnalyticsProtos {
       "lytics.proto\022\rYql.Analytics\032,kikimr/publ" +
       "ic/api/protos/ydb_operation.proto\032(kikim" +
       "r/public/api/protos/ydb_value.proto\032\037goo" +
-      "gle/protobuf/timestamp.proto\"K\n\013YdbDatab" +
+      "gle/protobuf/timestamp.proto\"[\n\013YdbDatab" +
       "ase\022\020\n\010endpoint\030\001 \001(\t\022\020\n\010database\030\002 \001(\t\022" +
-      "\014\n\004name\030\003 \001(\t\022\n\n\002id\030\004 \001(\t\"q\n\021ClickHouseC" +
-      "luster\022\017\n\007cluster\030\001 \001(\t\022\014\n\004host\030\002 \001(\t\022\014\n" +
-      "\004port\030\003 \001(\005\022\016\n\006secure\030\004 \001(\010\022\r\n\005login\030\005 \001" +
-      "(\t\022\020\n\010password\030\006 \001(\t\"\216\001\n\nConnection\0222\n\014y",
-      "db_database\030\001 \001(\0132\032.Yql.Analytics.YdbDat" +
-      "abaseH\000\022>\n\022clickhouse_cluster\030\002 \001(\0132 .Yq" +
-      "l.Analytics.ClickHouseClusterH\000B\014\n\nconne" +
-      "ction\"\321\001\n\025GetConnectionsRequest\0229\n\020opera" +
+      "\014\n\004name\030\003 \001(\t\022\n\n\002id\030\004 \001(\t\022\016\n\006secure\030\005 \001(" +
+      "\010\"q\n\021ClickHouseCluster\022\017\n\007cluster\030\001 \001(\t\022" +
+      "\014\n\004host\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\022\016\n\006secure\030\004 " +
+      "\001(\010\022\r\n\005login\030\005 \001(\t\022\020\n\010password\030\006 \001(\t\"\216\001\n",
+      "\nConnection\0222\n\014ydb_database\030\001 \001(\0132\032.Yql." +
+      "Analytics.YdbDatabaseH\000\022>\n\022clickhouse_cl" +
+      "uster\030\002 \001(\0132 .Yql.Analytics.ClickHouseCl" +
+      "usterH\000B\014\n\nconnection\"\321\001\n\025GetConnections" +
+      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
+      "Operations.OperationParams\022\021\n\tfolder_id\030" +
+      "\002 \001(\t\022\014\n\004name\030\003 \001(\t\022;\n\006filter\030\004 \001(\0132+.Yq" +
+      "l.Analytics.GetConnectionsRequest.Filter" +
+      "\032\037\n\006Filter\022\025\n\rconnection_id\030\001 \001(\t\"\255\002\n\020Co" +
+      "nnectionEntity\022\021\n\tfolder_id\030\001 \001(\t\022\025\n\rcon",
+      "nection_id\030\002 \001(\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013" +
+      "modified_by\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022-\n\nconne" +
+      "ction\030\006 \001(\0132\031.Yql.Analytics.Connection\022\013" +
+      "\n\003acl\030\007 \001(\t\0221\n\rcreation_time\030\010 \001(\0132\032.goo" +
+      "gle.protobuf.Timestamp\0225\n\021modification_t" +
+      "ime\030\t \001(\0132\032.google.protobuf.Timestamp\022\022\n" +
+      "\nis_deleted\030\n \001(\010\"G\n\024GetConnectionsResul" +
+      "t\022/\n\006entity\030\001 \003(\0132\037.Yql.Analytics.Connec" +
+      "tionEntity\"F\n\026GetConnectionsResponse\022,\n\t" +
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati",
+      "on\"\212\001\n\030ModifyConnectionsRequest\0229\n\020opera" +
       "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
-      "tionParams\022\021\n\tfolder_id\030\002 \001(\t\022\014\n\004name\030\003 " +
-      "\001(\t\022;\n\006filter\030\004 \001(\0132+.Yql.Analytics.GetC" +
-      "onnectionsRequest.Filter\032\037\n\006Filter\022\025\n\rco" +
-      "nnection_id\030\001 \001(\t\"\255\002\n\020ConnectionEntity\022\021" +
-      "\n\tfolder_id\030\001 \001(\t\022\025\n\rconnection_id\030\002 \001(\t",
-      "\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013modified_by\030\004 \001(" +
-      "\t\022\014\n\004name\030\005 \001(\t\022-\n\nconnection\030\006 \001(\0132\031.Yq" +
-      "l.Analytics.Connection\022\013\n\003acl\030\007 \001(\t\0221\n\rc" +
-      "reation_time\030\010 \001(\0132\032.google.protobuf.Tim" +
-      "estamp\0225\n\021modification_time\030\t \001(\0132\032.goog" +
-      "le.protobuf.Timestamp\022\022\n\nis_deleted\030\n \001(" +
-      "\010\"G\n\024GetConnectionsResult\022/\n\006entity\030\001 \003(" +
-      "\0132\037.Yql.Analytics.ConnectionEntity\"F\n\026Ge" +
-      "tConnectionsResponse\022,\n\toperation\030\001 \001(\0132" +
-      "\031.Ydb.Operations.Operation\"\212\001\n\030ModifyCon",
-      "nectionsRequest\0229\n\020operation_params\030\001 \001(" +
-      "\0132\037.Ydb.Operations.OperationParams\0223\n\nco" +
-      "nnection\030\002 \003(\0132\037.Yql.Analytics.Connectio" +
-      "nEntity\"\031\n\027ModifyConnectionsResult\"I\n\031Mo" +
-      "difyConnectionsResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.Operation\"\272\001\n\021GetQue" +
-      "riesRequest\022\021\n\tfolder_id\030\001 \001(\t\022\032\n\022contin" +
-      "uation_token\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\0227\n\006fil" +
-      "ter\030\004 \001(\0132\'.Yql.Analytics.GetQueriesRequ" +
-      "est.Filter\032.\n\006Filter\022\020\n\010query_id\030\001 \001(\t\022\022",
-      "\n\nfield_type\030\002 \001(\005\"\203\003\n\022GetQueriesRespons" +
-      "e\022>\n\007queries\030\001 \003(\0132-.Yql.Analytics.GetQu" +
-      "eriesResponse.QueryEntity\022\032\n\022continuatio" +
-      "n_token\030\002 \001(\t\032\220\002\n\013QueryEntity\022\n\n\002id\030\001 \001(" +
-      "\t\022\013\n\003sql\030\002 \001(\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013mo" +
-      "dified_by\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\021\n\tfolder_" +
-      "id\030\006 \001(\t\022\013\n\003acl\030\007 \001(\t\022\022\n\nrows_limit\030\010 \001(" +
-      "\003\022\023\n\013bytes_limit\030\t \001(\003\0221\n\rcreation_time\030" +
-      "\n \001(\0132\032.google.protobuf.Timestamp\0225\n\021mod" +
-      "ification_time\030\013 \001(\0132\032.google.protobuf.T",
-      "imestamp\"\230\001\n\022ModifyQueryRequest\022\n\n\002id\030\001 " +
-      "\001(\t\022\021\n\tfolder_id\030\002 \001(\t\022\013\n\003sql\030\004 \001(\t\022\014\n\004n" +
-      "ame\030\005 \001(\t\022\013\n\003acl\030\006 \001(\t\022\022\n\nrows_limit\030\007 \001" +
-      "(\003\022\023\n\013bytes_limit\030\010 \001(\003\022\022\n\nis_deleted\030\t " +
-      "\001(\010\"\025\n\023ModifyQueryResponse\"\372\001\n\021GetHistor" +
-      "yRequest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb" +
-      ".Operations.OperationParams\022\021\n\tfolder_id" +
-      "\030\002 \001(\t\022\032\n\022continuation_token\030\003 \001(\t\0227\n\006fi" +
-      "lter\030\004 \001(\0132\'.Yql.Analytics.GetHistoryReq" +
-      "uest.Filter\032B\n\006Filter\022\020\n\010query_id\030\001 \001(\t\022",
-      "\022\n\nhistory_id\030\002 \001(\t\022\022\n\nfield_type\030\003 \001(\005\"" +
-      "\037\n\017QueryStatistics\022\014\n\004yson\030\001 \001(\014\"B\n\022GetH" +
-      "istoryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
-      "Operations.Operation\"\376\005\n\020GetHistoryResul" +
-      "t\022>\n\007history\030\001 \003(\0132-.Yql.Analytics.GetHi" +
-      "storyResult.HistoryEntity\022\032\n\022continuatio" +
-      "n_token\030\002 \001(\t\032\215\005\n\rHistoryEntity\022\n\n\002id\030\001 " +
-      "\001(\t\022\013\n\003sql\030\002 \001(\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013" +
-      "modified_by\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\021\n\tfolde" +
-      "r_id\030\006 \001(\t\022\013\n\003acl\030\007 \001(\t\022\022\n\nquery_plan\030\010 ",
-      "\001(\t\022\020\n\010query_id\030\t \001(\t\022\021\n\ttruncated\030\n \003(\010" +
-      "\022\022\n\nrows_count\030\013 \003(\003\022+\n\006status\030\014 \001(\0162\033.Y" +
-      "ql.Analytics.EQueryStatus\0221\n\014execute_mod" +
-      "e\030\r \001(\0162\033.Yql.Analytics.EExecuteMode\022\022\n\n" +
-      "rows_limit\030\016 \001(\003\022\023\n\013bytes_limit\030\017 \001(\003\022.\n" +
-      "\nstart_time\030\020 \001(\0132\032.google.protobuf.Time" +
-      "stamp\022/\n\013finish_time\030\021 \001(\0132\032.google.prot" +
-      "obuf.Timestamp\0227\n\023expiration_deadline\030\022 " +
-      "\001(\0132\032.google.protobuf.Timestamp\0221\n\rcreat" +
-      "ion_time\030\023 \001(\0132\032.google.protobuf.Timesta",
-      "mp\0225\n\021modification_time\030\024 \001(\0132\032.google.p" +
-      "rotobuf.Timestamp\0222\n\nstatistics\030\025 \001(\0132\036." +
-      "Yql.Analytics.QueryStatistics\"d\n\024ModifyH" +
-      "istoryRequest\022\n\n\002id\030\001 \001(\t\022\021\n\tfolder_id\030\002" +
-      " \001(\t\022\014\n\004name\030\004 \001(\t\022\013\n\003acl\030\005 \001(\t\022\022\n\nis_de" +
-      "leted\030\006 \001(\010\"\027\n\025ModifyHistoryResponse\"\242\003\n" +
-      "\023ExecuteQueryRequest\0229\n\020operation_params" +
-      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
-      "\020\n\010yql_text\030\002 \001(\t\0221\n\014execute_mode\030\003 \001(\0162" +
-      "\033.Yql.Analytics.EExecuteMode\022\030\n\020max_resu",
-      "lt_bytes\030\004 \001(\004\022\027\n\017max_result_rows\030\005 \001(\004\022" +
-      "\034\n\024expire_after_seconds\030\006 \001(\r\022F\n\nparamet" +
-      "ers\030\007 \003(\01322.Yql.Analytics.ExecuteQueryRe" +
-      "quest.ParametersEntry\022.\n\013connections\030\010 \003" +
-      "(\0132\031.Yql.Analytics.Connection\032B\n\017Paramet" +
-      "ersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Y" +
-      "db.TypedValue:\0028\001\"D\n\024ExecuteQueryRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"(\n\022ExecuteQueryResult\022\022\n\nhistory" +
-      "_id\030\001 \001(\t\"\233\001\n\024GetResultDataRequest\0229\n\020op",
-      "eration_params\030\001 \001(\0132\037.Ydb.Operations.Op" +
-      "erationParams\022\022\n\nhistory_id\030\002 \001(\t\022\025\n\rres" +
-      "ult_set_id\030\003 \001(\005\022\016\n\006offset\030\004 \001(\003\022\r\n\005limi" +
-      "t\030\005 \001(\003\"E\n\025GetResultDataResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"9" +
-      "\n\023GetResultDataResult\022\"\n\nresult_set\030\001 \001(" +
-      "\0132\016.Ydb.ResultSet\"U\n\017ResultSetHeader\022\033\n\006" +
-      "column\030\001 \003(\0132\013.Ydb.Column\022\022\n\nrows_count\030" +
-      "\002 \001(\003\022\021\n\ttruncated\030\003 \001(\010\"B\n\020ResultSetHea" +
-      "ders\022.\n\006header\030\001 \003(\0132\036.Yql.Analytics.Res",
-      "ultSetHeader*/\n\nEFieldType\022\010\n\004NONE\020\000\022\007\n\003" +
-      "SQL\020\001\022\016\n\nQUERY_PLAN\020\002*S\n\014EExecuteMode\022\024\n" +
-      "\020MODE_UNSPECIFIED\020\000\022\007\n\003RUN\020\001\022\013\n\007EXPLAIN\020" +
-      "\002\022\014\n\010VALIDATE\020\003\022\t\n\005PARSE\020\004*Q\n\014EQueryStat" +
-      "us\022\017\n\013UNSPECIFIED\020\000\022\t\n\005SAVED\020\001\022\013\n\007RUNNIN" +
-      "G\020\002\022\n\n\006FAILED\020\003\022\014\n\010FINISHED\020\004B.\n\030com.yan" +
-      "dex.yql.analyticsB\017AnalyticsProtos\370\001\001b\006p" +
-      "roto3"
+      "tionParams\0223\n\nconnection\030\002 \003(\0132\037.Yql.Ana" +
+      "lytics.ConnectionEntity\"0\n\027ModifyConnect" +
+      "ionsResult\022\025\n\rconnection_id\030\001 \003(\t\"I\n\031Mod" +
+      "ifyConnectionsResponse\022,\n\toperation\030\001 \001(" +
+      "\0132\031.Ydb.Operations.Operation\"\272\001\n\021GetQuer" +
+      "iesRequest\022\021\n\tfolder_id\030\001 \001(\t\022\032\n\022continu" +
+      "ation_token\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\0227\n\006filt" +
+      "er\030\004 \001(\0132\'.Yql.Analytics.GetQueriesReque",
+      "st.Filter\032.\n\006Filter\022\020\n\010query_id\030\001 \001(\t\022\022\n" +
+      "\nfield_type\030\002 \001(\005\"\203\003\n\022GetQueriesResponse" +
+      "\022>\n\007queries\030\001 \003(\0132-.Yql.Analytics.GetQue" +
+      "riesResponse.QueryEntity\022\032\n\022continuation" +
+      "_token\030\002 \001(\t\032\220\002\n\013QueryEntity\022\n\n\002id\030\001 \001(\t" +
+      "\022\013\n\003sql\030\002 \001(\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013mod" +
+      "ified_by\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\021\n\tfolder_i" +
+      "d\030\006 \001(\t\022\013\n\003acl\030\007 \001(\t\022\022\n\nrows_limit\030\010 \001(\003" +
+      "\022\023\n\013bytes_limit\030\t \001(\003\0221\n\rcreation_time\030\n" +
+      " \001(\0132\032.google.protobuf.Timestamp\0225\n\021modi",
+      "fication_time\030\013 \001(\0132\032.google.protobuf.Ti" +
+      "mestamp\"\230\001\n\022ModifyQueryRequest\022\n\n\002id\030\001 \001" +
+      "(\t\022\021\n\tfolder_id\030\002 \001(\t\022\013\n\003sql\030\004 \001(\t\022\014\n\004na" +
+      "me\030\005 \001(\t\022\013\n\003acl\030\006 \001(\t\022\022\n\nrows_limit\030\007 \001(" +
+      "\003\022\023\n\013bytes_limit\030\010 \001(\003\022\022\n\nis_deleted\030\t \001" +
+      "(\010\"\025\n\023ModifyQueryResponse\"\372\001\n\021GetHistory" +
+      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
+      "Operations.OperationParams\022\021\n\tfolder_id\030" +
+      "\002 \001(\t\022\032\n\022continuation_token\030\003 \001(\t\0227\n\006fil" +
+      "ter\030\004 \001(\0132\'.Yql.Analytics.GetHistoryRequ",
+      "est.Filter\032B\n\006Filter\022\020\n\010query_id\030\001 \001(\t\022\022" +
+      "\n\nhistory_id\030\002 \001(\t\022\022\n\nfield_type\030\003 \001(\005\"\037" +
+      "\n\017QueryStatistics\022\014\n\004yson\030\001 \001(\014\"B\n\022GetHi" +
+      "storyResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
+      "perations.Operation\"\376\005\n\020GetHistoryResult" +
+      "\022>\n\007history\030\001 \003(\0132-.Yql.Analytics.GetHis" +
+      "toryResult.HistoryEntity\022\032\n\022continuation" +
+      "_token\030\002 \001(\t\032\215\005\n\rHistoryEntity\022\n\n\002id\030\001 \001" +
+      "(\t\022\013\n\003sql\030\002 \001(\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013m" +
+      "odified_by\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\021\n\tfolder",
+      "_id\030\006 \001(\t\022\013\n\003acl\030\007 \001(\t\022\022\n\nquery_plan\030\010 \001" +
+      "(\t\022\020\n\010query_id\030\t \001(\t\022\021\n\ttruncated\030\n \003(\010\022" +
+      "\022\n\nrows_count\030\013 \003(\003\022+\n\006status\030\014 \001(\0162\033.Yq" +
+      "l.Analytics.EQueryStatus\0221\n\014execute_mode" +
+      "\030\r \001(\0162\033.Yql.Analytics.EExecuteMode\022\022\n\nr" +
+      "ows_limit\030\016 \001(\003\022\023\n\013bytes_limit\030\017 \001(\003\022.\n\n" +
+      "start_time\030\020 \001(\0132\032.google.protobuf.Times" +
+      "tamp\022/\n\013finish_time\030\021 \001(\0132\032.google.proto" +
+      "buf.Timestamp\0227\n\023expiration_deadline\030\022 \001" +
+      "(\0132\032.google.protobuf.Timestamp\0221\n\rcreati",
+      "on_time\030\023 \001(\0132\032.google.protobuf.Timestam" +
+      "p\0225\n\021modification_time\030\024 \001(\0132\032.google.pr" +
+      "otobuf.Timestamp\0222\n\nstatistics\030\025 \001(\0132\036.Y" +
+      "ql.Analytics.QueryStatistics\"d\n\024ModifyHi" +
+      "storyRequest\022\n\n\002id\030\001 \001(\t\022\021\n\tfolder_id\030\002 " +
+      "\001(\t\022\014\n\004name\030\004 \001(\t\022\013\n\003acl\030\005 \001(\t\022\022\n\nis_del" +
+      "eted\030\006 \001(\010\"\027\n\025ModifyHistoryResponse\"\242\003\n\023" +
+      "ExecuteQueryRequest\0229\n\020operation_params\030" +
+      "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\020" +
+      "\n\010yql_text\030\002 \001(\t\0221\n\014execute_mode\030\003 \001(\0162\033",
+      ".Yql.Analytics.EExecuteMode\022\030\n\020max_resul" +
+      "t_bytes\030\004 \001(\004\022\027\n\017max_result_rows\030\005 \001(\004\022\034" +
+      "\n\024expire_after_seconds\030\006 \001(\r\022F\n\nparamete" +
+      "rs\030\007 \003(\01322.Yql.Analytics.ExecuteQueryReq" +
+      "uest.ParametersEntry\022.\n\013connections\030\010 \003(" +
+      "\0132\031.Yql.Analytics.Connection\032B\n\017Paramete" +
+      "rsEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Yd" +
+      "b.TypedValue:\0028\001\"D\n\024ExecuteQueryResponse" +
+      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
+      "ration\"(\n\022ExecuteQueryResult\022\022\n\nhistory_",
+      "id\030\001 \001(\t\"\233\001\n\024GetResultDataRequest\0229\n\020ope" +
+      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
+      "rationParams\022\022\n\nhistory_id\030\002 \001(\t\022\025\n\rresu" +
+      "lt_set_id\030\003 \001(\005\022\016\n\006offset\030\004 \001(\003\022\r\n\005limit" +
+      "\030\005 \001(\003\"E\n\025GetResultDataResponse\022,\n\topera" +
+      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"9\n" +
+      "\023GetResultDataResult\022\"\n\nresult_set\030\001 \001(\013" +
+      "2\016.Ydb.ResultSet\"U\n\017ResultSetHeader\022\033\n\006c" +
+      "olumn\030\001 \003(\0132\013.Ydb.Column\022\022\n\nrows_count\030\002" +
+      " \001(\003\022\021\n\ttruncated\030\003 \001(\010\"B\n\020ResultSetHead",
+      "ers\022.\n\006header\030\001 \003(\0132\036.Yql.Analytics.Resu" +
+      "ltSetHeader*/\n\nEFieldType\022\010\n\004NONE\020\000\022\007\n\003S" +
+      "QL\020\001\022\016\n\nQUERY_PLAN\020\002*S\n\014EExecuteMode\022\024\n\020" +
+      "MODE_UNSPECIFIED\020\000\022\007\n\003RUN\020\001\022\013\n\007EXPLAIN\020\002" +
+      "\022\014\n\010VALIDATE\020\003\022\t\n\005PARSE\020\004*Q\n\014EQueryStatu" +
+      "s\022\017\n\013UNSPECIFIED\020\000\022\t\n\005SAVED\020\001\022\013\n\007RUNNING" +
+      "\020\002\022\n\n\006FAILED\020\003\022\014\n\010FINISHED\020\004B.\n\030com.yand" +
+      "ex.yql.analyticsB\017AnalyticsProtos\370\001\001b\006pr" +
+      "oto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -31828,7 +32085,7 @@ public final class AnalyticsProtos {
     internal_static_Yql_Analytics_YdbDatabase_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_YdbDatabase_descriptor,
-        new java.lang.String[] { "Endpoint", "Database", "Name", "Id", });
+        new java.lang.String[] { "Endpoint", "Database", "Name", "Id", "Secure", });
     internal_static_Yql_Analytics_ClickHouseCluster_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_Yql_Analytics_ClickHouseCluster_fieldAccessorTable = new
@@ -31882,7 +32139,7 @@ public final class AnalyticsProtos {
     internal_static_Yql_Analytics_ModifyConnectionsResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ModifyConnectionsResult_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "ConnectionId", });
     internal_static_Yql_Analytics_ModifyConnectionsResponse_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_Yql_Analytics_ModifyConnectionsResponse_fieldAccessorTable = new
