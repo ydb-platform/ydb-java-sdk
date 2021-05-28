@@ -30525,67 +30525,76 @@ public final class GatewaysConfig {
         getNameBytes();
 
     /**
-     * <code>optional string Endpoint = 2;</code>
+     * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
+     */
+    boolean hasClusterType();
+    /**
+     * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
+     */
+    ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType getClusterType();
+
+    /**
+     * <code>optional string Endpoint = 3;</code>
      */
     boolean hasEndpoint();
     /**
-     * <code>optional string Endpoint = 2;</code>
+     * <code>optional string Endpoint = 3;</code>
      */
     java.lang.String getEndpoint();
     /**
-     * <code>optional string Endpoint = 2;</code>
+     * <code>optional string Endpoint = 3;</code>
      */
     com.google.protobuf.ByteString
         getEndpointBytes();
 
     /**
-     * <code>optional string ConfigManagerEndpoint = 3;</code>
+     * <code>optional string ConfigManagerEndpoint = 4;</code>
      */
     boolean hasConfigManagerEndpoint();
     /**
-     * <code>optional string ConfigManagerEndpoint = 3;</code>
+     * <code>optional string ConfigManagerEndpoint = 4;</code>
      */
     java.lang.String getConfigManagerEndpoint();
     /**
-     * <code>optional string ConfigManagerEndpoint = 3;</code>
+     * <code>optional string ConfigManagerEndpoint = 4;</code>
      */
     com.google.protobuf.ByteString
         getConfigManagerEndpointBytes();
 
     /**
-     * <code>optional string Token = 4;</code>
+     * <code>optional string Token = 5;</code>
      */
     boolean hasToken();
     /**
-     * <code>optional string Token = 4;</code>
+     * <code>optional string Token = 5;</code>
      */
     java.lang.String getToken();
     /**
-     * <code>optional string Token = 4;</code>
+     * <code>optional string Token = 5;</code>
      */
     com.google.protobuf.ByteString
         getTokenBytes();
 
     /**
-     * <code>optional string Database = 5 [default = "/Root"];</code>
+     * <code>optional string Database = 6 [default = "/Root"];</code>
      */
     boolean hasDatabase();
     /**
-     * <code>optional string Database = 5 [default = "/Root"];</code>
+     * <code>optional string Database = 6 [default = "/Root"];</code>
      */
     java.lang.String getDatabase();
     /**
-     * <code>optional string Database = 5 [default = "/Root"];</code>
+     * <code>optional string Database = 6 [default = "/Root"];</code>
      */
     com.google.protobuf.ByteString
         getDatabaseBytes();
 
     /**
-     * <code>optional uint32 TvmId = 6 [default = 0];</code>
+     * <code>optional uint32 TvmId = 7 [default = 0];</code>
      */
     boolean hasTvmId();
     /**
-     * <code>optional uint32 TvmId = 6 [default = 0];</code>
+     * <code>optional uint32 TvmId = 7 [default = 0];</code>
      */
     int getTvmId();
 
@@ -30627,6 +30636,7 @@ public final class GatewaysConfig {
     }
     private TPqClusterConfig() {
       name_ = "";
+      clusterType_ = 0;
       endpoint_ = "";
       configManagerEndpoint_ = "";
       token_ = "";
@@ -30669,39 +30679,50 @@ public final class GatewaysConfig {
               name_ = bs;
               break;
             }
-            case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000002;
-              endpoint_ = bs;
+            case 16: {
+              int rawValue = input.readEnum();
+              ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType value = ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(2, rawValue);
+              } else {
+                bitField0_ |= 0x00000002;
+                clusterType_ = rawValue;
+              }
               break;
             }
             case 26: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              configManagerEndpoint_ = bs;
+              endpoint_ = bs;
               break;
             }
             case 34: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000008;
-              token_ = bs;
+              configManagerEndpoint_ = bs;
               break;
             }
             case 42: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000010;
+              token_ = bs;
+              break;
+            }
+            case 50: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000020;
               database_ = bs;
               break;
             }
-            case 48: {
-              bitField0_ |= 0x00000020;
+            case 56: {
+              bitField0_ |= 0x00000040;
               tvmId_ = input.readUInt32();
               break;
             }
             case 802: {
-              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
                 settings_ = new java.util.ArrayList<ru.yandex.yql.proto.GatewaysConfig.TAttr>();
-                mutable_bitField0_ |= 0x00000040;
+                mutable_bitField0_ |= 0x00000080;
               }
               settings_.add(
                   input.readMessage(ru.yandex.yql.proto.GatewaysConfig.TAttr.PARSER, extensionRegistry));
@@ -30715,7 +30736,7 @@ public final class GatewaysConfig {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
           settings_ = java.util.Collections.unmodifiableList(settings_);
         }
         this.unknownFields = unknownFields.build();
@@ -30732,6 +30753,105 @@ public final class GatewaysConfig {
       return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TPqClusterConfig_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.class, ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code NYql.TPqClusterConfig.EClusterType}
+     */
+    public enum EClusterType
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>Unspecified = 0;</code>
+       */
+      Unspecified(0),
+      /**
+       * <code>PersQueue = 1;</code>
+       */
+      PersQueue(1),
+      /**
+       * <code>DataStreams = 2;</code>
+       */
+      DataStreams(2),
+      ;
+
+      /**
+       * <code>Unspecified = 0;</code>
+       */
+      public static final int Unspecified_VALUE = 0;
+      /**
+       * <code>PersQueue = 1;</code>
+       */
+      public static final int PersQueue_VALUE = 1;
+      /**
+       * <code>DataStreams = 2;</code>
+       */
+      public static final int DataStreams_VALUE = 2;
+
+
+      public final int getNumber() {
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static EClusterType valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static EClusterType forNumber(int value) {
+        switch (value) {
+          case 0: return Unspecified;
+          case 1: return PersQueue;
+          case 2: return DataStreams;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<EClusterType>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          EClusterType> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<EClusterType>() {
+              public EClusterType findValueByNumber(int number) {
+                return EClusterType.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final EClusterType[] VALUES = values();
+
+      public static EClusterType valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private EClusterType(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:NYql.TPqClusterConfig.EClusterType)
     }
 
     private int bitField0_;
@@ -30777,16 +30897,32 @@ public final class GatewaysConfig {
       }
     }
 
-    public static final int ENDPOINT_FIELD_NUMBER = 2;
-    private volatile java.lang.Object endpoint_;
+    public static final int CLUSTERTYPE_FIELD_NUMBER = 2;
+    private int clusterType_;
     /**
-     * <code>optional string Endpoint = 2;</code>
+     * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
      */
-    public boolean hasEndpoint() {
+    public boolean hasClusterType() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional string Endpoint = 2;</code>
+     * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
+     */
+    public ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType getClusterType() {
+      ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType result = ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType.valueOf(clusterType_);
+      return result == null ? ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType.Unspecified : result;
+    }
+
+    public static final int ENDPOINT_FIELD_NUMBER = 3;
+    private volatile java.lang.Object endpoint_;
+    /**
+     * <code>optional string Endpoint = 3;</code>
+     */
+    public boolean hasEndpoint() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string Endpoint = 3;</code>
      */
     public java.lang.String getEndpoint() {
       java.lang.Object ref = endpoint_;
@@ -30803,7 +30939,7 @@ public final class GatewaysConfig {
       }
     }
     /**
-     * <code>optional string Endpoint = 2;</code>
+     * <code>optional string Endpoint = 3;</code>
      */
     public com.google.protobuf.ByteString
         getEndpointBytes() {
@@ -30819,16 +30955,16 @@ public final class GatewaysConfig {
       }
     }
 
-    public static final int CONFIGMANAGERENDPOINT_FIELD_NUMBER = 3;
+    public static final int CONFIGMANAGERENDPOINT_FIELD_NUMBER = 4;
     private volatile java.lang.Object configManagerEndpoint_;
     /**
-     * <code>optional string ConfigManagerEndpoint = 3;</code>
+     * <code>optional string ConfigManagerEndpoint = 4;</code>
      */
     public boolean hasConfigManagerEndpoint() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional string ConfigManagerEndpoint = 3;</code>
+     * <code>optional string ConfigManagerEndpoint = 4;</code>
      */
     public java.lang.String getConfigManagerEndpoint() {
       java.lang.Object ref = configManagerEndpoint_;
@@ -30845,7 +30981,7 @@ public final class GatewaysConfig {
       }
     }
     /**
-     * <code>optional string ConfigManagerEndpoint = 3;</code>
+     * <code>optional string ConfigManagerEndpoint = 4;</code>
      */
     public com.google.protobuf.ByteString
         getConfigManagerEndpointBytes() {
@@ -30861,16 +30997,16 @@ public final class GatewaysConfig {
       }
     }
 
-    public static final int TOKEN_FIELD_NUMBER = 4;
+    public static final int TOKEN_FIELD_NUMBER = 5;
     private volatile java.lang.Object token_;
     /**
-     * <code>optional string Token = 4;</code>
+     * <code>optional string Token = 5;</code>
      */
     public boolean hasToken() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional string Token = 4;</code>
+     * <code>optional string Token = 5;</code>
      */
     public java.lang.String getToken() {
       java.lang.Object ref = token_;
@@ -30887,7 +31023,7 @@ public final class GatewaysConfig {
       }
     }
     /**
-     * <code>optional string Token = 4;</code>
+     * <code>optional string Token = 5;</code>
      */
     public com.google.protobuf.ByteString
         getTokenBytes() {
@@ -30903,16 +31039,16 @@ public final class GatewaysConfig {
       }
     }
 
-    public static final int DATABASE_FIELD_NUMBER = 5;
+    public static final int DATABASE_FIELD_NUMBER = 6;
     private volatile java.lang.Object database_;
     /**
-     * <code>optional string Database = 5 [default = "/Root"];</code>
+     * <code>optional string Database = 6 [default = "/Root"];</code>
      */
     public boolean hasDatabase() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional string Database = 5 [default = "/Root"];</code>
+     * <code>optional string Database = 6 [default = "/Root"];</code>
      */
     public java.lang.String getDatabase() {
       java.lang.Object ref = database_;
@@ -30929,7 +31065,7 @@ public final class GatewaysConfig {
       }
     }
     /**
-     * <code>optional string Database = 5 [default = "/Root"];</code>
+     * <code>optional string Database = 6 [default = "/Root"];</code>
      */
     public com.google.protobuf.ByteString
         getDatabaseBytes() {
@@ -30945,16 +31081,16 @@ public final class GatewaysConfig {
       }
     }
 
-    public static final int TVMID_FIELD_NUMBER = 6;
+    public static final int TVMID_FIELD_NUMBER = 7;
     private int tvmId_;
     /**
-     * <code>optional uint32 TvmId = 6 [default = 0];</code>
+     * <code>optional uint32 TvmId = 7 [default = 0];</code>
      */
     public boolean hasTvmId() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional uint32 TvmId = 6 [default = 0];</code>
+     * <code>optional uint32 TvmId = 7 [default = 0];</code>
      */
     public int getTvmId() {
       return tvmId_;
@@ -31017,19 +31153,22 @@ public final class GatewaysConfig {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, endpoint_);
+        output.writeEnum(2, clusterType_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, configManagerEndpoint_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, endpoint_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, token_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, configManagerEndpoint_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, database_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, token_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeUInt32(6, tvmId_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, database_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeUInt32(7, tvmId_);
       }
       for (int i = 0; i < settings_.size(); i++) {
         output.writeMessage(100, settings_.get(i));
@@ -31046,20 +31185,24 @@ public final class GatewaysConfig {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, endpoint_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, clusterType_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, configManagerEndpoint_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, endpoint_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, token_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, configManagerEndpoint_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, database_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, token_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, database_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(6, tvmId_);
+          .computeUInt32Size(7, tvmId_);
       }
       for (int i = 0; i < settings_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -31085,6 +31228,10 @@ public final class GatewaysConfig {
       if (hasName()) {
         result = result && getName()
             .equals(other.getName());
+      }
+      result = result && (hasClusterType() == other.hasClusterType());
+      if (hasClusterType()) {
+        result = result && clusterType_ == other.clusterType_;
       }
       result = result && (hasEndpoint() == other.hasEndpoint());
       if (hasEndpoint()) {
@@ -31127,6 +31274,10 @@ public final class GatewaysConfig {
       if (hasName()) {
         hash = (37 * hash) + NAME_FIELD_NUMBER;
         hash = (53 * hash) + getName().hashCode();
+      }
+      if (hasClusterType()) {
+        hash = (37 * hash) + CLUSTERTYPE_FIELD_NUMBER;
+        hash = (53 * hash) + clusterType_;
       }
       if (hasEndpoint()) {
         hash = (37 * hash) + ENDPOINT_FIELD_NUMBER;
@@ -31284,19 +31435,21 @@ public final class GatewaysConfig {
         super.clear();
         name_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        endpoint_ = "";
+        clusterType_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        configManagerEndpoint_ = "";
+        endpoint_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
-        token_ = "";
+        configManagerEndpoint_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
-        database_ = "/Root";
+        token_ = "";
         bitField0_ = (bitField0_ & ~0x00000010);
-        tvmId_ = 0;
+        database_ = "/Root";
         bitField0_ = (bitField0_ & ~0x00000020);
+        tvmId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000040);
         if (settingsBuilder_ == null) {
           settings_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000080);
         } else {
           settingsBuilder_.clear();
         }
@@ -31331,27 +31484,31 @@ public final class GatewaysConfig {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.endpoint_ = endpoint_;
+        result.clusterType_ = clusterType_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.configManagerEndpoint_ = configManagerEndpoint_;
+        result.endpoint_ = endpoint_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.token_ = token_;
+        result.configManagerEndpoint_ = configManagerEndpoint_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.database_ = database_;
+        result.token_ = token_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
+        result.database_ = database_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
         result.tvmId_ = tvmId_;
         if (settingsBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          if (((bitField0_ & 0x00000080) == 0x00000080)) {
             settings_ = java.util.Collections.unmodifiableList(settings_);
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000080);
           }
           result.settings_ = settings_;
         } else {
@@ -31404,23 +31561,26 @@ public final class GatewaysConfig {
           name_ = other.name_;
           onChanged();
         }
+        if (other.hasClusterType()) {
+          setClusterType(other.getClusterType());
+        }
         if (other.hasEndpoint()) {
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
           endpoint_ = other.endpoint_;
           onChanged();
         }
         if (other.hasConfigManagerEndpoint()) {
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
           configManagerEndpoint_ = other.configManagerEndpoint_;
           onChanged();
         }
         if (other.hasToken()) {
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000010;
           token_ = other.token_;
           onChanged();
         }
         if (other.hasDatabase()) {
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000020;
           database_ = other.database_;
           onChanged();
         }
@@ -31431,7 +31591,7 @@ public final class GatewaysConfig {
           if (!other.settings_.isEmpty()) {
             if (settings_.isEmpty()) {
               settings_ = other.settings_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000080);
             } else {
               ensureSettingsIsMutable();
               settings_.addAll(other.settings_);
@@ -31444,7 +31604,7 @@ public final class GatewaysConfig {
               settingsBuilder_.dispose();
               settingsBuilder_ = null;
               settings_ = other.settings_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000080);
               settingsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getSettingsFieldBuilder() : null;
@@ -31562,15 +31722,51 @@ public final class GatewaysConfig {
         return this;
       }
 
-      private java.lang.Object endpoint_ = "";
+      private int clusterType_ = 0;
       /**
-       * <code>optional string Endpoint = 2;</code>
+       * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
        */
-      public boolean hasEndpoint() {
+      public boolean hasClusterType() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional string Endpoint = 2;</code>
+       * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType getClusterType() {
+        ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType result = ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType.valueOf(clusterType_);
+        return result == null ? ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType.Unspecified : result;
+      }
+      /**
+       * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
+       */
+      public Builder setClusterType(ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000002;
+        clusterType_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
+       */
+      public Builder clearClusterType() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        clusterType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object endpoint_ = "";
+      /**
+       * <code>optional string Endpoint = 3;</code>
+       */
+      public boolean hasEndpoint() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string Endpoint = 3;</code>
        */
       public java.lang.String getEndpoint() {
         java.lang.Object ref = endpoint_;
@@ -31587,7 +31783,7 @@ public final class GatewaysConfig {
         }
       }
       /**
-       * <code>optional string Endpoint = 2;</code>
+       * <code>optional string Endpoint = 3;</code>
        */
       public com.google.protobuf.ByteString
           getEndpointBytes() {
@@ -31603,36 +31799,36 @@ public final class GatewaysConfig {
         }
       }
       /**
-       * <code>optional string Endpoint = 2;</code>
+       * <code>optional string Endpoint = 3;</code>
        */
       public Builder setEndpoint(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         endpoint_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string Endpoint = 2;</code>
+       * <code>optional string Endpoint = 3;</code>
        */
       public Builder clearEndpoint() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         endpoint_ = getDefaultInstance().getEndpoint();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string Endpoint = 2;</code>
+       * <code>optional string Endpoint = 3;</code>
        */
       public Builder setEndpointBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         endpoint_ = value;
         onChanged();
         return this;
@@ -31640,13 +31836,13 @@ public final class GatewaysConfig {
 
       private java.lang.Object configManagerEndpoint_ = "";
       /**
-       * <code>optional string ConfigManagerEndpoint = 3;</code>
+       * <code>optional string ConfigManagerEndpoint = 4;</code>
        */
       public boolean hasConfigManagerEndpoint() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional string ConfigManagerEndpoint = 3;</code>
+       * <code>optional string ConfigManagerEndpoint = 4;</code>
        */
       public java.lang.String getConfigManagerEndpoint() {
         java.lang.Object ref = configManagerEndpoint_;
@@ -31663,7 +31859,7 @@ public final class GatewaysConfig {
         }
       }
       /**
-       * <code>optional string ConfigManagerEndpoint = 3;</code>
+       * <code>optional string ConfigManagerEndpoint = 4;</code>
        */
       public com.google.protobuf.ByteString
           getConfigManagerEndpointBytes() {
@@ -31679,36 +31875,36 @@ public final class GatewaysConfig {
         }
       }
       /**
-       * <code>optional string ConfigManagerEndpoint = 3;</code>
+       * <code>optional string ConfigManagerEndpoint = 4;</code>
        */
       public Builder setConfigManagerEndpoint(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         configManagerEndpoint_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string ConfigManagerEndpoint = 3;</code>
+       * <code>optional string ConfigManagerEndpoint = 4;</code>
        */
       public Builder clearConfigManagerEndpoint() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         configManagerEndpoint_ = getDefaultInstance().getConfigManagerEndpoint();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string ConfigManagerEndpoint = 3;</code>
+       * <code>optional string ConfigManagerEndpoint = 4;</code>
        */
       public Builder setConfigManagerEndpointBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         configManagerEndpoint_ = value;
         onChanged();
         return this;
@@ -31716,13 +31912,13 @@ public final class GatewaysConfig {
 
       private java.lang.Object token_ = "";
       /**
-       * <code>optional string Token = 4;</code>
+       * <code>optional string Token = 5;</code>
        */
       public boolean hasToken() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional string Token = 4;</code>
+       * <code>optional string Token = 5;</code>
        */
       public java.lang.String getToken() {
         java.lang.Object ref = token_;
@@ -31739,7 +31935,7 @@ public final class GatewaysConfig {
         }
       }
       /**
-       * <code>optional string Token = 4;</code>
+       * <code>optional string Token = 5;</code>
        */
       public com.google.protobuf.ByteString
           getTokenBytes() {
@@ -31755,36 +31951,36 @@ public final class GatewaysConfig {
         }
       }
       /**
-       * <code>optional string Token = 4;</code>
+       * <code>optional string Token = 5;</code>
        */
       public Builder setToken(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000008;
+  bitField0_ |= 0x00000010;
         token_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string Token = 4;</code>
+       * <code>optional string Token = 5;</code>
        */
       public Builder clearToken() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         token_ = getDefaultInstance().getToken();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string Token = 4;</code>
+       * <code>optional string Token = 5;</code>
        */
       public Builder setTokenBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000008;
+  bitField0_ |= 0x00000010;
         token_ = value;
         onChanged();
         return this;
@@ -31792,13 +31988,13 @@ public final class GatewaysConfig {
 
       private java.lang.Object database_ = "/Root";
       /**
-       * <code>optional string Database = 5 [default = "/Root"];</code>
+       * <code>optional string Database = 6 [default = "/Root"];</code>
        */
       public boolean hasDatabase() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional string Database = 5 [default = "/Root"];</code>
+       * <code>optional string Database = 6 [default = "/Root"];</code>
        */
       public java.lang.String getDatabase() {
         java.lang.Object ref = database_;
@@ -31815,7 +32011,7 @@ public final class GatewaysConfig {
         }
       }
       /**
-       * <code>optional string Database = 5 [default = "/Root"];</code>
+       * <code>optional string Database = 6 [default = "/Root"];</code>
        */
       public com.google.protobuf.ByteString
           getDatabaseBytes() {
@@ -31831,36 +32027,36 @@ public final class GatewaysConfig {
         }
       }
       /**
-       * <code>optional string Database = 5 [default = "/Root"];</code>
+       * <code>optional string Database = 6 [default = "/Root"];</code>
        */
       public Builder setDatabase(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000010;
+  bitField0_ |= 0x00000020;
         database_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string Database = 5 [default = "/Root"];</code>
+       * <code>optional string Database = 6 [default = "/Root"];</code>
        */
       public Builder clearDatabase() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         database_ = getDefaultInstance().getDatabase();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string Database = 5 [default = "/Root"];</code>
+       * <code>optional string Database = 6 [default = "/Root"];</code>
        */
       public Builder setDatabaseBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000010;
+  bitField0_ |= 0x00000020;
         database_ = value;
         onChanged();
         return this;
@@ -31868,31 +32064,31 @@ public final class GatewaysConfig {
 
       private int tvmId_ ;
       /**
-       * <code>optional uint32 TvmId = 6 [default = 0];</code>
+       * <code>optional uint32 TvmId = 7 [default = 0];</code>
        */
       public boolean hasTvmId() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional uint32 TvmId = 6 [default = 0];</code>
+       * <code>optional uint32 TvmId = 7 [default = 0];</code>
        */
       public int getTvmId() {
         return tvmId_;
       }
       /**
-       * <code>optional uint32 TvmId = 6 [default = 0];</code>
+       * <code>optional uint32 TvmId = 7 [default = 0];</code>
        */
       public Builder setTvmId(int value) {
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000040;
         tvmId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional uint32 TvmId = 6 [default = 0];</code>
+       * <code>optional uint32 TvmId = 7 [default = 0];</code>
        */
       public Builder clearTvmId() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000040);
         tvmId_ = 0;
         onChanged();
         return this;
@@ -31901,9 +32097,9 @@ public final class GatewaysConfig {
       private java.util.List<ru.yandex.yql.proto.GatewaysConfig.TAttr> settings_ =
         java.util.Collections.emptyList();
       private void ensureSettingsIsMutable() {
-        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
           settings_ = new java.util.ArrayList<ru.yandex.yql.proto.GatewaysConfig.TAttr>(settings_);
-          bitField0_ |= 0x00000040;
+          bitField0_ |= 0x00000080;
          }
       }
 
@@ -32053,7 +32249,7 @@ public final class GatewaysConfig {
       public Builder clearSettings() {
         if (settingsBuilder_ == null) {
           settings_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000080);
           onChanged();
         } else {
           settingsBuilder_.clear();
@@ -32130,7 +32326,7 @@ public final class GatewaysConfig {
           settingsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               ru.yandex.yql.proto.GatewaysConfig.TAttr, ru.yandex.yql.proto.GatewaysConfig.TAttr.Builder, ru.yandex.yql.proto.GatewaysConfig.TAttrOrBuilder>(
                   settings_,
-                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  ((bitField0_ & 0x00000080) == 0x00000080),
                   getParentForChildren(),
                   isClean());
           settings_ = null;
@@ -54058,83 +54254,86 @@ public final class GatewaysConfig {
       "facts\030\005 \003(\t\022:\n\017CommonArtifacts\030\006 \003(\0132!.N" +
       "Yql.TRtmrOperationArtifactsInfo\022\033\n\017MaxPq" +
       "Partitions\030\007 \001(\r:\00210\022%\n\027PreviewCollectTi",
-      "meoutMs\030\010 \001(\r:\0042000\"\252\001\n\020TPqClusterConfig" +
-      "\022\014\n\004Name\030\001 \001(\t\022\020\n\010Endpoint\030\002 \001(\t\022\035\n\025Conf" +
-      "igManagerEndpoint\030\003 \001(\t\022\r\n\005Token\030\004 \001(\t\022\027" +
-      "\n\010Database\030\005 \001(\t:\005/Root\022\020\n\005TvmId\030\006 \001(\r:\001" +
-      "0\022\035\n\010Settings\030d \003(\0132\013.NYql.TAttr\"~\n\020TPqG" +
-      "atewayConfig\022.\n\016ClusterMapping\030\001 \003(\0132\026.N" +
-      "Yql.TPqClusterConfig\022\024\n\014DefaultToken\030\002 \001" +
-      "(\t\022$\n\017DefaultSettings\030d \003(\0132\013.NYql.TAttr" +
-      "\"\217\001\n\022TStatClusterConfig\022\014\n\004Name\030\001 \001(\t\022\017\n" +
-      "\007Cluster\030\002 \001(\t\022\026\n\007Default\030\003 \001(\010:\005false\022\021",
-      "\n\tStatToken\030\004 \001(\t\022\020\n\010StatName\030\005 \001(\t\022\035\n\010S" +
-      "ettings\030d \003(\0132\013.NYql.TAttr\"\207\001\n\022TStatGate" +
-      "wayConfig\022\031\n\016GatewayThreads\030\001 \001(\r:\0010\0220\n\016" +
-      "ClusterMapping\030e \003(\0132\030.NYql.TStatCluster" +
-      "Config\022$\n\017DefaultSettings\030f \003(\0132\013.NYql.T" +
-      "Attr\"5\n\022TChytClusterConfig\022\014\n\004Name\030\001 \001(\t" +
-      "\022\021\n\tYtCluster\030\002 \001(\t\"F\n\022TChytGatewayConfi" +
-      "g\0220\n\016ClusterMapping\030\001 \003(\0132\030.NYql.TChytCl" +
-      "usterConfig\"m\n\025TSolomonClusterConfig\022\014\n\004" +
-      "Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\026\n\007Default\030\003",
-      " \001(\010:\005false\022\035\n\010Settings\030d \003(\0132\013.NYql.TAt" +
-      "tr\"r\n\025TSolomonGatewayConfig\0223\n\016ClusterMa" +
-      "pping\030\001 \003(\0132\033.NYql.TSolomonClusterConfig" +
-      "\022$\n\017DefaultSettings\030\002 \003(\0132\013.NYql.TAttr\":" +
-      "\n\034TFileStorageAdditionalConfig\022\032\n\022Allowe" +
-      "dUrlPatterns\030\001 \003(\t\"J\n\030TPostgresqlCluster" +
-      "Config\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\017\n" +
-      "\007PGtoken\030\003 \001(\t\"R\n\030TPostgresqlGatewayConf" +
-      "ig\0226\n\016ClusterMapping\030\001 \003(\0132\036.NYql.TPostg" +
-      "resqlClusterConfig\"H\n\023TMysqlClusterConfi",
-      "g\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\022\n\nMysq" +
-      "lToken\030\003 \001(\t\"H\n\023TMysqlGatewayConfig\0221\n\016C" +
-      "lusterMapping\030\001 \003(\0132\031.NYql.TMysqlCluster" +
-      "Config\"\260\002\n\020TDqGatewayConfig\022 \n\025DefaultAu" +
-      "toPercentage\030\001 \001(\r:\0010\022N\n\021DefaultAutoByHo" +
-      "ur\030\002 \003(\01323.NYql.TDqGatewayConfig.TDefaul" +
-      "tAutoByHourPercentage\022\035\n\025NoDefaultAutoFo" +
-      "rUsers\030\003 \003(\t\022#\n\033DefaultAnalyzeQueryForUs" +
-      "ers\030\004 \003(\t\022$\n\017DefaultSettings\030f \003(\0132\013.NYq" +
-      "l.TAttr\032@\n\034TDefaultAutoByHourPercentage\022",
-      "\014\n\004Hour\030\001 \002(\r\022\022\n\nPercentage\030\002 \002(\r\"\'\n\tTCo" +
-      "reAttr\022\014\n\004Name\030\001 \002(\t\022\014\n\004Args\030\002 \003(\t\"0\n\016TY" +
-      "qlCoreConfig\022\036\n\005Flags\030\001 \003(\0132\017.NYql.TCore" +
-      "Attr\"@\n\034TWarnAsErrorByHourPercentage\022\014\n\004" +
-      "Hour\030\001 \002(\r\022\022\n\nPercentage\030\002 \002(\r\"\274\001\n\016TSqlC" +
-      "oreConfig\022(\n\035V0SyntaxWarnAsErrorPercenta" +
-      "ge\030\001 \001(\r:\0010\022E\n\031V0SyntaxWarnAsErrorByHour" +
-      "\030\002 \003(\0132\".NYql.TWarnAsErrorByHourPercenta" +
-      "ge\022\037\n\027NoV0SyntaxErrorForUsers\030\003 \003(\t\022\030\n\020T" +
-      "ranslationFlags\030\004 \003(\t\"\267\005\n\017TGatewaysConfi",
-      "g\022\"\n\002Yt\030\001 \001(\0132\026.NYql.TYtGatewayConfig\022*\n" +
-      "\006Kikimr\030\002 \001(\0132\032.NYql.TKikimrGatewayConfi" +
-      "g\0222\n\nClickHouse\030\003 \001(\0132\036.NYql.TClickHouse" +
-      "GatewayConfig\022&\n\004Rtmr\030\004 \001(\0132\030.NYql.TRtmr" +
-      "GatewayConfig\0220\n\tKikimrMvp\030\005 \001(\0132\035.NYql." +
-      "TKikimrMvpGatewayConfig\022&\n\004Stat\030\006 \001(\0132\030." +
-      "NYql.TStatGatewayConfig\022&\n\004Chyt\030\007 \001(\0132\030." +
-      "NYql.TChytGatewayConfig\022,\n\007Solomon\030\010 \001(\013" +
-      "2\033.NYql.TSolomonGatewayConfig\022.\n\002Fs\030\t \001(" +
-      "\0132\".NYql.TFileStorageAdditionalConfig\022%\n",
-      "\007YqlCore\030\n \001(\0132\024.NYql.TYqlCoreConfig\0222\n\n" +
-      "Postgresql\030\013 \001(\0132\036.NYql.TPostgresqlGatew" +
-      "ayConfig\022%\n\007SqlCore\030\014 \001(\0132\024.NYql.TSqlCor" +
-      "eConfig\022\"\n\002Dq\030\r \001(\0132\026.NYql.TDqGatewayCon" +
-      "fig\022(\n\005Mysql\030\016 \001(\0132\031.NYql.TMysqlGatewayC" +
-      "onfig\022$\n\003Ydb\030\017 \001(\0132\027.NYql.TYdbGatewayCon" +
-      "fig\022\"\n\002Pq\030\020 \001(\0132\026.NYql.TPqGatewayConfig*" +
-      "Z\n\013EYtLogLevel\022\024\n\007YL_NONE\020\377\377\377\377\377\377\377\377\377\001\022\014\n\010" +
-      "YL_FATAL\020\000\022\014\n\010YL_ERROR\020\001\022\013\n\007YL_INFO\020\002\022\014\n" +
-      "\010YL_DEBUG\020\003*(\n\013EHostScheme\022\013\n\007HS_HTTP\020\000\022",
-      "\014\n\010HS_HTTPS\020\001*?\n\nETokenType\022\007\n\003IAM\020\000\022\t\n\005" +
-      "OAUTH\020\001\022\014\n\010BLACKBOX\020\002\022\017\n\013CREDENTIALS\020\003*9" +
-      "\n\017EYfArtifactType\022\013\n\007AT_NONE\020\000\022\013\n\007AT_FIL" +
-      "E\020\001\022\014\n\010AT_LAYER\020\002*e\n\022ERtmrOperationType\022" +
-      "\013\n\007OT_NONE\020\000\022\017\n\013OT_LF_PARSE\020\001\022\016\n\nOT_YDB_" +
-      "OUT\020\002\022\022\n\016OT_SOLOMON_OUT\020\003\022\r\n\tOT_PQ_OUT\020\004" +
-      "B\025\n\023ru.yandex.yql.proto"
+      "meoutMs\030\010 \001(\r:\0042000\"\245\002\n\020TPqClusterConfig" +
+      "\022\014\n\004Name\030\001 \001(\t\0228\n\013ClusterType\030\002 \001(\0162#.NY" +
+      "ql.TPqClusterConfig.EClusterType\022\020\n\010Endp" +
+      "oint\030\003 \001(\t\022\035\n\025ConfigManagerEndpoint\030\004 \001(" +
+      "\t\022\r\n\005Token\030\005 \001(\t\022\027\n\010Database\030\006 \001(\t:\005/Roo" +
+      "t\022\020\n\005TvmId\030\007 \001(\r:\0010\022\035\n\010Settings\030d \003(\0132\013." +
+      "NYql.TAttr\"?\n\014EClusterType\022\017\n\013Unspecifie" +
+      "d\020\000\022\r\n\tPersQueue\020\001\022\017\n\013DataStreams\020\002\"~\n\020T" +
+      "PqGatewayConfig\022.\n\016ClusterMapping\030\001 \003(\0132" +
+      "\026.NYql.TPqClusterConfig\022\024\n\014DefaultToken\030",
+      "\002 \001(\t\022$\n\017DefaultSettings\030d \003(\0132\013.NYql.TA" +
+      "ttr\"\217\001\n\022TStatClusterConfig\022\014\n\004Name\030\001 \001(\t" +
+      "\022\017\n\007Cluster\030\002 \001(\t\022\026\n\007Default\030\003 \001(\010:\005fals" +
+      "e\022\021\n\tStatToken\030\004 \001(\t\022\020\n\010StatName\030\005 \001(\t\022\035" +
+      "\n\010Settings\030d \003(\0132\013.NYql.TAttr\"\207\001\n\022TStatG" +
+      "atewayConfig\022\031\n\016GatewayThreads\030\001 \001(\r:\0010\022" +
+      "0\n\016ClusterMapping\030e \003(\0132\030.NYql.TStatClus" +
+      "terConfig\022$\n\017DefaultSettings\030f \003(\0132\013.NYq" +
+      "l.TAttr\"5\n\022TChytClusterConfig\022\014\n\004Name\030\001 " +
+      "\001(\t\022\021\n\tYtCluster\030\002 \001(\t\"F\n\022TChytGatewayCo",
+      "nfig\0220\n\016ClusterMapping\030\001 \003(\0132\030.NYql.TChy" +
+      "tClusterConfig\"m\n\025TSolomonClusterConfig\022" +
+      "\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\026\n\007Defaul" +
+      "t\030\003 \001(\010:\005false\022\035\n\010Settings\030d \003(\0132\013.NYql." +
+      "TAttr\"r\n\025TSolomonGatewayConfig\0223\n\016Cluste" +
+      "rMapping\030\001 \003(\0132\033.NYql.TSolomonClusterCon" +
+      "fig\022$\n\017DefaultSettings\030\002 \003(\0132\013.NYql.TAtt" +
+      "r\":\n\034TFileStorageAdditionalConfig\022\032\n\022All" +
+      "owedUrlPatterns\030\001 \003(\t\"J\n\030TPostgresqlClus" +
+      "terConfig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t",
+      "\022\017\n\007PGtoken\030\003 \001(\t\"R\n\030TPostgresqlGatewayC" +
+      "onfig\0226\n\016ClusterMapping\030\001 \003(\0132\036.NYql.TPo" +
+      "stgresqlClusterConfig\"H\n\023TMysqlClusterCo" +
+      "nfig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\022\n\nM" +
+      "ysqlToken\030\003 \001(\t\"H\n\023TMysqlGatewayConfig\0221" +
+      "\n\016ClusterMapping\030\001 \003(\0132\031.NYql.TMysqlClus" +
+      "terConfig\"\260\002\n\020TDqGatewayConfig\022 \n\025Defaul" +
+      "tAutoPercentage\030\001 \001(\r:\0010\022N\n\021DefaultAutoB" +
+      "yHour\030\002 \003(\01323.NYql.TDqGatewayConfig.TDef" +
+      "aultAutoByHourPercentage\022\035\n\025NoDefaultAut",
+      "oForUsers\030\003 \003(\t\022#\n\033DefaultAnalyzeQueryFo" +
+      "rUsers\030\004 \003(\t\022$\n\017DefaultSettings\030f \003(\0132\013." +
+      "NYql.TAttr\032@\n\034TDefaultAutoByHourPercenta" +
+      "ge\022\014\n\004Hour\030\001 \002(\r\022\022\n\nPercentage\030\002 \002(\r\"\'\n\t" +
+      "TCoreAttr\022\014\n\004Name\030\001 \002(\t\022\014\n\004Args\030\002 \003(\t\"0\n" +
+      "\016TYqlCoreConfig\022\036\n\005Flags\030\001 \003(\0132\017.NYql.TC" +
+      "oreAttr\"@\n\034TWarnAsErrorByHourPercentage\022" +
+      "\014\n\004Hour\030\001 \002(\r\022\022\n\nPercentage\030\002 \002(\r\"\274\001\n\016TS" +
+      "qlCoreConfig\022(\n\035V0SyntaxWarnAsErrorPerce" +
+      "ntage\030\001 \001(\r:\0010\022E\n\031V0SyntaxWarnAsErrorByH",
+      "our\030\002 \003(\0132\".NYql.TWarnAsErrorByHourPerce" +
+      "ntage\022\037\n\027NoV0SyntaxErrorForUsers\030\003 \003(\t\022\030" +
+      "\n\020TranslationFlags\030\004 \003(\t\"\267\005\n\017TGatewaysCo" +
+      "nfig\022\"\n\002Yt\030\001 \001(\0132\026.NYql.TYtGatewayConfig" +
+      "\022*\n\006Kikimr\030\002 \001(\0132\032.NYql.TKikimrGatewayCo" +
+      "nfig\0222\n\nClickHouse\030\003 \001(\0132\036.NYql.TClickHo" +
+      "useGatewayConfig\022&\n\004Rtmr\030\004 \001(\0132\030.NYql.TR" +
+      "tmrGatewayConfig\0220\n\tKikimrMvp\030\005 \001(\0132\035.NY" +
+      "ql.TKikimrMvpGatewayConfig\022&\n\004Stat\030\006 \001(\013" +
+      "2\030.NYql.TStatGatewayConfig\022&\n\004Chyt\030\007 \001(\013",
+      "2\030.NYql.TChytGatewayConfig\022,\n\007Solomon\030\010 " +
+      "\001(\0132\033.NYql.TSolomonGatewayConfig\022.\n\002Fs\030\t" +
+      " \001(\0132\".NYql.TFileStorageAdditionalConfig" +
+      "\022%\n\007YqlCore\030\n \001(\0132\024.NYql.TYqlCoreConfig\022" +
+      "2\n\nPostgresql\030\013 \001(\0132\036.NYql.TPostgresqlGa" +
+      "tewayConfig\022%\n\007SqlCore\030\014 \001(\0132\024.NYql.TSql" +
+      "CoreConfig\022\"\n\002Dq\030\r \001(\0132\026.NYql.TDqGateway" +
+      "Config\022(\n\005Mysql\030\016 \001(\0132\031.NYql.TMysqlGatew" +
+      "ayConfig\022$\n\003Ydb\030\017 \001(\0132\027.NYql.TYdbGateway" +
+      "Config\022\"\n\002Pq\030\020 \001(\0132\026.NYql.TPqGatewayConf",
+      "ig*Z\n\013EYtLogLevel\022\024\n\007YL_NONE\020\377\377\377\377\377\377\377\377\377\001\022" +
+      "\014\n\010YL_FATAL\020\000\022\014\n\010YL_ERROR\020\001\022\013\n\007YL_INFO\020\002" +
+      "\022\014\n\010YL_DEBUG\020\003*(\n\013EHostScheme\022\013\n\007HS_HTTP" +
+      "\020\000\022\014\n\010HS_HTTPS\020\001*?\n\nETokenType\022\007\n\003IAM\020\000\022" +
+      "\t\n\005OAUTH\020\001\022\014\n\010BLACKBOX\020\002\022\017\n\013CREDENTIALS\020" +
+      "\003*9\n\017EYfArtifactType\022\013\n\007AT_NONE\020\000\022\013\n\007AT_" +
+      "FILE\020\001\022\014\n\010AT_LAYER\020\002*e\n\022ERtmrOperationTy" +
+      "pe\022\013\n\007OT_NONE\020\000\022\017\n\013OT_LF_PARSE\020\001\022\016\n\nOT_Y" +
+      "DB_OUT\020\002\022\022\n\016OT_SOLOMON_OUT\020\003\022\r\n\tOT_PQ_OU" +
+      "T\020\004B\025\n\023ru.yandex.yql.proto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -54268,7 +54467,7 @@ public final class GatewaysConfig {
     internal_static_NYql_TPqClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TPqClusterConfig_descriptor,
-        new java.lang.String[] { "Name", "Endpoint", "ConfigManagerEndpoint", "Token", "Database", "TvmId", "Settings", });
+        new java.lang.String[] { "Name", "ClusterType", "Endpoint", "ConfigManagerEndpoint", "Token", "Database", "TvmId", "Settings", });
     internal_static_NYql_TPqGatewayConfig_descriptor =
       getDescriptor().getMessageTypes().get(20);
     internal_static_NYql_TPqGatewayConfig_fieldAccessorTable = new
