@@ -68,6 +68,7 @@ import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TransactionMode;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.utils.OperationParamUtils;
+import tech.ydb.table.utils.RequestSettingsUtils;
 import tech.ydb.table.values.ListValue;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
@@ -296,7 +297,7 @@ class SessionImpl implements Session {
             }
         }
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return tableRpc.createTable(request.build(), deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
@@ -323,7 +324,7 @@ class SessionImpl implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return tableRpc.dropTable(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
@@ -378,7 +379,7 @@ class SessionImpl implements Session {
             builder.setAlterPartitioningSettings(partitionSettingsBuilder);
         }
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return tableRpc.alterTable(builder.build(), deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
@@ -397,7 +398,7 @@ class SessionImpl implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return tableRpc.copyTable(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
@@ -417,7 +418,7 @@ class SessionImpl implements Session {
             .setIncludeShardKeyBounds(settings.isIncludeShardKeyBounds())
             .build();
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return tableRpc.describeTable(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
@@ -539,7 +540,7 @@ class SessionImpl implements Session {
                 .setKeepInCache(true);
         }
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return interceptResult(tableRpc.executeDataQuery(request.build(), deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
@@ -586,7 +587,7 @@ class SessionImpl implements Session {
                 .setKeepInCache(true);
         }
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return interceptResult(tableRpc.executeDataQuery(request.build(), deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
@@ -608,7 +609,7 @@ class SessionImpl implements Session {
             .setYqlText(query);
 
         final boolean keepInQueryCache = (queryCache != null) && settings.isKeepInQueryCache();
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return interceptResult(tableRpc.prepareDataQuery(request.build(), deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
@@ -638,7 +639,7 @@ class SessionImpl implements Session {
             .setYqlText(query)
             .build();
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return interceptStatus(tableRpc.executeSchemeQuery(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
@@ -656,7 +657,7 @@ class SessionImpl implements Session {
             .setYqlText(query)
             .build();
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return interceptResult(tableRpc.explainDataQuery(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
@@ -678,7 +679,7 @@ class SessionImpl implements Session {
             .setTxSettings(txSettings(transactionMode))
             .build();
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return interceptResult(tableRpc.beginTransaction(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
@@ -816,7 +817,7 @@ class SessionImpl implements Session {
             .setTxId(txId)
             .build();
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return interceptStatus(tableRpc.commitTransaction(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
@@ -834,7 +835,7 @@ class SessionImpl implements Session {
             .setTxId(txId)
             .build();
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return interceptStatus(tableRpc.rollbackTransaction(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
@@ -852,7 +853,7 @@ class SessionImpl implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return interceptResult(tableRpc.keepAlive(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
@@ -880,7 +881,7 @@ class SessionImpl implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
 
         return interceptStatus(tableRpc.bulkUpsert(request, deadlineAfter)
             .thenCompose(response -> {
@@ -924,7 +925,7 @@ class SessionImpl implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return interceptStatus(tableRpc.deleteSession(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
