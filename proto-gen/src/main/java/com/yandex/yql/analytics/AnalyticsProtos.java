@@ -15,6 +15,122 @@ public final class AnalyticsProtos {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
+   * Protobuf enum {@code Yql.Analytics.EVisibility}
+   */
+  public enum EVisibility
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>VISIBILITY_NONE = 0;</code>
+     */
+    VISIBILITY_NONE(0),
+    /**
+     * <code>VISIBILITY_PUBLIC = 1;</code>
+     */
+    VISIBILITY_PUBLIC(1),
+    /**
+     * <code>VISIBILITY_CLOUD = 2;</code>
+     */
+    VISIBILITY_CLOUD(2),
+    /**
+     * <code>VISIBILITY_FOLDER = 3;</code>
+     */
+    VISIBILITY_FOLDER(3),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>VISIBILITY_NONE = 0;</code>
+     */
+    public static final int VISIBILITY_NONE_VALUE = 0;
+    /**
+     * <code>VISIBILITY_PUBLIC = 1;</code>
+     */
+    public static final int VISIBILITY_PUBLIC_VALUE = 1;
+    /**
+     * <code>VISIBILITY_CLOUD = 2;</code>
+     */
+    public static final int VISIBILITY_CLOUD_VALUE = 2;
+    /**
+     * <code>VISIBILITY_FOLDER = 3;</code>
+     */
+    public static final int VISIBILITY_FOLDER_VALUE = 3;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static EVisibility valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static EVisibility forNumber(int value) {
+      switch (value) {
+        case 0: return VISIBILITY_NONE;
+        case 1: return VISIBILITY_PUBLIC;
+        case 2: return VISIBILITY_CLOUD;
+        case 3: return VISIBILITY_FOLDER;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<EVisibility>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        EVisibility> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<EVisibility>() {
+            public EVisibility findValueByNumber(int number) {
+              return EVisibility.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.yandex.yql.analytics.AnalyticsProtos.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final EVisibility[] VALUES = values();
+
+    public static EVisibility valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private EVisibility(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:Yql.Analytics.EVisibility)
+  }
+
+  /**
    * Protobuf enum {@code Yql.Analytics.EFieldType}
    */
   public enum EFieldType
@@ -95,7 +211,7 @@ public final class AnalyticsProtos {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.yandex.yql.analytics.AnalyticsProtos.getDescriptor().getEnumTypes().get(0);
+      return com.yandex.yql.analytics.AnalyticsProtos.getDescriptor().getEnumTypes().get(1);
     }
 
     private static final EFieldType[] VALUES = values();
@@ -220,7 +336,7 @@ public final class AnalyticsProtos {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.yandex.yql.analytics.AnalyticsProtos.getDescriptor().getEnumTypes().get(1);
+      return com.yandex.yql.analytics.AnalyticsProtos.getDescriptor().getEnumTypes().get(2);
     }
 
     private static final EExecuteMode[] VALUES = values();
@@ -345,7 +461,7 @@ public final class AnalyticsProtos {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.yandex.yql.analytics.AnalyticsProtos.getDescriptor().getEnumTypes().get(2);
+      return com.yandex.yql.analytics.AnalyticsProtos.getDescriptor().getEnumTypes().get(3);
     }
 
     private static final EQueryStatus[] VALUES = values();
@@ -3335,6 +3451,16 @@ public final class AnalyticsProtos {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <code>string cloud_id = 100;</code>
+     */
+    java.lang.String getCloudId();
+    /**
+     * <code>string cloud_id = 100;</code>
+     */
+    com.google.protobuf.ByteString
+        getCloudIdBytes();
+
+    /**
      * <code>string folder_id = 2;</code>
      */
     java.lang.String getFolderId();
@@ -3380,6 +3506,7 @@ public final class AnalyticsProtos {
       super(builder);
     }
     private GetConnectionsRequest() {
+      cloudId_ = "";
       folderId_ = "";
       name_ = "";
     }
@@ -3448,6 +3575,12 @@ public final class AnalyticsProtos {
                 filter_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 802: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              cloudId_ = s;
               break;
             }
           }
@@ -4017,6 +4150,40 @@ public final class AnalyticsProtos {
       return getOperationParams();
     }
 
+    public static final int CLOUD_ID_FIELD_NUMBER = 100;
+    private volatile java.lang.Object cloudId_;
+    /**
+     * <code>string cloud_id = 100;</code>
+     */
+    public java.lang.String getCloudId() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        cloudId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string cloud_id = 100;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCloudIdBytes() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        cloudId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     public static final int FOLDER_ID_FIELD_NUMBER = 2;
     private volatile java.lang.Object folderId_;
     /**
@@ -4130,6 +4297,9 @@ public final class AnalyticsProtos {
       if (filter_ != null) {
         output.writeMessage(4, getFilter());
       }
+      if (!getCloudIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 100, cloudId_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -4152,6 +4322,9 @@ public final class AnalyticsProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, getFilter());
       }
+      if (!getCloudIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, cloudId_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4173,6 +4346,8 @@ public final class AnalyticsProtos {
         result = result && getOperationParams()
             .equals(other.getOperationParams());
       }
+      result = result && getCloudId()
+          .equals(other.getCloudId());
       result = result && getFolderId()
           .equals(other.getFolderId());
       result = result && getName()
@@ -4197,6 +4372,8 @@ public final class AnalyticsProtos {
         hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
         hash = (53 * hash) + getOperationParams().hashCode();
       }
+      hash = (37 * hash) + CLOUD_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getCloudId().hashCode();
       hash = (37 * hash) + FOLDER_ID_FIELD_NUMBER;
       hash = (53 * hash) + getFolderId().hashCode();
       hash = (37 * hash) + NAME_FIELD_NUMBER;
@@ -4340,6 +4517,8 @@ public final class AnalyticsProtos {
           operationParams_ = null;
           operationParamsBuilder_ = null;
         }
+        cloudId_ = "";
+
         folderId_ = "";
 
         name_ = "";
@@ -4377,6 +4556,7 @@ public final class AnalyticsProtos {
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
+        result.cloudId_ = cloudId_;
         result.folderId_ = folderId_;
         result.name_ = name_;
         if (filterBuilder_ == null) {
@@ -4427,6 +4607,10 @@ public final class AnalyticsProtos {
         if (other == com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.getDefaultInstance()) return this;
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
+        }
+        if (!other.getCloudId().isEmpty()) {
+          cloudId_ = other.cloudId_;
+          onChanged();
         }
         if (!other.getFolderId().isEmpty()) {
           folderId_ = other.folderId_;
@@ -4581,6 +4765,75 @@ public final class AnalyticsProtos {
           operationParams_ = null;
         }
         return operationParamsBuilder_;
+      }
+
+      private java.lang.Object cloudId_ = "";
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public java.lang.String getCloudId() {
+        java.lang.Object ref = cloudId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          cloudId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCloudIdBytes() {
+        java.lang.Object ref = cloudId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cloudId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder setCloudId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        cloudId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder clearCloudId() {
+        
+        cloudId_ = getDefaultInstance().getCloudId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder setCloudIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        cloudId_ = value;
+        onChanged();
+        return this;
       }
 
       private java.lang.Object folderId_ = "";
@@ -4886,9 +5139,1252 @@ public final class AnalyticsProtos {
 
   }
 
+  public interface AclOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Yql.Analytics.Acl)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+     */
+    java.util.List<com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace> 
+        getAceList();
+    /**
+     * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+     */
+    com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace getAce(int index);
+    /**
+     * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+     */
+    int getAceCount();
+    /**
+     * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+     */
+    java.util.List<? extends com.yandex.yql.analytics.AnalyticsProtos.Acl.AceOrBuilder> 
+        getAceOrBuilderList();
+    /**
+     * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+     */
+    com.yandex.yql.analytics.AnalyticsProtos.Acl.AceOrBuilder getAceOrBuilder(
+        int index);
+
+    /**
+     * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+     */
+    int getVisibilityValue();
+    /**
+     * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+     */
+    com.yandex.yql.analytics.AnalyticsProtos.EVisibility getVisibility();
+  }
+  /**
+   * Protobuf type {@code Yql.Analytics.Acl}
+   */
+  public  static final class Acl extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Yql.Analytics.Acl)
+      AclOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use Acl.newBuilder() to construct.
+    private Acl(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Acl() {
+      ace_ = java.util.Collections.emptyList();
+      visibility_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Acl(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                ace_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              ace_.add(
+                  input.readMessage(com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.parser(), extensionRegistry));
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+
+              visibility_ = rawValue;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          ace_ = java.util.Collections.unmodifiableList(ace_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.yandex.yql.analytics.AnalyticsProtos.Acl.class, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder.class);
+    }
+
+    public interface AceOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Yql.Analytics.Acl.Ace)
+        com.google.protobuf.MessageOrBuilder {
+    }
+    /**
+     * Protobuf type {@code Yql.Analytics.Acl.Ace}
+     */
+    public  static final class Ace extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:Yql.Analytics.Acl.Ace)
+        AceOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use Ace.newBuilder() to construct.
+      private Ace(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private Ace() {
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Ace(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownFieldProto3(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_Ace_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_Ace_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.class, com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.Builder.class);
+      }
+
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        unknownFields.writeTo(output);
+      }
+
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace)) {
+          return super.equals(obj);
+        }
+        com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace other = (com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace) obj;
+
+        boolean result = true;
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code Yql.Analytics.Acl.Ace}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:Yql.Analytics.Acl.Ace)
+          com.yandex.yql.analytics.AnalyticsProtos.Acl.AceOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_Ace_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_Ace_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.class, com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.Builder.class);
+        }
+
+        // Construct using com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        public Builder clear() {
+          super.clear();
+          return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_Ace_descriptor;
+        }
+
+        public com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace getDefaultInstanceForType() {
+          return com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.getDefaultInstance();
+        }
+
+        public com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace build() {
+          com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace buildPartial() {
+          com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace result = new com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace(this);
+          onBuilt();
+          return result;
+        }
+
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace) {
+            return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace other) {
+          if (other == com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.getDefaultInstance()) return this;
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFieldsProto3(unknownFields);
+        }
+
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:Yql.Analytics.Acl.Ace)
+      }
+
+      // @@protoc_insertion_point(class_scope:Yql.Analytics.Acl.Ace)
+      private static final com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace();
+      }
+
+      public static com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<Ace>
+          PARSER = new com.google.protobuf.AbstractParser<Ace>() {
+        public Ace parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+            return new Ace(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<Ace> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Ace> getParserForType() {
+        return PARSER;
+      }
+
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    private int bitField0_;
+    public static final int ACE_FIELD_NUMBER = 1;
+    private java.util.List<com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace> ace_;
+    /**
+     * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+     */
+    public java.util.List<com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace> getAceList() {
+      return ace_;
+    }
+    /**
+     * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+     */
+    public java.util.List<? extends com.yandex.yql.analytics.AnalyticsProtos.Acl.AceOrBuilder> 
+        getAceOrBuilderList() {
+      return ace_;
+    }
+    /**
+     * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+     */
+    public int getAceCount() {
+      return ace_.size();
+    }
+    /**
+     * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+     */
+    public com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace getAce(int index) {
+      return ace_.get(index);
+    }
+    /**
+     * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+     */
+    public com.yandex.yql.analytics.AnalyticsProtos.Acl.AceOrBuilder getAceOrBuilder(
+        int index) {
+      return ace_.get(index);
+    }
+
+    public static final int VISIBILITY_FIELD_NUMBER = 2;
+    private int visibility_;
+    /**
+     * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+     */
+    public int getVisibilityValue() {
+      return visibility_;
+    }
+    /**
+     * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+     */
+    public com.yandex.yql.analytics.AnalyticsProtos.EVisibility getVisibility() {
+      com.yandex.yql.analytics.AnalyticsProtos.EVisibility result = com.yandex.yql.analytics.AnalyticsProtos.EVisibility.valueOf(visibility_);
+      return result == null ? com.yandex.yql.analytics.AnalyticsProtos.EVisibility.UNRECOGNIZED : result;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < ace_.size(); i++) {
+        output.writeMessage(1, ace_.get(i));
+      }
+      if (visibility_ != com.yandex.yql.analytics.AnalyticsProtos.EVisibility.VISIBILITY_NONE.getNumber()) {
+        output.writeEnum(2, visibility_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < ace_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, ace_.get(i));
+      }
+      if (visibility_ != com.yandex.yql.analytics.AnalyticsProtos.EVisibility.VISIBILITY_NONE.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, visibility_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.yandex.yql.analytics.AnalyticsProtos.Acl)) {
+        return super.equals(obj);
+      }
+      com.yandex.yql.analytics.AnalyticsProtos.Acl other = (com.yandex.yql.analytics.AnalyticsProtos.Acl) obj;
+
+      boolean result = true;
+      result = result && getAceList()
+          .equals(other.getAceList());
+      result = result && visibility_ == other.visibility_;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getAceCount() > 0) {
+        hash = (37 * hash) + ACE_FIELD_NUMBER;
+        hash = (53 * hash) + getAceList().hashCode();
+      }
+      hash = (37 * hash) + VISIBILITY_FIELD_NUMBER;
+      hash = (53 * hash) + visibility_;
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.yandex.yql.analytics.AnalyticsProtos.Acl parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.Acl parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.Acl parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.Acl parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.Acl parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.Acl parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.Acl parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.Acl parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.Acl parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.Acl parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.Acl parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.Acl parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.Acl prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Yql.Analytics.Acl}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Yql.Analytics.Acl)
+        com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.yql.analytics.AnalyticsProtos.Acl.class, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder.class);
+      }
+
+      // Construct using com.yandex.yql.analytics.AnalyticsProtos.Acl.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getAceFieldBuilder();
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (aceBuilder_ == null) {
+          ace_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          aceBuilder_.clear();
+        }
+        visibility_ = 0;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_descriptor;
+      }
+
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl getDefaultInstanceForType() {
+        return com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance();
+      }
+
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl build() {
+        com.yandex.yql.analytics.AnalyticsProtos.Acl result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl buildPartial() {
+        com.yandex.yql.analytics.AnalyticsProtos.Acl result = new com.yandex.yql.analytics.AnalyticsProtos.Acl(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (aceBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            ace_ = java.util.Collections.unmodifiableList(ace_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.ace_ = ace_;
+        } else {
+          result.ace_ = aceBuilder_.build();
+        }
+        result.visibility_ = visibility_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.Acl) {
+          return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.Acl)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.yandex.yql.analytics.AnalyticsProtos.Acl other) {
+        if (other == com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance()) return this;
+        if (aceBuilder_ == null) {
+          if (!other.ace_.isEmpty()) {
+            if (ace_.isEmpty()) {
+              ace_ = other.ace_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureAceIsMutable();
+              ace_.addAll(other.ace_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.ace_.isEmpty()) {
+            if (aceBuilder_.isEmpty()) {
+              aceBuilder_.dispose();
+              aceBuilder_ = null;
+              ace_ = other.ace_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              aceBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getAceFieldBuilder() : null;
+            } else {
+              aceBuilder_.addAllMessages(other.ace_);
+            }
+          }
+        }
+        if (other.visibility_ != 0) {
+          setVisibilityValue(other.getVisibilityValue());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.yandex.yql.analytics.AnalyticsProtos.Acl parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.yandex.yql.analytics.AnalyticsProtos.Acl) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace> ace_ =
+        java.util.Collections.emptyList();
+      private void ensureAceIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          ace_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace>(ace_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace, com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.Builder, com.yandex.yql.analytics.AnalyticsProtos.Acl.AceOrBuilder> aceBuilder_;
+
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public java.util.List<com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace> getAceList() {
+        if (aceBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(ace_);
+        } else {
+          return aceBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public int getAceCount() {
+        if (aceBuilder_ == null) {
+          return ace_.size();
+        } else {
+          return aceBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace getAce(int index) {
+        if (aceBuilder_ == null) {
+          return ace_.get(index);
+        } else {
+          return aceBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public Builder setAce(
+          int index, com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace value) {
+        if (aceBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAceIsMutable();
+          ace_.set(index, value);
+          onChanged();
+        } else {
+          aceBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public Builder setAce(
+          int index, com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.Builder builderForValue) {
+        if (aceBuilder_ == null) {
+          ensureAceIsMutable();
+          ace_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          aceBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public Builder addAce(com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace value) {
+        if (aceBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAceIsMutable();
+          ace_.add(value);
+          onChanged();
+        } else {
+          aceBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public Builder addAce(
+          int index, com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace value) {
+        if (aceBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAceIsMutable();
+          ace_.add(index, value);
+          onChanged();
+        } else {
+          aceBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public Builder addAce(
+          com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.Builder builderForValue) {
+        if (aceBuilder_ == null) {
+          ensureAceIsMutable();
+          ace_.add(builderForValue.build());
+          onChanged();
+        } else {
+          aceBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public Builder addAce(
+          int index, com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.Builder builderForValue) {
+        if (aceBuilder_ == null) {
+          ensureAceIsMutable();
+          ace_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          aceBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public Builder addAllAce(
+          java.lang.Iterable<? extends com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace> values) {
+        if (aceBuilder_ == null) {
+          ensureAceIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, ace_);
+          onChanged();
+        } else {
+          aceBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public Builder clearAce() {
+        if (aceBuilder_ == null) {
+          ace_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          aceBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public Builder removeAce(int index) {
+        if (aceBuilder_ == null) {
+          ensureAceIsMutable();
+          ace_.remove(index);
+          onChanged();
+        } else {
+          aceBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.Builder getAceBuilder(
+          int index) {
+        return getAceFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl.AceOrBuilder getAceOrBuilder(
+          int index) {
+        if (aceBuilder_ == null) {
+          return ace_.get(index);  } else {
+          return aceBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public java.util.List<? extends com.yandex.yql.analytics.AnalyticsProtos.Acl.AceOrBuilder> 
+           getAceOrBuilderList() {
+        if (aceBuilder_ != null) {
+          return aceBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(ace_);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.Builder addAceBuilder() {
+        return getAceFieldBuilder().addBuilder(
+            com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.Builder addAceBuilder(
+          int index) {
+        return getAceFieldBuilder().addBuilder(
+            index, com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
+       */
+      public java.util.List<com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.Builder> 
+           getAceBuilderList() {
+        return getAceFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace, com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.Builder, com.yandex.yql.analytics.AnalyticsProtos.Acl.AceOrBuilder> 
+          getAceFieldBuilder() {
+        if (aceBuilder_ == null) {
+          aceBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace, com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.Builder, com.yandex.yql.analytics.AnalyticsProtos.Acl.AceOrBuilder>(
+                  ace_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          ace_ = null;
+        }
+        return aceBuilder_;
+      }
+
+      private int visibility_ = 0;
+      /**
+       * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+       */
+      public int getVisibilityValue() {
+        return visibility_;
+      }
+      /**
+       * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+       */
+      public Builder setVisibilityValue(int value) {
+        visibility_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.EVisibility getVisibility() {
+        com.yandex.yql.analytics.AnalyticsProtos.EVisibility result = com.yandex.yql.analytics.AnalyticsProtos.EVisibility.valueOf(visibility_);
+        return result == null ? com.yandex.yql.analytics.AnalyticsProtos.EVisibility.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+       */
+      public Builder setVisibility(com.yandex.yql.analytics.AnalyticsProtos.EVisibility value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        visibility_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+       */
+      public Builder clearVisibility() {
+        
+        visibility_ = 0;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Yql.Analytics.Acl)
+    }
+
+    // @@protoc_insertion_point(class_scope:Yql.Analytics.Acl)
+    private static final com.yandex.yql.analytics.AnalyticsProtos.Acl DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.yandex.yql.analytics.AnalyticsProtos.Acl();
+    }
+
+    public static com.yandex.yql.analytics.AnalyticsProtos.Acl getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<Acl>
+        PARSER = new com.google.protobuf.AbstractParser<Acl>() {
+      public Acl parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Acl(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Acl> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Acl> getParserForType() {
+      return PARSER;
+    }
+
+    public com.yandex.yql.analytics.AnalyticsProtos.Acl getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface ConnectionEntityOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Yql.Analytics.ConnectionEntity)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string cloud_id = 100;</code>
+     */
+    java.lang.String getCloudId();
+    /**
+     * <code>string cloud_id = 100;</code>
+     */
+    com.google.protobuf.ByteString
+        getCloudIdBytes();
 
     /**
      * <code>string folder_id = 1;</code>
@@ -4962,14 +6458,17 @@ public final class AnalyticsProtos {
     com.yandex.yql.analytics.AnalyticsProtos.ConnectionOrBuilder getConnectionOrBuilder();
 
     /**
-     * <code>string acl = 7;</code>
+     * <code>.Yql.Analytics.Acl acl = 7;</code>
      */
-    java.lang.String getAcl();
+    boolean hasAcl();
     /**
-     * <code>string acl = 7;</code>
+     * <code>.Yql.Analytics.Acl acl = 7;</code>
      */
-    com.google.protobuf.ByteString
-        getAclBytes();
+    com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl();
+    /**
+     * <code>.Yql.Analytics.Acl acl = 7;</code>
+     */
+    com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder();
 
     /**
      * <code>.google.protobuf.Timestamp creation_time = 8;</code>
@@ -5015,12 +6514,12 @@ public final class AnalyticsProtos {
       super(builder);
     }
     private ConnectionEntity() {
+      cloudId_ = "";
       folderId_ = "";
       connectionId_ = "";
       createdBy_ = "";
       modifiedBy_ = "";
       name_ = "";
-      acl_ = "";
       isDeleted_ = false;
     }
 
@@ -5096,9 +6595,16 @@ public final class AnalyticsProtos {
               break;
             }
             case 58: {
-              java.lang.String s = input.readStringRequireUtf8();
+              com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder subBuilder = null;
+              if (acl_ != null) {
+                subBuilder = acl_.toBuilder();
+              }
+              acl_ = input.readMessage(com.yandex.yql.analytics.AnalyticsProtos.Acl.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(acl_);
+                acl_ = subBuilder.buildPartial();
+              }
 
-              acl_ = s;
               break;
             }
             case 66: {
@@ -5132,6 +6638,12 @@ public final class AnalyticsProtos {
               isDeleted_ = input.readBool();
               break;
             }
+            case 802: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              cloudId_ = s;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5154,6 +6666,40 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ConnectionEntity_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity.class, com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity.Builder.class);
+    }
+
+    public static final int CLOUD_ID_FIELD_NUMBER = 100;
+    private volatile java.lang.Object cloudId_;
+    /**
+     * <code>string cloud_id = 100;</code>
+     */
+    public java.lang.String getCloudId() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        cloudId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string cloud_id = 100;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCloudIdBytes() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        cloudId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int FOLDER_ID_FIELD_NUMBER = 1;
@@ -5356,37 +6902,24 @@ public final class AnalyticsProtos {
     }
 
     public static final int ACL_FIELD_NUMBER = 7;
-    private volatile java.lang.Object acl_;
+    private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
     /**
-     * <code>string acl = 7;</code>
+     * <code>.Yql.Analytics.Acl acl = 7;</code>
      */
-    public java.lang.String getAcl() {
-      java.lang.Object ref = acl_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        acl_ = s;
-        return s;
-      }
+    public boolean hasAcl() {
+      return acl_ != null;
     }
     /**
-     * <code>string acl = 7;</code>
+     * <code>.Yql.Analytics.Acl acl = 7;</code>
      */
-    public com.google.protobuf.ByteString
-        getAclBytes() {
-      java.lang.Object ref = acl_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        acl_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
+      return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
+    }
+    /**
+     * <code>.Yql.Analytics.Acl acl = 7;</code>
+     */
+    public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
+      return getAcl();
     }
 
     public static final int CREATION_TIME_FIELD_NUMBER = 8;
@@ -5470,8 +7003,8 @@ public final class AnalyticsProtos {
       if (connection_ != null) {
         output.writeMessage(6, getConnection());
       }
-      if (!getAclBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, acl_);
+      if (acl_ != null) {
+        output.writeMessage(7, getAcl());
       }
       if (creationTime_ != null) {
         output.writeMessage(8, getCreationTime());
@@ -5481,6 +7014,9 @@ public final class AnalyticsProtos {
       }
       if (isDeleted_ != false) {
         output.writeBool(10, isDeleted_);
+      }
+      if (!getCloudIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 100, cloudId_);
       }
       unknownFields.writeTo(output);
     }
@@ -5509,8 +7045,9 @@ public final class AnalyticsProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, getConnection());
       }
-      if (!getAclBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, acl_);
+      if (acl_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, getAcl());
       }
       if (creationTime_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -5523,6 +7060,9 @@ public final class AnalyticsProtos {
       if (isDeleted_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(10, isDeleted_);
+      }
+      if (!getCloudIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, cloudId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -5540,6 +7080,8 @@ public final class AnalyticsProtos {
       com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity other = (com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity) obj;
 
       boolean result = true;
+      result = result && getCloudId()
+          .equals(other.getCloudId());
       result = result && getFolderId()
           .equals(other.getFolderId());
       result = result && getConnectionId()
@@ -5555,8 +7097,11 @@ public final class AnalyticsProtos {
         result = result && getConnection()
             .equals(other.getConnection());
       }
-      result = result && getAcl()
-          .equals(other.getAcl());
+      result = result && (hasAcl() == other.hasAcl());
+      if (hasAcl()) {
+        result = result && getAcl()
+            .equals(other.getAcl());
+      }
       result = result && (hasCreationTime() == other.hasCreationTime());
       if (hasCreationTime()) {
         result = result && getCreationTime()
@@ -5580,6 +7125,8 @@ public final class AnalyticsProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + CLOUD_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getCloudId().hashCode();
       hash = (37 * hash) + FOLDER_ID_FIELD_NUMBER;
       hash = (53 * hash) + getFolderId().hashCode();
       hash = (37 * hash) + CONNECTION_ID_FIELD_NUMBER;
@@ -5594,8 +7141,10 @@ public final class AnalyticsProtos {
         hash = (37 * hash) + CONNECTION_FIELD_NUMBER;
         hash = (53 * hash) + getConnection().hashCode();
       }
-      hash = (37 * hash) + ACL_FIELD_NUMBER;
-      hash = (53 * hash) + getAcl().hashCode();
+      if (hasAcl()) {
+        hash = (37 * hash) + ACL_FIELD_NUMBER;
+        hash = (53 * hash) + getAcl().hashCode();
+      }
       if (hasCreationTime()) {
         hash = (37 * hash) + CREATION_TIME_FIELD_NUMBER;
         hash = (53 * hash) + getCreationTime().hashCode();
@@ -5736,6 +7285,8 @@ public final class AnalyticsProtos {
       }
       public Builder clear() {
         super.clear();
+        cloudId_ = "";
+
         folderId_ = "";
 
         connectionId_ = "";
@@ -5752,8 +7303,12 @@ public final class AnalyticsProtos {
           connection_ = null;
           connectionBuilder_ = null;
         }
-        acl_ = "";
-
+        if (aclBuilder_ == null) {
+          acl_ = null;
+        } else {
+          acl_ = null;
+          aclBuilder_ = null;
+        }
         if (creationTimeBuilder_ == null) {
           creationTime_ = null;
         } else {
@@ -5790,6 +7345,7 @@ public final class AnalyticsProtos {
 
       public com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity result = new com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity(this);
+        result.cloudId_ = cloudId_;
         result.folderId_ = folderId_;
         result.connectionId_ = connectionId_;
         result.createdBy_ = createdBy_;
@@ -5800,7 +7356,11 @@ public final class AnalyticsProtos {
         } else {
           result.connection_ = connectionBuilder_.build();
         }
-        result.acl_ = acl_;
+        if (aclBuilder_ == null) {
+          result.acl_ = acl_;
+        } else {
+          result.acl_ = aclBuilder_.build();
+        }
         if (creationTimeBuilder_ == null) {
           result.creationTime_ = creationTime_;
         } else {
@@ -5853,6 +7413,10 @@ public final class AnalyticsProtos {
 
       public Builder mergeFrom(com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity other) {
         if (other == com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity.getDefaultInstance()) return this;
+        if (!other.getCloudId().isEmpty()) {
+          cloudId_ = other.cloudId_;
+          onChanged();
+        }
         if (!other.getFolderId().isEmpty()) {
           folderId_ = other.folderId_;
           onChanged();
@@ -5876,9 +7440,8 @@ public final class AnalyticsProtos {
         if (other.hasConnection()) {
           mergeConnection(other.getConnection());
         }
-        if (!other.getAcl().isEmpty()) {
-          acl_ = other.acl_;
-          onChanged();
+        if (other.hasAcl()) {
+          mergeAcl(other.getAcl());
         }
         if (other.hasCreationTime()) {
           mergeCreationTime(other.getCreationTime());
@@ -5913,6 +7476,75 @@ public final class AnalyticsProtos {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+
+      private java.lang.Object cloudId_ = "";
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public java.lang.String getCloudId() {
+        java.lang.Object ref = cloudId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          cloudId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCloudIdBytes() {
+        java.lang.Object ref = cloudId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cloudId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder setCloudId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        cloudId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder clearCloudId() {
+        
+        cloudId_ = getDefaultInstance().getCloudId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder setCloudIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        cloudId_ = value;
+        onChanged();
         return this;
       }
 
@@ -6398,73 +8030,121 @@ public final class AnalyticsProtos {
         return connectionBuilder_;
       }
 
-      private java.lang.Object acl_ = "";
+      private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> aclBuilder_;
       /**
-       * <code>string acl = 7;</code>
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
-      public java.lang.String getAcl() {
-        java.lang.Object ref = acl_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          acl_ = s;
-          return s;
+      public boolean hasAcl() {
+        return aclBuilder_ != null || acl_ != null;
+      }
+      /**
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
+        if (aclBuilder_ == null) {
+          return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
         } else {
-          return (java.lang.String) ref;
+          return aclBuilder_.getMessage();
         }
       }
       /**
-       * <code>string acl = 7;</code>
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
-      public com.google.protobuf.ByteString
-          getAclBytes() {
-        java.lang.Object ref = acl_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          acl_ = b;
-          return b;
+      public Builder setAcl(com.yandex.yql.analytics.AnalyticsProtos.Acl value) {
+        if (aclBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          acl_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          aclBuilder_.setMessage(value);
         }
+
+        return this;
       }
       /**
-       * <code>string acl = 7;</code>
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
       public Builder setAcl(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        acl_ = value;
-        onChanged();
+          com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder builderForValue) {
+        if (aclBuilder_ == null) {
+          acl_ = builderForValue.build();
+          onChanged();
+        } else {
+          aclBuilder_.setMessage(builderForValue.build());
+        }
+
         return this;
       }
       /**
-       * <code>string acl = 7;</code>
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
+       */
+      public Builder mergeAcl(com.yandex.yql.analytics.AnalyticsProtos.Acl value) {
+        if (aclBuilder_ == null) {
+          if (acl_ != null) {
+            acl_ =
+              com.yandex.yql.analytics.AnalyticsProtos.Acl.newBuilder(acl_).mergeFrom(value).buildPartial();
+          } else {
+            acl_ = value;
+          }
+          onChanged();
+        } else {
+          aclBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
       public Builder clearAcl() {
-        
-        acl_ = getDefaultInstance().getAcl();
-        onChanged();
+        if (aclBuilder_ == null) {
+          acl_ = null;
+          onChanged();
+        } else {
+          acl_ = null;
+          aclBuilder_ = null;
+        }
+
         return this;
       }
       /**
-       * <code>string acl = 7;</code>
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
-      public Builder setAclBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder getAclBuilder() {
         
-        acl_ = value;
         onChanged();
-        return this;
+        return getAclFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
+        if (aclBuilder_ != null) {
+          return aclBuilder_.getMessageOrBuilder();
+        } else {
+          return acl_ == null ?
+              com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
+        }
+      }
+      /**
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> 
+          getAclFieldBuilder() {
+        if (aclBuilder_ == null) {
+          aclBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder>(
+                  getAcl(),
+                  getParentForChildren(),
+                  isClean());
+          acl_ = null;
+        }
+        return aclBuilder_;
       }
 
       private com.google.protobuf.Timestamp creationTime_ = null;
@@ -10339,6 +12019,16 @@ public final class AnalyticsProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <code>string cloud_id = 100;</code>
+     */
+    java.lang.String getCloudId();
+    /**
+     * <code>string cloud_id = 100;</code>
+     */
+    com.google.protobuf.ByteString
+        getCloudIdBytes();
+
+    /**
      * <code>string folder_id = 1;</code>
      */
     java.lang.String getFolderId();
@@ -10389,6 +12079,7 @@ public final class AnalyticsProtos {
       super(builder);
     }
     private GetQueriesRequest() {
+      cloudId_ = "";
       folderId_ = "";
       continuationToken_ = "";
       limit_ = 0;
@@ -10450,6 +12141,12 @@ public final class AnalyticsProtos {
                 filter_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 802: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              cloudId_ = s;
               break;
             }
           }
@@ -11081,6 +12778,40 @@ public final class AnalyticsProtos {
 
     }
 
+    public static final int CLOUD_ID_FIELD_NUMBER = 100;
+    private volatile java.lang.Object cloudId_;
+    /**
+     * <code>string cloud_id = 100;</code>
+     */
+    public java.lang.String getCloudId() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        cloudId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string cloud_id = 100;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCloudIdBytes() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        cloudId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     public static final int FOLDER_ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object folderId_;
     /**
@@ -11203,6 +12934,9 @@ public final class AnalyticsProtos {
       if (filter_ != null) {
         output.writeMessage(4, getFilter());
       }
+      if (!getCloudIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 100, cloudId_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -11225,6 +12959,9 @@ public final class AnalyticsProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, getFilter());
       }
+      if (!getCloudIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, cloudId_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -11241,6 +12978,8 @@ public final class AnalyticsProtos {
       com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest other = (com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest) obj;
 
       boolean result = true;
+      result = result && getCloudId()
+          .equals(other.getCloudId());
       result = result && getFolderId()
           .equals(other.getFolderId());
       result = result && getContinuationToken()
@@ -11263,6 +13002,8 @@ public final class AnalyticsProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + CLOUD_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getCloudId().hashCode();
       hash = (37 * hash) + FOLDER_ID_FIELD_NUMBER;
       hash = (53 * hash) + getFolderId().hashCode();
       hash = (37 * hash) + CONTINUATION_TOKEN_FIELD_NUMBER;
@@ -11402,6 +13143,8 @@ public final class AnalyticsProtos {
       }
       public Builder clear() {
         super.clear();
+        cloudId_ = "";
+
         folderId_ = "";
 
         continuationToken_ = "";
@@ -11436,6 +13179,7 @@ public final class AnalyticsProtos {
 
       public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest result = new com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest(this);
+        result.cloudId_ = cloudId_;
         result.folderId_ = folderId_;
         result.continuationToken_ = continuationToken_;
         result.limit_ = limit_;
@@ -11485,6 +13229,10 @@ public final class AnalyticsProtos {
 
       public Builder mergeFrom(com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest other) {
         if (other == com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.getDefaultInstance()) return this;
+        if (!other.getCloudId().isEmpty()) {
+          cloudId_ = other.cloudId_;
+          onChanged();
+        }
         if (!other.getFolderId().isEmpty()) {
           folderId_ = other.folderId_;
           onChanged();
@@ -11523,6 +13271,75 @@ public final class AnalyticsProtos {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+
+      private java.lang.Object cloudId_ = "";
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public java.lang.String getCloudId() {
+        java.lang.Object ref = cloudId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          cloudId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCloudIdBytes() {
+        java.lang.Object ref = cloudId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cloudId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder setCloudId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        cloudId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder clearCloudId() {
+        
+        cloudId_ = getDefaultInstance().getCloudId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder setCloudIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        cloudId_ = value;
+        onChanged();
         return this;
       }
 
@@ -12043,6 +13860,16 @@ public final class AnalyticsProtos {
           getNameBytes();
 
       /**
+       * <code>string cloud_id = 100;</code>
+       */
+      java.lang.String getCloudId();
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      com.google.protobuf.ByteString
+          getCloudIdBytes();
+
+      /**
        * <code>string folder_id = 6;</code>
        */
       java.lang.String getFolderId();
@@ -12053,14 +13880,17 @@ public final class AnalyticsProtos {
           getFolderIdBytes();
 
       /**
-       * <code>string acl = 7;</code>
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
-      java.lang.String getAcl();
+      boolean hasAcl();
       /**
-       * <code>string acl = 7;</code>
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
-      com.google.protobuf.ByteString
-          getAclBytes();
+      com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl();
+      /**
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
+       */
+      com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder();
 
       /**
        * <code>int64 rows_limit = 8;</code>
@@ -12116,8 +13946,8 @@ public final class AnalyticsProtos {
         createdBy_ = "";
         modifiedBy_ = "";
         name_ = "";
+        cloudId_ = "";
         folderId_ = "";
-        acl_ = "";
         rowsLimit_ = 0L;
         bytesLimit_ = 0L;
       }
@@ -12187,9 +14017,16 @@ public final class AnalyticsProtos {
                 break;
               }
               case 58: {
-                java.lang.String s = input.readStringRequireUtf8();
+                com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder subBuilder = null;
+                if (acl_ != null) {
+                  subBuilder = acl_.toBuilder();
+                }
+                acl_ = input.readMessage(com.yandex.yql.analytics.AnalyticsProtos.Acl.parser(), extensionRegistry);
+                if (subBuilder != null) {
+                  subBuilder.mergeFrom(acl_);
+                  acl_ = subBuilder.buildPartial();
+                }
 
-                acl_ = s;
                 break;
               }
               case 64: {
@@ -12226,6 +14063,12 @@ public final class AnalyticsProtos {
                   modificationTime_ = subBuilder.buildPartial();
                 }
 
+                break;
+              }
+              case 802: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                cloudId_ = s;
                 break;
               }
             }
@@ -12430,6 +14273,40 @@ public final class AnalyticsProtos {
         }
       }
 
+      public static final int CLOUD_ID_FIELD_NUMBER = 100;
+      private volatile java.lang.Object cloudId_;
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public java.lang.String getCloudId() {
+        java.lang.Object ref = cloudId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          cloudId_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCloudIdBytes() {
+        java.lang.Object ref = cloudId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cloudId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
       public static final int FOLDER_ID_FIELD_NUMBER = 6;
       private volatile java.lang.Object folderId_;
       /**
@@ -12465,37 +14342,24 @@ public final class AnalyticsProtos {
       }
 
       public static final int ACL_FIELD_NUMBER = 7;
-      private volatile java.lang.Object acl_;
+      private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
       /**
-       * <code>string acl = 7;</code>
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
-      public java.lang.String getAcl() {
-        java.lang.Object ref = acl_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          acl_ = s;
-          return s;
-        }
+      public boolean hasAcl() {
+        return acl_ != null;
       }
       /**
-       * <code>string acl = 7;</code>
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
-      public com.google.protobuf.ByteString
-          getAclBytes() {
-        java.lang.Object ref = acl_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          acl_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
+        return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
+      }
+      /**
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
+        return getAcl();
       }
 
       public static final int ROWS_LIMIT_FIELD_NUMBER = 8;
@@ -12588,8 +14452,8 @@ public final class AnalyticsProtos {
         if (!getFolderIdBytes().isEmpty()) {
           com.google.protobuf.GeneratedMessageV3.writeString(output, 6, folderId_);
         }
-        if (!getAclBytes().isEmpty()) {
-          com.google.protobuf.GeneratedMessageV3.writeString(output, 7, acl_);
+        if (acl_ != null) {
+          output.writeMessage(7, getAcl());
         }
         if (rowsLimit_ != 0L) {
           output.writeInt64(8, rowsLimit_);
@@ -12602,6 +14466,9 @@ public final class AnalyticsProtos {
         }
         if (modificationTime_ != null) {
           output.writeMessage(11, getModificationTime());
+        }
+        if (!getCloudIdBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 100, cloudId_);
         }
         unknownFields.writeTo(output);
       }
@@ -12629,8 +14496,9 @@ public final class AnalyticsProtos {
         if (!getFolderIdBytes().isEmpty()) {
           size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, folderId_);
         }
-        if (!getAclBytes().isEmpty()) {
-          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, acl_);
+        if (acl_ != null) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(7, getAcl());
         }
         if (rowsLimit_ != 0L) {
           size += com.google.protobuf.CodedOutputStream
@@ -12647,6 +14515,9 @@ public final class AnalyticsProtos {
         if (modificationTime_ != null) {
           size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(11, getModificationTime());
+        }
+        if (!getCloudIdBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, cloudId_);
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -12674,10 +14545,15 @@ public final class AnalyticsProtos {
             .equals(other.getModifiedBy());
         result = result && getName()
             .equals(other.getName());
+        result = result && getCloudId()
+            .equals(other.getCloudId());
         result = result && getFolderId()
             .equals(other.getFolderId());
-        result = result && getAcl()
-            .equals(other.getAcl());
+        result = result && (hasAcl() == other.hasAcl());
+        if (hasAcl()) {
+          result = result && getAcl()
+              .equals(other.getAcl());
+        }
         result = result && (getRowsLimit()
             == other.getRowsLimit());
         result = result && (getBytesLimit()
@@ -12713,10 +14589,14 @@ public final class AnalyticsProtos {
         hash = (53 * hash) + getModifiedBy().hashCode();
         hash = (37 * hash) + NAME_FIELD_NUMBER;
         hash = (53 * hash) + getName().hashCode();
+        hash = (37 * hash) + CLOUD_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getCloudId().hashCode();
         hash = (37 * hash) + FOLDER_ID_FIELD_NUMBER;
         hash = (53 * hash) + getFolderId().hashCode();
-        hash = (37 * hash) + ACL_FIELD_NUMBER;
-        hash = (53 * hash) + getAcl().hashCode();
+        if (hasAcl()) {
+          hash = (37 * hash) + ACL_FIELD_NUMBER;
+          hash = (53 * hash) + getAcl().hashCode();
+        }
         hash = (37 * hash) + ROWS_LIMIT_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
             getRowsLimit());
@@ -12870,10 +14750,16 @@ public final class AnalyticsProtos {
 
           name_ = "";
 
+          cloudId_ = "";
+
           folderId_ = "";
 
-          acl_ = "";
-
+          if (aclBuilder_ == null) {
+            acl_ = null;
+          } else {
+            acl_ = null;
+            aclBuilder_ = null;
+          }
           rowsLimit_ = 0L;
 
           bytesLimit_ = 0L;
@@ -12917,8 +14803,13 @@ public final class AnalyticsProtos {
           result.createdBy_ = createdBy_;
           result.modifiedBy_ = modifiedBy_;
           result.name_ = name_;
+          result.cloudId_ = cloudId_;
           result.folderId_ = folderId_;
-          result.acl_ = acl_;
+          if (aclBuilder_ == null) {
+            result.acl_ = acl_;
+          } else {
+            result.acl_ = aclBuilder_.build();
+          }
           result.rowsLimit_ = rowsLimit_;
           result.bytesLimit_ = bytesLimit_;
           if (creationTimeBuilder_ == null) {
@@ -12992,13 +14883,16 @@ public final class AnalyticsProtos {
             name_ = other.name_;
             onChanged();
           }
+          if (!other.getCloudId().isEmpty()) {
+            cloudId_ = other.cloudId_;
+            onChanged();
+          }
           if (!other.getFolderId().isEmpty()) {
             folderId_ = other.folderId_;
             onChanged();
           }
-          if (!other.getAcl().isEmpty()) {
-            acl_ = other.acl_;
-            onChanged();
+          if (other.hasAcl()) {
+            mergeAcl(other.getAcl());
           }
           if (other.getRowsLimit() != 0L) {
             setRowsLimit(other.getRowsLimit());
@@ -13404,6 +15298,75 @@ public final class AnalyticsProtos {
           return this;
         }
 
+        private java.lang.Object cloudId_ = "";
+        /**
+         * <code>string cloud_id = 100;</code>
+         */
+        public java.lang.String getCloudId() {
+          java.lang.Object ref = cloudId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            cloudId_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string cloud_id = 100;</code>
+         */
+        public com.google.protobuf.ByteString
+            getCloudIdBytes() {
+          java.lang.Object ref = cloudId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            cloudId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string cloud_id = 100;</code>
+         */
+        public Builder setCloudId(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          cloudId_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string cloud_id = 100;</code>
+         */
+        public Builder clearCloudId() {
+          
+          cloudId_ = getDefaultInstance().getCloudId();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string cloud_id = 100;</code>
+         */
+        public Builder setCloudIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          cloudId_ = value;
+          onChanged();
+          return this;
+        }
+
         private java.lang.Object folderId_ = "";
         /**
          * <code>string folder_id = 6;</code>
@@ -13473,73 +15436,121 @@ public final class AnalyticsProtos {
           return this;
         }
 
-        private java.lang.Object acl_ = "";
+        private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_ = null;
+        private com.google.protobuf.SingleFieldBuilderV3<
+            com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> aclBuilder_;
         /**
-         * <code>string acl = 7;</code>
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
          */
-        public java.lang.String getAcl() {
-          java.lang.Object ref = acl_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            acl_ = s;
-            return s;
+        public boolean hasAcl() {
+          return aclBuilder_ != null || acl_ != null;
+        }
+        /**
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
+         */
+        public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
+          if (aclBuilder_ == null) {
+            return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
           } else {
-            return (java.lang.String) ref;
+            return aclBuilder_.getMessage();
           }
         }
         /**
-         * <code>string acl = 7;</code>
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
          */
-        public com.google.protobuf.ByteString
-            getAclBytes() {
-          java.lang.Object ref = acl_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            acl_ = b;
-            return b;
+        public Builder setAcl(com.yandex.yql.analytics.AnalyticsProtos.Acl value) {
+          if (aclBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            acl_ = value;
+            onChanged();
           } else {
-            return (com.google.protobuf.ByteString) ref;
+            aclBuilder_.setMessage(value);
           }
+
+          return this;
         }
         /**
-         * <code>string acl = 7;</code>
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
          */
         public Builder setAcl(
-            java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  
-          acl_ = value;
-          onChanged();
+            com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder builderForValue) {
+          if (aclBuilder_ == null) {
+            acl_ = builderForValue.build();
+            onChanged();
+          } else {
+            aclBuilder_.setMessage(builderForValue.build());
+          }
+
           return this;
         }
         /**
-         * <code>string acl = 7;</code>
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
+         */
+        public Builder mergeAcl(com.yandex.yql.analytics.AnalyticsProtos.Acl value) {
+          if (aclBuilder_ == null) {
+            if (acl_ != null) {
+              acl_ =
+                com.yandex.yql.analytics.AnalyticsProtos.Acl.newBuilder(acl_).mergeFrom(value).buildPartial();
+            } else {
+              acl_ = value;
+            }
+            onChanged();
+          } else {
+            aclBuilder_.mergeFrom(value);
+          }
+
+          return this;
+        }
+        /**
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
          */
         public Builder clearAcl() {
-          
-          acl_ = getDefaultInstance().getAcl();
-          onChanged();
+          if (aclBuilder_ == null) {
+            acl_ = null;
+            onChanged();
+          } else {
+            acl_ = null;
+            aclBuilder_ = null;
+          }
+
           return this;
         }
         /**
-         * <code>string acl = 7;</code>
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
          */
-        public Builder setAclBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+        public com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder getAclBuilder() {
           
-          acl_ = value;
           onChanged();
-          return this;
+          return getAclFieldBuilder().getBuilder();
+        }
+        /**
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
+         */
+        public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
+          if (aclBuilder_ != null) {
+            return aclBuilder_.getMessageOrBuilder();
+          } else {
+            return acl_ == null ?
+                com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
+          }
+        }
+        /**
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilderV3<
+            com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> 
+            getAclFieldBuilder() {
+          if (aclBuilder_ == null) {
+            aclBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder>(
+                    getAcl(),
+                    getParentForChildren(),
+                    isClean());
+            acl_ = null;
+          }
+          return aclBuilder_;
         }
 
         private long rowsLimit_ ;
@@ -14672,6 +16683,24 @@ public final class AnalyticsProtos {
      * ro
      * </pre>
      *
+     * <code>string cloud_id = 100;</code>
+     */
+    java.lang.String getCloudId();
+    /**
+     * <pre>
+     * ro
+     * </pre>
+     *
+     * <code>string cloud_id = 100;</code>
+     */
+    com.google.protobuf.ByteString
+        getCloudIdBytes();
+
+    /**
+     * <pre>
+     * ro
+     * </pre>
+     *
      * <code>string folder_id = 2;</code>
      */
     java.lang.String getFolderId();
@@ -14706,14 +16735,17 @@ public final class AnalyticsProtos {
         getNameBytes();
 
     /**
-     * <code>string acl = 6;</code>
+     * <code>.Yql.Analytics.Acl acl = 6;</code>
      */
-    java.lang.String getAcl();
+    boolean hasAcl();
     /**
-     * <code>string acl = 6;</code>
+     * <code>.Yql.Analytics.Acl acl = 6;</code>
      */
-    com.google.protobuf.ByteString
-        getAclBytes();
+    com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl();
+    /**
+     * <code>.Yql.Analytics.Acl acl = 6;</code>
+     */
+    com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder();
 
     /**
      * <code>int64 rows_limit = 7;</code>
@@ -14744,10 +16776,10 @@ public final class AnalyticsProtos {
     }
     private ModifyQueryRequest() {
       id_ = "";
+      cloudId_ = "";
       folderId_ = "";
       sql_ = "";
       name_ = "";
-      acl_ = "";
       rowsLimit_ = 0L;
       bytesLimit_ = 0L;
       isDeleted_ = false;
@@ -14806,9 +16838,16 @@ public final class AnalyticsProtos {
               break;
             }
             case 50: {
-              java.lang.String s = input.readStringRequireUtf8();
+              com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder subBuilder = null;
+              if (acl_ != null) {
+                subBuilder = acl_.toBuilder();
+              }
+              acl_ = input.readMessage(com.yandex.yql.analytics.AnalyticsProtos.Acl.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(acl_);
+                acl_ = subBuilder.buildPartial();
+              }
 
-              acl_ = s;
               break;
             }
             case 56: {
@@ -14824,6 +16863,12 @@ public final class AnalyticsProtos {
             case 72: {
 
               isDeleted_ = input.readBool();
+              break;
+            }
+            case 802: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              cloudId_ = s;
               break;
             }
           }
@@ -14886,6 +16931,48 @@ public final class AnalyticsProtos {
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CLOUD_ID_FIELD_NUMBER = 100;
+    private volatile java.lang.Object cloudId_;
+    /**
+     * <pre>
+     * ro
+     * </pre>
+     *
+     * <code>string cloud_id = 100;</code>
+     */
+    public java.lang.String getCloudId() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        cloudId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * ro
+     * </pre>
+     *
+     * <code>string cloud_id = 100;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCloudIdBytes() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        cloudId_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -15003,37 +17090,24 @@ public final class AnalyticsProtos {
     }
 
     public static final int ACL_FIELD_NUMBER = 6;
-    private volatile java.lang.Object acl_;
+    private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
     /**
-     * <code>string acl = 6;</code>
+     * <code>.Yql.Analytics.Acl acl = 6;</code>
      */
-    public java.lang.String getAcl() {
-      java.lang.Object ref = acl_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        acl_ = s;
-        return s;
-      }
+    public boolean hasAcl() {
+      return acl_ != null;
     }
     /**
-     * <code>string acl = 6;</code>
+     * <code>.Yql.Analytics.Acl acl = 6;</code>
      */
-    public com.google.protobuf.ByteString
-        getAclBytes() {
-      java.lang.Object ref = acl_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        acl_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
+      return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
+    }
+    /**
+     * <code>.Yql.Analytics.Acl acl = 6;</code>
+     */
+    public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
+      return getAcl();
     }
 
     public static final int ROWS_LIMIT_FIELD_NUMBER = 7;
@@ -15087,8 +17161,8 @@ public final class AnalyticsProtos {
       if (!getNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, name_);
       }
-      if (!getAclBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, acl_);
+      if (acl_ != null) {
+        output.writeMessage(6, getAcl());
       }
       if (rowsLimit_ != 0L) {
         output.writeInt64(7, rowsLimit_);
@@ -15098,6 +17172,9 @@ public final class AnalyticsProtos {
       }
       if (isDeleted_ != false) {
         output.writeBool(9, isDeleted_);
+      }
+      if (!getCloudIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 100, cloudId_);
       }
       unknownFields.writeTo(output);
     }
@@ -15119,8 +17196,9 @@ public final class AnalyticsProtos {
       if (!getNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, name_);
       }
-      if (!getAclBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, acl_);
+      if (acl_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, getAcl());
       }
       if (rowsLimit_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
@@ -15133,6 +17211,9 @@ public final class AnalyticsProtos {
       if (isDeleted_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(9, isDeleted_);
+      }
+      if (!getCloudIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, cloudId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -15152,14 +17233,19 @@ public final class AnalyticsProtos {
       boolean result = true;
       result = result && getId()
           .equals(other.getId());
+      result = result && getCloudId()
+          .equals(other.getCloudId());
       result = result && getFolderId()
           .equals(other.getFolderId());
       result = result && getSql()
           .equals(other.getSql());
       result = result && getName()
           .equals(other.getName());
-      result = result && getAcl()
-          .equals(other.getAcl());
+      result = result && (hasAcl() == other.hasAcl());
+      if (hasAcl()) {
+        result = result && getAcl()
+            .equals(other.getAcl());
+      }
       result = result && (getRowsLimit()
           == other.getRowsLimit());
       result = result && (getBytesLimit()
@@ -15179,14 +17265,18 @@ public final class AnalyticsProtos {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + getId().hashCode();
+      hash = (37 * hash) + CLOUD_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getCloudId().hashCode();
       hash = (37 * hash) + FOLDER_ID_FIELD_NUMBER;
       hash = (53 * hash) + getFolderId().hashCode();
       hash = (37 * hash) + SQL_FIELD_NUMBER;
       hash = (53 * hash) + getSql().hashCode();
       hash = (37 * hash) + NAME_FIELD_NUMBER;
       hash = (53 * hash) + getName().hashCode();
-      hash = (37 * hash) + ACL_FIELD_NUMBER;
-      hash = (53 * hash) + getAcl().hashCode();
+      if (hasAcl()) {
+        hash = (37 * hash) + ACL_FIELD_NUMBER;
+        hash = (53 * hash) + getAcl().hashCode();
+      }
       hash = (37 * hash) + ROWS_LIMIT_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getRowsLimit());
@@ -15327,14 +17417,20 @@ public final class AnalyticsProtos {
         super.clear();
         id_ = "";
 
+        cloudId_ = "";
+
         folderId_ = "";
 
         sql_ = "";
 
         name_ = "";
 
-        acl_ = "";
-
+        if (aclBuilder_ == null) {
+          acl_ = null;
+        } else {
+          acl_ = null;
+          aclBuilder_ = null;
+        }
         rowsLimit_ = 0L;
 
         bytesLimit_ = 0L;
@@ -15364,10 +17460,15 @@ public final class AnalyticsProtos {
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest result = new com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest(this);
         result.id_ = id_;
+        result.cloudId_ = cloudId_;
         result.folderId_ = folderId_;
         result.sql_ = sql_;
         result.name_ = name_;
-        result.acl_ = acl_;
+        if (aclBuilder_ == null) {
+          result.acl_ = acl_;
+        } else {
+          result.acl_ = aclBuilder_.build();
+        }
         result.rowsLimit_ = rowsLimit_;
         result.bytesLimit_ = bytesLimit_;
         result.isDeleted_ = isDeleted_;
@@ -15416,6 +17517,10 @@ public final class AnalyticsProtos {
           id_ = other.id_;
           onChanged();
         }
+        if (!other.getCloudId().isEmpty()) {
+          cloudId_ = other.cloudId_;
+          onChanged();
+        }
         if (!other.getFolderId().isEmpty()) {
           folderId_ = other.folderId_;
           onChanged();
@@ -15428,9 +17533,8 @@ public final class AnalyticsProtos {
           name_ = other.name_;
           onChanged();
         }
-        if (!other.getAcl().isEmpty()) {
-          acl_ = other.acl_;
-          onChanged();
+        if (other.hasAcl()) {
+          mergeAcl(other.getAcl());
         }
         if (other.getRowsLimit() != 0L) {
           setRowsLimit(other.getRowsLimit());
@@ -15553,6 +17657,95 @@ public final class AnalyticsProtos {
   checkByteStringIsUtf8(value);
         
         id_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object cloudId_ = "";
+      /**
+       * <pre>
+       * ro
+       * </pre>
+       *
+       * <code>string cloud_id = 100;</code>
+       */
+      public java.lang.String getCloudId() {
+        java.lang.Object ref = cloudId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          cloudId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * ro
+       * </pre>
+       *
+       * <code>string cloud_id = 100;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCloudIdBytes() {
+        java.lang.Object ref = cloudId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cloudId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * ro
+       * </pre>
+       *
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder setCloudId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        cloudId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * ro
+       * </pre>
+       *
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder clearCloudId() {
+        
+        cloudId_ = getDefaultInstance().getCloudId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * ro
+       * </pre>
+       *
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder setCloudIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        cloudId_ = value;
         onChanged();
         return this;
       }
@@ -15784,73 +17977,121 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private java.lang.Object acl_ = "";
+      private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> aclBuilder_;
       /**
-       * <code>string acl = 6;</code>
+       * <code>.Yql.Analytics.Acl acl = 6;</code>
        */
-      public java.lang.String getAcl() {
-        java.lang.Object ref = acl_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          acl_ = s;
-          return s;
+      public boolean hasAcl() {
+        return aclBuilder_ != null || acl_ != null;
+      }
+      /**
+       * <code>.Yql.Analytics.Acl acl = 6;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
+        if (aclBuilder_ == null) {
+          return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
         } else {
-          return (java.lang.String) ref;
+          return aclBuilder_.getMessage();
         }
       }
       /**
-       * <code>string acl = 6;</code>
+       * <code>.Yql.Analytics.Acl acl = 6;</code>
        */
-      public com.google.protobuf.ByteString
-          getAclBytes() {
-        java.lang.Object ref = acl_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          acl_ = b;
-          return b;
+      public Builder setAcl(com.yandex.yql.analytics.AnalyticsProtos.Acl value) {
+        if (aclBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          acl_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          aclBuilder_.setMessage(value);
         }
+
+        return this;
       }
       /**
-       * <code>string acl = 6;</code>
+       * <code>.Yql.Analytics.Acl acl = 6;</code>
        */
       public Builder setAcl(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        acl_ = value;
-        onChanged();
+          com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder builderForValue) {
+        if (aclBuilder_ == null) {
+          acl_ = builderForValue.build();
+          onChanged();
+        } else {
+          aclBuilder_.setMessage(builderForValue.build());
+        }
+
         return this;
       }
       /**
-       * <code>string acl = 6;</code>
+       * <code>.Yql.Analytics.Acl acl = 6;</code>
+       */
+      public Builder mergeAcl(com.yandex.yql.analytics.AnalyticsProtos.Acl value) {
+        if (aclBuilder_ == null) {
+          if (acl_ != null) {
+            acl_ =
+              com.yandex.yql.analytics.AnalyticsProtos.Acl.newBuilder(acl_).mergeFrom(value).buildPartial();
+          } else {
+            acl_ = value;
+          }
+          onChanged();
+        } else {
+          aclBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.Acl acl = 6;</code>
        */
       public Builder clearAcl() {
-        
-        acl_ = getDefaultInstance().getAcl();
-        onChanged();
+        if (aclBuilder_ == null) {
+          acl_ = null;
+          onChanged();
+        } else {
+          acl_ = null;
+          aclBuilder_ = null;
+        }
+
         return this;
       }
       /**
-       * <code>string acl = 6;</code>
+       * <code>.Yql.Analytics.Acl acl = 6;</code>
        */
-      public Builder setAclBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder getAclBuilder() {
         
-        acl_ = value;
         onChanged();
-        return this;
+        return getAclFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Yql.Analytics.Acl acl = 6;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
+        if (aclBuilder_ != null) {
+          return aclBuilder_.getMessageOrBuilder();
+        } else {
+          return acl_ == null ?
+              com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
+        }
+      }
+      /**
+       * <code>.Yql.Analytics.Acl acl = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> 
+          getAclFieldBuilder() {
+        if (aclBuilder_ == null) {
+          aclBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder>(
+                  getAcl(),
+                  getParentForChildren(),
+                  isClean());
+          acl_ = null;
+        }
+        return aclBuilder_;
       }
 
       private long rowsLimit_ ;
@@ -16381,6 +18622,16 @@ public final class AnalyticsProtos {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <code>string cloud_id = 100;</code>
+     */
+    java.lang.String getCloudId();
+    /**
+     * <code>string cloud_id = 100;</code>
+     */
+    com.google.protobuf.ByteString
+        getCloudIdBytes();
+
+    /**
      * <code>string folder_id = 2;</code>
      */
     java.lang.String getFolderId();
@@ -16426,6 +18677,7 @@ public final class AnalyticsProtos {
       super(builder);
     }
     private GetHistoryRequest() {
+      cloudId_ = "";
       folderId_ = "";
       continuationToken_ = "";
     }
@@ -16494,6 +18746,12 @@ public final class AnalyticsProtos {
                 filter_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 802: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              cloudId_ = s;
               break;
             }
           }
@@ -17283,6 +19541,40 @@ public final class AnalyticsProtos {
       return getOperationParams();
     }
 
+    public static final int CLOUD_ID_FIELD_NUMBER = 100;
+    private volatile java.lang.Object cloudId_;
+    /**
+     * <code>string cloud_id = 100;</code>
+     */
+    public java.lang.String getCloudId() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        cloudId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string cloud_id = 100;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCloudIdBytes() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        cloudId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     public static final int FOLDER_ID_FIELD_NUMBER = 2;
     private volatile java.lang.Object folderId_;
     /**
@@ -17396,6 +19688,9 @@ public final class AnalyticsProtos {
       if (filter_ != null) {
         output.writeMessage(4, getFilter());
       }
+      if (!getCloudIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 100, cloudId_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -17418,6 +19713,9 @@ public final class AnalyticsProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, getFilter());
       }
+      if (!getCloudIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, cloudId_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -17439,6 +19737,8 @@ public final class AnalyticsProtos {
         result = result && getOperationParams()
             .equals(other.getOperationParams());
       }
+      result = result && getCloudId()
+          .equals(other.getCloudId());
       result = result && getFolderId()
           .equals(other.getFolderId());
       result = result && getContinuationToken()
@@ -17463,6 +19763,8 @@ public final class AnalyticsProtos {
         hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
         hash = (53 * hash) + getOperationParams().hashCode();
       }
+      hash = (37 * hash) + CLOUD_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getCloudId().hashCode();
       hash = (37 * hash) + FOLDER_ID_FIELD_NUMBER;
       hash = (53 * hash) + getFolderId().hashCode();
       hash = (37 * hash) + CONTINUATION_TOKEN_FIELD_NUMBER;
@@ -17606,6 +19908,8 @@ public final class AnalyticsProtos {
           operationParams_ = null;
           operationParamsBuilder_ = null;
         }
+        cloudId_ = "";
+
         folderId_ = "";
 
         continuationToken_ = "";
@@ -17643,6 +19947,7 @@ public final class AnalyticsProtos {
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
+        result.cloudId_ = cloudId_;
         result.folderId_ = folderId_;
         result.continuationToken_ = continuationToken_;
         if (filterBuilder_ == null) {
@@ -17693,6 +19998,10 @@ public final class AnalyticsProtos {
         if (other == com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.getDefaultInstance()) return this;
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
+        }
+        if (!other.getCloudId().isEmpty()) {
+          cloudId_ = other.cloudId_;
+          onChanged();
         }
         if (!other.getFolderId().isEmpty()) {
           folderId_ = other.folderId_;
@@ -17847,6 +20156,75 @@ public final class AnalyticsProtos {
           operationParams_ = null;
         }
         return operationParamsBuilder_;
+      }
+
+      private java.lang.Object cloudId_ = "";
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public java.lang.String getCloudId() {
+        java.lang.Object ref = cloudId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          cloudId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCloudIdBytes() {
+        java.lang.Object ref = cloudId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cloudId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder setCloudId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        cloudId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder clearCloudId() {
+        
+        cloudId_ = getDefaultInstance().getCloudId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder setCloudIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        cloudId_ = value;
+        onChanged();
+        return this;
       }
 
       private java.lang.Object folderId_ = "";
@@ -19430,6 +21808,16 @@ public final class AnalyticsProtos {
           getNameBytes();
 
       /**
+       * <code>string cloud_id = 100;</code>
+       */
+      java.lang.String getCloudId();
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      com.google.protobuf.ByteString
+          getCloudIdBytes();
+
+      /**
        * <code>string folder_id = 6;</code>
        */
       java.lang.String getFolderId();
@@ -19440,14 +21828,17 @@ public final class AnalyticsProtos {
           getFolderIdBytes();
 
       /**
-       * <code>string acl = 7;</code>
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
-      java.lang.String getAcl();
+      boolean hasAcl();
       /**
-       * <code>string acl = 7;</code>
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
-      com.google.protobuf.ByteString
-          getAclBytes();
+      com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl();
+      /**
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
+       */
+      com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder();
 
       /**
        * <pre>
@@ -19627,8 +22018,8 @@ public final class AnalyticsProtos {
         createdBy_ = "";
         modifiedBy_ = "";
         name_ = "";
+        cloudId_ = "";
         folderId_ = "";
-        acl_ = "";
         queryPlan_ = "";
         queryId_ = "";
         truncated_ = java.util.Collections.emptyList();
@@ -19704,9 +22095,16 @@ public final class AnalyticsProtos {
                 break;
               }
               case 58: {
-                java.lang.String s = input.readStringRequireUtf8();
+                com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder subBuilder = null;
+                if (acl_ != null) {
+                  subBuilder = acl_.toBuilder();
+                }
+                acl_ = input.readMessage(com.yandex.yql.analytics.AnalyticsProtos.Acl.parser(), extensionRegistry);
+                if (subBuilder != null) {
+                  subBuilder.mergeFrom(acl_);
+                  acl_ = subBuilder.buildPartial();
+                }
 
-                acl_ = s;
                 break;
               }
               case 66: {
@@ -19722,9 +22120,9 @@ public final class AnalyticsProtos {
                 break;
               }
               case 80: {
-                if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+                if (!((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
                   truncated_ = new java.util.ArrayList<java.lang.Boolean>();
-                  mutable_bitField0_ |= 0x00000200;
+                  mutable_bitField0_ |= 0x00000400;
                 }
                 truncated_.add(input.readBool());
                 break;
@@ -19732,9 +22130,9 @@ public final class AnalyticsProtos {
               case 82: {
                 int length = input.readRawVarint32();
                 int limit = input.pushLimit(length);
-                if (!((mutable_bitField0_ & 0x00000200) == 0x00000200) && input.getBytesUntilLimit() > 0) {
+                if (!((mutable_bitField0_ & 0x00000400) == 0x00000400) && input.getBytesUntilLimit() > 0) {
                   truncated_ = new java.util.ArrayList<java.lang.Boolean>();
-                  mutable_bitField0_ |= 0x00000200;
+                  mutable_bitField0_ |= 0x00000400;
                 }
                 while (input.getBytesUntilLimit() > 0) {
                   truncated_.add(input.readBool());
@@ -19743,9 +22141,9 @@ public final class AnalyticsProtos {
                 break;
               }
               case 88: {
-                if (!((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
+                if (!((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
                   rowsCount_ = new java.util.ArrayList<java.lang.Long>();
-                  mutable_bitField0_ |= 0x00000400;
+                  mutable_bitField0_ |= 0x00000800;
                 }
                 rowsCount_.add(input.readInt64());
                 break;
@@ -19753,9 +22151,9 @@ public final class AnalyticsProtos {
               case 90: {
                 int length = input.readRawVarint32();
                 int limit = input.pushLimit(length);
-                if (!((mutable_bitField0_ & 0x00000400) == 0x00000400) && input.getBytesUntilLimit() > 0) {
+                if (!((mutable_bitField0_ & 0x00000800) == 0x00000800) && input.getBytesUntilLimit() > 0) {
                   rowsCount_ = new java.util.ArrayList<java.lang.Long>();
-                  mutable_bitField0_ |= 0x00000400;
+                  mutable_bitField0_ |= 0x00000800;
                 }
                 while (input.getBytesUntilLimit() > 0) {
                   rowsCount_.add(input.readInt64());
@@ -19863,6 +22261,12 @@ public final class AnalyticsProtos {
 
                 break;
               }
+              case 802: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                cloudId_ = s;
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -19871,10 +22275,10 @@ public final class AnalyticsProtos {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e).setUnfinishedMessage(this);
         } finally {
-          if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+          if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
             truncated_ = java.util.Collections.unmodifiableList(truncated_);
           }
-          if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
+          if (((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
             rowsCount_ = java.util.Collections.unmodifiableList(rowsCount_);
           }
           this.unknownFields = unknownFields.build();
@@ -20072,6 +22476,40 @@ public final class AnalyticsProtos {
         }
       }
 
+      public static final int CLOUD_ID_FIELD_NUMBER = 100;
+      private volatile java.lang.Object cloudId_;
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public java.lang.String getCloudId() {
+        java.lang.Object ref = cloudId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          cloudId_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string cloud_id = 100;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCloudIdBytes() {
+        java.lang.Object ref = cloudId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cloudId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
       public static final int FOLDER_ID_FIELD_NUMBER = 6;
       private volatile java.lang.Object folderId_;
       /**
@@ -20107,37 +22545,24 @@ public final class AnalyticsProtos {
       }
 
       public static final int ACL_FIELD_NUMBER = 7;
-      private volatile java.lang.Object acl_;
+      private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
       /**
-       * <code>string acl = 7;</code>
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
-      public java.lang.String getAcl() {
-        java.lang.Object ref = acl_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          acl_ = s;
-          return s;
-        }
+      public boolean hasAcl() {
+        return acl_ != null;
       }
       /**
-       * <code>string acl = 7;</code>
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
-      public com.google.protobuf.ByteString
-          getAclBytes() {
-        java.lang.Object ref = acl_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          acl_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
+        return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
+      }
+      /**
+       * <code>.Yql.Analytics.Acl acl = 7;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
+        return getAcl();
       }
 
       public static final int QUERY_PLAN_FIELD_NUMBER = 8;
@@ -20469,8 +22894,8 @@ public final class AnalyticsProtos {
         if (!getFolderIdBytes().isEmpty()) {
           com.google.protobuf.GeneratedMessageV3.writeString(output, 6, folderId_);
         }
-        if (!getAclBytes().isEmpty()) {
-          com.google.protobuf.GeneratedMessageV3.writeString(output, 7, acl_);
+        if (acl_ != null) {
+          output.writeMessage(7, getAcl());
         }
         if (!getQueryPlanBytes().isEmpty()) {
           com.google.protobuf.GeneratedMessageV3.writeString(output, 8, queryPlan_);
@@ -20522,6 +22947,9 @@ public final class AnalyticsProtos {
         if (statistics_ != null) {
           output.writeMessage(21, getStatistics());
         }
+        if (!getCloudIdBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 100, cloudId_);
+        }
         unknownFields.writeTo(output);
       }
 
@@ -20548,8 +22976,9 @@ public final class AnalyticsProtos {
         if (!getFolderIdBytes().isEmpty()) {
           size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, folderId_);
         }
-        if (!getAclBytes().isEmpty()) {
-          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, acl_);
+        if (acl_ != null) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(7, getAcl());
         }
         if (!getQueryPlanBytes().isEmpty()) {
           size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, queryPlan_);
@@ -20622,6 +23051,9 @@ public final class AnalyticsProtos {
           size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(21, getStatistics());
         }
+        if (!getCloudIdBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, cloudId_);
+        }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
         return size;
@@ -20648,10 +23080,15 @@ public final class AnalyticsProtos {
             .equals(other.getModifiedBy());
         result = result && getName()
             .equals(other.getName());
+        result = result && getCloudId()
+            .equals(other.getCloudId());
         result = result && getFolderId()
             .equals(other.getFolderId());
-        result = result && getAcl()
-            .equals(other.getAcl());
+        result = result && (hasAcl() == other.hasAcl());
+        if (hasAcl()) {
+          result = result && getAcl()
+              .equals(other.getAcl());
+        }
         result = result && getQueryPlan()
             .equals(other.getQueryPlan());
         result = result && getQueryId()
@@ -20717,10 +23154,14 @@ public final class AnalyticsProtos {
         hash = (53 * hash) + getModifiedBy().hashCode();
         hash = (37 * hash) + NAME_FIELD_NUMBER;
         hash = (53 * hash) + getName().hashCode();
+        hash = (37 * hash) + CLOUD_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getCloudId().hashCode();
         hash = (37 * hash) + FOLDER_ID_FIELD_NUMBER;
         hash = (53 * hash) + getFolderId().hashCode();
-        hash = (37 * hash) + ACL_FIELD_NUMBER;
-        hash = (53 * hash) + getAcl().hashCode();
+        if (hasAcl()) {
+          hash = (37 * hash) + ACL_FIELD_NUMBER;
+          hash = (53 * hash) + getAcl().hashCode();
+        }
         hash = (37 * hash) + QUERY_PLAN_FIELD_NUMBER;
         hash = (53 * hash) + getQueryPlan().hashCode();
         hash = (37 * hash) + QUERY_ID_FIELD_NUMBER;
@@ -20906,18 +23347,24 @@ public final class AnalyticsProtos {
 
           name_ = "";
 
+          cloudId_ = "";
+
           folderId_ = "";
 
-          acl_ = "";
-
+          if (aclBuilder_ == null) {
+            acl_ = null;
+          } else {
+            acl_ = null;
+            aclBuilder_ = null;
+          }
           queryPlan_ = "";
 
           queryId_ = "";
 
           truncated_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000200);
-          rowsCount_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000400);
+          rowsCount_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000800);
           status_ = 0;
 
           executeMode_ = 0;
@@ -20991,18 +23438,23 @@ public final class AnalyticsProtos {
           result.createdBy_ = createdBy_;
           result.modifiedBy_ = modifiedBy_;
           result.name_ = name_;
+          result.cloudId_ = cloudId_;
           result.folderId_ = folderId_;
-          result.acl_ = acl_;
+          if (aclBuilder_ == null) {
+            result.acl_ = acl_;
+          } else {
+            result.acl_ = aclBuilder_.build();
+          }
           result.queryPlan_ = queryPlan_;
           result.queryId_ = queryId_;
-          if (((bitField0_ & 0x00000200) == 0x00000200)) {
+          if (((bitField0_ & 0x00000400) == 0x00000400)) {
             truncated_ = java.util.Collections.unmodifiableList(truncated_);
-            bitField0_ = (bitField0_ & ~0x00000200);
+            bitField0_ = (bitField0_ & ~0x00000400);
           }
           result.truncated_ = truncated_;
-          if (((bitField0_ & 0x00000400) == 0x00000400)) {
+          if (((bitField0_ & 0x00000800) == 0x00000800)) {
             rowsCount_ = java.util.Collections.unmodifiableList(rowsCount_);
-            bitField0_ = (bitField0_ & ~0x00000400);
+            bitField0_ = (bitField0_ & ~0x00000800);
           }
           result.rowsCount_ = rowsCount_;
           result.status_ = status_;
@@ -21101,13 +23553,16 @@ public final class AnalyticsProtos {
             name_ = other.name_;
             onChanged();
           }
+          if (!other.getCloudId().isEmpty()) {
+            cloudId_ = other.cloudId_;
+            onChanged();
+          }
           if (!other.getFolderId().isEmpty()) {
             folderId_ = other.folderId_;
             onChanged();
           }
-          if (!other.getAcl().isEmpty()) {
-            acl_ = other.acl_;
-            onChanged();
+          if (other.hasAcl()) {
+            mergeAcl(other.getAcl());
           }
           if (!other.getQueryPlan().isEmpty()) {
             queryPlan_ = other.queryPlan_;
@@ -21120,7 +23575,7 @@ public final class AnalyticsProtos {
           if (!other.truncated_.isEmpty()) {
             if (truncated_.isEmpty()) {
               truncated_ = other.truncated_;
-              bitField0_ = (bitField0_ & ~0x00000200);
+              bitField0_ = (bitField0_ & ~0x00000400);
             } else {
               ensureTruncatedIsMutable();
               truncated_.addAll(other.truncated_);
@@ -21130,7 +23585,7 @@ public final class AnalyticsProtos {
           if (!other.rowsCount_.isEmpty()) {
             if (rowsCount_.isEmpty()) {
               rowsCount_ = other.rowsCount_;
-              bitField0_ = (bitField0_ & ~0x00000400);
+              bitField0_ = (bitField0_ & ~0x00000800);
             } else {
               ensureRowsCountIsMutable();
               rowsCount_.addAll(other.rowsCount_);
@@ -21560,6 +24015,75 @@ public final class AnalyticsProtos {
           return this;
         }
 
+        private java.lang.Object cloudId_ = "";
+        /**
+         * <code>string cloud_id = 100;</code>
+         */
+        public java.lang.String getCloudId() {
+          java.lang.Object ref = cloudId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            cloudId_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string cloud_id = 100;</code>
+         */
+        public com.google.protobuf.ByteString
+            getCloudIdBytes() {
+          java.lang.Object ref = cloudId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            cloudId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string cloud_id = 100;</code>
+         */
+        public Builder setCloudId(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          cloudId_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string cloud_id = 100;</code>
+         */
+        public Builder clearCloudId() {
+          
+          cloudId_ = getDefaultInstance().getCloudId();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string cloud_id = 100;</code>
+         */
+        public Builder setCloudIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          cloudId_ = value;
+          onChanged();
+          return this;
+        }
+
         private java.lang.Object folderId_ = "";
         /**
          * <code>string folder_id = 6;</code>
@@ -21629,73 +24153,121 @@ public final class AnalyticsProtos {
           return this;
         }
 
-        private java.lang.Object acl_ = "";
+        private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_ = null;
+        private com.google.protobuf.SingleFieldBuilderV3<
+            com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> aclBuilder_;
         /**
-         * <code>string acl = 7;</code>
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
          */
-        public java.lang.String getAcl() {
-          java.lang.Object ref = acl_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            acl_ = s;
-            return s;
+        public boolean hasAcl() {
+          return aclBuilder_ != null || acl_ != null;
+        }
+        /**
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
+         */
+        public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
+          if (aclBuilder_ == null) {
+            return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
           } else {
-            return (java.lang.String) ref;
+            return aclBuilder_.getMessage();
           }
         }
         /**
-         * <code>string acl = 7;</code>
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
          */
-        public com.google.protobuf.ByteString
-            getAclBytes() {
-          java.lang.Object ref = acl_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            acl_ = b;
-            return b;
+        public Builder setAcl(com.yandex.yql.analytics.AnalyticsProtos.Acl value) {
+          if (aclBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            acl_ = value;
+            onChanged();
           } else {
-            return (com.google.protobuf.ByteString) ref;
+            aclBuilder_.setMessage(value);
           }
+
+          return this;
         }
         /**
-         * <code>string acl = 7;</code>
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
          */
         public Builder setAcl(
-            java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  
-          acl_ = value;
-          onChanged();
+            com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder builderForValue) {
+          if (aclBuilder_ == null) {
+            acl_ = builderForValue.build();
+            onChanged();
+          } else {
+            aclBuilder_.setMessage(builderForValue.build());
+          }
+
           return this;
         }
         /**
-         * <code>string acl = 7;</code>
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
+         */
+        public Builder mergeAcl(com.yandex.yql.analytics.AnalyticsProtos.Acl value) {
+          if (aclBuilder_ == null) {
+            if (acl_ != null) {
+              acl_ =
+                com.yandex.yql.analytics.AnalyticsProtos.Acl.newBuilder(acl_).mergeFrom(value).buildPartial();
+            } else {
+              acl_ = value;
+            }
+            onChanged();
+          } else {
+            aclBuilder_.mergeFrom(value);
+          }
+
+          return this;
+        }
+        /**
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
          */
         public Builder clearAcl() {
-          
-          acl_ = getDefaultInstance().getAcl();
-          onChanged();
+          if (aclBuilder_ == null) {
+            acl_ = null;
+            onChanged();
+          } else {
+            acl_ = null;
+            aclBuilder_ = null;
+          }
+
           return this;
         }
         /**
-         * <code>string acl = 7;</code>
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
          */
-        public Builder setAclBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+        public com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder getAclBuilder() {
           
-          acl_ = value;
           onChanged();
-          return this;
+          return getAclFieldBuilder().getBuilder();
+        }
+        /**
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
+         */
+        public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
+          if (aclBuilder_ != null) {
+            return aclBuilder_.getMessageOrBuilder();
+          } else {
+            return acl_ == null ?
+                com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
+          }
+        }
+        /**
+         * <code>.Yql.Analytics.Acl acl = 7;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilderV3<
+            com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> 
+            getAclFieldBuilder() {
+          if (aclBuilder_ == null) {
+            aclBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder>(
+                    getAcl(),
+                    getParentForChildren(),
+                    isClean());
+            acl_ = null;
+          }
+          return aclBuilder_;
         }
 
         private java.lang.Object queryPlan_ = "";
@@ -21858,9 +24430,9 @@ public final class AnalyticsProtos {
 
         private java.util.List<java.lang.Boolean> truncated_ = java.util.Collections.emptyList();
         private void ensureTruncatedIsMutable() {
-          if (!((bitField0_ & 0x00000200) == 0x00000200)) {
+          if (!((bitField0_ & 0x00000400) == 0x00000400)) {
             truncated_ = new java.util.ArrayList<java.lang.Boolean>(truncated_);
-            bitField0_ |= 0x00000200;
+            bitField0_ |= 0x00000400;
            }
         }
         /**
@@ -21917,16 +24489,16 @@ public final class AnalyticsProtos {
          */
         public Builder clearTruncated() {
           truncated_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000200);
+          bitField0_ = (bitField0_ & ~0x00000400);
           onChanged();
           return this;
         }
 
         private java.util.List<java.lang.Long> rowsCount_ = java.util.Collections.emptyList();
         private void ensureRowsCountIsMutable() {
-          if (!((bitField0_ & 0x00000400) == 0x00000400)) {
+          if (!((bitField0_ & 0x00000800) == 0x00000800)) {
             rowsCount_ = new java.util.ArrayList<java.lang.Long>(rowsCount_);
-            bitField0_ |= 0x00000400;
+            bitField0_ |= 0x00000800;
            }
         }
         /**
@@ -21983,7 +24555,7 @@ public final class AnalyticsProtos {
          */
         public Builder clearRowsCount() {
           rowsCount_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000400);
+          bitField0_ = (bitField0_ & ~0x00000800);
           onChanged();
           return this;
         }
@@ -23674,6 +26246,24 @@ public final class AnalyticsProtos {
      * ro
      * </pre>
      *
+     * <code>string cloud_id = 100;</code>
+     */
+    java.lang.String getCloudId();
+    /**
+     * <pre>
+     * ro
+     * </pre>
+     *
+     * <code>string cloud_id = 100;</code>
+     */
+    com.google.protobuf.ByteString
+        getCloudIdBytes();
+
+    /**
+     * <pre>
+     * ro
+     * </pre>
+     *
      * <code>string folder_id = 2;</code>
      */
     java.lang.String getFolderId();
@@ -23698,19 +26288,45 @@ public final class AnalyticsProtos {
         getNameBytes();
 
     /**
-     * <code>string acl = 5;</code>
+     * <code>.Yql.Analytics.Acl acl = 5;</code>
      */
-    java.lang.String getAcl();
+    boolean hasAcl();
     /**
-     * <code>string acl = 5;</code>
+     * <code>.Yql.Analytics.Acl acl = 5;</code>
      */
-    com.google.protobuf.ByteString
-        getAclBytes();
+    com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl();
+    /**
+     * <code>.Yql.Analytics.Acl acl = 5;</code>
+     */
+    com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder();
 
     /**
      * <code>bool is_deleted = 6;</code>
      */
     boolean getIsDeleted();
+
+    /**
+     * <code>string yql_text = 7;</code>
+     */
+    java.lang.String getYqlText();
+    /**
+     * <code>string yql_text = 7;</code>
+     */
+    com.google.protobuf.ByteString
+        getYqlTextBytes();
+
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
   }
   /**
    * Protobuf type {@code Yql.Analytics.ModifyHistoryRequest}
@@ -23726,10 +26342,11 @@ public final class AnalyticsProtos {
     }
     private ModifyHistoryRequest() {
       id_ = "";
+      cloudId_ = "";
       folderId_ = "";
       name_ = "";
-      acl_ = "";
       isDeleted_ = false;
+      yqlText_ = "";
     }
 
     @java.lang.Override
@@ -23779,14 +26396,46 @@ public final class AnalyticsProtos {
               break;
             }
             case 42: {
-              java.lang.String s = input.readStringRequireUtf8();
+              com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder subBuilder = null;
+              if (acl_ != null) {
+                subBuilder = acl_.toBuilder();
+              }
+              acl_ = input.readMessage(com.yandex.yql.analytics.AnalyticsProtos.Acl.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(acl_);
+                acl_ = subBuilder.buildPartial();
+              }
 
-              acl_ = s;
               break;
             }
             case 48: {
 
               isDeleted_ = input.readBool();
+              break;
+            }
+            case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              yqlText_ = s;
+              break;
+            }
+            case 66: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 802: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              cloudId_ = s;
               break;
             }
           }
@@ -23849,6 +26498,48 @@ public final class AnalyticsProtos {
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CLOUD_ID_FIELD_NUMBER = 100;
+    private volatile java.lang.Object cloudId_;
+    /**
+     * <pre>
+     * ro
+     * </pre>
+     *
+     * <code>string cloud_id = 100;</code>
+     */
+    public java.lang.String getCloudId() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        cloudId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * ro
+     * </pre>
+     *
+     * <code>string cloud_id = 100;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCloudIdBytes() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        cloudId_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -23932,37 +26623,24 @@ public final class AnalyticsProtos {
     }
 
     public static final int ACL_FIELD_NUMBER = 5;
-    private volatile java.lang.Object acl_;
+    private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
     /**
-     * <code>string acl = 5;</code>
+     * <code>.Yql.Analytics.Acl acl = 5;</code>
      */
-    public java.lang.String getAcl() {
-      java.lang.Object ref = acl_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        acl_ = s;
-        return s;
-      }
+    public boolean hasAcl() {
+      return acl_ != null;
     }
     /**
-     * <code>string acl = 5;</code>
+     * <code>.Yql.Analytics.Acl acl = 5;</code>
      */
-    public com.google.protobuf.ByteString
-        getAclBytes() {
-      java.lang.Object ref = acl_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        acl_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
+      return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
+    }
+    /**
+     * <code>.Yql.Analytics.Acl acl = 5;</code>
+     */
+    public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
+      return getAcl();
     }
 
     public static final int IS_DELETED_FIELD_NUMBER = 6;
@@ -23972,6 +26650,61 @@ public final class AnalyticsProtos {
      */
     public boolean getIsDeleted() {
       return isDeleted_;
+    }
+
+    public static final int YQL_TEXT_FIELD_NUMBER = 7;
+    private volatile java.lang.Object yqlText_;
+    /**
+     * <code>string yql_text = 7;</code>
+     */
+    public java.lang.String getYqlText() {
+      java.lang.Object ref = yqlText_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        yqlText_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string yql_text = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getYqlTextBytes() {
+      java.lang.Object ref = yqlText_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        yqlText_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 8;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+     */
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+     */
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -23995,11 +26728,20 @@ public final class AnalyticsProtos {
       if (!getNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, name_);
       }
-      if (!getAclBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, acl_);
+      if (acl_ != null) {
+        output.writeMessage(5, getAcl());
       }
       if (isDeleted_ != false) {
         output.writeBool(6, isDeleted_);
+      }
+      if (!getYqlTextBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, yqlText_);
+      }
+      if (operationParams_ != null) {
+        output.writeMessage(8, getOperationParams());
+      }
+      if (!getCloudIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 100, cloudId_);
       }
       unknownFields.writeTo(output);
     }
@@ -24018,12 +26760,23 @@ public final class AnalyticsProtos {
       if (!getNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, name_);
       }
-      if (!getAclBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, acl_);
+      if (acl_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, getAcl());
       }
       if (isDeleted_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(6, isDeleted_);
+      }
+      if (!getYqlTextBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, yqlText_);
+      }
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, getOperationParams());
+      }
+      if (!getCloudIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, cloudId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -24043,14 +26796,26 @@ public final class AnalyticsProtos {
       boolean result = true;
       result = result && getId()
           .equals(other.getId());
+      result = result && getCloudId()
+          .equals(other.getCloudId());
       result = result && getFolderId()
           .equals(other.getFolderId());
       result = result && getName()
           .equals(other.getName());
-      result = result && getAcl()
-          .equals(other.getAcl());
+      result = result && (hasAcl() == other.hasAcl());
+      if (hasAcl()) {
+        result = result && getAcl()
+            .equals(other.getAcl());
+      }
       result = result && (getIsDeleted()
           == other.getIsDeleted());
+      result = result && getYqlText()
+          .equals(other.getYqlText());
+      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams()) {
+        result = result && getOperationParams()
+            .equals(other.getOperationParams());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -24064,15 +26829,25 @@ public final class AnalyticsProtos {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + getId().hashCode();
+      hash = (37 * hash) + CLOUD_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getCloudId().hashCode();
       hash = (37 * hash) + FOLDER_ID_FIELD_NUMBER;
       hash = (53 * hash) + getFolderId().hashCode();
       hash = (37 * hash) + NAME_FIELD_NUMBER;
       hash = (53 * hash) + getName().hashCode();
-      hash = (37 * hash) + ACL_FIELD_NUMBER;
-      hash = (53 * hash) + getAcl().hashCode();
+      if (hasAcl()) {
+        hash = (37 * hash) + ACL_FIELD_NUMBER;
+        hash = (53 * hash) + getAcl().hashCode();
+      }
       hash = (37 * hash) + IS_DELETED_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getIsDeleted());
+      hash = (37 * hash) + YQL_TEXT_FIELD_NUMBER;
+      hash = (53 * hash) + getYqlText().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -24204,14 +26979,28 @@ public final class AnalyticsProtos {
         super.clear();
         id_ = "";
 
+        cloudId_ = "";
+
         folderId_ = "";
 
         name_ = "";
 
-        acl_ = "";
-
+        if (aclBuilder_ == null) {
+          acl_ = null;
+        } else {
+          acl_ = null;
+          aclBuilder_ = null;
+        }
         isDeleted_ = false;
 
+        yqlText_ = "";
+
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
         return this;
       }
 
@@ -24235,10 +27024,21 @@ public final class AnalyticsProtos {
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest result = new com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest(this);
         result.id_ = id_;
+        result.cloudId_ = cloudId_;
         result.folderId_ = folderId_;
         result.name_ = name_;
-        result.acl_ = acl_;
+        if (aclBuilder_ == null) {
+          result.acl_ = acl_;
+        } else {
+          result.acl_ = aclBuilder_.build();
+        }
         result.isDeleted_ = isDeleted_;
+        result.yqlText_ = yqlText_;
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -24284,6 +27084,10 @@ public final class AnalyticsProtos {
           id_ = other.id_;
           onChanged();
         }
+        if (!other.getCloudId().isEmpty()) {
+          cloudId_ = other.cloudId_;
+          onChanged();
+        }
         if (!other.getFolderId().isEmpty()) {
           folderId_ = other.folderId_;
           onChanged();
@@ -24292,12 +27096,18 @@ public final class AnalyticsProtos {
           name_ = other.name_;
           onChanged();
         }
-        if (!other.getAcl().isEmpty()) {
-          acl_ = other.acl_;
-          onChanged();
+        if (other.hasAcl()) {
+          mergeAcl(other.getAcl());
         }
         if (other.getIsDeleted() != false) {
           setIsDeleted(other.getIsDeleted());
+        }
+        if (!other.getYqlText().isEmpty()) {
+          yqlText_ = other.yqlText_;
+          onChanged();
+        }
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -24411,6 +27221,95 @@ public final class AnalyticsProtos {
   checkByteStringIsUtf8(value);
         
         id_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object cloudId_ = "";
+      /**
+       * <pre>
+       * ro
+       * </pre>
+       *
+       * <code>string cloud_id = 100;</code>
+       */
+      public java.lang.String getCloudId() {
+        java.lang.Object ref = cloudId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          cloudId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * ro
+       * </pre>
+       *
+       * <code>string cloud_id = 100;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCloudIdBytes() {
+        java.lang.Object ref = cloudId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cloudId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * ro
+       * </pre>
+       *
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder setCloudId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        cloudId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * ro
+       * </pre>
+       *
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder clearCloudId() {
+        
+        cloudId_ = getDefaultInstance().getCloudId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * ro
+       * </pre>
+       *
+       * <code>string cloud_id = 100;</code>
+       */
+      public Builder setCloudIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        cloudId_ = value;
         onChanged();
         return this;
       }
@@ -24573,73 +27472,121 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private java.lang.Object acl_ = "";
+      private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> aclBuilder_;
       /**
-       * <code>string acl = 5;</code>
+       * <code>.Yql.Analytics.Acl acl = 5;</code>
        */
-      public java.lang.String getAcl() {
-        java.lang.Object ref = acl_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          acl_ = s;
-          return s;
+      public boolean hasAcl() {
+        return aclBuilder_ != null || acl_ != null;
+      }
+      /**
+       * <code>.Yql.Analytics.Acl acl = 5;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
+        if (aclBuilder_ == null) {
+          return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
         } else {
-          return (java.lang.String) ref;
+          return aclBuilder_.getMessage();
         }
       }
       /**
-       * <code>string acl = 5;</code>
+       * <code>.Yql.Analytics.Acl acl = 5;</code>
        */
-      public com.google.protobuf.ByteString
-          getAclBytes() {
-        java.lang.Object ref = acl_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          acl_ = b;
-          return b;
+      public Builder setAcl(com.yandex.yql.analytics.AnalyticsProtos.Acl value) {
+        if (aclBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          acl_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          aclBuilder_.setMessage(value);
         }
+
+        return this;
       }
       /**
-       * <code>string acl = 5;</code>
+       * <code>.Yql.Analytics.Acl acl = 5;</code>
        */
       public Builder setAcl(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        acl_ = value;
-        onChanged();
+          com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder builderForValue) {
+        if (aclBuilder_ == null) {
+          acl_ = builderForValue.build();
+          onChanged();
+        } else {
+          aclBuilder_.setMessage(builderForValue.build());
+        }
+
         return this;
       }
       /**
-       * <code>string acl = 5;</code>
+       * <code>.Yql.Analytics.Acl acl = 5;</code>
+       */
+      public Builder mergeAcl(com.yandex.yql.analytics.AnalyticsProtos.Acl value) {
+        if (aclBuilder_ == null) {
+          if (acl_ != null) {
+            acl_ =
+              com.yandex.yql.analytics.AnalyticsProtos.Acl.newBuilder(acl_).mergeFrom(value).buildPartial();
+          } else {
+            acl_ = value;
+          }
+          onChanged();
+        } else {
+          aclBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.Acl acl = 5;</code>
        */
       public Builder clearAcl() {
-        
-        acl_ = getDefaultInstance().getAcl();
-        onChanged();
+        if (aclBuilder_ == null) {
+          acl_ = null;
+          onChanged();
+        } else {
+          acl_ = null;
+          aclBuilder_ = null;
+        }
+
         return this;
       }
       /**
-       * <code>string acl = 5;</code>
+       * <code>.Yql.Analytics.Acl acl = 5;</code>
        */
-      public Builder setAclBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder getAclBuilder() {
         
-        acl_ = value;
         onChanged();
-        return this;
+        return getAclFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Yql.Analytics.Acl acl = 5;</code>
+       */
+      public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
+        if (aclBuilder_ != null) {
+          return aclBuilder_.getMessageOrBuilder();
+        } else {
+          return acl_ == null ?
+              com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
+        }
+      }
+      /**
+       * <code>.Yql.Analytics.Acl acl = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> 
+          getAclFieldBuilder() {
+        if (aclBuilder_ == null) {
+          aclBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder>(
+                  getAcl(),
+                  getParentForChildren(),
+                  isClean());
+          acl_ = null;
+        }
+        return aclBuilder_;
       }
 
       private boolean isDeleted_ ;
@@ -24666,6 +27613,192 @@ public final class AnalyticsProtos {
         isDeleted_ = false;
         onChanged();
         return this;
+      }
+
+      private java.lang.Object yqlText_ = "";
+      /**
+       * <code>string yql_text = 7;</code>
+       */
+      public java.lang.String getYqlText() {
+        java.lang.Object ref = yqlText_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          yqlText_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string yql_text = 7;</code>
+       */
+      public com.google.protobuf.ByteString
+          getYqlTextBytes() {
+        java.lang.Object ref = yqlText_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          yqlText_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string yql_text = 7;</code>
+       */
+      public Builder setYqlText(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        yqlText_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string yql_text = 7;</code>
+       */
+      public Builder clearYqlText() {
+        
+        yqlText_ = getDefaultInstance().getYqlText();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string yql_text = 7;</code>
+       */
+      public Builder setYqlTextBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        yqlText_ = value;
+        onChanged();
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -24716,9 +27849,556 @@ public final class AnalyticsProtos {
 
   }
 
+  public interface ModifyHistoryResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Yql.Analytics.ModifyHistoryResult)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string history_id = 1;</code>
+     */
+    java.lang.String getHistoryId();
+    /**
+     * <code>string history_id = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getHistoryIdBytes();
+  }
+  /**
+   * Protobuf type {@code Yql.Analytics.ModifyHistoryResult}
+   */
+  public  static final class ModifyHistoryResult extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Yql.Analytics.ModifyHistoryResult)
+      ModifyHistoryResultOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ModifyHistoryResult.newBuilder() to construct.
+    private ModifyHistoryResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ModifyHistoryResult() {
+      historyId_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ModifyHistoryResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              historyId_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResult_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult.class, com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult.Builder.class);
+    }
+
+    public static final int HISTORY_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object historyId_;
+    /**
+     * <code>string history_id = 1;</code>
+     */
+    public java.lang.String getHistoryId() {
+      java.lang.Object ref = historyId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        historyId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string history_id = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getHistoryIdBytes() {
+      java.lang.Object ref = historyId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        historyId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getHistoryIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, historyId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getHistoryIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, historyId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult)) {
+        return super.equals(obj);
+      }
+      com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult other = (com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult) obj;
+
+      boolean result = true;
+      result = result && getHistoryId()
+          .equals(other.getHistoryId());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + HISTORY_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getHistoryId().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Yql.Analytics.ModifyHistoryResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Yql.Analytics.ModifyHistoryResult)
+        com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResult_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult.class, com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult.Builder.class);
+      }
+
+      // Construct using com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        historyId_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResult_descriptor;
+      }
+
+      public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult getDefaultInstanceForType() {
+        return com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult.getDefaultInstance();
+      }
+
+      public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult build() {
+        com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult buildPartial() {
+        com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult result = new com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult(this);
+        result.historyId_ = historyId_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult) {
+          return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult other) {
+        if (other == com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult.getDefaultInstance()) return this;
+        if (!other.getHistoryId().isEmpty()) {
+          historyId_ = other.historyId_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object historyId_ = "";
+      /**
+       * <code>string history_id = 1;</code>
+       */
+      public java.lang.String getHistoryId() {
+        java.lang.Object ref = historyId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          historyId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string history_id = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getHistoryIdBytes() {
+        java.lang.Object ref = historyId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          historyId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string history_id = 1;</code>
+       */
+      public Builder setHistoryId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        historyId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string history_id = 1;</code>
+       */
+      public Builder clearHistoryId() {
+        
+        historyId_ = getDefaultInstance().getHistoryId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string history_id = 1;</code>
+       */
+      public Builder setHistoryIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        historyId_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Yql.Analytics.ModifyHistoryResult)
+    }
+
+    // @@protoc_insertion_point(class_scope:Yql.Analytics.ModifyHistoryResult)
+    private static final com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult();
+    }
+
+    public static com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ModifyHistoryResult>
+        PARSER = new com.google.protobuf.AbstractParser<ModifyHistoryResult>() {
+      public ModifyHistoryResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ModifyHistoryResult(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ModifyHistoryResult> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ModifyHistoryResult> getParserForType() {
+      return PARSER;
+    }
+
+    public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface ModifyHistoryResponseOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Yql.Analytics.ModifyHistoryResponse)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * ModifyHistoryResult
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    boolean hasOperation();
+    /**
+     * <pre>
+     * ModifyHistoryResult
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <pre>
+     * ModifyHistoryResult
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
   }
   /**
    * Protobuf type {@code Yql.Analytics.ModifyHistoryResponse}
@@ -24745,6 +28425,7 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -24760,6 +28441,19 @@ public final class AnalyticsProtos {
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
+              break;
+            }
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
               break;
             }
           }
@@ -24786,6 +28480,39 @@ public final class AnalyticsProtos {
               com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse.class, com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse.Builder.class);
     }
 
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <pre>
+     * ModifyHistoryResult
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <pre>
+     * ModifyHistoryResult
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <pre>
+     * ModifyHistoryResult
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -24798,6 +28525,9 @@ public final class AnalyticsProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -24806,6 +28536,10 @@ public final class AnalyticsProtos {
       if (size != -1) return size;
 
       size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -24822,6 +28556,11 @@ public final class AnalyticsProtos {
       com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse other = (com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse) obj;
 
       boolean result = true;
+      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation()) {
+        result = result && getOperation()
+            .equals(other.getOperation());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -24833,6 +28572,10 @@ public final class AnalyticsProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -24962,6 +28705,12 @@ public final class AnalyticsProtos {
       }
       public Builder clear() {
         super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
         return this;
       }
 
@@ -24984,6 +28733,11 @@ public final class AnalyticsProtos {
 
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse result = new com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -25025,6 +28779,9 @@ public final class AnalyticsProtos {
 
       public Builder mergeFrom(com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse other) {
         if (other == com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -25050,6 +28807,159 @@ public final class AnalyticsProtos {
           }
         }
         return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <pre>
+       * ModifyHistoryResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <pre>
+       * ModifyHistoryResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * ModifyHistoryResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * ModifyHistoryResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * ModifyHistoryResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * ModifyHistoryResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * ModifyHistoryResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * ModifyHistoryResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <pre>
+       * ModifyHistoryResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -25228,6 +29138,26 @@ public final class AnalyticsProtos {
      */
     com.yandex.yql.analytics.AnalyticsProtos.ConnectionOrBuilder getConnectionsOrBuilder(
         int index);
+
+    /**
+     * <code>string folder_id = 9;</code>
+     */
+    java.lang.String getFolderId();
+    /**
+     * <code>string folder_id = 9;</code>
+     */
+    com.google.protobuf.ByteString
+        getFolderIdBytes();
+
+    /**
+     * <code>string cloud_id = 10;</code>
+     */
+    java.lang.String getCloudId();
+    /**
+     * <code>string cloud_id = 10;</code>
+     */
+    com.google.protobuf.ByteString
+        getCloudIdBytes();
   }
   /**
    * Protobuf type {@code Yql.Analytics.ExecuteQueryRequest}
@@ -25248,6 +29178,8 @@ public final class AnalyticsProtos {
       maxResultRows_ = 0L;
       expireAfterSeconds_ = 0;
       connections_ = java.util.Collections.emptyList();
+      folderId_ = "";
+      cloudId_ = "";
     }
 
     @java.lang.Override
@@ -25338,6 +29270,18 @@ public final class AnalyticsProtos {
               }
               connections_.add(
                   input.readMessage(com.yandex.yql.analytics.AnalyticsProtos.Connection.parser(), extensionRegistry));
+              break;
+            }
+            case 74: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              folderId_ = s;
+              break;
+            }
+            case 82: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              cloudId_ = s;
               break;
             }
           }
@@ -25604,6 +29548,74 @@ public final class AnalyticsProtos {
       return connections_.get(index);
     }
 
+    public static final int FOLDER_ID_FIELD_NUMBER = 9;
+    private volatile java.lang.Object folderId_;
+    /**
+     * <code>string folder_id = 9;</code>
+     */
+    public java.lang.String getFolderId() {
+      java.lang.Object ref = folderId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        folderId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string folder_id = 9;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFolderIdBytes() {
+      java.lang.Object ref = folderId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        folderId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CLOUD_ID_FIELD_NUMBER = 10;
+    private volatile java.lang.Object cloudId_;
+    /**
+     * <code>string cloud_id = 10;</code>
+     */
+    public java.lang.String getCloudId() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        cloudId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string cloud_id = 10;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCloudIdBytes() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        cloudId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -25642,6 +29654,12 @@ public final class AnalyticsProtos {
           7);
       for (int i = 0; i < connections_.size(); i++) {
         output.writeMessage(8, connections_.get(i));
+      }
+      if (!getFolderIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, folderId_);
+      }
+      if (!getCloudIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 10, cloudId_);
       }
       unknownFields.writeTo(output);
     }
@@ -25688,6 +29706,12 @@ public final class AnalyticsProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, connections_.get(i));
       }
+      if (!getFolderIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, folderId_);
+      }
+      if (!getCloudIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, cloudId_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -25722,6 +29746,10 @@ public final class AnalyticsProtos {
           other.internalGetParameters());
       result = result && getConnectionsList()
           .equals(other.getConnectionsList());
+      result = result && getFolderId()
+          .equals(other.getFolderId());
+      result = result && getCloudId()
+          .equals(other.getCloudId());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -25757,6 +29785,10 @@ public final class AnalyticsProtos {
         hash = (37 * hash) + CONNECTIONS_FIELD_NUMBER;
         hash = (53 * hash) + getConnectionsList().hashCode();
       }
+      hash = (37 * hash) + FOLDER_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getFolderId().hashCode();
+      hash = (37 * hash) + CLOUD_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getCloudId().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -25932,6 +29964,10 @@ public final class AnalyticsProtos {
         } else {
           connectionsBuilder_.clear();
         }
+        folderId_ = "";
+
+        cloudId_ = "";
+
         return this;
       }
 
@@ -25977,6 +30013,8 @@ public final class AnalyticsProtos {
         } else {
           result.connections_ = connectionsBuilder_.build();
         }
+        result.folderId_ = folderId_;
+        result.cloudId_ = cloudId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -26065,6 +30103,14 @@ public final class AnalyticsProtos {
               connectionsBuilder_.addAllMessages(other.connections_);
             }
           }
+        }
+        if (!other.getFolderId().isEmpty()) {
+          folderId_ = other.folderId_;
+          onChanged();
+        }
+        if (!other.getCloudId().isEmpty()) {
+          cloudId_ = other.cloudId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -26791,6 +30837,144 @@ public final class AnalyticsProtos {
           connections_ = null;
         }
         return connectionsBuilder_;
+      }
+
+      private java.lang.Object folderId_ = "";
+      /**
+       * <code>string folder_id = 9;</code>
+       */
+      public java.lang.String getFolderId() {
+        java.lang.Object ref = folderId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          folderId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string folder_id = 9;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFolderIdBytes() {
+        java.lang.Object ref = folderId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          folderId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string folder_id = 9;</code>
+       */
+      public Builder setFolderId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        folderId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string folder_id = 9;</code>
+       */
+      public Builder clearFolderId() {
+        
+        folderId_ = getDefaultInstance().getFolderId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string folder_id = 9;</code>
+       */
+      public Builder setFolderIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        folderId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object cloudId_ = "";
+      /**
+       * <code>string cloud_id = 10;</code>
+       */
+      public java.lang.String getCloudId() {
+        java.lang.Object ref = cloudId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          cloudId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 10;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCloudIdBytes() {
+        java.lang.Object ref = cloudId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cloudId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 10;</code>
+       */
+      public Builder setCloudId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        cloudId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 10;</code>
+       */
+      public Builder clearCloudId() {
+        
+        cloudId_ = getDefaultInstance().getCloudId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 10;</code>
+       */
+      public Builder setCloudIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        cloudId_ = value;
+        onChanged();
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -31792,6 +35976,16 @@ public final class AnalyticsProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Yql_Analytics_GetConnectionsRequest_Filter_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Yql_Analytics_Acl_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Yql_Analytics_Acl_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Yql_Analytics_Acl_Ace_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Yql_Analytics_Acl_Ace_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Yql_Analytics_ConnectionEntity_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -31887,6 +36081,11 @@ public final class AnalyticsProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Yql_Analytics_ModifyHistoryRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Yql_Analytics_ModifyHistoryResult_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Yql_Analytics_ModifyHistoryResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Yql_Analytics_ModifyHistoryResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -31958,112 +36157,128 @@ public final class AnalyticsProtos {
       "\nConnection\0222\n\014ydb_database\030\001 \001(\0132\032.Yql." +
       "Analytics.YdbDatabaseH\000\022>\n\022clickhouse_cl" +
       "uster\030\002 \001(\0132 .Yql.Analytics.ClickHouseCl" +
-      "usterH\000B\014\n\nconnection\"\321\001\n\025GetConnections" +
+      "usterH\000B\014\n\nconnection\"\343\001\n\025GetConnections" +
       "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\022\021\n\tfolder_id\030" +
-      "\002 \001(\t\022\014\n\004name\030\003 \001(\t\022;\n\006filter\030\004 \001(\0132+.Yq" +
-      "l.Analytics.GetConnectionsRequest.Filter" +
-      "\032\037\n\006Filter\022\025\n\rconnection_id\030\001 \001(\t\"\255\002\n\020Co" +
-      "nnectionEntity\022\021\n\tfolder_id\030\001 \001(\t\022\025\n\rcon",
-      "nection_id\030\002 \001(\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013" +
-      "modified_by\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022-\n\nconne" +
-      "ction\030\006 \001(\0132\031.Yql.Analytics.Connection\022\013" +
-      "\n\003acl\030\007 \001(\t\0221\n\rcreation_time\030\010 \001(\0132\032.goo" +
-      "gle.protobuf.Timestamp\0225\n\021modification_t" +
-      "ime\030\t \001(\0132\032.google.protobuf.Timestamp\022\022\n" +
-      "\nis_deleted\030\n \001(\010\"G\n\024GetConnectionsResul" +
-      "t\022/\n\006entity\030\001 \003(\0132\037.Yql.Analytics.Connec" +
-      "tionEntity\"F\n\026GetConnectionsResponse\022,\n\t" +
-      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati",
-      "on\"\212\001\n\030ModifyConnectionsRequest\0229\n\020opera" +
-      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
-      "tionParams\0223\n\nconnection\030\002 \003(\0132\037.Yql.Ana" +
-      "lytics.ConnectionEntity\"0\n\027ModifyConnect" +
-      "ionsResult\022\025\n\rconnection_id\030\001 \003(\t\"I\n\031Mod" +
-      "ifyConnectionsResponse\022,\n\toperation\030\001 \001(" +
-      "\0132\031.Ydb.Operations.Operation\"\272\001\n\021GetQuer" +
-      "iesRequest\022\021\n\tfolder_id\030\001 \001(\t\022\032\n\022continu" +
-      "ation_token\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\0227\n\006filt" +
-      "er\030\004 \001(\0132\'.Yql.Analytics.GetQueriesReque",
-      "st.Filter\032.\n\006Filter\022\020\n\010query_id\030\001 \001(\t\022\022\n" +
-      "\nfield_type\030\002 \001(\005\"\203\003\n\022GetQueriesResponse" +
-      "\022>\n\007queries\030\001 \003(\0132-.Yql.Analytics.GetQue" +
-      "riesResponse.QueryEntity\022\032\n\022continuation" +
-      "_token\030\002 \001(\t\032\220\002\n\013QueryEntity\022\n\n\002id\030\001 \001(\t" +
-      "\022\013\n\003sql\030\002 \001(\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013mod" +
-      "ified_by\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\021\n\tfolder_i" +
-      "d\030\006 \001(\t\022\013\n\003acl\030\007 \001(\t\022\022\n\nrows_limit\030\010 \001(\003" +
-      "\022\023\n\013bytes_limit\030\t \001(\003\0221\n\rcreation_time\030\n" +
-      " \001(\0132\032.google.protobuf.Timestamp\0225\n\021modi",
-      "fication_time\030\013 \001(\0132\032.google.protobuf.Ti" +
-      "mestamp\"\230\001\n\022ModifyQueryRequest\022\n\n\002id\030\001 \001" +
-      "(\t\022\021\n\tfolder_id\030\002 \001(\t\022\013\n\003sql\030\004 \001(\t\022\014\n\004na" +
-      "me\030\005 \001(\t\022\013\n\003acl\030\006 \001(\t\022\022\n\nrows_limit\030\007 \001(" +
-      "\003\022\023\n\013bytes_limit\030\010 \001(\003\022\022\n\nis_deleted\030\t \001" +
-      "(\010\"\025\n\023ModifyQueryResponse\"\372\001\n\021GetHistory" +
-      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\022\021\n\tfolder_id\030" +
-      "\002 \001(\t\022\032\n\022continuation_token\030\003 \001(\t\0227\n\006fil" +
-      "ter\030\004 \001(\0132\'.Yql.Analytics.GetHistoryRequ",
-      "est.Filter\032B\n\006Filter\022\020\n\010query_id\030\001 \001(\t\022\022" +
-      "\n\nhistory_id\030\002 \001(\t\022\022\n\nfield_type\030\003 \001(\005\"\037" +
-      "\n\017QueryStatistics\022\014\n\004yson\030\001 \001(\014\"B\n\022GetHi" +
-      "storyResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
-      "perations.Operation\"\376\005\n\020GetHistoryResult" +
-      "\022>\n\007history\030\001 \003(\0132-.Yql.Analytics.GetHis" +
-      "toryResult.HistoryEntity\022\032\n\022continuation" +
-      "_token\030\002 \001(\t\032\215\005\n\rHistoryEntity\022\n\n\002id\030\001 \001" +
-      "(\t\022\013\n\003sql\030\002 \001(\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013m" +
-      "odified_by\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\021\n\tfolder",
-      "_id\030\006 \001(\t\022\013\n\003acl\030\007 \001(\t\022\022\n\nquery_plan\030\010 \001" +
-      "(\t\022\020\n\010query_id\030\t \001(\t\022\021\n\ttruncated\030\n \003(\010\022" +
-      "\022\n\nrows_count\030\013 \003(\003\022+\n\006status\030\014 \001(\0162\033.Yq" +
-      "l.Analytics.EQueryStatus\0221\n\014execute_mode" +
-      "\030\r \001(\0162\033.Yql.Analytics.EExecuteMode\022\022\n\nr" +
-      "ows_limit\030\016 \001(\003\022\023\n\013bytes_limit\030\017 \001(\003\022.\n\n" +
-      "start_time\030\020 \001(\0132\032.google.protobuf.Times" +
-      "tamp\022/\n\013finish_time\030\021 \001(\0132\032.google.proto" +
-      "buf.Timestamp\0227\n\023expiration_deadline\030\022 \001" +
-      "(\0132\032.google.protobuf.Timestamp\0221\n\rcreati",
-      "on_time\030\023 \001(\0132\032.google.protobuf.Timestam" +
-      "p\0225\n\021modification_time\030\024 \001(\0132\032.google.pr" +
-      "otobuf.Timestamp\0222\n\nstatistics\030\025 \001(\0132\036.Y" +
-      "ql.Analytics.QueryStatistics\"d\n\024ModifyHi" +
-      "storyRequest\022\n\n\002id\030\001 \001(\t\022\021\n\tfolder_id\030\002 " +
-      "\001(\t\022\014\n\004name\030\004 \001(\t\022\013\n\003acl\030\005 \001(\t\022\022\n\nis_del" +
-      "eted\030\006 \001(\010\"\027\n\025ModifyHistoryResponse\"\242\003\n\023" +
-      "ExecuteQueryRequest\0229\n\020operation_params\030" +
-      "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\020" +
-      "\n\010yql_text\030\002 \001(\t\0221\n\014execute_mode\030\003 \001(\0162\033",
-      ".Yql.Analytics.EExecuteMode\022\030\n\020max_resul" +
-      "t_bytes\030\004 \001(\004\022\027\n\017max_result_rows\030\005 \001(\004\022\034" +
-      "\n\024expire_after_seconds\030\006 \001(\r\022F\n\nparamete" +
-      "rs\030\007 \003(\01322.Yql.Analytics.ExecuteQueryReq" +
-      "uest.ParametersEntry\022.\n\013connections\030\010 \003(" +
-      "\0132\031.Yql.Analytics.Connection\032B\n\017Paramete" +
-      "rsEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Yd" +
-      "b.TypedValue:\0028\001\"D\n\024ExecuteQueryResponse" +
+      "Operations.OperationParams\022\020\n\010cloud_id\030d" +
+      " \001(\t\022\021\n\tfolder_id\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\022;\n" +
+      "\006filter\030\004 \001(\0132+.Yql.Analytics.GetConnect" +
+      "ionsRequest.Filter\032\037\n\006Filter\022\025\n\rconnecti" +
+      "on_id\030\001 \001(\t\"a\n\003Acl\022#\n\003ace\030\001 \003(\0132\026.Yql.An",
+      "alytics.Acl.Ace\022.\n\nvisibility\030\002 \001(\0162\032.Yq" +
+      "l.Analytics.EVisibility\032\005\n\003Ace\"\323\002\n\020Conne" +
+      "ctionEntity\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfolder_" +
+      "id\030\001 \001(\t\022\025\n\rconnection_id\030\002 \001(\t\022\022\n\ncreat" +
+      "ed_by\030\003 \001(\t\022\023\n\013modified_by\030\004 \001(\t\022\014\n\004name" +
+      "\030\005 \001(\t\022-\n\nconnection\030\006 \001(\0132\031.Yql.Analyti" +
+      "cs.Connection\022\037\n\003acl\030\007 \001(\0132\022.Yql.Analyti" +
+      "cs.Acl\0221\n\rcreation_time\030\010 \001(\0132\032.google.p" +
+      "rotobuf.Timestamp\0225\n\021modification_time\030\t" +
+      " \001(\0132\032.google.protobuf.Timestamp\022\022\n\nis_d",
+      "eleted\030\n \001(\010\"G\n\024GetConnectionsResult\022/\n\006" +
+      "entity\030\001 \003(\0132\037.Yql.Analytics.ConnectionE" +
+      "ntity\"F\n\026GetConnectionsResponse\022,\n\topera" +
+      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\212\001" +
+      "\n\030ModifyConnectionsRequest\0229\n\020operation_" +
+      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\0223\n\nconnection\030\002 \003(\0132\037.Yql.Analytic" +
+      "s.ConnectionEntity\"0\n\027ModifyConnectionsR" +
+      "esult\022\025\n\rconnection_id\030\001 \003(\t\"I\n\031ModifyCo" +
+      "nnectionsResponse\022,\n\toperation\030\001 \001(\0132\031.Y",
+      "db.Operations.Operation\"\314\001\n\021GetQueriesRe" +
+      "quest\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfolder_id\030\001 \001" +
+      "(\t\022\032\n\022continuation_token\030\002 \001(\t\022\r\n\005limit\030" +
+      "\003 \001(\005\0227\n\006filter\030\004 \001(\0132\'.Yql.Analytics.Ge" +
+      "tQueriesRequest.Filter\032.\n\006Filter\022\020\n\010quer" +
+      "y_id\030\001 \001(\t\022\022\n\nfield_type\030\002 \001(\005\"\251\003\n\022GetQu" +
+      "eriesResponse\022>\n\007queries\030\001 \003(\0132-.Yql.Ana" +
+      "lytics.GetQueriesResponse.QueryEntity\022\032\n" +
+      "\022continuation_token\030\002 \001(\t\032\266\002\n\013QueryEntit" +
+      "y\022\n\n\002id\030\001 \001(\t\022\013\n\003sql\030\002 \001(\t\022\022\n\ncreated_by",
+      "\030\003 \001(\t\022\023\n\013modified_by\030\004 \001(\t\022\014\n\004name\030\005 \001(" +
+      "\t\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfolder_id\030\006 \001(\t\022\037" +
+      "\n\003acl\030\007 \001(\0132\022.Yql.Analytics.Acl\022\022\n\nrows_" +
+      "limit\030\010 \001(\003\022\023\n\013bytes_limit\030\t \001(\003\0221\n\rcrea" +
+      "tion_time\030\n \001(\0132\032.google.protobuf.Timest" +
+      "amp\0225\n\021modification_time\030\013 \001(\0132\032.google." +
+      "protobuf.Timestamp\"\276\001\n\022ModifyQueryReques" +
+      "t\022\n\n\002id\030\001 \001(\t\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfolde" +
+      "r_id\030\002 \001(\t\022\013\n\003sql\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\037\n" +
+      "\003acl\030\006 \001(\0132\022.Yql.Analytics.Acl\022\022\n\nrows_l",
+      "imit\030\007 \001(\003\022\023\n\013bytes_limit\030\010 \001(\003\022\022\n\nis_de" +
+      "leted\030\t \001(\010\"\025\n\023ModifyQueryResponse\"\214\002\n\021G" +
+      "etHistoryRequest\0229\n\020operation_params\030\001 \001" +
+      "(\0132\037.Ydb.Operations.OperationParams\022\020\n\010c" +
+      "loud_id\030d \001(\t\022\021\n\tfolder_id\030\002 \001(\t\022\032\n\022cont" +
+      "inuation_token\030\003 \001(\t\0227\n\006filter\030\004 \001(\0132\'.Y" +
+      "ql.Analytics.GetHistoryRequest.Filter\032B\n" +
+      "\006Filter\022\020\n\010query_id\030\001 \001(\t\022\022\n\nhistory_id\030" +
+      "\002 \001(\t\022\022\n\nfield_type\030\003 \001(\005\"\037\n\017QueryStatis" +
+      "tics\022\014\n\004yson\030\001 \001(\014\"B\n\022GetHistoryResponse",
       "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
-      "ration\"(\n\022ExecuteQueryResult\022\022\n\nhistory_",
-      "id\030\001 \001(\t\"\233\001\n\024GetResultDataRequest\0229\n\020ope" +
-      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
-      "rationParams\022\022\n\nhistory_id\030\002 \001(\t\022\025\n\rresu" +
-      "lt_set_id\030\003 \001(\005\022\016\n\006offset\030\004 \001(\003\022\r\n\005limit" +
-      "\030\005 \001(\003\"E\n\025GetResultDataResponse\022,\n\topera" +
-      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"9\n" +
-      "\023GetResultDataResult\022\"\n\nresult_set\030\001 \001(\013" +
-      "2\016.Ydb.ResultSet\"U\n\017ResultSetHeader\022\033\n\006c" +
-      "olumn\030\001 \003(\0132\013.Ydb.Column\022\022\n\nrows_count\030\002" +
-      " \001(\003\022\021\n\ttruncated\030\003 \001(\010\"B\n\020ResultSetHead",
-      "ers\022.\n\006header\030\001 \003(\0132\036.Yql.Analytics.Resu" +
-      "ltSetHeader*/\n\nEFieldType\022\010\n\004NONE\020\000\022\007\n\003S" +
-      "QL\020\001\022\016\n\nQUERY_PLAN\020\002*S\n\014EExecuteMode\022\024\n\020" +
-      "MODE_UNSPECIFIED\020\000\022\007\n\003RUN\020\001\022\013\n\007EXPLAIN\020\002" +
-      "\022\014\n\010VALIDATE\020\003\022\t\n\005PARSE\020\004*Q\n\014EQueryStatu" +
-      "s\022\017\n\013UNSPECIFIED\020\000\022\t\n\005SAVED\020\001\022\013\n\007RUNNING" +
-      "\020\002\022\n\n\006FAILED\020\003\022\014\n\010FINISHED\020\004B.\n\030com.yand" +
-      "ex.yql.analyticsB\017AnalyticsProtos\370\001\001b\006pr" +
-      "oto3"
+      "ration\"\244\006\n\020GetHistoryResult\022>\n\007history\030\001" +
+      " \003(\0132-.Yql.Analytics.GetHistoryResult.Hi" +
+      "storyEntity\022\032\n\022continuation_token\030\002 \001(\t\032" +
+      "\263\005\n\rHistoryEntity\022\n\n\002id\030\001 \001(\t\022\013\n\003sql\030\002 \001" +
+      "(\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013modified_by\030\004 " +
+      "\001(\t\022\014\n\004name\030\005 \001(\t\022\020\n\010cloud_id\030d \001(\t\022\021\n\tf" +
+      "older_id\030\006 \001(\t\022\037\n\003acl\030\007 \001(\0132\022.Yql.Analyt" +
+      "ics.Acl\022\022\n\nquery_plan\030\010 \001(\t\022\020\n\010query_id\030" +
+      "\t \001(\t\022\021\n\ttruncated\030\n \003(\010\022\022\n\nrows_count\030\013",
+      " \003(\003\022+\n\006status\030\014 \001(\0162\033.Yql.Analytics.EQu" +
+      "eryStatus\0221\n\014execute_mode\030\r \001(\0162\033.Yql.An" +
+      "alytics.EExecuteMode\022\022\n\nrows_limit\030\016 \001(\003" +
+      "\022\023\n\013bytes_limit\030\017 \001(\003\022.\n\nstart_time\030\020 \001(" +
+      "\0132\032.google.protobuf.Timestamp\022/\n\013finish_" +
+      "time\030\021 \001(\0132\032.google.protobuf.Timestamp\0227" +
+      "\n\023expiration_deadline\030\022 \001(\0132\032.google.pro" +
+      "tobuf.Timestamp\0221\n\rcreation_time\030\023 \001(\0132\032" +
+      ".google.protobuf.Timestamp\0225\n\021modificati" +
+      "on_time\030\024 \001(\0132\032.google.protobuf.Timestam",
+      "p\0222\n\nstatistics\030\025 \001(\0132\036.Yql.Analytics.Qu" +
+      "eryStatistics\"\327\001\n\024ModifyHistoryRequest\022\n" +
+      "\n\002id\030\001 \001(\t\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfolder_i" +
+      "d\030\002 \001(\t\022\014\n\004name\030\004 \001(\t\022\037\n\003acl\030\005 \001(\0132\022.Yql" +
+      ".Analytics.Acl\022\022\n\nis_deleted\030\006 \001(\010\022\020\n\010yq" +
+      "l_text\030\007 \001(\t\0229\n\020operation_params\030\010 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\")\n\023Modif" +
+      "yHistoryResult\022\022\n\nhistory_id\030\001 \001(\t\"E\n\025Mo" +
+      "difyHistoryResponse\022,\n\toperation\030\001 \001(\0132\031" +
+      ".Ydb.Operations.Operation\"\307\003\n\023ExecuteQue",
+      "ryRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
+      "b.Operations.OperationParams\022\020\n\010yql_text" +
+      "\030\002 \001(\t\0221\n\014execute_mode\030\003 \001(\0162\033.Yql.Analy" +
+      "tics.EExecuteMode\022\030\n\020max_result_bytes\030\004 " +
+      "\001(\004\022\027\n\017max_result_rows\030\005 \001(\004\022\034\n\024expire_a" +
+      "fter_seconds\030\006 \001(\r\022F\n\nparameters\030\007 \003(\01322" +
+      ".Yql.Analytics.ExecuteQueryRequest.Param" +
+      "etersEntry\022.\n\013connections\030\010 \003(\0132\031.Yql.An" +
+      "alytics.Connection\022\021\n\tfolder_id\030\t \001(\t\022\020\n" +
+      "\010cloud_id\030\n \001(\t\032B\n\017ParametersEntry\022\013\n\003ke",
+      "y\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.TypedValue:" +
+      "\0028\001\"D\n\024ExecuteQueryResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"(\n\022Exe" +
+      "cuteQueryResult\022\022\n\nhistory_id\030\001 \001(\t\"\233\001\n\024" +
+      "GetResultDataRequest\0229\n\020operation_params" +
+      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
+      "\022\n\nhistory_id\030\002 \001(\t\022\025\n\rresult_set_id\030\003 \001" +
+      "(\005\022\016\n\006offset\030\004 \001(\003\022\r\n\005limit\030\005 \001(\003\"E\n\025Get" +
+      "ResultDataResponse\022,\n\toperation\030\001 \001(\0132\031." +
+      "Ydb.Operations.Operation\"9\n\023GetResultDat",
+      "aResult\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.Result" +
+      "Set\"U\n\017ResultSetHeader\022\033\n\006column\030\001 \003(\0132\013" +
+      ".Ydb.Column\022\022\n\nrows_count\030\002 \001(\003\022\021\n\ttrunc" +
+      "ated\030\003 \001(\010\"B\n\020ResultSetHeaders\022.\n\006header" +
+      "\030\001 \003(\0132\036.Yql.Analytics.ResultSetHeader*f" +
+      "\n\013EVisibility\022\023\n\017VISIBILITY_NONE\020\000\022\025\n\021VI" +
+      "SIBILITY_PUBLIC\020\001\022\024\n\020VISIBILITY_CLOUD\020\002\022" +
+      "\025\n\021VISIBILITY_FOLDER\020\003*/\n\nEFieldType\022\010\n\004" +
+      "NONE\020\000\022\007\n\003SQL\020\001\022\016\n\nQUERY_PLAN\020\002*S\n\014EExec" +
+      "uteMode\022\024\n\020MODE_UNSPECIFIED\020\000\022\007\n\003RUN\020\001\022\013",
+      "\n\007EXPLAIN\020\002\022\014\n\010VALIDATE\020\003\022\t\n\005PARSE\020\004*Q\n\014" +
+      "EQueryStatus\022\017\n\013UNSPECIFIED\020\000\022\t\n\005SAVED\020\001" +
+      "\022\013\n\007RUNNING\020\002\022\n\n\006FAILED\020\003\022\014\n\010FINISHED\020\004B" +
+      ".\n\030com.yandex.yql.analyticsB\017AnalyticsPr" +
+      "otos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -32103,55 +36318,67 @@ public final class AnalyticsProtos {
     internal_static_Yql_Analytics_GetConnectionsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetConnectionsRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "FolderId", "Name", "Filter", });
+        new java.lang.String[] { "OperationParams", "CloudId", "FolderId", "Name", "Filter", });
     internal_static_Yql_Analytics_GetConnectionsRequest_Filter_descriptor =
       internal_static_Yql_Analytics_GetConnectionsRequest_descriptor.getNestedTypes().get(0);
     internal_static_Yql_Analytics_GetConnectionsRequest_Filter_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetConnectionsRequest_Filter_descriptor,
         new java.lang.String[] { "ConnectionId", });
-    internal_static_Yql_Analytics_ConnectionEntity_descriptor =
+    internal_static_Yql_Analytics_Acl_descriptor =
       getDescriptor().getMessageTypes().get(4);
+    internal_static_Yql_Analytics_Acl_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Yql_Analytics_Acl_descriptor,
+        new java.lang.String[] { "Ace", "Visibility", });
+    internal_static_Yql_Analytics_Acl_Ace_descriptor =
+      internal_static_Yql_Analytics_Acl_descriptor.getNestedTypes().get(0);
+    internal_static_Yql_Analytics_Acl_Ace_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Yql_Analytics_Acl_Ace_descriptor,
+        new java.lang.String[] { });
+    internal_static_Yql_Analytics_ConnectionEntity_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_Yql_Analytics_ConnectionEntity_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ConnectionEntity_descriptor,
-        new java.lang.String[] { "FolderId", "ConnectionId", "CreatedBy", "ModifiedBy", "Name", "Connection", "Acl", "CreationTime", "ModificationTime", "IsDeleted", });
+        new java.lang.String[] { "CloudId", "FolderId", "ConnectionId", "CreatedBy", "ModifiedBy", "Name", "Connection", "Acl", "CreationTime", "ModificationTime", "IsDeleted", });
     internal_static_Yql_Analytics_GetConnectionsResult_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_Yql_Analytics_GetConnectionsResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetConnectionsResult_descriptor,
         new java.lang.String[] { "Entity", });
     internal_static_Yql_Analytics_GetConnectionsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_Yql_Analytics_GetConnectionsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetConnectionsResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Yql_Analytics_ModifyConnectionsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Yql_Analytics_ModifyConnectionsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ModifyConnectionsRequest_descriptor,
         new java.lang.String[] { "OperationParams", "Connection", });
     internal_static_Yql_Analytics_ModifyConnectionsResult_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Yql_Analytics_ModifyConnectionsResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ModifyConnectionsResult_descriptor,
         new java.lang.String[] { "ConnectionId", });
     internal_static_Yql_Analytics_ModifyConnectionsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_Yql_Analytics_ModifyConnectionsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ModifyConnectionsResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Yql_Analytics_GetQueriesRequest_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_Yql_Analytics_GetQueriesRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetQueriesRequest_descriptor,
-        new java.lang.String[] { "FolderId", "ContinuationToken", "Limit", "Filter", });
+        new java.lang.String[] { "CloudId", "FolderId", "ContinuationToken", "Limit", "Filter", });
     internal_static_Yql_Analytics_GetQueriesRequest_Filter_descriptor =
       internal_static_Yql_Analytics_GetQueriesRequest_descriptor.getNestedTypes().get(0);
     internal_static_Yql_Analytics_GetQueriesRequest_Filter_fieldAccessorTable = new
@@ -32159,7 +36386,7 @@ public final class AnalyticsProtos {
         internal_static_Yql_Analytics_GetQueriesRequest_Filter_descriptor,
         new java.lang.String[] { "QueryId", "FieldType", });
     internal_static_Yql_Analytics_GetQueriesResponse_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_Yql_Analytics_GetQueriesResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetQueriesResponse_descriptor,
@@ -32169,25 +36396,25 @@ public final class AnalyticsProtos {
     internal_static_Yql_Analytics_GetQueriesResponse_QueryEntity_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetQueriesResponse_QueryEntity_descriptor,
-        new java.lang.String[] { "Id", "Sql", "CreatedBy", "ModifiedBy", "Name", "FolderId", "Acl", "RowsLimit", "BytesLimit", "CreationTime", "ModificationTime", });
+        new java.lang.String[] { "Id", "Sql", "CreatedBy", "ModifiedBy", "Name", "CloudId", "FolderId", "Acl", "RowsLimit", "BytesLimit", "CreationTime", "ModificationTime", });
     internal_static_Yql_Analytics_ModifyQueryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_Yql_Analytics_ModifyQueryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ModifyQueryRequest_descriptor,
-        new java.lang.String[] { "Id", "FolderId", "Sql", "Name", "Acl", "RowsLimit", "BytesLimit", "IsDeleted", });
+        new java.lang.String[] { "Id", "CloudId", "FolderId", "Sql", "Name", "Acl", "RowsLimit", "BytesLimit", "IsDeleted", });
     internal_static_Yql_Analytics_ModifyQueryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_Yql_Analytics_ModifyQueryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ModifyQueryResponse_descriptor,
         new java.lang.String[] { });
     internal_static_Yql_Analytics_GetHistoryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_Yql_Analytics_GetHistoryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetHistoryRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "FolderId", "ContinuationToken", "Filter", });
+        new java.lang.String[] { "OperationParams", "CloudId", "FolderId", "ContinuationToken", "Filter", });
     internal_static_Yql_Analytics_GetHistoryRequest_Filter_descriptor =
       internal_static_Yql_Analytics_GetHistoryRequest_descriptor.getNestedTypes().get(0);
     internal_static_Yql_Analytics_GetHistoryRequest_Filter_fieldAccessorTable = new
@@ -32195,19 +36422,19 @@ public final class AnalyticsProtos {
         internal_static_Yql_Analytics_GetHistoryRequest_Filter_descriptor,
         new java.lang.String[] { "QueryId", "HistoryId", "FieldType", });
     internal_static_Yql_Analytics_QueryStatistics_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_Yql_Analytics_QueryStatistics_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_QueryStatistics_descriptor,
         new java.lang.String[] { "Yson", });
     internal_static_Yql_Analytics_GetHistoryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_Yql_Analytics_GetHistoryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetHistoryResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Yql_Analytics_GetHistoryResult_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_Yql_Analytics_GetHistoryResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetHistoryResult_descriptor,
@@ -32217,25 +36444,31 @@ public final class AnalyticsProtos {
     internal_static_Yql_Analytics_GetHistoryResult_HistoryEntity_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetHistoryResult_HistoryEntity_descriptor,
-        new java.lang.String[] { "Id", "Sql", "CreatedBy", "ModifiedBy", "Name", "FolderId", "Acl", "QueryPlan", "QueryId", "Truncated", "RowsCount", "Status", "ExecuteMode", "RowsLimit", "BytesLimit", "StartTime", "FinishTime", "ExpirationDeadline", "CreationTime", "ModificationTime", "Statistics", });
+        new java.lang.String[] { "Id", "Sql", "CreatedBy", "ModifiedBy", "Name", "CloudId", "FolderId", "Acl", "QueryPlan", "QueryId", "Truncated", "RowsCount", "Status", "ExecuteMode", "RowsLimit", "BytesLimit", "StartTime", "FinishTime", "ExpirationDeadline", "CreationTime", "ModificationTime", "Statistics", });
     internal_static_Yql_Analytics_ModifyHistoryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_Yql_Analytics_ModifyHistoryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ModifyHistoryRequest_descriptor,
-        new java.lang.String[] { "Id", "FolderId", "Name", "Acl", "IsDeleted", });
+        new java.lang.String[] { "Id", "CloudId", "FolderId", "Name", "Acl", "IsDeleted", "YqlText", "OperationParams", });
+    internal_static_Yql_Analytics_ModifyHistoryResult_descriptor =
+      getDescriptor().getMessageTypes().get(20);
+    internal_static_Yql_Analytics_ModifyHistoryResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Yql_Analytics_ModifyHistoryResult_descriptor,
+        new java.lang.String[] { "HistoryId", });
     internal_static_Yql_Analytics_ModifyHistoryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_Yql_Analytics_ModifyHistoryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ModifyHistoryResponse_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "Operation", });
     internal_static_Yql_Analytics_ExecuteQueryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_Yql_Analytics_ExecuteQueryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ExecuteQueryRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "YqlText", "ExecuteMode", "MaxResultBytes", "MaxResultRows", "ExpireAfterSeconds", "Parameters", "Connections", });
+        new java.lang.String[] { "OperationParams", "YqlText", "ExecuteMode", "MaxResultBytes", "MaxResultRows", "ExpireAfterSeconds", "Parameters", "Connections", "FolderId", "CloudId", });
     internal_static_Yql_Analytics_ExecuteQueryRequest_ParametersEntry_descriptor =
       internal_static_Yql_Analytics_ExecuteQueryRequest_descriptor.getNestedTypes().get(0);
     internal_static_Yql_Analytics_ExecuteQueryRequest_ParametersEntry_fieldAccessorTable = new
@@ -32243,43 +36476,43 @@ public final class AnalyticsProtos {
         internal_static_Yql_Analytics_ExecuteQueryRequest_ParametersEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Yql_Analytics_ExecuteQueryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_Yql_Analytics_ExecuteQueryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ExecuteQueryResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Yql_Analytics_ExecuteQueryResult_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_Yql_Analytics_ExecuteQueryResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ExecuteQueryResult_descriptor,
         new java.lang.String[] { "HistoryId", });
     internal_static_Yql_Analytics_GetResultDataRequest_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_Yql_Analytics_GetResultDataRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetResultDataRequest_descriptor,
         new java.lang.String[] { "OperationParams", "HistoryId", "ResultSetId", "Offset", "Limit", });
     internal_static_Yql_Analytics_GetResultDataResponse_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_Yql_Analytics_GetResultDataResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetResultDataResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Yql_Analytics_GetResultDataResult_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_Yql_Analytics_GetResultDataResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetResultDataResult_descriptor,
         new java.lang.String[] { "ResultSet", });
     internal_static_Yql_Analytics_ResultSetHeader_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_Yql_Analytics_ResultSetHeader_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ResultSetHeader_descriptor,
         new java.lang.String[] { "Column", "RowsCount", "Truncated", });
     internal_static_Yql_Analytics_ResultSetHeaders_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_Yql_Analytics_ResultSetHeaders_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ResultSetHeaders_descriptor,

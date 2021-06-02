@@ -787,6 +787,11 @@ public final class DiscoveryProtos {
      */
     com.google.protobuf.ByteString
         getLocationBytes();
+
+    /**
+     * <code>uint32 node_id = 7;</code>
+     */
+    int getNodeId();
   }
   /**
    * Protobuf type {@code Ydb.Discovery.EndpointInfo}
@@ -807,6 +812,7 @@ public final class DiscoveryProtos {
       ssl_ = false;
       service_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       location_ = "";
+      nodeId_ = 0;
     }
 
     @java.lang.Override
@@ -871,6 +877,11 @@ public final class DiscoveryProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               location_ = s;
+              break;
+            }
+            case 56: {
+
+              nodeId_ = input.readUInt32();
               break;
             }
           }
@@ -1025,6 +1036,15 @@ public final class DiscoveryProtos {
       }
     }
 
+    public static final int NODE_ID_FIELD_NUMBER = 7;
+    private int nodeId_;
+    /**
+     * <code>uint32 node_id = 7;</code>
+     */
+    public int getNodeId() {
+      return nodeId_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1054,6 +1074,9 @@ public final class DiscoveryProtos {
       }
       if (!getLocationBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, location_);
+      }
+      if (nodeId_ != 0) {
+        output.writeUInt32(7, nodeId_);
       }
       unknownFields.writeTo(output);
     }
@@ -1089,6 +1112,10 @@ public final class DiscoveryProtos {
       if (!getLocationBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, location_);
       }
+      if (nodeId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(7, nodeId_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -1119,6 +1146,8 @@ public final class DiscoveryProtos {
           .equals(other.getServiceList());
       result = result && getLocation()
           .equals(other.getLocation());
+      result = result && (getNodeId()
+          == other.getNodeId());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1146,6 +1175,8 @@ public final class DiscoveryProtos {
       }
       hash = (37 * hash) + LOCATION_FIELD_NUMBER;
       hash = (53 * hash) + getLocation().hashCode();
+      hash = (37 * hash) + NODE_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getNodeId();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1287,6 +1318,8 @@ public final class DiscoveryProtos {
         bitField0_ = (bitField0_ & ~0x00000010);
         location_ = "";
 
+        nodeId_ = 0;
+
         return this;
       }
 
@@ -1321,6 +1354,7 @@ public final class DiscoveryProtos {
         }
         result.service_ = service_;
         result.location_ = location_;
+        result.nodeId_ = nodeId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1389,6 +1423,9 @@ public final class DiscoveryProtos {
         if (!other.getLocation().isEmpty()) {
           location_ = other.location_;
           onChanged();
+        }
+        if (other.getNodeId() != 0) {
+          setNodeId(other.getNodeId());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1724,6 +1761,32 @@ public final class DiscoveryProtos {
   checkByteStringIsUtf8(value);
         
         location_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int nodeId_ ;
+      /**
+       * <code>uint32 node_id = 7;</code>
+       */
+      public int getNodeId() {
+        return nodeId_;
+      }
+      /**
+       * <code>uint32 node_id = 7;</code>
+       */
+      public Builder setNodeId(int value) {
+        
+        nodeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 node_id = 7;</code>
+       */
+      public Builder clearNodeId() {
+        
+        nodeId_ = 0;
         onChanged();
         return this;
       }
@@ -5165,19 +5228,19 @@ public final class DiscoveryProtos {
       ".proto\022\rYdb.Discovery\032,kikimr/public/api" +
       "/protos/ydb_operation.proto\"9\n\024ListEndpo" +
       "intsRequest\022\020\n\010database\030\001 \001(\t\022\017\n\007service" +
-      "\030\002 \003(\t\"r\n\014EndpointInfo\022\017\n\007address\030\001 \001(\t\022" +
-      "\014\n\004port\030\002 \001(\r\022\023\n\013load_factor\030\003 \001(\002\022\013\n\003ss" +
-      "l\030\004 \001(\010\022\017\n\007service\030\005 \003(\t\022\020\n\010location\030\006 \001" +
-      "(\t\"\\\n\023ListEndpointsResult\022.\n\tendpoints\030\001" +
-      " \003(\0132\033.Ydb.Discovery.EndpointInfo\022\025\n\rsel" +
-      "f_location\030\002 \001(\t\"E\n\025ListEndpointsRespons",
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"\'\n\rWhoAmIRequest\022\026\n\016include_grou" +
-      "ps\030\001 \001(\010\",\n\014WhoAmIResult\022\014\n\004user\030\001 \001(\t\022\016" +
-      "\n\006groups\030\002 \003(\t\">\n\016WhoAmIResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.OperationB." +
-      "\n\030tech.ydb.discoveryB\017DiscoveryPro" +
-      "tos\370\001\001b\006proto3"
+      "\030\002 \003(\t\"\203\001\n\014EndpointInfo\022\017\n\007address\030\001 \001(\t" +
+      "\022\014\n\004port\030\002 \001(\r\022\023\n\013load_factor\030\003 \001(\002\022\013\n\003s" +
+      "sl\030\004 \001(\010\022\017\n\007service\030\005 \003(\t\022\020\n\010location\030\006 " +
+      "\001(\t\022\017\n\007node_id\030\007 \001(\r\"\\\n\023ListEndpointsRes" +
+      "ult\022.\n\tendpoints\030\001 \003(\0132\033.Ydb.Discovery.E" +
+      "ndpointInfo\022\025\n\rself_location\030\002 \001(\t\"E\n\025Li",
+      "stEndpointsResponse\022,\n\toperation\030\001 \001(\0132\031" +
+      ".Ydb.Operations.Operation\"\'\n\rWhoAmIReque" +
+      "st\022\026\n\016include_groups\030\001 \001(\010\",\n\014WhoAmIResu" +
+      "lt\022\014\n\004user\030\001 \001(\t\022\016\n\006groups\030\002 \003(\t\">\n\016WhoA" +
+      "mIResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.OperationB.\n\030tech.ydb.disco" +
+      "veryB\017DiscoveryProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5203,7 +5266,7 @@ public final class DiscoveryProtos {
     internal_static_Ydb_Discovery_EndpointInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Discovery_EndpointInfo_descriptor,
-        new java.lang.String[] { "Address", "Port", "LoadFactor", "Ssl", "Service", "Location", });
+        new java.lang.String[] { "Address", "Port", "LoadFactor", "Ssl", "Service", "Location", "NodeId", });
     internal_static_Ydb_Discovery_ListEndpointsResult_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_Ydb_Discovery_ListEndpointsResult_fieldAccessorTable = new

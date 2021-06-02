@@ -30525,11 +30525,11 @@ public final class GatewaysConfig {
         getNameBytes();
 
     /**
-     * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
+     * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2 [default = CT_PERS_QUEUE];</code>
      */
     boolean hasClusterType();
     /**
-     * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
+     * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2 [default = CT_PERS_QUEUE];</code>
      */
     ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType getClusterType();
 
@@ -30636,7 +30636,7 @@ public final class GatewaysConfig {
     }
     private TPqClusterConfig() {
       name_ = "";
-      clusterType_ = 0;
+      clusterType_ = 1;
       endpoint_ = "";
       configManagerEndpoint_ = "";
       token_ = "";
@@ -30761,31 +30761,31 @@ public final class GatewaysConfig {
     public enum EClusterType
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
-       * <code>Unspecified = 0;</code>
+       * <code>CT_UNSPECIFIED = 0;</code>
        */
-      Unspecified(0),
+      CT_UNSPECIFIED(0),
       /**
-       * <code>PersQueue = 1;</code>
+       * <code>CT_PERS_QUEUE = 1;</code>
        */
-      PersQueue(1),
+      CT_PERS_QUEUE(1),
       /**
-       * <code>DataStreams = 2;</code>
+       * <code>CT_DATA_STREAMS = 2;</code>
        */
-      DataStreams(2),
+      CT_DATA_STREAMS(2),
       ;
 
       /**
-       * <code>Unspecified = 0;</code>
+       * <code>CT_UNSPECIFIED = 0;</code>
        */
-      public static final int Unspecified_VALUE = 0;
+      public static final int CT_UNSPECIFIED_VALUE = 0;
       /**
-       * <code>PersQueue = 1;</code>
+       * <code>CT_PERS_QUEUE = 1;</code>
        */
-      public static final int PersQueue_VALUE = 1;
+      public static final int CT_PERS_QUEUE_VALUE = 1;
       /**
-       * <code>DataStreams = 2;</code>
+       * <code>CT_DATA_STREAMS = 2;</code>
        */
-      public static final int DataStreams_VALUE = 2;
+      public static final int CT_DATA_STREAMS_VALUE = 2;
 
 
       public final int getNumber() {
@@ -30802,9 +30802,9 @@ public final class GatewaysConfig {
 
       public static EClusterType forNumber(int value) {
         switch (value) {
-          case 0: return Unspecified;
-          case 1: return PersQueue;
-          case 2: return DataStreams;
+          case 0: return CT_UNSPECIFIED;
+          case 1: return CT_PERS_QUEUE;
+          case 2: return CT_DATA_STREAMS;
           default: return null;
         }
       }
@@ -30900,17 +30900,17 @@ public final class GatewaysConfig {
     public static final int CLUSTERTYPE_FIELD_NUMBER = 2;
     private int clusterType_;
     /**
-     * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
+     * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2 [default = CT_PERS_QUEUE];</code>
      */
     public boolean hasClusterType() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
+     * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2 [default = CT_PERS_QUEUE];</code>
      */
     public ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType getClusterType() {
       ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType result = ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType.valueOf(clusterType_);
-      return result == null ? ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType.Unspecified : result;
+      return result == null ? ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType.CT_PERS_QUEUE : result;
     }
 
     public static final int ENDPOINT_FIELD_NUMBER = 3;
@@ -31435,7 +31435,7 @@ public final class GatewaysConfig {
         super.clear();
         name_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        clusterType_ = 0;
+        clusterType_ = 1;
         bitField0_ = (bitField0_ & ~0x00000002);
         endpoint_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -31722,22 +31722,22 @@ public final class GatewaysConfig {
         return this;
       }
 
-      private int clusterType_ = 0;
+      private int clusterType_ = 1;
       /**
-       * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
+       * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2 [default = CT_PERS_QUEUE];</code>
        */
       public boolean hasClusterType() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
+       * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2 [default = CT_PERS_QUEUE];</code>
        */
       public ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType getClusterType() {
         ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType result = ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType.valueOf(clusterType_);
-        return result == null ? ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType.Unspecified : result;
+        return result == null ? ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType.CT_PERS_QUEUE : result;
       }
       /**
-       * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
+       * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2 [default = CT_PERS_QUEUE];</code>
        */
       public Builder setClusterType(ru.yandex.yql.proto.GatewaysConfig.TPqClusterConfig.EClusterType value) {
         if (value == null) {
@@ -31749,11 +31749,11 @@ public final class GatewaysConfig {
         return this;
       }
       /**
-       * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2;</code>
+       * <code>optional .NYql.TPqClusterConfig.EClusterType ClusterType = 2 [default = CT_PERS_QUEUE];</code>
        */
       public Builder clearClusterType() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        clusterType_ = 0;
+        clusterType_ = 1;
         onChanged();
         return this;
       }
@@ -54254,86 +54254,87 @@ public final class GatewaysConfig {
       "facts\030\005 \003(\t\022:\n\017CommonArtifacts\030\006 \003(\0132!.N" +
       "Yql.TRtmrOperationArtifactsInfo\022\033\n\017MaxPq" +
       "Partitions\030\007 \001(\r:\00210\022%\n\027PreviewCollectTi",
-      "meoutMs\030\010 \001(\r:\0042000\"\245\002\n\020TPqClusterConfig" +
-      "\022\014\n\004Name\030\001 \001(\t\0228\n\013ClusterType\030\002 \001(\0162#.NY" +
-      "ql.TPqClusterConfig.EClusterType\022\020\n\010Endp" +
-      "oint\030\003 \001(\t\022\035\n\025ConfigManagerEndpoint\030\004 \001(" +
-      "\t\022\r\n\005Token\030\005 \001(\t\022\027\n\010Database\030\006 \001(\t:\005/Roo" +
-      "t\022\020\n\005TvmId\030\007 \001(\r:\0010\022\035\n\010Settings\030d \003(\0132\013." +
-      "NYql.TAttr\"?\n\014EClusterType\022\017\n\013Unspecifie" +
-      "d\020\000\022\r\n\tPersQueue\020\001\022\017\n\013DataStreams\020\002\"~\n\020T" +
-      "PqGatewayConfig\022.\n\016ClusterMapping\030\001 \003(\0132" +
-      "\026.NYql.TPqClusterConfig\022\024\n\014DefaultToken\030",
-      "\002 \001(\t\022$\n\017DefaultSettings\030d \003(\0132\013.NYql.TA" +
-      "ttr\"\217\001\n\022TStatClusterConfig\022\014\n\004Name\030\001 \001(\t" +
-      "\022\017\n\007Cluster\030\002 \001(\t\022\026\n\007Default\030\003 \001(\010:\005fals" +
-      "e\022\021\n\tStatToken\030\004 \001(\t\022\020\n\010StatName\030\005 \001(\t\022\035" +
-      "\n\010Settings\030d \003(\0132\013.NYql.TAttr\"\207\001\n\022TStatG" +
-      "atewayConfig\022\031\n\016GatewayThreads\030\001 \001(\r:\0010\022" +
-      "0\n\016ClusterMapping\030e \003(\0132\030.NYql.TStatClus" +
-      "terConfig\022$\n\017DefaultSettings\030f \003(\0132\013.NYq" +
-      "l.TAttr\"5\n\022TChytClusterConfig\022\014\n\004Name\030\001 " +
-      "\001(\t\022\021\n\tYtCluster\030\002 \001(\t\"F\n\022TChytGatewayCo",
-      "nfig\0220\n\016ClusterMapping\030\001 \003(\0132\030.NYql.TChy" +
-      "tClusterConfig\"m\n\025TSolomonClusterConfig\022" +
-      "\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\026\n\007Defaul" +
-      "t\030\003 \001(\010:\005false\022\035\n\010Settings\030d \003(\0132\013.NYql." +
-      "TAttr\"r\n\025TSolomonGatewayConfig\0223\n\016Cluste" +
-      "rMapping\030\001 \003(\0132\033.NYql.TSolomonClusterCon" +
-      "fig\022$\n\017DefaultSettings\030\002 \003(\0132\013.NYql.TAtt" +
-      "r\":\n\034TFileStorageAdditionalConfig\022\032\n\022All" +
-      "owedUrlPatterns\030\001 \003(\t\"J\n\030TPostgresqlClus" +
-      "terConfig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t",
-      "\022\017\n\007PGtoken\030\003 \001(\t\"R\n\030TPostgresqlGatewayC" +
-      "onfig\0226\n\016ClusterMapping\030\001 \003(\0132\036.NYql.TPo" +
-      "stgresqlClusterConfig\"H\n\023TMysqlClusterCo" +
-      "nfig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\022\n\nM" +
-      "ysqlToken\030\003 \001(\t\"H\n\023TMysqlGatewayConfig\0221" +
-      "\n\016ClusterMapping\030\001 \003(\0132\031.NYql.TMysqlClus" +
-      "terConfig\"\260\002\n\020TDqGatewayConfig\022 \n\025Defaul" +
-      "tAutoPercentage\030\001 \001(\r:\0010\022N\n\021DefaultAutoB" +
-      "yHour\030\002 \003(\01323.NYql.TDqGatewayConfig.TDef" +
-      "aultAutoByHourPercentage\022\035\n\025NoDefaultAut",
-      "oForUsers\030\003 \003(\t\022#\n\033DefaultAnalyzeQueryFo" +
-      "rUsers\030\004 \003(\t\022$\n\017DefaultSettings\030f \003(\0132\013." +
-      "NYql.TAttr\032@\n\034TDefaultAutoByHourPercenta" +
-      "ge\022\014\n\004Hour\030\001 \002(\r\022\022\n\nPercentage\030\002 \002(\r\"\'\n\t" +
-      "TCoreAttr\022\014\n\004Name\030\001 \002(\t\022\014\n\004Args\030\002 \003(\t\"0\n" +
-      "\016TYqlCoreConfig\022\036\n\005Flags\030\001 \003(\0132\017.NYql.TC" +
-      "oreAttr\"@\n\034TWarnAsErrorByHourPercentage\022" +
-      "\014\n\004Hour\030\001 \002(\r\022\022\n\nPercentage\030\002 \002(\r\"\274\001\n\016TS" +
-      "qlCoreConfig\022(\n\035V0SyntaxWarnAsErrorPerce" +
-      "ntage\030\001 \001(\r:\0010\022E\n\031V0SyntaxWarnAsErrorByH",
-      "our\030\002 \003(\0132\".NYql.TWarnAsErrorByHourPerce" +
-      "ntage\022\037\n\027NoV0SyntaxErrorForUsers\030\003 \003(\t\022\030" +
-      "\n\020TranslationFlags\030\004 \003(\t\"\267\005\n\017TGatewaysCo" +
-      "nfig\022\"\n\002Yt\030\001 \001(\0132\026.NYql.TYtGatewayConfig" +
-      "\022*\n\006Kikimr\030\002 \001(\0132\032.NYql.TKikimrGatewayCo" +
-      "nfig\0222\n\nClickHouse\030\003 \001(\0132\036.NYql.TClickHo" +
-      "useGatewayConfig\022&\n\004Rtmr\030\004 \001(\0132\030.NYql.TR" +
-      "tmrGatewayConfig\0220\n\tKikimrMvp\030\005 \001(\0132\035.NY" +
-      "ql.TKikimrMvpGatewayConfig\022&\n\004Stat\030\006 \001(\013" +
-      "2\030.NYql.TStatGatewayConfig\022&\n\004Chyt\030\007 \001(\013",
-      "2\030.NYql.TChytGatewayConfig\022,\n\007Solomon\030\010 " +
-      "\001(\0132\033.NYql.TSolomonGatewayConfig\022.\n\002Fs\030\t" +
-      " \001(\0132\".NYql.TFileStorageAdditionalConfig" +
-      "\022%\n\007YqlCore\030\n \001(\0132\024.NYql.TYqlCoreConfig\022" +
-      "2\n\nPostgresql\030\013 \001(\0132\036.NYql.TPostgresqlGa" +
-      "tewayConfig\022%\n\007SqlCore\030\014 \001(\0132\024.NYql.TSql" +
-      "CoreConfig\022\"\n\002Dq\030\r \001(\0132\026.NYql.TDqGateway" +
-      "Config\022(\n\005Mysql\030\016 \001(\0132\031.NYql.TMysqlGatew" +
-      "ayConfig\022$\n\003Ydb\030\017 \001(\0132\027.NYql.TYdbGateway" +
-      "Config\022\"\n\002Pq\030\020 \001(\0132\026.NYql.TPqGatewayConf",
-      "ig*Z\n\013EYtLogLevel\022\024\n\007YL_NONE\020\377\377\377\377\377\377\377\377\377\001\022" +
-      "\014\n\010YL_FATAL\020\000\022\014\n\010YL_ERROR\020\001\022\013\n\007YL_INFO\020\002" +
-      "\022\014\n\010YL_DEBUG\020\003*(\n\013EHostScheme\022\013\n\007HS_HTTP" +
-      "\020\000\022\014\n\010HS_HTTPS\020\001*?\n\nETokenType\022\007\n\003IAM\020\000\022" +
-      "\t\n\005OAUTH\020\001\022\014\n\010BLACKBOX\020\002\022\017\n\013CREDENTIALS\020" +
-      "\003*9\n\017EYfArtifactType\022\013\n\007AT_NONE\020\000\022\013\n\007AT_" +
-      "FILE\020\001\022\014\n\010AT_LAYER\020\002*e\n\022ERtmrOperationTy" +
-      "pe\022\013\n\007OT_NONE\020\000\022\017\n\013OT_LF_PARSE\020\001\022\016\n\nOT_Y" +
-      "DB_OUT\020\002\022\022\n\016OT_SOLOMON_OUT\020\003\022\r\n\tOT_PQ_OU" +
-      "T\020\004B\025\n\023ru.yandex.yql.proto"
+      "meoutMs\030\010 \001(\r:\0042000\"\277\002\n\020TPqClusterConfig" +
+      "\022\014\n\004Name\030\001 \001(\t\022G\n\013ClusterType\030\002 \001(\0162#.NY" +
+      "ql.TPqClusterConfig.EClusterType:\rCT_PER" +
+      "S_QUEUE\022\020\n\010Endpoint\030\003 \001(\t\022\035\n\025ConfigManag" +
+      "erEndpoint\030\004 \001(\t\022\r\n\005Token\030\005 \001(\t\022\027\n\010Datab" +
+      "ase\030\006 \001(\t:\005/Root\022\020\n\005TvmId\030\007 \001(\r:\0010\022\035\n\010Se" +
+      "ttings\030d \003(\0132\013.NYql.TAttr\"J\n\014EClusterTyp" +
+      "e\022\022\n\016CT_UNSPECIFIED\020\000\022\021\n\rCT_PERS_QUEUE\020\001" +
+      "\022\023\n\017CT_DATA_STREAMS\020\002\"~\n\020TPqGatewayConfi" +
+      "g\022.\n\016ClusterMapping\030\001 \003(\0132\026.NYql.TPqClus",
+      "terConfig\022\024\n\014DefaultToken\030\002 \001(\t\022$\n\017Defau" +
+      "ltSettings\030d \003(\0132\013.NYql.TAttr\"\217\001\n\022TStatC" +
+      "lusterConfig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 " +
+      "\001(\t\022\026\n\007Default\030\003 \001(\010:\005false\022\021\n\tStatToken" +
+      "\030\004 \001(\t\022\020\n\010StatName\030\005 \001(\t\022\035\n\010Settings\030d \003" +
+      "(\0132\013.NYql.TAttr\"\207\001\n\022TStatGatewayConfig\022\031" +
+      "\n\016GatewayThreads\030\001 \001(\r:\0010\0220\n\016ClusterMapp" +
+      "ing\030e \003(\0132\030.NYql.TStatClusterConfig\022$\n\017D" +
+      "efaultSettings\030f \003(\0132\013.NYql.TAttr\"5\n\022TCh" +
+      "ytClusterConfig\022\014\n\004Name\030\001 \001(\t\022\021\n\tYtClust",
+      "er\030\002 \001(\t\"F\n\022TChytGatewayConfig\0220\n\016Cluste" +
+      "rMapping\030\001 \003(\0132\030.NYql.TChytClusterConfig" +
+      "\"m\n\025TSolomonClusterConfig\022\014\n\004Name\030\001 \001(\t\022" +
+      "\017\n\007Cluster\030\002 \001(\t\022\026\n\007Default\030\003 \001(\010:\005false" +
+      "\022\035\n\010Settings\030d \003(\0132\013.NYql.TAttr\"r\n\025TSolo" +
+      "monGatewayConfig\0223\n\016ClusterMapping\030\001 \003(\013" +
+      "2\033.NYql.TSolomonClusterConfig\022$\n\017Default" +
+      "Settings\030\002 \003(\0132\013.NYql.TAttr\":\n\034TFileStor" +
+      "ageAdditionalConfig\022\032\n\022AllowedUrlPattern" +
+      "s\030\001 \003(\t\"J\n\030TPostgresqlClusterConfig\022\014\n\004N",
+      "ame\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\017\n\007PGtoken\030\003 " +
+      "\001(\t\"R\n\030TPostgresqlGatewayConfig\0226\n\016Clust" +
+      "erMapping\030\001 \003(\0132\036.NYql.TPostgresqlCluste" +
+      "rConfig\"H\n\023TMysqlClusterConfig\022\014\n\004Name\030\001" +
+      " \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\022\n\nMysqlToken\030\003 \001(" +
+      "\t\"H\n\023TMysqlGatewayConfig\0221\n\016ClusterMappi" +
+      "ng\030\001 \003(\0132\031.NYql.TMysqlClusterConfig\"\260\002\n\020" +
+      "TDqGatewayConfig\022 \n\025DefaultAutoPercentag" +
+      "e\030\001 \001(\r:\0010\022N\n\021DefaultAutoByHour\030\002 \003(\01323." +
+      "NYql.TDqGatewayConfig.TDefaultAutoByHour",
+      "Percentage\022\035\n\025NoDefaultAutoForUsers\030\003 \003(" +
+      "\t\022#\n\033DefaultAnalyzeQueryForUsers\030\004 \003(\t\022$" +
+      "\n\017DefaultSettings\030f \003(\0132\013.NYql.TAttr\032@\n\034" +
+      "TDefaultAutoByHourPercentage\022\014\n\004Hour\030\001 \002" +
+      "(\r\022\022\n\nPercentage\030\002 \002(\r\"\'\n\tTCoreAttr\022\014\n\004N" +
+      "ame\030\001 \002(\t\022\014\n\004Args\030\002 \003(\t\"0\n\016TYqlCoreConfi" +
+      "g\022\036\n\005Flags\030\001 \003(\0132\017.NYql.TCoreAttr\"@\n\034TWa" +
+      "rnAsErrorByHourPercentage\022\014\n\004Hour\030\001 \002(\r\022" +
+      "\022\n\nPercentage\030\002 \002(\r\"\274\001\n\016TSqlCoreConfig\022(" +
+      "\n\035V0SyntaxWarnAsErrorPercentage\030\001 \001(\r:\0010",
+      "\022E\n\031V0SyntaxWarnAsErrorByHour\030\002 \003(\0132\".NY" +
+      "ql.TWarnAsErrorByHourPercentage\022\037\n\027NoV0S" +
+      "yntaxErrorForUsers\030\003 \003(\t\022\030\n\020TranslationF" +
+      "lags\030\004 \003(\t\"\267\005\n\017TGatewaysConfig\022\"\n\002Yt\030\001 \001" +
+      "(\0132\026.NYql.TYtGatewayConfig\022*\n\006Kikimr\030\002 \001" +
+      "(\0132\032.NYql.TKikimrGatewayConfig\0222\n\nClickH" +
+      "ouse\030\003 \001(\0132\036.NYql.TClickHouseGatewayConf" +
+      "ig\022&\n\004Rtmr\030\004 \001(\0132\030.NYql.TRtmrGatewayConf" +
+      "ig\0220\n\tKikimrMvp\030\005 \001(\0132\035.NYql.TKikimrMvpG" +
+      "atewayConfig\022&\n\004Stat\030\006 \001(\0132\030.NYql.TStatG",
+      "atewayConfig\022&\n\004Chyt\030\007 \001(\0132\030.NYql.TChytG" +
+      "atewayConfig\022,\n\007Solomon\030\010 \001(\0132\033.NYql.TSo" +
+      "lomonGatewayConfig\022.\n\002Fs\030\t \001(\0132\".NYql.TF" +
+      "ileStorageAdditionalConfig\022%\n\007YqlCore\030\n " +
+      "\001(\0132\024.NYql.TYqlCoreConfig\0222\n\nPostgresql\030" +
+      "\013 \001(\0132\036.NYql.TPostgresqlGatewayConfig\022%\n" +
+      "\007SqlCore\030\014 \001(\0132\024.NYql.TSqlCoreConfig\022\"\n\002" +
+      "Dq\030\r \001(\0132\026.NYql.TDqGatewayConfig\022(\n\005Mysq" +
+      "l\030\016 \001(\0132\031.NYql.TMysqlGatewayConfig\022$\n\003Yd" +
+      "b\030\017 \001(\0132\027.NYql.TYdbGatewayConfig\022\"\n\002Pq\030\020",
+      " \001(\0132\026.NYql.TPqGatewayConfig*Z\n\013EYtLogLe" +
+      "vel\022\024\n\007YL_NONE\020\377\377\377\377\377\377\377\377\377\001\022\014\n\010YL_FATAL\020\000\022" +
+      "\014\n\010YL_ERROR\020\001\022\013\n\007YL_INFO\020\002\022\014\n\010YL_DEBUG\020\003" +
+      "*(\n\013EHostScheme\022\013\n\007HS_HTTP\020\000\022\014\n\010HS_HTTPS" +
+      "\020\001*?\n\nETokenType\022\007\n\003IAM\020\000\022\t\n\005OAUTH\020\001\022\014\n\010" +
+      "BLACKBOX\020\002\022\017\n\013CREDENTIALS\020\003*9\n\017EYfArtifa" +
+      "ctType\022\013\n\007AT_NONE\020\000\022\013\n\007AT_FILE\020\001\022\014\n\010AT_L" +
+      "AYER\020\002*e\n\022ERtmrOperationType\022\013\n\007OT_NONE\020" +
+      "\000\022\017\n\013OT_LF_PARSE\020\001\022\016\n\nOT_YDB_OUT\020\002\022\022\n\016OT" +
+      "_SOLOMON_OUT\020\003\022\r\n\tOT_PQ_OUT\020\004B\025\n\023ru.yand",
+      "ex.yql.proto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
