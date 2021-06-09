@@ -32227,6 +32227,26 @@ public final class AnalyticsProtos {
      * <code>int64 limit = 5;</code>
      */
     long getLimit();
+
+    /**
+     * <code>string folder_id = 6;</code>
+     */
+    java.lang.String getFolderId();
+    /**
+     * <code>string folder_id = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getFolderIdBytes();
+
+    /**
+     * <code>string cloud_id = 7;</code>
+     */
+    java.lang.String getCloudId();
+    /**
+     * <code>string cloud_id = 7;</code>
+     */
+    com.google.protobuf.ByteString
+        getCloudIdBytes();
   }
   /**
    * Protobuf type {@code Yql.Analytics.GetResultDataRequest}
@@ -32245,6 +32265,8 @@ public final class AnalyticsProtos {
       resultSetId_ = 0;
       offset_ = 0L;
       limit_ = 0L;
+      folderId_ = "";
+      cloudId_ = "";
     }
 
     @java.lang.Override
@@ -32307,6 +32329,18 @@ public final class AnalyticsProtos {
             case 40: {
 
               limit_ = input.readInt64();
+              break;
+            }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              folderId_ = s;
+              break;
+            }
+            case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              cloudId_ = s;
               break;
             }
           }
@@ -32415,6 +32449,74 @@ public final class AnalyticsProtos {
       return limit_;
     }
 
+    public static final int FOLDER_ID_FIELD_NUMBER = 6;
+    private volatile java.lang.Object folderId_;
+    /**
+     * <code>string folder_id = 6;</code>
+     */
+    public java.lang.String getFolderId() {
+      java.lang.Object ref = folderId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        folderId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string folder_id = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFolderIdBytes() {
+      java.lang.Object ref = folderId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        folderId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CLOUD_ID_FIELD_NUMBER = 7;
+    private volatile java.lang.Object cloudId_;
+    /**
+     * <code>string cloud_id = 7;</code>
+     */
+    public java.lang.String getCloudId() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        cloudId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string cloud_id = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCloudIdBytes() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        cloudId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -32442,6 +32544,12 @@ public final class AnalyticsProtos {
       if (limit_ != 0L) {
         output.writeInt64(5, limit_);
       }
+      if (!getFolderIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, folderId_);
+      }
+      if (!getCloudIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, cloudId_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -32468,6 +32576,12 @@ public final class AnalyticsProtos {
       if (limit_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(5, limit_);
+      }
+      if (!getFolderIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, folderId_);
+      }
+      if (!getCloudIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, cloudId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -32498,6 +32612,10 @@ public final class AnalyticsProtos {
           == other.getOffset());
       result = result && (getLimit()
           == other.getLimit());
+      result = result && getFolderId()
+          .equals(other.getFolderId());
+      result = result && getCloudId()
+          .equals(other.getCloudId());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -32523,6 +32641,10 @@ public final class AnalyticsProtos {
       hash = (37 * hash) + LIMIT_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getLimit());
+      hash = (37 * hash) + FOLDER_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getFolderId().hashCode();
+      hash = (37 * hash) + CLOUD_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getCloudId().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -32666,6 +32788,10 @@ public final class AnalyticsProtos {
 
         limit_ = 0L;
 
+        folderId_ = "";
+
+        cloudId_ = "";
+
         return this;
       }
 
@@ -32697,6 +32823,8 @@ public final class AnalyticsProtos {
         result.resultSetId_ = resultSetId_;
         result.offset_ = offset_;
         result.limit_ = limit_;
+        result.folderId_ = folderId_;
+        result.cloudId_ = cloudId_;
         onBuilt();
         return result;
       }
@@ -32753,6 +32881,14 @@ public final class AnalyticsProtos {
         }
         if (other.getLimit() != 0L) {
           setLimit(other.getLimit());
+        }
+        if (!other.getFolderId().isEmpty()) {
+          folderId_ = other.folderId_;
+          onChanged();
+        }
+        if (!other.getCloudId().isEmpty()) {
+          cloudId_ = other.cloudId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -33041,6 +33177,144 @@ public final class AnalyticsProtos {
       public Builder clearLimit() {
         
         limit_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object folderId_ = "";
+      /**
+       * <code>string folder_id = 6;</code>
+       */
+      public java.lang.String getFolderId() {
+        java.lang.Object ref = folderId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          folderId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string folder_id = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFolderIdBytes() {
+        java.lang.Object ref = folderId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          folderId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string folder_id = 6;</code>
+       */
+      public Builder setFolderId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        folderId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string folder_id = 6;</code>
+       */
+      public Builder clearFolderId() {
+        
+        folderId_ = getDefaultInstance().getFolderId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string folder_id = 6;</code>
+       */
+      public Builder setFolderIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        folderId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object cloudId_ = "";
+      /**
+       * <code>string cloud_id = 7;</code>
+       */
+      public java.lang.String getCloudId() {
+        java.lang.Object ref = cloudId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          cloudId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 7;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCloudIdBytes() {
+        java.lang.Object ref = cloudId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cloudId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 7;</code>
+       */
+      public Builder setCloudId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        cloudId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 7;</code>
+       */
+      public Builder clearCloudId() {
+        
+        cloudId_ = getDefaultInstance().getCloudId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 7;</code>
+       */
+      public Builder setCloudIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        cloudId_ = value;
         onChanged();
         return this;
       }
@@ -36257,28 +36531,29 @@ public final class AnalyticsProtos {
       "y\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.TypedValue:" +
       "\0028\001\"D\n\024ExecuteQueryResponse\022,\n\toperation" +
       "\030\001 \001(\0132\031.Ydb.Operations.Operation\"(\n\022Exe" +
-      "cuteQueryResult\022\022\n\nhistory_id\030\001 \001(\t\"\233\001\n\024" +
+      "cuteQueryResult\022\022\n\nhistory_id\030\001 \001(\t\"\300\001\n\024" +
       "GetResultDataRequest\0229\n\020operation_params" +
       "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
       "\022\n\nhistory_id\030\002 \001(\t\022\025\n\rresult_set_id\030\003 \001" +
-      "(\005\022\016\n\006offset\030\004 \001(\003\022\r\n\005limit\030\005 \001(\003\"E\n\025Get" +
-      "ResultDataResponse\022,\n\toperation\030\001 \001(\0132\031." +
-      "Ydb.Operations.Operation\"9\n\023GetResultDat",
-      "aResult\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.Result" +
-      "Set\"U\n\017ResultSetHeader\022\033\n\006column\030\001 \003(\0132\013" +
-      ".Ydb.Column\022\022\n\nrows_count\030\002 \001(\003\022\021\n\ttrunc" +
-      "ated\030\003 \001(\010\"B\n\020ResultSetHeaders\022.\n\006header" +
-      "\030\001 \003(\0132\036.Yql.Analytics.ResultSetHeader*f" +
-      "\n\013EVisibility\022\023\n\017VISIBILITY_NONE\020\000\022\025\n\021VI" +
-      "SIBILITY_PUBLIC\020\001\022\024\n\020VISIBILITY_CLOUD\020\002\022" +
-      "\025\n\021VISIBILITY_FOLDER\020\003*/\n\nEFieldType\022\010\n\004" +
-      "NONE\020\000\022\007\n\003SQL\020\001\022\016\n\nQUERY_PLAN\020\002*S\n\014EExec" +
-      "uteMode\022\024\n\020MODE_UNSPECIFIED\020\000\022\007\n\003RUN\020\001\022\013",
-      "\n\007EXPLAIN\020\002\022\014\n\010VALIDATE\020\003\022\t\n\005PARSE\020\004*Q\n\014" +
-      "EQueryStatus\022\017\n\013UNSPECIFIED\020\000\022\t\n\005SAVED\020\001" +
-      "\022\013\n\007RUNNING\020\002\022\n\n\006FAILED\020\003\022\014\n\010FINISHED\020\004B" +
-      ".\n\030com.yandex.yql.analyticsB\017AnalyticsPr" +
-      "otos\370\001\001b\006proto3"
+      "(\005\022\016\n\006offset\030\004 \001(\003\022\r\n\005limit\030\005 \001(\003\022\021\n\tfol" +
+      "der_id\030\006 \001(\t\022\020\n\010cloud_id\030\007 \001(\t\"E\n\025GetRes" +
+      "ultDataResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb",
+      ".Operations.Operation\"9\n\023GetResultDataRe" +
+      "sult\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultSet" +
+      "\"U\n\017ResultSetHeader\022\033\n\006column\030\001 \003(\0132\013.Yd" +
+      "b.Column\022\022\n\nrows_count\030\002 \001(\003\022\021\n\ttruncate" +
+      "d\030\003 \001(\010\"B\n\020ResultSetHeaders\022.\n\006header\030\001 " +
+      "\003(\0132\036.Yql.Analytics.ResultSetHeader*f\n\013E" +
+      "Visibility\022\023\n\017VISIBILITY_NONE\020\000\022\025\n\021VISIB" +
+      "ILITY_PUBLIC\020\001\022\024\n\020VISIBILITY_CLOUD\020\002\022\025\n\021" +
+      "VISIBILITY_FOLDER\020\003*/\n\nEFieldType\022\010\n\004NON" +
+      "E\020\000\022\007\n\003SQL\020\001\022\016\n\nQUERY_PLAN\020\002*S\n\014EExecute",
+      "Mode\022\024\n\020MODE_UNSPECIFIED\020\000\022\007\n\003RUN\020\001\022\013\n\007E" +
+      "XPLAIN\020\002\022\014\n\010VALIDATE\020\003\022\t\n\005PARSE\020\004*Q\n\014EQu" +
+      "eryStatus\022\017\n\013UNSPECIFIED\020\000\022\t\n\005SAVED\020\001\022\013\n" +
+      "\007RUNNING\020\002\022\n\n\006FAILED\020\003\022\014\n\010FINISHED\020\004B.\n\030" +
+      "com.yandex.yql.analyticsB\017AnalyticsProto" +
+      "s\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -36492,7 +36767,7 @@ public final class AnalyticsProtos {
     internal_static_Yql_Analytics_GetResultDataRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetResultDataRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "HistoryId", "ResultSetId", "Offset", "Limit", });
+        new java.lang.String[] { "OperationParams", "HistoryId", "ResultSetId", "Offset", "Limit", "FolderId", "CloudId", });
     internal_static_Yql_Analytics_GetResultDataResponse_descriptor =
       getDescriptor().getMessageTypes().get(26);
     internal_static_Yql_Analytics_GetResultDataResponse_fieldAccessorTable = new
