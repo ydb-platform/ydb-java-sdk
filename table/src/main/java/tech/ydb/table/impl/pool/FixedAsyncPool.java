@@ -328,11 +328,13 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         private final T value;
         private final long pooledAt; // time when object was put into this pool
         private volatile long keepAlivedAt; // last time when object was processed by keep alive
+        private volatile Boolean needsToBeDestroyed; // Indicates if the object needs to be destroyed on next KeepAliveTask
 
         PooledObject(T value, long pooledAt) {
             this.value = value;
             this.pooledAt = pooledAt;
             this.keepAlivedAt = pooledAt;
+            this.needsToBeDestroyed = false;
         }
 
         T getValue() {
@@ -349,6 +351,14 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
 
         void setKeepAlivedAt(long keepAlivedAt) {
             this.keepAlivedAt = keepAlivedAt;
+        }
+
+        Boolean getNeedsToBeDestroyed() {
+            return needsToBeDestroyed;
+        }
+
+        void setNeedsToBeDestroyed(Boolean needsToBeDestroyed) {
+            this.needsToBeDestroyed = needsToBeDestroyed;
         }
     }
 
@@ -409,17 +419,27 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             synchronized (objects) {
                 for (Iterator<PooledObject<T>> it = objects.iterator(); it.hasNext(); ) {
                     PooledObject<T> o = it.next();
-                    long idleTime = nowMillis - o.getPooledAt();
-                    if (idleTime >= maxIdleTimeMillis && objects.size() > minSize) {
+                    if (o.getNeedsToBeDestroyed()) {
                         if (logger.isDebugEnabled()) {
                             logger.debug(
-                                "Destroy {} because idle time {} >= max idle time {}",
-                                o.getValue(), idleTime, maxIdleTimeMillis);
+                                    "Destroy {} because it was marked for destruction during previous keep alive task",
+                                    o.getValue());
                         }
                         toDestroy.add(o);
                         it.remove();
-                    } else if ((nowMillis - o.getKeepAlivedAt()) >= keepAliveTimeMillis) {
-                        toKeepAlive.add(o);
+                    } else {
+                        long idleTime = nowMillis - o.getPooledAt();
+                        if (idleTime >= maxIdleTimeMillis && objects.size() > minSize) {
+                            if (logger.isDebugEnabled()) {
+                                logger.debug(
+                                        "Destroy {} because idle time {} >= max idle time {}",
+                                        o.getValue(), idleTime, maxIdleTimeMillis);
+                            }
+                            toDestroy.add(o);
+                            it.remove();
+                        } else if ((nowMillis - o.getKeepAlivedAt()) >= keepAliveTimeMillis) {
+                            toKeepAlive.add(o);
+                        }
                     }
                 }
             }
@@ -450,8 +470,11 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                 PooledObject pooledObject = objectsArr[i];
                 //noinspection unchecked
                 futures[i] = handler.keepAlive((T) pooledObject.getValue())
-                    .whenComplete((aVoid, t) -> {
+                    .whenComplete((result, t) -> {
                         pooledObject.setKeepAlivedAt(System.currentTimeMillis());
+                        if (!result) {
+                            pooledObject.setNeedsToBeDestroyed(true);
+                        }
                     });
             }
 
