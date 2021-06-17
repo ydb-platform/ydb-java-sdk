@@ -27,6 +27,10 @@ final class ParamsMutableMap implements Params {
         this.params = new HashMap<>();
     }
 
+    ParamsMutableMap(int initialCapacity) {
+        this.params = new HashMap<>(initialCapacity);
+    }
+
     ParamsMutableMap(Map<String, Value<?>> params) {
         this.params = new HashMap<>(params);
     }
