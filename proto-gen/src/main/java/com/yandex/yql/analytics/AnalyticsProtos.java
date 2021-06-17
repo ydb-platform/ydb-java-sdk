@@ -32673,50 +32673,41 @@ public final class AnalyticsProtos {
         getHistoryIdBytes();
 
     /**
-     * <code>int32 result_set_id = 3;</code>
+     * <code>uint32 result_set_id = 3;</code>
      */
     int getResultSetId();
 
     /**
-     * <pre>
-     * change
-     * </pre>
-     *
-     * <code>int64 offset = 4;</code>
-     */
-    long getOffset();
-
-    /**
-     * <code>int64 limit = 5;</code>
+     * <code>uint64 limit = 4;</code>
      */
     long getLimit();
 
     /**
-     * <code>string folder_id = 6;</code>
+     * <code>string folder_id = 5;</code>
      */
     java.lang.String getFolderId();
     /**
-     * <code>string folder_id = 6;</code>
+     * <code>string folder_id = 5;</code>
      */
     com.google.protobuf.ByteString
         getFolderIdBytes();
 
     /**
-     * <code>string cloud_id = 7;</code>
+     * <code>string cloud_id = 6;</code>
      */
     java.lang.String getCloudId();
     /**
-     * <code>string cloud_id = 7;</code>
+     * <code>string cloud_id = 6;</code>
      */
     com.google.protobuf.ByteString
         getCloudIdBytes();
 
     /**
-     * <code>string page_token = 8;</code>
+     * <code>string page_token = 7;</code>
      */
     java.lang.String getPageToken();
     /**
-     * <code>string page_token = 8;</code>
+     * <code>string page_token = 7;</code>
      */
     com.google.protobuf.ByteString
         getPageTokenBytes();
@@ -32736,7 +32727,6 @@ public final class AnalyticsProtos {
     private GetResultDataRequest() {
       historyId_ = "";
       resultSetId_ = 0;
-      offset_ = 0L;
       limit_ = 0L;
       folderId_ = "";
       cloudId_ = "";
@@ -32792,32 +32782,27 @@ public final class AnalyticsProtos {
             }
             case 24: {
 
-              resultSetId_ = input.readInt32();
+              resultSetId_ = input.readUInt32();
               break;
             }
             case 32: {
 
-              offset_ = input.readInt64();
+              limit_ = input.readUInt64();
               break;
             }
-            case 40: {
-
-              limit_ = input.readInt64();
-              break;
-            }
-            case 50: {
+            case 42: {
               java.lang.String s = input.readStringRequireUtf8();
 
               folderId_ = s;
               break;
             }
-            case 58: {
+            case 50: {
               java.lang.String s = input.readStringRequireUtf8();
 
               cloudId_ = s;
               break;
             }
-            case 66: {
+            case 58: {
               java.lang.String s = input.readStringRequireUtf8();
 
               pageToken_ = s;
@@ -32905,38 +32890,25 @@ public final class AnalyticsProtos {
     public static final int RESULT_SET_ID_FIELD_NUMBER = 3;
     private int resultSetId_;
     /**
-     * <code>int32 result_set_id = 3;</code>
+     * <code>uint32 result_set_id = 3;</code>
      */
     public int getResultSetId() {
       return resultSetId_;
     }
 
-    public static final int OFFSET_FIELD_NUMBER = 4;
-    private long offset_;
-    /**
-     * <pre>
-     * change
-     * </pre>
-     *
-     * <code>int64 offset = 4;</code>
-     */
-    public long getOffset() {
-      return offset_;
-    }
-
-    public static final int LIMIT_FIELD_NUMBER = 5;
+    public static final int LIMIT_FIELD_NUMBER = 4;
     private long limit_;
     /**
-     * <code>int64 limit = 5;</code>
+     * <code>uint64 limit = 4;</code>
      */
     public long getLimit() {
       return limit_;
     }
 
-    public static final int FOLDER_ID_FIELD_NUMBER = 6;
+    public static final int FOLDER_ID_FIELD_NUMBER = 5;
     private volatile java.lang.Object folderId_;
     /**
-     * <code>string folder_id = 6;</code>
+     * <code>string folder_id = 5;</code>
      */
     public java.lang.String getFolderId() {
       java.lang.Object ref = folderId_;
@@ -32951,7 +32923,7 @@ public final class AnalyticsProtos {
       }
     }
     /**
-     * <code>string folder_id = 6;</code>
+     * <code>string folder_id = 5;</code>
      */
     public com.google.protobuf.ByteString
         getFolderIdBytes() {
@@ -32967,10 +32939,10 @@ public final class AnalyticsProtos {
       }
     }
 
-    public static final int CLOUD_ID_FIELD_NUMBER = 7;
+    public static final int CLOUD_ID_FIELD_NUMBER = 6;
     private volatile java.lang.Object cloudId_;
     /**
-     * <code>string cloud_id = 7;</code>
+     * <code>string cloud_id = 6;</code>
      */
     public java.lang.String getCloudId() {
       java.lang.Object ref = cloudId_;
@@ -32985,7 +32957,7 @@ public final class AnalyticsProtos {
       }
     }
     /**
-     * <code>string cloud_id = 7;</code>
+     * <code>string cloud_id = 6;</code>
      */
     public com.google.protobuf.ByteString
         getCloudIdBytes() {
@@ -33001,10 +32973,10 @@ public final class AnalyticsProtos {
       }
     }
 
-    public static final int PAGE_TOKEN_FIELD_NUMBER = 8;
+    public static final int PAGE_TOKEN_FIELD_NUMBER = 7;
     private volatile java.lang.Object pageToken_;
     /**
-     * <code>string page_token = 8;</code>
+     * <code>string page_token = 7;</code>
      */
     public java.lang.String getPageToken() {
       java.lang.Object ref = pageToken_;
@@ -33019,7 +32991,7 @@ public final class AnalyticsProtos {
       }
     }
     /**
-     * <code>string page_token = 8;</code>
+     * <code>string page_token = 7;</code>
      */
     public com.google.protobuf.ByteString
         getPageTokenBytes() {
@@ -33054,22 +33026,19 @@ public final class AnalyticsProtos {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, historyId_);
       }
       if (resultSetId_ != 0) {
-        output.writeInt32(3, resultSetId_);
-      }
-      if (offset_ != 0L) {
-        output.writeInt64(4, offset_);
+        output.writeUInt32(3, resultSetId_);
       }
       if (limit_ != 0L) {
-        output.writeInt64(5, limit_);
+        output.writeUInt64(4, limit_);
       }
       if (!getFolderIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, folderId_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, folderId_);
       }
       if (!getCloudIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, cloudId_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, cloudId_);
       }
       if (!getPageTokenBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 8, pageToken_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, pageToken_);
       }
       unknownFields.writeTo(output);
     }
@@ -33088,24 +33057,20 @@ public final class AnalyticsProtos {
       }
       if (resultSetId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, resultSetId_);
-      }
-      if (offset_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(4, offset_);
+          .computeUInt32Size(3, resultSetId_);
       }
       if (limit_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(5, limit_);
+          .computeUInt64Size(4, limit_);
       }
       if (!getFolderIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, folderId_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, folderId_);
       }
       if (!getCloudIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, cloudId_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, cloudId_);
       }
       if (!getPageTokenBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, pageToken_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, pageToken_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -33132,8 +33097,6 @@ public final class AnalyticsProtos {
           .equals(other.getHistoryId());
       result = result && (getResultSetId()
           == other.getResultSetId());
-      result = result && (getOffset()
-          == other.getOffset());
       result = result && (getLimit()
           == other.getLimit());
       result = result && getFolderId()
@@ -33161,9 +33124,6 @@ public final class AnalyticsProtos {
       hash = (53 * hash) + getHistoryId().hashCode();
       hash = (37 * hash) + RESULT_SET_ID_FIELD_NUMBER;
       hash = (53 * hash) + getResultSetId();
-      hash = (37 * hash) + OFFSET_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getOffset());
       hash = (37 * hash) + LIMIT_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getLimit());
@@ -33312,8 +33272,6 @@ public final class AnalyticsProtos {
 
         resultSetId_ = 0;
 
-        offset_ = 0L;
-
         limit_ = 0L;
 
         folderId_ = "";
@@ -33351,7 +33309,6 @@ public final class AnalyticsProtos {
         }
         result.historyId_ = historyId_;
         result.resultSetId_ = resultSetId_;
-        result.offset_ = offset_;
         result.limit_ = limit_;
         result.folderId_ = folderId_;
         result.cloudId_ = cloudId_;
@@ -33406,9 +33363,6 @@ public final class AnalyticsProtos {
         }
         if (other.getResultSetId() != 0) {
           setResultSetId(other.getResultSetId());
-        }
-        if (other.getOffset() != 0L) {
-          setOffset(other.getOffset());
         }
         if (other.getLimit() != 0L) {
           setLimit(other.getLimit());
@@ -33640,13 +33594,13 @@ public final class AnalyticsProtos {
 
       private int resultSetId_ ;
       /**
-       * <code>int32 result_set_id = 3;</code>
+       * <code>uint32 result_set_id = 3;</code>
        */
       public int getResultSetId() {
         return resultSetId_;
       }
       /**
-       * <code>int32 result_set_id = 3;</code>
+       * <code>uint32 result_set_id = 3;</code>
        */
       public Builder setResultSetId(int value) {
         
@@ -33655,7 +33609,7 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>int32 result_set_id = 3;</code>
+       * <code>uint32 result_set_id = 3;</code>
        */
       public Builder clearResultSetId() {
         
@@ -33664,53 +33618,15 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private long offset_ ;
-      /**
-       * <pre>
-       * change
-       * </pre>
-       *
-       * <code>int64 offset = 4;</code>
-       */
-      public long getOffset() {
-        return offset_;
-      }
-      /**
-       * <pre>
-       * change
-       * </pre>
-       *
-       * <code>int64 offset = 4;</code>
-       */
-      public Builder setOffset(long value) {
-        
-        offset_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * change
-       * </pre>
-       *
-       * <code>int64 offset = 4;</code>
-       */
-      public Builder clearOffset() {
-        
-        offset_ = 0L;
-        onChanged();
-        return this;
-      }
-
       private long limit_ ;
       /**
-       * <code>int64 limit = 5;</code>
+       * <code>uint64 limit = 4;</code>
        */
       public long getLimit() {
         return limit_;
       }
       /**
-       * <code>int64 limit = 5;</code>
+       * <code>uint64 limit = 4;</code>
        */
       public Builder setLimit(long value) {
         
@@ -33719,7 +33635,7 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>int64 limit = 5;</code>
+       * <code>uint64 limit = 4;</code>
        */
       public Builder clearLimit() {
         
@@ -33730,7 +33646,7 @@ public final class AnalyticsProtos {
 
       private java.lang.Object folderId_ = "";
       /**
-       * <code>string folder_id = 6;</code>
+       * <code>string folder_id = 5;</code>
        */
       public java.lang.String getFolderId() {
         java.lang.Object ref = folderId_;
@@ -33745,7 +33661,7 @@ public final class AnalyticsProtos {
         }
       }
       /**
-       * <code>string folder_id = 6;</code>
+       * <code>string folder_id = 5;</code>
        */
       public com.google.protobuf.ByteString
           getFolderIdBytes() {
@@ -33761,7 +33677,7 @@ public final class AnalyticsProtos {
         }
       }
       /**
-       * <code>string folder_id = 6;</code>
+       * <code>string folder_id = 5;</code>
        */
       public Builder setFolderId(
           java.lang.String value) {
@@ -33774,7 +33690,7 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>string folder_id = 6;</code>
+       * <code>string folder_id = 5;</code>
        */
       public Builder clearFolderId() {
         
@@ -33783,7 +33699,7 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>string folder_id = 6;</code>
+       * <code>string folder_id = 5;</code>
        */
       public Builder setFolderIdBytes(
           com.google.protobuf.ByteString value) {
@@ -33799,7 +33715,7 @@ public final class AnalyticsProtos {
 
       private java.lang.Object cloudId_ = "";
       /**
-       * <code>string cloud_id = 7;</code>
+       * <code>string cloud_id = 6;</code>
        */
       public java.lang.String getCloudId() {
         java.lang.Object ref = cloudId_;
@@ -33814,7 +33730,7 @@ public final class AnalyticsProtos {
         }
       }
       /**
-       * <code>string cloud_id = 7;</code>
+       * <code>string cloud_id = 6;</code>
        */
       public com.google.protobuf.ByteString
           getCloudIdBytes() {
@@ -33830,7 +33746,7 @@ public final class AnalyticsProtos {
         }
       }
       /**
-       * <code>string cloud_id = 7;</code>
+       * <code>string cloud_id = 6;</code>
        */
       public Builder setCloudId(
           java.lang.String value) {
@@ -33843,7 +33759,7 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>string cloud_id = 7;</code>
+       * <code>string cloud_id = 6;</code>
        */
       public Builder clearCloudId() {
         
@@ -33852,7 +33768,7 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>string cloud_id = 7;</code>
+       * <code>string cloud_id = 6;</code>
        */
       public Builder setCloudIdBytes(
           com.google.protobuf.ByteString value) {
@@ -33868,7 +33784,7 @@ public final class AnalyticsProtos {
 
       private java.lang.Object pageToken_ = "";
       /**
-       * <code>string page_token = 8;</code>
+       * <code>string page_token = 7;</code>
        */
       public java.lang.String getPageToken() {
         java.lang.Object ref = pageToken_;
@@ -33883,7 +33799,7 @@ public final class AnalyticsProtos {
         }
       }
       /**
-       * <code>string page_token = 8;</code>
+       * <code>string page_token = 7;</code>
        */
       public com.google.protobuf.ByteString
           getPageTokenBytes() {
@@ -33899,7 +33815,7 @@ public final class AnalyticsProtos {
         }
       }
       /**
-       * <code>string page_token = 8;</code>
+       * <code>string page_token = 7;</code>
        */
       public Builder setPageToken(
           java.lang.String value) {
@@ -33912,7 +33828,7 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>string page_token = 8;</code>
+       * <code>string page_token = 7;</code>
        */
       public Builder clearPageToken() {
         
@@ -33921,7 +33837,7 @@ public final class AnalyticsProtos {
         return this;
       }
       /**
-       * <code>string page_token = 8;</code>
+       * <code>string page_token = 7;</code>
        */
       public Builder setPageTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -37288,29 +37204,29 @@ public final class AnalyticsProtos {
       ".Ydb.TypedValue:\0028\001\"D\n\024ExecuteQueryRespo" +
       "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
       "Operation\"(\n\022ExecuteQueryResult\022\022\n\nhisto" +
-      "ry_id\030\001 \001(\t\"\324\001\n\024GetResultDataRequest\0229\n\020" +
+      "ry_id\030\001 \001(\t\"\304\001\n\024GetResultDataRequest\0229\n\020" +
       "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
       "OperationParams\022\022\n\nhistory_id\030\002 \001(\t\022\025\n\rr",
-      "esult_set_id\030\003 \001(\005\022\016\n\006offset\030\004 \001(\003\022\r\n\005li" +
-      "mit\030\005 \001(\003\022\021\n\tfolder_id\030\006 \001(\t\022\020\n\010cloud_id" +
-      "\030\007 \001(\t\022\022\n\npage_token\030\010 \001(\t\"E\n\025GetResultD" +
-      "ataResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"R\n\023GetResultDataResult" +
-      "\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultSet\022\027\n\017" +
-      "next_page_token\030\002 \001(\t\"U\n\017ResultSetHeader" +
-      "\022\033\n\006column\030\001 \003(\0132\013.Ydb.Column\022\022\n\nrows_co" +
-      "unt\030\002 \001(\003\022\021\n\ttruncated\030\003 \001(\010\"B\n\020ResultSe" +
-      "tHeaders\022.\n\006header\030\001 \003(\0132\036.Yql.Analytics",
-      ".ResultSetHeader*f\n\013EVisibility\022\023\n\017VISIB" +
-      "ILITY_NONE\020\000\022\025\n\021VISIBILITY_PUBLIC\020\001\022\024\n\020V" +
-      "ISIBILITY_CLOUD\020\002\022\025\n\021VISIBILITY_FOLDER\020\003" +
-      "*/\n\nEFieldType\022\010\n\004NONE\020\000\022\007\n\003SQL\020\001\022\016\n\nQUE" +
-      "RY_PLAN\020\002*S\n\014EExecuteMode\022\024\n\020MODE_UNSPEC" +
-      "IFIED\020\000\022\007\n\003RUN\020\001\022\013\n\007EXPLAIN\020\002\022\014\n\010VALIDAT" +
-      "E\020\003\022\t\n\005PARSE\020\004*Q\n\014EQueryStatus\022\017\n\013UNSPEC" +
-      "IFIED\020\000\022\t\n\005SAVED\020\001\022\013\n\007RUNNING\020\002\022\n\n\006FAILE" +
-      "D\020\003\022\014\n\010FINISHED\020\004B.\n\030com.yandex.yql.anal" +
-      "yticsB\017AnalyticsProtos\370\001\001b\006proto3"
+      "esult_set_id\030\003 \001(\r\022\r\n\005limit\030\004 \001(\004\022\021\n\tfol" +
+      "der_id\030\005 \001(\t\022\020\n\010cloud_id\030\006 \001(\t\022\022\n\npage_t" +
+      "oken\030\007 \001(\t\"E\n\025GetResultDataResponse\022,\n\to" +
+      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
+      "n\"R\n\023GetResultDataResult\022\"\n\nresult_set\030\001" +
+      " \001(\0132\016.Ydb.ResultSet\022\027\n\017next_page_token\030" +
+      "\002 \001(\t\"U\n\017ResultSetHeader\022\033\n\006column\030\001 \003(\013" +
+      "2\013.Ydb.Column\022\022\n\nrows_count\030\002 \001(\003\022\021\n\ttru" +
+      "ncated\030\003 \001(\010\"B\n\020ResultSetHeaders\022.\n\006head" +
+      "er\030\001 \003(\0132\036.Yql.Analytics.ResultSetHeader",
+      "*f\n\013EVisibility\022\023\n\017VISIBILITY_NONE\020\000\022\025\n\021" +
+      "VISIBILITY_PUBLIC\020\001\022\024\n\020VISIBILITY_CLOUD\020" +
+      "\002\022\025\n\021VISIBILITY_FOLDER\020\003*/\n\nEFieldType\022\010" +
+      "\n\004NONE\020\000\022\007\n\003SQL\020\001\022\016\n\nQUERY_PLAN\020\002*S\n\014EEx" +
+      "ecuteMode\022\024\n\020MODE_UNSPECIFIED\020\000\022\007\n\003RUN\020\001" +
+      "\022\013\n\007EXPLAIN\020\002\022\014\n\010VALIDATE\020\003\022\t\n\005PARSE\020\004*Q" +
+      "\n\014EQueryStatus\022\017\n\013UNSPECIFIED\020\000\022\t\n\005SAVED" +
+      "\020\001\022\013\n\007RUNNING\020\002\022\n\n\006FAILED\020\003\022\014\n\010FINISHED\020" +
+      "\004B.\n\030com.yandex.yql.analyticsB\017Analytics" +
+      "Protos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -37525,7 +37441,7 @@ public final class AnalyticsProtos {
     internal_static_Yql_Analytics_GetResultDataRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetResultDataRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "HistoryId", "ResultSetId", "Offset", "Limit", "FolderId", "CloudId", "PageToken", });
+        new java.lang.String[] { "OperationParams", "HistoryId", "ResultSetId", "Limit", "FolderId", "CloudId", "PageToken", });
     internal_static_Yql_Analytics_GetResultDataResponse_descriptor =
       getDescriptor().getMessageTypes().get(26);
     internal_static_Yql_Analytics_GetResultDataResponse_fieldAccessorTable = new
