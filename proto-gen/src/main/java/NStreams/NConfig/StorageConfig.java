@@ -1860,6 +1860,516 @@ public final class StorageConfig {
 
   }
 
+  public interface TStateStorageLimitsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:NStreams.NConfig.TStateStorageLimits)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * 1Gb
+     * </pre>
+     *
+     * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+     */
+    boolean hasMaxGraphStateSizeBytes();
+    /**
+     * <pre>
+     * 1Gb
+     * </pre>
+     *
+     * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+     */
+    long getMaxGraphStateSizeBytes();
+  }
+  /**
+   * Protobuf type {@code NStreams.NConfig.TStateStorageLimits}
+   */
+  public  static final class TStateStorageLimits extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:NStreams.NConfig.TStateStorageLimits)
+      TStateStorageLimitsOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use TStateStorageLimits.newBuilder() to construct.
+    private TStateStorageLimits(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private TStateStorageLimits() {
+      maxGraphStateSizeBytes_ = 1099511627776L;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TStateStorageLimits(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              maxGraphStateSizeBytes_ = input.readUInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStateStorageLimits_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStateStorageLimits_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              NStreams.NConfig.StorageConfig.TStateStorageLimits.class, NStreams.NConfig.StorageConfig.TStateStorageLimits.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int MAXGRAPHSTATESIZEBYTES_FIELD_NUMBER = 1;
+    private long maxGraphStateSizeBytes_;
+    /**
+     * <pre>
+     * 1Gb
+     * </pre>
+     *
+     * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+     */
+    public boolean hasMaxGraphStateSizeBytes() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <pre>
+     * 1Gb
+     * </pre>
+     *
+     * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+     */
+    public long getMaxGraphStateSizeBytes() {
+      return maxGraphStateSizeBytes_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt64(1, maxGraphStateSizeBytes_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(1, maxGraphStateSizeBytes_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof NStreams.NConfig.StorageConfig.TStateStorageLimits)) {
+        return super.equals(obj);
+      }
+      NStreams.NConfig.StorageConfig.TStateStorageLimits other = (NStreams.NConfig.StorageConfig.TStateStorageLimits) obj;
+
+      boolean result = true;
+      result = result && (hasMaxGraphStateSizeBytes() == other.hasMaxGraphStateSizeBytes());
+      if (hasMaxGraphStateSizeBytes()) {
+        result = result && (getMaxGraphStateSizeBytes()
+            == other.getMaxGraphStateSizeBytes());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasMaxGraphStateSizeBytes()) {
+        hash = (37 * hash) + MAXGRAPHSTATESIZEBYTES_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getMaxGraphStateSizeBytes());
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static NStreams.NConfig.StorageConfig.TStateStorageLimits parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static NStreams.NConfig.StorageConfig.TStateStorageLimits parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static NStreams.NConfig.StorageConfig.TStateStorageLimits parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static NStreams.NConfig.StorageConfig.TStateStorageLimits parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static NStreams.NConfig.StorageConfig.TStateStorageLimits parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static NStreams.NConfig.StorageConfig.TStateStorageLimits parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static NStreams.NConfig.StorageConfig.TStateStorageLimits parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static NStreams.NConfig.StorageConfig.TStateStorageLimits parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static NStreams.NConfig.StorageConfig.TStateStorageLimits parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static NStreams.NConfig.StorageConfig.TStateStorageLimits parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static NStreams.NConfig.StorageConfig.TStateStorageLimits parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static NStreams.NConfig.StorageConfig.TStateStorageLimits parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(NStreams.NConfig.StorageConfig.TStateStorageLimits prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code NStreams.NConfig.TStateStorageLimits}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:NStreams.NConfig.TStateStorageLimits)
+        NStreams.NConfig.StorageConfig.TStateStorageLimitsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStateStorageLimits_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStateStorageLimits_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                NStreams.NConfig.StorageConfig.TStateStorageLimits.class, NStreams.NConfig.StorageConfig.TStateStorageLimits.Builder.class);
+      }
+
+      // Construct using NStreams.NConfig.StorageConfig.TStateStorageLimits.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        maxGraphStateSizeBytes_ = 1099511627776L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStateStorageLimits_descriptor;
+      }
+
+      public NStreams.NConfig.StorageConfig.TStateStorageLimits getDefaultInstanceForType() {
+        return NStreams.NConfig.StorageConfig.TStateStorageLimits.getDefaultInstance();
+      }
+
+      public NStreams.NConfig.StorageConfig.TStateStorageLimits build() {
+        NStreams.NConfig.StorageConfig.TStateStorageLimits result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public NStreams.NConfig.StorageConfig.TStateStorageLimits buildPartial() {
+        NStreams.NConfig.StorageConfig.TStateStorageLimits result = new NStreams.NConfig.StorageConfig.TStateStorageLimits(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.maxGraphStateSizeBytes_ = maxGraphStateSizeBytes_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof NStreams.NConfig.StorageConfig.TStateStorageLimits) {
+          return mergeFrom((NStreams.NConfig.StorageConfig.TStateStorageLimits)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(NStreams.NConfig.StorageConfig.TStateStorageLimits other) {
+        if (other == NStreams.NConfig.StorageConfig.TStateStorageLimits.getDefaultInstance()) return this;
+        if (other.hasMaxGraphStateSizeBytes()) {
+          setMaxGraphStateSizeBytes(other.getMaxGraphStateSizeBytes());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        NStreams.NConfig.StorageConfig.TStateStorageLimits parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (NStreams.NConfig.StorageConfig.TStateStorageLimits) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private long maxGraphStateSizeBytes_ = 1099511627776L;
+      /**
+       * <pre>
+       * 1Gb
+       * </pre>
+       *
+       * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+       */
+      public boolean hasMaxGraphStateSizeBytes() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <pre>
+       * 1Gb
+       * </pre>
+       *
+       * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+       */
+      public long getMaxGraphStateSizeBytes() {
+        return maxGraphStateSizeBytes_;
+      }
+      /**
+       * <pre>
+       * 1Gb
+       * </pre>
+       *
+       * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+       */
+      public Builder setMaxGraphStateSizeBytes(long value) {
+        bitField0_ |= 0x00000001;
+        maxGraphStateSizeBytes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 1Gb
+       * </pre>
+       *
+       * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+       */
+      public Builder clearMaxGraphStateSizeBytes() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        maxGraphStateSizeBytes_ = 1099511627776L;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:NStreams.NConfig.TStateStorageLimits)
+    }
+
+    // @@protoc_insertion_point(class_scope:NStreams.NConfig.TStateStorageLimits)
+    private static final NStreams.NConfig.StorageConfig.TStateStorageLimits DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new NStreams.NConfig.StorageConfig.TStateStorageLimits();
+    }
+
+    public static NStreams.NConfig.StorageConfig.TStateStorageLimits getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<TStateStorageLimits>
+        PARSER = new com.google.protobuf.AbstractParser<TStateStorageLimits>() {
+      public TStateStorageLimits parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new TStateStorageLimits(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<TStateStorageLimits> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TStateStorageLimits> getParserForType() {
+      return PARSER;
+    }
+
+    public NStreams.NConfig.StorageConfig.TStateStorageLimits getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface TCheckpointGcConfigOrBuilder extends
       // @@protoc_insertion_point(interface_extends:NStreams.NConfig.TCheckpointGcConfig)
       com.google.protobuf.MessageOrBuilder {
@@ -2369,41 +2879,54 @@ public final class StorageConfig {
     NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder getYdbStateStorageConfigOrBuilder();
 
     /**
-     * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+     * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
      */
     boolean hasCheckpointGarbageConfig();
     /**
-     * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+     * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
      */
     NStreams.NConfig.StorageConfig.TCheckpointGcConfig getCheckpointGarbageConfig();
     /**
-     * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+     * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
      */
     NStreams.NConfig.StorageConfig.TCheckpointGcConfigOrBuilder getCheckpointGarbageConfigOrBuilder();
 
     /**
-     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+     * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+     */
+    boolean hasStateStorageLimits();
+    /**
+     * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+     */
+    NStreams.NConfig.StorageConfig.TStateStorageLimits getStateStorageLimits();
+    /**
+     * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+     */
+    NStreams.NConfig.StorageConfig.TStateStorageLimitsOrBuilder getStateStorageLimitsOrBuilder();
+
+    /**
+     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
      */
     boolean hasYdbSyncConfig();
     /**
-     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
      */
     NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbSyncConfig();
     /**
-     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
      */
     NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder getYdbSyncConfigOrBuilder();
 
     /**
-     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
      */
     boolean hasYdbControlPlaneConfig();
     /**
-     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
      */
     NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbControlPlaneConfig();
     /**
-     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
      */
     NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder getYdbControlPlaneConfigOrBuilder();
   }
@@ -2477,32 +3000,6 @@ public final class StorageConfig {
               break;
             }
             case 26: {
-              NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) == 0x00000008)) {
-                subBuilder = ydbSyncConfig_.toBuilder();
-              }
-              ydbSyncConfig_ = input.readMessage(NStreams.NConfig.StorageConfig.TYdbStorageConfig.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(ydbSyncConfig_);
-                ydbSyncConfig_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000008;
-              break;
-            }
-            case 34: {
-              NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000010) == 0x00000010)) {
-                subBuilder = ydbControlPlaneConfig_.toBuilder();
-              }
-              ydbControlPlaneConfig_ = input.readMessage(NStreams.NConfig.StorageConfig.TYdbStorageConfig.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(ydbControlPlaneConfig_);
-                ydbControlPlaneConfig_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000010;
-              break;
-            }
-            case 42: {
               NStreams.NConfig.StorageConfig.TCheckpointGcConfig.Builder subBuilder = null;
               if (((bitField0_ & 0x00000004) == 0x00000004)) {
                 subBuilder = checkpointGarbageConfig_.toBuilder();
@@ -2513,6 +3010,45 @@ public final class StorageConfig {
                 checkpointGarbageConfig_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000004;
+              break;
+            }
+            case 34: {
+              NStreams.NConfig.StorageConfig.TStateStorageLimits.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = stateStorageLimits_.toBuilder();
+              }
+              stateStorageLimits_ = input.readMessage(NStreams.NConfig.StorageConfig.TStateStorageLimits.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(stateStorageLimits_);
+                stateStorageLimits_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
+              break;
+            }
+            case 42: {
+              NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = ydbSyncConfig_.toBuilder();
+              }
+              ydbSyncConfig_ = input.readMessage(NStreams.NConfig.StorageConfig.TYdbStorageConfig.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(ydbSyncConfig_);
+                ydbSyncConfig_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000010;
+              break;
+            }
+            case 50: {
+              NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                subBuilder = ydbControlPlaneConfig_.toBuilder();
+              }
+              ydbControlPlaneConfig_ = input.readMessage(NStreams.NConfig.StorageConfig.TYdbStorageConfig.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(ydbControlPlaneConfig_);
+                ydbControlPlaneConfig_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000020;
               break;
             }
           }
@@ -2582,64 +3118,85 @@ public final class StorageConfig {
       return ydbStateStorageConfig_ == null ? NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance() : ydbStateStorageConfig_;
     }
 
-    public static final int CHECKPOINTGARBAGECONFIG_FIELD_NUMBER = 5;
+    public static final int CHECKPOINTGARBAGECONFIG_FIELD_NUMBER = 3;
     private NStreams.NConfig.StorageConfig.TCheckpointGcConfig checkpointGarbageConfig_;
     /**
-     * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+     * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
      */
     public boolean hasCheckpointGarbageConfig() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+     * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
      */
     public NStreams.NConfig.StorageConfig.TCheckpointGcConfig getCheckpointGarbageConfig() {
       return checkpointGarbageConfig_ == null ? NStreams.NConfig.StorageConfig.TCheckpointGcConfig.getDefaultInstance() : checkpointGarbageConfig_;
     }
     /**
-     * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+     * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
      */
     public NStreams.NConfig.StorageConfig.TCheckpointGcConfigOrBuilder getCheckpointGarbageConfigOrBuilder() {
       return checkpointGarbageConfig_ == null ? NStreams.NConfig.StorageConfig.TCheckpointGcConfig.getDefaultInstance() : checkpointGarbageConfig_;
     }
 
-    public static final int YDBSYNCCONFIG_FIELD_NUMBER = 3;
-    private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbSyncConfig_;
+    public static final int STATESTORAGELIMITS_FIELD_NUMBER = 4;
+    private NStreams.NConfig.StorageConfig.TStateStorageLimits stateStorageLimits_;
     /**
-     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+     * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
      */
-    public boolean hasYdbSyncConfig() {
+    public boolean hasStateStorageLimits() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+     * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+     */
+    public NStreams.NConfig.StorageConfig.TStateStorageLimits getStateStorageLimits() {
+      return stateStorageLimits_ == null ? NStreams.NConfig.StorageConfig.TStateStorageLimits.getDefaultInstance() : stateStorageLimits_;
+    }
+    /**
+     * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+     */
+    public NStreams.NConfig.StorageConfig.TStateStorageLimitsOrBuilder getStateStorageLimitsOrBuilder() {
+      return stateStorageLimits_ == null ? NStreams.NConfig.StorageConfig.TStateStorageLimits.getDefaultInstance() : stateStorageLimits_;
+    }
+
+    public static final int YDBSYNCCONFIG_FIELD_NUMBER = 5;
+    private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbSyncConfig_;
+    /**
+     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
+     */
+    public boolean hasYdbSyncConfig() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
      */
     public NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbSyncConfig() {
       return ydbSyncConfig_ == null ? NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance() : ydbSyncConfig_;
     }
     /**
-     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
      */
     public NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder getYdbSyncConfigOrBuilder() {
       return ydbSyncConfig_ == null ? NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance() : ydbSyncConfig_;
     }
 
-    public static final int YDBCONTROLPLANECONFIG_FIELD_NUMBER = 4;
+    public static final int YDBCONTROLPLANECONFIG_FIELD_NUMBER = 6;
     private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbControlPlaneConfig_;
     /**
-     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
      */
     public boolean hasYdbControlPlaneConfig() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
      */
     public NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbControlPlaneConfig() {
       return ydbControlPlaneConfig_ == null ? NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance() : ydbControlPlaneConfig_;
     }
     /**
-     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+     * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
      */
     public NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder getYdbControlPlaneConfigOrBuilder() {
       return ydbControlPlaneConfig_ == null ? NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance() : ydbControlPlaneConfig_;
@@ -2663,14 +3220,17 @@ public final class StorageConfig {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeMessage(2, getYdbStateStorageConfig());
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(3, getCheckpointGarbageConfig());
+      }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeMessage(3, getYdbSyncConfig());
+        output.writeMessage(4, getStateStorageLimits());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeMessage(4, getYdbControlPlaneConfig());
+        output.writeMessage(5, getYdbSyncConfig());
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeMessage(5, getCheckpointGarbageConfig());
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeMessage(6, getYdbControlPlaneConfig());
       }
       unknownFields.writeTo(output);
     }
@@ -2688,17 +3248,21 @@ public final class StorageConfig {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getYdbStateStorageConfig());
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getCheckpointGarbageConfig());
+      }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getYdbSyncConfig());
+          .computeMessageSize(4, getStateStorageLimits());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, getYdbControlPlaneConfig());
+          .computeMessageSize(5, getYdbSyncConfig());
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, getCheckpointGarbageConfig());
+          .computeMessageSize(6, getYdbControlPlaneConfig());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2730,6 +3294,11 @@ public final class StorageConfig {
       if (hasCheckpointGarbageConfig()) {
         result = result && getCheckpointGarbageConfig()
             .equals(other.getCheckpointGarbageConfig());
+      }
+      result = result && (hasStateStorageLimits() == other.hasStateStorageLimits());
+      if (hasStateStorageLimits()) {
+        result = result && getStateStorageLimits()
+            .equals(other.getStateStorageLimits());
       }
       result = result && (hasYdbSyncConfig() == other.hasYdbSyncConfig());
       if (hasYdbSyncConfig()) {
@@ -2763,6 +3332,10 @@ public final class StorageConfig {
       if (hasCheckpointGarbageConfig()) {
         hash = (37 * hash) + CHECKPOINTGARBAGECONFIG_FIELD_NUMBER;
         hash = (53 * hash) + getCheckpointGarbageConfig().hashCode();
+      }
+      if (hasStateStorageLimits()) {
+        hash = (37 * hash) + STATESTORAGELIMITS_FIELD_NUMBER;
+        hash = (53 * hash) + getStateStorageLimits().hashCode();
       }
       if (hasYdbSyncConfig()) {
         hash = (37 * hash) + YDBSYNCCONFIG_FIELD_NUMBER;
@@ -2900,6 +3473,7 @@ public final class StorageConfig {
           getYdbCheckpointStorageConfigFieldBuilder();
           getYdbStateStorageConfigFieldBuilder();
           getCheckpointGarbageConfigFieldBuilder();
+          getStateStorageLimitsFieldBuilder();
           getYdbSyncConfigFieldBuilder();
           getYdbControlPlaneConfigFieldBuilder();
         }
@@ -2924,18 +3498,24 @@ public final class StorageConfig {
           checkpointGarbageConfigBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
+        if (stateStorageLimitsBuilder_ == null) {
+          stateStorageLimits_ = null;
+        } else {
+          stateStorageLimitsBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
         if (ydbSyncConfigBuilder_ == null) {
           ydbSyncConfig_ = null;
         } else {
           ydbSyncConfigBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         if (ydbControlPlaneConfigBuilder_ == null) {
           ydbControlPlaneConfig_ = null;
         } else {
           ydbControlPlaneConfigBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -2987,13 +3567,21 @@ public final class StorageConfig {
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
+        if (stateStorageLimitsBuilder_ == null) {
+          result.stateStorageLimits_ = stateStorageLimits_;
+        } else {
+          result.stateStorageLimits_ = stateStorageLimitsBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
         if (ydbSyncConfigBuilder_ == null) {
           result.ydbSyncConfig_ = ydbSyncConfig_;
         } else {
           result.ydbSyncConfig_ = ydbSyncConfigBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000010;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
         }
         if (ydbControlPlaneConfigBuilder_ == null) {
           result.ydbControlPlaneConfig_ = ydbControlPlaneConfig_;
@@ -3050,6 +3638,9 @@ public final class StorageConfig {
         }
         if (other.hasCheckpointGarbageConfig()) {
           mergeCheckpointGarbageConfig(other.getCheckpointGarbageConfig());
+        }
+        if (other.hasStateStorageLimits()) {
+          mergeStateStorageLimits(other.getStateStorageLimits());
         }
         if (other.hasYdbSyncConfig()) {
           mergeYdbSyncConfig(other.getYdbSyncConfig());
@@ -3325,13 +3916,13 @@ public final class StorageConfig {
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TCheckpointGcConfig, NStreams.NConfig.StorageConfig.TCheckpointGcConfig.Builder, NStreams.NConfig.StorageConfig.TCheckpointGcConfigOrBuilder> checkpointGarbageConfigBuilder_;
       /**
-       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
        */
       public boolean hasCheckpointGarbageConfig() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
        */
       public NStreams.NConfig.StorageConfig.TCheckpointGcConfig getCheckpointGarbageConfig() {
         if (checkpointGarbageConfigBuilder_ == null) {
@@ -3341,7 +3932,7 @@ public final class StorageConfig {
         }
       }
       /**
-       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
        */
       public Builder setCheckpointGarbageConfig(NStreams.NConfig.StorageConfig.TCheckpointGcConfig value) {
         if (checkpointGarbageConfigBuilder_ == null) {
@@ -3357,7 +3948,7 @@ public final class StorageConfig {
         return this;
       }
       /**
-       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
        */
       public Builder setCheckpointGarbageConfig(
           NStreams.NConfig.StorageConfig.TCheckpointGcConfig.Builder builderForValue) {
@@ -3371,7 +3962,7 @@ public final class StorageConfig {
         return this;
       }
       /**
-       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
        */
       public Builder mergeCheckpointGarbageConfig(NStreams.NConfig.StorageConfig.TCheckpointGcConfig value) {
         if (checkpointGarbageConfigBuilder_ == null) {
@@ -3391,7 +3982,7 @@ public final class StorageConfig {
         return this;
       }
       /**
-       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
        */
       public Builder clearCheckpointGarbageConfig() {
         if (checkpointGarbageConfigBuilder_ == null) {
@@ -3404,7 +3995,7 @@ public final class StorageConfig {
         return this;
       }
       /**
-       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
        */
       public NStreams.NConfig.StorageConfig.TCheckpointGcConfig.Builder getCheckpointGarbageConfigBuilder() {
         bitField0_ |= 0x00000004;
@@ -3412,7 +4003,7 @@ public final class StorageConfig {
         return getCheckpointGarbageConfigFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
        */
       public NStreams.NConfig.StorageConfig.TCheckpointGcConfigOrBuilder getCheckpointGarbageConfigOrBuilder() {
         if (checkpointGarbageConfigBuilder_ != null) {
@@ -3423,7 +4014,7 @@ public final class StorageConfig {
         }
       }
       /**
-       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 5;</code>
+       * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TCheckpointGcConfig, NStreams.NConfig.StorageConfig.TCheckpointGcConfig.Builder, NStreams.NConfig.StorageConfig.TCheckpointGcConfigOrBuilder> 
@@ -3439,17 +4030,135 @@ public final class StorageConfig {
         return checkpointGarbageConfigBuilder_;
       }
 
+      private NStreams.NConfig.StorageConfig.TStateStorageLimits stateStorageLimits_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          NStreams.NConfig.StorageConfig.TStateStorageLimits, NStreams.NConfig.StorageConfig.TStateStorageLimits.Builder, NStreams.NConfig.StorageConfig.TStateStorageLimitsOrBuilder> stateStorageLimitsBuilder_;
+      /**
+       * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+       */
+      public boolean hasStateStorageLimits() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+       */
+      public NStreams.NConfig.StorageConfig.TStateStorageLimits getStateStorageLimits() {
+        if (stateStorageLimitsBuilder_ == null) {
+          return stateStorageLimits_ == null ? NStreams.NConfig.StorageConfig.TStateStorageLimits.getDefaultInstance() : stateStorageLimits_;
+        } else {
+          return stateStorageLimitsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+       */
+      public Builder setStateStorageLimits(NStreams.NConfig.StorageConfig.TStateStorageLimits value) {
+        if (stateStorageLimitsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          stateStorageLimits_ = value;
+          onChanged();
+        } else {
+          stateStorageLimitsBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+       */
+      public Builder setStateStorageLimits(
+          NStreams.NConfig.StorageConfig.TStateStorageLimits.Builder builderForValue) {
+        if (stateStorageLimitsBuilder_ == null) {
+          stateStorageLimits_ = builderForValue.build();
+          onChanged();
+        } else {
+          stateStorageLimitsBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+       */
+      public Builder mergeStateStorageLimits(NStreams.NConfig.StorageConfig.TStateStorageLimits value) {
+        if (stateStorageLimitsBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              stateStorageLimits_ != null &&
+              stateStorageLimits_ != NStreams.NConfig.StorageConfig.TStateStorageLimits.getDefaultInstance()) {
+            stateStorageLimits_ =
+              NStreams.NConfig.StorageConfig.TStateStorageLimits.newBuilder(stateStorageLimits_).mergeFrom(value).buildPartial();
+          } else {
+            stateStorageLimits_ = value;
+          }
+          onChanged();
+        } else {
+          stateStorageLimitsBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+       */
+      public Builder clearStateStorageLimits() {
+        if (stateStorageLimitsBuilder_ == null) {
+          stateStorageLimits_ = null;
+          onChanged();
+        } else {
+          stateStorageLimitsBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+      /**
+       * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+       */
+      public NStreams.NConfig.StorageConfig.TStateStorageLimits.Builder getStateStorageLimitsBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getStateStorageLimitsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+       */
+      public NStreams.NConfig.StorageConfig.TStateStorageLimitsOrBuilder getStateStorageLimitsOrBuilder() {
+        if (stateStorageLimitsBuilder_ != null) {
+          return stateStorageLimitsBuilder_.getMessageOrBuilder();
+        } else {
+          return stateStorageLimits_ == null ?
+              NStreams.NConfig.StorageConfig.TStateStorageLimits.getDefaultInstance() : stateStorageLimits_;
+        }
+      }
+      /**
+       * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          NStreams.NConfig.StorageConfig.TStateStorageLimits, NStreams.NConfig.StorageConfig.TStateStorageLimits.Builder, NStreams.NConfig.StorageConfig.TStateStorageLimitsOrBuilder> 
+          getStateStorageLimitsFieldBuilder() {
+        if (stateStorageLimitsBuilder_ == null) {
+          stateStorageLimitsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              NStreams.NConfig.StorageConfig.TStateStorageLimits, NStreams.NConfig.StorageConfig.TStateStorageLimits.Builder, NStreams.NConfig.StorageConfig.TStateStorageLimitsOrBuilder>(
+                  getStateStorageLimits(),
+                  getParentForChildren(),
+                  isClean());
+          stateStorageLimits_ = null;
+        }
+        return stateStorageLimitsBuilder_;
+      }
+
       private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbSyncConfig_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TYdbStorageConfig, NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder, NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder> ydbSyncConfigBuilder_;
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
        */
       public boolean hasYdbSyncConfig() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
        */
       public NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbSyncConfig() {
         if (ydbSyncConfigBuilder_ == null) {
@@ -3459,7 +4168,7 @@ public final class StorageConfig {
         }
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
        */
       public Builder setYdbSyncConfig(NStreams.NConfig.StorageConfig.TYdbStorageConfig value) {
         if (ydbSyncConfigBuilder_ == null) {
@@ -3471,11 +4180,11 @@ public final class StorageConfig {
         } else {
           ydbSyncConfigBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
        */
       public Builder setYdbSyncConfig(
           NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder builderForValue) {
@@ -3485,15 +4194,15 @@ public final class StorageConfig {
         } else {
           ydbSyncConfigBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
        */
       public Builder mergeYdbSyncConfig(NStreams.NConfig.StorageConfig.TYdbStorageConfig value) {
         if (ydbSyncConfigBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
               ydbSyncConfig_ != null &&
               ydbSyncConfig_ != NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance()) {
             ydbSyncConfig_ =
@@ -3505,11 +4214,11 @@ public final class StorageConfig {
         } else {
           ydbSyncConfigBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
        */
       public Builder clearYdbSyncConfig() {
         if (ydbSyncConfigBuilder_ == null) {
@@ -3518,19 +4227,19 @@ public final class StorageConfig {
         } else {
           ydbSyncConfigBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
        */
       public NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder getYdbSyncConfigBuilder() {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         onChanged();
         return getYdbSyncConfigFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
        */
       public NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder getYdbSyncConfigOrBuilder() {
         if (ydbSyncConfigBuilder_ != null) {
@@ -3541,7 +4250,7 @@ public final class StorageConfig {
         }
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 3;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TYdbStorageConfig, NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder, NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder> 
@@ -3561,13 +4270,13 @@ public final class StorageConfig {
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TYdbStorageConfig, NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder, NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder> ydbControlPlaneConfigBuilder_;
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
        */
       public boolean hasYdbControlPlaneConfig() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
        */
       public NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbControlPlaneConfig() {
         if (ydbControlPlaneConfigBuilder_ == null) {
@@ -3577,7 +4286,7 @@ public final class StorageConfig {
         }
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
        */
       public Builder setYdbControlPlaneConfig(NStreams.NConfig.StorageConfig.TYdbStorageConfig value) {
         if (ydbControlPlaneConfigBuilder_ == null) {
@@ -3589,11 +4298,11 @@ public final class StorageConfig {
         } else {
           ydbControlPlaneConfigBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
        */
       public Builder setYdbControlPlaneConfig(
           NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder builderForValue) {
@@ -3603,15 +4312,15 @@ public final class StorageConfig {
         } else {
           ydbControlPlaneConfigBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
        */
       public Builder mergeYdbControlPlaneConfig(NStreams.NConfig.StorageConfig.TYdbStorageConfig value) {
         if (ydbControlPlaneConfigBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
               ydbControlPlaneConfig_ != null &&
               ydbControlPlaneConfig_ != NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance()) {
             ydbControlPlaneConfig_ =
@@ -3623,11 +4332,11 @@ public final class StorageConfig {
         } else {
           ydbControlPlaneConfigBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
        */
       public Builder clearYdbControlPlaneConfig() {
         if (ydbControlPlaneConfigBuilder_ == null) {
@@ -3636,19 +4345,19 @@ public final class StorageConfig {
         } else {
           ydbControlPlaneConfigBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
        */
       public NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder getYdbControlPlaneConfigBuilder() {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         onChanged();
         return getYdbControlPlaneConfigFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
        */
       public NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder getYdbControlPlaneConfigOrBuilder() {
         if (ydbControlPlaneConfigBuilder_ != null) {
@@ -3659,7 +4368,7 @@ public final class StorageConfig {
         }
       }
       /**
-       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 4;</code>
+       * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TYdbStorageConfig, NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder, NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder> 
@@ -3729,6 +4438,11 @@ public final class StorageConfig {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_NStreams_NConfig_TYdbStorageConfig_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_NStreams_NConfig_TStateStorageLimits_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_NStreams_NConfig_TStateStorageLimits_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_NStreams_NConfig_TCheckpointGcConfig_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -3754,17 +4468,20 @@ public final class StorageConfig {
       "ePrefix\030\004 \001(\t\022\027\n\017CertificateFile\030\006 \001(\t\022\023" +
       "\n\013IamEndpoint\030\007 \001(\t\022\021\n\tSaKeyFile\030\010 \001(\t\022\037" +
       "\n\027UseLocalMetadataService\030\t \001(\010\022\r\n\005Token" +
-      "\030\005 \001(\t\",\n\023TCheckpointGcConfig\022\025\n\007Enabled" +
-      "\030\001 \001(\010:\004true\"\345\002\n\016TStorageConfig\022G\n\032YdbCh" +
-      "eckpointStorageConfig\030\001 \001(\0132#.NStreams.N",
-      "Config.TYdbStorageConfig\022B\n\025YdbStateStor" +
-      "ageConfig\030\002 \001(\0132#.NStreams.NConfig.TYdbS" +
-      "torageConfig\022F\n\027CheckpointGarbageConfig\030" +
-      "\005 \001(\0132%.NStreams.NConfig.TCheckpointGcCo" +
-      "nfig\022:\n\rYdbSyncConfig\030\003 \001(\0132#.NStreams.N" +
-      "Config.TYdbStorageConfig\022B\n\025YdbControlPl" +
-      "aneConfig\030\004 \001(\0132#.NStreams.NConfig.TYdbS" +
-      "torageConfig"
+      "\030\005 \001(\t\"D\n\023TStateStorageLimits\022-\n\026MaxGrap" +
+      "hStateSizeBytes\030\001 \001(\004:\r1099511627776\",\n\023" +
+      "TCheckpointGcConfig\022\025\n\007Enabled\030\001 \001(\010:\004tr",
+      "ue\"\250\003\n\016TStorageConfig\022G\n\032YdbCheckpointSt" +
+      "orageConfig\030\001 \001(\0132#.NStreams.NConfig.TYd" +
+      "bStorageConfig\022B\n\025YdbStateStorageConfig\030" +
+      "\002 \001(\0132#.NStreams.NConfig.TYdbStorageConf" +
+      "ig\022F\n\027CheckpointGarbageConfig\030\003 \001(\0132%.NS" +
+      "treams.NConfig.TCheckpointGcConfig\022A\n\022St" +
+      "ateStorageLimits\030\004 \001(\0132%.NStreams.NConfi" +
+      "g.TStateStorageLimits\022:\n\rYdbSyncConfig\030\005" +
+      " \001(\0132#.NStreams.NConfig.TYdbStorageConfi" +
+      "g\022B\n\025YdbControlPlaneConfig\030\006 \001(\0132#.NStre",
+      "ams.NConfig.TYdbStorageConfig"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3784,18 +4501,24 @@ public final class StorageConfig {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NStreams_NConfig_TYdbStorageConfig_descriptor,
         new java.lang.String[] { "Endpoint", "Database", "OAuthFile", "TablePrefix", "CertificateFile", "IamEndpoint", "SaKeyFile", "UseLocalMetadataService", "Token", });
-    internal_static_NStreams_NConfig_TCheckpointGcConfig_descriptor =
+    internal_static_NStreams_NConfig_TStateStorageLimits_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_NStreams_NConfig_TStateStorageLimits_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_NStreams_NConfig_TStateStorageLimits_descriptor,
+        new java.lang.String[] { "MaxGraphStateSizeBytes", });
+    internal_static_NStreams_NConfig_TCheckpointGcConfig_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_NStreams_NConfig_TCheckpointGcConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NStreams_NConfig_TCheckpointGcConfig_descriptor,
         new java.lang.String[] { "Enabled", });
     internal_static_NStreams_NConfig_TStorageConfig_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_NStreams_NConfig_TStorageConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NStreams_NConfig_TStorageConfig_descriptor,
-        new java.lang.String[] { "YdbCheckpointStorageConfig", "YdbStateStorageConfig", "CheckpointGarbageConfig", "YdbSyncConfig", "YdbControlPlaneConfig", });
+        new java.lang.String[] { "YdbCheckpointStorageConfig", "YdbStateStorageConfig", "CheckpointGarbageConfig", "StateStorageLimits", "YdbSyncConfig", "YdbControlPlaneConfig", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -6377,26 +6377,6 @@ public final class AnalyticsProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string cloud_id = 100;</code>
-     */
-    java.lang.String getCloudId();
-    /**
-     * <code>string cloud_id = 100;</code>
-     */
-    com.google.protobuf.ByteString
-        getCloudIdBytes();
-
-    /**
-     * <code>string folder_id = 1;</code>
-     */
-    java.lang.String getFolderId();
-    /**
-     * <code>string folder_id = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getFolderIdBytes();
-
-    /**
      * <pre>
      * create new if connection_id is empty
      * </pre>
@@ -6514,8 +6494,6 @@ public final class AnalyticsProtos {
       super(builder);
     }
     private ConnectionEntity() {
-      cloudId_ = "";
-      folderId_ = "";
       connectionId_ = "";
       createdBy_ = "";
       modifiedBy_ = "";
@@ -6549,12 +6527,6 @@ public final class AnalyticsProtos {
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
-              break;
-            }
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              folderId_ = s;
               break;
             }
             case 18: {
@@ -6638,12 +6610,6 @@ public final class AnalyticsProtos {
               isDeleted_ = input.readBool();
               break;
             }
-            case 802: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              cloudId_ = s;
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -6666,74 +6632,6 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ConnectionEntity_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity.class, com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity.Builder.class);
-    }
-
-    public static final int CLOUD_ID_FIELD_NUMBER = 100;
-    private volatile java.lang.Object cloudId_;
-    /**
-     * <code>string cloud_id = 100;</code>
-     */
-    public java.lang.String getCloudId() {
-      java.lang.Object ref = cloudId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        cloudId_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string cloud_id = 100;</code>
-     */
-    public com.google.protobuf.ByteString
-        getCloudIdBytes() {
-      java.lang.Object ref = cloudId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        cloudId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int FOLDER_ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object folderId_;
-    /**
-     * <code>string folder_id = 1;</code>
-     */
-    public java.lang.String getFolderId() {
-      java.lang.Object ref = folderId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        folderId_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string folder_id = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getFolderIdBytes() {
-      java.lang.Object ref = folderId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        folderId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
     }
 
     public static final int CONNECTION_ID_FIELD_NUMBER = 2;
@@ -6985,9 +6883,6 @@ public final class AnalyticsProtos {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getFolderIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, folderId_);
-      }
       if (!getConnectionIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, connectionId_);
       }
@@ -7015,9 +6910,6 @@ public final class AnalyticsProtos {
       if (isDeleted_ != false) {
         output.writeBool(10, isDeleted_);
       }
-      if (!getCloudIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 100, cloudId_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -7026,9 +6918,6 @@ public final class AnalyticsProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (!getFolderIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, folderId_);
-      }
       if (!getConnectionIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, connectionId_);
       }
@@ -7061,9 +6950,6 @@ public final class AnalyticsProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(10, isDeleted_);
       }
-      if (!getCloudIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, cloudId_);
-      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -7080,10 +6966,6 @@ public final class AnalyticsProtos {
       com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity other = (com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity) obj;
 
       boolean result = true;
-      result = result && getCloudId()
-          .equals(other.getCloudId());
-      result = result && getFolderId()
-          .equals(other.getFolderId());
       result = result && getConnectionId()
           .equals(other.getConnectionId());
       result = result && getCreatedBy()
@@ -7125,10 +7007,6 @@ public final class AnalyticsProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + CLOUD_ID_FIELD_NUMBER;
-      hash = (53 * hash) + getCloudId().hashCode();
-      hash = (37 * hash) + FOLDER_ID_FIELD_NUMBER;
-      hash = (53 * hash) + getFolderId().hashCode();
       hash = (37 * hash) + CONNECTION_ID_FIELD_NUMBER;
       hash = (53 * hash) + getConnectionId().hashCode();
       hash = (37 * hash) + CREATED_BY_FIELD_NUMBER;
@@ -7285,10 +7163,6 @@ public final class AnalyticsProtos {
       }
       public Builder clear() {
         super.clear();
-        cloudId_ = "";
-
-        folderId_ = "";
-
         connectionId_ = "";
 
         createdBy_ = "";
@@ -7345,8 +7219,6 @@ public final class AnalyticsProtos {
 
       public com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity result = new com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity(this);
-        result.cloudId_ = cloudId_;
-        result.folderId_ = folderId_;
         result.connectionId_ = connectionId_;
         result.createdBy_ = createdBy_;
         result.modifiedBy_ = modifiedBy_;
@@ -7413,14 +7285,6 @@ public final class AnalyticsProtos {
 
       public Builder mergeFrom(com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity other) {
         if (other == com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity.getDefaultInstance()) return this;
-        if (!other.getCloudId().isEmpty()) {
-          cloudId_ = other.cloudId_;
-          onChanged();
-        }
-        if (!other.getFolderId().isEmpty()) {
-          folderId_ = other.folderId_;
-          onChanged();
-        }
         if (!other.getConnectionId().isEmpty()) {
           connectionId_ = other.connectionId_;
           onChanged();
@@ -7476,144 +7340,6 @@ public final class AnalyticsProtos {
             mergeFrom(parsedMessage);
           }
         }
-        return this;
-      }
-
-      private java.lang.Object cloudId_ = "";
-      /**
-       * <code>string cloud_id = 100;</code>
-       */
-      public java.lang.String getCloudId() {
-        java.lang.Object ref = cloudId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          cloudId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string cloud_id = 100;</code>
-       */
-      public com.google.protobuf.ByteString
-          getCloudIdBytes() {
-        java.lang.Object ref = cloudId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          cloudId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string cloud_id = 100;</code>
-       */
-      public Builder setCloudId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        cloudId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string cloud_id = 100;</code>
-       */
-      public Builder clearCloudId() {
-        
-        cloudId_ = getDefaultInstance().getCloudId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string cloud_id = 100;</code>
-       */
-      public Builder setCloudIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        cloudId_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object folderId_ = "";
-      /**
-       * <code>string folder_id = 1;</code>
-       */
-      public java.lang.String getFolderId() {
-        java.lang.Object ref = folderId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          folderId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string folder_id = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getFolderIdBytes() {
-        java.lang.Object ref = folderId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          folderId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string folder_id = 1;</code>
-       */
-      public Builder setFolderId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        folderId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string folder_id = 1;</code>
-       */
-      public Builder clearFolderId() {
-        
-        folderId_ = getDefaultInstance().getFolderId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string folder_id = 1;</code>
-       */
-      public Builder setFolderIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        folderId_ = value;
-        onChanged();
         return this;
       }
 
@@ -9888,6 +9614,36 @@ public final class AnalyticsProtos {
      */
     com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntityOrBuilder getConnectionOrBuilder(
         int index);
+
+    /**
+     * <code>string cloud_id = 3;</code>
+     */
+    java.lang.String getCloudId();
+    /**
+     * <code>string cloud_id = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getCloudIdBytes();
+
+    /**
+     * <code>string folder_id = 4;</code>
+     */
+    java.lang.String getFolderId();
+    /**
+     * <code>string folder_id = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getFolderIdBytes();
+
+    /**
+     * <code>string idempotency_key = 5;</code>
+     */
+    java.lang.String getIdempotencyKey();
+    /**
+     * <code>string idempotency_key = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getIdempotencyKeyBytes();
   }
   /**
    * Protobuf type {@code Yql.Analytics.ModifyConnectionsRequest}
@@ -9903,6 +9659,9 @@ public final class AnalyticsProtos {
     }
     private ModifyConnectionsRequest() {
       connection_ = java.util.Collections.emptyList();
+      cloudId_ = "";
+      folderId_ = "";
+      idempotencyKey_ = "";
     }
 
     @java.lang.Override
@@ -9953,6 +9712,24 @@ public final class AnalyticsProtos {
               }
               connection_.add(
                   input.readMessage(com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity.parser(), extensionRegistry));
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              cloudId_ = s;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              folderId_ = s;
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              idempotencyKey_ = s;
               break;
             }
           }
@@ -10039,6 +9816,108 @@ public final class AnalyticsProtos {
       return connection_.get(index);
     }
 
+    public static final int CLOUD_ID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object cloudId_;
+    /**
+     * <code>string cloud_id = 3;</code>
+     */
+    public java.lang.String getCloudId() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        cloudId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string cloud_id = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCloudIdBytes() {
+      java.lang.Object ref = cloudId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        cloudId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int FOLDER_ID_FIELD_NUMBER = 4;
+    private volatile java.lang.Object folderId_;
+    /**
+     * <code>string folder_id = 4;</code>
+     */
+    public java.lang.String getFolderId() {
+      java.lang.Object ref = folderId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        folderId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string folder_id = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFolderIdBytes() {
+      java.lang.Object ref = folderId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        folderId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int IDEMPOTENCY_KEY_FIELD_NUMBER = 5;
+    private volatile java.lang.Object idempotencyKey_;
+    /**
+     * <code>string idempotency_key = 5;</code>
+     */
+    public java.lang.String getIdempotencyKey() {
+      java.lang.Object ref = idempotencyKey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        idempotencyKey_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string idempotency_key = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIdempotencyKeyBytes() {
+      java.lang.Object ref = idempotencyKey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        idempotencyKey_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -10057,6 +9936,15 @@ public final class AnalyticsProtos {
       for (int i = 0; i < connection_.size(); i++) {
         output.writeMessage(2, connection_.get(i));
       }
+      if (!getCloudIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, cloudId_);
+      }
+      if (!getFolderIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, folderId_);
+      }
+      if (!getIdempotencyKeyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, idempotencyKey_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -10072,6 +9960,15 @@ public final class AnalyticsProtos {
       for (int i = 0; i < connection_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, connection_.get(i));
+      }
+      if (!getCloudIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, cloudId_);
+      }
+      if (!getFolderIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, folderId_);
+      }
+      if (!getIdempotencyKeyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, idempotencyKey_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -10096,6 +9993,12 @@ public final class AnalyticsProtos {
       }
       result = result && getConnectionList()
           .equals(other.getConnectionList());
+      result = result && getCloudId()
+          .equals(other.getCloudId());
+      result = result && getFolderId()
+          .equals(other.getFolderId());
+      result = result && getIdempotencyKey()
+          .equals(other.getIdempotencyKey());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -10115,6 +10018,12 @@ public final class AnalyticsProtos {
         hash = (37 * hash) + CONNECTION_FIELD_NUMBER;
         hash = (53 * hash) + getConnectionList().hashCode();
       }
+      hash = (37 * hash) + CLOUD_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getCloudId().hashCode();
+      hash = (37 * hash) + FOLDER_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getFolderId().hashCode();
+      hash = (37 * hash) + IDEMPOTENCY_KEY_FIELD_NUMBER;
+      hash = (53 * hash) + getIdempotencyKey().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -10257,6 +10166,12 @@ public final class AnalyticsProtos {
         } else {
           connectionBuilder_.clear();
         }
+        cloudId_ = "";
+
+        folderId_ = "";
+
+        idempotencyKey_ = "";
+
         return this;
       }
 
@@ -10295,6 +10210,9 @@ public final class AnalyticsProtos {
         } else {
           result.connection_ = connectionBuilder_.build();
         }
+        result.cloudId_ = cloudId_;
+        result.folderId_ = folderId_;
+        result.idempotencyKey_ = idempotencyKey_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10365,6 +10283,18 @@ public final class AnalyticsProtos {
               connectionBuilder_.addAllMessages(other.connection_);
             }
           }
+        }
+        if (!other.getCloudId().isEmpty()) {
+          cloudId_ = other.cloudId_;
+          onChanged();
+        }
+        if (!other.getFolderId().isEmpty()) {
+          folderId_ = other.folderId_;
+          onChanged();
+        }
+        if (!other.getIdempotencyKey().isEmpty()) {
+          idempotencyKey_ = other.idempotencyKey_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -10749,6 +10679,213 @@ public final class AnalyticsProtos {
           connection_ = null;
         }
         return connectionBuilder_;
+      }
+
+      private java.lang.Object cloudId_ = "";
+      /**
+       * <code>string cloud_id = 3;</code>
+       */
+      public java.lang.String getCloudId() {
+        java.lang.Object ref = cloudId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          cloudId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCloudIdBytes() {
+        java.lang.Object ref = cloudId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cloudId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string cloud_id = 3;</code>
+       */
+      public Builder setCloudId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        cloudId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 3;</code>
+       */
+      public Builder clearCloudId() {
+        
+        cloudId_ = getDefaultInstance().getCloudId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cloud_id = 3;</code>
+       */
+      public Builder setCloudIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        cloudId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object folderId_ = "";
+      /**
+       * <code>string folder_id = 4;</code>
+       */
+      public java.lang.String getFolderId() {
+        java.lang.Object ref = folderId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          folderId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string folder_id = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFolderIdBytes() {
+        java.lang.Object ref = folderId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          folderId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string folder_id = 4;</code>
+       */
+      public Builder setFolderId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        folderId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string folder_id = 4;</code>
+       */
+      public Builder clearFolderId() {
+        
+        folderId_ = getDefaultInstance().getFolderId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string folder_id = 4;</code>
+       */
+      public Builder setFolderIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        folderId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object idempotencyKey_ = "";
+      /**
+       * <code>string idempotency_key = 5;</code>
+       */
+      public java.lang.String getIdempotencyKey() {
+        java.lang.Object ref = idempotencyKey_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          idempotencyKey_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string idempotency_key = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIdempotencyKeyBytes() {
+        java.lang.Object ref = idempotencyKey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          idempotencyKey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string idempotency_key = 5;</code>
+       */
+      public Builder setIdempotencyKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        idempotencyKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string idempotency_key = 5;</code>
+       */
+      public Builder clearIdempotencyKey() {
+        
+        idempotencyKey_ = getDefaultInstance().getIdempotencyKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string idempotency_key = 5;</code>
+       */
+      public Builder setIdempotencyKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        idempotencyKey_ = value;
+        onChanged();
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -26703,6 +26840,16 @@ public final class AnalyticsProtos {
      * <code>.Ydb.Operations.OperationParams operation_params = 9;</code>
      */
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>string idempotency_key = 10;</code>
+     */
+    java.lang.String getIdempotencyKey();
+    /**
+     * <code>string idempotency_key = 10;</code>
+     */
+    com.google.protobuf.ByteString
+        getIdempotencyKeyBytes();
   }
   /**
    * Protobuf type {@code Yql.Analytics.ModifyHistoryRequest}
@@ -26724,6 +26871,7 @@ public final class AnalyticsProtos {
       isDeleted_ = false;
       yqlText_ = "";
       status_ = 0;
+      idempotencyKey_ = "";
     }
 
     @java.lang.Override
@@ -26813,6 +26961,12 @@ public final class AnalyticsProtos {
                 operationParams_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 82: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              idempotencyKey_ = s;
               break;
             }
             case 802: {
@@ -27106,6 +27260,40 @@ public final class AnalyticsProtos {
       return getOperationParams();
     }
 
+    public static final int IDEMPOTENCY_KEY_FIELD_NUMBER = 10;
+    private volatile java.lang.Object idempotencyKey_;
+    /**
+     * <code>string idempotency_key = 10;</code>
+     */
+    public java.lang.String getIdempotencyKey() {
+      java.lang.Object ref = idempotencyKey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        idempotencyKey_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string idempotency_key = 10;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIdempotencyKeyBytes() {
+      java.lang.Object ref = idempotencyKey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        idempotencyKey_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -27141,6 +27329,9 @@ public final class AnalyticsProtos {
       }
       if (operationParams_ != null) {
         output.writeMessage(9, getOperationParams());
+      }
+      if (!getIdempotencyKeyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 10, idempotencyKey_);
       }
       if (!getCloudIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 100, cloudId_);
@@ -27180,6 +27371,9 @@ public final class AnalyticsProtos {
       if (operationParams_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, getOperationParams());
+      }
+      if (!getIdempotencyKeyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, idempotencyKey_);
       }
       if (!getCloudIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, cloudId_);
@@ -27223,6 +27417,8 @@ public final class AnalyticsProtos {
         result = result && getOperationParams()
             .equals(other.getOperationParams());
       }
+      result = result && getIdempotencyKey()
+          .equals(other.getIdempotencyKey());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -27257,6 +27453,8 @@ public final class AnalyticsProtos {
         hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
         hash = (53 * hash) + getOperationParams().hashCode();
       }
+      hash = (37 * hash) + IDEMPOTENCY_KEY_FIELD_NUMBER;
+      hash = (53 * hash) + getIdempotencyKey().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -27412,6 +27610,8 @@ public final class AnalyticsProtos {
           operationParams_ = null;
           operationParamsBuilder_ = null;
         }
+        idempotencyKey_ = "";
+
         return this;
       }
 
@@ -27451,6 +27651,7 @@ public final class AnalyticsProtos {
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
+        result.idempotencyKey_ = idempotencyKey_;
         onBuilt();
         return result;
       }
@@ -27523,6 +27724,10 @@ public final class AnalyticsProtos {
         }
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
+        }
+        if (!other.getIdempotencyKey().isEmpty()) {
+          idempotencyKey_ = other.idempotencyKey_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -28258,6 +28463,75 @@ public final class AnalyticsProtos {
           operationParams_ = null;
         }
         return operationParamsBuilder_;
+      }
+
+      private java.lang.Object idempotencyKey_ = "";
+      /**
+       * <code>string idempotency_key = 10;</code>
+       */
+      public java.lang.String getIdempotencyKey() {
+        java.lang.Object ref = idempotencyKey_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          idempotencyKey_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string idempotency_key = 10;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIdempotencyKeyBytes() {
+        java.lang.Object ref = idempotencyKey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          idempotencyKey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string idempotency_key = 10;</code>
+       */
+      public Builder setIdempotencyKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        idempotencyKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string idempotency_key = 10;</code>
+       */
+      public Builder clearIdempotencyKey() {
+        
+        idempotencyKey_ = getDefaultInstance().getIdempotencyKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string idempotency_key = 10;</code>
+       */
+      public Builder setIdempotencyKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        idempotencyKey_ = value;
+        onChanged();
+        return this;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -37110,123 +37384,124 @@ public final class AnalyticsProtos {
       "\n\rconnection_id\030\001 \001(\t\"a\n\003Acl\022#\n\003ace\030\001 \003(" +
       "\0132\026.Yql.Analytics.Acl.Ace\022.\n\nvisibility\030" +
       "\002 \001(\0162\032.Yql.Analytics.EVisibility\032\005\n\003Ace" +
-      "\"\323\002\n\020ConnectionEntity\022\020\n\010cloud_id\030d \001(\t\022" +
-      "\021\n\tfolder_id\030\001 \001(\t\022\025\n\rconnection_id\030\002 \001(" +
-      "\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013modified_by\030\004 \001" +
-      "(\t\022\014\n\004name\030\005 \001(\t\022-\n\nconnection\030\006 \001(\0132\031.Y" +
-      "ql.Analytics.Connection\022\037\n\003acl\030\007 \001(\0132\022.Y" +
-      "ql.Analytics.Acl\0221\n\rcreation_time\030\010 \001(\0132" +
-      "\032.google.protobuf.Timestamp\0225\n\021modificat",
-      "ion_time\030\t \001(\0132\032.google.protobuf.Timesta" +
-      "mp\022\022\n\nis_deleted\030\n \001(\010\"G\n\024GetConnections" +
-      "Result\022/\n\006entity\030\001 \003(\0132\037.Yql.Analytics.C" +
-      "onnectionEntity\"F\n\026GetConnectionsRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"\212\001\n\030ModifyConnectionsRequest\0229\n\020" +
-      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
-      "OperationParams\0223\n\nconnection\030\002 \003(\0132\037.Yq" +
-      "l.Analytics.ConnectionEntity\"0\n\027ModifyCo" +
-      "nnectionsResult\022\025\n\rconnection_id\030\001 \003(\t\"I",
-      "\n\031ModifyConnectionsResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\314\001\n\021Ge" +
-      "tQueriesRequest\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfol" +
-      "der_id\030\001 \001(\t\022\032\n\022continuation_token\030\002 \001(\t" +
-      "\022\r\n\005limit\030\003 \001(\005\0227\n\006filter\030\004 \001(\0132\'.Yql.An" +
-      "alytics.GetQueriesRequest.Filter\032.\n\006Filt" +
-      "er\022\020\n\010query_id\030\001 \001(\t\022\022\n\nfield_type\030\002 \001(\005" +
-      "\"\251\003\n\022GetQueriesResponse\022>\n\007queries\030\001 \003(\013" +
-      "2-.Yql.Analytics.GetQueriesResponse.Quer" +
-      "yEntity\022\032\n\022continuation_token\030\002 \001(\t\032\266\002\n\013",
-      "QueryEntity\022\n\n\002id\030\001 \001(\t\022\013\n\003sql\030\002 \001(\t\022\022\n\n" +
-      "created_by\030\003 \001(\t\022\023\n\013modified_by\030\004 \001(\t\022\014\n" +
-      "\004name\030\005 \001(\t\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfolder_" +
-      "id\030\006 \001(\t\022\037\n\003acl\030\007 \001(\0132\022.Yql.Analytics.Ac" +
-      "l\022\022\n\nrows_limit\030\010 \001(\003\022\023\n\013bytes_limit\030\t \001" +
-      "(\003\0221\n\rcreation_time\030\n \001(\0132\032.google.proto" +
-      "buf.Timestamp\0225\n\021modification_time\030\013 \001(\013" +
-      "2\032.google.protobuf.Timestamp\"\276\001\n\022ModifyQ" +
-      "ueryRequest\022\n\n\002id\030\001 \001(\t\022\020\n\010cloud_id\030d \001(" +
-      "\t\022\021\n\tfolder_id\030\002 \001(\t\022\013\n\003sql\030\004 \001(\t\022\014\n\004nam",
-      "e\030\005 \001(\t\022\037\n\003acl\030\006 \001(\0132\022.Yql.Analytics.Acl" +
-      "\022\022\n\nrows_limit\030\007 \001(\003\022\023\n\013bytes_limit\030\010 \001(" +
-      "\003\022\022\n\nis_deleted\030\t \001(\010\"\025\n\023ModifyQueryResp" +
-      "onse\"\214\002\n\021GetHistoryRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfolder_id\030\002 \001" +
-      "(\t\022\032\n\022continuation_token\030\003 \001(\t\0227\n\006filter" +
-      "\030\004 \001(\0132\'.Yql.Analytics.GetHistoryRequest" +
-      ".Filter\032B\n\006Filter\022\020\n\010query_id\030\001 \001(\t\022\022\n\nh" +
-      "istory_id\030\002 \001(\t\022\022\n\nfield_type\030\003 \001(\005\"\037\n\017Q",
-      "ueryStatistics\022\014\n\004yson\030\001 \001(\014\"B\n\022GetHisto" +
-      "ryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
-      "ations.Operation\"\315\006\n\020GetHistoryResult\022>\n" +
-      "\007history\030\001 \003(\0132-.Yql.Analytics.GetHistor" +
-      "yResult.HistoryEntity\022\032\n\022continuation_to" +
-      "ken\030\002 \001(\t\032\334\005\n\rHistoryEntity\022\n\n\002id\030\001 \001(\t\022" +
-      "\013\n\003sql\030\002 \001(\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013modi" +
-      "fied_by\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\020\n\010cloud_id\030" +
-      "d \001(\t\022\021\n\tfolder_id\030\006 \001(\t\022\037\n\003acl\030\007 \001(\0132\022." +
-      "Yql.Analytics.Acl\022\022\n\nquery_plan\030\010 \001(\t\022\020\n",
-      "\010query_id\030\t \001(\t\022\021\n\ttruncated\030\n \003(\010\022\022\n\nro" +
-      "ws_count\030\013 \003(\003\022+\n\006status\030\014 \001(\0162\033.Yql.Ana" +
-      "lytics.EQueryStatus\0221\n\014execute_mode\030\r \001(" +
-      "\0162\033.Yql.Analytics.EExecuteMode\022\022\n\nrows_l" +
-      "imit\030\016 \001(\003\022\023\n\013bytes_limit\030\017 \001(\003\022.\n\nstart" +
-      "_time\030\020 \001(\0132\032.google.protobuf.Timestamp\022" +
-      "/\n\013finish_time\030\021 \001(\0132\032.google.protobuf.T" +
-      "imestamp\0227\n\023expiration_deadline\030\022 \001(\0132\032." +
-      "google.protobuf.Timestamp\0221\n\rcreation_ti" +
-      "me\030\023 \001(\0132\032.google.protobuf.Timestamp\0225\n\021",
-      "modification_time\030\024 \001(\0132\032.google.protobu" +
-      "f.Timestamp\0222\n\nstatistics\030\025 \001(\0132\036.Yql.An" +
-      "alytics.QueryStatistics\022\'\n\006issues\030\026 \003(\0132" +
-      "\027.Ydb.Issue.IssueMessage\"\204\002\n\024ModifyHisto" +
-      "ryRequest\022\n\n\002id\030\001 \001(\t\022\020\n\010cloud_id\030d \001(\t\022" +
-      "\021\n\tfolder_id\030\002 \001(\t\022\014\n\004name\030\004 \001(\t\022\037\n\003acl\030" +
-      "\005 \001(\0132\022.Yql.Analytics.Acl\022\022\n\nis_deleted\030" +
-      "\006 \001(\010\022\020\n\010yql_text\030\007 \001(\t\022+\n\006status\030\010 \001(\0162" +
-      "\033.Yql.Analytics.EQueryStatus\0229\n\020operatio" +
-      "n_params\030\t \001(\0132\037.Ydb.Operations.Operatio",
-      "nParams\")\n\023ModifyHistoryResult\022\022\n\nhistor" +
-      "y_id\030\001 \001(\t\"E\n\025ModifyHistoryResponse\022,\n\to" +
+      "\"\256\002\n\020ConnectionEntity\022\025\n\rconnection_id\030\002" +
+      " \001(\t\022\022\n\ncreated_by\030\003 \001(\t\022\023\n\013modified_by\030" +
+      "\004 \001(\t\022\014\n\004name\030\005 \001(\t\022-\n\nconnection\030\006 \001(\0132" +
+      "\031.Yql.Analytics.Connection\022\037\n\003acl\030\007 \001(\0132" +
+      "\022.Yql.Analytics.Acl\0221\n\rcreation_time\030\010 \001" +
+      "(\0132\032.google.protobuf.Timestamp\0225\n\021modifi" +
+      "cation_time\030\t \001(\0132\032.google.protobuf.Time",
+      "stamp\022\022\n\nis_deleted\030\n \001(\010\"G\n\024GetConnecti" +
+      "onsResult\022/\n\006entity\030\001 \003(\0132\037.Yql.Analytic" +
+      "s.ConnectionEntity\"F\n\026GetConnectionsResp" +
+      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
+      ".Operation\"\310\001\n\030ModifyConnectionsRequest\022" +
+      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\0223\n\nconnection\030\002 \003(\0132\037" +
+      ".Yql.Analytics.ConnectionEntity\022\020\n\010cloud" +
+      "_id\030\003 \001(\t\022\021\n\tfolder_id\030\004 \001(\t\022\027\n\017idempote" +
+      "ncy_key\030\005 \001(\t\"0\n\027ModifyConnectionsResult",
+      "\022\025\n\rconnection_id\030\001 \003(\t\"I\n\031ModifyConnect" +
+      "ionsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
+      "erations.Operation\"\314\001\n\021GetQueriesRequest" +
+      "\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfolder_id\030\001 \001(\t\022\032\n" +
+      "\022continuation_token\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005" +
+      "\0227\n\006filter\030\004 \001(\0132\'.Yql.Analytics.GetQuer" +
+      "iesRequest.Filter\032.\n\006Filter\022\020\n\010query_id\030" +
+      "\001 \001(\t\022\022\n\nfield_type\030\002 \001(\005\"\251\003\n\022GetQueries" +
+      "Response\022>\n\007queries\030\001 \003(\0132-.Yql.Analytic" +
+      "s.GetQueriesResponse.QueryEntity\022\032\n\022cont",
+      "inuation_token\030\002 \001(\t\032\266\002\n\013QueryEntity\022\n\n\002" +
+      "id\030\001 \001(\t\022\013\n\003sql\030\002 \001(\t\022\022\n\ncreated_by\030\003 \001(" +
+      "\t\022\023\n\013modified_by\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\020\n\010" +
+      "cloud_id\030d \001(\t\022\021\n\tfolder_id\030\006 \001(\t\022\037\n\003acl" +
+      "\030\007 \001(\0132\022.Yql.Analytics.Acl\022\022\n\nrows_limit" +
+      "\030\010 \001(\003\022\023\n\013bytes_limit\030\t \001(\003\0221\n\rcreation_" +
+      "time\030\n \001(\0132\032.google.protobuf.Timestamp\0225" +
+      "\n\021modification_time\030\013 \001(\0132\032.google.proto" +
+      "buf.Timestamp\"\276\001\n\022ModifyQueryRequest\022\n\n\002" +
+      "id\030\001 \001(\t\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfolder_id\030",
+      "\002 \001(\t\022\013\n\003sql\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\037\n\003acl\030" +
+      "\006 \001(\0132\022.Yql.Analytics.Acl\022\022\n\nrows_limit\030" +
+      "\007 \001(\003\022\023\n\013bytes_limit\030\010 \001(\003\022\022\n\nis_deleted" +
+      "\030\t \001(\010\"\025\n\023ModifyQueryResponse\"\214\002\n\021GetHis" +
+      "toryRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\022\020\n\010cloud_" +
+      "id\030d \001(\t\022\021\n\tfolder_id\030\002 \001(\t\022\032\n\022continuat" +
+      "ion_token\030\003 \001(\t\0227\n\006filter\030\004 \001(\0132\'.Yql.An" +
+      "alytics.GetHistoryRequest.Filter\032B\n\006Filt" +
+      "er\022\020\n\010query_id\030\001 \001(\t\022\022\n\nhistory_id\030\002 \001(\t",
+      "\022\022\n\nfield_type\030\003 \001(\005\"\037\n\017QueryStatistics\022" +
+      "\014\n\004yson\030\001 \001(\014\"B\n\022GetHistoryResponse\022,\n\to" +
       "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
-      "n\"\307\003\n\023ExecuteQueryRequest\0229\n\020operation_p" +
-      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
-      "rams\022\020\n\010yql_text\030\002 \001(\t\0221\n\014execute_mode\030\003" +
-      " \001(\0162\033.Yql.Analytics.EExecuteMode\022\030\n\020max" +
-      "_result_bytes\030\004 \001(\004\022\027\n\017max_result_rows\030\005" +
-      " \001(\004\022\034\n\024expire_after_seconds\030\006 \001(\r\022F\n\npa" +
-      "rameters\030\007 \003(\01322.Yql.Analytics.ExecuteQu",
-      "eryRequest.ParametersEntry\022.\n\013connection" +
-      "s\030\010 \003(\0132\031.Yql.Analytics.Connection\022\021\n\tfo" +
-      "lder_id\030\t \001(\t\022\020\n\010cloud_id\030\n \001(\t\032B\n\017Param" +
-      "etersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017" +
-      ".Ydb.TypedValue:\0028\001\"D\n\024ExecuteQueryRespo" +
-      "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
-      "Operation\"(\n\022ExecuteQueryResult\022\022\n\nhisto" +
-      "ry_id\030\001 \001(\t\"\304\001\n\024GetResultDataRequest\0229\n\020" +
-      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
-      "OperationParams\022\022\n\nhistory_id\030\002 \001(\t\022\025\n\rr",
-      "esult_set_id\030\003 \001(\r\022\r\n\005limit\030\004 \001(\004\022\021\n\tfol" +
-      "der_id\030\005 \001(\t\022\020\n\010cloud_id\030\006 \001(\t\022\022\n\npage_t" +
-      "oken\030\007 \001(\t\"E\n\025GetResultDataResponse\022,\n\to" +
-      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
-      "n\"R\n\023GetResultDataResult\022\"\n\nresult_set\030\001" +
-      " \001(\0132\016.Ydb.ResultSet\022\027\n\017next_page_token\030" +
-      "\002 \001(\t\"U\n\017ResultSetHeader\022\033\n\006column\030\001 \003(\013" +
-      "2\013.Ydb.Column\022\022\n\nrows_count\030\002 \001(\003\022\021\n\ttru" +
-      "ncated\030\003 \001(\010\"B\n\020ResultSetHeaders\022.\n\006head" +
-      "er\030\001 \003(\0132\036.Yql.Analytics.ResultSetHeader",
-      "*f\n\013EVisibility\022\023\n\017VISIBILITY_NONE\020\000\022\025\n\021" +
-      "VISIBILITY_PUBLIC\020\001\022\024\n\020VISIBILITY_CLOUD\020" +
-      "\002\022\025\n\021VISIBILITY_FOLDER\020\003*/\n\nEFieldType\022\010" +
-      "\n\004NONE\020\000\022\007\n\003SQL\020\001\022\016\n\nQUERY_PLAN\020\002*S\n\014EEx" +
-      "ecuteMode\022\024\n\020MODE_UNSPECIFIED\020\000\022\007\n\003RUN\020\001" +
-      "\022\013\n\007EXPLAIN\020\002\022\014\n\010VALIDATE\020\003\022\t\n\005PARSE\020\004*Q" +
-      "\n\014EQueryStatus\022\017\n\013UNSPECIFIED\020\000\022\t\n\005SAVED" +
-      "\020\001\022\013\n\007RUNNING\020\002\022\n\n\006FAILED\020\003\022\014\n\010FINISHED\020" +
-      "\004B.\n\030com.yandex.yql.analyticsB\017Analytics" +
-      "Protos\370\001\001b\006proto3"
+      "n\"\315\006\n\020GetHistoryResult\022>\n\007history\030\001 \003(\0132" +
+      "-.Yql.Analytics.GetHistoryResult.History" +
+      "Entity\022\032\n\022continuation_token\030\002 \001(\t\032\334\005\n\rH" +
+      "istoryEntity\022\n\n\002id\030\001 \001(\t\022\013\n\003sql\030\002 \001(\t\022\022\n" +
+      "\ncreated_by\030\003 \001(\t\022\023\n\013modified_by\030\004 \001(\t\022\014" +
+      "\n\004name\030\005 \001(\t\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfolder" +
+      "_id\030\006 \001(\t\022\037\n\003acl\030\007 \001(\0132\022.Yql.Analytics.A",
+      "cl\022\022\n\nquery_plan\030\010 \001(\t\022\020\n\010query_id\030\t \001(\t" +
+      "\022\021\n\ttruncated\030\n \003(\010\022\022\n\nrows_count\030\013 \003(\003\022" +
+      "+\n\006status\030\014 \001(\0162\033.Yql.Analytics.EQuerySt" +
+      "atus\0221\n\014execute_mode\030\r \001(\0162\033.Yql.Analyti" +
+      "cs.EExecuteMode\022\022\n\nrows_limit\030\016 \001(\003\022\023\n\013b" +
+      "ytes_limit\030\017 \001(\003\022.\n\nstart_time\030\020 \001(\0132\032.g" +
+      "oogle.protobuf.Timestamp\022/\n\013finish_time\030" +
+      "\021 \001(\0132\032.google.protobuf.Timestamp\0227\n\023exp" +
+      "iration_deadline\030\022 \001(\0132\032.google.protobuf" +
+      ".Timestamp\0221\n\rcreation_time\030\023 \001(\0132\032.goog",
+      "le.protobuf.Timestamp\0225\n\021modification_ti" +
+      "me\030\024 \001(\0132\032.google.protobuf.Timestamp\0222\n\n" +
+      "statistics\030\025 \001(\0132\036.Yql.Analytics.QuerySt" +
+      "atistics\022\'\n\006issues\030\026 \003(\0132\027.Ydb.Issue.Iss" +
+      "ueMessage\"\235\002\n\024ModifyHistoryRequest\022\n\n\002id" +
+      "\030\001 \001(\t\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfolder_id\030\002 " +
+      "\001(\t\022\014\n\004name\030\004 \001(\t\022\037\n\003acl\030\005 \001(\0132\022.Yql.Ana" +
+      "lytics.Acl\022\022\n\nis_deleted\030\006 \001(\010\022\020\n\010yql_te" +
+      "xt\030\007 \001(\t\022+\n\006status\030\010 \001(\0162\033.Yql.Analytics" +
+      ".EQueryStatus\0229\n\020operation_params\030\t \001(\0132",
+      "\037.Ydb.Operations.OperationParams\022\027\n\017idem" +
+      "potency_key\030\n \001(\t\")\n\023ModifyHistoryResult" +
+      "\022\022\n\nhistory_id\030\001 \001(\t\"E\n\025ModifyHistoryRes" +
+      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
+      "s.Operation\"\307\003\n\023ExecuteQueryRequest\0229\n\020o" +
+      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
+      "perationParams\022\020\n\010yql_text\030\002 \001(\t\0221\n\014exec" +
+      "ute_mode\030\003 \001(\0162\033.Yql.Analytics.EExecuteM" +
+      "ode\022\030\n\020max_result_bytes\030\004 \001(\004\022\027\n\017max_res" +
+      "ult_rows\030\005 \001(\004\022\034\n\024expire_after_seconds\030\006",
+      " \001(\r\022F\n\nparameters\030\007 \003(\01322.Yql.Analytics" +
+      ".ExecuteQueryRequest.ParametersEntry\022.\n\013" +
+      "connections\030\010 \003(\0132\031.Yql.Analytics.Connec" +
+      "tion\022\021\n\tfolder_id\030\t \001(\t\022\020\n\010cloud_id\030\n \001(" +
+      "\t\032B\n\017ParametersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005val" +
+      "ue\030\002 \001(\0132\017.Ydb.TypedValue:\0028\001\"D\n\024Execute" +
+      "QueryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
+      "perations.Operation\"(\n\022ExecuteQueryResul" +
+      "t\022\022\n\nhistory_id\030\001 \001(\t\"\304\001\n\024GetResultDataR" +
+      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O",
+      "perations.OperationParams\022\022\n\nhistory_id\030" +
+      "\002 \001(\t\022\025\n\rresult_set_id\030\003 \001(\r\022\r\n\005limit\030\004 " +
+      "\001(\004\022\021\n\tfolder_id\030\005 \001(\t\022\020\n\010cloud_id\030\006 \001(\t" +
+      "\022\022\n\npage_token\030\007 \001(\t\"E\n\025GetResultDataRes" +
+      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
+      "s.Operation\"R\n\023GetResultDataResult\022\"\n\nre" +
+      "sult_set\030\001 \001(\0132\016.Ydb.ResultSet\022\027\n\017next_p" +
+      "age_token\030\002 \001(\t\"U\n\017ResultSetHeader\022\033\n\006co" +
+      "lumn\030\001 \003(\0132\013.Ydb.Column\022\022\n\nrows_count\030\002 " +
+      "\001(\003\022\021\n\ttruncated\030\003 \001(\010\"B\n\020ResultSetHeade",
+      "rs\022.\n\006header\030\001 \003(\0132\036.Yql.Analytics.Resul" +
+      "tSetHeader*f\n\013EVisibility\022\023\n\017VISIBILITY_" +
+      "NONE\020\000\022\025\n\021VISIBILITY_PUBLIC\020\001\022\024\n\020VISIBIL" +
+      "ITY_CLOUD\020\002\022\025\n\021VISIBILITY_FOLDER\020\003*/\n\nEF" +
+      "ieldType\022\010\n\004NONE\020\000\022\007\n\003SQL\020\001\022\016\n\nQUERY_PLA" +
+      "N\020\002*S\n\014EExecuteMode\022\024\n\020MODE_UNSPECIFIED\020" +
+      "\000\022\007\n\003RUN\020\001\022\013\n\007EXPLAIN\020\002\022\014\n\010VALIDATE\020\003\022\t\n" +
+      "\005PARSE\020\004*Q\n\014EQueryStatus\022\017\n\013UNSPECIFIED\020" +
+      "\000\022\t\n\005SAVED\020\001\022\013\n\007RUNNING\020\002\022\n\n\006FAILED\020\003\022\014\n" +
+      "\010FINISHED\020\004B.\n\030com.yandex.yql.analyticsB",
+      "\017AnalyticsProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -37291,7 +37566,7 @@ public final class AnalyticsProtos {
     internal_static_Yql_Analytics_ConnectionEntity_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ConnectionEntity_descriptor,
-        new java.lang.String[] { "CloudId", "FolderId", "ConnectionId", "CreatedBy", "ModifiedBy", "Name", "Connection", "Acl", "CreationTime", "ModificationTime", "IsDeleted", });
+        new java.lang.String[] { "ConnectionId", "CreatedBy", "ModifiedBy", "Name", "Connection", "Acl", "CreationTime", "ModificationTime", "IsDeleted", });
     internal_static_Yql_Analytics_GetConnectionsResult_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_Yql_Analytics_GetConnectionsResult_fieldAccessorTable = new
@@ -37309,7 +37584,7 @@ public final class AnalyticsProtos {
     internal_static_Yql_Analytics_ModifyConnectionsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ModifyConnectionsRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Connection", });
+        new java.lang.String[] { "OperationParams", "Connection", "CloudId", "FolderId", "IdempotencyKey", });
     internal_static_Yql_Analytics_ModifyConnectionsResult_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_Yql_Analytics_ModifyConnectionsResult_fieldAccessorTable = new
@@ -37399,7 +37674,7 @@ public final class AnalyticsProtos {
     internal_static_Yql_Analytics_ModifyHistoryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_ModifyHistoryRequest_descriptor,
-        new java.lang.String[] { "Id", "CloudId", "FolderId", "Name", "Acl", "IsDeleted", "YqlText", "Status", "OperationParams", });
+        new java.lang.String[] { "Id", "CloudId", "FolderId", "Name", "Acl", "IsDeleted", "YqlText", "Status", "OperationParams", "IdempotencyKey", });
     internal_static_Yql_Analytics_ModifyHistoryResult_descriptor =
       getDescriptor().getMessageTypes().get(20);
     internal_static_Yql_Analytics_ModifyHistoryResult_fieldAccessorTable = new
