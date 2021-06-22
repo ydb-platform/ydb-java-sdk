@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.core.Result;
 import tech.ydb.table.SessionStatus;
 import tech.ydb.table.impl.SessionImpl.State;
 import tech.ydb.table.impl.pool.FixedAsyncPool;
@@ -71,15 +72,8 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
     }
 
     @Override
-    public CompletableFuture<Boolean> keepAlive(SessionImpl s) {
-        return s.keepAlive()
-            .thenApply(r -> {
-                if (!r.isSuccess()) {
-                    return Boolean.FALSE;
-                }
-                SessionStatus status = r.expect("cannot keep alive session: " + s.getId());
-                return status == SessionStatus.READY;
-            });
+    public CompletableFuture<Result<SessionStatus>> keepAlive(SessionImpl s) {
+        return s.keepAlive();
     }
 
     CompletableFuture<SessionImpl> acquire(Duration timeout) {

@@ -3,6 +3,9 @@ package tech.ydb.table.impl.pool;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import tech.ydb.core.Result;
+import tech.ydb.table.SessionStatus;
+
 import static java.util.concurrent.CompletableFuture.completedFuture;
 
 /**
@@ -28,8 +31,8 @@ class ResourceHandler implements PooledObjectHandler<Resource> {
     }
 
     @Override
-    public CompletableFuture<Boolean> keepAlive(Resource r) {
+    public CompletableFuture<Result<SessionStatus>> keepAlive(Resource r) {
         r.markKeepAlived();
-        return completedFuture(Boolean.TRUE);
+        return completedFuture(Result.success(SessionStatus.READY));
     }
 }

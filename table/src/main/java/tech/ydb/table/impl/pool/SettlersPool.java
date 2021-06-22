@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 import tech.ydb.core.utils.Async;
+import tech.ydb.table.SessionStatus;
 import io.netty.util.Timeout;
 import io.netty.util.TimerTask;
 import org.slf4j.Logger;
@@ -127,15 +128,36 @@ public class SettlersPool<T> {
             }
 
             handler.keepAlive(po.object)
-                .whenCompleteAsync((ready, throwable) -> {
-
+                .whenCompleteAsync((result, throwable) -> {
                     try {
                         if (throwable != null) {
                             logger.warn("Keep alive for " + po.object + " failed", throwable);
-                        } else if (ready) {
-                            it.remove();
-                            size.decrementAndGet();
-                            mainPool.offerOrDestroy(po.object);
+                        } else {
+                            if (result.isSuccess()) {
+                                SessionStatus status = result.expect("cannot keep alive session: " + po.object);
+                                if (status == SessionStatus.READY) {
+                                    it.remove();
+                                    size.decrementAndGet();
+                                    mainPool.offerOrDestroy(po.object);
+                                }
+                            } else {
+                                switch(result.getCode()) {
+                                    case BAD_SESSION:
+                                    case SESSION_BUSY:
+                                    case INTERNAL_ERROR:
+                                        it.remove();
+                                        size.decrementAndGet();
+                                        if (logger.isDebugEnabled()) {
+                                            logger.debug(
+                                                    "Destroy {} because keep alive got {} status code",
+                                                    po.object, result.getCode());
+                                        }
+                                        handler.destroy(po.object); // do not await object to be destroyed
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
                         }
                     } catch (Exception ignore) {
                     }

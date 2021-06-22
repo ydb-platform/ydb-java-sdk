@@ -470,10 +470,25 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                 PooledObject pooledObject = objectsArr[i];
                 //noinspection unchecked
                 futures[i] = handler.keepAlive((T) pooledObject.getValue())
-                    .whenComplete((result, t) -> {
+                    .whenComplete((result, throwable) -> {
                         pooledObject.setKeepAlivedAt(System.currentTimeMillis());
-                        if (!result) {
+                        if (throwable != null) {
                             pooledObject.setNeedsToBeDestroyed(true);
+                            logger.warn("Keep alive for " + pooledObject.getValue() +
+                                    " failed with exception. Marking it for destruction.", throwable);
+                        } else {
+                            switch(result.getCode()) {
+                                case BAD_SESSION:
+                                case SESSION_BUSY:
+                                case INTERNAL_ERROR:
+                                    logger.debug("Keep alive for " + pooledObject.getValue() +
+                                            " failed with code " + result.getCode().toString() +
+                                            ". Marking it for destruction.");
+                                    pooledObject.setNeedsToBeDestroyed(true);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     });
             }

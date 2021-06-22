@@ -2,6 +2,8 @@ package tech.ydb.table.impl.pool;
 
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.core.Result;
+import tech.ydb.table.SessionStatus;
 
 /**
  * @author Sergey Polovko
@@ -14,5 +16,5 @@ public interface PooledObjectHandler<T> {
 
     boolean isValid(T object);
 
-    CompletableFuture<Boolean> keepAlive(T object);
+    CompletableFuture<Result<SessionStatus>> keepAlive(T object);
 }
