@@ -27,35 +27,35 @@ public final class YandexQueryServiceGrpc {
   public static final String SERVICE_NAME = "YandexQuery.V1.YandexQueryService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ExecuteOperationRequest,
-      com.yandex.query.YandexQueryProtos.ExecuteOperationResponse> getExecuteOperationMethod;
+  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.CreateOperationRequest,
+      com.yandex.query.YandexQueryProtos.CreateOperationResponse> getCreateOperationMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "ExecuteOperation",
-      requestType = com.yandex.query.YandexQueryProtos.ExecuteOperationRequest.class,
-      responseType = com.yandex.query.YandexQueryProtos.ExecuteOperationResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "CreateOperation",
+      requestType = com.yandex.query.YandexQueryProtos.CreateOperationRequest.class,
+      responseType = com.yandex.query.YandexQueryProtos.CreateOperationResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ExecuteOperationRequest,
-      com.yandex.query.YandexQueryProtos.ExecuteOperationResponse> getExecuteOperationMethod() {
-    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ExecuteOperationRequest, com.yandex.query.YandexQueryProtos.ExecuteOperationResponse> getExecuteOperationMethod;
-    if ((getExecuteOperationMethod = YandexQueryServiceGrpc.getExecuteOperationMethod) == null) {
+  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.CreateOperationRequest,
+      com.yandex.query.YandexQueryProtos.CreateOperationResponse> getCreateOperationMethod() {
+    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.CreateOperationRequest, com.yandex.query.YandexQueryProtos.CreateOperationResponse> getCreateOperationMethod;
+    if ((getCreateOperationMethod = YandexQueryServiceGrpc.getCreateOperationMethod) == null) {
       synchronized (YandexQueryServiceGrpc.class) {
-        if ((getExecuteOperationMethod = YandexQueryServiceGrpc.getExecuteOperationMethod) == null) {
-          YandexQueryServiceGrpc.getExecuteOperationMethod = getExecuteOperationMethod =
-              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.ExecuteOperationRequest, com.yandex.query.YandexQueryProtos.ExecuteOperationResponse>newBuilder()
+        if ((getCreateOperationMethod = YandexQueryServiceGrpc.getCreateOperationMethod) == null) {
+          YandexQueryServiceGrpc.getCreateOperationMethod = getCreateOperationMethod =
+              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.CreateOperationRequest, com.yandex.query.YandexQueryProtos.CreateOperationResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ExecuteOperation"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateOperation"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.ExecuteOperationRequest.getDefaultInstance()))
+                  com.yandex.query.YandexQueryProtos.CreateOperationRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.ExecuteOperationResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("ExecuteOperation"))
+                  com.yandex.query.YandexQueryProtos.CreateOperationResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("CreateOperation"))
               .build();
         }
       }
     }
-    return getExecuteOperationMethod;
+    return getCreateOperationMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ListOperationsRequest,
@@ -120,37 +120,6 @@ public final class YandexQueryServiceGrpc {
     return getDescribeOperationMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DescribeOperationResultRequest,
-      com.yandex.query.YandexQueryProtos.DescribeOperationResultResponse> getDescribeOperationResultMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "DescribeOperationResult",
-      requestType = com.yandex.query.YandexQueryProtos.DescribeOperationResultRequest.class,
-      responseType = com.yandex.query.YandexQueryProtos.DescribeOperationResultResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DescribeOperationResultRequest,
-      com.yandex.query.YandexQueryProtos.DescribeOperationResultResponse> getDescribeOperationResultMethod() {
-    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DescribeOperationResultRequest, com.yandex.query.YandexQueryProtos.DescribeOperationResultResponse> getDescribeOperationResultMethod;
-    if ((getDescribeOperationResultMethod = YandexQueryServiceGrpc.getDescribeOperationResultMethod) == null) {
-      synchronized (YandexQueryServiceGrpc.class) {
-        if ((getDescribeOperationResultMethod = YandexQueryServiceGrpc.getDescribeOperationResultMethod) == null) {
-          YandexQueryServiceGrpc.getDescribeOperationResultMethod = getDescribeOperationResultMethod =
-              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.DescribeOperationResultRequest, com.yandex.query.YandexQueryProtos.DescribeOperationResultResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DescribeOperationResult"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.DescribeOperationResultRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.DescribeOperationResultResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("DescribeOperationResult"))
-              .build();
-        }
-      }
-    }
-    return getDescribeOperationResultMethod;
-  }
-
   private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ModifyOperationRequest,
       com.yandex.query.YandexQueryProtos.ModifyOperationResponse> getModifyOperationMethod;
 
@@ -213,35 +182,35 @@ public final class YandexQueryServiceGrpc {
     return getDeleteOperationMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ManageOperationRequest,
-      com.yandex.query.YandexQueryProtos.ManageOperationResponse> getManageOperationMethod;
+  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ControlOperationRequest,
+      com.yandex.query.YandexQueryProtos.ControlOperationResponse> getControlOperationMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "ManageOperation",
-      requestType = com.yandex.query.YandexQueryProtos.ManageOperationRequest.class,
-      responseType = com.yandex.query.YandexQueryProtos.ManageOperationResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "ControlOperation",
+      requestType = com.yandex.query.YandexQueryProtos.ControlOperationRequest.class,
+      responseType = com.yandex.query.YandexQueryProtos.ControlOperationResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ManageOperationRequest,
-      com.yandex.query.YandexQueryProtos.ManageOperationResponse> getManageOperationMethod() {
-    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ManageOperationRequest, com.yandex.query.YandexQueryProtos.ManageOperationResponse> getManageOperationMethod;
-    if ((getManageOperationMethod = YandexQueryServiceGrpc.getManageOperationMethod) == null) {
+  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ControlOperationRequest,
+      com.yandex.query.YandexQueryProtos.ControlOperationResponse> getControlOperationMethod() {
+    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ControlOperationRequest, com.yandex.query.YandexQueryProtos.ControlOperationResponse> getControlOperationMethod;
+    if ((getControlOperationMethod = YandexQueryServiceGrpc.getControlOperationMethod) == null) {
       synchronized (YandexQueryServiceGrpc.class) {
-        if ((getManageOperationMethod = YandexQueryServiceGrpc.getManageOperationMethod) == null) {
-          YandexQueryServiceGrpc.getManageOperationMethod = getManageOperationMethod =
-              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.ManageOperationRequest, com.yandex.query.YandexQueryProtos.ManageOperationResponse>newBuilder()
+        if ((getControlOperationMethod = YandexQueryServiceGrpc.getControlOperationMethod) == null) {
+          YandexQueryServiceGrpc.getControlOperationMethod = getControlOperationMethod =
+              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.ControlOperationRequest, com.yandex.query.YandexQueryProtos.ControlOperationResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ManageOperation"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ControlOperation"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.ManageOperationRequest.getDefaultInstance()))
+                  com.yandex.query.YandexQueryProtos.ControlOperationRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.ManageOperationResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("ManageOperation"))
+                  com.yandex.query.YandexQueryProtos.ControlOperationResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("ControlOperation"))
               .build();
         }
       }
     }
-    return getManageOperationMethod;
+    return getControlOperationMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.GetResultDataRequest,
@@ -636,14 +605,18 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Operations
+     * Create an operation object with a given SQL
      * </pre>
      */
-    public void executeOperation(com.yandex.query.YandexQueryProtos.ExecuteOperationRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ExecuteOperationResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getExecuteOperationMethod(), responseObserver);
+    public void createOperation(com.yandex.query.YandexQueryProtos.CreateOperationRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.CreateOperationResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getCreateOperationMethod(), responseObserver);
     }
 
     /**
+     * <pre>
+     * Get a list of brief operations objects
+     * </pre>
      */
     public void listOperations(com.yandex.query.YandexQueryProtos.ListOperationsRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListOperationsResponse> responseObserver) {
@@ -651,6 +624,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get full information about the object of the operation
+     * </pre>
      */
     public void describeOperation(com.yandex.query.YandexQueryProtos.DescribeOperationRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeOperationResponse> responseObserver) {
@@ -658,13 +634,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
-     */
-    public void describeOperationResult(com.yandex.query.YandexQueryProtos.DescribeOperationResultRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeOperationResultResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getDescribeOperationResultMethod(), responseObserver);
-    }
-
-    /**
+     * <pre>
+     * Change the attributes of the operation (acl, name, ...)
+     * </pre>
      */
     public void modifyOperation(com.yandex.query.YandexQueryProtos.ModifyOperationRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ModifyOperationResponse> responseObserver) {
@@ -672,6 +644,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Completely delete the operation
+     * </pre>
      */
     public void deleteOperation(com.yandex.query.YandexQueryProtos.DeleteOperationRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteOperationResponse> responseObserver) {
@@ -679,15 +654,18 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Change the state of the operation lifecycle
+     * </pre>
      */
-    public void manageOperation(com.yandex.query.YandexQueryProtos.ManageOperationRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ManageOperationResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getManageOperationMethod(), responseObserver);
+    public void controlOperation(com.yandex.query.YandexQueryProtos.ControlOperationRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ControlOperationResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getControlOperationMethod(), responseObserver);
     }
 
     /**
      * <pre>
-     * ResultSet
+     * Get a results page
      * </pre>
      */
     public void getResultData(com.yandex.query.YandexQueryProtos.GetResultDataRequest request,
@@ -698,6 +676,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Connections
+     * Create a connection object (ObjectStorage, YDB, YDS, ...)
      * </pre>
      */
     public void createConnection(com.yandex.query.YandexQueryProtos.CreateConnectionRequest request,
@@ -706,6 +685,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get a list of connections objects
+     * </pre>
      */
     public void listConnections(com.yandex.query.YandexQueryProtos.ListConnectionsRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListConnectionsResponse> responseObserver) {
@@ -713,6 +695,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get information about the object of the connection
+     * </pre>
      */
     public void describeConnection(com.yandex.query.YandexQueryProtos.DescribeConnectionRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeConnectionResponse> responseObserver) {
@@ -720,6 +705,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Change the attributes of the connection
+     * </pre>
      */
     public void modifyConnection(com.yandex.query.YandexQueryProtos.ModifyConnectionRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ModifyConnectionResponse> responseObserver) {
@@ -727,6 +715,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Completely delete the connection
+     * </pre>
      */
     public void deleteConnection(com.yandex.query.YandexQueryProtos.DeleteConnectionRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteConnectionResponse> responseObserver) {
@@ -736,6 +727,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Bindings
+     * Create a binding object - bind schema with ObjectStorage object or YDS stream
      * </pre>
      */
     public void createBinding(com.yandex.query.YandexQueryProtos.CreateBindingRequest request,
@@ -744,6 +736,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get a list of bindings objects
+     * </pre>
      */
     public void listBindings(com.yandex.query.YandexQueryProtos.ListBindingsRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListBindingsResponse> responseObserver) {
@@ -751,6 +746,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get information about the object of the binding
+     * </pre>
      */
     public void describeBinding(com.yandex.query.YandexQueryProtos.DescribeBindingRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeBindingResponse> responseObserver) {
@@ -758,6 +756,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Change the attributes of the binding
+     * </pre>
      */
     public void modifyBinding(com.yandex.query.YandexQueryProtos.ModifyBindingRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ModifyBindingResponse> responseObserver) {
@@ -765,6 +766,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Completely delete the binding
+     * </pre>
      */
     public void deleteBinding(com.yandex.query.YandexQueryProtos.DeleteBindingRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteBindingResponse> responseObserver) {
@@ -774,12 +778,12 @@ public final class YandexQueryServiceGrpc {
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            getExecuteOperationMethod(),
+            getCreateOperationMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.yandex.query.YandexQueryProtos.ExecuteOperationRequest,
-                com.yandex.query.YandexQueryProtos.ExecuteOperationResponse>(
-                  this, METHODID_EXECUTE_OPERATION)))
+                com.yandex.query.YandexQueryProtos.CreateOperationRequest,
+                com.yandex.query.YandexQueryProtos.CreateOperationResponse>(
+                  this, METHODID_CREATE_OPERATION)))
           .addMethod(
             getListOperationsMethod(),
             asyncUnaryCall(
@@ -795,13 +799,6 @@ public final class YandexQueryServiceGrpc {
                 com.yandex.query.YandexQueryProtos.DescribeOperationResponse>(
                   this, METHODID_DESCRIBE_OPERATION)))
           .addMethod(
-            getDescribeOperationResultMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                com.yandex.query.YandexQueryProtos.DescribeOperationResultRequest,
-                com.yandex.query.YandexQueryProtos.DescribeOperationResultResponse>(
-                  this, METHODID_DESCRIBE_OPERATION_RESULT)))
-          .addMethod(
             getModifyOperationMethod(),
             asyncUnaryCall(
               new MethodHandlers<
@@ -816,12 +813,12 @@ public final class YandexQueryServiceGrpc {
                 com.yandex.query.YandexQueryProtos.DeleteOperationResponse>(
                   this, METHODID_DELETE_OPERATION)))
           .addMethod(
-            getManageOperationMethod(),
+            getControlOperationMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.yandex.query.YandexQueryProtos.ManageOperationRequest,
-                com.yandex.query.YandexQueryProtos.ManageOperationResponse>(
-                  this, METHODID_MANAGE_OPERATION)))
+                com.yandex.query.YandexQueryProtos.ControlOperationRequest,
+                com.yandex.query.YandexQueryProtos.ControlOperationResponse>(
+                  this, METHODID_CONTROL_OPERATION)))
           .addMethod(
             getGetResultDataMethod(),
             asyncUnaryCall(
@@ -920,15 +917,19 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Operations
+     * Create an operation object with a given SQL
      * </pre>
      */
-    public void executeOperation(com.yandex.query.YandexQueryProtos.ExecuteOperationRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ExecuteOperationResponse> responseObserver) {
+    public void createOperation(com.yandex.query.YandexQueryProtos.CreateOperationRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.CreateOperationResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getExecuteOperationMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCreateOperationMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
+     * <pre>
+     * Get a list of brief operations objects
+     * </pre>
      */
     public void listOperations(com.yandex.query.YandexQueryProtos.ListOperationsRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListOperationsResponse> responseObserver) {
@@ -937,6 +938,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get full information about the object of the operation
+     * </pre>
      */
     public void describeOperation(com.yandex.query.YandexQueryProtos.DescribeOperationRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeOperationResponse> responseObserver) {
@@ -945,14 +949,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
-     */
-    public void describeOperationResult(com.yandex.query.YandexQueryProtos.DescribeOperationResultRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeOperationResultResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getDescribeOperationResultMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
+     * <pre>
+     * Change the attributes of the operation (acl, name, ...)
+     * </pre>
      */
     public void modifyOperation(com.yandex.query.YandexQueryProtos.ModifyOperationRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ModifyOperationResponse> responseObserver) {
@@ -961,6 +960,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Completely delete the operation
+     * </pre>
      */
     public void deleteOperation(com.yandex.query.YandexQueryProtos.DeleteOperationRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteOperationResponse> responseObserver) {
@@ -969,16 +971,19 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Change the state of the operation lifecycle
+     * </pre>
      */
-    public void manageOperation(com.yandex.query.YandexQueryProtos.ManageOperationRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ManageOperationResponse> responseObserver) {
+    public void controlOperation(com.yandex.query.YandexQueryProtos.ControlOperationRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ControlOperationResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getManageOperationMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getControlOperationMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      * <pre>
-     * ResultSet
+     * Get a results page
      * </pre>
      */
     public void getResultData(com.yandex.query.YandexQueryProtos.GetResultDataRequest request,
@@ -990,6 +995,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Connections
+     * Create a connection object (ObjectStorage, YDB, YDS, ...)
      * </pre>
      */
     public void createConnection(com.yandex.query.YandexQueryProtos.CreateConnectionRequest request,
@@ -999,6 +1005,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get a list of connections objects
+     * </pre>
      */
     public void listConnections(com.yandex.query.YandexQueryProtos.ListConnectionsRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListConnectionsResponse> responseObserver) {
@@ -1007,6 +1016,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get information about the object of the connection
+     * </pre>
      */
     public void describeConnection(com.yandex.query.YandexQueryProtos.DescribeConnectionRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeConnectionResponse> responseObserver) {
@@ -1015,6 +1027,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Change the attributes of the connection
+     * </pre>
      */
     public void modifyConnection(com.yandex.query.YandexQueryProtos.ModifyConnectionRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ModifyConnectionResponse> responseObserver) {
@@ -1023,6 +1038,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Completely delete the connection
+     * </pre>
      */
     public void deleteConnection(com.yandex.query.YandexQueryProtos.DeleteConnectionRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteConnectionResponse> responseObserver) {
@@ -1033,6 +1051,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Bindings
+     * Create a binding object - bind schema with ObjectStorage object or YDS stream
      * </pre>
      */
     public void createBinding(com.yandex.query.YandexQueryProtos.CreateBindingRequest request,
@@ -1042,6 +1061,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get a list of bindings objects
+     * </pre>
      */
     public void listBindings(com.yandex.query.YandexQueryProtos.ListBindingsRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListBindingsResponse> responseObserver) {
@@ -1050,6 +1072,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get information about the object of the binding
+     * </pre>
      */
     public void describeBinding(com.yandex.query.YandexQueryProtos.DescribeBindingRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeBindingResponse> responseObserver) {
@@ -1058,6 +1083,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Change the attributes of the binding
+     * </pre>
      */
     public void modifyBinding(com.yandex.query.YandexQueryProtos.ModifyBindingRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ModifyBindingResponse> responseObserver) {
@@ -1066,6 +1094,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Completely delete the binding
+     * </pre>
      */
     public void deleteBinding(com.yandex.query.YandexQueryProtos.DeleteBindingRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteBindingResponse> responseObserver) {
@@ -1091,14 +1122,18 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Operations
+     * Create an operation object with a given SQL
      * </pre>
      */
-    public com.yandex.query.YandexQueryProtos.ExecuteOperationResponse executeOperation(com.yandex.query.YandexQueryProtos.ExecuteOperationRequest request) {
+    public com.yandex.query.YandexQueryProtos.CreateOperationResponse createOperation(com.yandex.query.YandexQueryProtos.CreateOperationRequest request) {
       return blockingUnaryCall(
-          getChannel(), getExecuteOperationMethod(), getCallOptions(), request);
+          getChannel(), getCreateOperationMethod(), getCallOptions(), request);
     }
 
     /**
+     * <pre>
+     * Get a list of brief operations objects
+     * </pre>
      */
     public com.yandex.query.YandexQueryProtos.ListOperationsResponse listOperations(com.yandex.query.YandexQueryProtos.ListOperationsRequest request) {
       return blockingUnaryCall(
@@ -1106,6 +1141,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get full information about the object of the operation
+     * </pre>
      */
     public com.yandex.query.YandexQueryProtos.DescribeOperationResponse describeOperation(com.yandex.query.YandexQueryProtos.DescribeOperationRequest request) {
       return blockingUnaryCall(
@@ -1113,13 +1151,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
-     */
-    public com.yandex.query.YandexQueryProtos.DescribeOperationResultResponse describeOperationResult(com.yandex.query.YandexQueryProtos.DescribeOperationResultRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getDescribeOperationResultMethod(), getCallOptions(), request);
-    }
-
-    /**
+     * <pre>
+     * Change the attributes of the operation (acl, name, ...)
+     * </pre>
      */
     public com.yandex.query.YandexQueryProtos.ModifyOperationResponse modifyOperation(com.yandex.query.YandexQueryProtos.ModifyOperationRequest request) {
       return blockingUnaryCall(
@@ -1127,6 +1161,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Completely delete the operation
+     * </pre>
      */
     public com.yandex.query.YandexQueryProtos.DeleteOperationResponse deleteOperation(com.yandex.query.YandexQueryProtos.DeleteOperationRequest request) {
       return blockingUnaryCall(
@@ -1134,15 +1171,18 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Change the state of the operation lifecycle
+     * </pre>
      */
-    public com.yandex.query.YandexQueryProtos.ManageOperationResponse manageOperation(com.yandex.query.YandexQueryProtos.ManageOperationRequest request) {
+    public com.yandex.query.YandexQueryProtos.ControlOperationResponse controlOperation(com.yandex.query.YandexQueryProtos.ControlOperationRequest request) {
       return blockingUnaryCall(
-          getChannel(), getManageOperationMethod(), getCallOptions(), request);
+          getChannel(), getControlOperationMethod(), getCallOptions(), request);
     }
 
     /**
      * <pre>
-     * ResultSet
+     * Get a results page
      * </pre>
      */
     public com.yandex.query.YandexQueryProtos.GetResultDataResponse getResultData(com.yandex.query.YandexQueryProtos.GetResultDataRequest request) {
@@ -1153,6 +1193,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Connections
+     * Create a connection object (ObjectStorage, YDB, YDS, ...)
      * </pre>
      */
     public com.yandex.query.YandexQueryProtos.CreateConnectionResponse createConnection(com.yandex.query.YandexQueryProtos.CreateConnectionRequest request) {
@@ -1161,6 +1202,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get a list of connections objects
+     * </pre>
      */
     public com.yandex.query.YandexQueryProtos.ListConnectionsResponse listConnections(com.yandex.query.YandexQueryProtos.ListConnectionsRequest request) {
       return blockingUnaryCall(
@@ -1168,6 +1212,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get information about the object of the connection
+     * </pre>
      */
     public com.yandex.query.YandexQueryProtos.DescribeConnectionResponse describeConnection(com.yandex.query.YandexQueryProtos.DescribeConnectionRequest request) {
       return blockingUnaryCall(
@@ -1175,6 +1222,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Change the attributes of the connection
+     * </pre>
      */
     public com.yandex.query.YandexQueryProtos.ModifyConnectionResponse modifyConnection(com.yandex.query.YandexQueryProtos.ModifyConnectionRequest request) {
       return blockingUnaryCall(
@@ -1182,6 +1232,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Completely delete the connection
+     * </pre>
      */
     public com.yandex.query.YandexQueryProtos.DeleteConnectionResponse deleteConnection(com.yandex.query.YandexQueryProtos.DeleteConnectionRequest request) {
       return blockingUnaryCall(
@@ -1191,6 +1244,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Bindings
+     * Create a binding object - bind schema with ObjectStorage object or YDS stream
      * </pre>
      */
     public com.yandex.query.YandexQueryProtos.CreateBindingResponse createBinding(com.yandex.query.YandexQueryProtos.CreateBindingRequest request) {
@@ -1199,6 +1253,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get a list of bindings objects
+     * </pre>
      */
     public com.yandex.query.YandexQueryProtos.ListBindingsResponse listBindings(com.yandex.query.YandexQueryProtos.ListBindingsRequest request) {
       return blockingUnaryCall(
@@ -1206,6 +1263,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get information about the object of the binding
+     * </pre>
      */
     public com.yandex.query.YandexQueryProtos.DescribeBindingResponse describeBinding(com.yandex.query.YandexQueryProtos.DescribeBindingRequest request) {
       return blockingUnaryCall(
@@ -1213,6 +1273,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Change the attributes of the binding
+     * </pre>
      */
     public com.yandex.query.YandexQueryProtos.ModifyBindingResponse modifyBinding(com.yandex.query.YandexQueryProtos.ModifyBindingRequest request) {
       return blockingUnaryCall(
@@ -1220,6 +1283,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Completely delete the binding
+     * </pre>
      */
     public com.yandex.query.YandexQueryProtos.DeleteBindingResponse deleteBinding(com.yandex.query.YandexQueryProtos.DeleteBindingRequest request) {
       return blockingUnaryCall(
@@ -1244,15 +1310,19 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Operations
+     * Create an operation object with a given SQL
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ExecuteOperationResponse> executeOperation(
-        com.yandex.query.YandexQueryProtos.ExecuteOperationRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.CreateOperationResponse> createOperation(
+        com.yandex.query.YandexQueryProtos.CreateOperationRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getExecuteOperationMethod(), getCallOptions()), request);
+          getChannel().newCall(getCreateOperationMethod(), getCallOptions()), request);
     }
 
     /**
+     * <pre>
+     * Get a list of brief operations objects
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ListOperationsResponse> listOperations(
         com.yandex.query.YandexQueryProtos.ListOperationsRequest request) {
@@ -1261,6 +1331,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get full information about the object of the operation
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.DescribeOperationResponse> describeOperation(
         com.yandex.query.YandexQueryProtos.DescribeOperationRequest request) {
@@ -1269,14 +1342,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.DescribeOperationResultResponse> describeOperationResult(
-        com.yandex.query.YandexQueryProtos.DescribeOperationResultRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getDescribeOperationResultMethod(), getCallOptions()), request);
-    }
-
-    /**
+     * <pre>
+     * Change the attributes of the operation (acl, name, ...)
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ModifyOperationResponse> modifyOperation(
         com.yandex.query.YandexQueryProtos.ModifyOperationRequest request) {
@@ -1285,6 +1353,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Completely delete the operation
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.DeleteOperationResponse> deleteOperation(
         com.yandex.query.YandexQueryProtos.DeleteOperationRequest request) {
@@ -1293,16 +1364,19 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Change the state of the operation lifecycle
+     * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ManageOperationResponse> manageOperation(
-        com.yandex.query.YandexQueryProtos.ManageOperationRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ControlOperationResponse> controlOperation(
+        com.yandex.query.YandexQueryProtos.ControlOperationRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getManageOperationMethod(), getCallOptions()), request);
+          getChannel().newCall(getControlOperationMethod(), getCallOptions()), request);
     }
 
     /**
      * <pre>
-     * ResultSet
+     * Get a results page
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.GetResultDataResponse> getResultData(
@@ -1314,6 +1388,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Connections
+     * Create a connection object (ObjectStorage, YDB, YDS, ...)
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.CreateConnectionResponse> createConnection(
@@ -1323,6 +1398,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get a list of connections objects
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ListConnectionsResponse> listConnections(
         com.yandex.query.YandexQueryProtos.ListConnectionsRequest request) {
@@ -1331,6 +1409,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get information about the object of the connection
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.DescribeConnectionResponse> describeConnection(
         com.yandex.query.YandexQueryProtos.DescribeConnectionRequest request) {
@@ -1339,6 +1420,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Change the attributes of the connection
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ModifyConnectionResponse> modifyConnection(
         com.yandex.query.YandexQueryProtos.ModifyConnectionRequest request) {
@@ -1347,6 +1431,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Completely delete the connection
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.DeleteConnectionResponse> deleteConnection(
         com.yandex.query.YandexQueryProtos.DeleteConnectionRequest request) {
@@ -1357,6 +1444,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Bindings
+     * Create a binding object - bind schema with ObjectStorage object or YDS stream
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.CreateBindingResponse> createBinding(
@@ -1366,6 +1454,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get a list of bindings objects
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ListBindingsResponse> listBindings(
         com.yandex.query.YandexQueryProtos.ListBindingsRequest request) {
@@ -1374,6 +1465,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Get information about the object of the binding
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.DescribeBindingResponse> describeBinding(
         com.yandex.query.YandexQueryProtos.DescribeBindingRequest request) {
@@ -1382,6 +1476,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Change the attributes of the binding
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ModifyBindingResponse> modifyBinding(
         com.yandex.query.YandexQueryProtos.ModifyBindingRequest request) {
@@ -1390,6 +1487,9 @@ public final class YandexQueryServiceGrpc {
     }
 
     /**
+     * <pre>
+     * Completely delete the binding
+     * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.DeleteBindingResponse> deleteBinding(
         com.yandex.query.YandexQueryProtos.DeleteBindingRequest request) {
@@ -1398,24 +1498,23 @@ public final class YandexQueryServiceGrpc {
     }
   }
 
-  private static final int METHODID_EXECUTE_OPERATION = 0;
+  private static final int METHODID_CREATE_OPERATION = 0;
   private static final int METHODID_LIST_OPERATIONS = 1;
   private static final int METHODID_DESCRIBE_OPERATION = 2;
-  private static final int METHODID_DESCRIBE_OPERATION_RESULT = 3;
-  private static final int METHODID_MODIFY_OPERATION = 4;
-  private static final int METHODID_DELETE_OPERATION = 5;
-  private static final int METHODID_MANAGE_OPERATION = 6;
-  private static final int METHODID_GET_RESULT_DATA = 7;
-  private static final int METHODID_CREATE_CONNECTION = 8;
-  private static final int METHODID_LIST_CONNECTIONS = 9;
-  private static final int METHODID_DESCRIBE_CONNECTION = 10;
-  private static final int METHODID_MODIFY_CONNECTION = 11;
-  private static final int METHODID_DELETE_CONNECTION = 12;
-  private static final int METHODID_CREATE_BINDING = 13;
-  private static final int METHODID_LIST_BINDINGS = 14;
-  private static final int METHODID_DESCRIBE_BINDING = 15;
-  private static final int METHODID_MODIFY_BINDING = 16;
-  private static final int METHODID_DELETE_BINDING = 17;
+  private static final int METHODID_MODIFY_OPERATION = 3;
+  private static final int METHODID_DELETE_OPERATION = 4;
+  private static final int METHODID_CONTROL_OPERATION = 5;
+  private static final int METHODID_GET_RESULT_DATA = 6;
+  private static final int METHODID_CREATE_CONNECTION = 7;
+  private static final int METHODID_LIST_CONNECTIONS = 8;
+  private static final int METHODID_DESCRIBE_CONNECTION = 9;
+  private static final int METHODID_MODIFY_CONNECTION = 10;
+  private static final int METHODID_DELETE_CONNECTION = 11;
+  private static final int METHODID_CREATE_BINDING = 12;
+  private static final int METHODID_LIST_BINDINGS = 13;
+  private static final int METHODID_DESCRIBE_BINDING = 14;
+  private static final int METHODID_MODIFY_BINDING = 15;
+  private static final int METHODID_DELETE_BINDING = 16;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -1434,9 +1533,9 @@ public final class YandexQueryServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_EXECUTE_OPERATION:
-          serviceImpl.executeOperation((com.yandex.query.YandexQueryProtos.ExecuteOperationRequest) request,
-              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ExecuteOperationResponse>) responseObserver);
+        case METHODID_CREATE_OPERATION:
+          serviceImpl.createOperation((com.yandex.query.YandexQueryProtos.CreateOperationRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.CreateOperationResponse>) responseObserver);
           break;
         case METHODID_LIST_OPERATIONS:
           serviceImpl.listOperations((com.yandex.query.YandexQueryProtos.ListOperationsRequest) request,
@@ -1446,10 +1545,6 @@ public final class YandexQueryServiceGrpc {
           serviceImpl.describeOperation((com.yandex.query.YandexQueryProtos.DescribeOperationRequest) request,
               (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeOperationResponse>) responseObserver);
           break;
-        case METHODID_DESCRIBE_OPERATION_RESULT:
-          serviceImpl.describeOperationResult((com.yandex.query.YandexQueryProtos.DescribeOperationResultRequest) request,
-              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeOperationResultResponse>) responseObserver);
-          break;
         case METHODID_MODIFY_OPERATION:
           serviceImpl.modifyOperation((com.yandex.query.YandexQueryProtos.ModifyOperationRequest) request,
               (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ModifyOperationResponse>) responseObserver);
@@ -1458,9 +1553,9 @@ public final class YandexQueryServiceGrpc {
           serviceImpl.deleteOperation((com.yandex.query.YandexQueryProtos.DeleteOperationRequest) request,
               (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteOperationResponse>) responseObserver);
           break;
-        case METHODID_MANAGE_OPERATION:
-          serviceImpl.manageOperation((com.yandex.query.YandexQueryProtos.ManageOperationRequest) request,
-              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ManageOperationResponse>) responseObserver);
+        case METHODID_CONTROL_OPERATION:
+          serviceImpl.controlOperation((com.yandex.query.YandexQueryProtos.ControlOperationRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ControlOperationResponse>) responseObserver);
           break;
         case METHODID_GET_RESULT_DATA:
           serviceImpl.getResultData((com.yandex.query.YandexQueryProtos.GetResultDataRequest) request,
@@ -1567,13 +1662,12 @@ public final class YandexQueryServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new YandexQueryServiceFileDescriptorSupplier())
-              .addMethod(getExecuteOperationMethod())
+              .addMethod(getCreateOperationMethod())
               .addMethod(getListOperationsMethod())
               .addMethod(getDescribeOperationMethod())
-              .addMethod(getDescribeOperationResultMethod())
               .addMethod(getModifyOperationMethod())
               .addMethod(getDeleteOperationMethod())
-              .addMethod(getManageOperationMethod())
+              .addMethod(getControlOperationMethod())
               .addMethod(getGetResultDataMethod())
               .addMethod(getCreateConnectionMethod())
               .addMethod(getListConnectionsMethod())

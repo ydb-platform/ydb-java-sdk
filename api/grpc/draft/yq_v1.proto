@@ -7,42 +7,56 @@ import "kikimr/public/api/protos/draft/yq.proto";
 
 service YandexQueryService {
     // Operations
-    rpc ExecuteOperation(YandexQuery.ExecuteOperationRequest) returns (YandexQuery.ExecuteOperationResponse);
+    // Create an operation object with a given SQL
+    rpc CreateOperation(YandexQuery.CreateOperationRequest) returns (YandexQuery.CreateOperationResponse);
 
+    // Get a list of brief operations objects
     rpc ListOperations(YandexQuery.ListOperationsRequest) returns (YandexQuery.ListOperationsResponse);
 
+    // Get full information about the object of the operation
     rpc DescribeOperation(YandexQuery.DescribeOperationRequest) returns (YandexQuery.DescribeOperationResponse);
 
-    rpc DescribeOperationResult(YandexQuery.DescribeOperationResultRequest) returns (YandexQuery.DescribeOperationResultResponse);
-
+    // Change the attributes of the operation (acl, name, ...)
     rpc ModifyOperation(YandexQuery.ModifyOperationRequest) returns (YandexQuery.ModifyOperationResponse);
 
+    // Completely delete the operation
     rpc DeleteOperation(YandexQuery.DeleteOperationRequest) returns (YandexQuery.DeleteOperationResponse);
 
-    rpc ManageOperation(YandexQuery.ManageOperationRequest) returns (YandexQuery.ManageOperationResponse);
+    // Change the state of the operation lifecycle
+    rpc ControlOperation(YandexQuery.ControlOperationRequest) returns (YandexQuery.ControlOperationResponse);
 
-    // ResultSet
+    // Get a results page
     rpc GetResultData(YandexQuery.GetResultDataRequest) returns (YandexQuery.GetResultDataResponse);
 
     // Connections
+    // Create a connection object (ObjectStorage, YDB, YDS, ...)
     rpc CreateConnection(YandexQuery.CreateConnectionRequest) returns (YandexQuery.CreateConnectionResponse);
 
+    // Get a list of connections objects
     rpc ListConnections(YandexQuery.ListConnectionsRequest) returns (YandexQuery.ListConnectionsResponse);
 
+    // Get information about the object of the connection
     rpc DescribeConnection(YandexQuery.DescribeConnectionRequest) returns (YandexQuery.DescribeConnectionResponse);
 
+    // Change the attributes of the connection
     rpc ModifyConnection(YandexQuery.ModifyConnectionRequest) returns (YandexQuery.ModifyConnectionResponse);
 
+    // Completely delete the connection
     rpc DeleteConnection(YandexQuery.DeleteConnectionRequest) returns (YandexQuery.DeleteConnectionResponse);
 
     // Bindings
+    // Create a binding object - bind schema with ObjectStorage object or YDS stream
     rpc CreateBinding(YandexQuery.CreateBindingRequest) returns (YandexQuery.CreateBindingResponse);
 
+    // Get a list of bindings objects
     rpc ListBindings(YandexQuery.ListBindingsRequest) returns (YandexQuery.ListBindingsResponse);
 
+    // Get information about the object of the binding
     rpc DescribeBinding(YandexQuery.DescribeBindingRequest) returns (YandexQuery.DescribeBindingResponse);
 
+    // Change the attributes of the binding
     rpc ModifyBinding(YandexQuery.ModifyBindingRequest) returns (YandexQuery.ModifyBindingResponse);
 
+    // Completely delete the binding
     rpc DeleteBinding(YandexQuery.DeleteBindingRequest) returns (YandexQuery.DeleteBindingResponse);
 }

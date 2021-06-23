@@ -1866,20 +1866,37 @@ public final class StorageConfig {
 
     /**
      * <pre>
-     * 1Gb
+     * 1 Gb
      * </pre>
      *
-     * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+     * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
      */
-    boolean hasMaxGraphStateSizeBytes();
+    boolean hasMaxGraphCheckpointsSizeBytes();
     /**
      * <pre>
-     * 1Gb
+     * 1 Gb
      * </pre>
      *
-     * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+     * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
      */
-    long getMaxGraphStateSizeBytes();
+    long getMaxGraphCheckpointsSizeBytes();
+
+    /**
+     * <pre>
+     * 3 Gb
+     * </pre>
+     *
+     * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+     */
+    boolean hasMaxCheckpointSizeBytes();
+    /**
+     * <pre>
+     * 3 Gb
+     * </pre>
+     *
+     * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+     */
+    long getMaxCheckpointSizeBytes();
   }
   /**
    * Protobuf type {@code NStreams.NConfig.TStateStorageLimits}
@@ -1894,7 +1911,8 @@ public final class StorageConfig {
       super(builder);
     }
     private TStateStorageLimits() {
-      maxGraphStateSizeBytes_ = 1099511627776L;
+      maxGraphCheckpointsSizeBytes_ = 1099511627776L;
+      maxCheckpointSizeBytes_ = 3298534883328L;
     }
 
     @java.lang.Override
@@ -1927,7 +1945,12 @@ public final class StorageConfig {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              maxGraphStateSizeBytes_ = input.readUInt64();
+              maxGraphCheckpointsSizeBytes_ = input.readUInt64();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              maxCheckpointSizeBytes_ = input.readUInt64();
               break;
             }
           }
@@ -1955,27 +1978,50 @@ public final class StorageConfig {
     }
 
     private int bitField0_;
-    public static final int MAXGRAPHSTATESIZEBYTES_FIELD_NUMBER = 1;
-    private long maxGraphStateSizeBytes_;
+    public static final int MAXGRAPHCHECKPOINTSSIZEBYTES_FIELD_NUMBER = 1;
+    private long maxGraphCheckpointsSizeBytes_;
     /**
      * <pre>
-     * 1Gb
+     * 1 Gb
      * </pre>
      *
-     * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+     * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
      */
-    public boolean hasMaxGraphStateSizeBytes() {
+    public boolean hasMaxGraphCheckpointsSizeBytes() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <pre>
-     * 1Gb
+     * 1 Gb
      * </pre>
      *
-     * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+     * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
      */
-    public long getMaxGraphStateSizeBytes() {
-      return maxGraphStateSizeBytes_;
+    public long getMaxGraphCheckpointsSizeBytes() {
+      return maxGraphCheckpointsSizeBytes_;
+    }
+
+    public static final int MAXCHECKPOINTSIZEBYTES_FIELD_NUMBER = 2;
+    private long maxCheckpointSizeBytes_;
+    /**
+     * <pre>
+     * 3 Gb
+     * </pre>
+     *
+     * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+     */
+    public boolean hasMaxCheckpointSizeBytes() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <pre>
+     * 3 Gb
+     * </pre>
+     *
+     * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+     */
+    public long getMaxCheckpointSizeBytes() {
+      return maxCheckpointSizeBytes_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -1991,7 +2037,10 @@ public final class StorageConfig {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeUInt64(1, maxGraphStateSizeBytes_);
+        output.writeUInt64(1, maxGraphCheckpointsSizeBytes_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeUInt64(2, maxCheckpointSizeBytes_);
       }
       unknownFields.writeTo(output);
     }
@@ -2003,7 +2052,11 @@ public final class StorageConfig {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(1, maxGraphStateSizeBytes_);
+          .computeUInt64Size(1, maxGraphCheckpointsSizeBytes_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(2, maxCheckpointSizeBytes_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2021,10 +2074,15 @@ public final class StorageConfig {
       NStreams.NConfig.StorageConfig.TStateStorageLimits other = (NStreams.NConfig.StorageConfig.TStateStorageLimits) obj;
 
       boolean result = true;
-      result = result && (hasMaxGraphStateSizeBytes() == other.hasMaxGraphStateSizeBytes());
-      if (hasMaxGraphStateSizeBytes()) {
-        result = result && (getMaxGraphStateSizeBytes()
-            == other.getMaxGraphStateSizeBytes());
+      result = result && (hasMaxGraphCheckpointsSizeBytes() == other.hasMaxGraphCheckpointsSizeBytes());
+      if (hasMaxGraphCheckpointsSizeBytes()) {
+        result = result && (getMaxGraphCheckpointsSizeBytes()
+            == other.getMaxGraphCheckpointsSizeBytes());
+      }
+      result = result && (hasMaxCheckpointSizeBytes() == other.hasMaxCheckpointSizeBytes());
+      if (hasMaxCheckpointSizeBytes()) {
+        result = result && (getMaxCheckpointSizeBytes()
+            == other.getMaxCheckpointSizeBytes());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -2037,10 +2095,15 @@ public final class StorageConfig {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasMaxGraphStateSizeBytes()) {
-        hash = (37 * hash) + MAXGRAPHSTATESIZEBYTES_FIELD_NUMBER;
+      if (hasMaxGraphCheckpointsSizeBytes()) {
+        hash = (37 * hash) + MAXGRAPHCHECKPOINTSSIZEBYTES_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-            getMaxGraphStateSizeBytes());
+            getMaxGraphCheckpointsSizeBytes());
+      }
+      if (hasMaxCheckpointSizeBytes()) {
+        hash = (37 * hash) + MAXCHECKPOINTSIZEBYTES_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getMaxCheckpointSizeBytes());
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -2171,8 +2234,10 @@ public final class StorageConfig {
       }
       public Builder clear() {
         super.clear();
-        maxGraphStateSizeBytes_ = 1099511627776L;
+        maxGraphCheckpointsSizeBytes_ = 1099511627776L;
         bitField0_ = (bitField0_ & ~0x00000001);
+        maxCheckpointSizeBytes_ = 3298534883328L;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -2200,7 +2265,11 @@ public final class StorageConfig {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.maxGraphStateSizeBytes_ = maxGraphStateSizeBytes_;
+        result.maxGraphCheckpointsSizeBytes_ = maxGraphCheckpointsSizeBytes_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.maxCheckpointSizeBytes_ = maxCheckpointSizeBytes_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2243,8 +2312,11 @@ public final class StorageConfig {
 
       public Builder mergeFrom(NStreams.NConfig.StorageConfig.TStateStorageLimits other) {
         if (other == NStreams.NConfig.StorageConfig.TStateStorageLimits.getDefaultInstance()) return this;
-        if (other.hasMaxGraphStateSizeBytes()) {
-          setMaxGraphStateSizeBytes(other.getMaxGraphStateSizeBytes());
+        if (other.hasMaxGraphCheckpointsSizeBytes()) {
+          setMaxGraphCheckpointsSizeBytes(other.getMaxGraphCheckpointsSizeBytes());
+        }
+        if (other.hasMaxCheckpointSizeBytes()) {
+          setMaxCheckpointSizeBytes(other.getMaxCheckpointSizeBytes());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2274,50 +2346,98 @@ public final class StorageConfig {
       }
       private int bitField0_;
 
-      private long maxGraphStateSizeBytes_ = 1099511627776L;
+      private long maxGraphCheckpointsSizeBytes_ = 1099511627776L;
       /**
        * <pre>
-       * 1Gb
+       * 1 Gb
        * </pre>
        *
-       * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+       * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
        */
-      public boolean hasMaxGraphStateSizeBytes() {
+      public boolean hasMaxGraphCheckpointsSizeBytes() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <pre>
-       * 1Gb
+       * 1 Gb
        * </pre>
        *
-       * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+       * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
        */
-      public long getMaxGraphStateSizeBytes() {
-        return maxGraphStateSizeBytes_;
+      public long getMaxGraphCheckpointsSizeBytes() {
+        return maxGraphCheckpointsSizeBytes_;
       }
       /**
        * <pre>
-       * 1Gb
+       * 1 Gb
        * </pre>
        *
-       * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+       * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
        */
-      public Builder setMaxGraphStateSizeBytes(long value) {
+      public Builder setMaxGraphCheckpointsSizeBytes(long value) {
         bitField0_ |= 0x00000001;
-        maxGraphStateSizeBytes_ = value;
+        maxGraphCheckpointsSizeBytes_ = value;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * 1Gb
+       * 1 Gb
        * </pre>
        *
-       * <code>optional uint64 MaxGraphStateSizeBytes = 1 [default = 1099511627776];</code>
+       * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
        */
-      public Builder clearMaxGraphStateSizeBytes() {
+      public Builder clearMaxGraphCheckpointsSizeBytes() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        maxGraphStateSizeBytes_ = 1099511627776L;
+        maxGraphCheckpointsSizeBytes_ = 1099511627776L;
+        onChanged();
+        return this;
+      }
+
+      private long maxCheckpointSizeBytes_ = 3298534883328L;
+      /**
+       * <pre>
+       * 3 Gb
+       * </pre>
+       *
+       * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+       */
+      public boolean hasMaxCheckpointSizeBytes() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <pre>
+       * 3 Gb
+       * </pre>
+       *
+       * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+       */
+      public long getMaxCheckpointSizeBytes() {
+        return maxCheckpointSizeBytes_;
+      }
+      /**
+       * <pre>
+       * 3 Gb
+       * </pre>
+       *
+       * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+       */
+      public Builder setMaxCheckpointSizeBytes(long value) {
+        bitField0_ |= 0x00000002;
+        maxCheckpointSizeBytes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 3 Gb
+       * </pre>
+       *
+       * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+       */
+      public Builder clearMaxCheckpointSizeBytes() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        maxCheckpointSizeBytes_ = 3298534883328L;
         onChanged();
         return this;
       }
@@ -4468,20 +4588,22 @@ public final class StorageConfig {
       "ePrefix\030\004 \001(\t\022\027\n\017CertificateFile\030\006 \001(\t\022\023" +
       "\n\013IamEndpoint\030\007 \001(\t\022\021\n\tSaKeyFile\030\010 \001(\t\022\037" +
       "\n\027UseLocalMetadataService\030\t \001(\010\022\r\n\005Token" +
-      "\030\005 \001(\t\"D\n\023TStateStorageLimits\022-\n\026MaxGrap" +
-      "hStateSizeBytes\030\001 \001(\004:\r1099511627776\",\n\023" +
-      "TCheckpointGcConfig\022\025\n\007Enabled\030\001 \001(\010:\004tr",
-      "ue\"\250\003\n\016TStorageConfig\022G\n\032YdbCheckpointSt" +
-      "orageConfig\030\001 \001(\0132#.NStreams.NConfig.TYd" +
-      "bStorageConfig\022B\n\025YdbStateStorageConfig\030" +
-      "\002 \001(\0132#.NStreams.NConfig.TYdbStorageConf" +
-      "ig\022F\n\027CheckpointGarbageConfig\030\003 \001(\0132%.NS" +
-      "treams.NConfig.TCheckpointGcConfig\022A\n\022St" +
-      "ateStorageLimits\030\004 \001(\0132%.NStreams.NConfi" +
-      "g.TStateStorageLimits\022:\n\rYdbSyncConfig\030\005" +
-      " \001(\0132#.NStreams.NConfig.TYdbStorageConfi" +
-      "g\022B\n\025YdbControlPlaneConfig\030\006 \001(\0132#.NStre",
-      "ams.NConfig.TYdbStorageConfig"
+      "\030\005 \001(\t\"y\n\023TStateStorageLimits\0223\n\034MaxGrap" +
+      "hCheckpointsSizeBytes\030\001 \001(\004:\r10995116277" +
+      "76\022-\n\026MaxCheckpointSizeBytes\030\002 \001(\004:\r3298",
+      "534883328\",\n\023TCheckpointGcConfig\022\025\n\007Enab" +
+      "led\030\001 \001(\010:\004true\"\250\003\n\016TStorageConfig\022G\n\032Yd" +
+      "bCheckpointStorageConfig\030\001 \001(\0132#.NStream" +
+      "s.NConfig.TYdbStorageConfig\022B\n\025YdbStateS" +
+      "torageConfig\030\002 \001(\0132#.NStreams.NConfig.TY" +
+      "dbStorageConfig\022F\n\027CheckpointGarbageConf" +
+      "ig\030\003 \001(\0132%.NStreams.NConfig.TCheckpointG" +
+      "cConfig\022A\n\022StateStorageLimits\030\004 \001(\0132%.NS" +
+      "treams.NConfig.TStateStorageLimits\022:\n\rYd" +
+      "bSyncConfig\030\005 \001(\0132#.NStreams.NConfig.TYd",
+      "bStorageConfig\022B\n\025YdbControlPlaneConfig\030" +
+      "\006 \001(\0132#.NStreams.NConfig.TYdbStorageConf" +
+      "ig"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4506,7 +4628,7 @@ public final class StorageConfig {
     internal_static_NStreams_NConfig_TStateStorageLimits_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NStreams_NConfig_TStateStorageLimits_descriptor,
-        new java.lang.String[] { "MaxGraphStateSizeBytes", });
+        new java.lang.String[] { "MaxGraphCheckpointsSizeBytes", "MaxCheckpointSizeBytes", });
     internal_static_NStreams_NConfig_TCheckpointGcConfig_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_NStreams_NConfig_TCheckpointGcConfig_fieldAccessorTable = new
