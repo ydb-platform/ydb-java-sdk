@@ -6,7 +6,7 @@ public class KeyBound {
     private final Value value;
     private final boolean inclusive;
 
-    private KeyBound(
+    public KeyBound(
             Value value,
             boolean inclusive
     ) {
