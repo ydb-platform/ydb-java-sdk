@@ -25,48 +25,45 @@ public final class YqV1 {
     java.lang.String[] descriptorData = {
       "\n(kikimr/public/api/grpc/draft/yq_v1.pro" +
       "to\022\016YandexQuery.V1\032\'kikimr/public/api/pr" +
-      "otos/draft/yq.proto2\311\014\n\022YandexQueryServi" +
-      "ce\022\\\n\017CreateOperation\022#.YandexQuery.Crea" +
-      "teOperationRequest\032$.YandexQuery.CreateO" +
-      "perationResponse\022Y\n\016ListOperations\022\".Yan" +
-      "dexQuery.ListOperationsRequest\032#.YandexQ" +
-      "uery.ListOperationsResponse\022b\n\021DescribeO" +
-      "peration\022%.YandexQuery.DescribeOperation" +
-      "Request\032&.YandexQuery.DescribeOperationR",
-      "esponse\022\\\n\017ModifyOperation\022#.YandexQuery" +
-      ".ModifyOperationRequest\032$.YandexQuery.Mo" +
-      "difyOperationResponse\022\\\n\017DeleteOperation" +
-      "\022#.YandexQuery.DeleteOperationRequest\032$." +
-      "YandexQuery.DeleteOperationResponse\022_\n\020C" +
-      "ontrolOperation\022$.YandexQuery.ControlOpe" +
-      "rationRequest\032%.YandexQuery.ControlOpera" +
-      "tionResponse\022V\n\rGetResultData\022!.YandexQu" +
-      "ery.GetResultDataRequest\032\".YandexQuery.G" +
-      "etResultDataResponse\022_\n\020CreateConnection",
-      "\022$.YandexQuery.CreateConnectionRequest\032%" +
-      ".YandexQuery.CreateConnectionResponse\022\\\n" +
-      "\017ListConnections\022#.YandexQuery.ListConne" +
-      "ctionsRequest\032$.YandexQuery.ListConnecti" +
-      "onsResponse\022e\n\022DescribeConnection\022&.Yand" +
-      "exQuery.DescribeConnectionRequest\032\'.Yand" +
-      "exQuery.DescribeConnectionResponse\022_\n\020Mo" +
-      "difyConnection\022$.YandexQuery.ModifyConne" +
-      "ctionRequest\032%.YandexQuery.ModifyConnect" +
-      "ionResponse\022_\n\020DeleteConnection\022$.Yandex",
-      "Query.DeleteConnectionRequest\032%.YandexQu" +
-      "ery.DeleteConnectionResponse\022V\n\rCreateBi" +
-      "nding\022!.YandexQuery.CreateBindingRequest" +
-      "\032\".YandexQuery.CreateBindingResponse\022S\n\014" +
-      "ListBindings\022 .YandexQuery.ListBindingsR" +
-      "equest\032!.YandexQuery.ListBindingsRespons" +
-      "e\022\\\n\017DescribeBinding\022#.YandexQuery.Descr" +
-      "ibeBindingRequest\032$.YandexQuery.Describe" +
-      "BindingResponse\022V\n\rModifyBinding\022!.Yande" +
-      "xQuery.ModifyBindingRequest\032\".YandexQuer",
-      "y.ModifyBindingResponse\022V\n\rDeleteBinding" +
-      "\022!.YandexQuery.DeleteBindingRequest\032\".Ya" +
-      "ndexQuery.DeleteBindingResponseB\025\n\023com.y" +
-      "andex.query.v1b\006proto3"
+      "otos/draft/yq.proto2\335\013\n\022YandexQueryServi" +
+      "ce\022J\n\tCreateJob\022\035.YandexQuery.CreateJobR" +
+      "equest\032\036.YandexQuery.CreateJobResponse\022G" +
+      "\n\010ListJobs\022\034.YandexQuery.ListJobsRequest" +
+      "\032\035.YandexQuery.ListJobsResponse\022P\n\013Descr" +
+      "ibeJob\022\037.YandexQuery.DescribeJobRequest\032" +
+      " .YandexQuery.DescribeJobResponse\022J\n\tMod" +
+      "ifyJob\022\035.YandexQuery.ModifyJobRequest\032\036.",
+      "YandexQuery.ModifyJobResponse\022J\n\tDeleteJ" +
+      "ob\022\035.YandexQuery.DeleteJobRequest\032\036.Yand" +
+      "exQuery.DeleteJobResponse\022M\n\nControlJob\022" +
+      "\036.YandexQuery.ControlJobRequest\032\037.Yandex" +
+      "Query.ControlJobResponse\022V\n\rGetResultDat" +
+      "a\022!.YandexQuery.GetResultDataRequest\032\".Y" +
+      "andexQuery.GetResultDataResponse\022_\n\020Crea" +
+      "teConnection\022$.YandexQuery.CreateConnect" +
+      "ionRequest\032%.YandexQuery.CreateConnectio" +
+      "nResponse\022\\\n\017ListConnections\022#.YandexQue",
+      "ry.ListConnectionsRequest\032$.YandexQuery." +
+      "ListConnectionsResponse\022e\n\022DescribeConne" +
+      "ction\022&.YandexQuery.DescribeConnectionRe" +
+      "quest\032\'.YandexQuery.DescribeConnectionRe" +
+      "sponse\022_\n\020ModifyConnection\022$.YandexQuery" +
+      ".ModifyConnectionRequest\032%.YandexQuery.M" +
+      "odifyConnectionResponse\022_\n\020DeleteConnect" +
+      "ion\022$.YandexQuery.DeleteConnectionReques" +
+      "t\032%.YandexQuery.DeleteConnectionResponse" +
+      "\022V\n\rCreateBinding\022!.YandexQuery.CreateBi",
+      "ndingRequest\032\".YandexQuery.CreateBinding" +
+      "Response\022S\n\014ListBindings\022 .YandexQuery.L" +
+      "istBindingsRequest\032!.YandexQuery.ListBin" +
+      "dingsResponse\022\\\n\017DescribeBinding\022#.Yande" +
+      "xQuery.DescribeBindingRequest\032$.YandexQu" +
+      "ery.DescribeBindingResponse\022V\n\rModifyBin" +
+      "ding\022!.YandexQuery.ModifyBindingRequest\032" +
+      "\".YandexQuery.ModifyBindingResponse\022V\n\rD" +
+      "eleteBinding\022!.YandexQuery.DeleteBinding" +
+      "Request\032\".YandexQuery.DeleteBindingRespo",
+      "nseB\025\n\023com.yandex.query.v1b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

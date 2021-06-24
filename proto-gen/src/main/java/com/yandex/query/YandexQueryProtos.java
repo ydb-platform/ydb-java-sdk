@@ -176,9 +176,9 @@ public final class YandexQueryProtos {
   }
 
   /**
-   * Protobuf enum {@code YandexQuery.OperationAction}
+   * Protobuf enum {@code YandexQuery.JobAction}
    */
-  public enum OperationAction
+  public enum JobAction
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
      * <code>OPERATION_ACTION_UNSPECIFIED = 0;</code>
@@ -245,11 +245,11 @@ public final class YandexQueryProtos {
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
-    public static OperationAction valueOf(int value) {
+    public static JobAction valueOf(int value) {
       return forNumber(value);
     }
 
-    public static OperationAction forNumber(int value) {
+    public static JobAction forNumber(int value) {
       switch (value) {
         case 0: return OPERATION_ACTION_UNSPECIFIED;
         case 1: return PAUSE;
@@ -261,15 +261,15 @@ public final class YandexQueryProtos {
       }
     }
 
-    public static com.google.protobuf.Internal.EnumLiteMap<OperationAction>
+    public static com.google.protobuf.Internal.EnumLiteMap<JobAction>
         internalGetValueMap() {
       return internalValueMap;
     }
     private static final com.google.protobuf.Internal.EnumLiteMap<
-        OperationAction> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<OperationAction>() {
-            public OperationAction findValueByNumber(int number) {
-              return OperationAction.forNumber(number);
+        JobAction> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<JobAction>() {
+            public JobAction findValueByNumber(int number) {
+              return JobAction.forNumber(number);
             }
           };
 
@@ -286,9 +286,9 @@ public final class YandexQueryProtos {
       return com.yandex.query.YandexQueryProtos.getDescriptor().getEnumTypes().get(1);
     }
 
-    private static final OperationAction[] VALUES = values();
+    private static final JobAction[] VALUES = values();
 
-    public static OperationAction valueOf(
+    public static JobAction valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
       if (desc.getType() != getDescriptor()) {
         throw new java.lang.IllegalArgumentException(
@@ -302,11 +302,11 @@ public final class YandexQueryProtos {
 
     private final int value;
 
-    private OperationAction(int value) {
+    private JobAction(int value) {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:YandexQuery.OperationAction)
+    // @@protoc_insertion_point(enum_scope:YandexQuery.JobAction)
   }
 
   /**
@@ -5739,8 +5739,8 @@ public final class YandexQueryProtos {
 
   }
 
-  public interface OperationMetaOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.OperationMeta)
+  public interface JobMetaOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.JobMeta)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -5783,13 +5783,13 @@ public final class YandexQueryProtos {
     com.google.protobuf.TimestampOrBuilder getFinishedAtOrBuilder();
 
     /**
-     * <code>.YandexQuery.OperationAction last_action = 4;</code>
+     * <code>.YandexQuery.JobAction last_action = 4;</code>
      */
     int getLastActionValue();
     /**
-     * <code>.YandexQuery.OperationAction last_action = 4;</code>
+     * <code>.YandexQuery.JobAction last_action = 4;</code>
      */
-    com.yandex.query.YandexQueryProtos.OperationAction getLastAction();
+    com.yandex.query.YandexQueryProtos.JobAction getLastAction();
 
     /**
      * <code>.YandexQuery.ExecuteMode mode = 5;</code>
@@ -5801,27 +5801,27 @@ public final class YandexQueryProtos {
     com.yandex.query.YandexQueryProtos.ExecuteMode getMode();
 
     /**
-     * <code>.YandexQuery.OperationMeta.ComputeState status = 6;</code>
+     * <code>.YandexQuery.JobMeta.ComputeState status = 6;</code>
      */
     int getStatusValue();
     /**
-     * <code>.YandexQuery.OperationMeta.ComputeState status = 6;</code>
+     * <code>.YandexQuery.JobMeta.ComputeState status = 6;</code>
      */
-    com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState getStatus();
+    com.yandex.query.YandexQueryProtos.JobMeta.ComputeState getStatus();
   }
   /**
-   * Protobuf type {@code YandexQuery.OperationMeta}
+   * Protobuf type {@code YandexQuery.JobMeta}
    */
-  public  static final class OperationMeta extends
+  public  static final class JobMeta extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.OperationMeta)
-      OperationMetaOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.JobMeta)
+      JobMetaOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use OperationMeta.newBuilder() to construct.
-    private OperationMeta(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use JobMeta.newBuilder() to construct.
+    private JobMeta(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private OperationMeta() {
+    private JobMeta() {
       lastAction_ = 0;
       mode_ = 0;
       status_ = 0;
@@ -5832,7 +5832,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private OperationMeta(
+    private JobMeta(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -5926,18 +5926,18 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationMeta_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobMeta_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationMeta_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobMeta_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.OperationMeta.class, com.yandex.query.YandexQueryProtos.OperationMeta.Builder.class);
+              com.yandex.query.YandexQueryProtos.JobMeta.class, com.yandex.query.YandexQueryProtos.JobMeta.Builder.class);
     }
 
     /**
-     * Protobuf enum {@code YandexQuery.OperationMeta.ComputeState}
+     * Protobuf enum {@code YandexQuery.JobMeta.ComputeState}
      */
     public enum ComputeState
         implements com.google.protobuf.ProtocolMessageEnum {
@@ -6098,7 +6098,7 @@ public final class YandexQueryProtos {
       }
       public static final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.OperationMeta.getDescriptor().getEnumTypes().get(0);
+        return com.yandex.query.YandexQueryProtos.JobMeta.getDescriptor().getEnumTypes().get(0);
       }
 
       private static final ComputeState[] VALUES = values();
@@ -6121,7 +6121,7 @@ public final class YandexQueryProtos {
         this.value = value;
       }
 
-      // @@protoc_insertion_point(enum_scope:YandexQuery.OperationMeta.ComputeState)
+      // @@protoc_insertion_point(enum_scope:YandexQuery.JobMeta.ComputeState)
     }
 
     public static final int COMMON_FIELD_NUMBER = 1;
@@ -6190,17 +6190,17 @@ public final class YandexQueryProtos {
     public static final int LAST_ACTION_FIELD_NUMBER = 4;
     private int lastAction_;
     /**
-     * <code>.YandexQuery.OperationAction last_action = 4;</code>
+     * <code>.YandexQuery.JobAction last_action = 4;</code>
      */
     public int getLastActionValue() {
       return lastAction_;
     }
     /**
-     * <code>.YandexQuery.OperationAction last_action = 4;</code>
+     * <code>.YandexQuery.JobAction last_action = 4;</code>
      */
-    public com.yandex.query.YandexQueryProtos.OperationAction getLastAction() {
-      com.yandex.query.YandexQueryProtos.OperationAction result = com.yandex.query.YandexQueryProtos.OperationAction.valueOf(lastAction_);
-      return result == null ? com.yandex.query.YandexQueryProtos.OperationAction.UNRECOGNIZED : result;
+    public com.yandex.query.YandexQueryProtos.JobAction getLastAction() {
+      com.yandex.query.YandexQueryProtos.JobAction result = com.yandex.query.YandexQueryProtos.JobAction.valueOf(lastAction_);
+      return result == null ? com.yandex.query.YandexQueryProtos.JobAction.UNRECOGNIZED : result;
     }
 
     public static final int MODE_FIELD_NUMBER = 5;
@@ -6222,17 +6222,17 @@ public final class YandexQueryProtos {
     public static final int STATUS_FIELD_NUMBER = 6;
     private int status_;
     /**
-     * <code>.YandexQuery.OperationMeta.ComputeState status = 6;</code>
+     * <code>.YandexQuery.JobMeta.ComputeState status = 6;</code>
      */
     public int getStatusValue() {
       return status_;
     }
     /**
-     * <code>.YandexQuery.OperationMeta.ComputeState status = 6;</code>
+     * <code>.YandexQuery.JobMeta.ComputeState status = 6;</code>
      */
-    public com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState getStatus() {
-      com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState result = com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState.valueOf(status_);
-      return result == null ? com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState.UNRECOGNIZED : result;
+    public com.yandex.query.YandexQueryProtos.JobMeta.ComputeState getStatus() {
+      com.yandex.query.YandexQueryProtos.JobMeta.ComputeState result = com.yandex.query.YandexQueryProtos.JobMeta.ComputeState.valueOf(status_);
+      return result == null ? com.yandex.query.YandexQueryProtos.JobMeta.ComputeState.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -6256,13 +6256,13 @@ public final class YandexQueryProtos {
       if (finishedAt_ != null) {
         output.writeMessage(3, getFinishedAt());
       }
-      if (lastAction_ != com.yandex.query.YandexQueryProtos.OperationAction.OPERATION_ACTION_UNSPECIFIED.getNumber()) {
+      if (lastAction_ != com.yandex.query.YandexQueryProtos.JobAction.OPERATION_ACTION_UNSPECIFIED.getNumber()) {
         output.writeEnum(4, lastAction_);
       }
       if (mode_ != com.yandex.query.YandexQueryProtos.ExecuteMode.EXECUTE_MODE_UNSPECIFIED.getNumber()) {
         output.writeEnum(5, mode_);
       }
-      if (status_ != com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState.COMPUTE_STATE_UNSPECIFIED.getNumber()) {
+      if (status_ != com.yandex.query.YandexQueryProtos.JobMeta.ComputeState.COMPUTE_STATE_UNSPECIFIED.getNumber()) {
         output.writeEnum(6, status_);
       }
       unknownFields.writeTo(output);
@@ -6285,7 +6285,7 @@ public final class YandexQueryProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getFinishedAt());
       }
-      if (lastAction_ != com.yandex.query.YandexQueryProtos.OperationAction.OPERATION_ACTION_UNSPECIFIED.getNumber()) {
+      if (lastAction_ != com.yandex.query.YandexQueryProtos.JobAction.OPERATION_ACTION_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(4, lastAction_);
       }
@@ -6293,7 +6293,7 @@ public final class YandexQueryProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(5, mode_);
       }
-      if (status_ != com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState.COMPUTE_STATE_UNSPECIFIED.getNumber()) {
+      if (status_ != com.yandex.query.YandexQueryProtos.JobMeta.ComputeState.COMPUTE_STATE_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(6, status_);
       }
@@ -6307,10 +6307,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.OperationMeta)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.JobMeta)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.OperationMeta other = (com.yandex.query.YandexQueryProtos.OperationMeta) obj;
+      com.yandex.query.YandexQueryProtos.JobMeta other = (com.yandex.query.YandexQueryProtos.JobMeta) obj;
 
       boolean result = true;
       result = result && (hasCommon() == other.hasCommon());
@@ -6365,69 +6365,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.OperationMeta parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobMeta parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationMeta parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobMeta parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationMeta parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobMeta parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationMeta parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobMeta parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationMeta parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.JobMeta parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationMeta parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobMeta parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationMeta parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.JobMeta parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationMeta parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobMeta parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationMeta parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.JobMeta parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationMeta parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.JobMeta parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationMeta parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobMeta parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationMeta parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobMeta parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -6439,7 +6439,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.OperationMeta prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.JobMeta prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -6454,25 +6454,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.OperationMeta}
+     * Protobuf type {@code YandexQuery.JobMeta}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.OperationMeta)
-        com.yandex.query.YandexQueryProtos.OperationMetaOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.JobMeta)
+        com.yandex.query.YandexQueryProtos.JobMetaOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationMeta_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobMeta_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationMeta_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobMeta_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.OperationMeta.class, com.yandex.query.YandexQueryProtos.OperationMeta.Builder.class);
+                com.yandex.query.YandexQueryProtos.JobMeta.class, com.yandex.query.YandexQueryProtos.JobMeta.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.OperationMeta.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.JobMeta.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -6518,23 +6518,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationMeta_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobMeta_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.OperationMeta getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.OperationMeta.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.JobMeta getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.JobMeta.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.OperationMeta build() {
-        com.yandex.query.YandexQueryProtos.OperationMeta result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.JobMeta build() {
+        com.yandex.query.YandexQueryProtos.JobMeta result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.OperationMeta buildPartial() {
-        com.yandex.query.YandexQueryProtos.OperationMeta result = new com.yandex.query.YandexQueryProtos.OperationMeta(this);
+      public com.yandex.query.YandexQueryProtos.JobMeta buildPartial() {
+        com.yandex.query.YandexQueryProtos.JobMeta result = new com.yandex.query.YandexQueryProtos.JobMeta(this);
         if (commonBuilder_ == null) {
           result.common_ = common_;
         } else {
@@ -6584,16 +6584,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.OperationMeta) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.OperationMeta)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.JobMeta) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.JobMeta)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.OperationMeta other) {
-        if (other == com.yandex.query.YandexQueryProtos.OperationMeta.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.JobMeta other) {
+        if (other == com.yandex.query.YandexQueryProtos.JobMeta.getDefaultInstance()) return this;
         if (other.hasCommon()) {
           mergeCommon(other.getCommon());
         }
@@ -6625,11 +6625,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.OperationMeta parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.JobMeta parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.OperationMeta) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.JobMeta) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -6992,13 +6992,13 @@ public final class YandexQueryProtos {
 
       private int lastAction_ = 0;
       /**
-       * <code>.YandexQuery.OperationAction last_action = 4;</code>
+       * <code>.YandexQuery.JobAction last_action = 4;</code>
        */
       public int getLastActionValue() {
         return lastAction_;
       }
       /**
-       * <code>.YandexQuery.OperationAction last_action = 4;</code>
+       * <code>.YandexQuery.JobAction last_action = 4;</code>
        */
       public Builder setLastActionValue(int value) {
         lastAction_ = value;
@@ -7006,16 +7006,16 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationAction last_action = 4;</code>
+       * <code>.YandexQuery.JobAction last_action = 4;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationAction getLastAction() {
-        com.yandex.query.YandexQueryProtos.OperationAction result = com.yandex.query.YandexQueryProtos.OperationAction.valueOf(lastAction_);
-        return result == null ? com.yandex.query.YandexQueryProtos.OperationAction.UNRECOGNIZED : result;
+      public com.yandex.query.YandexQueryProtos.JobAction getLastAction() {
+        com.yandex.query.YandexQueryProtos.JobAction result = com.yandex.query.YandexQueryProtos.JobAction.valueOf(lastAction_);
+        return result == null ? com.yandex.query.YandexQueryProtos.JobAction.UNRECOGNIZED : result;
       }
       /**
-       * <code>.YandexQuery.OperationAction last_action = 4;</code>
+       * <code>.YandexQuery.JobAction last_action = 4;</code>
        */
-      public Builder setLastAction(com.yandex.query.YandexQueryProtos.OperationAction value) {
+      public Builder setLastAction(com.yandex.query.YandexQueryProtos.JobAction value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -7025,7 +7025,7 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationAction last_action = 4;</code>
+       * <code>.YandexQuery.JobAction last_action = 4;</code>
        */
       public Builder clearLastAction() {
         
@@ -7080,13 +7080,13 @@ public final class YandexQueryProtos {
 
       private int status_ = 0;
       /**
-       * <code>.YandexQuery.OperationMeta.ComputeState status = 6;</code>
+       * <code>.YandexQuery.JobMeta.ComputeState status = 6;</code>
        */
       public int getStatusValue() {
         return status_;
       }
       /**
-       * <code>.YandexQuery.OperationMeta.ComputeState status = 6;</code>
+       * <code>.YandexQuery.JobMeta.ComputeState status = 6;</code>
        */
       public Builder setStatusValue(int value) {
         status_ = value;
@@ -7094,16 +7094,16 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationMeta.ComputeState status = 6;</code>
+       * <code>.YandexQuery.JobMeta.ComputeState status = 6;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState getStatus() {
-        com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState result = com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState.valueOf(status_);
-        return result == null ? com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState.UNRECOGNIZED : result;
+      public com.yandex.query.YandexQueryProtos.JobMeta.ComputeState getStatus() {
+        com.yandex.query.YandexQueryProtos.JobMeta.ComputeState result = com.yandex.query.YandexQueryProtos.JobMeta.ComputeState.valueOf(status_);
+        return result == null ? com.yandex.query.YandexQueryProtos.JobMeta.ComputeState.UNRECOGNIZED : result;
       }
       /**
-       * <code>.YandexQuery.OperationMeta.ComputeState status = 6;</code>
+       * <code>.YandexQuery.JobMeta.ComputeState status = 6;</code>
        */
-      public Builder setStatus(com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState value) {
+      public Builder setStatus(com.yandex.query.YandexQueryProtos.JobMeta.ComputeState value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -7113,7 +7113,7 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationMeta.ComputeState status = 6;</code>
+       * <code>.YandexQuery.JobMeta.ComputeState status = 6;</code>
        */
       public Builder clearStatus() {
         
@@ -7132,46 +7132,46 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.OperationMeta)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.JobMeta)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.OperationMeta)
-    private static final com.yandex.query.YandexQueryProtos.OperationMeta DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.JobMeta)
+    private static final com.yandex.query.YandexQueryProtos.JobMeta DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.OperationMeta();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.JobMeta();
     }
 
-    public static com.yandex.query.YandexQueryProtos.OperationMeta getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.JobMeta getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<OperationMeta>
-        PARSER = new com.google.protobuf.AbstractParser<OperationMeta>() {
-      public OperationMeta parsePartialFrom(
+    private static final com.google.protobuf.Parser<JobMeta>
+        PARSER = new com.google.protobuf.AbstractParser<JobMeta>() {
+      public JobMeta parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new OperationMeta(input, extensionRegistry);
+          return new JobMeta(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<OperationMeta> parser() {
+    public static com.google.protobuf.Parser<JobMeta> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<OperationMeta> getParserForType() {
+    public com.google.protobuf.Parser<JobMeta> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.OperationMeta getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.JobMeta getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface BriefOperationOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.BriefOperation)
+  public interface BriefJobOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.BriefJob)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -7194,31 +7194,31 @@ public final class YandexQueryProtos {
         getNameBytes();
 
     /**
-     * <code>.YandexQuery.OperationMeta meta = 3;</code>
+     * <code>.YandexQuery.JobMeta meta = 3;</code>
      */
     boolean hasMeta();
     /**
-     * <code>.YandexQuery.OperationMeta meta = 3;</code>
+     * <code>.YandexQuery.JobMeta meta = 3;</code>
      */
-    com.yandex.query.YandexQueryProtos.OperationMeta getMeta();
+    com.yandex.query.YandexQueryProtos.JobMeta getMeta();
     /**
-     * <code>.YandexQuery.OperationMeta meta = 3;</code>
+     * <code>.YandexQuery.JobMeta meta = 3;</code>
      */
-    com.yandex.query.YandexQueryProtos.OperationMetaOrBuilder getMetaOrBuilder();
+    com.yandex.query.YandexQueryProtos.JobMetaOrBuilder getMetaOrBuilder();
   }
   /**
-   * Protobuf type {@code YandexQuery.BriefOperation}
+   * Protobuf type {@code YandexQuery.BriefJob}
    */
-  public  static final class BriefOperation extends
+  public  static final class BriefJob extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.BriefOperation)
-      BriefOperationOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.BriefJob)
+      BriefJobOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use BriefOperation.newBuilder() to construct.
-    private BriefOperation(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use BriefJob.newBuilder() to construct.
+    private BriefJob(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private BriefOperation() {
+    private BriefJob() {
       type_ = 0;
       name_ = "";
     }
@@ -7228,7 +7228,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private BriefOperation(
+    private BriefJob(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -7264,11 +7264,11 @@ public final class YandexQueryProtos {
               break;
             }
             case 26: {
-              com.yandex.query.YandexQueryProtos.OperationMeta.Builder subBuilder = null;
+              com.yandex.query.YandexQueryProtos.JobMeta.Builder subBuilder = null;
               if (meta_ != null) {
                 subBuilder = meta_.toBuilder();
               }
-              meta_ = input.readMessage(com.yandex.query.YandexQueryProtos.OperationMeta.parser(), extensionRegistry);
+              meta_ = input.readMessage(com.yandex.query.YandexQueryProtos.JobMeta.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(meta_);
                 meta_ = subBuilder.buildPartial();
@@ -7290,14 +7290,14 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_BriefOperation_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_BriefJob_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_BriefOperation_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_BriefJob_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.BriefOperation.class, com.yandex.query.YandexQueryProtos.BriefOperation.Builder.class);
+              com.yandex.query.YandexQueryProtos.BriefJob.class, com.yandex.query.YandexQueryProtos.BriefJob.Builder.class);
     }
 
     public static final int TYPE_FIELD_NUMBER = 1;
@@ -7351,23 +7351,23 @@ public final class YandexQueryProtos {
     }
 
     public static final int META_FIELD_NUMBER = 3;
-    private com.yandex.query.YandexQueryProtos.OperationMeta meta_;
+    private com.yandex.query.YandexQueryProtos.JobMeta meta_;
     /**
-     * <code>.YandexQuery.OperationMeta meta = 3;</code>
+     * <code>.YandexQuery.JobMeta meta = 3;</code>
      */
     public boolean hasMeta() {
       return meta_ != null;
     }
     /**
-     * <code>.YandexQuery.OperationMeta meta = 3;</code>
+     * <code>.YandexQuery.JobMeta meta = 3;</code>
      */
-    public com.yandex.query.YandexQueryProtos.OperationMeta getMeta() {
-      return meta_ == null ? com.yandex.query.YandexQueryProtos.OperationMeta.getDefaultInstance() : meta_;
+    public com.yandex.query.YandexQueryProtos.JobMeta getMeta() {
+      return meta_ == null ? com.yandex.query.YandexQueryProtos.JobMeta.getDefaultInstance() : meta_;
     }
     /**
-     * <code>.YandexQuery.OperationMeta meta = 3;</code>
+     * <code>.YandexQuery.JobMeta meta = 3;</code>
      */
-    public com.yandex.query.YandexQueryProtos.OperationMetaOrBuilder getMetaOrBuilder() {
+    public com.yandex.query.YandexQueryProtos.JobMetaOrBuilder getMetaOrBuilder() {
       return getMeta();
     }
 
@@ -7421,10 +7421,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.BriefOperation)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.BriefJob)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.BriefOperation other = (com.yandex.query.YandexQueryProtos.BriefOperation) obj;
+      com.yandex.query.YandexQueryProtos.BriefJob other = (com.yandex.query.YandexQueryProtos.BriefJob) obj;
 
       boolean result = true;
       result = result && type_ == other.type_;
@@ -7459,69 +7459,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.BriefOperation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.BriefJob parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.BriefOperation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.BriefJob parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.BriefOperation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.BriefJob parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.BriefOperation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.BriefJob parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.BriefOperation parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.BriefJob parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.BriefOperation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.BriefJob parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.BriefOperation parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.BriefJob parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.BriefOperation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.BriefJob parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.BriefOperation parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.BriefJob parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.BriefOperation parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.BriefJob parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.BriefOperation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.BriefJob parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.BriefOperation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.BriefJob parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -7533,7 +7533,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.BriefOperation prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.BriefJob prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -7548,25 +7548,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.BriefOperation}
+     * Protobuf type {@code YandexQuery.BriefJob}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.BriefOperation)
-        com.yandex.query.YandexQueryProtos.BriefOperationOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.BriefJob)
+        com.yandex.query.YandexQueryProtos.BriefJobOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_BriefOperation_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_BriefJob_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_BriefOperation_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_BriefJob_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.BriefOperation.class, com.yandex.query.YandexQueryProtos.BriefOperation.Builder.class);
+                com.yandex.query.YandexQueryProtos.BriefJob.class, com.yandex.query.YandexQueryProtos.BriefJob.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.BriefOperation.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.BriefJob.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -7598,23 +7598,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_BriefOperation_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_BriefJob_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.BriefOperation getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.BriefOperation.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.BriefJob getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.BriefJob.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.BriefOperation build() {
-        com.yandex.query.YandexQueryProtos.BriefOperation result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.BriefJob build() {
+        com.yandex.query.YandexQueryProtos.BriefJob result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.BriefOperation buildPartial() {
-        com.yandex.query.YandexQueryProtos.BriefOperation result = new com.yandex.query.YandexQueryProtos.BriefOperation(this);
+      public com.yandex.query.YandexQueryProtos.BriefJob buildPartial() {
+        com.yandex.query.YandexQueryProtos.BriefJob result = new com.yandex.query.YandexQueryProtos.BriefJob(this);
         result.type_ = type_;
         result.name_ = name_;
         if (metaBuilder_ == null) {
@@ -7653,16 +7653,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.BriefOperation) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.BriefOperation)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.BriefJob) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.BriefJob)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.BriefOperation other) {
-        if (other == com.yandex.query.YandexQueryProtos.BriefOperation.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.BriefJob other) {
+        if (other == com.yandex.query.YandexQueryProtos.BriefJob.getDefaultInstance()) return this;
         if (other.type_ != 0) {
           setTypeValue(other.getTypeValue());
         }
@@ -7686,11 +7686,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.BriefOperation parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.BriefJob parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.BriefOperation) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.BriefJob) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -7813,29 +7813,29 @@ public final class YandexQueryProtos {
         return this;
       }
 
-      private com.yandex.query.YandexQueryProtos.OperationMeta meta_ = null;
+      private com.yandex.query.YandexQueryProtos.JobMeta meta_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.yandex.query.YandexQueryProtos.OperationMeta, com.yandex.query.YandexQueryProtos.OperationMeta.Builder, com.yandex.query.YandexQueryProtos.OperationMetaOrBuilder> metaBuilder_;
+          com.yandex.query.YandexQueryProtos.JobMeta, com.yandex.query.YandexQueryProtos.JobMeta.Builder, com.yandex.query.YandexQueryProtos.JobMetaOrBuilder> metaBuilder_;
       /**
-       * <code>.YandexQuery.OperationMeta meta = 3;</code>
+       * <code>.YandexQuery.JobMeta meta = 3;</code>
        */
       public boolean hasMeta() {
         return metaBuilder_ != null || meta_ != null;
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 3;</code>
+       * <code>.YandexQuery.JobMeta meta = 3;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationMeta getMeta() {
+      public com.yandex.query.YandexQueryProtos.JobMeta getMeta() {
         if (metaBuilder_ == null) {
-          return meta_ == null ? com.yandex.query.YandexQueryProtos.OperationMeta.getDefaultInstance() : meta_;
+          return meta_ == null ? com.yandex.query.YandexQueryProtos.JobMeta.getDefaultInstance() : meta_;
         } else {
           return metaBuilder_.getMessage();
         }
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 3;</code>
+       * <code>.YandexQuery.JobMeta meta = 3;</code>
        */
-      public Builder setMeta(com.yandex.query.YandexQueryProtos.OperationMeta value) {
+      public Builder setMeta(com.yandex.query.YandexQueryProtos.JobMeta value) {
         if (metaBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -7849,10 +7849,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 3;</code>
+       * <code>.YandexQuery.JobMeta meta = 3;</code>
        */
       public Builder setMeta(
-          com.yandex.query.YandexQueryProtos.OperationMeta.Builder builderForValue) {
+          com.yandex.query.YandexQueryProtos.JobMeta.Builder builderForValue) {
         if (metaBuilder_ == null) {
           meta_ = builderForValue.build();
           onChanged();
@@ -7863,13 +7863,13 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 3;</code>
+       * <code>.YandexQuery.JobMeta meta = 3;</code>
        */
-      public Builder mergeMeta(com.yandex.query.YandexQueryProtos.OperationMeta value) {
+      public Builder mergeMeta(com.yandex.query.YandexQueryProtos.JobMeta value) {
         if (metaBuilder_ == null) {
           if (meta_ != null) {
             meta_ =
-              com.yandex.query.YandexQueryProtos.OperationMeta.newBuilder(meta_).mergeFrom(value).buildPartial();
+              com.yandex.query.YandexQueryProtos.JobMeta.newBuilder(meta_).mergeFrom(value).buildPartial();
           } else {
             meta_ = value;
           }
@@ -7881,7 +7881,7 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 3;</code>
+       * <code>.YandexQuery.JobMeta meta = 3;</code>
        */
       public Builder clearMeta() {
         if (metaBuilder_ == null) {
@@ -7895,33 +7895,33 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 3;</code>
+       * <code>.YandexQuery.JobMeta meta = 3;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationMeta.Builder getMetaBuilder() {
+      public com.yandex.query.YandexQueryProtos.JobMeta.Builder getMetaBuilder() {
         
         onChanged();
         return getMetaFieldBuilder().getBuilder();
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 3;</code>
+       * <code>.YandexQuery.JobMeta meta = 3;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationMetaOrBuilder getMetaOrBuilder() {
+      public com.yandex.query.YandexQueryProtos.JobMetaOrBuilder getMetaOrBuilder() {
         if (metaBuilder_ != null) {
           return metaBuilder_.getMessageOrBuilder();
         } else {
           return meta_ == null ?
-              com.yandex.query.YandexQueryProtos.OperationMeta.getDefaultInstance() : meta_;
+              com.yandex.query.YandexQueryProtos.JobMeta.getDefaultInstance() : meta_;
         }
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 3;</code>
+       * <code>.YandexQuery.JobMeta meta = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.yandex.query.YandexQueryProtos.OperationMeta, com.yandex.query.YandexQueryProtos.OperationMeta.Builder, com.yandex.query.YandexQueryProtos.OperationMetaOrBuilder> 
+          com.yandex.query.YandexQueryProtos.JobMeta, com.yandex.query.YandexQueryProtos.JobMeta.Builder, com.yandex.query.YandexQueryProtos.JobMetaOrBuilder> 
           getMetaFieldBuilder() {
         if (metaBuilder_ == null) {
           metaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              com.yandex.query.YandexQueryProtos.OperationMeta, com.yandex.query.YandexQueryProtos.OperationMeta.Builder, com.yandex.query.YandexQueryProtos.OperationMetaOrBuilder>(
+              com.yandex.query.YandexQueryProtos.JobMeta, com.yandex.query.YandexQueryProtos.JobMeta.Builder, com.yandex.query.YandexQueryProtos.JobMetaOrBuilder>(
                   getMeta(),
                   getParentForChildren(),
                   isClean());
@@ -7940,46 +7940,46 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.BriefOperation)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.BriefJob)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.BriefOperation)
-    private static final com.yandex.query.YandexQueryProtos.BriefOperation DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.BriefJob)
+    private static final com.yandex.query.YandexQueryProtos.BriefJob DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.BriefOperation();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.BriefJob();
     }
 
-    public static com.yandex.query.YandexQueryProtos.BriefOperation getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.BriefJob getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<BriefOperation>
-        PARSER = new com.google.protobuf.AbstractParser<BriefOperation>() {
-      public BriefOperation parsePartialFrom(
+    private static final com.google.protobuf.Parser<BriefJob>
+        PARSER = new com.google.protobuf.AbstractParser<BriefJob>() {
+      public BriefJob parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new BriefOperation(input, extensionRegistry);
+          return new BriefJob(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<BriefOperation> parser() {
+    public static com.google.protobuf.Parser<BriefJob> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<BriefOperation> getParserForType() {
+    public com.google.protobuf.Parser<BriefJob> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.BriefOperation getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.BriefJob getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface OperationPlanOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.OperationPlan)
+  public interface JobPlanOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.JobPlan)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -7993,18 +7993,18 @@ public final class YandexQueryProtos {
         getJsonBytes();
   }
   /**
-   * Protobuf type {@code YandexQuery.OperationPlan}
+   * Protobuf type {@code YandexQuery.JobPlan}
    */
-  public  static final class OperationPlan extends
+  public  static final class JobPlan extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.OperationPlan)
-      OperationPlanOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.JobPlan)
+      JobPlanOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use OperationPlan.newBuilder() to construct.
-    private OperationPlan(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use JobPlan.newBuilder() to construct.
+    private JobPlan(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private OperationPlan() {
+    private JobPlan() {
       json_ = "";
     }
 
@@ -8013,7 +8013,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private OperationPlan(
+    private JobPlan(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -8056,14 +8056,14 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationPlan_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobPlan_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationPlan_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobPlan_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.OperationPlan.class, com.yandex.query.YandexQueryProtos.OperationPlan.Builder.class);
+              com.yandex.query.YandexQueryProtos.JobPlan.class, com.yandex.query.YandexQueryProtos.JobPlan.Builder.class);
     }
 
     public static final int JSON_FIELD_NUMBER = 3;
@@ -8136,10 +8136,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.OperationPlan)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.JobPlan)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.OperationPlan other = (com.yandex.query.YandexQueryProtos.OperationPlan) obj;
+      com.yandex.query.YandexQueryProtos.JobPlan other = (com.yandex.query.YandexQueryProtos.JobPlan) obj;
 
       boolean result = true;
       result = result && getJson()
@@ -8162,69 +8162,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.OperationPlan parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobPlan parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationPlan parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobPlan parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationPlan parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobPlan parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationPlan parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobPlan parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationPlan parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.JobPlan parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationPlan parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobPlan parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationPlan parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.JobPlan parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationPlan parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobPlan parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationPlan parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.JobPlan parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationPlan parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.JobPlan parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationPlan parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobPlan parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationPlan parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobPlan parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -8236,7 +8236,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.OperationPlan prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.JobPlan prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -8251,25 +8251,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.OperationPlan}
+     * Protobuf type {@code YandexQuery.JobPlan}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.OperationPlan)
-        com.yandex.query.YandexQueryProtos.OperationPlanOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.JobPlan)
+        com.yandex.query.YandexQueryProtos.JobPlanOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationPlan_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobPlan_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationPlan_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobPlan_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.OperationPlan.class, com.yandex.query.YandexQueryProtos.OperationPlan.Builder.class);
+                com.yandex.query.YandexQueryProtos.JobPlan.class, com.yandex.query.YandexQueryProtos.JobPlan.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.OperationPlan.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.JobPlan.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -8293,23 +8293,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationPlan_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobPlan_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.OperationPlan getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.OperationPlan.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.JobPlan getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.JobPlan.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.OperationPlan build() {
-        com.yandex.query.YandexQueryProtos.OperationPlan result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.JobPlan build() {
+        com.yandex.query.YandexQueryProtos.JobPlan result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.OperationPlan buildPartial() {
-        com.yandex.query.YandexQueryProtos.OperationPlan result = new com.yandex.query.YandexQueryProtos.OperationPlan(this);
+      public com.yandex.query.YandexQueryProtos.JobPlan buildPartial() {
+        com.yandex.query.YandexQueryProtos.JobPlan result = new com.yandex.query.YandexQueryProtos.JobPlan(this);
         result.json_ = json_;
         onBuilt();
         return result;
@@ -8342,16 +8342,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.OperationPlan) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.OperationPlan)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.JobPlan) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.JobPlan)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.OperationPlan other) {
-        if (other == com.yandex.query.YandexQueryProtos.OperationPlan.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.JobPlan other) {
+        if (other == com.yandex.query.YandexQueryProtos.JobPlan.getDefaultInstance()) return this;
         if (!other.getJson().isEmpty()) {
           json_ = other.json_;
           onChanged();
@@ -8369,11 +8369,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.OperationPlan parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.JobPlan parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.OperationPlan) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.JobPlan) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -8462,60 +8462,60 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.OperationPlan)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.JobPlan)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.OperationPlan)
-    private static final com.yandex.query.YandexQueryProtos.OperationPlan DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.JobPlan)
+    private static final com.yandex.query.YandexQueryProtos.JobPlan DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.OperationPlan();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.JobPlan();
     }
 
-    public static com.yandex.query.YandexQueryProtos.OperationPlan getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.JobPlan getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<OperationPlan>
-        PARSER = new com.google.protobuf.AbstractParser<OperationPlan>() {
-      public OperationPlan parsePartialFrom(
+    private static final com.google.protobuf.Parser<JobPlan>
+        PARSER = new com.google.protobuf.AbstractParser<JobPlan>() {
+      public JobPlan parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new OperationPlan(input, extensionRegistry);
+          return new JobPlan(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<OperationPlan> parser() {
+    public static com.google.protobuf.Parser<JobPlan> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<OperationPlan> getParserForType() {
+    public com.google.protobuf.Parser<JobPlan> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.OperationPlan getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.JobPlan getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface OperationOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.Operation)
+  public interface JobOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.Job)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.YandexQuery.OperationMeta meta = 1;</code>
+     * <code>.YandexQuery.JobMeta meta = 1;</code>
      */
     boolean hasMeta();
     /**
-     * <code>.YandexQuery.OperationMeta meta = 1;</code>
+     * <code>.YandexQuery.JobMeta meta = 1;</code>
      */
-    com.yandex.query.YandexQueryProtos.OperationMeta getMeta();
+    com.yandex.query.YandexQueryProtos.JobMeta getMeta();
     /**
-     * <code>.YandexQuery.OperationMeta meta = 1;</code>
+     * <code>.YandexQuery.JobMeta meta = 1;</code>
      */
-    com.yandex.query.YandexQueryProtos.OperationMetaOrBuilder getMetaOrBuilder();
+    com.yandex.query.YandexQueryProtos.JobMetaOrBuilder getMetaOrBuilder();
 
     /**
      * <code>.YandexQuery.Query query = 2;</code>
@@ -8531,17 +8531,17 @@ public final class YandexQueryProtos {
     com.yandex.query.YandexQueryProtos.QueryOrBuilder getQueryOrBuilder();
 
     /**
-     * <code>.YandexQuery.OperationPlan plan = 3;</code>
+     * <code>.YandexQuery.JobPlan plan = 3;</code>
      */
     boolean hasPlan();
     /**
-     * <code>.YandexQuery.OperationPlan plan = 3;</code>
+     * <code>.YandexQuery.JobPlan plan = 3;</code>
      */
-    com.yandex.query.YandexQueryProtos.OperationPlan getPlan();
+    com.yandex.query.YandexQueryProtos.JobPlan getPlan();
     /**
-     * <code>.YandexQuery.OperationPlan plan = 3;</code>
+     * <code>.YandexQuery.JobPlan plan = 3;</code>
      */
-    com.yandex.query.YandexQueryProtos.OperationPlanOrBuilder getPlanOrBuilder();
+    com.yandex.query.YandexQueryProtos.JobPlanOrBuilder getPlanOrBuilder();
 
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issue = 4;</code>
@@ -8568,17 +8568,17 @@ public final class YandexQueryProtos {
         int index);
 
     /**
-     * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+     * <code>.YandexQuery.JobStatistics statistics = 5;</code>
      */
     boolean hasStatistics();
     /**
-     * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+     * <code>.YandexQuery.JobStatistics statistics = 5;</code>
      */
-    com.yandex.query.YandexQueryProtos.OperationStatistics getStatistics();
+    com.yandex.query.YandexQueryProtos.JobStatistics getStatistics();
     /**
-     * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+     * <code>.YandexQuery.JobStatistics statistics = 5;</code>
      */
-    com.yandex.query.YandexQueryProtos.OperationStatisticsOrBuilder getStatisticsOrBuilder();
+    com.yandex.query.YandexQueryProtos.JobStatisticsOrBuilder getStatisticsOrBuilder();
 
     /**
      * <code>int32 result_set_count = 6 [(.Ydb.value) = "&gt;= 0"];</code>
@@ -8586,18 +8586,18 @@ public final class YandexQueryProtos {
     int getResultSetCount();
   }
   /**
-   * Protobuf type {@code YandexQuery.Operation}
+   * Protobuf type {@code YandexQuery.Job}
    */
-  public  static final class Operation extends
+  public  static final class Job extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.Operation)
-      OperationOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.Job)
+      JobOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use Operation.newBuilder() to construct.
-    private Operation(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use Job.newBuilder() to construct.
+    private Job(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private Operation() {
+    private Job() {
       issue_ = java.util.Collections.emptyList();
       resultSetCount_ = 0;
     }
@@ -8607,7 +8607,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private Operation(
+    private Job(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -8631,11 +8631,11 @@ public final class YandexQueryProtos {
               break;
             }
             case 10: {
-              com.yandex.query.YandexQueryProtos.OperationMeta.Builder subBuilder = null;
+              com.yandex.query.YandexQueryProtos.JobMeta.Builder subBuilder = null;
               if (meta_ != null) {
                 subBuilder = meta_.toBuilder();
               }
-              meta_ = input.readMessage(com.yandex.query.YandexQueryProtos.OperationMeta.parser(), extensionRegistry);
+              meta_ = input.readMessage(com.yandex.query.YandexQueryProtos.JobMeta.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(meta_);
                 meta_ = subBuilder.buildPartial();
@@ -8657,11 +8657,11 @@ public final class YandexQueryProtos {
               break;
             }
             case 26: {
-              com.yandex.query.YandexQueryProtos.OperationPlan.Builder subBuilder = null;
+              com.yandex.query.YandexQueryProtos.JobPlan.Builder subBuilder = null;
               if (plan_ != null) {
                 subBuilder = plan_.toBuilder();
               }
-              plan_ = input.readMessage(com.yandex.query.YandexQueryProtos.OperationPlan.parser(), extensionRegistry);
+              plan_ = input.readMessage(com.yandex.query.YandexQueryProtos.JobPlan.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(plan_);
                 plan_ = subBuilder.buildPartial();
@@ -8679,11 +8679,11 @@ public final class YandexQueryProtos {
               break;
             }
             case 42: {
-              com.yandex.query.YandexQueryProtos.OperationStatistics.Builder subBuilder = null;
+              com.yandex.query.YandexQueryProtos.JobStatistics.Builder subBuilder = null;
               if (statistics_ != null) {
                 subBuilder = statistics_.toBuilder();
               }
-              statistics_ = input.readMessage(com.yandex.query.YandexQueryProtos.OperationStatistics.parser(), extensionRegistry);
+              statistics_ = input.readMessage(com.yandex.query.YandexQueryProtos.JobStatistics.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(statistics_);
                 statistics_ = subBuilder.buildPartial();
@@ -8713,35 +8713,35 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_Operation_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_Job_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_Operation_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_Job_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.Operation.class, com.yandex.query.YandexQueryProtos.Operation.Builder.class);
+              com.yandex.query.YandexQueryProtos.Job.class, com.yandex.query.YandexQueryProtos.Job.Builder.class);
     }
 
     private int bitField0_;
     public static final int META_FIELD_NUMBER = 1;
-    private com.yandex.query.YandexQueryProtos.OperationMeta meta_;
+    private com.yandex.query.YandexQueryProtos.JobMeta meta_;
     /**
-     * <code>.YandexQuery.OperationMeta meta = 1;</code>
+     * <code>.YandexQuery.JobMeta meta = 1;</code>
      */
     public boolean hasMeta() {
       return meta_ != null;
     }
     /**
-     * <code>.YandexQuery.OperationMeta meta = 1;</code>
+     * <code>.YandexQuery.JobMeta meta = 1;</code>
      */
-    public com.yandex.query.YandexQueryProtos.OperationMeta getMeta() {
-      return meta_ == null ? com.yandex.query.YandexQueryProtos.OperationMeta.getDefaultInstance() : meta_;
+    public com.yandex.query.YandexQueryProtos.JobMeta getMeta() {
+      return meta_ == null ? com.yandex.query.YandexQueryProtos.JobMeta.getDefaultInstance() : meta_;
     }
     /**
-     * <code>.YandexQuery.OperationMeta meta = 1;</code>
+     * <code>.YandexQuery.JobMeta meta = 1;</code>
      */
-    public com.yandex.query.YandexQueryProtos.OperationMetaOrBuilder getMetaOrBuilder() {
+    public com.yandex.query.YandexQueryProtos.JobMetaOrBuilder getMetaOrBuilder() {
       return getMeta();
     }
 
@@ -8767,23 +8767,23 @@ public final class YandexQueryProtos {
     }
 
     public static final int PLAN_FIELD_NUMBER = 3;
-    private com.yandex.query.YandexQueryProtos.OperationPlan plan_;
+    private com.yandex.query.YandexQueryProtos.JobPlan plan_;
     /**
-     * <code>.YandexQuery.OperationPlan plan = 3;</code>
+     * <code>.YandexQuery.JobPlan plan = 3;</code>
      */
     public boolean hasPlan() {
       return plan_ != null;
     }
     /**
-     * <code>.YandexQuery.OperationPlan plan = 3;</code>
+     * <code>.YandexQuery.JobPlan plan = 3;</code>
      */
-    public com.yandex.query.YandexQueryProtos.OperationPlan getPlan() {
-      return plan_ == null ? com.yandex.query.YandexQueryProtos.OperationPlan.getDefaultInstance() : plan_;
+    public com.yandex.query.YandexQueryProtos.JobPlan getPlan() {
+      return plan_ == null ? com.yandex.query.YandexQueryProtos.JobPlan.getDefaultInstance() : plan_;
     }
     /**
-     * <code>.YandexQuery.OperationPlan plan = 3;</code>
+     * <code>.YandexQuery.JobPlan plan = 3;</code>
      */
-    public com.yandex.query.YandexQueryProtos.OperationPlanOrBuilder getPlanOrBuilder() {
+    public com.yandex.query.YandexQueryProtos.JobPlanOrBuilder getPlanOrBuilder() {
       return getPlan();
     }
 
@@ -8823,23 +8823,23 @@ public final class YandexQueryProtos {
     }
 
     public static final int STATISTICS_FIELD_NUMBER = 5;
-    private com.yandex.query.YandexQueryProtos.OperationStatistics statistics_;
+    private com.yandex.query.YandexQueryProtos.JobStatistics statistics_;
     /**
-     * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+     * <code>.YandexQuery.JobStatistics statistics = 5;</code>
      */
     public boolean hasStatistics() {
       return statistics_ != null;
     }
     /**
-     * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+     * <code>.YandexQuery.JobStatistics statistics = 5;</code>
      */
-    public com.yandex.query.YandexQueryProtos.OperationStatistics getStatistics() {
-      return statistics_ == null ? com.yandex.query.YandexQueryProtos.OperationStatistics.getDefaultInstance() : statistics_;
+    public com.yandex.query.YandexQueryProtos.JobStatistics getStatistics() {
+      return statistics_ == null ? com.yandex.query.YandexQueryProtos.JobStatistics.getDefaultInstance() : statistics_;
     }
     /**
-     * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+     * <code>.YandexQuery.JobStatistics statistics = 5;</code>
      */
-    public com.yandex.query.YandexQueryProtos.OperationStatisticsOrBuilder getStatisticsOrBuilder() {
+    public com.yandex.query.YandexQueryProtos.JobStatisticsOrBuilder getStatisticsOrBuilder() {
       return getStatistics();
     }
 
@@ -8924,10 +8924,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.Operation)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.Job)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.Operation other = (com.yandex.query.YandexQueryProtos.Operation) obj;
+      com.yandex.query.YandexQueryProtos.Job other = (com.yandex.query.YandexQueryProtos.Job) obj;
 
       boolean result = true;
       result = result && (hasMeta() == other.hasMeta());
@@ -8992,69 +8992,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.Operation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.Job parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.Operation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.Job parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.Operation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.Job parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.Operation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.Job parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.Operation parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.Job parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.Operation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.Job parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.Operation parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.Job parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.Operation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.Job parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.Operation parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.Job parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.Operation parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.Job parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.Operation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.Job parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.Operation parseFrom(
+    public static com.yandex.query.YandexQueryProtos.Job parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -9066,7 +9066,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.Operation prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.Job prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -9081,25 +9081,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.Operation}
+     * Protobuf type {@code YandexQuery.Job}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.Operation)
-        com.yandex.query.YandexQueryProtos.OperationOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.Job)
+        com.yandex.query.YandexQueryProtos.JobOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_Operation_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_Job_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_Operation_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_Job_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.Operation.class, com.yandex.query.YandexQueryProtos.Operation.Builder.class);
+                com.yandex.query.YandexQueryProtos.Job.class, com.yandex.query.YandexQueryProtos.Job.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.Operation.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.Job.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -9154,23 +9154,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_Operation_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_Job_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.Operation getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.Operation.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.Job getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.Job.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.Operation build() {
-        com.yandex.query.YandexQueryProtos.Operation result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.Job build() {
+        com.yandex.query.YandexQueryProtos.Job result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.Operation buildPartial() {
-        com.yandex.query.YandexQueryProtos.Operation result = new com.yandex.query.YandexQueryProtos.Operation(this);
+      public com.yandex.query.YandexQueryProtos.Job buildPartial() {
+        com.yandex.query.YandexQueryProtos.Job result = new com.yandex.query.YandexQueryProtos.Job(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (metaBuilder_ == null) {
@@ -9235,16 +9235,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.Operation) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.Operation)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.Job) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.Job)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.Operation other) {
-        if (other == com.yandex.query.YandexQueryProtos.Operation.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.Job other) {
+        if (other == com.yandex.query.YandexQueryProtos.Job.getDefaultInstance()) return this;
         if (other.hasMeta()) {
           mergeMeta(other.getMeta());
         }
@@ -9299,11 +9299,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.Operation parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.Job parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.Operation) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.Job) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -9314,29 +9314,29 @@ public final class YandexQueryProtos {
       }
       private int bitField0_;
 
-      private com.yandex.query.YandexQueryProtos.OperationMeta meta_ = null;
+      private com.yandex.query.YandexQueryProtos.JobMeta meta_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.yandex.query.YandexQueryProtos.OperationMeta, com.yandex.query.YandexQueryProtos.OperationMeta.Builder, com.yandex.query.YandexQueryProtos.OperationMetaOrBuilder> metaBuilder_;
+          com.yandex.query.YandexQueryProtos.JobMeta, com.yandex.query.YandexQueryProtos.JobMeta.Builder, com.yandex.query.YandexQueryProtos.JobMetaOrBuilder> metaBuilder_;
       /**
-       * <code>.YandexQuery.OperationMeta meta = 1;</code>
+       * <code>.YandexQuery.JobMeta meta = 1;</code>
        */
       public boolean hasMeta() {
         return metaBuilder_ != null || meta_ != null;
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 1;</code>
+       * <code>.YandexQuery.JobMeta meta = 1;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationMeta getMeta() {
+      public com.yandex.query.YandexQueryProtos.JobMeta getMeta() {
         if (metaBuilder_ == null) {
-          return meta_ == null ? com.yandex.query.YandexQueryProtos.OperationMeta.getDefaultInstance() : meta_;
+          return meta_ == null ? com.yandex.query.YandexQueryProtos.JobMeta.getDefaultInstance() : meta_;
         } else {
           return metaBuilder_.getMessage();
         }
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 1;</code>
+       * <code>.YandexQuery.JobMeta meta = 1;</code>
        */
-      public Builder setMeta(com.yandex.query.YandexQueryProtos.OperationMeta value) {
+      public Builder setMeta(com.yandex.query.YandexQueryProtos.JobMeta value) {
         if (metaBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -9350,10 +9350,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 1;</code>
+       * <code>.YandexQuery.JobMeta meta = 1;</code>
        */
       public Builder setMeta(
-          com.yandex.query.YandexQueryProtos.OperationMeta.Builder builderForValue) {
+          com.yandex.query.YandexQueryProtos.JobMeta.Builder builderForValue) {
         if (metaBuilder_ == null) {
           meta_ = builderForValue.build();
           onChanged();
@@ -9364,13 +9364,13 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 1;</code>
+       * <code>.YandexQuery.JobMeta meta = 1;</code>
        */
-      public Builder mergeMeta(com.yandex.query.YandexQueryProtos.OperationMeta value) {
+      public Builder mergeMeta(com.yandex.query.YandexQueryProtos.JobMeta value) {
         if (metaBuilder_ == null) {
           if (meta_ != null) {
             meta_ =
-              com.yandex.query.YandexQueryProtos.OperationMeta.newBuilder(meta_).mergeFrom(value).buildPartial();
+              com.yandex.query.YandexQueryProtos.JobMeta.newBuilder(meta_).mergeFrom(value).buildPartial();
           } else {
             meta_ = value;
           }
@@ -9382,7 +9382,7 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 1;</code>
+       * <code>.YandexQuery.JobMeta meta = 1;</code>
        */
       public Builder clearMeta() {
         if (metaBuilder_ == null) {
@@ -9396,33 +9396,33 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 1;</code>
+       * <code>.YandexQuery.JobMeta meta = 1;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationMeta.Builder getMetaBuilder() {
+      public com.yandex.query.YandexQueryProtos.JobMeta.Builder getMetaBuilder() {
         
         onChanged();
         return getMetaFieldBuilder().getBuilder();
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 1;</code>
+       * <code>.YandexQuery.JobMeta meta = 1;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationMetaOrBuilder getMetaOrBuilder() {
+      public com.yandex.query.YandexQueryProtos.JobMetaOrBuilder getMetaOrBuilder() {
         if (metaBuilder_ != null) {
           return metaBuilder_.getMessageOrBuilder();
         } else {
           return meta_ == null ?
-              com.yandex.query.YandexQueryProtos.OperationMeta.getDefaultInstance() : meta_;
+              com.yandex.query.YandexQueryProtos.JobMeta.getDefaultInstance() : meta_;
         }
       }
       /**
-       * <code>.YandexQuery.OperationMeta meta = 1;</code>
+       * <code>.YandexQuery.JobMeta meta = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.yandex.query.YandexQueryProtos.OperationMeta, com.yandex.query.YandexQueryProtos.OperationMeta.Builder, com.yandex.query.YandexQueryProtos.OperationMetaOrBuilder> 
+          com.yandex.query.YandexQueryProtos.JobMeta, com.yandex.query.YandexQueryProtos.JobMeta.Builder, com.yandex.query.YandexQueryProtos.JobMetaOrBuilder> 
           getMetaFieldBuilder() {
         if (metaBuilder_ == null) {
           metaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              com.yandex.query.YandexQueryProtos.OperationMeta, com.yandex.query.YandexQueryProtos.OperationMeta.Builder, com.yandex.query.YandexQueryProtos.OperationMetaOrBuilder>(
+              com.yandex.query.YandexQueryProtos.JobMeta, com.yandex.query.YandexQueryProtos.JobMeta.Builder, com.yandex.query.YandexQueryProtos.JobMetaOrBuilder>(
                   getMeta(),
                   getParentForChildren(),
                   isClean());
@@ -9548,29 +9548,29 @@ public final class YandexQueryProtos {
         return queryBuilder_;
       }
 
-      private com.yandex.query.YandexQueryProtos.OperationPlan plan_ = null;
+      private com.yandex.query.YandexQueryProtos.JobPlan plan_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.yandex.query.YandexQueryProtos.OperationPlan, com.yandex.query.YandexQueryProtos.OperationPlan.Builder, com.yandex.query.YandexQueryProtos.OperationPlanOrBuilder> planBuilder_;
+          com.yandex.query.YandexQueryProtos.JobPlan, com.yandex.query.YandexQueryProtos.JobPlan.Builder, com.yandex.query.YandexQueryProtos.JobPlanOrBuilder> planBuilder_;
       /**
-       * <code>.YandexQuery.OperationPlan plan = 3;</code>
+       * <code>.YandexQuery.JobPlan plan = 3;</code>
        */
       public boolean hasPlan() {
         return planBuilder_ != null || plan_ != null;
       }
       /**
-       * <code>.YandexQuery.OperationPlan plan = 3;</code>
+       * <code>.YandexQuery.JobPlan plan = 3;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationPlan getPlan() {
+      public com.yandex.query.YandexQueryProtos.JobPlan getPlan() {
         if (planBuilder_ == null) {
-          return plan_ == null ? com.yandex.query.YandexQueryProtos.OperationPlan.getDefaultInstance() : plan_;
+          return plan_ == null ? com.yandex.query.YandexQueryProtos.JobPlan.getDefaultInstance() : plan_;
         } else {
           return planBuilder_.getMessage();
         }
       }
       /**
-       * <code>.YandexQuery.OperationPlan plan = 3;</code>
+       * <code>.YandexQuery.JobPlan plan = 3;</code>
        */
-      public Builder setPlan(com.yandex.query.YandexQueryProtos.OperationPlan value) {
+      public Builder setPlan(com.yandex.query.YandexQueryProtos.JobPlan value) {
         if (planBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -9584,10 +9584,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationPlan plan = 3;</code>
+       * <code>.YandexQuery.JobPlan plan = 3;</code>
        */
       public Builder setPlan(
-          com.yandex.query.YandexQueryProtos.OperationPlan.Builder builderForValue) {
+          com.yandex.query.YandexQueryProtos.JobPlan.Builder builderForValue) {
         if (planBuilder_ == null) {
           plan_ = builderForValue.build();
           onChanged();
@@ -9598,13 +9598,13 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationPlan plan = 3;</code>
+       * <code>.YandexQuery.JobPlan plan = 3;</code>
        */
-      public Builder mergePlan(com.yandex.query.YandexQueryProtos.OperationPlan value) {
+      public Builder mergePlan(com.yandex.query.YandexQueryProtos.JobPlan value) {
         if (planBuilder_ == null) {
           if (plan_ != null) {
             plan_ =
-              com.yandex.query.YandexQueryProtos.OperationPlan.newBuilder(plan_).mergeFrom(value).buildPartial();
+              com.yandex.query.YandexQueryProtos.JobPlan.newBuilder(plan_).mergeFrom(value).buildPartial();
           } else {
             plan_ = value;
           }
@@ -9616,7 +9616,7 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationPlan plan = 3;</code>
+       * <code>.YandexQuery.JobPlan plan = 3;</code>
        */
       public Builder clearPlan() {
         if (planBuilder_ == null) {
@@ -9630,33 +9630,33 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationPlan plan = 3;</code>
+       * <code>.YandexQuery.JobPlan plan = 3;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationPlan.Builder getPlanBuilder() {
+      public com.yandex.query.YandexQueryProtos.JobPlan.Builder getPlanBuilder() {
         
         onChanged();
         return getPlanFieldBuilder().getBuilder();
       }
       /**
-       * <code>.YandexQuery.OperationPlan plan = 3;</code>
+       * <code>.YandexQuery.JobPlan plan = 3;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationPlanOrBuilder getPlanOrBuilder() {
+      public com.yandex.query.YandexQueryProtos.JobPlanOrBuilder getPlanOrBuilder() {
         if (planBuilder_ != null) {
           return planBuilder_.getMessageOrBuilder();
         } else {
           return plan_ == null ?
-              com.yandex.query.YandexQueryProtos.OperationPlan.getDefaultInstance() : plan_;
+              com.yandex.query.YandexQueryProtos.JobPlan.getDefaultInstance() : plan_;
         }
       }
       /**
-       * <code>.YandexQuery.OperationPlan plan = 3;</code>
+       * <code>.YandexQuery.JobPlan plan = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.yandex.query.YandexQueryProtos.OperationPlan, com.yandex.query.YandexQueryProtos.OperationPlan.Builder, com.yandex.query.YandexQueryProtos.OperationPlanOrBuilder> 
+          com.yandex.query.YandexQueryProtos.JobPlan, com.yandex.query.YandexQueryProtos.JobPlan.Builder, com.yandex.query.YandexQueryProtos.JobPlanOrBuilder> 
           getPlanFieldBuilder() {
         if (planBuilder_ == null) {
           planBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              com.yandex.query.YandexQueryProtos.OperationPlan, com.yandex.query.YandexQueryProtos.OperationPlan.Builder, com.yandex.query.YandexQueryProtos.OperationPlanOrBuilder>(
+              com.yandex.query.YandexQueryProtos.JobPlan, com.yandex.query.YandexQueryProtos.JobPlan.Builder, com.yandex.query.YandexQueryProtos.JobPlanOrBuilder>(
                   getPlan(),
                   getParentForChildren(),
                   isClean());
@@ -9905,29 +9905,29 @@ public final class YandexQueryProtos {
         return issueBuilder_;
       }
 
-      private com.yandex.query.YandexQueryProtos.OperationStatistics statistics_ = null;
+      private com.yandex.query.YandexQueryProtos.JobStatistics statistics_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.yandex.query.YandexQueryProtos.OperationStatistics, com.yandex.query.YandexQueryProtos.OperationStatistics.Builder, com.yandex.query.YandexQueryProtos.OperationStatisticsOrBuilder> statisticsBuilder_;
+          com.yandex.query.YandexQueryProtos.JobStatistics, com.yandex.query.YandexQueryProtos.JobStatistics.Builder, com.yandex.query.YandexQueryProtos.JobStatisticsOrBuilder> statisticsBuilder_;
       /**
-       * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+       * <code>.YandexQuery.JobStatistics statistics = 5;</code>
        */
       public boolean hasStatistics() {
         return statisticsBuilder_ != null || statistics_ != null;
       }
       /**
-       * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+       * <code>.YandexQuery.JobStatistics statistics = 5;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationStatistics getStatistics() {
+      public com.yandex.query.YandexQueryProtos.JobStatistics getStatistics() {
         if (statisticsBuilder_ == null) {
-          return statistics_ == null ? com.yandex.query.YandexQueryProtos.OperationStatistics.getDefaultInstance() : statistics_;
+          return statistics_ == null ? com.yandex.query.YandexQueryProtos.JobStatistics.getDefaultInstance() : statistics_;
         } else {
           return statisticsBuilder_.getMessage();
         }
       }
       /**
-       * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+       * <code>.YandexQuery.JobStatistics statistics = 5;</code>
        */
-      public Builder setStatistics(com.yandex.query.YandexQueryProtos.OperationStatistics value) {
+      public Builder setStatistics(com.yandex.query.YandexQueryProtos.JobStatistics value) {
         if (statisticsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -9941,10 +9941,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+       * <code>.YandexQuery.JobStatistics statistics = 5;</code>
        */
       public Builder setStatistics(
-          com.yandex.query.YandexQueryProtos.OperationStatistics.Builder builderForValue) {
+          com.yandex.query.YandexQueryProtos.JobStatistics.Builder builderForValue) {
         if (statisticsBuilder_ == null) {
           statistics_ = builderForValue.build();
           onChanged();
@@ -9955,13 +9955,13 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+       * <code>.YandexQuery.JobStatistics statistics = 5;</code>
        */
-      public Builder mergeStatistics(com.yandex.query.YandexQueryProtos.OperationStatistics value) {
+      public Builder mergeStatistics(com.yandex.query.YandexQueryProtos.JobStatistics value) {
         if (statisticsBuilder_ == null) {
           if (statistics_ != null) {
             statistics_ =
-              com.yandex.query.YandexQueryProtos.OperationStatistics.newBuilder(statistics_).mergeFrom(value).buildPartial();
+              com.yandex.query.YandexQueryProtos.JobStatistics.newBuilder(statistics_).mergeFrom(value).buildPartial();
           } else {
             statistics_ = value;
           }
@@ -9973,7 +9973,7 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+       * <code>.YandexQuery.JobStatistics statistics = 5;</code>
        */
       public Builder clearStatistics() {
         if (statisticsBuilder_ == null) {
@@ -9987,33 +9987,33 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+       * <code>.YandexQuery.JobStatistics statistics = 5;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationStatistics.Builder getStatisticsBuilder() {
+      public com.yandex.query.YandexQueryProtos.JobStatistics.Builder getStatisticsBuilder() {
         
         onChanged();
         return getStatisticsFieldBuilder().getBuilder();
       }
       /**
-       * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+       * <code>.YandexQuery.JobStatistics statistics = 5;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationStatisticsOrBuilder getStatisticsOrBuilder() {
+      public com.yandex.query.YandexQueryProtos.JobStatisticsOrBuilder getStatisticsOrBuilder() {
         if (statisticsBuilder_ != null) {
           return statisticsBuilder_.getMessageOrBuilder();
         } else {
           return statistics_ == null ?
-              com.yandex.query.YandexQueryProtos.OperationStatistics.getDefaultInstance() : statistics_;
+              com.yandex.query.YandexQueryProtos.JobStatistics.getDefaultInstance() : statistics_;
         }
       }
       /**
-       * <code>.YandexQuery.OperationStatistics statistics = 5;</code>
+       * <code>.YandexQuery.JobStatistics statistics = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.yandex.query.YandexQueryProtos.OperationStatistics, com.yandex.query.YandexQueryProtos.OperationStatistics.Builder, com.yandex.query.YandexQueryProtos.OperationStatisticsOrBuilder> 
+          com.yandex.query.YandexQueryProtos.JobStatistics, com.yandex.query.YandexQueryProtos.JobStatistics.Builder, com.yandex.query.YandexQueryProtos.JobStatisticsOrBuilder> 
           getStatisticsFieldBuilder() {
         if (statisticsBuilder_ == null) {
           statisticsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              com.yandex.query.YandexQueryProtos.OperationStatistics, com.yandex.query.YandexQueryProtos.OperationStatistics.Builder, com.yandex.query.YandexQueryProtos.OperationStatisticsOrBuilder>(
+              com.yandex.query.YandexQueryProtos.JobStatistics, com.yandex.query.YandexQueryProtos.JobStatistics.Builder, com.yandex.query.YandexQueryProtos.JobStatisticsOrBuilder>(
                   getStatistics(),
                   getParentForChildren(),
                   isClean());
@@ -10058,46 +10058,46 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.Operation)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.Job)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.Operation)
-    private static final com.yandex.query.YandexQueryProtos.Operation DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.Job)
+    private static final com.yandex.query.YandexQueryProtos.Job DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.Operation();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.Job();
     }
 
-    public static com.yandex.query.YandexQueryProtos.Operation getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.Job getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<Operation>
-        PARSER = new com.google.protobuf.AbstractParser<Operation>() {
-      public Operation parsePartialFrom(
+    private static final com.google.protobuf.Parser<Job>
+        PARSER = new com.google.protobuf.AbstractParser<Job>() {
+      public Job parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Operation(input, extensionRegistry);
+          return new Job(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<Operation> parser() {
+    public static com.google.protobuf.Parser<Job> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<Operation> getParserForType() {
+    public com.google.protobuf.Parser<Job> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.Operation getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.Job getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface OperationStatisticsOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.OperationStatistics)
+  public interface JobStatisticsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.JobStatistics)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -10111,18 +10111,18 @@ public final class YandexQueryProtos {
         getJsonBytes();
   }
   /**
-   * Protobuf type {@code YandexQuery.OperationStatistics}
+   * Protobuf type {@code YandexQuery.JobStatistics}
    */
-  public  static final class OperationStatistics extends
+  public  static final class JobStatistics extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.OperationStatistics)
-      OperationStatisticsOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.JobStatistics)
+      JobStatisticsOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use OperationStatistics.newBuilder() to construct.
-    private OperationStatistics(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use JobStatistics.newBuilder() to construct.
+    private JobStatistics(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private OperationStatistics() {
+    private JobStatistics() {
       json_ = "";
     }
 
@@ -10131,7 +10131,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private OperationStatistics(
+    private JobStatistics(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -10174,14 +10174,14 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationStatistics_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobStatistics_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationStatistics_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobStatistics_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.OperationStatistics.class, com.yandex.query.YandexQueryProtos.OperationStatistics.Builder.class);
+              com.yandex.query.YandexQueryProtos.JobStatistics.class, com.yandex.query.YandexQueryProtos.JobStatistics.Builder.class);
     }
 
     public static final int JSON_FIELD_NUMBER = 1;
@@ -10254,10 +10254,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.OperationStatistics)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.JobStatistics)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.OperationStatistics other = (com.yandex.query.YandexQueryProtos.OperationStatistics) obj;
+      com.yandex.query.YandexQueryProtos.JobStatistics other = (com.yandex.query.YandexQueryProtos.JobStatistics) obj;
 
       boolean result = true;
       result = result && getJson()
@@ -10280,69 +10280,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.OperationStatistics parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobStatistics parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationStatistics parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobStatistics parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationStatistics parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobStatistics parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationStatistics parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobStatistics parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationStatistics parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.JobStatistics parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationStatistics parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobStatistics parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationStatistics parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.JobStatistics parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationStatistics parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobStatistics parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationStatistics parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.JobStatistics parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationStatistics parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.JobStatistics parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationStatistics parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobStatistics parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.OperationStatistics parseFrom(
+    public static com.yandex.query.YandexQueryProtos.JobStatistics parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -10354,7 +10354,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.OperationStatistics prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.JobStatistics prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -10369,25 +10369,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.OperationStatistics}
+     * Protobuf type {@code YandexQuery.JobStatistics}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.OperationStatistics)
-        com.yandex.query.YandexQueryProtos.OperationStatisticsOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.JobStatistics)
+        com.yandex.query.YandexQueryProtos.JobStatisticsOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationStatistics_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobStatistics_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationStatistics_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobStatistics_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.OperationStatistics.class, com.yandex.query.YandexQueryProtos.OperationStatistics.Builder.class);
+                com.yandex.query.YandexQueryProtos.JobStatistics.class, com.yandex.query.YandexQueryProtos.JobStatistics.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.OperationStatistics.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.JobStatistics.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -10411,23 +10411,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_OperationStatistics_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_JobStatistics_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.OperationStatistics getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.OperationStatistics.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.JobStatistics getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.JobStatistics.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.OperationStatistics build() {
-        com.yandex.query.YandexQueryProtos.OperationStatistics result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.JobStatistics build() {
+        com.yandex.query.YandexQueryProtos.JobStatistics result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.OperationStatistics buildPartial() {
-        com.yandex.query.YandexQueryProtos.OperationStatistics result = new com.yandex.query.YandexQueryProtos.OperationStatistics(this);
+      public com.yandex.query.YandexQueryProtos.JobStatistics buildPartial() {
+        com.yandex.query.YandexQueryProtos.JobStatistics result = new com.yandex.query.YandexQueryProtos.JobStatistics(this);
         result.json_ = json_;
         onBuilt();
         return result;
@@ -10460,16 +10460,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.OperationStatistics) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.OperationStatistics)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.JobStatistics) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.JobStatistics)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.OperationStatistics other) {
-        if (other == com.yandex.query.YandexQueryProtos.OperationStatistics.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.JobStatistics other) {
+        if (other == com.yandex.query.YandexQueryProtos.JobStatistics.getDefaultInstance()) return this;
         if (!other.getJson().isEmpty()) {
           json_ = other.json_;
           onChanged();
@@ -10487,11 +10487,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.OperationStatistics parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.JobStatistics parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.OperationStatistics) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.JobStatistics) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -10580,46 +10580,46 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.OperationStatistics)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.JobStatistics)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.OperationStatistics)
-    private static final com.yandex.query.YandexQueryProtos.OperationStatistics DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.JobStatistics)
+    private static final com.yandex.query.YandexQueryProtos.JobStatistics DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.OperationStatistics();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.JobStatistics();
     }
 
-    public static com.yandex.query.YandexQueryProtos.OperationStatistics getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.JobStatistics getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<OperationStatistics>
-        PARSER = new com.google.protobuf.AbstractParser<OperationStatistics>() {
-      public OperationStatistics parsePartialFrom(
+    private static final com.google.protobuf.Parser<JobStatistics>
+        PARSER = new com.google.protobuf.AbstractParser<JobStatistics>() {
+      public JobStatistics parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new OperationStatistics(input, extensionRegistry);
+          return new JobStatistics(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<OperationStatistics> parser() {
+    public static com.google.protobuf.Parser<JobStatistics> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<OperationStatistics> getParserForType() {
+    public com.google.protobuf.Parser<JobStatistics> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.OperationStatistics getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.JobStatistics getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface CreateOperationRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.CreateOperationRequest)
+  public interface CreateJobRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.CreateJobRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -10696,18 +10696,18 @@ public final class YandexQueryProtos {
         getIdempotencyKeyBytes();
   }
   /**
-   * Protobuf type {@code YandexQuery.CreateOperationRequest}
+   * Protobuf type {@code YandexQuery.CreateJobRequest}
    */
-  public  static final class CreateOperationRequest extends
+  public  static final class CreateJobRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.CreateOperationRequest)
-      CreateOperationRequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.CreateJobRequest)
+      CreateJobRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use CreateOperationRequest.newBuilder() to construct.
-    private CreateOperationRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use CreateJobRequest.newBuilder() to construct.
+    private CreateJobRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private CreateOperationRequest() {
+    private CreateJobRequest() {
       cloudId_ = "";
       folderId_ = "";
       mode_ = 0;
@@ -10719,7 +10719,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private CreateOperationRequest(
+    private CreateJobRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -10806,14 +10806,14 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationRequest_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationRequest_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.CreateOperationRequest.class, com.yandex.query.YandexQueryProtos.CreateOperationRequest.Builder.class);
+              com.yandex.query.YandexQueryProtos.CreateJobRequest.class, com.yandex.query.YandexQueryProtos.CreateJobRequest.Builder.class);
     }
 
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
@@ -11053,10 +11053,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.CreateOperationRequest)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.CreateJobRequest)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.CreateOperationRequest other = (com.yandex.query.YandexQueryProtos.CreateOperationRequest) obj;
+      com.yandex.query.YandexQueryProtos.CreateJobRequest other = (com.yandex.query.YandexQueryProtos.CreateJobRequest) obj;
 
       boolean result = true;
       result = result && (hasOperationParams() == other.hasOperationParams());
@@ -11108,69 +11108,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.CreateOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationRequest parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.CreateJobRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationRequest parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.CreateJobRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationRequest parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.CreateJobRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationRequest parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -11182,7 +11182,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.CreateOperationRequest prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.CreateJobRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -11197,25 +11197,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.CreateOperationRequest}
+     * Protobuf type {@code YandexQuery.CreateJobRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.CreateOperationRequest)
-        com.yandex.query.YandexQueryProtos.CreateOperationRequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.CreateJobRequest)
+        com.yandex.query.YandexQueryProtos.CreateJobRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationRequest_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationRequest_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.CreateOperationRequest.class, com.yandex.query.YandexQueryProtos.CreateOperationRequest.Builder.class);
+                com.yandex.query.YandexQueryProtos.CreateJobRequest.class, com.yandex.query.YandexQueryProtos.CreateJobRequest.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.CreateOperationRequest.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.CreateJobRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -11257,23 +11257,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationRequest_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobRequest_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.CreateOperationRequest getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.CreateOperationRequest.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.CreateJobRequest getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.CreateJobRequest.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.CreateOperationRequest build() {
-        com.yandex.query.YandexQueryProtos.CreateOperationRequest result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.CreateJobRequest build() {
+        com.yandex.query.YandexQueryProtos.CreateJobRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.CreateOperationRequest buildPartial() {
-        com.yandex.query.YandexQueryProtos.CreateOperationRequest result = new com.yandex.query.YandexQueryProtos.CreateOperationRequest(this);
+      public com.yandex.query.YandexQueryProtos.CreateJobRequest buildPartial() {
+        com.yandex.query.YandexQueryProtos.CreateJobRequest result = new com.yandex.query.YandexQueryProtos.CreateJobRequest(this);
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
@@ -11319,16 +11319,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.CreateOperationRequest) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.CreateOperationRequest)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.CreateJobRequest) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.CreateJobRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.CreateOperationRequest other) {
-        if (other == com.yandex.query.YandexQueryProtos.CreateOperationRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.CreateJobRequest other) {
+        if (other == com.yandex.query.YandexQueryProtos.CreateJobRequest.getDefaultInstance()) return this;
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
         }
@@ -11363,11 +11363,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.CreateOperationRequest parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.CreateJobRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.CreateOperationRequest) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.CreateJobRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -11892,51 +11892,51 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.CreateOperationRequest)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.CreateJobRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.CreateOperationRequest)
-    private static final com.yandex.query.YandexQueryProtos.CreateOperationRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.CreateJobRequest)
+    private static final com.yandex.query.YandexQueryProtos.CreateJobRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.CreateOperationRequest();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.CreateJobRequest();
     }
 
-    public static com.yandex.query.YandexQueryProtos.CreateOperationRequest getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.CreateJobRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<CreateOperationRequest>
-        PARSER = new com.google.protobuf.AbstractParser<CreateOperationRequest>() {
-      public CreateOperationRequest parsePartialFrom(
+    private static final com.google.protobuf.Parser<CreateJobRequest>
+        PARSER = new com.google.protobuf.AbstractParser<CreateJobRequest>() {
+      public CreateJobRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CreateOperationRequest(input, extensionRegistry);
+          return new CreateJobRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<CreateOperationRequest> parser() {
+    public static com.google.protobuf.Parser<CreateJobRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<CreateOperationRequest> getParserForType() {
+    public com.google.protobuf.Parser<CreateJobRequest> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.CreateOperationRequest getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.CreateJobRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface CreateOperationResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.CreateOperationResponse)
+  public interface CreateJobResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.CreateJobResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
      * <pre>
-     * CreateOperationResult
+     * CreateJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -11944,7 +11944,7 @@ public final class YandexQueryProtos {
     boolean hasOperation();
     /**
      * <pre>
-     * CreateOperationResult
+     * CreateJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -11952,7 +11952,7 @@ public final class YandexQueryProtos {
     tech.ydb.OperationProtos.Operation getOperation();
     /**
      * <pre>
-     * CreateOperationResult
+     * CreateJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -11960,18 +11960,18 @@ public final class YandexQueryProtos {
     tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
   }
   /**
-   * Protobuf type {@code YandexQuery.CreateOperationResponse}
+   * Protobuf type {@code YandexQuery.CreateJobResponse}
    */
-  public  static final class CreateOperationResponse extends
+  public  static final class CreateJobResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.CreateOperationResponse)
-      CreateOperationResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.CreateJobResponse)
+      CreateJobResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use CreateOperationResponse.newBuilder() to construct.
-    private CreateOperationResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use CreateJobResponse.newBuilder() to construct.
+    private CreateJobResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private CreateOperationResponse() {
+    private CreateJobResponse() {
     }
 
     @java.lang.Override
@@ -11979,7 +11979,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private CreateOperationResponse(
+    private CreateJobResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -12029,21 +12029,21 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationResponse_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationResponse_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.CreateOperationResponse.class, com.yandex.query.YandexQueryProtos.CreateOperationResponse.Builder.class);
+              com.yandex.query.YandexQueryProtos.CreateJobResponse.class, com.yandex.query.YandexQueryProtos.CreateJobResponse.Builder.class);
     }
 
     public static final int OPERATION_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <pre>
-     * CreateOperationResult
+     * CreateJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -12053,7 +12053,7 @@ public final class YandexQueryProtos {
     }
     /**
      * <pre>
-     * CreateOperationResult
+     * CreateJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -12063,7 +12063,7 @@ public final class YandexQueryProtos {
     }
     /**
      * <pre>
-     * CreateOperationResult
+     * CreateJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -12109,10 +12109,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.CreateOperationResponse)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.CreateJobResponse)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.CreateOperationResponse other = (com.yandex.query.YandexQueryProtos.CreateOperationResponse) obj;
+      com.yandex.query.YandexQueryProtos.CreateJobResponse other = (com.yandex.query.YandexQueryProtos.CreateJobResponse) obj;
 
       boolean result = true;
       result = result && (hasOperation() == other.hasOperation());
@@ -12140,69 +12140,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResponse parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.CreateJobResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResponse parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.CreateJobResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResponse parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.CreateJobResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResponse parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -12214,7 +12214,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.CreateOperationResponse prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.CreateJobResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -12229,25 +12229,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.CreateOperationResponse}
+     * Protobuf type {@code YandexQuery.CreateJobResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.CreateOperationResponse)
-        com.yandex.query.YandexQueryProtos.CreateOperationResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.CreateJobResponse)
+        com.yandex.query.YandexQueryProtos.CreateJobResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationResponse_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationResponse_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.CreateOperationResponse.class, com.yandex.query.YandexQueryProtos.CreateOperationResponse.Builder.class);
+                com.yandex.query.YandexQueryProtos.CreateJobResponse.class, com.yandex.query.YandexQueryProtos.CreateJobResponse.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.CreateOperationResponse.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.CreateJobResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -12275,23 +12275,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationResponse_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobResponse_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.CreateOperationResponse getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.CreateOperationResponse.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.CreateJobResponse getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.CreateJobResponse.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.CreateOperationResponse build() {
-        com.yandex.query.YandexQueryProtos.CreateOperationResponse result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.CreateJobResponse build() {
+        com.yandex.query.YandexQueryProtos.CreateJobResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.CreateOperationResponse buildPartial() {
-        com.yandex.query.YandexQueryProtos.CreateOperationResponse result = new com.yandex.query.YandexQueryProtos.CreateOperationResponse(this);
+      public com.yandex.query.YandexQueryProtos.CreateJobResponse buildPartial() {
+        com.yandex.query.YandexQueryProtos.CreateJobResponse result = new com.yandex.query.YandexQueryProtos.CreateJobResponse(this);
         if (operationBuilder_ == null) {
           result.operation_ = operation_;
         } else {
@@ -12328,16 +12328,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.CreateOperationResponse) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.CreateOperationResponse)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.CreateJobResponse) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.CreateJobResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.CreateOperationResponse other) {
-        if (other == com.yandex.query.YandexQueryProtos.CreateOperationResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.CreateJobResponse other) {
+        if (other == com.yandex.query.YandexQueryProtos.CreateJobResponse.getDefaultInstance()) return this;
         if (other.hasOperation()) {
           mergeOperation(other.getOperation());
         }
@@ -12354,11 +12354,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.CreateOperationResponse parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.CreateJobResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.CreateOperationResponse) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.CreateJobResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -12373,7 +12373,7 @@ public final class YandexQueryProtos {
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <pre>
-       * CreateOperationResult
+       * CreateJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -12383,7 +12383,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * CreateOperationResult
+       * CreateJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -12397,7 +12397,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * CreateOperationResult
+       * CreateJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -12417,7 +12417,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * CreateOperationResult
+       * CreateJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -12435,7 +12435,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * CreateOperationResult
+       * CreateJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -12457,7 +12457,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * CreateOperationResult
+       * CreateJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -12475,7 +12475,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * CreateOperationResult
+       * CreateJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -12487,7 +12487,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * CreateOperationResult
+       * CreateJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -12502,7 +12502,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * CreateOperationResult
+       * CreateJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -12531,46 +12531,46 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.CreateOperationResponse)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.CreateJobResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.CreateOperationResponse)
-    private static final com.yandex.query.YandexQueryProtos.CreateOperationResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.CreateJobResponse)
+    private static final com.yandex.query.YandexQueryProtos.CreateJobResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.CreateOperationResponse();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.CreateJobResponse();
     }
 
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResponse getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.CreateJobResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<CreateOperationResponse>
-        PARSER = new com.google.protobuf.AbstractParser<CreateOperationResponse>() {
-      public CreateOperationResponse parsePartialFrom(
+    private static final com.google.protobuf.Parser<CreateJobResponse>
+        PARSER = new com.google.protobuf.AbstractParser<CreateJobResponse>() {
+      public CreateJobResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CreateOperationResponse(input, extensionRegistry);
+          return new CreateJobResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<CreateOperationResponse> parser() {
+    public static com.google.protobuf.Parser<CreateJobResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<CreateOperationResponse> getParserForType() {
+    public com.google.protobuf.Parser<CreateJobResponse> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.CreateOperationResponse getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.CreateJobResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface CreateOperationResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.CreateOperationResult)
+  public interface CreateJobResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.CreateJobResult)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -12584,18 +12584,18 @@ public final class YandexQueryProtos {
         getOperationIdBytes();
   }
   /**
-   * Protobuf type {@code YandexQuery.CreateOperationResult}
+   * Protobuf type {@code YandexQuery.CreateJobResult}
    */
-  public  static final class CreateOperationResult extends
+  public  static final class CreateJobResult extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.CreateOperationResult)
-      CreateOperationResultOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.CreateJobResult)
+      CreateJobResultOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use CreateOperationResult.newBuilder() to construct.
-    private CreateOperationResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use CreateJobResult.newBuilder() to construct.
+    private CreateJobResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private CreateOperationResult() {
+    private CreateJobResult() {
       operationId_ = "";
     }
 
@@ -12604,7 +12604,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private CreateOperationResult(
+    private CreateJobResult(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -12647,14 +12647,14 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationResult_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobResult_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationResult_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.CreateOperationResult.class, com.yandex.query.YandexQueryProtos.CreateOperationResult.Builder.class);
+              com.yandex.query.YandexQueryProtos.CreateJobResult.class, com.yandex.query.YandexQueryProtos.CreateJobResult.Builder.class);
     }
 
     public static final int OPERATION_ID_FIELD_NUMBER = 1;
@@ -12727,10 +12727,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.CreateOperationResult)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.CreateJobResult)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.CreateOperationResult other = (com.yandex.query.YandexQueryProtos.CreateOperationResult) obj;
+      com.yandex.query.YandexQueryProtos.CreateJobResult other = (com.yandex.query.YandexQueryProtos.CreateJobResult) obj;
 
       boolean result = true;
       result = result && getOperationId()
@@ -12753,69 +12753,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResult parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResult parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResult parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResult parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResult parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.CreateJobResult parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResult parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResult parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.CreateJobResult parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResult parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResult parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.CreateJobResult parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResult parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResult parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResult parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.CreateJobResult parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -12827,7 +12827,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.CreateOperationResult prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.CreateJobResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -12842,25 +12842,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.CreateOperationResult}
+     * Protobuf type {@code YandexQuery.CreateJobResult}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.CreateOperationResult)
-        com.yandex.query.YandexQueryProtos.CreateOperationResultOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.CreateJobResult)
+        com.yandex.query.YandexQueryProtos.CreateJobResultOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationResult_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobResult_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationResult_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobResult_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.CreateOperationResult.class, com.yandex.query.YandexQueryProtos.CreateOperationResult.Builder.class);
+                com.yandex.query.YandexQueryProtos.CreateJobResult.class, com.yandex.query.YandexQueryProtos.CreateJobResult.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.CreateOperationResult.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.CreateJobResult.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -12884,23 +12884,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateOperationResult_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_CreateJobResult_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.CreateOperationResult getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.CreateOperationResult.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.CreateJobResult getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.CreateJobResult.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.CreateOperationResult build() {
-        com.yandex.query.YandexQueryProtos.CreateOperationResult result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.CreateJobResult build() {
+        com.yandex.query.YandexQueryProtos.CreateJobResult result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.CreateOperationResult buildPartial() {
-        com.yandex.query.YandexQueryProtos.CreateOperationResult result = new com.yandex.query.YandexQueryProtos.CreateOperationResult(this);
+      public com.yandex.query.YandexQueryProtos.CreateJobResult buildPartial() {
+        com.yandex.query.YandexQueryProtos.CreateJobResult result = new com.yandex.query.YandexQueryProtos.CreateJobResult(this);
         result.operationId_ = operationId_;
         onBuilt();
         return result;
@@ -12933,16 +12933,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.CreateOperationResult) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.CreateOperationResult)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.CreateJobResult) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.CreateJobResult)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.CreateOperationResult other) {
-        if (other == com.yandex.query.YandexQueryProtos.CreateOperationResult.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.CreateJobResult other) {
+        if (other == com.yandex.query.YandexQueryProtos.CreateJobResult.getDefaultInstance()) return this;
         if (!other.getOperationId().isEmpty()) {
           operationId_ = other.operationId_;
           onChanged();
@@ -12960,11 +12960,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.CreateOperationResult parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.CreateJobResult parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.CreateOperationResult) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.CreateJobResult) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -13053,46 +13053,46 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.CreateOperationResult)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.CreateJobResult)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.CreateOperationResult)
-    private static final com.yandex.query.YandexQueryProtos.CreateOperationResult DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.CreateJobResult)
+    private static final com.yandex.query.YandexQueryProtos.CreateJobResult DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.CreateOperationResult();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.CreateJobResult();
     }
 
-    public static com.yandex.query.YandexQueryProtos.CreateOperationResult getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.CreateJobResult getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<CreateOperationResult>
-        PARSER = new com.google.protobuf.AbstractParser<CreateOperationResult>() {
-      public CreateOperationResult parsePartialFrom(
+    private static final com.google.protobuf.Parser<CreateJobResult>
+        PARSER = new com.google.protobuf.AbstractParser<CreateJobResult>() {
+      public CreateJobResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CreateOperationResult(input, extensionRegistry);
+          return new CreateJobResult(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<CreateOperationResult> parser() {
+    public static com.google.protobuf.Parser<CreateJobResult> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<CreateOperationResult> getParserForType() {
+    public com.google.protobuf.Parser<CreateJobResult> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.CreateOperationResult getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.CreateJobResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface ListOperationsRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.ListOperationsRequest)
+  public interface ListJobsRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.ListJobsRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -13144,31 +13144,31 @@ public final class YandexQueryProtos {
     int getLimit();
 
     /**
-     * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+     * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
      */
     boolean hasFilter();
     /**
-     * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+     * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
      */
-    com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter getFilter();
+    com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter getFilter();
     /**
-     * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+     * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
      */
-    com.yandex.query.YandexQueryProtos.ListOperationsRequest.FilterOrBuilder getFilterOrBuilder();
+    com.yandex.query.YandexQueryProtos.ListJobsRequest.FilterOrBuilder getFilterOrBuilder();
   }
   /**
-   * Protobuf type {@code YandexQuery.ListOperationsRequest}
+   * Protobuf type {@code YandexQuery.ListJobsRequest}
    */
-  public  static final class ListOperationsRequest extends
+  public  static final class ListJobsRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.ListOperationsRequest)
-      ListOperationsRequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.ListJobsRequest)
+      ListJobsRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ListOperationsRequest.newBuilder() to construct.
-    private ListOperationsRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ListJobsRequest.newBuilder() to construct.
+    private ListJobsRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ListOperationsRequest() {
+    private ListJobsRequest() {
       cloudId_ = "";
       folderId_ = "";
       pageToken_ = "";
@@ -13180,7 +13180,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ListOperationsRequest(
+    private ListJobsRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -13240,11 +13240,11 @@ public final class YandexQueryProtos {
               break;
             }
             case 50: {
-              com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.Builder subBuilder = null;
+              com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.Builder subBuilder = null;
               if (filter_ != null) {
                 subBuilder = filter_.toBuilder();
               }
-              filter_ = input.readMessage(com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.parser(), extensionRegistry);
+              filter_ = input.readMessage(com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(filter_);
                 filter_ = subBuilder.buildPartial();
@@ -13266,61 +13266,61 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsRequest_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsRequest_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.ListOperationsRequest.class, com.yandex.query.YandexQueryProtos.ListOperationsRequest.Builder.class);
+              com.yandex.query.YandexQueryProtos.ListJobsRequest.class, com.yandex.query.YandexQueryProtos.ListJobsRequest.Builder.class);
     }
 
     public interface FilterOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:YandexQuery.ListOperationsRequest.Filter)
+        // @@protoc_insertion_point(interface_extends:YandexQuery.ListJobsRequest.Filter)
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
        */
-      java.util.List<com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState> getStatusList();
+      java.util.List<com.yandex.query.YandexQueryProtos.JobMeta.ComputeState> getStatusList();
       /**
-       * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
        */
       int getStatusCount();
       /**
-       * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
        */
-      com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState getStatus(int index);
+      com.yandex.query.YandexQueryProtos.JobMeta.ComputeState getStatus(int index);
       /**
-       * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
        */
       java.util.List<java.lang.Integer>
       getStatusValueList();
       /**
-       * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
        */
       int getStatusValue(int index);
 
       /**
-       * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
        */
-      java.util.List<com.yandex.query.YandexQueryProtos.OperationAction> getActionList();
+      java.util.List<com.yandex.query.YandexQueryProtos.JobAction> getActionList();
       /**
-       * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
        */
       int getActionCount();
       /**
-       * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
        */
-      com.yandex.query.YandexQueryProtos.OperationAction getAction(int index);
+      com.yandex.query.YandexQueryProtos.JobAction getAction(int index);
       /**
-       * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
        */
       java.util.List<java.lang.Integer>
       getActionValueList();
       /**
-       * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
        */
       int getActionValue(int index);
 
@@ -13357,11 +13357,11 @@ public final class YandexQueryProtos {
           getNameBytes();
     }
     /**
-     * Protobuf type {@code YandexQuery.ListOperationsRequest.Filter}
+     * Protobuf type {@code YandexQuery.ListJobsRequest.Filter}
      */
     public  static final class Filter extends
         com.google.protobuf.GeneratedMessageV3 implements
-        // @@protoc_insertion_point(message_implements:YandexQuery.ListOperationsRequest.Filter)
+        // @@protoc_insertion_point(message_implements:YandexQuery.ListJobsRequest.Filter)
         FilterOrBuilder {
     private static final long serialVersionUID = 0L;
       // Use Filter.newBuilder() to construct.
@@ -13501,56 +13501,56 @@ public final class YandexQueryProtos {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsRequest_Filter_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsRequest_Filter_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsRequest_Filter_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsRequest_Filter_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.class, com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.Builder.class);
+                com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.class, com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.Builder.class);
       }
 
       private int bitField0_;
       public static final int STATUS_FIELD_NUMBER = 1;
       private java.util.List<java.lang.Integer> status_;
       private static final com.google.protobuf.Internal.ListAdapter.Converter<
-          java.lang.Integer, com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState> status_converter_ =
+          java.lang.Integer, com.yandex.query.YandexQueryProtos.JobMeta.ComputeState> status_converter_ =
               new com.google.protobuf.Internal.ListAdapter.Converter<
-                  java.lang.Integer, com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState>() {
-                public com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState convert(java.lang.Integer from) {
-                  com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState result = com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState.valueOf(from);
-                  return result == null ? com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState.UNRECOGNIZED : result;
+                  java.lang.Integer, com.yandex.query.YandexQueryProtos.JobMeta.ComputeState>() {
+                public com.yandex.query.YandexQueryProtos.JobMeta.ComputeState convert(java.lang.Integer from) {
+                  com.yandex.query.YandexQueryProtos.JobMeta.ComputeState result = com.yandex.query.YandexQueryProtos.JobMeta.ComputeState.valueOf(from);
+                  return result == null ? com.yandex.query.YandexQueryProtos.JobMeta.ComputeState.UNRECOGNIZED : result;
                 }
               };
       /**
-       * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
        */
-      public java.util.List<com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState> getStatusList() {
+      public java.util.List<com.yandex.query.YandexQueryProtos.JobMeta.ComputeState> getStatusList() {
         return new com.google.protobuf.Internal.ListAdapter<
-            java.lang.Integer, com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState>(status_, status_converter_);
+            java.lang.Integer, com.yandex.query.YandexQueryProtos.JobMeta.ComputeState>(status_, status_converter_);
       }
       /**
-       * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
        */
       public int getStatusCount() {
         return status_.size();
       }
       /**
-       * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState getStatus(int index) {
+      public com.yandex.query.YandexQueryProtos.JobMeta.ComputeState getStatus(int index) {
         return status_converter_.convert(status_.get(index));
       }
       /**
-       * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
        */
       public java.util.List<java.lang.Integer>
       getStatusValueList() {
         return status_;
       }
       /**
-       * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
        */
       public int getStatusValue(int index) {
         return status_.get(index);
@@ -13560,42 +13560,42 @@ public final class YandexQueryProtos {
       public static final int ACTION_FIELD_NUMBER = 2;
       private java.util.List<java.lang.Integer> action_;
       private static final com.google.protobuf.Internal.ListAdapter.Converter<
-          java.lang.Integer, com.yandex.query.YandexQueryProtos.OperationAction> action_converter_ =
+          java.lang.Integer, com.yandex.query.YandexQueryProtos.JobAction> action_converter_ =
               new com.google.protobuf.Internal.ListAdapter.Converter<
-                  java.lang.Integer, com.yandex.query.YandexQueryProtos.OperationAction>() {
-                public com.yandex.query.YandexQueryProtos.OperationAction convert(java.lang.Integer from) {
-                  com.yandex.query.YandexQueryProtos.OperationAction result = com.yandex.query.YandexQueryProtos.OperationAction.valueOf(from);
-                  return result == null ? com.yandex.query.YandexQueryProtos.OperationAction.UNRECOGNIZED : result;
+                  java.lang.Integer, com.yandex.query.YandexQueryProtos.JobAction>() {
+                public com.yandex.query.YandexQueryProtos.JobAction convert(java.lang.Integer from) {
+                  com.yandex.query.YandexQueryProtos.JobAction result = com.yandex.query.YandexQueryProtos.JobAction.valueOf(from);
+                  return result == null ? com.yandex.query.YandexQueryProtos.JobAction.UNRECOGNIZED : result;
                 }
               };
       /**
-       * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
        */
-      public java.util.List<com.yandex.query.YandexQueryProtos.OperationAction> getActionList() {
+      public java.util.List<com.yandex.query.YandexQueryProtos.JobAction> getActionList() {
         return new com.google.protobuf.Internal.ListAdapter<
-            java.lang.Integer, com.yandex.query.YandexQueryProtos.OperationAction>(action_, action_converter_);
+            java.lang.Integer, com.yandex.query.YandexQueryProtos.JobAction>(action_, action_converter_);
       }
       /**
-       * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
        */
       public int getActionCount() {
         return action_.size();
       }
       /**
-       * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationAction getAction(int index) {
+      public com.yandex.query.YandexQueryProtos.JobAction getAction(int index) {
         return action_converter_.convert(action_.get(index));
       }
       /**
-       * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
        */
       public java.util.List<java.lang.Integer>
       getActionValueList() {
         return action_;
       }
       /**
-       * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+       * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
        */
       public int getActionValue(int index) {
         return action_.get(index);
@@ -13775,10 +13775,10 @@ public final class YandexQueryProtos {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter)) {
+        if (!(obj instanceof com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter)) {
           return super.equals(obj);
         }
-        com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter other = (com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter) obj;
+        com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter other = (com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter) obj;
 
         boolean result = true;
         result = result && status_.equals(other.status_);
@@ -13816,69 +13816,69 @@ public final class YandexQueryProtos {
         return hash;
       }
 
-      public static com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter parseFrom(
+      public static com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter parseFrom(
+      public static com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter parseFrom(
+      public static com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter parseFrom(
+      public static com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter parseFrom(byte[] data)
+      public static com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter parseFrom(
+      public static com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter parseFrom(java.io.InputStream input)
+      public static com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter parseFrom(
+      public static com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter parseDelimitedFrom(java.io.InputStream input)
+      public static com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
-      public static com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter parseDelimitedFrom(
+      public static com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter parseFrom(
+      public static com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter parseFrom(
+      public static com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -13890,7 +13890,7 @@ public final class YandexQueryProtos {
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter prototype) {
+      public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
       public Builder toBuilder() {
@@ -13905,25 +13905,25 @@ public final class YandexQueryProtos {
         return builder;
       }
       /**
-       * Protobuf type {@code YandexQuery.ListOperationsRequest.Filter}
+       * Protobuf type {@code YandexQuery.ListJobsRequest.Filter}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:YandexQuery.ListOperationsRequest.Filter)
-          com.yandex.query.YandexQueryProtos.ListOperationsRequest.FilterOrBuilder {
+          // @@protoc_insertion_point(builder_implements:YandexQuery.ListJobsRequest.Filter)
+          com.yandex.query.YandexQueryProtos.ListJobsRequest.FilterOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsRequest_Filter_descriptor;
+          return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsRequest_Filter_descriptor;
         }
 
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsRequest_Filter_fieldAccessorTable
+          return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsRequest_Filter_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.class, com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.Builder.class);
+                  com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.class, com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.Builder.class);
         }
 
-        // Construct using com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.newBuilder()
+        // Construct using com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
         }
@@ -13953,23 +13953,23 @@ public final class YandexQueryProtos {
 
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsRequest_Filter_descriptor;
+          return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsRequest_Filter_descriptor;
         }
 
-        public com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter getDefaultInstanceForType() {
-          return com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.getDefaultInstance();
+        public com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter getDefaultInstanceForType() {
+          return com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.getDefaultInstance();
         }
 
-        public com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter build() {
-          com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter result = buildPartial();
+        public com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter build() {
+          com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
 
-        public com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter buildPartial() {
-          com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter result = new com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter(this);
+        public com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter buildPartial() {
+          com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter result = new com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter(this);
           int from_bitField0_ = bitField0_;
           int to_bitField0_ = 0;
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
@@ -14020,16 +14020,16 @@ public final class YandexQueryProtos {
           return (Builder) super.addRepeatedField(field, value);
         }
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter) {
-            return mergeFrom((com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter)other);
+          if (other instanceof com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter) {
+            return mergeFrom((com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter other) {
-          if (other == com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.getDefaultInstance()) return this;
+        public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter other) {
+          if (other == com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.getDefaultInstance()) return this;
           if (!other.status_.isEmpty()) {
             if (status_.isEmpty()) {
               status_ = other.status_;
@@ -14077,11 +14077,11 @@ public final class YandexQueryProtos {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter parsedMessage = null;
+          com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter) e.getUnfinishedMessage();
+            parsedMessage = (com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
@@ -14101,29 +14101,29 @@ public final class YandexQueryProtos {
           }
         }
         /**
-         * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
          */
-        public java.util.List<com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState> getStatusList() {
+        public java.util.List<com.yandex.query.YandexQueryProtos.JobMeta.ComputeState> getStatusList() {
           return new com.google.protobuf.Internal.ListAdapter<
-              java.lang.Integer, com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState>(status_, status_converter_);
+              java.lang.Integer, com.yandex.query.YandexQueryProtos.JobMeta.ComputeState>(status_, status_converter_);
         }
         /**
-         * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
          */
         public int getStatusCount() {
           return status_.size();
         }
         /**
-         * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
          */
-        public com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState getStatus(int index) {
+        public com.yandex.query.YandexQueryProtos.JobMeta.ComputeState getStatus(int index) {
           return status_converter_.convert(status_.get(index));
         }
         /**
-         * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
          */
         public Builder setStatus(
-            int index, com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState value) {
+            int index, com.yandex.query.YandexQueryProtos.JobMeta.ComputeState value) {
           if (value == null) {
             throw new NullPointerException();
           }
@@ -14133,9 +14133,9 @@ public final class YandexQueryProtos {
           return this;
         }
         /**
-         * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
          */
-        public Builder addStatus(com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState value) {
+        public Builder addStatus(com.yandex.query.YandexQueryProtos.JobMeta.ComputeState value) {
           if (value == null) {
             throw new NullPointerException();
           }
@@ -14145,19 +14145,19 @@ public final class YandexQueryProtos {
           return this;
         }
         /**
-         * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
          */
         public Builder addAllStatus(
-            java.lang.Iterable<? extends com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState> values) {
+            java.lang.Iterable<? extends com.yandex.query.YandexQueryProtos.JobMeta.ComputeState> values) {
           ensureStatusIsMutable();
-          for (com.yandex.query.YandexQueryProtos.OperationMeta.ComputeState value : values) {
+          for (com.yandex.query.YandexQueryProtos.JobMeta.ComputeState value : values) {
             status_.add(value.getNumber());
           }
           onChanged();
           return this;
         }
         /**
-         * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
          */
         public Builder clearStatus() {
           status_ = java.util.Collections.emptyList();
@@ -14166,20 +14166,20 @@ public final class YandexQueryProtos {
           return this;
         }
         /**
-         * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
          */
         public java.util.List<java.lang.Integer>
         getStatusValueList() {
           return java.util.Collections.unmodifiableList(status_);
         }
         /**
-         * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
          */
         public int getStatusValue(int index) {
           return status_.get(index);
         }
         /**
-         * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
          */
         public Builder setStatusValue(
             int index, int value) {
@@ -14189,7 +14189,7 @@ public final class YandexQueryProtos {
           return this;
         }
         /**
-         * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
          */
         public Builder addStatusValue(int value) {
           ensureStatusIsMutable();
@@ -14198,7 +14198,7 @@ public final class YandexQueryProtos {
           return this;
         }
         /**
-         * <code>repeated .YandexQuery.OperationMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobMeta.ComputeState status = 1 [(.Ydb.size) = { ... }</code>
          */
         public Builder addAllStatusValue(
             java.lang.Iterable<java.lang.Integer> values) {
@@ -14219,29 +14219,29 @@ public final class YandexQueryProtos {
           }
         }
         /**
-         * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
          */
-        public java.util.List<com.yandex.query.YandexQueryProtos.OperationAction> getActionList() {
+        public java.util.List<com.yandex.query.YandexQueryProtos.JobAction> getActionList() {
           return new com.google.protobuf.Internal.ListAdapter<
-              java.lang.Integer, com.yandex.query.YandexQueryProtos.OperationAction>(action_, action_converter_);
+              java.lang.Integer, com.yandex.query.YandexQueryProtos.JobAction>(action_, action_converter_);
         }
         /**
-         * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
          */
         public int getActionCount() {
           return action_.size();
         }
         /**
-         * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
          */
-        public com.yandex.query.YandexQueryProtos.OperationAction getAction(int index) {
+        public com.yandex.query.YandexQueryProtos.JobAction getAction(int index) {
           return action_converter_.convert(action_.get(index));
         }
         /**
-         * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
          */
         public Builder setAction(
-            int index, com.yandex.query.YandexQueryProtos.OperationAction value) {
+            int index, com.yandex.query.YandexQueryProtos.JobAction value) {
           if (value == null) {
             throw new NullPointerException();
           }
@@ -14251,9 +14251,9 @@ public final class YandexQueryProtos {
           return this;
         }
         /**
-         * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
          */
-        public Builder addAction(com.yandex.query.YandexQueryProtos.OperationAction value) {
+        public Builder addAction(com.yandex.query.YandexQueryProtos.JobAction value) {
           if (value == null) {
             throw new NullPointerException();
           }
@@ -14263,19 +14263,19 @@ public final class YandexQueryProtos {
           return this;
         }
         /**
-         * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
          */
         public Builder addAllAction(
-            java.lang.Iterable<? extends com.yandex.query.YandexQueryProtos.OperationAction> values) {
+            java.lang.Iterable<? extends com.yandex.query.YandexQueryProtos.JobAction> values) {
           ensureActionIsMutable();
-          for (com.yandex.query.YandexQueryProtos.OperationAction value : values) {
+          for (com.yandex.query.YandexQueryProtos.JobAction value : values) {
             action_.add(value.getNumber());
           }
           onChanged();
           return this;
         }
         /**
-         * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
          */
         public Builder clearAction() {
           action_ = java.util.Collections.emptyList();
@@ -14284,20 +14284,20 @@ public final class YandexQueryProtos {
           return this;
         }
         /**
-         * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
          */
         public java.util.List<java.lang.Integer>
         getActionValueList() {
           return java.util.Collections.unmodifiableList(action_);
         }
         /**
-         * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
          */
         public int getActionValue(int index) {
           return action_.get(index);
         }
         /**
-         * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
          */
         public Builder setActionValue(
             int index, int value) {
@@ -14307,7 +14307,7 @@ public final class YandexQueryProtos {
           return this;
         }
         /**
-         * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
          */
         public Builder addActionValue(int value) {
           ensureActionIsMutable();
@@ -14316,7 +14316,7 @@ public final class YandexQueryProtos {
           return this;
         }
         /**
-         * <code>repeated .YandexQuery.OperationAction action = 2 [(.Ydb.size) = { ... }</code>
+         * <code>repeated .YandexQuery.JobAction action = 2 [(.Ydb.size) = { ... }</code>
          */
         public Builder addAllActionValue(
             java.lang.Iterable<java.lang.Integer> values) {
@@ -14525,16 +14525,16 @@ public final class YandexQueryProtos {
         }
 
 
-        // @@protoc_insertion_point(builder_scope:YandexQuery.ListOperationsRequest.Filter)
+        // @@protoc_insertion_point(builder_scope:YandexQuery.ListJobsRequest.Filter)
       }
 
-      // @@protoc_insertion_point(class_scope:YandexQuery.ListOperationsRequest.Filter)
-      private static final com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter DEFAULT_INSTANCE;
+      // @@protoc_insertion_point(class_scope:YandexQuery.ListJobsRequest.Filter)
+      private static final com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter();
+        DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter();
       }
 
-      public static com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter getDefaultInstance() {
+      public static com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
@@ -14557,7 +14557,7 @@ public final class YandexQueryProtos {
         return PARSER;
       }
 
-      public com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter getDefaultInstanceForType() {
+      public com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
@@ -14696,23 +14696,23 @@ public final class YandexQueryProtos {
     }
 
     public static final int FILTER_FIELD_NUMBER = 6;
-    private com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter filter_;
+    private com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter filter_;
     /**
-     * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+     * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
      */
     public boolean hasFilter() {
       return filter_ != null;
     }
     /**
-     * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+     * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
      */
-    public com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter getFilter() {
-      return filter_ == null ? com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.getDefaultInstance() : filter_;
+    public com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter getFilter() {
+      return filter_ == null ? com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.getDefaultInstance() : filter_;
     }
     /**
-     * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+     * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
      */
-    public com.yandex.query.YandexQueryProtos.ListOperationsRequest.FilterOrBuilder getFilterOrBuilder() {
+    public com.yandex.query.YandexQueryProtos.ListJobsRequest.FilterOrBuilder getFilterOrBuilder() {
       return getFilter();
     }
 
@@ -14785,10 +14785,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ListOperationsRequest)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ListJobsRequest)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.ListOperationsRequest other = (com.yandex.query.YandexQueryProtos.ListOperationsRequest) obj;
+      com.yandex.query.YandexQueryProtos.ListJobsRequest other = (com.yandex.query.YandexQueryProtos.ListJobsRequest) obj;
 
       boolean result = true;
       result = result && (hasOperationParams() == other.hasOperationParams());
@@ -14841,69 +14841,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.ListOperationsRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsRequest parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.ListJobsRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsRequest parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ListJobsRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsRequest parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ListJobsRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsRequest parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -14915,7 +14915,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ListOperationsRequest prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ListJobsRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -14930,25 +14930,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.ListOperationsRequest}
+     * Protobuf type {@code YandexQuery.ListJobsRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.ListOperationsRequest)
-        com.yandex.query.YandexQueryProtos.ListOperationsRequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.ListJobsRequest)
+        com.yandex.query.YandexQueryProtos.ListJobsRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsRequest_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsRequest_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.ListOperationsRequest.class, com.yandex.query.YandexQueryProtos.ListOperationsRequest.Builder.class);
+                com.yandex.query.YandexQueryProtos.ListJobsRequest.class, com.yandex.query.YandexQueryProtos.ListJobsRequest.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.ListOperationsRequest.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.ListJobsRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -14990,23 +14990,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsRequest_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsRequest_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.ListOperationsRequest getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.ListOperationsRequest.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.ListJobsRequest getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.ListJobsRequest.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.ListOperationsRequest build() {
-        com.yandex.query.YandexQueryProtos.ListOperationsRequest result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.ListJobsRequest build() {
+        com.yandex.query.YandexQueryProtos.ListJobsRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.ListOperationsRequest buildPartial() {
-        com.yandex.query.YandexQueryProtos.ListOperationsRequest result = new com.yandex.query.YandexQueryProtos.ListOperationsRequest(this);
+      public com.yandex.query.YandexQueryProtos.ListJobsRequest buildPartial() {
+        com.yandex.query.YandexQueryProtos.ListJobsRequest result = new com.yandex.query.YandexQueryProtos.ListJobsRequest(this);
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
@@ -15052,16 +15052,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.ListOperationsRequest) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.ListOperationsRequest)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.ListJobsRequest) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.ListJobsRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ListOperationsRequest other) {
-        if (other == com.yandex.query.YandexQueryProtos.ListOperationsRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ListJobsRequest other) {
+        if (other == com.yandex.query.YandexQueryProtos.ListJobsRequest.getDefaultInstance()) return this;
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
         }
@@ -15096,11 +15096,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.ListOperationsRequest parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.ListJobsRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.ListOperationsRequest) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.ListJobsRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -15460,29 +15460,29 @@ public final class YandexQueryProtos {
         return this;
       }
 
-      private com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter filter_ = null;
+      private com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter filter_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter, com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.Builder, com.yandex.query.YandexQueryProtos.ListOperationsRequest.FilterOrBuilder> filterBuilder_;
+          com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter, com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.Builder, com.yandex.query.YandexQueryProtos.ListJobsRequest.FilterOrBuilder> filterBuilder_;
       /**
-       * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+       * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
        */
       public boolean hasFilter() {
         return filterBuilder_ != null || filter_ != null;
       }
       /**
-       * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+       * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
        */
-      public com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter getFilter() {
+      public com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter getFilter() {
         if (filterBuilder_ == null) {
-          return filter_ == null ? com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.getDefaultInstance() : filter_;
+          return filter_ == null ? com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.getDefaultInstance() : filter_;
         } else {
           return filterBuilder_.getMessage();
         }
       }
       /**
-       * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+       * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
        */
-      public Builder setFilter(com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter value) {
+      public Builder setFilter(com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter value) {
         if (filterBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -15496,10 +15496,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+       * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
        */
       public Builder setFilter(
-          com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.Builder builderForValue) {
+          com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.Builder builderForValue) {
         if (filterBuilder_ == null) {
           filter_ = builderForValue.build();
           onChanged();
@@ -15510,13 +15510,13 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+       * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
        */
-      public Builder mergeFilter(com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter value) {
+      public Builder mergeFilter(com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter value) {
         if (filterBuilder_ == null) {
           if (filter_ != null) {
             filter_ =
-              com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.newBuilder(filter_).mergeFrom(value).buildPartial();
+              com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.newBuilder(filter_).mergeFrom(value).buildPartial();
           } else {
             filter_ = value;
           }
@@ -15528,7 +15528,7 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+       * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
        */
       public Builder clearFilter() {
         if (filterBuilder_ == null) {
@@ -15542,33 +15542,33 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+       * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
        */
-      public com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.Builder getFilterBuilder() {
+      public com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.Builder getFilterBuilder() {
         
         onChanged();
         return getFilterFieldBuilder().getBuilder();
       }
       /**
-       * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+       * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
        */
-      public com.yandex.query.YandexQueryProtos.ListOperationsRequest.FilterOrBuilder getFilterOrBuilder() {
+      public com.yandex.query.YandexQueryProtos.ListJobsRequest.FilterOrBuilder getFilterOrBuilder() {
         if (filterBuilder_ != null) {
           return filterBuilder_.getMessageOrBuilder();
         } else {
           return filter_ == null ?
-              com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.getDefaultInstance() : filter_;
+              com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.getDefaultInstance() : filter_;
         }
       }
       /**
-       * <code>.YandexQuery.ListOperationsRequest.Filter filter = 6;</code>
+       * <code>.YandexQuery.ListJobsRequest.Filter filter = 6;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter, com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.Builder, com.yandex.query.YandexQueryProtos.ListOperationsRequest.FilterOrBuilder> 
+          com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter, com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.Builder, com.yandex.query.YandexQueryProtos.ListJobsRequest.FilterOrBuilder> 
           getFilterFieldBuilder() {
         if (filterBuilder_ == null) {
           filterBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter, com.yandex.query.YandexQueryProtos.ListOperationsRequest.Filter.Builder, com.yandex.query.YandexQueryProtos.ListOperationsRequest.FilterOrBuilder>(
+              com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter, com.yandex.query.YandexQueryProtos.ListJobsRequest.Filter.Builder, com.yandex.query.YandexQueryProtos.ListJobsRequest.FilterOrBuilder>(
                   getFilter(),
                   getParentForChildren(),
                   isClean());
@@ -15587,51 +15587,51 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.ListOperationsRequest)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.ListJobsRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.ListOperationsRequest)
-    private static final com.yandex.query.YandexQueryProtos.ListOperationsRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.ListJobsRequest)
+    private static final com.yandex.query.YandexQueryProtos.ListJobsRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ListOperationsRequest();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ListJobsRequest();
     }
 
-    public static com.yandex.query.YandexQueryProtos.ListOperationsRequest getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.ListJobsRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ListOperationsRequest>
-        PARSER = new com.google.protobuf.AbstractParser<ListOperationsRequest>() {
-      public ListOperationsRequest parsePartialFrom(
+    private static final com.google.protobuf.Parser<ListJobsRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ListJobsRequest>() {
+      public ListJobsRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListOperationsRequest(input, extensionRegistry);
+          return new ListJobsRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ListOperationsRequest> parser() {
+    public static com.google.protobuf.Parser<ListJobsRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ListOperationsRequest> getParserForType() {
+    public com.google.protobuf.Parser<ListJobsRequest> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.ListOperationsRequest getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.ListJobsRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface ListOperationsResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.ListOperationsResponse)
+  public interface ListJobsResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.ListJobsResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
      * <pre>
-     * ListOperationsResult
+     * ListJobsResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -15639,7 +15639,7 @@ public final class YandexQueryProtos {
     boolean hasOperation();
     /**
      * <pre>
-     * ListOperationsResult
+     * ListJobsResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -15647,7 +15647,7 @@ public final class YandexQueryProtos {
     tech.ydb.OperationProtos.Operation getOperation();
     /**
      * <pre>
-     * ListOperationsResult
+     * ListJobsResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -15655,18 +15655,18 @@ public final class YandexQueryProtos {
     tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
   }
   /**
-   * Protobuf type {@code YandexQuery.ListOperationsResponse}
+   * Protobuf type {@code YandexQuery.ListJobsResponse}
    */
-  public  static final class ListOperationsResponse extends
+  public  static final class ListJobsResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.ListOperationsResponse)
-      ListOperationsResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.ListJobsResponse)
+      ListJobsResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ListOperationsResponse.newBuilder() to construct.
-    private ListOperationsResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ListJobsResponse.newBuilder() to construct.
+    private ListJobsResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ListOperationsResponse() {
+    private ListJobsResponse() {
     }
 
     @java.lang.Override
@@ -15674,7 +15674,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ListOperationsResponse(
+    private ListJobsResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -15724,21 +15724,21 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsResponse_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsResponse_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.ListOperationsResponse.class, com.yandex.query.YandexQueryProtos.ListOperationsResponse.Builder.class);
+              com.yandex.query.YandexQueryProtos.ListJobsResponse.class, com.yandex.query.YandexQueryProtos.ListJobsResponse.Builder.class);
     }
 
     public static final int OPERATION_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <pre>
-     * ListOperationsResult
+     * ListJobsResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -15748,7 +15748,7 @@ public final class YandexQueryProtos {
     }
     /**
      * <pre>
-     * ListOperationsResult
+     * ListJobsResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -15758,7 +15758,7 @@ public final class YandexQueryProtos {
     }
     /**
      * <pre>
-     * ListOperationsResult
+     * ListJobsResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -15804,10 +15804,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ListOperationsResponse)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ListJobsResponse)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.ListOperationsResponse other = (com.yandex.query.YandexQueryProtos.ListOperationsResponse) obj;
+      com.yandex.query.YandexQueryProtos.ListJobsResponse other = (com.yandex.query.YandexQueryProtos.ListJobsResponse) obj;
 
       boolean result = true;
       result = result && (hasOperation() == other.hasOperation());
@@ -15835,69 +15835,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResponse parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.ListJobsResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResponse parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ListJobsResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResponse parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ListJobsResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResponse parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -15909,7 +15909,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ListOperationsResponse prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ListJobsResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -15924,25 +15924,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.ListOperationsResponse}
+     * Protobuf type {@code YandexQuery.ListJobsResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.ListOperationsResponse)
-        com.yandex.query.YandexQueryProtos.ListOperationsResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.ListJobsResponse)
+        com.yandex.query.YandexQueryProtos.ListJobsResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsResponse_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsResponse_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.ListOperationsResponse.class, com.yandex.query.YandexQueryProtos.ListOperationsResponse.Builder.class);
+                com.yandex.query.YandexQueryProtos.ListJobsResponse.class, com.yandex.query.YandexQueryProtos.ListJobsResponse.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.ListOperationsResponse.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.ListJobsResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -15970,23 +15970,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsResponse_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsResponse_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.ListOperationsResponse getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.ListOperationsResponse.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.ListJobsResponse getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.ListJobsResponse.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.ListOperationsResponse build() {
-        com.yandex.query.YandexQueryProtos.ListOperationsResponse result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.ListJobsResponse build() {
+        com.yandex.query.YandexQueryProtos.ListJobsResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.ListOperationsResponse buildPartial() {
-        com.yandex.query.YandexQueryProtos.ListOperationsResponse result = new com.yandex.query.YandexQueryProtos.ListOperationsResponse(this);
+      public com.yandex.query.YandexQueryProtos.ListJobsResponse buildPartial() {
+        com.yandex.query.YandexQueryProtos.ListJobsResponse result = new com.yandex.query.YandexQueryProtos.ListJobsResponse(this);
         if (operationBuilder_ == null) {
           result.operation_ = operation_;
         } else {
@@ -16023,16 +16023,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.ListOperationsResponse) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.ListOperationsResponse)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.ListJobsResponse) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.ListJobsResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ListOperationsResponse other) {
-        if (other == com.yandex.query.YandexQueryProtos.ListOperationsResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ListJobsResponse other) {
+        if (other == com.yandex.query.YandexQueryProtos.ListJobsResponse.getDefaultInstance()) return this;
         if (other.hasOperation()) {
           mergeOperation(other.getOperation());
         }
@@ -16049,11 +16049,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.ListOperationsResponse parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.ListJobsResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.ListOperationsResponse) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.ListJobsResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -16068,7 +16068,7 @@ public final class YandexQueryProtos {
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <pre>
-       * ListOperationsResult
+       * ListJobsResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -16078,7 +16078,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ListOperationsResult
+       * ListJobsResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -16092,7 +16092,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ListOperationsResult
+       * ListJobsResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -16112,7 +16112,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ListOperationsResult
+       * ListJobsResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -16130,7 +16130,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ListOperationsResult
+       * ListJobsResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -16152,7 +16152,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ListOperationsResult
+       * ListJobsResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -16170,7 +16170,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ListOperationsResult
+       * ListJobsResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -16182,7 +16182,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ListOperationsResult
+       * ListJobsResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -16197,7 +16197,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ListOperationsResult
+       * ListJobsResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -16226,70 +16226,70 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.ListOperationsResponse)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.ListJobsResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.ListOperationsResponse)
-    private static final com.yandex.query.YandexQueryProtos.ListOperationsResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.ListJobsResponse)
+    private static final com.yandex.query.YandexQueryProtos.ListJobsResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ListOperationsResponse();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ListJobsResponse();
     }
 
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResponse getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.ListJobsResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ListOperationsResponse>
-        PARSER = new com.google.protobuf.AbstractParser<ListOperationsResponse>() {
-      public ListOperationsResponse parsePartialFrom(
+    private static final com.google.protobuf.Parser<ListJobsResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ListJobsResponse>() {
+      public ListJobsResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListOperationsResponse(input, extensionRegistry);
+          return new ListJobsResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ListOperationsResponse> parser() {
+    public static com.google.protobuf.Parser<ListJobsResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ListOperationsResponse> getParserForType() {
+    public com.google.protobuf.Parser<ListJobsResponse> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.ListOperationsResponse getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.ListJobsResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface ListOperationsResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.ListOperationsResult)
+  public interface ListJobsResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.ListJobsResult)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+     * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
      */
-    java.util.List<com.yandex.query.YandexQueryProtos.BriefOperation> 
+    java.util.List<com.yandex.query.YandexQueryProtos.BriefJob> 
         getOperationList();
     /**
-     * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+     * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
      */
-    com.yandex.query.YandexQueryProtos.BriefOperation getOperation(int index);
+    com.yandex.query.YandexQueryProtos.BriefJob getOperation(int index);
     /**
-     * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+     * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
      */
     int getOperationCount();
     /**
-     * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+     * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
      */
-    java.util.List<? extends com.yandex.query.YandexQueryProtos.BriefOperationOrBuilder> 
+    java.util.List<? extends com.yandex.query.YandexQueryProtos.BriefJobOrBuilder> 
         getOperationOrBuilderList();
     /**
-     * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+     * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
      */
-    com.yandex.query.YandexQueryProtos.BriefOperationOrBuilder getOperationOrBuilder(
+    com.yandex.query.YandexQueryProtos.BriefJobOrBuilder getOperationOrBuilder(
         int index);
 
     /**
@@ -16303,18 +16303,18 @@ public final class YandexQueryProtos {
         getNextPageTokenBytes();
   }
   /**
-   * Protobuf type {@code YandexQuery.ListOperationsResult}
+   * Protobuf type {@code YandexQuery.ListJobsResult}
    */
-  public  static final class ListOperationsResult extends
+  public  static final class ListJobsResult extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.ListOperationsResult)
-      ListOperationsResultOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.ListJobsResult)
+      ListJobsResultOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ListOperationsResult.newBuilder() to construct.
-    private ListOperationsResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ListJobsResult.newBuilder() to construct.
+    private ListJobsResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ListOperationsResult() {
+    private ListJobsResult() {
       operation_ = java.util.Collections.emptyList();
       nextPageToken_ = "";
     }
@@ -16324,7 +16324,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ListOperationsResult(
+    private ListJobsResult(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -16349,11 +16349,11 @@ public final class YandexQueryProtos {
             }
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                operation_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.BriefOperation>();
+                operation_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.BriefJob>();
                 mutable_bitField0_ |= 0x00000001;
               }
               operation_.add(
-                  input.readMessage(com.yandex.query.YandexQueryProtos.BriefOperation.parser(), extensionRegistry));
+                  input.readMessage(com.yandex.query.YandexQueryProtos.BriefJob.parser(), extensionRegistry));
               break;
             }
             case 18: {
@@ -16379,48 +16379,48 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsResult_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsResult_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsResult_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.ListOperationsResult.class, com.yandex.query.YandexQueryProtos.ListOperationsResult.Builder.class);
+              com.yandex.query.YandexQueryProtos.ListJobsResult.class, com.yandex.query.YandexQueryProtos.ListJobsResult.Builder.class);
     }
 
     private int bitField0_;
     public static final int OPERATION_FIELD_NUMBER = 1;
-    private java.util.List<com.yandex.query.YandexQueryProtos.BriefOperation> operation_;
+    private java.util.List<com.yandex.query.YandexQueryProtos.BriefJob> operation_;
     /**
-     * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+     * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
      */
-    public java.util.List<com.yandex.query.YandexQueryProtos.BriefOperation> getOperationList() {
+    public java.util.List<com.yandex.query.YandexQueryProtos.BriefJob> getOperationList() {
       return operation_;
     }
     /**
-     * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+     * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
      */
-    public java.util.List<? extends com.yandex.query.YandexQueryProtos.BriefOperationOrBuilder> 
+    public java.util.List<? extends com.yandex.query.YandexQueryProtos.BriefJobOrBuilder> 
         getOperationOrBuilderList() {
       return operation_;
     }
     /**
-     * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+     * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
      */
     public int getOperationCount() {
       return operation_.size();
     }
     /**
-     * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+     * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
      */
-    public com.yandex.query.YandexQueryProtos.BriefOperation getOperation(int index) {
+    public com.yandex.query.YandexQueryProtos.BriefJob getOperation(int index) {
       return operation_.get(index);
     }
     /**
-     * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+     * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
      */
-    public com.yandex.query.YandexQueryProtos.BriefOperationOrBuilder getOperationOrBuilder(
+    public com.yandex.query.YandexQueryProtos.BriefJobOrBuilder getOperationOrBuilder(
         int index) {
       return operation_.get(index);
     }
@@ -16502,10 +16502,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ListOperationsResult)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ListJobsResult)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.ListOperationsResult other = (com.yandex.query.YandexQueryProtos.ListOperationsResult) obj;
+      com.yandex.query.YandexQueryProtos.ListJobsResult other = (com.yandex.query.YandexQueryProtos.ListJobsResult) obj;
 
       boolean result = true;
       result = result && getOperationList()
@@ -16534,69 +16534,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResult parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResult parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResult parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResult parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResult parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.ListJobsResult parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResult parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResult parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ListJobsResult parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResult parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResult parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ListJobsResult parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResult parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResult parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResult parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ListJobsResult parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -16608,7 +16608,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ListOperationsResult prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ListJobsResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -16623,25 +16623,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.ListOperationsResult}
+     * Protobuf type {@code YandexQuery.ListJobsResult}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.ListOperationsResult)
-        com.yandex.query.YandexQueryProtos.ListOperationsResultOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.ListJobsResult)
+        com.yandex.query.YandexQueryProtos.ListJobsResultOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsResult_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsResult_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsResult_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsResult_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.ListOperationsResult.class, com.yandex.query.YandexQueryProtos.ListOperationsResult.Builder.class);
+                com.yandex.query.YandexQueryProtos.ListJobsResult.class, com.yandex.query.YandexQueryProtos.ListJobsResult.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.ListOperationsResult.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.ListJobsResult.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -16672,23 +16672,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListOperationsResult_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ListJobsResult_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.ListOperationsResult getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.ListOperationsResult.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.ListJobsResult getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.ListJobsResult.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.ListOperationsResult build() {
-        com.yandex.query.YandexQueryProtos.ListOperationsResult result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.ListJobsResult build() {
+        com.yandex.query.YandexQueryProtos.ListJobsResult result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.ListOperationsResult buildPartial() {
-        com.yandex.query.YandexQueryProtos.ListOperationsResult result = new com.yandex.query.YandexQueryProtos.ListOperationsResult(this);
+      public com.yandex.query.YandexQueryProtos.ListJobsResult buildPartial() {
+        com.yandex.query.YandexQueryProtos.ListJobsResult result = new com.yandex.query.YandexQueryProtos.ListJobsResult(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (operationBuilder_ == null) {
@@ -16733,16 +16733,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.ListOperationsResult) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.ListOperationsResult)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.ListJobsResult) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.ListJobsResult)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ListOperationsResult other) {
-        if (other == com.yandex.query.YandexQueryProtos.ListOperationsResult.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ListJobsResult other) {
+        if (other == com.yandex.query.YandexQueryProtos.ListJobsResult.getDefaultInstance()) return this;
         if (operationBuilder_ == null) {
           if (!other.operation_.isEmpty()) {
             if (operation_.isEmpty()) {
@@ -16786,11 +16786,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.ListOperationsResult parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.ListJobsResult parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.ListOperationsResult) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.ListJobsResult) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -16801,22 +16801,22 @@ public final class YandexQueryProtos {
       }
       private int bitField0_;
 
-      private java.util.List<com.yandex.query.YandexQueryProtos.BriefOperation> operation_ =
+      private java.util.List<com.yandex.query.YandexQueryProtos.BriefJob> operation_ =
         java.util.Collections.emptyList();
       private void ensureOperationIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          operation_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.BriefOperation>(operation_);
+          operation_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.BriefJob>(operation_);
           bitField0_ |= 0x00000001;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          com.yandex.query.YandexQueryProtos.BriefOperation, com.yandex.query.YandexQueryProtos.BriefOperation.Builder, com.yandex.query.YandexQueryProtos.BriefOperationOrBuilder> operationBuilder_;
+          com.yandex.query.YandexQueryProtos.BriefJob, com.yandex.query.YandexQueryProtos.BriefJob.Builder, com.yandex.query.YandexQueryProtos.BriefJobOrBuilder> operationBuilder_;
 
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
-      public java.util.List<com.yandex.query.YandexQueryProtos.BriefOperation> getOperationList() {
+      public java.util.List<com.yandex.query.YandexQueryProtos.BriefJob> getOperationList() {
         if (operationBuilder_ == null) {
           return java.util.Collections.unmodifiableList(operation_);
         } else {
@@ -16824,7 +16824,7 @@ public final class YandexQueryProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
       public int getOperationCount() {
         if (operationBuilder_ == null) {
@@ -16834,9 +16834,9 @@ public final class YandexQueryProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
-      public com.yandex.query.YandexQueryProtos.BriefOperation getOperation(int index) {
+      public com.yandex.query.YandexQueryProtos.BriefJob getOperation(int index) {
         if (operationBuilder_ == null) {
           return operation_.get(index);
         } else {
@@ -16844,10 +16844,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
       public Builder setOperation(
-          int index, com.yandex.query.YandexQueryProtos.BriefOperation value) {
+          int index, com.yandex.query.YandexQueryProtos.BriefJob value) {
         if (operationBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -16861,10 +16861,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
       public Builder setOperation(
-          int index, com.yandex.query.YandexQueryProtos.BriefOperation.Builder builderForValue) {
+          int index, com.yandex.query.YandexQueryProtos.BriefJob.Builder builderForValue) {
         if (operationBuilder_ == null) {
           ensureOperationIsMutable();
           operation_.set(index, builderForValue.build());
@@ -16875,9 +16875,9 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
-      public Builder addOperation(com.yandex.query.YandexQueryProtos.BriefOperation value) {
+      public Builder addOperation(com.yandex.query.YandexQueryProtos.BriefJob value) {
         if (operationBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -16891,10 +16891,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
       public Builder addOperation(
-          int index, com.yandex.query.YandexQueryProtos.BriefOperation value) {
+          int index, com.yandex.query.YandexQueryProtos.BriefJob value) {
         if (operationBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -16908,10 +16908,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
       public Builder addOperation(
-          com.yandex.query.YandexQueryProtos.BriefOperation.Builder builderForValue) {
+          com.yandex.query.YandexQueryProtos.BriefJob.Builder builderForValue) {
         if (operationBuilder_ == null) {
           ensureOperationIsMutable();
           operation_.add(builderForValue.build());
@@ -16922,10 +16922,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
       public Builder addOperation(
-          int index, com.yandex.query.YandexQueryProtos.BriefOperation.Builder builderForValue) {
+          int index, com.yandex.query.YandexQueryProtos.BriefJob.Builder builderForValue) {
         if (operationBuilder_ == null) {
           ensureOperationIsMutable();
           operation_.add(index, builderForValue.build());
@@ -16936,10 +16936,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
       public Builder addAllOperation(
-          java.lang.Iterable<? extends com.yandex.query.YandexQueryProtos.BriefOperation> values) {
+          java.lang.Iterable<? extends com.yandex.query.YandexQueryProtos.BriefJob> values) {
         if (operationBuilder_ == null) {
           ensureOperationIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -16951,7 +16951,7 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
       public Builder clearOperation() {
         if (operationBuilder_ == null) {
@@ -16964,7 +16964,7 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
       public Builder removeOperation(int index) {
         if (operationBuilder_ == null) {
@@ -16977,16 +16977,16 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
-      public com.yandex.query.YandexQueryProtos.BriefOperation.Builder getOperationBuilder(
+      public com.yandex.query.YandexQueryProtos.BriefJob.Builder getOperationBuilder(
           int index) {
         return getOperationFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
-      public com.yandex.query.YandexQueryProtos.BriefOperationOrBuilder getOperationOrBuilder(
+      public com.yandex.query.YandexQueryProtos.BriefJobOrBuilder getOperationOrBuilder(
           int index) {
         if (operationBuilder_ == null) {
           return operation_.get(index);  } else {
@@ -16994,9 +16994,9 @@ public final class YandexQueryProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
-      public java.util.List<? extends com.yandex.query.YandexQueryProtos.BriefOperationOrBuilder> 
+      public java.util.List<? extends com.yandex.query.YandexQueryProtos.BriefJobOrBuilder> 
            getOperationOrBuilderList() {
         if (operationBuilder_ != null) {
           return operationBuilder_.getMessageOrBuilderList();
@@ -17005,33 +17005,33 @@ public final class YandexQueryProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
-      public com.yandex.query.YandexQueryProtos.BriefOperation.Builder addOperationBuilder() {
+      public com.yandex.query.YandexQueryProtos.BriefJob.Builder addOperationBuilder() {
         return getOperationFieldBuilder().addBuilder(
-            com.yandex.query.YandexQueryProtos.BriefOperation.getDefaultInstance());
+            com.yandex.query.YandexQueryProtos.BriefJob.getDefaultInstance());
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
-      public com.yandex.query.YandexQueryProtos.BriefOperation.Builder addOperationBuilder(
+      public com.yandex.query.YandexQueryProtos.BriefJob.Builder addOperationBuilder(
           int index) {
         return getOperationFieldBuilder().addBuilder(
-            index, com.yandex.query.YandexQueryProtos.BriefOperation.getDefaultInstance());
+            index, com.yandex.query.YandexQueryProtos.BriefJob.getDefaultInstance());
       }
       /**
-       * <code>repeated .YandexQuery.BriefOperation operation = 1;</code>
+       * <code>repeated .YandexQuery.BriefJob operation = 1;</code>
        */
-      public java.util.List<com.yandex.query.YandexQueryProtos.BriefOperation.Builder> 
+      public java.util.List<com.yandex.query.YandexQueryProtos.BriefJob.Builder> 
            getOperationBuilderList() {
         return getOperationFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          com.yandex.query.YandexQueryProtos.BriefOperation, com.yandex.query.YandexQueryProtos.BriefOperation.Builder, com.yandex.query.YandexQueryProtos.BriefOperationOrBuilder> 
+          com.yandex.query.YandexQueryProtos.BriefJob, com.yandex.query.YandexQueryProtos.BriefJob.Builder, com.yandex.query.YandexQueryProtos.BriefJobOrBuilder> 
           getOperationFieldBuilder() {
         if (operationBuilder_ == null) {
           operationBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              com.yandex.query.YandexQueryProtos.BriefOperation, com.yandex.query.YandexQueryProtos.BriefOperation.Builder, com.yandex.query.YandexQueryProtos.BriefOperationOrBuilder>(
+              com.yandex.query.YandexQueryProtos.BriefJob, com.yandex.query.YandexQueryProtos.BriefJob.Builder, com.yandex.query.YandexQueryProtos.BriefJobOrBuilder>(
                   operation_,
                   ((bitField0_ & 0x00000001) == 0x00000001),
                   getParentForChildren(),
@@ -17120,46 +17120,46 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.ListOperationsResult)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.ListJobsResult)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.ListOperationsResult)
-    private static final com.yandex.query.YandexQueryProtos.ListOperationsResult DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.ListJobsResult)
+    private static final com.yandex.query.YandexQueryProtos.ListJobsResult DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ListOperationsResult();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ListJobsResult();
     }
 
-    public static com.yandex.query.YandexQueryProtos.ListOperationsResult getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.ListJobsResult getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ListOperationsResult>
-        PARSER = new com.google.protobuf.AbstractParser<ListOperationsResult>() {
-      public ListOperationsResult parsePartialFrom(
+    private static final com.google.protobuf.Parser<ListJobsResult>
+        PARSER = new com.google.protobuf.AbstractParser<ListJobsResult>() {
+      public ListJobsResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListOperationsResult(input, extensionRegistry);
+          return new ListJobsResult(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ListOperationsResult> parser() {
+    public static com.google.protobuf.Parser<ListJobsResult> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ListOperationsResult> getParserForType() {
+    public com.google.protobuf.Parser<ListJobsResult> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.ListOperationsResult getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.ListJobsResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface DescribeOperationRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.DescribeOperationRequest)
+  public interface DescribeJobRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.DescribeJobRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -17206,18 +17206,18 @@ public final class YandexQueryProtos {
         getOperationIdBytes();
   }
   /**
-   * Protobuf type {@code YandexQuery.DescribeOperationRequest}
+   * Protobuf type {@code YandexQuery.DescribeJobRequest}
    */
-  public  static final class DescribeOperationRequest extends
+  public  static final class DescribeJobRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.DescribeOperationRequest)
-      DescribeOperationRequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.DescribeJobRequest)
+      DescribeJobRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use DescribeOperationRequest.newBuilder() to construct.
-    private DescribeOperationRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use DescribeJobRequest.newBuilder() to construct.
+    private DescribeJobRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private DescribeOperationRequest() {
+    private DescribeJobRequest() {
       cloudId_ = "";
       folderId_ = "";
       operationId_ = "";
@@ -17228,7 +17228,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private DescribeOperationRequest(
+    private DescribeJobRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -17296,14 +17296,14 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationRequest_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationRequest_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.DescribeOperationRequest.class, com.yandex.query.YandexQueryProtos.DescribeOperationRequest.Builder.class);
+              com.yandex.query.YandexQueryProtos.DescribeJobRequest.class, com.yandex.query.YandexQueryProtos.DescribeJobRequest.Builder.class);
     }
 
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
@@ -17484,10 +17484,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.DescribeOperationRequest)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.DescribeJobRequest)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.DescribeOperationRequest other = (com.yandex.query.YandexQueryProtos.DescribeOperationRequest) obj;
+      com.yandex.query.YandexQueryProtos.DescribeJobRequest other = (com.yandex.query.YandexQueryProtos.DescribeJobRequest) obj;
 
       boolean result = true;
       result = result && (hasOperationParams() == other.hasOperationParams());
@@ -17527,69 +17527,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationRequest parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.DescribeJobRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationRequest parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.DescribeJobRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationRequest parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.DescribeJobRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationRequest parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -17601,7 +17601,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.DescribeOperationRequest prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.DescribeJobRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -17616,25 +17616,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.DescribeOperationRequest}
+     * Protobuf type {@code YandexQuery.DescribeJobRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.DescribeOperationRequest)
-        com.yandex.query.YandexQueryProtos.DescribeOperationRequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.DescribeJobRequest)
+        com.yandex.query.YandexQueryProtos.DescribeJobRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationRequest_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationRequest_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.DescribeOperationRequest.class, com.yandex.query.YandexQueryProtos.DescribeOperationRequest.Builder.class);
+                com.yandex.query.YandexQueryProtos.DescribeJobRequest.class, com.yandex.query.YandexQueryProtos.DescribeJobRequest.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.DescribeOperationRequest.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.DescribeJobRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -17668,23 +17668,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationRequest_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobRequest_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.DescribeOperationRequest getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.DescribeOperationRequest.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.DescribeJobRequest getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.DescribeJobRequest.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.DescribeOperationRequest build() {
-        com.yandex.query.YandexQueryProtos.DescribeOperationRequest result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.DescribeJobRequest build() {
+        com.yandex.query.YandexQueryProtos.DescribeJobRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.DescribeOperationRequest buildPartial() {
-        com.yandex.query.YandexQueryProtos.DescribeOperationRequest result = new com.yandex.query.YandexQueryProtos.DescribeOperationRequest(this);
+      public com.yandex.query.YandexQueryProtos.DescribeJobRequest buildPartial() {
+        com.yandex.query.YandexQueryProtos.DescribeJobRequest result = new com.yandex.query.YandexQueryProtos.DescribeJobRequest(this);
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
@@ -17724,16 +17724,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.DescribeOperationRequest) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.DescribeOperationRequest)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.DescribeJobRequest) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.DescribeJobRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.DescribeOperationRequest other) {
-        if (other == com.yandex.query.YandexQueryProtos.DescribeOperationRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.DescribeJobRequest other) {
+        if (other == com.yandex.query.YandexQueryProtos.DescribeJobRequest.getDefaultInstance()) return this;
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
         }
@@ -17762,11 +17762,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.DescribeOperationRequest parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.DescribeJobRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.DescribeOperationRequest) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.DescribeJobRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -18110,51 +18110,51 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.DescribeOperationRequest)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.DescribeJobRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.DescribeOperationRequest)
-    private static final com.yandex.query.YandexQueryProtos.DescribeOperationRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.DescribeJobRequest)
+    private static final com.yandex.query.YandexQueryProtos.DescribeJobRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.DescribeOperationRequest();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.DescribeJobRequest();
     }
 
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationRequest getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.DescribeJobRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<DescribeOperationRequest>
-        PARSER = new com.google.protobuf.AbstractParser<DescribeOperationRequest>() {
-      public DescribeOperationRequest parsePartialFrom(
+    private static final com.google.protobuf.Parser<DescribeJobRequest>
+        PARSER = new com.google.protobuf.AbstractParser<DescribeJobRequest>() {
+      public DescribeJobRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribeOperationRequest(input, extensionRegistry);
+          return new DescribeJobRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<DescribeOperationRequest> parser() {
+    public static com.google.protobuf.Parser<DescribeJobRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<DescribeOperationRequest> getParserForType() {
+    public com.google.protobuf.Parser<DescribeJobRequest> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.DescribeOperationRequest getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.DescribeJobRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface DescribeOperationResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.DescribeOperationResponse)
+  public interface DescribeJobResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.DescribeJobResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
      * <pre>
-     * DescribeOperationResult
+     * DescribeJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18162,7 +18162,7 @@ public final class YandexQueryProtos {
     boolean hasOperation();
     /**
      * <pre>
-     * DescribeOperationResult
+     * DescribeJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18170,7 +18170,7 @@ public final class YandexQueryProtos {
     tech.ydb.OperationProtos.Operation getOperation();
     /**
      * <pre>
-     * DescribeOperationResult
+     * DescribeJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18178,18 +18178,18 @@ public final class YandexQueryProtos {
     tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
   }
   /**
-   * Protobuf type {@code YandexQuery.DescribeOperationResponse}
+   * Protobuf type {@code YandexQuery.DescribeJobResponse}
    */
-  public  static final class DescribeOperationResponse extends
+  public  static final class DescribeJobResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.DescribeOperationResponse)
-      DescribeOperationResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.DescribeJobResponse)
+      DescribeJobResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use DescribeOperationResponse.newBuilder() to construct.
-    private DescribeOperationResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use DescribeJobResponse.newBuilder() to construct.
+    private DescribeJobResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private DescribeOperationResponse() {
+    private DescribeJobResponse() {
     }
 
     @java.lang.Override
@@ -18197,7 +18197,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private DescribeOperationResponse(
+    private DescribeJobResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -18247,21 +18247,21 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationResponse_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationResponse_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.DescribeOperationResponse.class, com.yandex.query.YandexQueryProtos.DescribeOperationResponse.Builder.class);
+              com.yandex.query.YandexQueryProtos.DescribeJobResponse.class, com.yandex.query.YandexQueryProtos.DescribeJobResponse.Builder.class);
     }
 
     public static final int OPERATION_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <pre>
-     * DescribeOperationResult
+     * DescribeJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18271,7 +18271,7 @@ public final class YandexQueryProtos {
     }
     /**
      * <pre>
-     * DescribeOperationResult
+     * DescribeJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18281,7 +18281,7 @@ public final class YandexQueryProtos {
     }
     /**
      * <pre>
-     * DescribeOperationResult
+     * DescribeJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18327,10 +18327,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.DescribeOperationResponse)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.DescribeJobResponse)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.DescribeOperationResponse other = (com.yandex.query.YandexQueryProtos.DescribeOperationResponse) obj;
+      com.yandex.query.YandexQueryProtos.DescribeJobResponse other = (com.yandex.query.YandexQueryProtos.DescribeJobResponse) obj;
 
       boolean result = true;
       result = result && (hasOperation() == other.hasOperation());
@@ -18358,69 +18358,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResponse parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResponse parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResponse parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResponse parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -18432,7 +18432,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.DescribeOperationResponse prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.DescribeJobResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -18447,25 +18447,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.DescribeOperationResponse}
+     * Protobuf type {@code YandexQuery.DescribeJobResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.DescribeOperationResponse)
-        com.yandex.query.YandexQueryProtos.DescribeOperationResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.DescribeJobResponse)
+        com.yandex.query.YandexQueryProtos.DescribeJobResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationResponse_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationResponse_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.DescribeOperationResponse.class, com.yandex.query.YandexQueryProtos.DescribeOperationResponse.Builder.class);
+                com.yandex.query.YandexQueryProtos.DescribeJobResponse.class, com.yandex.query.YandexQueryProtos.DescribeJobResponse.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.DescribeOperationResponse.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.DescribeJobResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -18493,23 +18493,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationResponse_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobResponse_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.DescribeOperationResponse getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.DescribeOperationResponse.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.DescribeJobResponse getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.DescribeJobResponse.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.DescribeOperationResponse build() {
-        com.yandex.query.YandexQueryProtos.DescribeOperationResponse result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.DescribeJobResponse build() {
+        com.yandex.query.YandexQueryProtos.DescribeJobResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.DescribeOperationResponse buildPartial() {
-        com.yandex.query.YandexQueryProtos.DescribeOperationResponse result = new com.yandex.query.YandexQueryProtos.DescribeOperationResponse(this);
+      public com.yandex.query.YandexQueryProtos.DescribeJobResponse buildPartial() {
+        com.yandex.query.YandexQueryProtos.DescribeJobResponse result = new com.yandex.query.YandexQueryProtos.DescribeJobResponse(this);
         if (operationBuilder_ == null) {
           result.operation_ = operation_;
         } else {
@@ -18546,16 +18546,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.DescribeOperationResponse) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.DescribeOperationResponse)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.DescribeJobResponse) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.DescribeJobResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.DescribeOperationResponse other) {
-        if (other == com.yandex.query.YandexQueryProtos.DescribeOperationResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.DescribeJobResponse other) {
+        if (other == com.yandex.query.YandexQueryProtos.DescribeJobResponse.getDefaultInstance()) return this;
         if (other.hasOperation()) {
           mergeOperation(other.getOperation());
         }
@@ -18572,11 +18572,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.DescribeOperationResponse parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.DescribeJobResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.DescribeOperationResponse) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.DescribeJobResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -18591,7 +18591,7 @@ public final class YandexQueryProtos {
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <pre>
-       * DescribeOperationResult
+       * DescribeJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18601,7 +18601,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DescribeOperationResult
+       * DescribeJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18615,7 +18615,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DescribeOperationResult
+       * DescribeJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18635,7 +18635,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DescribeOperationResult
+       * DescribeJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18653,7 +18653,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DescribeOperationResult
+       * DescribeJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18675,7 +18675,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DescribeOperationResult
+       * DescribeJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18693,7 +18693,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DescribeOperationResult
+       * DescribeJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18705,7 +18705,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DescribeOperationResult
+       * DescribeJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18720,7 +18720,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DescribeOperationResult
+       * DescribeJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -18749,74 +18749,74 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.DescribeOperationResponse)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.DescribeJobResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.DescribeOperationResponse)
-    private static final com.yandex.query.YandexQueryProtos.DescribeOperationResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.DescribeJobResponse)
+    private static final com.yandex.query.YandexQueryProtos.DescribeJobResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.DescribeOperationResponse();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.DescribeJobResponse();
     }
 
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResponse getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<DescribeOperationResponse>
-        PARSER = new com.google.protobuf.AbstractParser<DescribeOperationResponse>() {
-      public DescribeOperationResponse parsePartialFrom(
+    private static final com.google.protobuf.Parser<DescribeJobResponse>
+        PARSER = new com.google.protobuf.AbstractParser<DescribeJobResponse>() {
+      public DescribeJobResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribeOperationResponse(input, extensionRegistry);
+          return new DescribeJobResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<DescribeOperationResponse> parser() {
+    public static com.google.protobuf.Parser<DescribeJobResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<DescribeOperationResponse> getParserForType() {
+    public com.google.protobuf.Parser<DescribeJobResponse> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.DescribeOperationResponse getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.DescribeJobResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface DescribeOperationResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.DescribeOperationResult)
+  public interface DescribeJobResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.DescribeJobResult)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.YandexQuery.Operation operation = 1;</code>
+     * <code>.YandexQuery.Job operation = 1;</code>
      */
     boolean hasOperation();
     /**
-     * <code>.YandexQuery.Operation operation = 1;</code>
+     * <code>.YandexQuery.Job operation = 1;</code>
      */
-    com.yandex.query.YandexQueryProtos.Operation getOperation();
+    com.yandex.query.YandexQueryProtos.Job getOperation();
     /**
-     * <code>.YandexQuery.Operation operation = 1;</code>
+     * <code>.YandexQuery.Job operation = 1;</code>
      */
-    com.yandex.query.YandexQueryProtos.OperationOrBuilder getOperationOrBuilder();
+    com.yandex.query.YandexQueryProtos.JobOrBuilder getOperationOrBuilder();
   }
   /**
-   * Protobuf type {@code YandexQuery.DescribeOperationResult}
+   * Protobuf type {@code YandexQuery.DescribeJobResult}
    */
-  public  static final class DescribeOperationResult extends
+  public  static final class DescribeJobResult extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.DescribeOperationResult)
-      DescribeOperationResultOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.DescribeJobResult)
+      DescribeJobResultOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use DescribeOperationResult.newBuilder() to construct.
-    private DescribeOperationResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use DescribeJobResult.newBuilder() to construct.
+    private DescribeJobResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private DescribeOperationResult() {
+    private DescribeJobResult() {
     }
 
     @java.lang.Override
@@ -18824,7 +18824,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private DescribeOperationResult(
+    private DescribeJobResult(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -18848,11 +18848,11 @@ public final class YandexQueryProtos {
               break;
             }
             case 10: {
-              com.yandex.query.YandexQueryProtos.Operation.Builder subBuilder = null;
+              com.yandex.query.YandexQueryProtos.Job.Builder subBuilder = null;
               if (operation_ != null) {
                 subBuilder = operation_.toBuilder();
               }
-              operation_ = input.readMessage(com.yandex.query.YandexQueryProtos.Operation.parser(), extensionRegistry);
+              operation_ = input.readMessage(com.yandex.query.YandexQueryProtos.Job.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(operation_);
                 operation_ = subBuilder.buildPartial();
@@ -18874,34 +18874,34 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationResult_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobResult_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationResult_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.DescribeOperationResult.class, com.yandex.query.YandexQueryProtos.DescribeOperationResult.Builder.class);
+              com.yandex.query.YandexQueryProtos.DescribeJobResult.class, com.yandex.query.YandexQueryProtos.DescribeJobResult.Builder.class);
     }
 
     public static final int OPERATION_FIELD_NUMBER = 1;
-    private com.yandex.query.YandexQueryProtos.Operation operation_;
+    private com.yandex.query.YandexQueryProtos.Job operation_;
     /**
-     * <code>.YandexQuery.Operation operation = 1;</code>
+     * <code>.YandexQuery.Job operation = 1;</code>
      */
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
-     * <code>.YandexQuery.Operation operation = 1;</code>
+     * <code>.YandexQuery.Job operation = 1;</code>
      */
-    public com.yandex.query.YandexQueryProtos.Operation getOperation() {
-      return operation_ == null ? com.yandex.query.YandexQueryProtos.Operation.getDefaultInstance() : operation_;
+    public com.yandex.query.YandexQueryProtos.Job getOperation() {
+      return operation_ == null ? com.yandex.query.YandexQueryProtos.Job.getDefaultInstance() : operation_;
     }
     /**
-     * <code>.YandexQuery.Operation operation = 1;</code>
+     * <code>.YandexQuery.Job operation = 1;</code>
      */
-    public com.yandex.query.YandexQueryProtos.OperationOrBuilder getOperationOrBuilder() {
+    public com.yandex.query.YandexQueryProtos.JobOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
@@ -18942,10 +18942,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.DescribeOperationResult)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.DescribeJobResult)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.DescribeOperationResult other = (com.yandex.query.YandexQueryProtos.DescribeOperationResult) obj;
+      com.yandex.query.YandexQueryProtos.DescribeJobResult other = (com.yandex.query.YandexQueryProtos.DescribeJobResult) obj;
 
       boolean result = true;
       result = result && (hasOperation() == other.hasOperation());
@@ -18973,69 +18973,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResult parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResult parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResult parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResult parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResult parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResult parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResult parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResult parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResult parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResult parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResult parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResult parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResult parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResult parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResult parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResult parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -19047,7 +19047,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.DescribeOperationResult prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.DescribeJobResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -19062,25 +19062,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.DescribeOperationResult}
+     * Protobuf type {@code YandexQuery.DescribeJobResult}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.DescribeOperationResult)
-        com.yandex.query.YandexQueryProtos.DescribeOperationResultOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.DescribeJobResult)
+        com.yandex.query.YandexQueryProtos.DescribeJobResultOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationResult_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobResult_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationResult_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobResult_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.DescribeOperationResult.class, com.yandex.query.YandexQueryProtos.DescribeOperationResult.Builder.class);
+                com.yandex.query.YandexQueryProtos.DescribeJobResult.class, com.yandex.query.YandexQueryProtos.DescribeJobResult.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.DescribeOperationResult.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.DescribeJobResult.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -19108,23 +19108,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeOperationResult_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DescribeJobResult_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.DescribeOperationResult getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.DescribeOperationResult.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.DescribeJobResult getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.DescribeJobResult.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.DescribeOperationResult build() {
-        com.yandex.query.YandexQueryProtos.DescribeOperationResult result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.DescribeJobResult build() {
+        com.yandex.query.YandexQueryProtos.DescribeJobResult result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.DescribeOperationResult buildPartial() {
-        com.yandex.query.YandexQueryProtos.DescribeOperationResult result = new com.yandex.query.YandexQueryProtos.DescribeOperationResult(this);
+      public com.yandex.query.YandexQueryProtos.DescribeJobResult buildPartial() {
+        com.yandex.query.YandexQueryProtos.DescribeJobResult result = new com.yandex.query.YandexQueryProtos.DescribeJobResult(this);
         if (operationBuilder_ == null) {
           result.operation_ = operation_;
         } else {
@@ -19161,16 +19161,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.DescribeOperationResult) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.DescribeOperationResult)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.DescribeJobResult) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.DescribeJobResult)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.DescribeOperationResult other) {
-        if (other == com.yandex.query.YandexQueryProtos.DescribeOperationResult.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.DescribeJobResult other) {
+        if (other == com.yandex.query.YandexQueryProtos.DescribeJobResult.getDefaultInstance()) return this;
         if (other.hasOperation()) {
           mergeOperation(other.getOperation());
         }
@@ -19187,11 +19187,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.DescribeOperationResult parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.DescribeJobResult parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.DescribeOperationResult) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.DescribeJobResult) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -19201,29 +19201,29 @@ public final class YandexQueryProtos {
         return this;
       }
 
-      private com.yandex.query.YandexQueryProtos.Operation operation_ = null;
+      private com.yandex.query.YandexQueryProtos.Job operation_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.yandex.query.YandexQueryProtos.Operation, com.yandex.query.YandexQueryProtos.Operation.Builder, com.yandex.query.YandexQueryProtos.OperationOrBuilder> operationBuilder_;
+          com.yandex.query.YandexQueryProtos.Job, com.yandex.query.YandexQueryProtos.Job.Builder, com.yandex.query.YandexQueryProtos.JobOrBuilder> operationBuilder_;
       /**
-       * <code>.YandexQuery.Operation operation = 1;</code>
+       * <code>.YandexQuery.Job operation = 1;</code>
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
-       * <code>.YandexQuery.Operation operation = 1;</code>
+       * <code>.YandexQuery.Job operation = 1;</code>
        */
-      public com.yandex.query.YandexQueryProtos.Operation getOperation() {
+      public com.yandex.query.YandexQueryProtos.Job getOperation() {
         if (operationBuilder_ == null) {
-          return operation_ == null ? com.yandex.query.YandexQueryProtos.Operation.getDefaultInstance() : operation_;
+          return operation_ == null ? com.yandex.query.YandexQueryProtos.Job.getDefaultInstance() : operation_;
         } else {
           return operationBuilder_.getMessage();
         }
       }
       /**
-       * <code>.YandexQuery.Operation operation = 1;</code>
+       * <code>.YandexQuery.Job operation = 1;</code>
        */
-      public Builder setOperation(com.yandex.query.YandexQueryProtos.Operation value) {
+      public Builder setOperation(com.yandex.query.YandexQueryProtos.Job value) {
         if (operationBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -19237,10 +19237,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.Operation operation = 1;</code>
+       * <code>.YandexQuery.Job operation = 1;</code>
        */
       public Builder setOperation(
-          com.yandex.query.YandexQueryProtos.Operation.Builder builderForValue) {
+          com.yandex.query.YandexQueryProtos.Job.Builder builderForValue) {
         if (operationBuilder_ == null) {
           operation_ = builderForValue.build();
           onChanged();
@@ -19251,13 +19251,13 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.Operation operation = 1;</code>
+       * <code>.YandexQuery.Job operation = 1;</code>
        */
-      public Builder mergeOperation(com.yandex.query.YandexQueryProtos.Operation value) {
+      public Builder mergeOperation(com.yandex.query.YandexQueryProtos.Job value) {
         if (operationBuilder_ == null) {
           if (operation_ != null) {
             operation_ =
-              com.yandex.query.YandexQueryProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+              com.yandex.query.YandexQueryProtos.Job.newBuilder(operation_).mergeFrom(value).buildPartial();
           } else {
             operation_ = value;
           }
@@ -19269,7 +19269,7 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.Operation operation = 1;</code>
+       * <code>.YandexQuery.Job operation = 1;</code>
        */
       public Builder clearOperation() {
         if (operationBuilder_ == null) {
@@ -19283,33 +19283,33 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.Operation operation = 1;</code>
+       * <code>.YandexQuery.Job operation = 1;</code>
        */
-      public com.yandex.query.YandexQueryProtos.Operation.Builder getOperationBuilder() {
+      public com.yandex.query.YandexQueryProtos.Job.Builder getOperationBuilder() {
         
         onChanged();
         return getOperationFieldBuilder().getBuilder();
       }
       /**
-       * <code>.YandexQuery.Operation operation = 1;</code>
+       * <code>.YandexQuery.Job operation = 1;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationOrBuilder getOperationOrBuilder() {
+      public com.yandex.query.YandexQueryProtos.JobOrBuilder getOperationOrBuilder() {
         if (operationBuilder_ != null) {
           return operationBuilder_.getMessageOrBuilder();
         } else {
           return operation_ == null ?
-              com.yandex.query.YandexQueryProtos.Operation.getDefaultInstance() : operation_;
+              com.yandex.query.YandexQueryProtos.Job.getDefaultInstance() : operation_;
         }
       }
       /**
-       * <code>.YandexQuery.Operation operation = 1;</code>
+       * <code>.YandexQuery.Job operation = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.yandex.query.YandexQueryProtos.Operation, com.yandex.query.YandexQueryProtos.Operation.Builder, com.yandex.query.YandexQueryProtos.OperationOrBuilder> 
+          com.yandex.query.YandexQueryProtos.Job, com.yandex.query.YandexQueryProtos.Job.Builder, com.yandex.query.YandexQueryProtos.JobOrBuilder> 
           getOperationFieldBuilder() {
         if (operationBuilder_ == null) {
           operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              com.yandex.query.YandexQueryProtos.Operation, com.yandex.query.YandexQueryProtos.Operation.Builder, com.yandex.query.YandexQueryProtos.OperationOrBuilder>(
+              com.yandex.query.YandexQueryProtos.Job, com.yandex.query.YandexQueryProtos.Job.Builder, com.yandex.query.YandexQueryProtos.JobOrBuilder>(
                   getOperation(),
                   getParentForChildren(),
                   isClean());
@@ -19328,46 +19328,46 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.DescribeOperationResult)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.DescribeJobResult)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.DescribeOperationResult)
-    private static final com.yandex.query.YandexQueryProtos.DescribeOperationResult DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.DescribeJobResult)
+    private static final com.yandex.query.YandexQueryProtos.DescribeJobResult DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.DescribeOperationResult();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.DescribeJobResult();
     }
 
-    public static com.yandex.query.YandexQueryProtos.DescribeOperationResult getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.DescribeJobResult getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<DescribeOperationResult>
-        PARSER = new com.google.protobuf.AbstractParser<DescribeOperationResult>() {
-      public DescribeOperationResult parsePartialFrom(
+    private static final com.google.protobuf.Parser<DescribeJobResult>
+        PARSER = new com.google.protobuf.AbstractParser<DescribeJobResult>() {
+      public DescribeJobResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribeOperationResult(input, extensionRegistry);
+          return new DescribeJobResult(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<DescribeOperationResult> parser() {
+    public static com.google.protobuf.Parser<DescribeJobResult> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<DescribeOperationResult> getParserForType() {
+    public com.google.protobuf.Parser<DescribeJobResult> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.DescribeOperationResult getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.DescribeJobResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface DeleteOperationRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.DeleteOperationRequest)
+  public interface DeleteJobRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.DeleteJobRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -19429,18 +19429,18 @@ public final class YandexQueryProtos {
         getIdempotencyKeyBytes();
   }
   /**
-   * Protobuf type {@code YandexQuery.DeleteOperationRequest}
+   * Protobuf type {@code YandexQuery.DeleteJobRequest}
    */
-  public  static final class DeleteOperationRequest extends
+  public  static final class DeleteJobRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.DeleteOperationRequest)
-      DeleteOperationRequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.DeleteJobRequest)
+      DeleteJobRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use DeleteOperationRequest.newBuilder() to construct.
-    private DeleteOperationRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use DeleteJobRequest.newBuilder() to construct.
+    private DeleteJobRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private DeleteOperationRequest() {
+    private DeleteJobRequest() {
       cloudId_ = "";
       folderId_ = "";
       operationId_ = "";
@@ -19453,7 +19453,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private DeleteOperationRequest(
+    private DeleteJobRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -19532,14 +19532,14 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationRequest_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationRequest_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.DeleteOperationRequest.class, com.yandex.query.YandexQueryProtos.DeleteOperationRequest.Builder.class);
+              com.yandex.query.YandexQueryProtos.DeleteJobRequest.class, com.yandex.query.YandexQueryProtos.DeleteJobRequest.Builder.class);
     }
 
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
@@ -19776,10 +19776,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.DeleteOperationRequest)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.DeleteJobRequest)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.DeleteOperationRequest other = (com.yandex.query.YandexQueryProtos.DeleteOperationRequest) obj;
+      com.yandex.query.YandexQueryProtos.DeleteJobRequest other = (com.yandex.query.YandexQueryProtos.DeleteJobRequest) obj;
 
       boolean result = true;
       result = result && (hasOperationParams() == other.hasOperationParams());
@@ -19828,69 +19828,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationRequest parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.DeleteJobRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationRequest parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.DeleteJobRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationRequest parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.DeleteJobRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationRequest parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -19902,7 +19902,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.DeleteOperationRequest prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.DeleteJobRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -19917,25 +19917,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.DeleteOperationRequest}
+     * Protobuf type {@code YandexQuery.DeleteJobRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.DeleteOperationRequest)
-        com.yandex.query.YandexQueryProtos.DeleteOperationRequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.DeleteJobRequest)
+        com.yandex.query.YandexQueryProtos.DeleteJobRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationRequest_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationRequest_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.DeleteOperationRequest.class, com.yandex.query.YandexQueryProtos.DeleteOperationRequest.Builder.class);
+                com.yandex.query.YandexQueryProtos.DeleteJobRequest.class, com.yandex.query.YandexQueryProtos.DeleteJobRequest.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.DeleteOperationRequest.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.DeleteJobRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -19973,23 +19973,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationRequest_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobRequest_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.DeleteOperationRequest getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.DeleteOperationRequest.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.DeleteJobRequest getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.DeleteJobRequest.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.DeleteOperationRequest build() {
-        com.yandex.query.YandexQueryProtos.DeleteOperationRequest result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.DeleteJobRequest build() {
+        com.yandex.query.YandexQueryProtos.DeleteJobRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.DeleteOperationRequest buildPartial() {
-        com.yandex.query.YandexQueryProtos.DeleteOperationRequest result = new com.yandex.query.YandexQueryProtos.DeleteOperationRequest(this);
+      public com.yandex.query.YandexQueryProtos.DeleteJobRequest buildPartial() {
+        com.yandex.query.YandexQueryProtos.DeleteJobRequest result = new com.yandex.query.YandexQueryProtos.DeleteJobRequest(this);
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
@@ -20031,16 +20031,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.DeleteOperationRequest) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.DeleteOperationRequest)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.DeleteJobRequest) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.DeleteJobRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.DeleteOperationRequest other) {
-        if (other == com.yandex.query.YandexQueryProtos.DeleteOperationRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.DeleteJobRequest other) {
+        if (other == com.yandex.query.YandexQueryProtos.DeleteJobRequest.getDefaultInstance()) return this;
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
         }
@@ -20076,11 +20076,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.DeleteOperationRequest parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.DeleteJobRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.DeleteOperationRequest) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.DeleteJobRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -20519,51 +20519,51 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.DeleteOperationRequest)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.DeleteJobRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.DeleteOperationRequest)
-    private static final com.yandex.query.YandexQueryProtos.DeleteOperationRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.DeleteJobRequest)
+    private static final com.yandex.query.YandexQueryProtos.DeleteJobRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.DeleteOperationRequest();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.DeleteJobRequest();
     }
 
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationRequest getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.DeleteJobRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<DeleteOperationRequest>
-        PARSER = new com.google.protobuf.AbstractParser<DeleteOperationRequest>() {
-      public DeleteOperationRequest parsePartialFrom(
+    private static final com.google.protobuf.Parser<DeleteJobRequest>
+        PARSER = new com.google.protobuf.AbstractParser<DeleteJobRequest>() {
+      public DeleteJobRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DeleteOperationRequest(input, extensionRegistry);
+          return new DeleteJobRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<DeleteOperationRequest> parser() {
+    public static com.google.protobuf.Parser<DeleteJobRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<DeleteOperationRequest> getParserForType() {
+    public com.google.protobuf.Parser<DeleteJobRequest> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.DeleteOperationRequest getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.DeleteJobRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface DeleteOperationResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.DeleteOperationResponse)
+  public interface DeleteJobResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.DeleteJobResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
      * <pre>
-     * DeleteOperationResult
+     * DeleteJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -20571,7 +20571,7 @@ public final class YandexQueryProtos {
     boolean hasOperation();
     /**
      * <pre>
-     * DeleteOperationResult
+     * DeleteJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -20579,7 +20579,7 @@ public final class YandexQueryProtos {
     tech.ydb.OperationProtos.Operation getOperation();
     /**
      * <pre>
-     * DeleteOperationResult
+     * DeleteJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -20587,18 +20587,18 @@ public final class YandexQueryProtos {
     tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
   }
   /**
-   * Protobuf type {@code YandexQuery.DeleteOperationResponse}
+   * Protobuf type {@code YandexQuery.DeleteJobResponse}
    */
-  public  static final class DeleteOperationResponse extends
+  public  static final class DeleteJobResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.DeleteOperationResponse)
-      DeleteOperationResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.DeleteJobResponse)
+      DeleteJobResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use DeleteOperationResponse.newBuilder() to construct.
-    private DeleteOperationResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use DeleteJobResponse.newBuilder() to construct.
+    private DeleteJobResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private DeleteOperationResponse() {
+    private DeleteJobResponse() {
     }
 
     @java.lang.Override
@@ -20606,7 +20606,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private DeleteOperationResponse(
+    private DeleteJobResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -20656,21 +20656,21 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationResponse_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationResponse_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.DeleteOperationResponse.class, com.yandex.query.YandexQueryProtos.DeleteOperationResponse.Builder.class);
+              com.yandex.query.YandexQueryProtos.DeleteJobResponse.class, com.yandex.query.YandexQueryProtos.DeleteJobResponse.Builder.class);
     }
 
     public static final int OPERATION_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <pre>
-     * DeleteOperationResult
+     * DeleteJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -20680,7 +20680,7 @@ public final class YandexQueryProtos {
     }
     /**
      * <pre>
-     * DeleteOperationResult
+     * DeleteJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -20690,7 +20690,7 @@ public final class YandexQueryProtos {
     }
     /**
      * <pre>
-     * DeleteOperationResult
+     * DeleteJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -20736,10 +20736,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.DeleteOperationResponse)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.DeleteJobResponse)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.DeleteOperationResponse other = (com.yandex.query.YandexQueryProtos.DeleteOperationResponse) obj;
+      com.yandex.query.YandexQueryProtos.DeleteJobResponse other = (com.yandex.query.YandexQueryProtos.DeleteJobResponse) obj;
 
       boolean result = true;
       result = result && (hasOperation() == other.hasOperation());
@@ -20767,69 +20767,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResponse parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResponse parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResponse parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResponse parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -20841,7 +20841,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.DeleteOperationResponse prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.DeleteJobResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -20856,25 +20856,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.DeleteOperationResponse}
+     * Protobuf type {@code YandexQuery.DeleteJobResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.DeleteOperationResponse)
-        com.yandex.query.YandexQueryProtos.DeleteOperationResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.DeleteJobResponse)
+        com.yandex.query.YandexQueryProtos.DeleteJobResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationResponse_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationResponse_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.DeleteOperationResponse.class, com.yandex.query.YandexQueryProtos.DeleteOperationResponse.Builder.class);
+                com.yandex.query.YandexQueryProtos.DeleteJobResponse.class, com.yandex.query.YandexQueryProtos.DeleteJobResponse.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.DeleteOperationResponse.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.DeleteJobResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -20902,23 +20902,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationResponse_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobResponse_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.DeleteOperationResponse getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.DeleteOperationResponse.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.DeleteJobResponse getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.DeleteJobResponse.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.DeleteOperationResponse build() {
-        com.yandex.query.YandexQueryProtos.DeleteOperationResponse result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.DeleteJobResponse build() {
+        com.yandex.query.YandexQueryProtos.DeleteJobResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.DeleteOperationResponse buildPartial() {
-        com.yandex.query.YandexQueryProtos.DeleteOperationResponse result = new com.yandex.query.YandexQueryProtos.DeleteOperationResponse(this);
+      public com.yandex.query.YandexQueryProtos.DeleteJobResponse buildPartial() {
+        com.yandex.query.YandexQueryProtos.DeleteJobResponse result = new com.yandex.query.YandexQueryProtos.DeleteJobResponse(this);
         if (operationBuilder_ == null) {
           result.operation_ = operation_;
         } else {
@@ -20955,16 +20955,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.DeleteOperationResponse) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.DeleteOperationResponse)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.DeleteJobResponse) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.DeleteJobResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.DeleteOperationResponse other) {
-        if (other == com.yandex.query.YandexQueryProtos.DeleteOperationResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.DeleteJobResponse other) {
+        if (other == com.yandex.query.YandexQueryProtos.DeleteJobResponse.getDefaultInstance()) return this;
         if (other.hasOperation()) {
           mergeOperation(other.getOperation());
         }
@@ -20981,11 +20981,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.DeleteOperationResponse parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.DeleteJobResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.DeleteOperationResponse) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.DeleteJobResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -21000,7 +21000,7 @@ public final class YandexQueryProtos {
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <pre>
-       * DeleteOperationResult
+       * DeleteJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -21010,7 +21010,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DeleteOperationResult
+       * DeleteJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -21024,7 +21024,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DeleteOperationResult
+       * DeleteJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -21044,7 +21044,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DeleteOperationResult
+       * DeleteJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -21062,7 +21062,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DeleteOperationResult
+       * DeleteJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -21084,7 +21084,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DeleteOperationResult
+       * DeleteJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -21102,7 +21102,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DeleteOperationResult
+       * DeleteJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -21114,7 +21114,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DeleteOperationResult
+       * DeleteJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -21129,7 +21129,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * DeleteOperationResult
+       * DeleteJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -21158,61 +21158,61 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.DeleteOperationResponse)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.DeleteJobResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.DeleteOperationResponse)
-    private static final com.yandex.query.YandexQueryProtos.DeleteOperationResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.DeleteJobResponse)
+    private static final com.yandex.query.YandexQueryProtos.DeleteJobResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.DeleteOperationResponse();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.DeleteJobResponse();
     }
 
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResponse getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<DeleteOperationResponse>
-        PARSER = new com.google.protobuf.AbstractParser<DeleteOperationResponse>() {
-      public DeleteOperationResponse parsePartialFrom(
+    private static final com.google.protobuf.Parser<DeleteJobResponse>
+        PARSER = new com.google.protobuf.AbstractParser<DeleteJobResponse>() {
+      public DeleteJobResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DeleteOperationResponse(input, extensionRegistry);
+          return new DeleteJobResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<DeleteOperationResponse> parser() {
+    public static com.google.protobuf.Parser<DeleteJobResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<DeleteOperationResponse> getParserForType() {
+    public com.google.protobuf.Parser<DeleteJobResponse> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.DeleteOperationResponse getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.DeleteJobResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface DeleteOperationResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.DeleteOperationResult)
+  public interface DeleteJobResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.DeleteJobResult)
       com.google.protobuf.MessageOrBuilder {
   }
   /**
-   * Protobuf type {@code YandexQuery.DeleteOperationResult}
+   * Protobuf type {@code YandexQuery.DeleteJobResult}
    */
-  public  static final class DeleteOperationResult extends
+  public  static final class DeleteJobResult extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.DeleteOperationResult)
-      DeleteOperationResultOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.DeleteJobResult)
+      DeleteJobResultOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use DeleteOperationResult.newBuilder() to construct.
-    private DeleteOperationResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use DeleteJobResult.newBuilder() to construct.
+    private DeleteJobResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private DeleteOperationResult() {
+    private DeleteJobResult() {
     }
 
     @java.lang.Override
@@ -21220,7 +21220,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private DeleteOperationResult(
+    private DeleteJobResult(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -21256,14 +21256,14 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationResult_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobResult_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationResult_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.DeleteOperationResult.class, com.yandex.query.YandexQueryProtos.DeleteOperationResult.Builder.class);
+              com.yandex.query.YandexQueryProtos.DeleteJobResult.class, com.yandex.query.YandexQueryProtos.DeleteJobResult.Builder.class);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -21296,10 +21296,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.DeleteOperationResult)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.DeleteJobResult)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.DeleteOperationResult other = (com.yandex.query.YandexQueryProtos.DeleteOperationResult) obj;
+      com.yandex.query.YandexQueryProtos.DeleteJobResult other = (com.yandex.query.YandexQueryProtos.DeleteJobResult) obj;
 
       boolean result = true;
       result = result && unknownFields.equals(other.unknownFields);
@@ -21318,69 +21318,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResult parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResult parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResult parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResult parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResult parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResult parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResult parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResult parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResult parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResult parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResult parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResult parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResult parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResult parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResult parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResult parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -21392,7 +21392,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.DeleteOperationResult prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.DeleteJobResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -21407,25 +21407,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.DeleteOperationResult}
+     * Protobuf type {@code YandexQuery.DeleteJobResult}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.DeleteOperationResult)
-        com.yandex.query.YandexQueryProtos.DeleteOperationResultOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.DeleteJobResult)
+        com.yandex.query.YandexQueryProtos.DeleteJobResultOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationResult_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobResult_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationResult_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobResult_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.DeleteOperationResult.class, com.yandex.query.YandexQueryProtos.DeleteOperationResult.Builder.class);
+                com.yandex.query.YandexQueryProtos.DeleteJobResult.class, com.yandex.query.YandexQueryProtos.DeleteJobResult.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.DeleteOperationResult.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.DeleteJobResult.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -21447,23 +21447,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteOperationResult_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_DeleteJobResult_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.DeleteOperationResult getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.DeleteOperationResult.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.DeleteJobResult getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.DeleteJobResult.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.DeleteOperationResult build() {
-        com.yandex.query.YandexQueryProtos.DeleteOperationResult result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.DeleteJobResult build() {
+        com.yandex.query.YandexQueryProtos.DeleteJobResult result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.DeleteOperationResult buildPartial() {
-        com.yandex.query.YandexQueryProtos.DeleteOperationResult result = new com.yandex.query.YandexQueryProtos.DeleteOperationResult(this);
+      public com.yandex.query.YandexQueryProtos.DeleteJobResult buildPartial() {
+        com.yandex.query.YandexQueryProtos.DeleteJobResult result = new com.yandex.query.YandexQueryProtos.DeleteJobResult(this);
         onBuilt();
         return result;
       }
@@ -21495,16 +21495,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.DeleteOperationResult) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.DeleteOperationResult)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.DeleteJobResult) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.DeleteJobResult)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.DeleteOperationResult other) {
-        if (other == com.yandex.query.YandexQueryProtos.DeleteOperationResult.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.DeleteJobResult other) {
+        if (other == com.yandex.query.YandexQueryProtos.DeleteJobResult.getDefaultInstance()) return this;
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -21518,11 +21518,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.DeleteOperationResult parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.DeleteJobResult parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.DeleteOperationResult) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.DeleteJobResult) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -21542,46 +21542,46 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.DeleteOperationResult)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.DeleteJobResult)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.DeleteOperationResult)
-    private static final com.yandex.query.YandexQueryProtos.DeleteOperationResult DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.DeleteJobResult)
+    private static final com.yandex.query.YandexQueryProtos.DeleteJobResult DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.DeleteOperationResult();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.DeleteJobResult();
     }
 
-    public static com.yandex.query.YandexQueryProtos.DeleteOperationResult getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.DeleteJobResult getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<DeleteOperationResult>
-        PARSER = new com.google.protobuf.AbstractParser<DeleteOperationResult>() {
-      public DeleteOperationResult parsePartialFrom(
+    private static final com.google.protobuf.Parser<DeleteJobResult>
+        PARSER = new com.google.protobuf.AbstractParser<DeleteJobResult>() {
+      public DeleteJobResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DeleteOperationResult(input, extensionRegistry);
+          return new DeleteJobResult(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<DeleteOperationResult> parser() {
+    public static com.google.protobuf.Parser<DeleteJobResult> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<DeleteOperationResult> getParserForType() {
+    public com.google.protobuf.Parser<DeleteJobResult> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.DeleteOperationResult getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.DeleteJobResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface ModifyOperationRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.ModifyOperationRequest)
+  public interface ModifyJobRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.ModifyJobRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -21679,18 +21679,18 @@ public final class YandexQueryProtos {
         getIdempotencyKeyBytes();
   }
   /**
-   * Protobuf type {@code YandexQuery.ModifyOperationRequest}
+   * Protobuf type {@code YandexQuery.ModifyJobRequest}
    */
-  public  static final class ModifyOperationRequest extends
+  public  static final class ModifyJobRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.ModifyOperationRequest)
-      ModifyOperationRequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.ModifyJobRequest)
+      ModifyJobRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ModifyOperationRequest.newBuilder() to construct.
-    private ModifyOperationRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ModifyJobRequest.newBuilder() to construct.
+    private ModifyJobRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ModifyOperationRequest() {
+    private ModifyJobRequest() {
       cloudId_ = "";
       folderId_ = "";
       operationId_ = "";
@@ -21704,7 +21704,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ModifyOperationRequest(
+    private ModifyJobRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -21815,14 +21815,14 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationRequest_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationRequest_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.ModifyOperationRequest.class, com.yandex.query.YandexQueryProtos.ModifyOperationRequest.Builder.class);
+              com.yandex.query.YandexQueryProtos.ModifyJobRequest.class, com.yandex.query.YandexQueryProtos.ModifyJobRequest.Builder.class);
     }
 
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
@@ -22155,10 +22155,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ModifyOperationRequest)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ModifyJobRequest)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.ModifyOperationRequest other = (com.yandex.query.YandexQueryProtos.ModifyOperationRequest) obj;
+      com.yandex.query.YandexQueryProtos.ModifyJobRequest other = (com.yandex.query.YandexQueryProtos.ModifyJobRequest) obj;
 
       boolean result = true;
       result = result && (hasOperationParams() == other.hasOperationParams());
@@ -22229,69 +22229,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationRequest parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.ModifyJobRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationRequest parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ModifyJobRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationRequest parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ModifyJobRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationRequest parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -22303,7 +22303,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ModifyOperationRequest prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ModifyJobRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -22318,25 +22318,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.ModifyOperationRequest}
+     * Protobuf type {@code YandexQuery.ModifyJobRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.ModifyOperationRequest)
-        com.yandex.query.YandexQueryProtos.ModifyOperationRequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.ModifyJobRequest)
+        com.yandex.query.YandexQueryProtos.ModifyJobRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationRequest_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationRequest_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.ModifyOperationRequest.class, com.yandex.query.YandexQueryProtos.ModifyOperationRequest.Builder.class);
+                com.yandex.query.YandexQueryProtos.ModifyJobRequest.class, com.yandex.query.YandexQueryProtos.ModifyJobRequest.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.ModifyOperationRequest.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.ModifyJobRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -22388,23 +22388,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationRequest_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobRequest_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.ModifyOperationRequest getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.ModifyOperationRequest.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.ModifyJobRequest getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.ModifyJobRequest.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.ModifyOperationRequest build() {
-        com.yandex.query.YandexQueryProtos.ModifyOperationRequest result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.ModifyJobRequest build() {
+        com.yandex.query.YandexQueryProtos.ModifyJobRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.ModifyOperationRequest buildPartial() {
-        com.yandex.query.YandexQueryProtos.ModifyOperationRequest result = new com.yandex.query.YandexQueryProtos.ModifyOperationRequest(this);
+      public com.yandex.query.YandexQueryProtos.ModifyJobRequest buildPartial() {
+        com.yandex.query.YandexQueryProtos.ModifyJobRequest result = new com.yandex.query.YandexQueryProtos.ModifyJobRequest(this);
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
@@ -22457,16 +22457,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.ModifyOperationRequest) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.ModifyOperationRequest)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.ModifyJobRequest) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.ModifyJobRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ModifyOperationRequest other) {
-        if (other == com.yandex.query.YandexQueryProtos.ModifyOperationRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ModifyJobRequest other) {
+        if (other == com.yandex.query.YandexQueryProtos.ModifyJobRequest.getDefaultInstance()) return this;
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
         }
@@ -22512,11 +22512,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.ModifyOperationRequest parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.ModifyJobRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.ModifyOperationRequest) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.ModifyJobRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -23258,51 +23258,51 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.ModifyOperationRequest)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.ModifyJobRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.ModifyOperationRequest)
-    private static final com.yandex.query.YandexQueryProtos.ModifyOperationRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.ModifyJobRequest)
+    private static final com.yandex.query.YandexQueryProtos.ModifyJobRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ModifyOperationRequest();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ModifyJobRequest();
     }
 
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationRequest getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.ModifyJobRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ModifyOperationRequest>
-        PARSER = new com.google.protobuf.AbstractParser<ModifyOperationRequest>() {
-      public ModifyOperationRequest parsePartialFrom(
+    private static final com.google.protobuf.Parser<ModifyJobRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ModifyJobRequest>() {
+      public ModifyJobRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ModifyOperationRequest(input, extensionRegistry);
+          return new ModifyJobRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ModifyOperationRequest> parser() {
+    public static com.google.protobuf.Parser<ModifyJobRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ModifyOperationRequest> getParserForType() {
+    public com.google.protobuf.Parser<ModifyJobRequest> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.ModifyOperationRequest getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.ModifyJobRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface ModifyOperationResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.ModifyOperationResponse)
+  public interface ModifyJobResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.ModifyJobResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
      * <pre>
-     * ModifyOperationResult
+     * ModifyJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23310,7 +23310,7 @@ public final class YandexQueryProtos {
     boolean hasOperation();
     /**
      * <pre>
-     * ModifyOperationResult
+     * ModifyJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23318,7 +23318,7 @@ public final class YandexQueryProtos {
     tech.ydb.OperationProtos.Operation getOperation();
     /**
      * <pre>
-     * ModifyOperationResult
+     * ModifyJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23326,18 +23326,18 @@ public final class YandexQueryProtos {
     tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
   }
   /**
-   * Protobuf type {@code YandexQuery.ModifyOperationResponse}
+   * Protobuf type {@code YandexQuery.ModifyJobResponse}
    */
-  public  static final class ModifyOperationResponse extends
+  public  static final class ModifyJobResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.ModifyOperationResponse)
-      ModifyOperationResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.ModifyJobResponse)
+      ModifyJobResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ModifyOperationResponse.newBuilder() to construct.
-    private ModifyOperationResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ModifyJobResponse.newBuilder() to construct.
+    private ModifyJobResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ModifyOperationResponse() {
+    private ModifyJobResponse() {
     }
 
     @java.lang.Override
@@ -23345,7 +23345,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ModifyOperationResponse(
+    private ModifyJobResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -23395,21 +23395,21 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationResponse_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationResponse_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.ModifyOperationResponse.class, com.yandex.query.YandexQueryProtos.ModifyOperationResponse.Builder.class);
+              com.yandex.query.YandexQueryProtos.ModifyJobResponse.class, com.yandex.query.YandexQueryProtos.ModifyJobResponse.Builder.class);
     }
 
     public static final int OPERATION_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <pre>
-     * ModifyOperationResult
+     * ModifyJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23419,7 +23419,7 @@ public final class YandexQueryProtos {
     }
     /**
      * <pre>
-     * ModifyOperationResult
+     * ModifyJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23429,7 +23429,7 @@ public final class YandexQueryProtos {
     }
     /**
      * <pre>
-     * ModifyOperationResult
+     * ModifyJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23475,10 +23475,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ModifyOperationResponse)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ModifyJobResponse)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.ModifyOperationResponse other = (com.yandex.query.YandexQueryProtos.ModifyOperationResponse) obj;
+      com.yandex.query.YandexQueryProtos.ModifyJobResponse other = (com.yandex.query.YandexQueryProtos.ModifyJobResponse) obj;
 
       boolean result = true;
       result = result && (hasOperation() == other.hasOperation());
@@ -23506,69 +23506,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResponse parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResponse parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResponse parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResponse parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -23580,7 +23580,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ModifyOperationResponse prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ModifyJobResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -23595,25 +23595,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.ModifyOperationResponse}
+     * Protobuf type {@code YandexQuery.ModifyJobResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.ModifyOperationResponse)
-        com.yandex.query.YandexQueryProtos.ModifyOperationResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.ModifyJobResponse)
+        com.yandex.query.YandexQueryProtos.ModifyJobResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationResponse_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationResponse_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.ModifyOperationResponse.class, com.yandex.query.YandexQueryProtos.ModifyOperationResponse.Builder.class);
+                com.yandex.query.YandexQueryProtos.ModifyJobResponse.class, com.yandex.query.YandexQueryProtos.ModifyJobResponse.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.ModifyOperationResponse.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.ModifyJobResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -23641,23 +23641,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationResponse_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobResponse_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.ModifyOperationResponse getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.ModifyOperationResponse.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.ModifyJobResponse getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.ModifyJobResponse.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.ModifyOperationResponse build() {
-        com.yandex.query.YandexQueryProtos.ModifyOperationResponse result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.ModifyJobResponse build() {
+        com.yandex.query.YandexQueryProtos.ModifyJobResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.ModifyOperationResponse buildPartial() {
-        com.yandex.query.YandexQueryProtos.ModifyOperationResponse result = new com.yandex.query.YandexQueryProtos.ModifyOperationResponse(this);
+      public com.yandex.query.YandexQueryProtos.ModifyJobResponse buildPartial() {
+        com.yandex.query.YandexQueryProtos.ModifyJobResponse result = new com.yandex.query.YandexQueryProtos.ModifyJobResponse(this);
         if (operationBuilder_ == null) {
           result.operation_ = operation_;
         } else {
@@ -23694,16 +23694,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.ModifyOperationResponse) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.ModifyOperationResponse)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.ModifyJobResponse) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.ModifyJobResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ModifyOperationResponse other) {
-        if (other == com.yandex.query.YandexQueryProtos.ModifyOperationResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ModifyJobResponse other) {
+        if (other == com.yandex.query.YandexQueryProtos.ModifyJobResponse.getDefaultInstance()) return this;
         if (other.hasOperation()) {
           mergeOperation(other.getOperation());
         }
@@ -23720,11 +23720,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.ModifyOperationResponse parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.ModifyJobResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.ModifyOperationResponse) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.ModifyJobResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -23739,7 +23739,7 @@ public final class YandexQueryProtos {
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <pre>
-       * ModifyOperationResult
+       * ModifyJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23749,7 +23749,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ModifyOperationResult
+       * ModifyJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23763,7 +23763,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ModifyOperationResult
+       * ModifyJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23783,7 +23783,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ModifyOperationResult
+       * ModifyJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23801,7 +23801,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ModifyOperationResult
+       * ModifyJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23823,7 +23823,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ModifyOperationResult
+       * ModifyJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23841,7 +23841,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ModifyOperationResult
+       * ModifyJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23853,7 +23853,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ModifyOperationResult
+       * ModifyJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23868,7 +23868,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ModifyOperationResult
+       * ModifyJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -23897,61 +23897,61 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.ModifyOperationResponse)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.ModifyJobResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.ModifyOperationResponse)
-    private static final com.yandex.query.YandexQueryProtos.ModifyOperationResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.ModifyJobResponse)
+    private static final com.yandex.query.YandexQueryProtos.ModifyJobResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ModifyOperationResponse();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ModifyJobResponse();
     }
 
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResponse getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ModifyOperationResponse>
-        PARSER = new com.google.protobuf.AbstractParser<ModifyOperationResponse>() {
-      public ModifyOperationResponse parsePartialFrom(
+    private static final com.google.protobuf.Parser<ModifyJobResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ModifyJobResponse>() {
+      public ModifyJobResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ModifyOperationResponse(input, extensionRegistry);
+          return new ModifyJobResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ModifyOperationResponse> parser() {
+    public static com.google.protobuf.Parser<ModifyJobResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ModifyOperationResponse> getParserForType() {
+    public com.google.protobuf.Parser<ModifyJobResponse> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.ModifyOperationResponse getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.ModifyJobResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface ModifyOperationResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.ModifyOperationResult)
+  public interface ModifyJobResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.ModifyJobResult)
       com.google.protobuf.MessageOrBuilder {
   }
   /**
-   * Protobuf type {@code YandexQuery.ModifyOperationResult}
+   * Protobuf type {@code YandexQuery.ModifyJobResult}
    */
-  public  static final class ModifyOperationResult extends
+  public  static final class ModifyJobResult extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.ModifyOperationResult)
-      ModifyOperationResultOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.ModifyJobResult)
+      ModifyJobResultOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ModifyOperationResult.newBuilder() to construct.
-    private ModifyOperationResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ModifyJobResult.newBuilder() to construct.
+    private ModifyJobResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ModifyOperationResult() {
+    private ModifyJobResult() {
     }
 
     @java.lang.Override
@@ -23959,7 +23959,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ModifyOperationResult(
+    private ModifyJobResult(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -23995,14 +23995,14 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationResult_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobResult_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationResult_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.ModifyOperationResult.class, com.yandex.query.YandexQueryProtos.ModifyOperationResult.Builder.class);
+              com.yandex.query.YandexQueryProtos.ModifyJobResult.class, com.yandex.query.YandexQueryProtos.ModifyJobResult.Builder.class);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -24035,10 +24035,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ModifyOperationResult)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ModifyJobResult)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.ModifyOperationResult other = (com.yandex.query.YandexQueryProtos.ModifyOperationResult) obj;
+      com.yandex.query.YandexQueryProtos.ModifyJobResult other = (com.yandex.query.YandexQueryProtos.ModifyJobResult) obj;
 
       boolean result = true;
       result = result && unknownFields.equals(other.unknownFields);
@@ -24057,69 +24057,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResult parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResult parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResult parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResult parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResult parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResult parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResult parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResult parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResult parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResult parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResult parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResult parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResult parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResult parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResult parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResult parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -24131,7 +24131,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ModifyOperationResult prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ModifyJobResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -24146,25 +24146,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.ModifyOperationResult}
+     * Protobuf type {@code YandexQuery.ModifyJobResult}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.ModifyOperationResult)
-        com.yandex.query.YandexQueryProtos.ModifyOperationResultOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.ModifyJobResult)
+        com.yandex.query.YandexQueryProtos.ModifyJobResultOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationResult_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobResult_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationResult_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobResult_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.ModifyOperationResult.class, com.yandex.query.YandexQueryProtos.ModifyOperationResult.Builder.class);
+                com.yandex.query.YandexQueryProtos.ModifyJobResult.class, com.yandex.query.YandexQueryProtos.ModifyJobResult.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.ModifyOperationResult.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.ModifyJobResult.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -24186,23 +24186,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyOperationResult_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ModifyJobResult_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.ModifyOperationResult getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.ModifyOperationResult.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.ModifyJobResult getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.ModifyJobResult.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.ModifyOperationResult build() {
-        com.yandex.query.YandexQueryProtos.ModifyOperationResult result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.ModifyJobResult build() {
+        com.yandex.query.YandexQueryProtos.ModifyJobResult result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.ModifyOperationResult buildPartial() {
-        com.yandex.query.YandexQueryProtos.ModifyOperationResult result = new com.yandex.query.YandexQueryProtos.ModifyOperationResult(this);
+      public com.yandex.query.YandexQueryProtos.ModifyJobResult buildPartial() {
+        com.yandex.query.YandexQueryProtos.ModifyJobResult result = new com.yandex.query.YandexQueryProtos.ModifyJobResult(this);
         onBuilt();
         return result;
       }
@@ -24234,16 +24234,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.ModifyOperationResult) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.ModifyOperationResult)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.ModifyJobResult) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.ModifyJobResult)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ModifyOperationResult other) {
-        if (other == com.yandex.query.YandexQueryProtos.ModifyOperationResult.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ModifyJobResult other) {
+        if (other == com.yandex.query.YandexQueryProtos.ModifyJobResult.getDefaultInstance()) return this;
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -24257,11 +24257,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.ModifyOperationResult parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.ModifyJobResult parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.ModifyOperationResult) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.ModifyJobResult) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -24281,46 +24281,46 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.ModifyOperationResult)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.ModifyJobResult)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.ModifyOperationResult)
-    private static final com.yandex.query.YandexQueryProtos.ModifyOperationResult DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.ModifyJobResult)
+    private static final com.yandex.query.YandexQueryProtos.ModifyJobResult DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ModifyOperationResult();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ModifyJobResult();
     }
 
-    public static com.yandex.query.YandexQueryProtos.ModifyOperationResult getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.ModifyJobResult getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ModifyOperationResult>
-        PARSER = new com.google.protobuf.AbstractParser<ModifyOperationResult>() {
-      public ModifyOperationResult parsePartialFrom(
+    private static final com.google.protobuf.Parser<ModifyJobResult>
+        PARSER = new com.google.protobuf.AbstractParser<ModifyJobResult>() {
+      public ModifyJobResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ModifyOperationResult(input, extensionRegistry);
+          return new ModifyJobResult(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ModifyOperationResult> parser() {
+    public static com.google.protobuf.Parser<ModifyJobResult> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ModifyOperationResult> getParserForType() {
+    public com.google.protobuf.Parser<ModifyJobResult> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.ModifyOperationResult getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.ModifyJobResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface ControlOperationRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.ControlOperationRequest)
+  public interface ControlJobRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.ControlJobRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -24367,13 +24367,13 @@ public final class YandexQueryProtos {
         getOperationIdBytes();
 
     /**
-     * <code>.YandexQuery.OperationAction action = 5;</code>
+     * <code>.YandexQuery.JobAction action = 5;</code>
      */
     int getActionValue();
     /**
-     * <code>.YandexQuery.OperationAction action = 5;</code>
+     * <code>.YandexQuery.JobAction action = 5;</code>
      */
-    com.yandex.query.YandexQueryProtos.OperationAction getAction();
+    com.yandex.query.YandexQueryProtos.JobAction getAction();
 
     /**
      * <code>int64 previous_revision = 6 [(.Ydb.value) = "&gt;= 0"];</code>
@@ -24391,18 +24391,18 @@ public final class YandexQueryProtos {
         getIdempotencyKeyBytes();
   }
   /**
-   * Protobuf type {@code YandexQuery.ControlOperationRequest}
+   * Protobuf type {@code YandexQuery.ControlJobRequest}
    */
-  public  static final class ControlOperationRequest extends
+  public  static final class ControlJobRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.ControlOperationRequest)
-      ControlOperationRequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.ControlJobRequest)
+      ControlJobRequestOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ControlOperationRequest.newBuilder() to construct.
-    private ControlOperationRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ControlJobRequest.newBuilder() to construct.
+    private ControlJobRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ControlOperationRequest() {
+    private ControlJobRequest() {
       cloudId_ = "";
       folderId_ = "";
       operationId_ = "";
@@ -24416,7 +24416,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ControlOperationRequest(
+    private ControlJobRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -24501,14 +24501,14 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationRequest_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationRequest_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.ControlOperationRequest.class, com.yandex.query.YandexQueryProtos.ControlOperationRequest.Builder.class);
+              com.yandex.query.YandexQueryProtos.ControlJobRequest.class, com.yandex.query.YandexQueryProtos.ControlJobRequest.Builder.class);
     }
 
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
@@ -24637,17 +24637,17 @@ public final class YandexQueryProtos {
     public static final int ACTION_FIELD_NUMBER = 5;
     private int action_;
     /**
-     * <code>.YandexQuery.OperationAction action = 5;</code>
+     * <code>.YandexQuery.JobAction action = 5;</code>
      */
     public int getActionValue() {
       return action_;
     }
     /**
-     * <code>.YandexQuery.OperationAction action = 5;</code>
+     * <code>.YandexQuery.JobAction action = 5;</code>
      */
-    public com.yandex.query.YandexQueryProtos.OperationAction getAction() {
-      com.yandex.query.YandexQueryProtos.OperationAction result = com.yandex.query.YandexQueryProtos.OperationAction.valueOf(action_);
-      return result == null ? com.yandex.query.YandexQueryProtos.OperationAction.UNRECOGNIZED : result;
+    public com.yandex.query.YandexQueryProtos.JobAction getAction() {
+      com.yandex.query.YandexQueryProtos.JobAction result = com.yandex.query.YandexQueryProtos.JobAction.valueOf(action_);
+      return result == null ? com.yandex.query.YandexQueryProtos.JobAction.UNRECOGNIZED : result;
     }
 
     public static final int PREVIOUS_REVISION_FIELD_NUMBER = 6;
@@ -24717,7 +24717,7 @@ public final class YandexQueryProtos {
       if (!getOperationIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, operationId_);
       }
-      if (action_ != com.yandex.query.YandexQueryProtos.OperationAction.OPERATION_ACTION_UNSPECIFIED.getNumber()) {
+      if (action_ != com.yandex.query.YandexQueryProtos.JobAction.OPERATION_ACTION_UNSPECIFIED.getNumber()) {
         output.writeEnum(5, action_);
       }
       if (previousRevision_ != 0L) {
@@ -24747,7 +24747,7 @@ public final class YandexQueryProtos {
       if (!getOperationIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, operationId_);
       }
-      if (action_ != com.yandex.query.YandexQueryProtos.OperationAction.OPERATION_ACTION_UNSPECIFIED.getNumber()) {
+      if (action_ != com.yandex.query.YandexQueryProtos.JobAction.OPERATION_ACTION_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(5, action_);
       }
@@ -24768,10 +24768,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ControlOperationRequest)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ControlJobRequest)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.ControlOperationRequest other = (com.yandex.query.YandexQueryProtos.ControlOperationRequest) obj;
+      com.yandex.query.YandexQueryProtos.ControlJobRequest other = (com.yandex.query.YandexQueryProtos.ControlJobRequest) obj;
 
       boolean result = true;
       result = result && (hasOperationParams() == other.hasOperationParams());
@@ -24823,69 +24823,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.ControlOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobRequest parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobRequest parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobRequest parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationRequest parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.ControlJobRequest parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobRequest parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationRequest parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ControlJobRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationRequest parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ControlJobRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationRequest parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationRequest parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -24897,7 +24897,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ControlOperationRequest prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ControlJobRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -24912,25 +24912,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.ControlOperationRequest}
+     * Protobuf type {@code YandexQuery.ControlJobRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.ControlOperationRequest)
-        com.yandex.query.YandexQueryProtos.ControlOperationRequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.ControlJobRequest)
+        com.yandex.query.YandexQueryProtos.ControlJobRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationRequest_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationRequest_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.ControlOperationRequest.class, com.yandex.query.YandexQueryProtos.ControlOperationRequest.Builder.class);
+                com.yandex.query.YandexQueryProtos.ControlJobRequest.class, com.yandex.query.YandexQueryProtos.ControlJobRequest.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.ControlOperationRequest.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.ControlJobRequest.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -24970,23 +24970,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationRequest_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobRequest_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.ControlOperationRequest getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.ControlOperationRequest.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.ControlJobRequest getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.ControlJobRequest.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.ControlOperationRequest build() {
-        com.yandex.query.YandexQueryProtos.ControlOperationRequest result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.ControlJobRequest build() {
+        com.yandex.query.YandexQueryProtos.ControlJobRequest result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.ControlOperationRequest buildPartial() {
-        com.yandex.query.YandexQueryProtos.ControlOperationRequest result = new com.yandex.query.YandexQueryProtos.ControlOperationRequest(this);
+      public com.yandex.query.YandexQueryProtos.ControlJobRequest buildPartial() {
+        com.yandex.query.YandexQueryProtos.ControlJobRequest result = new com.yandex.query.YandexQueryProtos.ControlJobRequest(this);
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
@@ -25029,16 +25029,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.ControlOperationRequest) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.ControlOperationRequest)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.ControlJobRequest) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.ControlJobRequest)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ControlOperationRequest other) {
-        if (other == com.yandex.query.YandexQueryProtos.ControlOperationRequest.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ControlJobRequest other) {
+        if (other == com.yandex.query.YandexQueryProtos.ControlJobRequest.getDefaultInstance()) return this;
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
         }
@@ -25077,11 +25077,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.ControlOperationRequest parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.ControlJobRequest parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.ControlOperationRequest) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.ControlJobRequest) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -25417,13 +25417,13 @@ public final class YandexQueryProtos {
 
       private int action_ = 0;
       /**
-       * <code>.YandexQuery.OperationAction action = 5;</code>
+       * <code>.YandexQuery.JobAction action = 5;</code>
        */
       public int getActionValue() {
         return action_;
       }
       /**
-       * <code>.YandexQuery.OperationAction action = 5;</code>
+       * <code>.YandexQuery.JobAction action = 5;</code>
        */
       public Builder setActionValue(int value) {
         action_ = value;
@@ -25431,16 +25431,16 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationAction action = 5;</code>
+       * <code>.YandexQuery.JobAction action = 5;</code>
        */
-      public com.yandex.query.YandexQueryProtos.OperationAction getAction() {
-        com.yandex.query.YandexQueryProtos.OperationAction result = com.yandex.query.YandexQueryProtos.OperationAction.valueOf(action_);
-        return result == null ? com.yandex.query.YandexQueryProtos.OperationAction.UNRECOGNIZED : result;
+      public com.yandex.query.YandexQueryProtos.JobAction getAction() {
+        com.yandex.query.YandexQueryProtos.JobAction result = com.yandex.query.YandexQueryProtos.JobAction.valueOf(action_);
+        return result == null ? com.yandex.query.YandexQueryProtos.JobAction.UNRECOGNIZED : result;
       }
       /**
-       * <code>.YandexQuery.OperationAction action = 5;</code>
+       * <code>.YandexQuery.JobAction action = 5;</code>
        */
-      public Builder setAction(com.yandex.query.YandexQueryProtos.OperationAction value) {
+      public Builder setAction(com.yandex.query.YandexQueryProtos.JobAction value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -25450,7 +25450,7 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>.YandexQuery.OperationAction action = 5;</code>
+       * <code>.YandexQuery.JobAction action = 5;</code>
        */
       public Builder clearAction() {
         
@@ -25564,51 +25564,51 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.ControlOperationRequest)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.ControlJobRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.ControlOperationRequest)
-    private static final com.yandex.query.YandexQueryProtos.ControlOperationRequest DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.ControlJobRequest)
+    private static final com.yandex.query.YandexQueryProtos.ControlJobRequest DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ControlOperationRequest();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ControlJobRequest();
     }
 
-    public static com.yandex.query.YandexQueryProtos.ControlOperationRequest getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.ControlJobRequest getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ControlOperationRequest>
-        PARSER = new com.google.protobuf.AbstractParser<ControlOperationRequest>() {
-      public ControlOperationRequest parsePartialFrom(
+    private static final com.google.protobuf.Parser<ControlJobRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ControlJobRequest>() {
+      public ControlJobRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ControlOperationRequest(input, extensionRegistry);
+          return new ControlJobRequest(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ControlOperationRequest> parser() {
+    public static com.google.protobuf.Parser<ControlJobRequest> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ControlOperationRequest> getParserForType() {
+    public com.google.protobuf.Parser<ControlJobRequest> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.ControlOperationRequest getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.ControlJobRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface ControlOperationResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.ControlOperationResponse)
+  public interface ControlJobResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.ControlJobResponse)
       com.google.protobuf.MessageOrBuilder {
 
     /**
      * <pre>
-     * ManageOperationResult
+     * ControlJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -25616,7 +25616,7 @@ public final class YandexQueryProtos {
     boolean hasOperation();
     /**
      * <pre>
-     * ManageOperationResult
+     * ControlJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -25624,7 +25624,7 @@ public final class YandexQueryProtos {
     tech.ydb.OperationProtos.Operation getOperation();
     /**
      * <pre>
-     * ManageOperationResult
+     * ControlJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -25632,18 +25632,18 @@ public final class YandexQueryProtos {
     tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
   }
   /**
-   * Protobuf type {@code YandexQuery.ControlOperationResponse}
+   * Protobuf type {@code YandexQuery.ControlJobResponse}
    */
-  public  static final class ControlOperationResponse extends
+  public  static final class ControlJobResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.ControlOperationResponse)
-      ControlOperationResponseOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.ControlJobResponse)
+      ControlJobResponseOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ControlOperationResponse.newBuilder() to construct.
-    private ControlOperationResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ControlJobResponse.newBuilder() to construct.
+    private ControlJobResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ControlOperationResponse() {
+    private ControlJobResponse() {
     }
 
     @java.lang.Override
@@ -25651,7 +25651,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ControlOperationResponse(
+    private ControlJobResponse(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -25701,21 +25701,21 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationResponse_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationResponse_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.ControlOperationResponse.class, com.yandex.query.YandexQueryProtos.ControlOperationResponse.Builder.class);
+              com.yandex.query.YandexQueryProtos.ControlJobResponse.class, com.yandex.query.YandexQueryProtos.ControlJobResponse.Builder.class);
     }
 
     public static final int OPERATION_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <pre>
-     * ManageOperationResult
+     * ControlJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -25725,7 +25725,7 @@ public final class YandexQueryProtos {
     }
     /**
      * <pre>
-     * ManageOperationResult
+     * ControlJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -25735,7 +25735,7 @@ public final class YandexQueryProtos {
     }
     /**
      * <pre>
-     * ManageOperationResult
+     * ControlJobResult
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -25781,10 +25781,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ControlOperationResponse)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ControlJobResponse)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.ControlOperationResponse other = (com.yandex.query.YandexQueryProtos.ControlOperationResponse) obj;
+      com.yandex.query.YandexQueryProtos.ControlJobResponse other = (com.yandex.query.YandexQueryProtos.ControlJobResponse) obj;
 
       boolean result = true;
       result = result && (hasOperation() == other.hasOperation());
@@ -25812,69 +25812,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResponse parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResponse parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResponse parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResponse parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.ControlJobResponse parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResponse parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResponse parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ControlJobResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResponse parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ControlJobResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResponse parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResponse parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -25886,7 +25886,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ControlOperationResponse prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ControlJobResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -25901,25 +25901,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.ControlOperationResponse}
+     * Protobuf type {@code YandexQuery.ControlJobResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.ControlOperationResponse)
-        com.yandex.query.YandexQueryProtos.ControlOperationResponseOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.ControlJobResponse)
+        com.yandex.query.YandexQueryProtos.ControlJobResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationResponse_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationResponse_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.ControlOperationResponse.class, com.yandex.query.YandexQueryProtos.ControlOperationResponse.Builder.class);
+                com.yandex.query.YandexQueryProtos.ControlJobResponse.class, com.yandex.query.YandexQueryProtos.ControlJobResponse.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.ControlOperationResponse.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.ControlJobResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -25947,23 +25947,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationResponse_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobResponse_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.ControlOperationResponse getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.ControlOperationResponse.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.ControlJobResponse getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.ControlJobResponse.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.ControlOperationResponse build() {
-        com.yandex.query.YandexQueryProtos.ControlOperationResponse result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.ControlJobResponse build() {
+        com.yandex.query.YandexQueryProtos.ControlJobResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.ControlOperationResponse buildPartial() {
-        com.yandex.query.YandexQueryProtos.ControlOperationResponse result = new com.yandex.query.YandexQueryProtos.ControlOperationResponse(this);
+      public com.yandex.query.YandexQueryProtos.ControlJobResponse buildPartial() {
+        com.yandex.query.YandexQueryProtos.ControlJobResponse result = new com.yandex.query.YandexQueryProtos.ControlJobResponse(this);
         if (operationBuilder_ == null) {
           result.operation_ = operation_;
         } else {
@@ -26000,16 +26000,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.ControlOperationResponse) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.ControlOperationResponse)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.ControlJobResponse) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.ControlJobResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ControlOperationResponse other) {
-        if (other == com.yandex.query.YandexQueryProtos.ControlOperationResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ControlJobResponse other) {
+        if (other == com.yandex.query.YandexQueryProtos.ControlJobResponse.getDefaultInstance()) return this;
         if (other.hasOperation()) {
           mergeOperation(other.getOperation());
         }
@@ -26026,11 +26026,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.ControlOperationResponse parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.ControlJobResponse parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.ControlOperationResponse) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.ControlJobResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -26045,7 +26045,7 @@ public final class YandexQueryProtos {
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <pre>
-       * ManageOperationResult
+       * ControlJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -26055,7 +26055,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ManageOperationResult
+       * ControlJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -26069,7 +26069,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ManageOperationResult
+       * ControlJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -26089,7 +26089,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ManageOperationResult
+       * ControlJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -26107,7 +26107,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ManageOperationResult
+       * ControlJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -26129,7 +26129,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ManageOperationResult
+       * ControlJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -26147,7 +26147,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ManageOperationResult
+       * ControlJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -26159,7 +26159,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ManageOperationResult
+       * ControlJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -26174,7 +26174,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * ManageOperationResult
+       * ControlJobResult
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
@@ -26203,61 +26203,61 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.ControlOperationResponse)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.ControlJobResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.ControlOperationResponse)
-    private static final com.yandex.query.YandexQueryProtos.ControlOperationResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.ControlJobResponse)
+    private static final com.yandex.query.YandexQueryProtos.ControlJobResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ControlOperationResponse();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ControlJobResponse();
     }
 
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResponse getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.ControlJobResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ControlOperationResponse>
-        PARSER = new com.google.protobuf.AbstractParser<ControlOperationResponse>() {
-      public ControlOperationResponse parsePartialFrom(
+    private static final com.google.protobuf.Parser<ControlJobResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ControlJobResponse>() {
+      public ControlJobResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ControlOperationResponse(input, extensionRegistry);
+          return new ControlJobResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ControlOperationResponse> parser() {
+    public static com.google.protobuf.Parser<ControlJobResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ControlOperationResponse> getParserForType() {
+    public com.google.protobuf.Parser<ControlJobResponse> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.ControlOperationResponse getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.ControlJobResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface ControlOperationResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YandexQuery.ControlOperationResult)
+  public interface ControlJobResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:YandexQuery.ControlJobResult)
       com.google.protobuf.MessageOrBuilder {
   }
   /**
-   * Protobuf type {@code YandexQuery.ControlOperationResult}
+   * Protobuf type {@code YandexQuery.ControlJobResult}
    */
-  public  static final class ControlOperationResult extends
+  public  static final class ControlJobResult extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:YandexQuery.ControlOperationResult)
-      ControlOperationResultOrBuilder {
+      // @@protoc_insertion_point(message_implements:YandexQuery.ControlJobResult)
+      ControlJobResultOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use ControlOperationResult.newBuilder() to construct.
-    private ControlOperationResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use ControlJobResult.newBuilder() to construct.
+    private ControlJobResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private ControlOperationResult() {
+    private ControlJobResult() {
     }
 
     @java.lang.Override
@@ -26265,7 +26265,7 @@ public final class YandexQueryProtos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ControlOperationResult(
+    private ControlJobResult(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -26301,14 +26301,14 @@ public final class YandexQueryProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationResult_descriptor;
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobResult_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationResult_fieldAccessorTable
+      return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.yandex.query.YandexQueryProtos.ControlOperationResult.class, com.yandex.query.YandexQueryProtos.ControlOperationResult.Builder.class);
+              com.yandex.query.YandexQueryProtos.ControlJobResult.class, com.yandex.query.YandexQueryProtos.ControlJobResult.Builder.class);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -26341,10 +26341,10 @@ public final class YandexQueryProtos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ControlOperationResult)) {
+      if (!(obj instanceof com.yandex.query.YandexQueryProtos.ControlJobResult)) {
         return super.equals(obj);
       }
-      com.yandex.query.YandexQueryProtos.ControlOperationResult other = (com.yandex.query.YandexQueryProtos.ControlOperationResult) obj;
+      com.yandex.query.YandexQueryProtos.ControlJobResult other = (com.yandex.query.YandexQueryProtos.ControlJobResult) obj;
 
       boolean result = true;
       result = result && unknownFields.equals(other.unknownFields);
@@ -26363,69 +26363,69 @@ public final class YandexQueryProtos {
       return hash;
     }
 
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResult parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResult parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResult parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResult parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResult parseFrom(byte[] data)
+    public static com.yandex.query.YandexQueryProtos.ControlJobResult parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResult parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResult parseFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ControlJobResult parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResult parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResult parseDelimitedFrom(java.io.InputStream input)
+    public static com.yandex.query.YandexQueryProtos.ControlJobResult parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResult parseDelimitedFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResult parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResult parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResult parseFrom(
+    public static com.yandex.query.YandexQueryProtos.ControlJobResult parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -26437,7 +26437,7 @@ public final class YandexQueryProtos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ControlOperationResult prototype) {
+    public static Builder newBuilder(com.yandex.query.YandexQueryProtos.ControlJobResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -26452,25 +26452,25 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code YandexQuery.ControlOperationResult}
+     * Protobuf type {@code YandexQuery.ControlJobResult}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:YandexQuery.ControlOperationResult)
-        com.yandex.query.YandexQueryProtos.ControlOperationResultOrBuilder {
+        // @@protoc_insertion_point(builder_implements:YandexQuery.ControlJobResult)
+        com.yandex.query.YandexQueryProtos.ControlJobResultOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationResult_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobResult_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationResult_fieldAccessorTable
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobResult_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.yandex.query.YandexQueryProtos.ControlOperationResult.class, com.yandex.query.YandexQueryProtos.ControlOperationResult.Builder.class);
+                com.yandex.query.YandexQueryProtos.ControlJobResult.class, com.yandex.query.YandexQueryProtos.ControlJobResult.Builder.class);
       }
 
-      // Construct using com.yandex.query.YandexQueryProtos.ControlOperationResult.newBuilder()
+      // Construct using com.yandex.query.YandexQueryProtos.ControlJobResult.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -26492,23 +26492,23 @@ public final class YandexQueryProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlOperationResult_descriptor;
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_ControlJobResult_descriptor;
       }
 
-      public com.yandex.query.YandexQueryProtos.ControlOperationResult getDefaultInstanceForType() {
-        return com.yandex.query.YandexQueryProtos.ControlOperationResult.getDefaultInstance();
+      public com.yandex.query.YandexQueryProtos.ControlJobResult getDefaultInstanceForType() {
+        return com.yandex.query.YandexQueryProtos.ControlJobResult.getDefaultInstance();
       }
 
-      public com.yandex.query.YandexQueryProtos.ControlOperationResult build() {
-        com.yandex.query.YandexQueryProtos.ControlOperationResult result = buildPartial();
+      public com.yandex.query.YandexQueryProtos.ControlJobResult build() {
+        com.yandex.query.YandexQueryProtos.ControlJobResult result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.yandex.query.YandexQueryProtos.ControlOperationResult buildPartial() {
-        com.yandex.query.YandexQueryProtos.ControlOperationResult result = new com.yandex.query.YandexQueryProtos.ControlOperationResult(this);
+      public com.yandex.query.YandexQueryProtos.ControlJobResult buildPartial() {
+        com.yandex.query.YandexQueryProtos.ControlJobResult result = new com.yandex.query.YandexQueryProtos.ControlJobResult(this);
         onBuilt();
         return result;
       }
@@ -26540,16 +26540,16 @@ public final class YandexQueryProtos {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.yandex.query.YandexQueryProtos.ControlOperationResult) {
-          return mergeFrom((com.yandex.query.YandexQueryProtos.ControlOperationResult)other);
+        if (other instanceof com.yandex.query.YandexQueryProtos.ControlJobResult) {
+          return mergeFrom((com.yandex.query.YandexQueryProtos.ControlJobResult)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ControlOperationResult other) {
-        if (other == com.yandex.query.YandexQueryProtos.ControlOperationResult.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.yandex.query.YandexQueryProtos.ControlJobResult other) {
+        if (other == com.yandex.query.YandexQueryProtos.ControlJobResult.getDefaultInstance()) return this;
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -26563,11 +26563,11 @@ public final class YandexQueryProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.yandex.query.YandexQueryProtos.ControlOperationResult parsedMessage = null;
+        com.yandex.query.YandexQueryProtos.ControlJobResult parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.yandex.query.YandexQueryProtos.ControlOperationResult) e.getUnfinishedMessage();
+          parsedMessage = (com.yandex.query.YandexQueryProtos.ControlJobResult) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -26587,39 +26587,39 @@ public final class YandexQueryProtos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:YandexQuery.ControlOperationResult)
+      // @@protoc_insertion_point(builder_scope:YandexQuery.ControlJobResult)
     }
 
-    // @@protoc_insertion_point(class_scope:YandexQuery.ControlOperationResult)
-    private static final com.yandex.query.YandexQueryProtos.ControlOperationResult DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:YandexQuery.ControlJobResult)
+    private static final com.yandex.query.YandexQueryProtos.ControlJobResult DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ControlOperationResult();
+      DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.ControlJobResult();
     }
 
-    public static com.yandex.query.YandexQueryProtos.ControlOperationResult getDefaultInstance() {
+    public static com.yandex.query.YandexQueryProtos.ControlJobResult getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ControlOperationResult>
-        PARSER = new com.google.protobuf.AbstractParser<ControlOperationResult>() {
-      public ControlOperationResult parsePartialFrom(
+    private static final com.google.protobuf.Parser<ControlJobResult>
+        PARSER = new com.google.protobuf.AbstractParser<ControlJobResult>() {
+      public ControlJobResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ControlOperationResult(input, extensionRegistry);
+          return new ControlJobResult(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ControlOperationResult> parser() {
+    public static com.google.protobuf.Parser<ControlJobResult> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ControlOperationResult> getParserForType() {
+    public com.google.protobuf.Parser<ControlJobResult> getParserForType() {
       return PARSER;
     }
 
-    public com.yandex.query.YandexQueryProtos.ControlOperationResult getDefaultInstanceForType() {
+    public com.yandex.query.YandexQueryProtos.ControlJobResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -68399,125 +68399,125 @@ public final class YandexQueryProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_YandexQuery_CommonMeta_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_OperationMeta_descriptor;
+    internal_static_YandexQuery_JobMeta_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_OperationMeta_fieldAccessorTable;
+      internal_static_YandexQuery_JobMeta_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_BriefOperation_descriptor;
+    internal_static_YandexQuery_BriefJob_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_BriefOperation_fieldAccessorTable;
+      internal_static_YandexQuery_BriefJob_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_OperationPlan_descriptor;
+    internal_static_YandexQuery_JobPlan_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_OperationPlan_fieldAccessorTable;
+      internal_static_YandexQuery_JobPlan_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_Operation_descriptor;
+    internal_static_YandexQuery_Job_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_Operation_fieldAccessorTable;
+      internal_static_YandexQuery_Job_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_OperationStatistics_descriptor;
+    internal_static_YandexQuery_JobStatistics_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_OperationStatistics_fieldAccessorTable;
+      internal_static_YandexQuery_JobStatistics_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_CreateOperationRequest_descriptor;
+    internal_static_YandexQuery_CreateJobRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_CreateOperationRequest_fieldAccessorTable;
+      internal_static_YandexQuery_CreateJobRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_CreateOperationResponse_descriptor;
+    internal_static_YandexQuery_CreateJobResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_CreateOperationResponse_fieldAccessorTable;
+      internal_static_YandexQuery_CreateJobResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_CreateOperationResult_descriptor;
+    internal_static_YandexQuery_CreateJobResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_CreateOperationResult_fieldAccessorTable;
+      internal_static_YandexQuery_CreateJobResult_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_ListOperationsRequest_descriptor;
+    internal_static_YandexQuery_ListJobsRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_ListOperationsRequest_fieldAccessorTable;
+      internal_static_YandexQuery_ListJobsRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_ListOperationsRequest_Filter_descriptor;
+    internal_static_YandexQuery_ListJobsRequest_Filter_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_ListOperationsRequest_Filter_fieldAccessorTable;
+      internal_static_YandexQuery_ListJobsRequest_Filter_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_ListOperationsResponse_descriptor;
+    internal_static_YandexQuery_ListJobsResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_ListOperationsResponse_fieldAccessorTable;
+      internal_static_YandexQuery_ListJobsResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_ListOperationsResult_descriptor;
+    internal_static_YandexQuery_ListJobsResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_ListOperationsResult_fieldAccessorTable;
+      internal_static_YandexQuery_ListJobsResult_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_DescribeOperationRequest_descriptor;
+    internal_static_YandexQuery_DescribeJobRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_DescribeOperationRequest_fieldAccessorTable;
+      internal_static_YandexQuery_DescribeJobRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_DescribeOperationResponse_descriptor;
+    internal_static_YandexQuery_DescribeJobResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_DescribeOperationResponse_fieldAccessorTable;
+      internal_static_YandexQuery_DescribeJobResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_DescribeOperationResult_descriptor;
+    internal_static_YandexQuery_DescribeJobResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_DescribeOperationResult_fieldAccessorTable;
+      internal_static_YandexQuery_DescribeJobResult_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_DeleteOperationRequest_descriptor;
+    internal_static_YandexQuery_DeleteJobRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_DeleteOperationRequest_fieldAccessorTable;
+      internal_static_YandexQuery_DeleteJobRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_DeleteOperationResponse_descriptor;
+    internal_static_YandexQuery_DeleteJobResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_DeleteOperationResponse_fieldAccessorTable;
+      internal_static_YandexQuery_DeleteJobResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_DeleteOperationResult_descriptor;
+    internal_static_YandexQuery_DeleteJobResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_DeleteOperationResult_fieldAccessorTable;
+      internal_static_YandexQuery_DeleteJobResult_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_ModifyOperationRequest_descriptor;
+    internal_static_YandexQuery_ModifyJobRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_ModifyOperationRequest_fieldAccessorTable;
+      internal_static_YandexQuery_ModifyJobRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_ModifyOperationResponse_descriptor;
+    internal_static_YandexQuery_ModifyJobResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_ModifyOperationResponse_fieldAccessorTable;
+      internal_static_YandexQuery_ModifyJobResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_ModifyOperationResult_descriptor;
+    internal_static_YandexQuery_ModifyJobResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_ModifyOperationResult_fieldAccessorTable;
+      internal_static_YandexQuery_ModifyJobResult_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_ControlOperationRequest_descriptor;
+    internal_static_YandexQuery_ControlJobRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_ControlOperationRequest_fieldAccessorTable;
+      internal_static_YandexQuery_ControlJobRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_ControlOperationResponse_descriptor;
+    internal_static_YandexQuery_ControlJobResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_ControlOperationResponse_fieldAccessorTable;
+      internal_static_YandexQuery_ControlJobResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_YandexQuery_ControlOperationResult_descriptor;
+    internal_static_YandexQuery_ControlJobResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_YandexQuery_ControlOperationResult_fieldAccessorTable;
+      internal_static_YandexQuery_ControlJobResult_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_YandexQuery_CurrentIAMTokenAuth_descriptor;
   private static final 
@@ -68819,265 +68819,259 @@ public final class YandexQueryProtos {
       "fied_by\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022.\n\ncreated_at",
       "\030\004 \001(\0132\032.google.protobuf.Timestamp\022/\n\013mo" +
       "dified_at\030\005 \001(\0132\032.google.protobuf.Timest" +
-      "amp\022\032\n\010revision\030\006 \001(\003B\010\262\346*\004>= 0\"\224\004\n\rOper" +
-      "ationMeta\022\'\n\006common\030\001 \001(\0132\027.YandexQuery." +
-      "CommonMeta\022.\n\nstarted_at\030\002 \001(\0132\032.google." +
-      "protobuf.Timestamp\022/\n\013finished_at\030\003 \001(\0132" +
-      "\032.google.protobuf.Timestamp\0221\n\013last_acti" +
-      "on\030\004 \001(\0162\034.YandexQuery.OperationAction\022&" +
-      "\n\004mode\030\005 \001(\0162\030.YandexQuery.ExecuteMode\0227" +
-      "\n\006status\030\006 \001(\0162\'.YandexQuery.OperationMe",
-      "ta.ComputeState\"\344\001\n\014ComputeState\022\035\n\031COMP" +
-      "UTE_STATE_UNSPECIFIED\020\000\022\014\n\010STARTING\020\001\022\023\n" +
-      "\017ABORTED_BY_USER\020\002\022\025\n\021ABORTED_BY_SYSTEM\020" +
-      "\003\022\024\n\020ABORTING_BY_USER\020\004\022\026\n\022ABORTING_BY_S" +
-      "YSTEM\020\005\022\014\n\010RESUMING\020\006\022\013\n\007RUNNING\020\007\022\r\n\tCO" +
-      "MPLETED\020\010\022\n\n\006FAILED\020\t\022\013\n\007PAUSING\020\n\022\n\n\006PA" +
-      "USED\020\013\"}\n\016BriefOperation\022*\n\004type\030\001 \001(\0162\034" +
-      ".YandexQuery.Query.QueryType\022\025\n\004name\030\002 \001" +
-      "(\tB\007\242\346*\003\030\200\010\022(\n\004meta\030\003 \001(\0132\032.YandexQuery." +
-      "OperationMeta\"\'\n\rOperationPlan\022\026\n\004json\030\003",
-      " \001(\tB\010\242\346*\004\030\200\240\006\"\204\002\n\tOperation\022(\n\004meta\030\001 \001" +
-      "(\0132\032.YandexQuery.OperationMeta\022!\n\005query\030" +
-      "\002 \001(\0132\022.YandexQuery.Query\022(\n\004plan\030\003 \001(\0132" +
-      "\032.YandexQuery.OperationPlan\022&\n\005issue\030\004 \003" +
-      "(\0132\027.Ydb.Issue.IssueMessage\0224\n\nstatistic" +
-      "s\030\005 \001(\0132 .YandexQuery.OperationStatistic" +
-      "s\022\"\n\020result_set_count\030\006 \001(\005B\010\262\346*\004>= 0\"-\n" +
-      "\023OperationStatistics\022\026\n\004json\030\001 \001(\tB\010\242\346*\004" +
-      "\030\200\240\006\"\373\001\n\026CreateOperationRequest\0229\n\020opera" +
-      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera",
-      "tionParams\022\031\n\010cloud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n" +
-      "\tfolder_id\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022!\n\005query\030\004" +
-      " \001(\0132\022.YandexQuery.Query\022&\n\004mode\030\005 \001(\0162\030" +
-      ".YandexQuery.ExecuteMode\022 \n\017idempotency_" +
-      "key\030\006 \001(\tB\007\242\346*\003\030\200\010\"G\n\027CreateOperationRes" +
-      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
-      "s.Operation\"6\n\025CreateOperationResult\022\035\n\014" +
-      "operation_id\030\001 \001(\tB\007\242\346*\003\030\200\010\"\313\003\n\025ListOper" +
-      "ationsRequest\0229\n\020operation_params\030\001 \001(\0132" +
-      "\037.Ydb.Operations.OperationParams\022\031\n\010clou",
-      "d_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013" +
-      "\242\346*\007\n\005\010\001\020\200\010\022\033\n\npage_token\030\004 \001(\tB\007\242\346*\003\030\200\010" +
-      "\022\033\n\005limit\030\005 \001(\005B\014\262\346*\010[0; 100]\0229\n\006filter\030" +
-      "\006 \001(\0132).YandexQuery.ListOperationsReques" +
-      "t.Filter\032\306\001\n\006Filter\022?\n\006status\030\001 \003(\0162\'.Ya" +
-      "ndexQuery.OperationMeta.ComputeStateB\006\232\346" +
-      "*\002\030\024\0224\n\006action\030\002 \003(\0162\034.YandexQuery.Opera" +
-      "tionActionB\006\232\346*\002\030\024\022.\n\004mode\030\003 \003(\0162\030.Yande" +
-      "xQuery.ExecuteModeB\006\232\346*\002\030\024\022\025\n\004name\030\004 \001(\t" +
-      "B\007\242\346*\003\030\200\010\"F\n\026ListOperationsResponse\022,\n\to",
-      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
-      "n\"h\n\024ListOperationsResult\022.\n\toperation\030\001" +
-      " \003(\0132\033.YandexQuery.BriefOperation\022 \n\017nex" +
-      "t_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"\263\001\n\030Describe" +
-      "OperationRequest\0229\n\020operation_params\030\001 \001" +
+      "amp\022\032\n\010revision\030\006 \001(\003B\010\262\346*\004>= 0\"\202\004\n\007JobM" +
+      "eta\022\'\n\006common\030\001 \001(\0132\027.YandexQuery.Common" +
+      "Meta\022.\n\nstarted_at\030\002 \001(\0132\032.google.protob" +
+      "uf.Timestamp\022/\n\013finished_at\030\003 \001(\0132\032.goog" +
+      "le.protobuf.Timestamp\022+\n\013last_action\030\004 \001" +
+      "(\0162\026.YandexQuery.JobAction\022&\n\004mode\030\005 \001(\016" +
+      "2\030.YandexQuery.ExecuteMode\0221\n\006status\030\006 \001" +
+      "(\0162!.YandexQuery.JobMeta.ComputeState\"\344\001",
+      "\n\014ComputeState\022\035\n\031COMPUTE_STATE_UNSPECIF" +
+      "IED\020\000\022\014\n\010STARTING\020\001\022\023\n\017ABORTED_BY_USER\020\002" +
+      "\022\025\n\021ABORTED_BY_SYSTEM\020\003\022\024\n\020ABORTING_BY_U" +
+      "SER\020\004\022\026\n\022ABORTING_BY_SYSTEM\020\005\022\014\n\010RESUMIN" +
+      "G\020\006\022\013\n\007RUNNING\020\007\022\r\n\tCOMPLETED\020\010\022\n\n\006FAILE" +
+      "D\020\t\022\013\n\007PAUSING\020\n\022\n\n\006PAUSED\020\013\"q\n\010BriefJob" +
+      "\022*\n\004type\030\001 \001(\0162\034.YandexQuery.Query.Query" +
+      "Type\022\025\n\004name\030\002 \001(\tB\007\242\346*\003\030\200\010\022\"\n\004meta\030\003 \001(" +
+      "\0132\024.YandexQuery.JobMeta\"!\n\007JobPlan\022\026\n\004js" +
+      "on\030\003 \001(\tB\010\242\346*\004\030\200\240\006\"\354\001\n\003Job\022\"\n\004meta\030\001 \001(\013",
+      "2\024.YandexQuery.JobMeta\022!\n\005query\030\002 \001(\0132\022." +
+      "YandexQuery.Query\022\"\n\004plan\030\003 \001(\0132\024.Yandex" +
+      "Query.JobPlan\022&\n\005issue\030\004 \003(\0132\027.Ydb.Issue" +
+      ".IssueMessage\022.\n\nstatistics\030\005 \001(\0132\032.Yand" +
+      "exQuery.JobStatistics\022\"\n\020result_set_coun" +
+      "t\030\006 \001(\005B\010\262\346*\004>= 0\"\'\n\rJobStatistics\022\026\n\004js" +
+      "on\030\001 \001(\tB\010\242\346*\004\030\200\240\006\"\365\001\n\020CreateJobRequest\022" +
+      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\022\031\n\010cloud_id\030\002 \001(\tB\007\242\346" +
+      "*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022!\n",
+      "\005query\030\004 \001(\0132\022.YandexQuery.Query\022&\n\004mode" +
+      "\030\005 \001(\0162\030.YandexQuery.ExecuteMode\022 \n\017idem" +
+      "potency_key\030\006 \001(\tB\007\242\346*\003\030\200\010\"A\n\021CreateJobR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"0\n\017CreateJobResult\022\035\n\014oper" +
+      "ation_id\030\001 \001(\tB\007\242\346*\003\030\200\010\"\263\003\n\017ListJobsRequ" +
+      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\022\031\n\010cloud_id\030\002 \001(\t" +
+      "B\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200" +
+      "\010\022\033\n\npage_token\030\004 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030",
+      "\005 \001(\005B\014\262\346*\010[0; 100]\0223\n\006filter\030\006 \001(\0132#.Ya" +
+      "ndexQuery.ListJobsRequest.Filter\032\272\001\n\006Fil" +
+      "ter\0229\n\006status\030\001 \003(\0162!.YandexQuery.JobMet" +
+      "a.ComputeStateB\006\232\346*\002\030\024\022.\n\006action\030\002 \003(\0162\026" +
+      ".YandexQuery.JobActionB\006\232\346*\002\030\024\022.\n\004mode\030\003" +
+      " \003(\0162\030.YandexQuery.ExecuteModeB\006\232\346*\002\030\024\022\025" +
+      "\n\004name\030\004 \001(\tB\007\242\346*\003\030\200\010\"@\n\020ListJobsRespons" +
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
+      "eration\"\\\n\016ListJobsResult\022(\n\toperation\030\001" +
+      " \003(\0132\025.YandexQuery.BriefJob\022 \n\017next_page",
+      "_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"\255\001\n\022DescribeJobReq" +
+      "uest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Ope" +
+      "rations.OperationParams\022\031\n\010cloud_id\030\002 \001(" +
+      "\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020" +
+      "\200\010\022!\n\014operation_id\030\004 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"C\n" +
+      "\023DescribeJobResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"8\n\021DescribeJo" +
+      "bResult\022#\n\toperation\030\001 \001(\0132\020.YandexQuery" +
+      ".Job\"\362\001\n\020DeleteJobRequest\0229\n\020operation_p" +
+      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa",
+      "rams\022\031\n\010cloud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolde" +
+      "r_id\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022!\n\014operation_id\030" +
+      "\004 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previous_revision\030" +
+      "\005 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\006 \001(\t" +
+      "B\007\242\346*\003\030\200\010\"A\n\021DeleteJobResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\021\n\017" +
+      "DeleteJobResult\"\315\002\n\020ModifyJobRequest\0229\n\020" +
+      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
+      "OperationParams\022\031\n\010cloud_id\030\002 \001(\tB\007\242\346*\003\030" +
+      "\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022!\n\014op",
+      "eration_id\030\004 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\035\n\003acl\030\005 \001" +
+      "(\0132\020.YandexQuery.Acl\022#\n\006limits\030\006 \001(\0132\023.Y" +
+      "andexQuery.Limits\022\025\n\004name\030\007 \001(\tB\007\242\346*\003\030\200\010" +
+      "\022#\n\021previous_revision\030\010 \001(\003B\010\262\346*\004>= 0\022 \n" +
+      "\017idempotency_key\030\t \001(\tB\007\242\346*\003\030\200\010\"A\n\021Modif" +
+      "yJobResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
+      "erations.Operation\"\021\n\017ModifyJobResult\"\233\002" +
+      "\n\021ControlJobRequest\0229\n\020operation_params\030" +
+      "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\031" +
+      "\n\010cloud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003",
+      " \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022!\n\014operation_id\030\004 \001(\tB" +
+      "\013\242\346*\007\n\005\010\001\020\200\010\022&\n\006action\030\005 \001(\0162\026.YandexQue" +
+      "ry.JobAction\022#\n\021previous_revision\030\006 \001(\003B" +
+      "\010\262\346*\004>= 0\022 \n\017idempotency_key\030\007 \001(\tB\007\242\346*\003" +
+      "\030\200\010\"B\n\022ControlJobResponse\022,\n\toperation\030\001" +
+      " \001(\0132\031.Ydb.Operations.Operation\"\022\n\020Contr" +
+      "olJobResult\"\025\n\023CurrentIAMTokenAuth\")\n\022Se" +
+      "rviceAccountAuth\022\023\n\002id\030\001 \001(\tB\007\242\346*\003\030\200\010\"\203\001" +
+      "\n\004Auth\0227\n\013current_iam\030\001 \001(\0132 .YandexQuer" +
+      "y.CurrentIAMTokenAuthH\000\022:\n\017service_accou",
+      "nt\030\002 \001(\0132\037.YandexQuery.ServiceAccountAut" +
+      "hH\000B\006\n\004auth\"\222\001\n\013DataStreams\022\031\n\010endpoint\030" +
+      "\001 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010database\030\002 \001(\tB\007\242\346*\003\030\200" +
+      "\010\022\034\n\013database_id\030\003 \001(\tB\007\242\346*\003\030\200\010\022\016\n\006secur" +
+      "e\030\004 \001(\010\022\037\n\004auth\030\005 \001(\0132\021.YandexQuery.Auth" +
+      "\"q\n\013YdbDatabase\022\031\n\010endpoint\030\001 \001(\tB\007\242\346*\003\030" +
+      "\200\010\022\031\n\010database\030\002 \001(\tB\007\242\346*\003\030\200\010\022\034\n\013databas" +
+      "e_id\030\003 \001(\tB\007\242\346*\003\030\200\010\022\016\n\006secure\030\004 \001(\010\"\251\001\n\021" +
+      "ClickHouseCluster\022\034\n\013database_id\030\001 \001(\tB\007" +
+      "\242\346*\003\030\200\010\022\025\n\004host\030\002 \001(\tB\007\242\346*\003\030\200\010\022\034\n\004port\030\003",
+      " \001(\005B\016\262\346*\n[0; 65536]\022\016\n\006secure\030\004 \001(\010\022\026\n\005" +
+      "login\030\005 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010password\030\006 \001(\tB\007" +
+      "\242\346*\003\030\200\010\"S\n\027ObjectStorageConnection\022\027\n\006bu" +
+      "cket\030\001 \001(\tB\007\242\346*\003\030\200\010\022\037\n\004auth\030\002 \001(\0132\021.Yand" +
+      "exQuery.Auth\"\203\002\n\021ConnectionSetting\0220\n\014yd" +
+      "b_database\030\001 \001(\0132\030.YandexQuery.YdbDataba" +
+      "seH\000\022<\n\022clickhouse_cluster\030\002 \001(\0132\036.Yande" +
+      "xQuery.ClickHouseClusterH\000\0220\n\014data_strea" +
+      "ms\030\003 \001(\0132\030.YandexQuery.DataStreamsH\000\022>\n\016" +
+      "object_storage\030\004 \001(\0132$.YandexQuery.Objec",
+      "tStorageConnectionH\000B\014\n\nconnection\"~\n\021Co" +
+      "nnectionContent\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020" +
+      "\200\010\022/\n\007setting\030\002 \001(\0132\036.YandexQuery.Connec" +
+      "tionSetting\022\035\n\003acl\030\003 \001(\0132\020.YandexQuery.A" +
+      "cl\"d\n\nConnection\022/\n\007content\030\001 \001(\0132\036.Yand" +
+      "exQuery.ConnectionContent\022%\n\004meta\030\002 \001(\0132" +
+      "\027.YandexQuery.CommonMeta\"\342\001\n\027CreateConne" +
+      "ctionRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\022\031\n\010cloud" +
+      "_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013\242",
+      "\346*\007\n\005\010\001\020\200\010\022/\n\007content\030\004 \001(\0132\036.YandexQuer" +
+      "y.ConnectionContent\022 \n\017idempotency_key\030\005" +
+      " \001(\tB\007\242\346*\003\030\200\010\"H\n\030CreateConnectionRespons" +
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
+      "eration\"<\n\026CreateConnectionResult\022\"\n\rcon" +
+      "nection_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"\310\001\n\026ListCo" +
+      "nnectionsRequest\0229\n\020operation_params\030\001 \001" +
       "(\0132\037.Ydb.Operations.OperationParams\022\031\n\010c" +
       "loud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(" +
-      "\tB\013\242\346*\007\n\005\010\001\020\200\010\022!\n\014operation_id\030\004 \001(\tB\013\242\346" +
-      "*\007\n\005\010\001\020\200\010\"I\n\031DescribeOperationResponse\022," +
-      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera",
-      "tion\"D\n\027DescribeOperationResult\022)\n\topera" +
-      "tion\030\001 \001(\0132\026.YandexQuery.Operation\"\370\001\n\026D" +
-      "eleteOperationRequest\0229\n\020operation_param" +
-      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\022\031\n\010cloud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id" +
-      "\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022!\n\014operation_id\030\004 \001(" +
-      "\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previous_revision\030\005 \001(" +
-      "\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\006 \001(\tB\007\242\346" +
-      "*\003\030\200\010\"G\n\027DeleteOperationResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\027",
-      "\n\025DeleteOperationResult\"\323\002\n\026ModifyOperat" +
+      "\tB\013\242\346*\007\n\005\010\001\020\200\010\022\033\n\npage_token\030\004 \001(\tB\007\242\346*\003",
+      "\030\200\010\022\033\n\005limit\030\005 \001(\005B\014\262\346*\010[0; 100]\"G\n\027List" +
+      "ConnectionsResponse\022,\n\toperation\030\001 \001(\0132\031" +
+      ".Ydb.Operations.Operation\"f\n\025ListConnect" +
+      "ionsResult\022+\n\nconnection\030\001 \003(\0132\027.YandexQ" +
+      "uery.Connection\022 \n\017next_page_token\030\002 \001(\t" +
+      "B\007\242\346*\003\030\200\010\"\265\001\n\031DescribeConnectionRequest\022" +
+      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\022\031\n\010cloud_id\030\002 \001(\tB\007\242\346" +
+      "*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n" +
+      "\rconnection_id\030\004 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"J\n\032Des",
+      "cribeConnectionResponse\022,\n\toperation\030\001 \001" +
+      "(\0132\031.Ydb.Operations.Operation\"G\n\030Describ" +
+      "eConnectionResult\022+\n\nconnection\030\001 \001(\0132\027." +
+      "YandexQuery.Connection\"\253\002\n\027ModifyConnect" +
       "ionRequest\0229\n\020operation_params\030\001 \001(\0132\037.Y" +
       "db.Operations.OperationParams\022\031\n\010cloud_i" +
       "d\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013\242\346*" +
-      "\007\n\005\010\001\020\200\010\022!\n\014operation_id\030\004 \001(\tB\013\242\346*\007\n\005\010\001" +
-      "\020\200\010\022\035\n\003acl\030\005 \001(\0132\020.YandexQuery.Acl\022#\n\006li" +
-      "mits\030\006 \001(\0132\023.YandexQuery.Limits\022\025\n\004name\030" +
-      "\007 \001(\tB\007\242\346*\003\030\200\010\022#\n\021previous_revision\030\010 \001(" +
-      "\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\t \001(\tB\007\242\346" +
-      "*\003\030\200\010\"G\n\027ModifyOperationResponse\022,\n\toper",
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\027" +
-      "\n\025ModifyOperationResult\"\247\002\n\027ControlOpera" +
-      "tionRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
-      "Ydb.Operations.OperationParams\022\031\n\010cloud_" +
-      "id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013\242\346" +
-      "*\007\n\005\010\001\020\200\010\022!\n\014operation_id\030\004 \001(\tB\013\242\346*\007\n\005\010" +
-      "\001\020\200\010\022,\n\006action\030\005 \001(\0162\034.YandexQuery.Opera" +
-      "tionAction\022#\n\021previous_revision\030\006 \001(\003B\010\262" +
-      "\346*\004>= 0\022 \n\017idempotency_key\030\007 \001(\tB\007\242\346*\003\030\200" +
-      "\010\"H\n\030ControlOperationResponse\022,\n\toperati",
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\030\n\026C" +
-      "ontrolOperationResult\"\025\n\023CurrentIAMToken" +
-      "Auth\")\n\022ServiceAccountAuth\022\023\n\002id\030\001 \001(\tB\007" +
-      "\242\346*\003\030\200\010\"\203\001\n\004Auth\0227\n\013current_iam\030\001 \001(\0132 ." +
-      "YandexQuery.CurrentIAMTokenAuthH\000\022:\n\017ser" +
-      "vice_account\030\002 \001(\0132\037.YandexQuery.Service" +
-      "AccountAuthH\000B\006\n\004auth\"\222\001\n\013DataStreams\022\031\n" +
-      "\010endpoint\030\001 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010database\030\002 \001" +
-      "(\tB\007\242\346*\003\030\200\010\022\034\n\013database_id\030\003 \001(\tB\007\242\346*\003\030\200" +
-      "\010\022\016\n\006secure\030\004 \001(\010\022\037\n\004auth\030\005 \001(\0132\021.Yandex",
-      "Query.Auth\"q\n\013YdbDatabase\022\031\n\010endpoint\030\001 " +
-      "\001(\tB\007\242\346*\003\030\200\010\022\031\n\010database\030\002 \001(\tB\007\242\346*\003\030\200\010\022" +
-      "\034\n\013database_id\030\003 \001(\tB\007\242\346*\003\030\200\010\022\016\n\006secure\030" +
-      "\004 \001(\010\"\251\001\n\021ClickHouseCluster\022\034\n\013database_" +
-      "id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\025\n\004host\030\002 \001(\tB\007\242\346*\003\030\200\010" +
-      "\022\034\n\004port\030\003 \001(\005B\016\262\346*\n[0; 65536]\022\016\n\006secure" +
-      "\030\004 \001(\010\022\026\n\005login\030\005 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010passwo" +
-      "rd\030\006 \001(\tB\007\242\346*\003\030\200\010\"S\n\027ObjectStorageConnec" +
-      "tion\022\027\n\006bucket\030\001 \001(\tB\007\242\346*\003\030\200\010\022\037\n\004auth\030\002 " +
-      "\001(\0132\021.YandexQuery.Auth\"\203\002\n\021ConnectionSet",
-      "ting\0220\n\014ydb_database\030\001 \001(\0132\030.YandexQuery" +
-      ".YdbDatabaseH\000\022<\n\022clickhouse_cluster\030\002 \001" +
-      "(\0132\036.YandexQuery.ClickHouseClusterH\000\0220\n\014" +
-      "data_streams\030\003 \001(\0132\030.YandexQuery.DataStr" +
-      "eamsH\000\022>\n\016object_storage\030\004 \001(\0132$.YandexQ" +
-      "uery.ObjectStorageConnectionH\000B\014\n\nconnec" +
-      "tion\"~\n\021ConnectionContent\022\031\n\004name\030\001 \001(\tB" +
-      "\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007setting\030\002 \001(\0132\036.YandexQu" +
-      "ery.ConnectionSetting\022\035\n\003acl\030\003 \001(\0132\020.Yan" +
-      "dexQuery.Acl\"d\n\nConnection\022/\n\007content\030\001 ",
-      "\001(\0132\036.YandexQuery.ConnectionContent\022%\n\004m" +
-      "eta\030\002 \001(\0132\027.YandexQuery.CommonMeta\"\342\001\n\027C" +
-      "reateConnectionRequest\0229\n\020operation_para" +
-      "ms\030\001 \001(\0132\037.Ydb.Operations.OperationParam" +
-      "s\022\031\n\010cloud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_i" +
-      "d\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007content\030\004 \001(\0132\036." +
-      "YandexQuery.ConnectionContent\022 \n\017idempot" +
-      "ency_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"H\n\030CreateConnect" +
-      "ionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"<\n\026CreateConnectionRes",
-      "ult\022\"\n\rconnection_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"" +
-      "\310\001\n\026ListConnectionsRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\031\n\010cloud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfold" +
-      "er_id\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\033\n\npage_token\030\004" +
-      " \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\005 \001(\005B\014\262\346*\010[0; 10" +
-      "0]\"G\n\027ListConnectionsResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"f\n\025L" +
-      "istConnectionsResult\022+\n\nconnection\030\001 \003(\013" +
-      "2\027.YandexQuery.Connection\022 \n\017next_page_t",
-      "oken\030\002 \001(\tB\007\242\346*\003\030\200\010\"\265\001\n\031DescribeConnecti" +
-      "onRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\022\031\n\010cloud_id" +
-      "\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013\242\346*\007" +
-      "\n\005\010\001\020\200\010\022\"\n\rconnection_id\030\004 \001(\tB\013\242\346*\007\n\005\010\001" +
-      "\020\200\010\"J\n\032DescribeConnectionResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
-      "G\n\030DescribeConnectionResult\022+\n\nconnectio" +
-      "n\030\001 \001(\0132\027.YandexQuery.Connection\"\253\002\n\027Mod" +
-      "ifyConnectionRequest\0229\n\020operation_params",
-      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
-      "\031\n\010cloud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030" +
-      "\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rconnection_id\030\004 \001(" +
-      "\tB\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007content\030\005 \001(\0132\036.Yandex" +
-      "Query.ConnectionContent\022#\n\021previous_revi" +
-      "sion\030\006 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030" +
-      "\007 \001(\tB\007\242\346*\003\030\200\010\"H\n\030ModifyConnectionRespon" +
-      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
-      "peration\"\030\n\026ModifyConnectionResult\"\372\001\n\027D" +
-      "eleteConnectionRequest\0229\n\020operation_para",
-      "ms\030\001 \001(\0132\037.Ydb.Operations.OperationParam" +
-      "s\022\031\n\010cloud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_i" +
-      "d\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rconnection_id\030\004 " +
-      "\001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previous_revision\030\005 " +
-      "\001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\006 \001(\tB\007" +
-      "\242\346*\003\030\200\010\"H\n\030DeleteConnectionResponse\022,\n\to" +
-      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
-      "n\"\030\n\026DeleteConnectionResult\"\215\002\n\024GetResul" +
-      "tDataRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
-      ".Ydb.Operations.OperationParams\022\031\n\010cloud",
+      "\007\n\005\010\001\020\200\010\022\"\n\rconnection_id\030\004 \001(\tB\013\242\346*\007\n\005\010" +
+      "\001\020\200\010\022/\n\007content\030\005 \001(\0132\036.YandexQuery.Conn" +
+      "ectionContent\022#\n\021previous_revision\030\006 \001(\003",
+      "B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\007 \001(\tB\007\242\346*" +
+      "\003\030\200\010\"H\n\030ModifyConnectionResponse\022,\n\toper" +
+      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\030" +
+      "\n\026ModifyConnectionResult\"\372\001\n\027DeleteConne" +
+      "ctionRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\022\031\n\010cloud" +
       "_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013\242" +
-      "\346*\007\n\005\010\001\020\200\010\022!\n\014operation_id\030\004 \001(\tB\013\242\346*\007\n\005" +
-      "\010\001\020\200\010\022\"\n\020result_set_index\030\005 \001(\005B\010\262\346*\004>= " +
-      "0\022\033\n\npage_token\030\006 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030" +
-      "\007 \001(\005B\014\262\346*\010[0; 100]\"E\n\025GetResultDataResp" +
-      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
-      ".Operation\"9\n\023GetResultDataResult\022\"\n\nres" +
-      "ult_set\030\001 \001(\0132\016.Ydb.ResultSet\"-\n\006Schema\022" +
-      "#\n\006column\030\001 \003(\0132\013.Ydb.ColumnB\006\232\346*\002\030d\"\222\001\n" +
-      "\022DataStreamsBinding\022 \n\013stream_name\030\001 \001(\t",
-      "B\013\242\346*\007\n\005\010\001\020\200\010\022\027\n\006format\030\002 \001(\tB\007\242\346*\003\030\200\010\022\034" +
-      "\n\013compression\030\003 \001(\tB\007\242\346*\003\030\200\010\022#\n\006schema\030\004" +
-      " \001(\0132\023.YandexQuery.Schema\"\355\002\n\024ObjectStor" +
-      "ageBinding\0228\n\006subset\030\001 \003(\0132(.YandexQuery" +
-      ".ObjectStorageBinding.Subset\032\232\002\n\006Subset\022" +
-      "!\n\014path_pattern\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\027\n\006fo" +
-      "rmat\030\002 \001(\tB\007\242\346*\003\030\200\010\022[\n\016format_setting\030\003 " +
-      "\003(\0132;.YandexQuery.ObjectStorageBinding.S" +
-      "ubset.FormatSettingEntryB\006\232\346*\002\030d\022\034\n\013comp" +
-      "ression\030\004 \001(\tB\007\242\346*\003\030\200\010\022#\n\006schema\030\005 \001(\0132\023",
-      ".YandexQuery.Schema\0324\n\022FormatSettingEntr" +
-      "y\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\221\001\n\016Bi" +
-      "ndingSetting\0227\n\014data_streams\030\001 \001(\0132\037.Yan" +
-      "dexQuery.DataStreamsBindingH\000\022;\n\016object_" +
-      "storage\030\002 \001(\0132!.YandexQuery.ObjectStorag" +
-      "eBindingH\000B\t\n\007binding\"\234\001\n\014BriefBinding\022\031" +
-      "\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rconnection_" +
-      "id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022%\n\004meta\030\003 \001(\0132\027.Ya" +
-      "ndexQuery.CommonMeta\022&\n\004type\030\004 \001(\0162\030.Yan" +
-      "dexQuery.BindingType\"}\n\016BindingContent\022\031",
-      "\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rconnection_" +
-      "id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022,\n\007setting\030\003 \001(\0132\033" +
-      ".YandexQuery.BindingSetting\"^\n\007Binding\022," +
-      "\n\007content\030\001 \001(\0132\033.YandexQuery.BindingCon" +
-      "tent\022%\n\004meta\030\002 \001(\0132\027.YandexQuery.CommonM" +
-      "eta\"\334\001\n\024CreateBindingRequest\0229\n\020operatio" +
-      "n_params\030\001 \001(\0132\037.Ydb.Operations.Operatio" +
-      "nParams\022\031\n\010cloud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfo" +
-      "lder_id\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022,\n\007content\030\004 " +
-      "\001(\0132\033.YandexQuery.BindingContent\022 \n\017idem",
-      "potency_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"E\n\025CreateBind" +
-      "ingResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"6\n\023CreateBindingResult" +
-      "\022\037\n\nbinding_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"\305\001\n\023Li" +
-      "stBindingsRequest\0229\n\020operation_params\030\001 " +
-      "\001(\0132\037.Ydb.Operations.OperationParams\022\031\n\010" +
-      "cloud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001" +
-      "(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\033\n\npage_token\030\004 \001(\tB\007\242\346*" +
-      "\003\030\200\010\022\033\n\005limit\030\005 \001(\005B\014\262\346*\010[0; 100]\"D\n\024Lis" +
-      "tBindingsResponse\022,\n\toperation\030\001 \001(\0132\031.Y",
-      "db.Operations.Operation\"b\n\022ListBindingsR" +
-      "esult\022*\n\007binding\030\001 \003(\0132\031.YandexQuery.Bri" +
-      "efBinding\022 \n\017next_page_token\030\002 \001(\tB\007\242\346*\003" +
-      "\030\200\010\"\257\001\n\026DescribeBindingRequest\0229\n\020operat" +
-      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
-      "ionParams\022\031\n\010cloud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\t" +
-      "folder_id\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\037\n\nbinding_" +
-      "id\030\004 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"G\n\027DescribeBinding" +
-      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
-      "ions.Operation\">\n\025DescribeBindingResult\022",
-      "%\n\007binding\030\001 \001(\0132\024.YandexQuery.Binding\"\242" +
-      "\002\n\024ModifyBindingRequest\0229\n\020operation_par" +
-      "ams\030\001 \001(\0132\037.Ydb.Operations.OperationPara" +
-      "ms\022\031\n\010cloud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_" +
-      "id\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\037\n\nbinding_id\030\004 \001(" +
-      "\tB\013\242\346*\007\n\005\010\001\020\200\010\022,\n\007content\030\005 \001(\0132\033.Yandex" +
-      "Query.BindingContent\022#\n\021previous_revisio" +
-      "n\030\006 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\007 \001" +
-      "(\tB\007\242\346*\003\030\200\010\"E\n\025ModifyBindingResponse\022,\n\t" +
-      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati",
-      "on\"\025\n\023ModifyBindingResult\"\364\001\n\024DeleteBind" +
-      "ingRequest\0229\n\020operation_params\030\001 \001(\0132\037.Y" +
-      "db.Operations.OperationParams\022\031\n\010cloud_i" +
-      "d\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013\242\346*" +
-      "\007\n\005\010\001\020\200\010\022\037\n\nbinding_id\030\004 \001(\tB\013\242\346*\007\n\005\010\001\020\200" +
-      "\010\022#\n\021previous_revision\030\005 \001(\003B\010\262\346*\004>= 0\022 " +
-      "\n\017idempotency_key\030\006 \001(\tB\007\242\346*\003\030\200\010\"E\n\025Dele" +
-      "teBindingResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
-      "db.Operations.Operation\"\025\n\023DeleteBinding" +
-      "Result*\254\001\n\013ExecuteMode\022\034\n\030EXECUTE_MODE_U",
-      "NSPECIFIED\020\000\022\t\n\005PARSE\020\001\022\013\n\007COMPILE\020\002\022\014\n\010" +
-      "VALIDATE\020\003\022\013\n\007EXPLAIN\020\004\022\007\n\003RUN\020\005\022\022\n\016REPL" +
-      "ACE_ALWAYS\020\006\022\034\n\030REPLACE_WITH_FRESH_STATE" +
-      "\020\007\022\021\n\rREPLACE_CHECK\020\010*\201\001\n\017OperationActio" +
-      "n\022 \n\034OPERATION_ACTION_UNSPECIFIED\020\000\022\t\n\005P" +
-      "AUSE\020\001\022\024\n\020PAUSE_GRACEFULLY\020\002\022\t\n\005ABORT\020\003\022" +
-      "\024\n\020ABORT_GRACEFULLY\020\004\022\n\n\006RESUME\020\005*Q\n\013Bin" +
-      "dingType\022\034\n\030BINDING_TYPE_UNSPECIFIED\020\000\022\020" +
-      "\n\014DATA_STREAMS\020\001\022\022\n\016OBJECT_STORAGE\020\002B(\n\020" +
-      "com.yandex.queryB\021YandexQueryProtos\370\001\001b\006",
-      "proto3"
+      "\346*\007\n\005\010\001\020\200\010\022\"\n\rconnection_id\030\004 \001(\tB\013\242\346*\007\n" +
+      "\005\010\001\020\200\010\022#\n\021previous_revision\030\005 \001(\003B\010\262\346*\004>" +
+      "= 0\022 \n\017idempotency_key\030\006 \001(\tB\007\242\346*\003\030\200\010\"H\n",
+      "\030DeleteConnectionResponse\022,\n\toperation\030\001" +
+      " \001(\0132\031.Ydb.Operations.Operation\"\030\n\026Delet" +
+      "eConnectionResult\"\215\002\n\024GetResultDataReque" +
+      "st\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Opera" +
+      "tions.OperationParams\022\031\n\010cloud_id\030\002 \001(\tB" +
+      "\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010" +
+      "\022!\n\014operation_id\030\004 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\020r" +
+      "esult_set_index\030\005 \001(\005B\010\262\346*\004>= 0\022\033\n\npage_" +
+      "token\030\006 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\007 \001(\005B\014\262\346*" +
+      "\010[0; 100]\"E\n\025GetResultDataResponse\022,\n\top",
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "\"9\n\023GetResultDataResult\022\"\n\nresult_set\030\001 " +
+      "\001(\0132\016.Ydb.ResultSet\"-\n\006Schema\022#\n\006column\030" +
+      "\001 \003(\0132\013.Ydb.ColumnB\006\232\346*\002\030d\"\222\001\n\022DataStrea" +
+      "msBinding\022 \n\013stream_name\030\001 \001(\tB\013\242\346*\007\n\005\010\001" +
+      "\020\200\010\022\027\n\006format\030\002 \001(\tB\007\242\346*\003\030\200\010\022\034\n\013compress" +
+      "ion\030\003 \001(\tB\007\242\346*\003\030\200\010\022#\n\006schema\030\004 \001(\0132\023.Yan" +
+      "dexQuery.Schema\"\355\002\n\024ObjectStorageBinding" +
+      "\0228\n\006subset\030\001 \003(\0132(.YandexQuery.ObjectSto" +
+      "rageBinding.Subset\032\232\002\n\006Subset\022!\n\014path_pa",
+      "ttern\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\027\n\006format\030\002 \001(\t" +
+      "B\007\242\346*\003\030\200\010\022[\n\016format_setting\030\003 \003(\0132;.Yand" +
+      "exQuery.ObjectStorageBinding.Subset.Form" +
+      "atSettingEntryB\006\232\346*\002\030d\022\034\n\013compression\030\004 " +
+      "\001(\tB\007\242\346*\003\030\200\010\022#\n\006schema\030\005 \001(\0132\023.YandexQue" +
+      "ry.Schema\0324\n\022FormatSettingEntry\022\013\n\003key\030\001" +
+      " \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\221\001\n\016BindingSetti" +
+      "ng\0227\n\014data_streams\030\001 \001(\0132\037.YandexQuery.D" +
+      "ataStreamsBindingH\000\022;\n\016object_storage\030\002 " +
+      "\001(\0132!.YandexQuery.ObjectStorageBindingH\000",
+      "B\t\n\007binding\"\234\001\n\014BriefBinding\022\031\n\004name\030\001 \001" +
+      "(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rconnection_id\030\002 \001(\tB\013" +
+      "\242\346*\007\n\005\010\001\020\200\010\022%\n\004meta\030\003 \001(\0132\027.YandexQuery." +
+      "CommonMeta\022&\n\004type\030\004 \001(\0162\030.YandexQuery.B" +
+      "indingType\"}\n\016BindingContent\022\031\n\004name\030\001 \001" +
+      "(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rconnection_id\030\002 \001(\tB\013" +
+      "\242\346*\007\n\005\010\001\020\200\010\022,\n\007setting\030\003 \001(\0132\033.YandexQue" +
+      "ry.BindingSetting\"^\n\007Binding\022,\n\007content\030" +
+      "\001 \001(\0132\033.YandexQuery.BindingContent\022%\n\004me" +
+      "ta\030\002 \001(\0132\027.YandexQuery.CommonMeta\"\334\001\n\024Cr",
+      "eateBindingRequest\0229\n\020operation_params\030\001" +
+      " \001(\0132\037.Ydb.Operations.OperationParams\022\031\n" +
+      "\010cloud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 " +
+      "\001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022,\n\007content\030\004 \001(\0132\033.Yand" +
+      "exQuery.BindingContent\022 \n\017idempotency_ke" +
+      "y\030\005 \001(\tB\007\242\346*\003\030\200\010\"E\n\025CreateBindingRespons" +
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
+      "eration\"6\n\023CreateBindingResult\022\037\n\nbindin" +
+      "g_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"\305\001\n\023ListBindings" +
+      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.",
+      "Operations.OperationParams\022\031\n\010cloud_id\030\002" +
+      " \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013\242\346*\007\n\005" +
+      "\010\001\020\200\010\022\033\n\npage_token\030\004 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005li" +
+      "mit\030\005 \001(\005B\014\262\346*\010[0; 100]\"D\n\024ListBindingsR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"b\n\022ListBindingsResult\022*\n\007b" +
+      "inding\030\001 \003(\0132\031.YandexQuery.BriefBinding\022" +
+      " \n\017next_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"\257\001\n\026De" +
+      "scribeBindingRequest\0229\n\020operation_params" +
+      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022",
+      "\031\n\010cloud_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030" +
+      "\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\037\n\nbinding_id\030\004 \001(\tB\013" +
+      "\242\346*\007\n\005\010\001\020\200\010\"G\n\027DescribeBindingResponse\022," +
+      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
+      "tion\">\n\025DescribeBindingResult\022%\n\007binding" +
+      "\030\001 \001(\0132\024.YandexQuery.Binding\"\242\002\n\024ModifyB" +
+      "indingRequest\0229\n\020operation_params\030\001 \001(\0132" +
+      "\037.Ydb.Operations.OperationParams\022\031\n\010clou" +
+      "d_id\030\002 \001(\tB\007\242\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013" +
+      "\242\346*\007\n\005\010\001\020\200\010\022\037\n\nbinding_id\030\004 \001(\tB\013\242\346*\007\n\005\010",
+      "\001\020\200\010\022,\n\007content\030\005 \001(\0132\033.YandexQuery.Bind" +
+      "ingContent\022#\n\021previous_revision\030\006 \001(\003B\010\262" +
+      "\346*\004>= 0\022 \n\017idempotency_key\030\007 \001(\tB\007\242\346*\003\030\200" +
+      "\010\"E\n\025ModifyBindingResponse\022,\n\toperation\030" +
+      "\001 \001(\0132\031.Ydb.Operations.Operation\"\025\n\023Modi" +
+      "fyBindingResult\"\364\001\n\024DeleteBindingRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\022\031\n\010cloud_id\030\002 \001(\tB\007\242" +
+      "\346*\003\030\200\010\022\036\n\tfolder_id\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\037" +
+      "\n\nbinding_id\030\004 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previ",
+      "ous_revision\030\005 \001(\003B\010\262\346*\004>= 0\022 \n\017idempote" +
+      "ncy_key\030\006 \001(\tB\007\242\346*\003\030\200\010\"E\n\025DeleteBindingR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"\025\n\023DeleteBindingResult*\254\001\n" +
+      "\013ExecuteMode\022\034\n\030EXECUTE_MODE_UNSPECIFIED" +
+      "\020\000\022\t\n\005PARSE\020\001\022\013\n\007COMPILE\020\002\022\014\n\010VALIDATE\020\003" +
+      "\022\013\n\007EXPLAIN\020\004\022\007\n\003RUN\020\005\022\022\n\016REPLACE_ALWAYS" +
+      "\020\006\022\034\n\030REPLACE_WITH_FRESH_STATE\020\007\022\021\n\rREPL" +
+      "ACE_CHECK\020\010*{\n\tJobAction\022 \n\034OPERATION_AC" +
+      "TION_UNSPECIFIED\020\000\022\t\n\005PAUSE\020\001\022\024\n\020PAUSE_G",
+      "RACEFULLY\020\002\022\t\n\005ABORT\020\003\022\024\n\020ABORT_GRACEFUL" +
+      "LY\020\004\022\n\n\006RESUME\020\005*Q\n\013BindingType\022\034\n\030BINDI" +
+      "NG_TYPE_UNSPECIFIED\020\000\022\020\n\014DATA_STREAMS\020\001\022" +
+      "\022\n\016OBJECT_STORAGE\020\002B(\n\020com.yandex.queryB" +
+      "\021YandexQueryProtos\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -69132,149 +69126,149 @@ public final class YandexQueryProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_YandexQuery_CommonMeta_descriptor,
         new java.lang.String[] { "Id", "CreatedBy", "ModifiedBy", "CreatedAt", "ModifiedAt", "Revision", });
-    internal_static_YandexQuery_OperationMeta_descriptor =
+    internal_static_YandexQuery_JobMeta_descriptor =
       getDescriptor().getMessageTypes().get(4);
-    internal_static_YandexQuery_OperationMeta_fieldAccessorTable = new
+    internal_static_YandexQuery_JobMeta_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_OperationMeta_descriptor,
+        internal_static_YandexQuery_JobMeta_descriptor,
         new java.lang.String[] { "Common", "StartedAt", "FinishedAt", "LastAction", "Mode", "Status", });
-    internal_static_YandexQuery_BriefOperation_descriptor =
+    internal_static_YandexQuery_BriefJob_descriptor =
       getDescriptor().getMessageTypes().get(5);
-    internal_static_YandexQuery_BriefOperation_fieldAccessorTable = new
+    internal_static_YandexQuery_BriefJob_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_BriefOperation_descriptor,
+        internal_static_YandexQuery_BriefJob_descriptor,
         new java.lang.String[] { "Type", "Name", "Meta", });
-    internal_static_YandexQuery_OperationPlan_descriptor =
+    internal_static_YandexQuery_JobPlan_descriptor =
       getDescriptor().getMessageTypes().get(6);
-    internal_static_YandexQuery_OperationPlan_fieldAccessorTable = new
+    internal_static_YandexQuery_JobPlan_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_OperationPlan_descriptor,
+        internal_static_YandexQuery_JobPlan_descriptor,
         new java.lang.String[] { "Json", });
-    internal_static_YandexQuery_Operation_descriptor =
+    internal_static_YandexQuery_Job_descriptor =
       getDescriptor().getMessageTypes().get(7);
-    internal_static_YandexQuery_Operation_fieldAccessorTable = new
+    internal_static_YandexQuery_Job_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_Operation_descriptor,
+        internal_static_YandexQuery_Job_descriptor,
         new java.lang.String[] { "Meta", "Query", "Plan", "Issue", "Statistics", "ResultSetCount", });
-    internal_static_YandexQuery_OperationStatistics_descriptor =
+    internal_static_YandexQuery_JobStatistics_descriptor =
       getDescriptor().getMessageTypes().get(8);
-    internal_static_YandexQuery_OperationStatistics_fieldAccessorTable = new
+    internal_static_YandexQuery_JobStatistics_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_OperationStatistics_descriptor,
+        internal_static_YandexQuery_JobStatistics_descriptor,
         new java.lang.String[] { "Json", });
-    internal_static_YandexQuery_CreateOperationRequest_descriptor =
+    internal_static_YandexQuery_CreateJobRequest_descriptor =
       getDescriptor().getMessageTypes().get(9);
-    internal_static_YandexQuery_CreateOperationRequest_fieldAccessorTable = new
+    internal_static_YandexQuery_CreateJobRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_CreateOperationRequest_descriptor,
+        internal_static_YandexQuery_CreateJobRequest_descriptor,
         new java.lang.String[] { "OperationParams", "CloudId", "FolderId", "Query", "Mode", "IdempotencyKey", });
-    internal_static_YandexQuery_CreateOperationResponse_descriptor =
+    internal_static_YandexQuery_CreateJobResponse_descriptor =
       getDescriptor().getMessageTypes().get(10);
-    internal_static_YandexQuery_CreateOperationResponse_fieldAccessorTable = new
+    internal_static_YandexQuery_CreateJobResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_CreateOperationResponse_descriptor,
+        internal_static_YandexQuery_CreateJobResponse_descriptor,
         new java.lang.String[] { "Operation", });
-    internal_static_YandexQuery_CreateOperationResult_descriptor =
+    internal_static_YandexQuery_CreateJobResult_descriptor =
       getDescriptor().getMessageTypes().get(11);
-    internal_static_YandexQuery_CreateOperationResult_fieldAccessorTable = new
+    internal_static_YandexQuery_CreateJobResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_CreateOperationResult_descriptor,
+        internal_static_YandexQuery_CreateJobResult_descriptor,
         new java.lang.String[] { "OperationId", });
-    internal_static_YandexQuery_ListOperationsRequest_descriptor =
+    internal_static_YandexQuery_ListJobsRequest_descriptor =
       getDescriptor().getMessageTypes().get(12);
-    internal_static_YandexQuery_ListOperationsRequest_fieldAccessorTable = new
+    internal_static_YandexQuery_ListJobsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_ListOperationsRequest_descriptor,
+        internal_static_YandexQuery_ListJobsRequest_descriptor,
         new java.lang.String[] { "OperationParams", "CloudId", "FolderId", "PageToken", "Limit", "Filter", });
-    internal_static_YandexQuery_ListOperationsRequest_Filter_descriptor =
-      internal_static_YandexQuery_ListOperationsRequest_descriptor.getNestedTypes().get(0);
-    internal_static_YandexQuery_ListOperationsRequest_Filter_fieldAccessorTable = new
+    internal_static_YandexQuery_ListJobsRequest_Filter_descriptor =
+      internal_static_YandexQuery_ListJobsRequest_descriptor.getNestedTypes().get(0);
+    internal_static_YandexQuery_ListJobsRequest_Filter_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_ListOperationsRequest_Filter_descriptor,
+        internal_static_YandexQuery_ListJobsRequest_Filter_descriptor,
         new java.lang.String[] { "Status", "Action", "Mode", "Name", });
-    internal_static_YandexQuery_ListOperationsResponse_descriptor =
+    internal_static_YandexQuery_ListJobsResponse_descriptor =
       getDescriptor().getMessageTypes().get(13);
-    internal_static_YandexQuery_ListOperationsResponse_fieldAccessorTable = new
+    internal_static_YandexQuery_ListJobsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_ListOperationsResponse_descriptor,
+        internal_static_YandexQuery_ListJobsResponse_descriptor,
         new java.lang.String[] { "Operation", });
-    internal_static_YandexQuery_ListOperationsResult_descriptor =
+    internal_static_YandexQuery_ListJobsResult_descriptor =
       getDescriptor().getMessageTypes().get(14);
-    internal_static_YandexQuery_ListOperationsResult_fieldAccessorTable = new
+    internal_static_YandexQuery_ListJobsResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_ListOperationsResult_descriptor,
+        internal_static_YandexQuery_ListJobsResult_descriptor,
         new java.lang.String[] { "Operation", "NextPageToken", });
-    internal_static_YandexQuery_DescribeOperationRequest_descriptor =
+    internal_static_YandexQuery_DescribeJobRequest_descriptor =
       getDescriptor().getMessageTypes().get(15);
-    internal_static_YandexQuery_DescribeOperationRequest_fieldAccessorTable = new
+    internal_static_YandexQuery_DescribeJobRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_DescribeOperationRequest_descriptor,
+        internal_static_YandexQuery_DescribeJobRequest_descriptor,
         new java.lang.String[] { "OperationParams", "CloudId", "FolderId", "OperationId", });
-    internal_static_YandexQuery_DescribeOperationResponse_descriptor =
+    internal_static_YandexQuery_DescribeJobResponse_descriptor =
       getDescriptor().getMessageTypes().get(16);
-    internal_static_YandexQuery_DescribeOperationResponse_fieldAccessorTable = new
+    internal_static_YandexQuery_DescribeJobResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_DescribeOperationResponse_descriptor,
+        internal_static_YandexQuery_DescribeJobResponse_descriptor,
         new java.lang.String[] { "Operation", });
-    internal_static_YandexQuery_DescribeOperationResult_descriptor =
+    internal_static_YandexQuery_DescribeJobResult_descriptor =
       getDescriptor().getMessageTypes().get(17);
-    internal_static_YandexQuery_DescribeOperationResult_fieldAccessorTable = new
+    internal_static_YandexQuery_DescribeJobResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_DescribeOperationResult_descriptor,
+        internal_static_YandexQuery_DescribeJobResult_descriptor,
         new java.lang.String[] { "Operation", });
-    internal_static_YandexQuery_DeleteOperationRequest_descriptor =
+    internal_static_YandexQuery_DeleteJobRequest_descriptor =
       getDescriptor().getMessageTypes().get(18);
-    internal_static_YandexQuery_DeleteOperationRequest_fieldAccessorTable = new
+    internal_static_YandexQuery_DeleteJobRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_DeleteOperationRequest_descriptor,
+        internal_static_YandexQuery_DeleteJobRequest_descriptor,
         new java.lang.String[] { "OperationParams", "CloudId", "FolderId", "OperationId", "PreviousRevision", "IdempotencyKey", });
-    internal_static_YandexQuery_DeleteOperationResponse_descriptor =
+    internal_static_YandexQuery_DeleteJobResponse_descriptor =
       getDescriptor().getMessageTypes().get(19);
-    internal_static_YandexQuery_DeleteOperationResponse_fieldAccessorTable = new
+    internal_static_YandexQuery_DeleteJobResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_DeleteOperationResponse_descriptor,
+        internal_static_YandexQuery_DeleteJobResponse_descriptor,
         new java.lang.String[] { "Operation", });
-    internal_static_YandexQuery_DeleteOperationResult_descriptor =
+    internal_static_YandexQuery_DeleteJobResult_descriptor =
       getDescriptor().getMessageTypes().get(20);
-    internal_static_YandexQuery_DeleteOperationResult_fieldAccessorTable = new
+    internal_static_YandexQuery_DeleteJobResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_DeleteOperationResult_descriptor,
+        internal_static_YandexQuery_DeleteJobResult_descriptor,
         new java.lang.String[] { });
-    internal_static_YandexQuery_ModifyOperationRequest_descriptor =
+    internal_static_YandexQuery_ModifyJobRequest_descriptor =
       getDescriptor().getMessageTypes().get(21);
-    internal_static_YandexQuery_ModifyOperationRequest_fieldAccessorTable = new
+    internal_static_YandexQuery_ModifyJobRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_ModifyOperationRequest_descriptor,
+        internal_static_YandexQuery_ModifyJobRequest_descriptor,
         new java.lang.String[] { "OperationParams", "CloudId", "FolderId", "OperationId", "Acl", "Limits", "Name", "PreviousRevision", "IdempotencyKey", });
-    internal_static_YandexQuery_ModifyOperationResponse_descriptor =
+    internal_static_YandexQuery_ModifyJobResponse_descriptor =
       getDescriptor().getMessageTypes().get(22);
-    internal_static_YandexQuery_ModifyOperationResponse_fieldAccessorTable = new
+    internal_static_YandexQuery_ModifyJobResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_ModifyOperationResponse_descriptor,
+        internal_static_YandexQuery_ModifyJobResponse_descriptor,
         new java.lang.String[] { "Operation", });
-    internal_static_YandexQuery_ModifyOperationResult_descriptor =
+    internal_static_YandexQuery_ModifyJobResult_descriptor =
       getDescriptor().getMessageTypes().get(23);
-    internal_static_YandexQuery_ModifyOperationResult_fieldAccessorTable = new
+    internal_static_YandexQuery_ModifyJobResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_ModifyOperationResult_descriptor,
+        internal_static_YandexQuery_ModifyJobResult_descriptor,
         new java.lang.String[] { });
-    internal_static_YandexQuery_ControlOperationRequest_descriptor =
+    internal_static_YandexQuery_ControlJobRequest_descriptor =
       getDescriptor().getMessageTypes().get(24);
-    internal_static_YandexQuery_ControlOperationRequest_fieldAccessorTable = new
+    internal_static_YandexQuery_ControlJobRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_ControlOperationRequest_descriptor,
+        internal_static_YandexQuery_ControlJobRequest_descriptor,
         new java.lang.String[] { "OperationParams", "CloudId", "FolderId", "OperationId", "Action", "PreviousRevision", "IdempotencyKey", });
-    internal_static_YandexQuery_ControlOperationResponse_descriptor =
+    internal_static_YandexQuery_ControlJobResponse_descriptor =
       getDescriptor().getMessageTypes().get(25);
-    internal_static_YandexQuery_ControlOperationResponse_fieldAccessorTable = new
+    internal_static_YandexQuery_ControlJobResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_ControlOperationResponse_descriptor,
+        internal_static_YandexQuery_ControlJobResponse_descriptor,
         new java.lang.String[] { "Operation", });
-    internal_static_YandexQuery_ControlOperationResult_descriptor =
+    internal_static_YandexQuery_ControlJobResult_descriptor =
       getDescriptor().getMessageTypes().get(26);
-    internal_static_YandexQuery_ControlOperationResult_fieldAccessorTable = new
+    internal_static_YandexQuery_ControlJobResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_YandexQuery_ControlOperationResult_descriptor,
+        internal_static_YandexQuery_ControlJobResult_descriptor,
         new java.lang.String[] { });
     internal_static_YandexQuery_CurrentIAMTokenAuth_descriptor =
       getDescriptor().getMessageTypes().get(27);

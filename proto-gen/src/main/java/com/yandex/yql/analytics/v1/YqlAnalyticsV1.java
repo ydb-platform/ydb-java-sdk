@@ -26,26 +26,24 @@ public final class YqlAnalyticsV1 {
       "\n3kikimr/public/api/grpc/draft/yql_analy" +
       "tics_v1.proto\022\020Yql.Analytics.V1\0322kikimr/" +
       "public/api/protos/draft/yql_analytics.pr" +
-      "oto2\346\005\n\020AnalyticsService\022W\n\014ExecuteQuery" +
-      "\022\".Yql.Analytics.ExecuteQueryRequest\032#.Y" +
-      "ql.Analytics.ExecuteQueryResponse\022Z\n\rGet" +
-      "ResultData\022#.Yql.Analytics.GetResultData" +
-      "Request\032$.Yql.Analytics.GetResultDataRes" +
-      "ponse\022]\n\016GetConnections\022$.Yql.Analytics." +
-      "GetConnectionsRequest\032%.Yql.Analytics.Ge",
-      "tConnectionsResponse\022f\n\021ModifyConnection" +
-      "s\022\'.Yql.Analytics.ModifyConnectionsReque" +
-      "st\032(.Yql.Analytics.ModifyConnectionsResp" +
-      "onse\022Q\n\nGetQueries\022 .Yql.Analytics.GetQu" +
-      "eriesRequest\032!.Yql.Analytics.GetQueriesR" +
-      "esponse\022T\n\013ModifyQuery\022!.Yql.Analytics.M" +
-      "odifyQueryRequest\032\".Yql.Analytics.Modify" +
-      "QueryResponse\022Q\n\nGetHistory\022 .Yql.Analyt" +
-      "ics.GetHistoryRequest\032!.Yql.Analytics.Ge" +
-      "tHistoryResponse\022Z\n\rModifyHistory\022#.Yql.",
-      "Analytics.ModifyHistoryRequest\032$.Yql.Ana" +
-      "lytics.ModifyHistoryResponseB\035\n\033com.yand" +
-      "ex.yql.analytics.v1b\006proto3"
+      "oto2\215\005\n\020AnalyticsService\022Z\n\rGetResultDat" +
+      "a\022#.Yql.Analytics.GetResultDataRequest\032$" +
+      ".Yql.Analytics.GetResultDataResponse\022]\n\016" +
+      "GetConnections\022$.Yql.Analytics.GetConnec" +
+      "tionsRequest\032%.Yql.Analytics.GetConnecti" +
+      "onsResponse\022f\n\021ModifyConnections\022\'.Yql.A" +
+      "nalytics.ModifyConnectionsRequest\032(.Yql.",
+      "Analytics.ModifyConnectionsResponse\022Q\n\nG" +
+      "etQueries\022 .Yql.Analytics.GetQueriesRequ" +
+      "est\032!.Yql.Analytics.GetQueriesResponse\022T" +
+      "\n\013ModifyQuery\022!.Yql.Analytics.ModifyQuer" +
+      "yRequest\032\".Yql.Analytics.ModifyQueryResp" +
+      "onse\022Q\n\nGetHistory\022 .Yql.Analytics.GetHi" +
+      "storyRequest\032!.Yql.Analytics.GetHistoryR" +
+      "esponse\022Z\n\rModifyHistory\022#.Yql.Analytics" +
+      ".ModifyHistoryRequest\032$.Yql.Analytics.Mo" +
+      "difyHistoryResponseB\035\n\033com.yandex.yql.an",
+      "alytics.v1b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

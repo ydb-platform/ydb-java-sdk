@@ -27,37 +27,6 @@ public final class AnalyticsServiceGrpc {
   public static final String SERVICE_NAME = "Yql.Analytics.V1.AnalyticsService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest,
-      com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse> getExecuteQueryMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "ExecuteQuery",
-      requestType = com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest.class,
-      responseType = com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest,
-      com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse> getExecuteQueryMethod() {
-    io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest, com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse> getExecuteQueryMethod;
-    if ((getExecuteQueryMethod = AnalyticsServiceGrpc.getExecuteQueryMethod) == null) {
-      synchronized (AnalyticsServiceGrpc.class) {
-        if ((getExecuteQueryMethod = AnalyticsServiceGrpc.getExecuteQueryMethod) == null) {
-          AnalyticsServiceGrpc.getExecuteQueryMethod = getExecuteQueryMethod =
-              io.grpc.MethodDescriptor.<com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest, com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ExecuteQuery"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new AnalyticsServiceMethodDescriptorSupplier("ExecuteQuery"))
-              .build();
-        }
-      }
-    }
-    return getExecuteQueryMethod;
-  }
-
   private static volatile io.grpc.MethodDescriptor<com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest,
       com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse> getGetResultDataMethod;
 
@@ -325,13 +294,6 @@ public final class AnalyticsServiceGrpc {
 
     /**
      */
-    public void executeQuery(com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getExecuteQueryMethod(), responseObserver);
-    }
-
-    /**
-     */
     public void getResultData(com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest request,
         io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getGetResultDataMethod(), responseObserver);
@@ -381,13 +343,6 @@ public final class AnalyticsServiceGrpc {
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getExecuteQueryMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest,
-                com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse>(
-                  this, METHODID_EXECUTE_QUERY)))
           .addMethod(
             getGetResultDataMethod(),
             asyncUnaryCall(
@@ -453,14 +408,6 @@ public final class AnalyticsServiceGrpc {
     protected AnalyticsServiceStub build(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new AnalyticsServiceStub(channel, callOptions);
-    }
-
-    /**
-     */
-    public void executeQuery(com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getExecuteQueryMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -536,13 +483,6 @@ public final class AnalyticsServiceGrpc {
 
     /**
      */
-    public com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse executeQuery(com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getExecuteQueryMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
     public com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse getResultData(com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest request) {
       return blockingUnaryCall(
           getChannel(), getGetResultDataMethod(), getCallOptions(), request);
@@ -607,14 +547,6 @@ public final class AnalyticsServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse> executeQuery(
-        com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getExecuteQueryMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse> getResultData(
         com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest request) {
       return futureUnaryCall(
@@ -670,14 +602,13 @@ public final class AnalyticsServiceGrpc {
     }
   }
 
-  private static final int METHODID_EXECUTE_QUERY = 0;
-  private static final int METHODID_GET_RESULT_DATA = 1;
-  private static final int METHODID_GET_CONNECTIONS = 2;
-  private static final int METHODID_MODIFY_CONNECTIONS = 3;
-  private static final int METHODID_GET_QUERIES = 4;
-  private static final int METHODID_MODIFY_QUERY = 5;
-  private static final int METHODID_GET_HISTORY = 6;
-  private static final int METHODID_MODIFY_HISTORY = 7;
+  private static final int METHODID_GET_RESULT_DATA = 0;
+  private static final int METHODID_GET_CONNECTIONS = 1;
+  private static final int METHODID_MODIFY_CONNECTIONS = 2;
+  private static final int METHODID_GET_QUERIES = 3;
+  private static final int METHODID_MODIFY_QUERY = 4;
+  private static final int METHODID_GET_HISTORY = 5;
+  private static final int METHODID_MODIFY_HISTORY = 6;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -696,10 +627,6 @@ public final class AnalyticsServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_EXECUTE_QUERY:
-          serviceImpl.executeQuery((com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryRequest) request,
-              (io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.ExecuteQueryResponse>) responseObserver);
-          break;
         case METHODID_GET_RESULT_DATA:
           serviceImpl.getResultData((com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest) request,
               (io.grpc.stub.StreamObserver<com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse>) responseObserver);
@@ -789,7 +716,6 @@ public final class AnalyticsServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new AnalyticsServiceFileDescriptorSupplier())
-              .addMethod(getExecuteQueryMethod())
               .addMethod(getGetResultDataMethod())
               .addMethod(getGetConnectionsMethod())
               .addMethod(getModifyConnectionsMethod())

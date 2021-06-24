@@ -27,190 +27,190 @@ public final class YandexQueryServiceGrpc {
   public static final String SERVICE_NAME = "YandexQuery.V1.YandexQueryService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.CreateOperationRequest,
-      com.yandex.query.YandexQueryProtos.CreateOperationResponse> getCreateOperationMethod;
+  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.CreateJobRequest,
+      com.yandex.query.YandexQueryProtos.CreateJobResponse> getCreateJobMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "CreateOperation",
-      requestType = com.yandex.query.YandexQueryProtos.CreateOperationRequest.class,
-      responseType = com.yandex.query.YandexQueryProtos.CreateOperationResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "CreateJob",
+      requestType = com.yandex.query.YandexQueryProtos.CreateJobRequest.class,
+      responseType = com.yandex.query.YandexQueryProtos.CreateJobResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.CreateOperationRequest,
-      com.yandex.query.YandexQueryProtos.CreateOperationResponse> getCreateOperationMethod() {
-    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.CreateOperationRequest, com.yandex.query.YandexQueryProtos.CreateOperationResponse> getCreateOperationMethod;
-    if ((getCreateOperationMethod = YandexQueryServiceGrpc.getCreateOperationMethod) == null) {
+  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.CreateJobRequest,
+      com.yandex.query.YandexQueryProtos.CreateJobResponse> getCreateJobMethod() {
+    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.CreateJobRequest, com.yandex.query.YandexQueryProtos.CreateJobResponse> getCreateJobMethod;
+    if ((getCreateJobMethod = YandexQueryServiceGrpc.getCreateJobMethod) == null) {
       synchronized (YandexQueryServiceGrpc.class) {
-        if ((getCreateOperationMethod = YandexQueryServiceGrpc.getCreateOperationMethod) == null) {
-          YandexQueryServiceGrpc.getCreateOperationMethod = getCreateOperationMethod =
-              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.CreateOperationRequest, com.yandex.query.YandexQueryProtos.CreateOperationResponse>newBuilder()
+        if ((getCreateJobMethod = YandexQueryServiceGrpc.getCreateJobMethod) == null) {
+          YandexQueryServiceGrpc.getCreateJobMethod = getCreateJobMethod =
+              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.CreateJobRequest, com.yandex.query.YandexQueryProtos.CreateJobResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateOperation"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateJob"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.CreateOperationRequest.getDefaultInstance()))
+                  com.yandex.query.YandexQueryProtos.CreateJobRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.CreateOperationResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("CreateOperation"))
+                  com.yandex.query.YandexQueryProtos.CreateJobResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("CreateJob"))
               .build();
         }
       }
     }
-    return getCreateOperationMethod;
+    return getCreateJobMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ListOperationsRequest,
-      com.yandex.query.YandexQueryProtos.ListOperationsResponse> getListOperationsMethod;
+  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ListJobsRequest,
+      com.yandex.query.YandexQueryProtos.ListJobsResponse> getListJobsMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "ListOperations",
-      requestType = com.yandex.query.YandexQueryProtos.ListOperationsRequest.class,
-      responseType = com.yandex.query.YandexQueryProtos.ListOperationsResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "ListJobs",
+      requestType = com.yandex.query.YandexQueryProtos.ListJobsRequest.class,
+      responseType = com.yandex.query.YandexQueryProtos.ListJobsResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ListOperationsRequest,
-      com.yandex.query.YandexQueryProtos.ListOperationsResponse> getListOperationsMethod() {
-    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ListOperationsRequest, com.yandex.query.YandexQueryProtos.ListOperationsResponse> getListOperationsMethod;
-    if ((getListOperationsMethod = YandexQueryServiceGrpc.getListOperationsMethod) == null) {
+  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ListJobsRequest,
+      com.yandex.query.YandexQueryProtos.ListJobsResponse> getListJobsMethod() {
+    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ListJobsRequest, com.yandex.query.YandexQueryProtos.ListJobsResponse> getListJobsMethod;
+    if ((getListJobsMethod = YandexQueryServiceGrpc.getListJobsMethod) == null) {
       synchronized (YandexQueryServiceGrpc.class) {
-        if ((getListOperationsMethod = YandexQueryServiceGrpc.getListOperationsMethod) == null) {
-          YandexQueryServiceGrpc.getListOperationsMethod = getListOperationsMethod =
-              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.ListOperationsRequest, com.yandex.query.YandexQueryProtos.ListOperationsResponse>newBuilder()
+        if ((getListJobsMethod = YandexQueryServiceGrpc.getListJobsMethod) == null) {
+          YandexQueryServiceGrpc.getListJobsMethod = getListJobsMethod =
+              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.ListJobsRequest, com.yandex.query.YandexQueryProtos.ListJobsResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ListOperations"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ListJobs"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.ListOperationsRequest.getDefaultInstance()))
+                  com.yandex.query.YandexQueryProtos.ListJobsRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.ListOperationsResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("ListOperations"))
+                  com.yandex.query.YandexQueryProtos.ListJobsResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("ListJobs"))
               .build();
         }
       }
     }
-    return getListOperationsMethod;
+    return getListJobsMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DescribeOperationRequest,
-      com.yandex.query.YandexQueryProtos.DescribeOperationResponse> getDescribeOperationMethod;
+  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DescribeJobRequest,
+      com.yandex.query.YandexQueryProtos.DescribeJobResponse> getDescribeJobMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "DescribeOperation",
-      requestType = com.yandex.query.YandexQueryProtos.DescribeOperationRequest.class,
-      responseType = com.yandex.query.YandexQueryProtos.DescribeOperationResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "DescribeJob",
+      requestType = com.yandex.query.YandexQueryProtos.DescribeJobRequest.class,
+      responseType = com.yandex.query.YandexQueryProtos.DescribeJobResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DescribeOperationRequest,
-      com.yandex.query.YandexQueryProtos.DescribeOperationResponse> getDescribeOperationMethod() {
-    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DescribeOperationRequest, com.yandex.query.YandexQueryProtos.DescribeOperationResponse> getDescribeOperationMethod;
-    if ((getDescribeOperationMethod = YandexQueryServiceGrpc.getDescribeOperationMethod) == null) {
+  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DescribeJobRequest,
+      com.yandex.query.YandexQueryProtos.DescribeJobResponse> getDescribeJobMethod() {
+    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DescribeJobRequest, com.yandex.query.YandexQueryProtos.DescribeJobResponse> getDescribeJobMethod;
+    if ((getDescribeJobMethod = YandexQueryServiceGrpc.getDescribeJobMethod) == null) {
       synchronized (YandexQueryServiceGrpc.class) {
-        if ((getDescribeOperationMethod = YandexQueryServiceGrpc.getDescribeOperationMethod) == null) {
-          YandexQueryServiceGrpc.getDescribeOperationMethod = getDescribeOperationMethod =
-              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.DescribeOperationRequest, com.yandex.query.YandexQueryProtos.DescribeOperationResponse>newBuilder()
+        if ((getDescribeJobMethod = YandexQueryServiceGrpc.getDescribeJobMethod) == null) {
+          YandexQueryServiceGrpc.getDescribeJobMethod = getDescribeJobMethod =
+              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.DescribeJobRequest, com.yandex.query.YandexQueryProtos.DescribeJobResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DescribeOperation"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DescribeJob"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.DescribeOperationRequest.getDefaultInstance()))
+                  com.yandex.query.YandexQueryProtos.DescribeJobRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.DescribeOperationResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("DescribeOperation"))
+                  com.yandex.query.YandexQueryProtos.DescribeJobResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("DescribeJob"))
               .build();
         }
       }
     }
-    return getDescribeOperationMethod;
+    return getDescribeJobMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ModifyOperationRequest,
-      com.yandex.query.YandexQueryProtos.ModifyOperationResponse> getModifyOperationMethod;
+  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ModifyJobRequest,
+      com.yandex.query.YandexQueryProtos.ModifyJobResponse> getModifyJobMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "ModifyOperation",
-      requestType = com.yandex.query.YandexQueryProtos.ModifyOperationRequest.class,
-      responseType = com.yandex.query.YandexQueryProtos.ModifyOperationResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "ModifyJob",
+      requestType = com.yandex.query.YandexQueryProtos.ModifyJobRequest.class,
+      responseType = com.yandex.query.YandexQueryProtos.ModifyJobResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ModifyOperationRequest,
-      com.yandex.query.YandexQueryProtos.ModifyOperationResponse> getModifyOperationMethod() {
-    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ModifyOperationRequest, com.yandex.query.YandexQueryProtos.ModifyOperationResponse> getModifyOperationMethod;
-    if ((getModifyOperationMethod = YandexQueryServiceGrpc.getModifyOperationMethod) == null) {
+  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ModifyJobRequest,
+      com.yandex.query.YandexQueryProtos.ModifyJobResponse> getModifyJobMethod() {
+    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ModifyJobRequest, com.yandex.query.YandexQueryProtos.ModifyJobResponse> getModifyJobMethod;
+    if ((getModifyJobMethod = YandexQueryServiceGrpc.getModifyJobMethod) == null) {
       synchronized (YandexQueryServiceGrpc.class) {
-        if ((getModifyOperationMethod = YandexQueryServiceGrpc.getModifyOperationMethod) == null) {
-          YandexQueryServiceGrpc.getModifyOperationMethod = getModifyOperationMethod =
-              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.ModifyOperationRequest, com.yandex.query.YandexQueryProtos.ModifyOperationResponse>newBuilder()
+        if ((getModifyJobMethod = YandexQueryServiceGrpc.getModifyJobMethod) == null) {
+          YandexQueryServiceGrpc.getModifyJobMethod = getModifyJobMethod =
+              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.ModifyJobRequest, com.yandex.query.YandexQueryProtos.ModifyJobResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ModifyOperation"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ModifyJob"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.ModifyOperationRequest.getDefaultInstance()))
+                  com.yandex.query.YandexQueryProtos.ModifyJobRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.ModifyOperationResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("ModifyOperation"))
+                  com.yandex.query.YandexQueryProtos.ModifyJobResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("ModifyJob"))
               .build();
         }
       }
     }
-    return getModifyOperationMethod;
+    return getModifyJobMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DeleteOperationRequest,
-      com.yandex.query.YandexQueryProtos.DeleteOperationResponse> getDeleteOperationMethod;
+  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DeleteJobRequest,
+      com.yandex.query.YandexQueryProtos.DeleteJobResponse> getDeleteJobMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "DeleteOperation",
-      requestType = com.yandex.query.YandexQueryProtos.DeleteOperationRequest.class,
-      responseType = com.yandex.query.YandexQueryProtos.DeleteOperationResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "DeleteJob",
+      requestType = com.yandex.query.YandexQueryProtos.DeleteJobRequest.class,
+      responseType = com.yandex.query.YandexQueryProtos.DeleteJobResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DeleteOperationRequest,
-      com.yandex.query.YandexQueryProtos.DeleteOperationResponse> getDeleteOperationMethod() {
-    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DeleteOperationRequest, com.yandex.query.YandexQueryProtos.DeleteOperationResponse> getDeleteOperationMethod;
-    if ((getDeleteOperationMethod = YandexQueryServiceGrpc.getDeleteOperationMethod) == null) {
+  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DeleteJobRequest,
+      com.yandex.query.YandexQueryProtos.DeleteJobResponse> getDeleteJobMethod() {
+    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DeleteJobRequest, com.yandex.query.YandexQueryProtos.DeleteJobResponse> getDeleteJobMethod;
+    if ((getDeleteJobMethod = YandexQueryServiceGrpc.getDeleteJobMethod) == null) {
       synchronized (YandexQueryServiceGrpc.class) {
-        if ((getDeleteOperationMethod = YandexQueryServiceGrpc.getDeleteOperationMethod) == null) {
-          YandexQueryServiceGrpc.getDeleteOperationMethod = getDeleteOperationMethod =
-              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.DeleteOperationRequest, com.yandex.query.YandexQueryProtos.DeleteOperationResponse>newBuilder()
+        if ((getDeleteJobMethod = YandexQueryServiceGrpc.getDeleteJobMethod) == null) {
+          YandexQueryServiceGrpc.getDeleteJobMethod = getDeleteJobMethod =
+              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.DeleteJobRequest, com.yandex.query.YandexQueryProtos.DeleteJobResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DeleteOperation"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DeleteJob"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.DeleteOperationRequest.getDefaultInstance()))
+                  com.yandex.query.YandexQueryProtos.DeleteJobRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.DeleteOperationResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("DeleteOperation"))
+                  com.yandex.query.YandexQueryProtos.DeleteJobResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("DeleteJob"))
               .build();
         }
       }
     }
-    return getDeleteOperationMethod;
+    return getDeleteJobMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ControlOperationRequest,
-      com.yandex.query.YandexQueryProtos.ControlOperationResponse> getControlOperationMethod;
+  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ControlJobRequest,
+      com.yandex.query.YandexQueryProtos.ControlJobResponse> getControlJobMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "ControlOperation",
-      requestType = com.yandex.query.YandexQueryProtos.ControlOperationRequest.class,
-      responseType = com.yandex.query.YandexQueryProtos.ControlOperationResponse.class,
+      fullMethodName = SERVICE_NAME + '/' + "ControlJob",
+      requestType = com.yandex.query.YandexQueryProtos.ControlJobRequest.class,
+      responseType = com.yandex.query.YandexQueryProtos.ControlJobResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ControlOperationRequest,
-      com.yandex.query.YandexQueryProtos.ControlOperationResponse> getControlOperationMethod() {
-    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ControlOperationRequest, com.yandex.query.YandexQueryProtos.ControlOperationResponse> getControlOperationMethod;
-    if ((getControlOperationMethod = YandexQueryServiceGrpc.getControlOperationMethod) == null) {
+  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ControlJobRequest,
+      com.yandex.query.YandexQueryProtos.ControlJobResponse> getControlJobMethod() {
+    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ControlJobRequest, com.yandex.query.YandexQueryProtos.ControlJobResponse> getControlJobMethod;
+    if ((getControlJobMethod = YandexQueryServiceGrpc.getControlJobMethod) == null) {
       synchronized (YandexQueryServiceGrpc.class) {
-        if ((getControlOperationMethod = YandexQueryServiceGrpc.getControlOperationMethod) == null) {
-          YandexQueryServiceGrpc.getControlOperationMethod = getControlOperationMethod =
-              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.ControlOperationRequest, com.yandex.query.YandexQueryProtos.ControlOperationResponse>newBuilder()
+        if ((getControlJobMethod = YandexQueryServiceGrpc.getControlJobMethod) == null) {
+          YandexQueryServiceGrpc.getControlJobMethod = getControlJobMethod =
+              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.ControlJobRequest, com.yandex.query.YandexQueryProtos.ControlJobResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ControlOperation"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ControlJob"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.ControlOperationRequest.getDefaultInstance()))
+                  com.yandex.query.YandexQueryProtos.ControlJobRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.yandex.query.YandexQueryProtos.ControlOperationResponse.getDefaultInstance()))
-              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("ControlOperation"))
+                  com.yandex.query.YandexQueryProtos.ControlJobResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("ControlJob"))
               .build();
         }
       }
     }
-    return getControlOperationMethod;
+    return getControlJobMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.GetResultDataRequest,
@@ -604,13 +604,14 @@ public final class YandexQueryServiceGrpc {
 
     /**
      * <pre>
-     * Operations
+     * Jobs
+     * Job - entity describing sql request. It contains the current status of the sql query, results, errors, limits, acl, ...
      * Create an operation object with a given SQL
      * </pre>
      */
-    public void createOperation(com.yandex.query.YandexQueryProtos.CreateOperationRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.CreateOperationResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getCreateOperationMethod(), responseObserver);
+    public void createJob(com.yandex.query.YandexQueryProtos.CreateJobRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.CreateJobResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getCreateJobMethod(), responseObserver);
     }
 
     /**
@@ -618,9 +619,9 @@ public final class YandexQueryServiceGrpc {
      * Get a list of brief operations objects
      * </pre>
      */
-    public void listOperations(com.yandex.query.YandexQueryProtos.ListOperationsRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListOperationsResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getListOperationsMethod(), responseObserver);
+    public void listJobs(com.yandex.query.YandexQueryProtos.ListJobsRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListJobsResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getListJobsMethod(), responseObserver);
     }
 
     /**
@@ -628,9 +629,9 @@ public final class YandexQueryServiceGrpc {
      * Get full information about the object of the operation
      * </pre>
      */
-    public void describeOperation(com.yandex.query.YandexQueryProtos.DescribeOperationRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeOperationResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getDescribeOperationMethod(), responseObserver);
+    public void describeJob(com.yandex.query.YandexQueryProtos.DescribeJobRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeJobResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getDescribeJobMethod(), responseObserver);
     }
 
     /**
@@ -638,9 +639,9 @@ public final class YandexQueryServiceGrpc {
      * Change the attributes of the operation (acl, name, ...)
      * </pre>
      */
-    public void modifyOperation(com.yandex.query.YandexQueryProtos.ModifyOperationRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ModifyOperationResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getModifyOperationMethod(), responseObserver);
+    public void modifyJob(com.yandex.query.YandexQueryProtos.ModifyJobRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ModifyJobResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getModifyJobMethod(), responseObserver);
     }
 
     /**
@@ -648,9 +649,9 @@ public final class YandexQueryServiceGrpc {
      * Completely delete the operation
      * </pre>
      */
-    public void deleteOperation(com.yandex.query.YandexQueryProtos.DeleteOperationRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteOperationResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getDeleteOperationMethod(), responseObserver);
+    public void deleteJob(com.yandex.query.YandexQueryProtos.DeleteJobRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteJobResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getDeleteJobMethod(), responseObserver);
     }
 
     /**
@@ -658,9 +659,9 @@ public final class YandexQueryServiceGrpc {
      * Change the state of the operation lifecycle
      * </pre>
      */
-    public void controlOperation(com.yandex.query.YandexQueryProtos.ControlOperationRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ControlOperationResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getControlOperationMethod(), responseObserver);
+    public void controlJob(com.yandex.query.YandexQueryProtos.ControlJobRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ControlJobResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getControlJobMethod(), responseObserver);
     }
 
     /**
@@ -676,6 +677,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Connections
+     * Connection - entity that describes connection points. This can be imagined as an analogue of a network address.
      * Create a connection object (ObjectStorage, YDB, YDS, ...)
      * </pre>
      */
@@ -727,6 +729,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Bindings
+     * Binding - entity using which a schema is assigned to non-schematic data
      * Create a binding object - bind schema with ObjectStorage object or YDS stream
      * </pre>
      */
@@ -778,47 +781,47 @@ public final class YandexQueryServiceGrpc {
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            getCreateOperationMethod(),
+            getCreateJobMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.yandex.query.YandexQueryProtos.CreateOperationRequest,
-                com.yandex.query.YandexQueryProtos.CreateOperationResponse>(
-                  this, METHODID_CREATE_OPERATION)))
+                com.yandex.query.YandexQueryProtos.CreateJobRequest,
+                com.yandex.query.YandexQueryProtos.CreateJobResponse>(
+                  this, METHODID_CREATE_JOB)))
           .addMethod(
-            getListOperationsMethod(),
+            getListJobsMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.yandex.query.YandexQueryProtos.ListOperationsRequest,
-                com.yandex.query.YandexQueryProtos.ListOperationsResponse>(
-                  this, METHODID_LIST_OPERATIONS)))
+                com.yandex.query.YandexQueryProtos.ListJobsRequest,
+                com.yandex.query.YandexQueryProtos.ListJobsResponse>(
+                  this, METHODID_LIST_JOBS)))
           .addMethod(
-            getDescribeOperationMethod(),
+            getDescribeJobMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.yandex.query.YandexQueryProtos.DescribeOperationRequest,
-                com.yandex.query.YandexQueryProtos.DescribeOperationResponse>(
-                  this, METHODID_DESCRIBE_OPERATION)))
+                com.yandex.query.YandexQueryProtos.DescribeJobRequest,
+                com.yandex.query.YandexQueryProtos.DescribeJobResponse>(
+                  this, METHODID_DESCRIBE_JOB)))
           .addMethod(
-            getModifyOperationMethod(),
+            getModifyJobMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.yandex.query.YandexQueryProtos.ModifyOperationRequest,
-                com.yandex.query.YandexQueryProtos.ModifyOperationResponse>(
-                  this, METHODID_MODIFY_OPERATION)))
+                com.yandex.query.YandexQueryProtos.ModifyJobRequest,
+                com.yandex.query.YandexQueryProtos.ModifyJobResponse>(
+                  this, METHODID_MODIFY_JOB)))
           .addMethod(
-            getDeleteOperationMethod(),
+            getDeleteJobMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.yandex.query.YandexQueryProtos.DeleteOperationRequest,
-                com.yandex.query.YandexQueryProtos.DeleteOperationResponse>(
-                  this, METHODID_DELETE_OPERATION)))
+                com.yandex.query.YandexQueryProtos.DeleteJobRequest,
+                com.yandex.query.YandexQueryProtos.DeleteJobResponse>(
+                  this, METHODID_DELETE_JOB)))
           .addMethod(
-            getControlOperationMethod(),
+            getControlJobMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.yandex.query.YandexQueryProtos.ControlOperationRequest,
-                com.yandex.query.YandexQueryProtos.ControlOperationResponse>(
-                  this, METHODID_CONTROL_OPERATION)))
+                com.yandex.query.YandexQueryProtos.ControlJobRequest,
+                com.yandex.query.YandexQueryProtos.ControlJobResponse>(
+                  this, METHODID_CONTROL_JOB)))
           .addMethod(
             getGetResultDataMethod(),
             asyncUnaryCall(
@@ -916,14 +919,15 @@ public final class YandexQueryServiceGrpc {
 
     /**
      * <pre>
-     * Operations
+     * Jobs
+     * Job - entity describing sql request. It contains the current status of the sql query, results, errors, limits, acl, ...
      * Create an operation object with a given SQL
      * </pre>
      */
-    public void createOperation(com.yandex.query.YandexQueryProtos.CreateOperationRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.CreateOperationResponse> responseObserver) {
+    public void createJob(com.yandex.query.YandexQueryProtos.CreateJobRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.CreateJobResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getCreateOperationMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCreateJobMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -931,10 +935,10 @@ public final class YandexQueryServiceGrpc {
      * Get a list of brief operations objects
      * </pre>
      */
-    public void listOperations(com.yandex.query.YandexQueryProtos.ListOperationsRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListOperationsResponse> responseObserver) {
+    public void listJobs(com.yandex.query.YandexQueryProtos.ListJobsRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListJobsResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getListOperationsMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getListJobsMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -942,10 +946,10 @@ public final class YandexQueryServiceGrpc {
      * Get full information about the object of the operation
      * </pre>
      */
-    public void describeOperation(com.yandex.query.YandexQueryProtos.DescribeOperationRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeOperationResponse> responseObserver) {
+    public void describeJob(com.yandex.query.YandexQueryProtos.DescribeJobRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeJobResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getDescribeOperationMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getDescribeJobMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -953,10 +957,10 @@ public final class YandexQueryServiceGrpc {
      * Change the attributes of the operation (acl, name, ...)
      * </pre>
      */
-    public void modifyOperation(com.yandex.query.YandexQueryProtos.ModifyOperationRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ModifyOperationResponse> responseObserver) {
+    public void modifyJob(com.yandex.query.YandexQueryProtos.ModifyJobRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ModifyJobResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getModifyOperationMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getModifyJobMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -964,10 +968,10 @@ public final class YandexQueryServiceGrpc {
      * Completely delete the operation
      * </pre>
      */
-    public void deleteOperation(com.yandex.query.YandexQueryProtos.DeleteOperationRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteOperationResponse> responseObserver) {
+    public void deleteJob(com.yandex.query.YandexQueryProtos.DeleteJobRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteJobResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getDeleteOperationMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getDeleteJobMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -975,10 +979,10 @@ public final class YandexQueryServiceGrpc {
      * Change the state of the operation lifecycle
      * </pre>
      */
-    public void controlOperation(com.yandex.query.YandexQueryProtos.ControlOperationRequest request,
-        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ControlOperationResponse> responseObserver) {
+    public void controlJob(com.yandex.query.YandexQueryProtos.ControlJobRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ControlJobResponse> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getControlOperationMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getControlJobMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -995,6 +999,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Connections
+     * Connection - entity that describes connection points. This can be imagined as an analogue of a network address.
      * Create a connection object (ObjectStorage, YDB, YDS, ...)
      * </pre>
      */
@@ -1051,6 +1056,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Bindings
+     * Binding - entity using which a schema is assigned to non-schematic data
      * Create a binding object - bind schema with ObjectStorage object or YDS stream
      * </pre>
      */
@@ -1121,13 +1127,14 @@ public final class YandexQueryServiceGrpc {
 
     /**
      * <pre>
-     * Operations
+     * Jobs
+     * Job - entity describing sql request. It contains the current status of the sql query, results, errors, limits, acl, ...
      * Create an operation object with a given SQL
      * </pre>
      */
-    public com.yandex.query.YandexQueryProtos.CreateOperationResponse createOperation(com.yandex.query.YandexQueryProtos.CreateOperationRequest request) {
+    public com.yandex.query.YandexQueryProtos.CreateJobResponse createJob(com.yandex.query.YandexQueryProtos.CreateJobRequest request) {
       return blockingUnaryCall(
-          getChannel(), getCreateOperationMethod(), getCallOptions(), request);
+          getChannel(), getCreateJobMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1135,9 +1142,9 @@ public final class YandexQueryServiceGrpc {
      * Get a list of brief operations objects
      * </pre>
      */
-    public com.yandex.query.YandexQueryProtos.ListOperationsResponse listOperations(com.yandex.query.YandexQueryProtos.ListOperationsRequest request) {
+    public com.yandex.query.YandexQueryProtos.ListJobsResponse listJobs(com.yandex.query.YandexQueryProtos.ListJobsRequest request) {
       return blockingUnaryCall(
-          getChannel(), getListOperationsMethod(), getCallOptions(), request);
+          getChannel(), getListJobsMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1145,9 +1152,9 @@ public final class YandexQueryServiceGrpc {
      * Get full information about the object of the operation
      * </pre>
      */
-    public com.yandex.query.YandexQueryProtos.DescribeOperationResponse describeOperation(com.yandex.query.YandexQueryProtos.DescribeOperationRequest request) {
+    public com.yandex.query.YandexQueryProtos.DescribeJobResponse describeJob(com.yandex.query.YandexQueryProtos.DescribeJobRequest request) {
       return blockingUnaryCall(
-          getChannel(), getDescribeOperationMethod(), getCallOptions(), request);
+          getChannel(), getDescribeJobMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1155,9 +1162,9 @@ public final class YandexQueryServiceGrpc {
      * Change the attributes of the operation (acl, name, ...)
      * </pre>
      */
-    public com.yandex.query.YandexQueryProtos.ModifyOperationResponse modifyOperation(com.yandex.query.YandexQueryProtos.ModifyOperationRequest request) {
+    public com.yandex.query.YandexQueryProtos.ModifyJobResponse modifyJob(com.yandex.query.YandexQueryProtos.ModifyJobRequest request) {
       return blockingUnaryCall(
-          getChannel(), getModifyOperationMethod(), getCallOptions(), request);
+          getChannel(), getModifyJobMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1165,9 +1172,9 @@ public final class YandexQueryServiceGrpc {
      * Completely delete the operation
      * </pre>
      */
-    public com.yandex.query.YandexQueryProtos.DeleteOperationResponse deleteOperation(com.yandex.query.YandexQueryProtos.DeleteOperationRequest request) {
+    public com.yandex.query.YandexQueryProtos.DeleteJobResponse deleteJob(com.yandex.query.YandexQueryProtos.DeleteJobRequest request) {
       return blockingUnaryCall(
-          getChannel(), getDeleteOperationMethod(), getCallOptions(), request);
+          getChannel(), getDeleteJobMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1175,9 +1182,9 @@ public final class YandexQueryServiceGrpc {
      * Change the state of the operation lifecycle
      * </pre>
      */
-    public com.yandex.query.YandexQueryProtos.ControlOperationResponse controlOperation(com.yandex.query.YandexQueryProtos.ControlOperationRequest request) {
+    public com.yandex.query.YandexQueryProtos.ControlJobResponse controlJob(com.yandex.query.YandexQueryProtos.ControlJobRequest request) {
       return blockingUnaryCall(
-          getChannel(), getControlOperationMethod(), getCallOptions(), request);
+          getChannel(), getControlJobMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1193,6 +1200,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Connections
+     * Connection - entity that describes connection points. This can be imagined as an analogue of a network address.
      * Create a connection object (ObjectStorage, YDB, YDS, ...)
      * </pre>
      */
@@ -1244,6 +1252,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Bindings
+     * Binding - entity using which a schema is assigned to non-schematic data
      * Create a binding object - bind schema with ObjectStorage object or YDS stream
      * </pre>
      */
@@ -1309,14 +1318,15 @@ public final class YandexQueryServiceGrpc {
 
     /**
      * <pre>
-     * Operations
+     * Jobs
+     * Job - entity describing sql request. It contains the current status of the sql query, results, errors, limits, acl, ...
      * Create an operation object with a given SQL
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.CreateOperationResponse> createOperation(
-        com.yandex.query.YandexQueryProtos.CreateOperationRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.CreateJobResponse> createJob(
+        com.yandex.query.YandexQueryProtos.CreateJobRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getCreateOperationMethod(), getCallOptions()), request);
+          getChannel().newCall(getCreateJobMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1324,10 +1334,10 @@ public final class YandexQueryServiceGrpc {
      * Get a list of brief operations objects
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ListOperationsResponse> listOperations(
-        com.yandex.query.YandexQueryProtos.ListOperationsRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ListJobsResponse> listJobs(
+        com.yandex.query.YandexQueryProtos.ListJobsRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getListOperationsMethod(), getCallOptions()), request);
+          getChannel().newCall(getListJobsMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1335,10 +1345,10 @@ public final class YandexQueryServiceGrpc {
      * Get full information about the object of the operation
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.DescribeOperationResponse> describeOperation(
-        com.yandex.query.YandexQueryProtos.DescribeOperationRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.DescribeJobResponse> describeJob(
+        com.yandex.query.YandexQueryProtos.DescribeJobRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getDescribeOperationMethod(), getCallOptions()), request);
+          getChannel().newCall(getDescribeJobMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1346,10 +1356,10 @@ public final class YandexQueryServiceGrpc {
      * Change the attributes of the operation (acl, name, ...)
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ModifyOperationResponse> modifyOperation(
-        com.yandex.query.YandexQueryProtos.ModifyOperationRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ModifyJobResponse> modifyJob(
+        com.yandex.query.YandexQueryProtos.ModifyJobRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getModifyOperationMethod(), getCallOptions()), request);
+          getChannel().newCall(getModifyJobMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1357,10 +1367,10 @@ public final class YandexQueryServiceGrpc {
      * Completely delete the operation
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.DeleteOperationResponse> deleteOperation(
-        com.yandex.query.YandexQueryProtos.DeleteOperationRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.DeleteJobResponse> deleteJob(
+        com.yandex.query.YandexQueryProtos.DeleteJobRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getDeleteOperationMethod(), getCallOptions()), request);
+          getChannel().newCall(getDeleteJobMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1368,10 +1378,10 @@ public final class YandexQueryServiceGrpc {
      * Change the state of the operation lifecycle
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ControlOperationResponse> controlOperation(
-        com.yandex.query.YandexQueryProtos.ControlOperationRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ControlJobResponse> controlJob(
+        com.yandex.query.YandexQueryProtos.ControlJobRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getControlOperationMethod(), getCallOptions()), request);
+          getChannel().newCall(getControlJobMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1388,6 +1398,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Connections
+     * Connection - entity that describes connection points. This can be imagined as an analogue of a network address.
      * Create a connection object (ObjectStorage, YDB, YDS, ...)
      * </pre>
      */
@@ -1444,6 +1455,7 @@ public final class YandexQueryServiceGrpc {
     /**
      * <pre>
      * Bindings
+     * Binding - entity using which a schema is assigned to non-schematic data
      * Create a binding object - bind schema with ObjectStorage object or YDS stream
      * </pre>
      */
@@ -1498,12 +1510,12 @@ public final class YandexQueryServiceGrpc {
     }
   }
 
-  private static final int METHODID_CREATE_OPERATION = 0;
-  private static final int METHODID_LIST_OPERATIONS = 1;
-  private static final int METHODID_DESCRIBE_OPERATION = 2;
-  private static final int METHODID_MODIFY_OPERATION = 3;
-  private static final int METHODID_DELETE_OPERATION = 4;
-  private static final int METHODID_CONTROL_OPERATION = 5;
+  private static final int METHODID_CREATE_JOB = 0;
+  private static final int METHODID_LIST_JOBS = 1;
+  private static final int METHODID_DESCRIBE_JOB = 2;
+  private static final int METHODID_MODIFY_JOB = 3;
+  private static final int METHODID_DELETE_JOB = 4;
+  private static final int METHODID_CONTROL_JOB = 5;
   private static final int METHODID_GET_RESULT_DATA = 6;
   private static final int METHODID_CREATE_CONNECTION = 7;
   private static final int METHODID_LIST_CONNECTIONS = 8;
@@ -1533,29 +1545,29 @@ public final class YandexQueryServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_CREATE_OPERATION:
-          serviceImpl.createOperation((com.yandex.query.YandexQueryProtos.CreateOperationRequest) request,
-              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.CreateOperationResponse>) responseObserver);
+        case METHODID_CREATE_JOB:
+          serviceImpl.createJob((com.yandex.query.YandexQueryProtos.CreateJobRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.CreateJobResponse>) responseObserver);
           break;
-        case METHODID_LIST_OPERATIONS:
-          serviceImpl.listOperations((com.yandex.query.YandexQueryProtos.ListOperationsRequest) request,
-              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListOperationsResponse>) responseObserver);
+        case METHODID_LIST_JOBS:
+          serviceImpl.listJobs((com.yandex.query.YandexQueryProtos.ListJobsRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListJobsResponse>) responseObserver);
           break;
-        case METHODID_DESCRIBE_OPERATION:
-          serviceImpl.describeOperation((com.yandex.query.YandexQueryProtos.DescribeOperationRequest) request,
-              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeOperationResponse>) responseObserver);
+        case METHODID_DESCRIBE_JOB:
+          serviceImpl.describeJob((com.yandex.query.YandexQueryProtos.DescribeJobRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeJobResponse>) responseObserver);
           break;
-        case METHODID_MODIFY_OPERATION:
-          serviceImpl.modifyOperation((com.yandex.query.YandexQueryProtos.ModifyOperationRequest) request,
-              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ModifyOperationResponse>) responseObserver);
+        case METHODID_MODIFY_JOB:
+          serviceImpl.modifyJob((com.yandex.query.YandexQueryProtos.ModifyJobRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ModifyJobResponse>) responseObserver);
           break;
-        case METHODID_DELETE_OPERATION:
-          serviceImpl.deleteOperation((com.yandex.query.YandexQueryProtos.DeleteOperationRequest) request,
-              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteOperationResponse>) responseObserver);
+        case METHODID_DELETE_JOB:
+          serviceImpl.deleteJob((com.yandex.query.YandexQueryProtos.DeleteJobRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteJobResponse>) responseObserver);
           break;
-        case METHODID_CONTROL_OPERATION:
-          serviceImpl.controlOperation((com.yandex.query.YandexQueryProtos.ControlOperationRequest) request,
-              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ControlOperationResponse>) responseObserver);
+        case METHODID_CONTROL_JOB:
+          serviceImpl.controlJob((com.yandex.query.YandexQueryProtos.ControlJobRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ControlJobResponse>) responseObserver);
           break;
         case METHODID_GET_RESULT_DATA:
           serviceImpl.getResultData((com.yandex.query.YandexQueryProtos.GetResultDataRequest) request,
@@ -1662,12 +1674,12 @@ public final class YandexQueryServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new YandexQueryServiceFileDescriptorSupplier())
-              .addMethod(getCreateOperationMethod())
-              .addMethod(getListOperationsMethod())
-              .addMethod(getDescribeOperationMethod())
-              .addMethod(getModifyOperationMethod())
-              .addMethod(getDeleteOperationMethod())
-              .addMethod(getControlOperationMethod())
+              .addMethod(getCreateJobMethod())
+              .addMethod(getListJobsMethod())
+              .addMethod(getDescribeJobMethod())
+              .addMethod(getModifyJobMethod())
+              .addMethod(getDeleteJobMethod())
+              .addMethod(getControlJobMethod())
               .addMethod(getGetResultDataMethod())
               .addMethod(getCreateConnectionMethod())
               .addMethod(getListConnectionsMethod())
