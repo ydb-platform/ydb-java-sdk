@@ -464,17 +464,13 @@ public class GrpcTransport implements RpcTransport {
             Properties prop = new Properties();
 
             try {
-                InputStream in = getClass().getResourceAsStream("/kikimr.version.properties");
+                InputStream in = getClass().getResourceAsStream("/version.properties");
                 prop.load(in);
 
-                String arcadiaSourceUrl = prop.getProperty("ArcadiaSourceUrl");
-                String arcadiaLastChangeNum = prop.getProperty("ArcadiaLastChangeNum");
                 String version = prop.getProperty("version");
 
                 if (version != null) {
-                    return version;
-                } else {
-                    return arcadiaSourceUrl + "@" + arcadiaLastChangeNum;
+                    return "ydb-java-sdk/" + version;
                 }
 
             } catch (Exception ex) {
