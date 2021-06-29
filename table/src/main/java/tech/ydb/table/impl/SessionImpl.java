@@ -534,8 +534,9 @@ class SessionImpl implements Session {
             .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
             .putAllParameters(params.toPb());
 
-        boolean keepInQueryCache = settings.isKeepInQueryCache();
-        if (queryCache != null && keepInQueryCache) {
+        final boolean keepInServerQueryCache = settings.isKeepInQueryCache();
+        final boolean keepInClientQueryCache = (queryCache != null) && keepInServerQueryCache;
+        if (keepInServerQueryCache) {
             request.getQueryCachePolicyBuilder()
                 .setKeepInCache(true);
         }
@@ -549,7 +550,7 @@ class SessionImpl implements Session {
                 return operationTray.waitResult(
                     response.expect("executeDataQuery()").getOperation(),
                     YdbTable.ExecuteQueryResult.class,
-                    result -> mapExecuteDataQuery(result, query, keepInQueryCache),
+                    result -> mapExecuteDataQuery(result, query, keepInClientQueryCache),
                     deadlineAfter);
             }));
     }
@@ -557,9 +558,9 @@ class SessionImpl implements Session {
     private DataQueryResult mapExecuteDataQuery(
         YdbTable.ExecuteQueryResult result,
         @Nullable String queryText,
-        boolean keepInQueryCache)
+        boolean keepInClientQueryCache)
     {
-        if (keepInQueryCache && result.hasQueryMeta() && queryText != null) {
+        if (keepInClientQueryCache && result.hasQueryMeta() && queryText != null) {
             assert queryCache != null;
             String queryId = result.getQueryMeta().getId();
             Map<String, ValueProtos.Type> types = result.getQueryMeta().getParametersTypesMap();
@@ -581,8 +582,9 @@ class SessionImpl implements Session {
         request.getQueryBuilder().setId(queryId);
         request.putAllParameters(params.toPb());
 
-        boolean keepInQueryCache = (queryCache != null) && settings.isKeepInQueryCache();
-        if (keepInQueryCache) {
+        final boolean keepInServerQueryCache = settings.isKeepInQueryCache();
+        final boolean keepInClientQueryCache = (queryCache != null) && keepInServerQueryCache;
+        if (keepInServerQueryCache) {
             request.getQueryCachePolicyBuilder()
                 .setKeepInCache(true);
         }
@@ -596,7 +598,7 @@ class SessionImpl implements Session {
                 return tableRpc.getOperationTray().waitResult(
                     response.expect("executeDataQuery()").getOperation(),
                     YdbTable.ExecuteQueryResult.class,
-                    result -> mapExecuteDataQuery(result, queryText, keepInQueryCache),
+                    result -> mapExecuteDataQuery(result, queryText, keepInClientQueryCache),
                     deadlineAfter);
             }));
     }
@@ -608,7 +610,7 @@ class SessionImpl implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .setYqlText(query);
 
-        final boolean keepInQueryCache = (queryCache != null) && settings.isKeepInQueryCache();
+        final boolean keepInClientQueryCache = (queryCache != null) && settings.isKeepInQueryCache();
         final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return interceptResult(tableRpc.prepareDataQuery(request.build(), deadlineAfter)
             .thenCompose(response -> {
@@ -622,7 +624,7 @@ class SessionImpl implements Session {
                         String queryId = result.getQueryId();
                         Map<String, ValueProtos.Type> types = result.getParametersTypesMap();
                         DataQueryImpl dataQuery = new DataQueryImpl(this, queryId, query, keepQueryText, types);
-                        if (keepInQueryCache) {
+                        if (keepInClientQueryCache) {
                             queryCache.put(dataQuery);
                         }
                         return dataQuery;
