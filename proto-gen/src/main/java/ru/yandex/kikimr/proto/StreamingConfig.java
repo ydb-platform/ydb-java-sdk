@@ -74,6 +74,24 @@ public final class StreamingConfig {
      * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 5;</code>
      */
     NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfigOrBuilder getCheckpointCoordinatorOrBuilder();
+
+    /**
+     * <pre>
+     * for faster bootstrap, may contain approximate value
+     * </pre>
+     *
+     * <code>uint32 ExpectedNodeCount = 6;</code>
+     */
+    int getExpectedNodeCount();
+
+    /**
+     * <pre>
+     * time period to force discovery stop, 0 means 60 sec !!!
+     * </pre>
+     *
+     * <code>uint32 NodeDiscoveryMaxTimeSec = 7;</code>
+     */
+    int getNodeDiscoveryMaxTimeSec();
   }
   /**
    * Protobuf type {@code NStreams.NConfig.Config}
@@ -89,6 +107,8 @@ public final class StreamingConfig {
     }
     private Config() {
       enableStreaming_ = false;
+      expectedNodeCount_ = 0;
+      nodeDiscoveryMaxTimeSec_ = 0;
     }
 
     @java.lang.Override
@@ -174,6 +194,16 @@ public final class StreamingConfig {
                 checkpointCoordinator_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 48: {
+
+              expectedNodeCount_ = input.readUInt32();
+              break;
+            }
+            case 56: {
+
+              nodeDiscoveryMaxTimeSec_ = input.readUInt32();
               break;
             }
           }
@@ -293,6 +323,32 @@ public final class StreamingConfig {
       return getCheckpointCoordinator();
     }
 
+    public static final int EXPECTEDNODECOUNT_FIELD_NUMBER = 6;
+    private int expectedNodeCount_;
+    /**
+     * <pre>
+     * for faster bootstrap, may contain approximate value
+     * </pre>
+     *
+     * <code>uint32 ExpectedNodeCount = 6;</code>
+     */
+    public int getExpectedNodeCount() {
+      return expectedNodeCount_;
+    }
+
+    public static final int NODEDISCOVERYMAXTIMESEC_FIELD_NUMBER = 7;
+    private int nodeDiscoveryMaxTimeSec_;
+    /**
+     * <pre>
+     * time period to force discovery stop, 0 means 60 sec !!!
+     * </pre>
+     *
+     * <code>uint32 NodeDiscoveryMaxTimeSec = 7;</code>
+     */
+    public int getNodeDiscoveryMaxTimeSec() {
+      return nodeDiscoveryMaxTimeSec_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -332,6 +388,12 @@ public final class StreamingConfig {
       if (checkpointCoordinator_ != null) {
         output.writeMessage(5, getCheckpointCoordinator());
       }
+      if (expectedNodeCount_ != 0) {
+        output.writeUInt32(6, expectedNodeCount_);
+      }
+      if (nodeDiscoveryMaxTimeSec_ != 0) {
+        output.writeUInt32(7, nodeDiscoveryMaxTimeSec_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -359,6 +421,14 @@ public final class StreamingConfig {
       if (checkpointCoordinator_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, getCheckpointCoordinator());
+      }
+      if (expectedNodeCount_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(6, expectedNodeCount_);
+      }
+      if (nodeDiscoveryMaxTimeSec_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(7, nodeDiscoveryMaxTimeSec_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -398,6 +468,10 @@ public final class StreamingConfig {
         result = result && getCheckpointCoordinator()
             .equals(other.getCheckpointCoordinator());
       }
+      result = result && (getExpectedNodeCount()
+          == other.getExpectedNodeCount());
+      result = result && (getNodeDiscoveryMaxTimeSec()
+          == other.getNodeDiscoveryMaxTimeSec());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -428,6 +502,10 @@ public final class StreamingConfig {
         hash = (37 * hash) + CHECKPOINTCOORDINATOR_FIELD_NUMBER;
         hash = (53 * hash) + getCheckpointCoordinator().hashCode();
       }
+      hash = (37 * hash) + EXPECTEDNODECOUNT_FIELD_NUMBER;
+      hash = (53 * hash) + getExpectedNodeCount();
+      hash = (37 * hash) + NODEDISCOVERYMAXTIMESEC_FIELD_NUMBER;
+      hash = (53 * hash) + getNodeDiscoveryMaxTimeSec();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -583,6 +661,10 @@ public final class StreamingConfig {
           checkpointCoordinator_ = null;
           checkpointCoordinatorBuilder_ = null;
         }
+        expectedNodeCount_ = 0;
+
+        nodeDiscoveryMaxTimeSec_ = 0;
+
         return this;
       }
 
@@ -626,6 +708,8 @@ public final class StreamingConfig {
         } else {
           result.checkpointCoordinator_ = checkpointCoordinatorBuilder_.build();
         }
+        result.expectedNodeCount_ = expectedNodeCount_;
+        result.nodeDiscoveryMaxTimeSec_ = nodeDiscoveryMaxTimeSec_;
         onBuilt();
         return result;
       }
@@ -681,6 +765,12 @@ public final class StreamingConfig {
         }
         if (other.hasCheckpointCoordinator()) {
           mergeCheckpointCoordinator(other.getCheckpointCoordinator());
+        }
+        if (other.getExpectedNodeCount() != 0) {
+          setExpectedNodeCount(other.getExpectedNodeCount());
+        }
+        if (other.getNodeDiscoveryMaxTimeSec() != 0) {
+          setNodeDiscoveryMaxTimeSec(other.getNodeDiscoveryMaxTimeSec());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1212,6 +1302,82 @@ public final class StreamingConfig {
         }
         return checkpointCoordinatorBuilder_;
       }
+
+      private int expectedNodeCount_ ;
+      /**
+       * <pre>
+       * for faster bootstrap, may contain approximate value
+       * </pre>
+       *
+       * <code>uint32 ExpectedNodeCount = 6;</code>
+       */
+      public int getExpectedNodeCount() {
+        return expectedNodeCount_;
+      }
+      /**
+       * <pre>
+       * for faster bootstrap, may contain approximate value
+       * </pre>
+       *
+       * <code>uint32 ExpectedNodeCount = 6;</code>
+       */
+      public Builder setExpectedNodeCount(int value) {
+        
+        expectedNodeCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * for faster bootstrap, may contain approximate value
+       * </pre>
+       *
+       * <code>uint32 ExpectedNodeCount = 6;</code>
+       */
+      public Builder clearExpectedNodeCount() {
+        
+        expectedNodeCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int nodeDiscoveryMaxTimeSec_ ;
+      /**
+       * <pre>
+       * time period to force discovery stop, 0 means 60 sec !!!
+       * </pre>
+       *
+       * <code>uint32 NodeDiscoveryMaxTimeSec = 7;</code>
+       */
+      public int getNodeDiscoveryMaxTimeSec() {
+        return nodeDiscoveryMaxTimeSec_;
+      }
+      /**
+       * <pre>
+       * time period to force discovery stop, 0 means 60 sec !!!
+       * </pre>
+       *
+       * <code>uint32 NodeDiscoveryMaxTimeSec = 7;</code>
+       */
+      public Builder setNodeDiscoveryMaxTimeSec(int value) {
+        
+        nodeDiscoveryMaxTimeSec_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * time period to force discovery stop, 0 means 60 sec !!!
+       * </pre>
+       *
+       * <code>uint32 NodeDiscoveryMaxTimeSec = 7;</code>
+       */
+      public Builder clearNodeDiscoveryMaxTimeSec() {
+        
+        nodeDiscoveryMaxTimeSec_ = 0;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -1281,14 +1447,15 @@ public final class StreamingConfig {
       "g.proto\032=kikimr/streaming/libs/config/pr" +
       "oto/checkpointing_config.proto\0327kikimr/s" +
       "treaming/libs/config/proto/storage_confi" +
-      "g.proto\"\361\001\n\006Config\022\027\n\017EnableStreaming\030\001 " +
+      "g.proto\"\255\002\n\006Config\022\027\n\017EnableStreaming\030\001 " +
       "\001(\010\022\"\n\002Dq\030\002 \001(\0132\026.NYql.TDqGatewayConfig\022" +
       "\"\n\002Pq\030\003 \001(\0132\026.NYql.TPqGatewayConfig\0227\n\rS" +
       "torageConfig\030\004 \001(\0132 .NStreams.NConfig.TS",
       "torageConfig\022M\n\025CheckpointCoordinator\030\005 " +
       "\001(\0132..NStreams.NConfig.TCheckpointCoordi" +
-      "natorConfigB\033\n\026ru.yandex.kikimr.proto\370\001\001" +
-      "b\006proto3"
+      "natorConfig\022\031\n\021ExpectedNodeCount\030\006 \001(\r\022\037" +
+      "\n\027NodeDiscoveryMaxTimeSec\030\007 \001(\rB\033\n\026ru.ya" +
+      "ndex.kikimr.proto\370\001\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1310,7 +1477,7 @@ public final class StreamingConfig {
     internal_static_NStreams_NConfig_Config_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NStreams_NConfig_Config_descriptor,
-        new java.lang.String[] { "EnableStreaming", "Dq", "Pq", "StorageConfig", "CheckpointCoordinator", });
+        new java.lang.String[] { "EnableStreaming", "Dq", "Pq", "StorageConfig", "CheckpointCoordinator", "ExpectedNodeCount", "NodeDiscoveryMaxTimeSec", });
     ru.yandex.yql.proto.GatewaysConfig.getDescriptor();
     NStreams.NConfig.CheckpointingConfig.getDescriptor();
     NStreams.NConfig.StorageConfig.getDescriptor();

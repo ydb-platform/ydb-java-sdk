@@ -32,14 +32,14 @@ public final class ControlPlaneConfig {
     NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder getStorageOrBuilder();
 
     /**
-     * <code>string indempotency_keys_ttl = 2;</code>
+     * <code>string idempotency_keys_ttl = 2;</code>
      */
-    java.lang.String getIndempotencyKeysTtl();
+    java.lang.String getIdempotencyKeysTtl();
     /**
-     * <code>string indempotency_keys_ttl = 2;</code>
+     * <code>string idempotency_keys_ttl = 2;</code>
      */
     com.google.protobuf.ByteString
-        getIndempotencyKeysTtlBytes();
+        getIdempotencyKeysTtlBytes();
 
     /**
      * <code>uint64 max_request_size = 3;</code>
@@ -93,7 +93,7 @@ public final class ControlPlaneConfig {
       super(builder);
     }
     private ControlPlaneStorageConfig() {
-      indempotencyKeysTtl_ = "";
+      idempotencyKeysTtl_ = "";
       maxRequestSize_ = 0L;
       maxCountJobs_ = 0L;
       maxCountConnections_ = 0L;
@@ -145,7 +145,7 @@ public final class ControlPlaneConfig {
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              indempotencyKeysTtl_ = s;
+              idempotencyKeysTtl_ = s;
               break;
             }
             case 24: {
@@ -226,34 +226,34 @@ public final class ControlPlaneConfig {
       return getStorage();
     }
 
-    public static final int INDEMPOTENCY_KEYS_TTL_FIELD_NUMBER = 2;
-    private volatile java.lang.Object indempotencyKeysTtl_;
+    public static final int IDEMPOTENCY_KEYS_TTL_FIELD_NUMBER = 2;
+    private volatile java.lang.Object idempotencyKeysTtl_;
     /**
-     * <code>string indempotency_keys_ttl = 2;</code>
+     * <code>string idempotency_keys_ttl = 2;</code>
      */
-    public java.lang.String getIndempotencyKeysTtl() {
-      java.lang.Object ref = indempotencyKeysTtl_;
+    public java.lang.String getIdempotencyKeysTtl() {
+      java.lang.Object ref = idempotencyKeysTtl_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        indempotencyKeysTtl_ = s;
+        idempotencyKeysTtl_ = s;
         return s;
       }
     }
     /**
-     * <code>string indempotency_keys_ttl = 2;</code>
+     * <code>string idempotency_keys_ttl = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getIndempotencyKeysTtlBytes() {
-      java.lang.Object ref = indempotencyKeysTtl_;
+        getIdempotencyKeysTtlBytes() {
+      java.lang.Object ref = idempotencyKeysTtl_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        indempotencyKeysTtl_ = b;
+        idempotencyKeysTtl_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -340,8 +340,8 @@ public final class ControlPlaneConfig {
       if (storage_ != null) {
         output.writeMessage(1, getStorage());
       }
-      if (!getIndempotencyKeysTtlBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, indempotencyKeysTtl_);
+      if (!getIdempotencyKeysTtlBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, idempotencyKeysTtl_);
       }
       if (maxRequestSize_ != 0L) {
         output.writeUInt64(3, maxRequestSize_);
@@ -370,8 +370,8 @@ public final class ControlPlaneConfig {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getStorage());
       }
-      if (!getIndempotencyKeysTtlBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, indempotencyKeysTtl_);
+      if (!getIdempotencyKeysTtlBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, idempotencyKeysTtl_);
       }
       if (maxRequestSize_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
@@ -418,8 +418,8 @@ public final class ControlPlaneConfig {
         result = result && getStorage()
             .equals(other.getStorage());
       }
-      result = result && getIndempotencyKeysTtl()
-          .equals(other.getIndempotencyKeysTtl());
+      result = result && getIdempotencyKeysTtl()
+          .equals(other.getIdempotencyKeysTtl());
       result = result && (getMaxRequestSize()
           == other.getMaxRequestSize());
       result = result && (getMaxCountJobs()
@@ -445,8 +445,8 @@ public final class ControlPlaneConfig {
         hash = (37 * hash) + STORAGE_FIELD_NUMBER;
         hash = (53 * hash) + getStorage().hashCode();
       }
-      hash = (37 * hash) + INDEMPOTENCY_KEYS_TTL_FIELD_NUMBER;
-      hash = (53 * hash) + getIndempotencyKeysTtl().hashCode();
+      hash = (37 * hash) + IDEMPOTENCY_KEYS_TTL_FIELD_NUMBER;
+      hash = (53 * hash) + getIdempotencyKeysTtl().hashCode();
       hash = (37 * hash) + MAX_REQUEST_SIZE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getMaxRequestSize());
@@ -598,7 +598,7 @@ public final class ControlPlaneConfig {
           storage_ = null;
           storageBuilder_ = null;
         }
-        indempotencyKeysTtl_ = "";
+        idempotencyKeysTtl_ = "";
 
         maxRequestSize_ = 0L;
 
@@ -639,7 +639,7 @@ public final class ControlPlaneConfig {
         } else {
           result.storage_ = storageBuilder_.build();
         }
-        result.indempotencyKeysTtl_ = indempotencyKeysTtl_;
+        result.idempotencyKeysTtl_ = idempotencyKeysTtl_;
         result.maxRequestSize_ = maxRequestSize_;
         result.maxCountJobs_ = maxCountJobs_;
         result.maxCountConnections_ = maxCountConnections_;
@@ -694,8 +694,8 @@ public final class ControlPlaneConfig {
         if (other.hasStorage()) {
           mergeStorage(other.getStorage());
         }
-        if (!other.getIndempotencyKeysTtl().isEmpty()) {
-          indempotencyKeysTtl_ = other.indempotencyKeysTtl_;
+        if (!other.getIdempotencyKeysTtl().isEmpty()) {
+          idempotencyKeysTtl_ = other.idempotencyKeysTtl_;
           onChanged();
         }
         if (other.getMaxRequestSize() != 0L) {
@@ -865,71 +865,71 @@ public final class ControlPlaneConfig {
         return storageBuilder_;
       }
 
-      private java.lang.Object indempotencyKeysTtl_ = "";
+      private java.lang.Object idempotencyKeysTtl_ = "";
       /**
-       * <code>string indempotency_keys_ttl = 2;</code>
+       * <code>string idempotency_keys_ttl = 2;</code>
        */
-      public java.lang.String getIndempotencyKeysTtl() {
-        java.lang.Object ref = indempotencyKeysTtl_;
+      public java.lang.String getIdempotencyKeysTtl() {
+        java.lang.Object ref = idempotencyKeysTtl_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          indempotencyKeysTtl_ = s;
+          idempotencyKeysTtl_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string indempotency_keys_ttl = 2;</code>
+       * <code>string idempotency_keys_ttl = 2;</code>
        */
       public com.google.protobuf.ByteString
-          getIndempotencyKeysTtlBytes() {
-        java.lang.Object ref = indempotencyKeysTtl_;
+          getIdempotencyKeysTtlBytes() {
+        java.lang.Object ref = idempotencyKeysTtl_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          indempotencyKeysTtl_ = b;
+          idempotencyKeysTtl_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string indempotency_keys_ttl = 2;</code>
+       * <code>string idempotency_keys_ttl = 2;</code>
        */
-      public Builder setIndempotencyKeysTtl(
+      public Builder setIdempotencyKeysTtl(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        indempotencyKeysTtl_ = value;
+        idempotencyKeysTtl_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string indempotency_keys_ttl = 2;</code>
+       * <code>string idempotency_keys_ttl = 2;</code>
        */
-      public Builder clearIndempotencyKeysTtl() {
+      public Builder clearIdempotencyKeysTtl() {
         
-        indempotencyKeysTtl_ = getDefaultInstance().getIndempotencyKeysTtl();
+        idempotencyKeysTtl_ = getDefaultInstance().getIdempotencyKeysTtl();
         onChanged();
         return this;
       }
       /**
-       * <code>string indempotency_keys_ttl = 2;</code>
+       * <code>string idempotency_keys_ttl = 2;</code>
        */
-      public Builder setIndempotencyKeysTtlBytes(
+      public Builder setIdempotencyKeysTtlBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        indempotencyKeysTtl_ = value;
+        idempotencyKeysTtl_ = value;
         onChanged();
         return this;
       }
@@ -1788,15 +1788,15 @@ public final class ControlPlaneConfig {
       "\n=kikimr/streaming/libs/config/proto/con" +
       "trol_plane_config.proto\022\013NYq.NConfig\0327ki" +
       "kimr/streaming/libs/config/proto/storage" +
-      "_config.proto\"\362\001\n\031ControlPlaneStorageCon" +
+      "_config.proto\"\361\001\n\031ControlPlaneStorageCon" +
       "fig\0224\n\007storage\030\001 \001(\0132#.NStreams.NConfig." +
-      "TYdbStorageConfig\022\035\n\025indempotency_keys_t" +
-      "tl\030\002 \001(\t\022\030\n\020max_request_size\030\003 \001(\004\022\026\n\016ma" +
-      "x_count_jobs\030\004 \001(\004\022\035\n\025max_count_connecti" +
-      "ons\030\005 \001(\004\022\032\n\022max_count_bindings\030\006 \001(\004\022\023\n" +
-      "\013super_users\030\007 \003(\t\"T\n\027ControlPlaneProxyC",
-      "onfig\022\027\n\017request_timeout\030\001 \001(\t\022 \n\030enable" +
-      "_forward_analytics\030\002 \001(\010b\006proto3"
+      "TYdbStorageConfig\022\034\n\024idempotency_keys_tt" +
+      "l\030\002 \001(\t\022\030\n\020max_request_size\030\003 \001(\004\022\026\n\016max" +
+      "_count_jobs\030\004 \001(\004\022\035\n\025max_count_connectio" +
+      "ns\030\005 \001(\004\022\032\n\022max_count_bindings\030\006 \001(\004\022\023\n\013" +
+      "super_users\030\007 \003(\t\"T\n\027ControlPlaneProxyCo",
+      "nfig\022\027\n\017request_timeout\030\001 \001(\t\022 \n\030enable_" +
+      "forward_analytics\030\002 \001(\010b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1816,7 +1816,7 @@ public final class ControlPlaneConfig {
     internal_static_NYq_NConfig_ControlPlaneStorageConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYq_NConfig_ControlPlaneStorageConfig_descriptor,
-        new java.lang.String[] { "Storage", "IndempotencyKeysTtl", "MaxRequestSize", "MaxCountJobs", "MaxCountConnections", "MaxCountBindings", "SuperUsers", });
+        new java.lang.String[] { "Storage", "IdempotencyKeysTtl", "MaxRequestSize", "MaxCountJobs", "MaxCountConnections", "MaxCountBindings", "SuperUsers", });
     internal_static_NYq_NConfig_ControlPlaneProxyConfig_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_NYq_NConfig_ControlPlaneProxyConfig_fieldAccessorTable = new
