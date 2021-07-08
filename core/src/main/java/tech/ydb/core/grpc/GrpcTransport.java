@@ -1,11 +1,9 @@
 package tech.ydb.core.grpc;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +29,7 @@ import tech.ydb.core.rpc.RpcTransportBuilder;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.core.ssl.YandexTrustManagerFactory;
+import tech.ydb.core.utils.Version;
 import com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
@@ -461,22 +460,9 @@ public class GrpcTransport implements RpcTransport {
         }
 
         public String getVersionString() {
-            Properties prop = new Properties();
-
-            try {
-                InputStream in = getClass().getResourceAsStream("/version.properties");
-                prop.load(in);
-
-                String version = prop.getProperty("version");
-
-                if (version != null) {
-                    return "ydb-java-sdk/" + version;
-                }
-
-            } catch (Exception ex) {
-            }
-
-            return "unknown-version";
+            return Version.getVersion()
+                    .map(version -> "ydb-java-sdk/" + version)
+                    .orElse("unknown-version");
         }
 
         public Consumer<NettyChannelBuilder> getChannelInitializer() {
